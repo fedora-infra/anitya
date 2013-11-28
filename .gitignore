@@ -1,0 +1,11 @@
+*.pyc
+build/
+dist/
+doc/_build/
+*egg-info/
+*.cfg
+*.wsgi
+*.sqlite
+*~
+start-pkgdb
+.coverage
