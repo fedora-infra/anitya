@@ -1,0 +1,9 @@
+python-openid
+flask-openid
+flask
+sqlalchemy
+wtforms
+flask-wtf
+docutils
+markupsafe
+bunch
