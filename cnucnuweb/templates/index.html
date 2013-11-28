@@ -1,0 +1,52 @@
+{% extends "master.html" %}
+
+{% block body %}
+<div id="notifications-carousel" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#notifications-carousel" data-slide-to="0" class="active"></li>
+    <li data-target="#notifications-carousel" data-slide-to="1"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+
+    <div class="item active">
+      <img src="{{ url_for('static', filename='img/slide-1-900x300.png') }}">
+      <div class="carousel-caption">
+          <h3>Monitor the release of your favorite projects</h3>
+          <p>We all have our favorite projects and we all like to use their
+          latest versions with their latest features. However, it is hard
+          to keep in touch with all of them and be informed when they
+          release of new version. Cnucnu can help!</p>
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="{{ url_for('static', filename='img/slide-2-900x300.png') }}">
+      <div class="carousel-caption">
+        <h3>One place</h3>
+        <p>...all linux distributions and even Windows users wants to watch
+        new release of their favorite tool/application.</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="container marketing">
+  <!-- Three columns of text below the carousel -->
+  <div class="row">
+    <div class="col-lg-3">
+      <h2><span class="glyphicon glyphicon-bullhorn"></span> Cnucnu Web</h2>
+      <p>Monitor upstream releases and broadcast them on
+      <a href="http://fedmsg.com">fedmsg</a>, the FEDerated MeSsaGe bus. </p>
+      <p>Use <a href="http://fedmsg.com">fedmsg notifications (FMN)</a>,
+      to set up your own, <em>personalized</em>, notifications of these
+      releases.</p>
+    </div><!-- /.col-lg-3 -->
+  </div><!-- /.row -->
+</div>
+
+{% endblock %}

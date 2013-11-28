@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Upstream project release monitoring" />
+    <meta name="author" content="Pierre-Yves Chibon" />
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon.ico') }}">
+
+    <title>Cnucnu Web</title>
+
+    <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/text.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/navbar.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/footer.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/avatars.css') }}" rel="stylesheet" />
+  </head>
+
+  <body>
+
+    <div id="wrap" class="container{{ ' max-width' if current == 'index' }}">
+
+      <!-- Static navbar -->
+      <div class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{url_for('index')}}">
+            Cnucnu Web</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+              {% if 'about' == current %}
+              <li class="active">
+              {% else %}
+              <li>
+              {% endif %}
+              <a href="{{url_for('about')}}">about</a>
+              <li>
+
+            {% if current == projects %}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+              <a href="{{url_for('projects')}}">
+                  projects
+              </a>
+            </li>
+
+            {% if g.auth.logged_in %}
+            <li>
+              <a href="{{url_for('new_project')}}">
+                  add project
+              </a>
+            </li>
+            <li><a href="{{url_for('logout')}}">logout</a></li>
+            {% else %}
+            <li>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <b class="caret"></b></b> login
+                </a>
+                <ul class="dropdown-menu">
+                  {% if config['CNUCNU_WEB_FEDORA_OPENID'] and
+                        config['CNUCNU_WEB_ALLOW_FAS_OPENID'] %}
+                  <li><a href="{{url_for('fedora_login')}}">Fedora</a></li>
+                  <li class="divider"></li>
+                  {% endif %}
+                  {% if config['CNUCNU_WEB_ALLOW_GOOGLE_OPENID'] %}
+                  <li><a href="{{url_for('google_login')}}">Google</a></li>
+                  {% endif %}
+                  {% if config['CNUCNU_WEB_ALLOW_YAHOO_OPENID'] %}
+                  <li><a href="{{url_for('yahoo_login')}}">Yahoo</a></li>
+                  {% endif %}
+                  {% if config['CNUCNU_WEB_ALLOW_GENERIC_OPENID'] %}
+                  <li><a href="{{url_for('login')}}">Other OpenID</a></li>
+                  {% endif %}
+                </ul>
+            </li>
+            {% endif %}
+
+<!--
+            <li>
+              <a>
+              <form action="/search/" id="headerSearch">
+              <input type="text" name="project" placeholder="Search..."/>
+              <span type="submit" class="glyphicon glyphicon-search"></span>
+              </form>
+              </a>
+            </li>
+-->
+
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if category, messages %}
+        <ul id="flashes">
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+      {% endwith %}
+
+      {% block body %}{% endblock %}
+
+    </div> <!-- /container -->
+
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted credit">
+        Cnucnu Web:
+        <a href="https://github.com/fedora-infra/cnucnuweb">sources</a>
+        and
+        <a href="https://github.com/fedora-infra/cnucnuweb/issues">issue tracker</a>
+        are available on github.
+        ©2013 Red Hat, Inc., <a href="http://pingoured.fr">Pierre-Yves Chibon</a>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{ url_for('static', filename='js/jquery-1.10.2.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js')}}"></script>
+    {% block jscript %}{% endblock %}
+  </body>
+</html>

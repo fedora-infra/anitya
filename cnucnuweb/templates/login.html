@@ -1,0 +1,26 @@
+{% extends "master.html" %}
+
+{% block body %}
+<div class="row">
+  <div class="col-md-4">
+
+  <div class="list-group">
+    {% if config['FMN_ALLOW_GENERIC_OPENID'] %}
+    <span class="list-group-item">
+        <h4 class="list-group-item-heading">OpenId Login</h4>
+          <form role="form" action="{{url_for('login')}}" method="post">
+            <input name="openid" placeholder="https://id.openid.server">
+            <span class="pull-right">
+                <button type="submit" class="btn btn-success">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Login</button>
+            </span>
+          </form>
+        <div class="clearfix"></div>
+    </span>
+    {% endif %}
+  </div>
+  </div>
+</div>
+
+{% endblock %}
