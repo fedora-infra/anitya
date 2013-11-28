@@ -1,0 +1,63 @@
+/* new bulletproof @font-face syntax from http://www.fontspring.com/blog/the-new-bulletproof-font-face-syntax */
+@font-face {
+    font-family: 'ComfortaaThin';
+    src: url('fonts/Comfortaa_Thin-webfont.eot?#iefix') format('embedded-opentype'),
+             url('fonts/Comfortaa_Thin-webfont.ttf') format('truetype'),
+         url('fonts/Comfortaa_Thin-webfont.svg#webfontReo2lGxG') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ComfortaaRegular';
+    src: url('fonts/Comfortaa_Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Comfortaa_Regular-webfont.ttf') format('truetype'),
+             url('fonts/Comfortaa_Regular-webfont.svg#webfontxbL3cos8') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ComfortaaBold';
+    src: url('fonts/Comfortaa_Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Comfortaa_Bold-webfont.ttf') format('truetype'),
+         url('fonts/Comfortaa_Bold-webfont.svg#webfontjkcnhWWT') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CantarellRegular';
+    src: url('fonts/Cantarell-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Cantarell-Regular-webfont.ttf') format('truetype'),
+         url('fonts/Cantarell-Regular-webfont.svg#webfontPQ4tPnyo') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CantarellBold';
+    src: url('fonts/Cantarell-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Cantarell-Bold-webfont.ttf') format('truetype'),
+         url('fonts/Cantarell-Bold-webfont.svg#webfont3gCLDhwY') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CantarellBoldOblique';
+    src: url('fonts/Cantarell-BoldOblique-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Cantarell-BoldOblique-webfont.ttf') format('truetype'),
+             url('fonts/Cantarell-BoldOblique-webfont.svg#webfont3gCLDhwY') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CantarellOblique';
+    src: url('fonts/Cantarell-Oblique-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Cantarell-Oblique-webfont.ttf') format('truetype'),
+         url('fonts/Cantarell-Oblique-webfont.svg#webfont3gCLDhwY') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
