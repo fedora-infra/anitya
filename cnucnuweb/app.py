@@ -187,6 +187,7 @@ def project(project_name):
         current='project',
         project=project)
 
+
 @APP.route('/api/projects')
 @APP.route('/api/projects/')
 def api_projects():
@@ -385,6 +386,45 @@ def delete_project(project_name):
 
     return flask.render_template(
         'project_delete.html',
+        current='projects',
+        project=project,
+        form=form)
+
+@APP.route('/project/<project_name>/map', methods=['GET', 'POST'])
+@login_required
+def map_project(project_name):
+
+    project = cnucnuweb.model.Project.by_name(SESSION, project_name)
+    if not project:
+        flask.abort(404)
+
+    form = cnucnuweb.forms.ConfirmationForm()
+
+    if form.validate_on_submit():
+        distros = flask.request.form.getlist('distros')
+        pkgnames = flask.request.form.getlist('pkgname')
+
+        cnt = 0
+        for distro in distros:
+            distro = distro.strip()
+            pkgname = pkgnames[cnt].strip()
+            if not distro or not pkgname:
+                continue
+            else:
+                pkg = cnucnuweb.model.Packages.get_or_create(
+                    SESSION, project.name, distro, pkgname)
+                if pkg.package_name != pkgname:
+                    pkg.package_name = pkgname
+                    SESSION.add(pkg)
+                    flask.flash('%s updated' % distro)
+                SESSION.commit()
+            cnt += 1
+
+        return flask.redirect(
+                flask.url_for('project', project_name=project_name))
+
+    return flask.render_template(
+        'package.html',
         current='projects',
         project=project,
         form=form)

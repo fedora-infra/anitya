@@ -1,0 +1,52 @@
+{% extends "master.html" %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Project: {{ project.name }}</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-5">
+
+    <form method="POST" action="{{ url_for('map_project', project_name=project.name) }}" >
+      {{ form.csrf_token }}
+      <table>
+        {% for pkg in project.packages %}
+        <tr>
+          <td>
+            <input type="text" name="distros" value="{{ pkg.distro }}" />
+          </td>
+          <td>
+            <input type="text" name="pkgname" value="{{ pkg.package_name }}" />
+          </td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td>
+            <input type="text" name="distros" value="" />
+          </td>
+          <td>
+            <input type="text" name="pkgname" value="" />
+          </td>
+        </tr>
+      </table>
+
+      <button type="submit" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span>
+        Add mapping project
+      </button>
+      <a href="{{ url_for('project', project_name=project.name) }}">
+        <button type="button" class="btn btn-danger">
+          <span class="glyphicon glyphicon-ban-circle"></span>
+          Cancel
+        </button>
+      </a>
+
+    </form>
+
+
+  </div>
+</div>
+
+{% endblock %}
