@@ -49,4 +49,22 @@
   </div><!-- /.row -->
 </div>
 
+<div class="container marketing">
+  <!-- Three columns of text below the carousel -->
+  <div class="row">
+    <div class="col-lg-3">
+      <h2><span class="glyphicon glyphicon-search"></span> Search monitored project</h2>
+      <p>Currently {{ total }} projects are being monitored by Cnucnu Web.
+      Your project of interest might be there, or not. To check it
+      <a href="{{ url_for('projects') }}">browse the list of all projects</a>
+      or simply search for them!</p>
+      <form action="{{ url_for('projects_search') }}">
+        <input type="text" name="pattern" placeholder="Project name"/>
+        <input type="submit" value="Search"/>
+      </form>
+        <p>You may use * to search for pattern (ie: py*).</p>
+    </div><!-- /.col-lg-3 -->
+  </div><!-- /.row -->
+</div>
+
 {% endblock %}
