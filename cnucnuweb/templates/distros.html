@@ -1,0 +1,65 @@
+{% extends "master.html" %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Distribution participating</h1>
+</div>
+
+<div class="row show-grid">
+  <div class="col-sm-6">
+    {% if total_page > 1 %}
+    <ul class="pagination pagination-sm">
+        <li>
+            {% if page > 1%}
+              <a href="{{ url_for('distros') }}?page={{page - 1}}">
+                «
+              </a>
+            {% else %}
+              <a href="{{ url_for('distros') }}?page={{page}}">
+                «
+              </a>
+            {% endif %}
+        </li>
+        <li>
+            <a> {{ page }} / {{ total_page }} </a>
+        </li>
+        <li>
+            {% if page < total_page %}
+              <a href="{{ url_for('distros') }}?page={{page + 1}}">
+                »
+              </a>
+            {% else %}
+              <a href="{{ url_for('distros') }}?page={{page}}">
+                »
+              </a>
+            {% endif %}
+        </li>
+    </ul>
+    {% endif %}
+  </div>
+</div>
+
+<div class="row">
+  <p>
+    Here is the list of all the distribution having at least one project
+    mapped as a package of this distribution and monitored by cnucnu.
+  </p>
+  <div class="list-group">
+  {% for distro in distros %}
+    <span class="list-group-item">
+      <h4 class="list-group-item-heading">
+        {{distro.name}}
+      </h4>
+      <div class="clearfix"></div>
+    </span>
+  {% else %}
+  <blockquote>
+      Oups this is embarrassing, it seems that no distributions participating
+      currently.
+  </blockquote>
+  {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

@@ -233,6 +233,32 @@ def projects():
         page=page)
 
 
+@APP.route('/distros')
+@APP.route('/distros/')
+def distros():
+
+    page = flask.request.args.get('page', 1)
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+
+    distros = cnucnuweb.model.Distro.all(SESSION, page=page)
+    distros_count = cnucnuweb.model.Distro.all(SESSION, count=True)
+
+    total_page = int(ceil(distros_count / float(50)))
+
+    return flask.render_template(
+        'distros.html',
+        current='distros',
+        distros=distros,
+        total_page=total_page,
+        distros_count=distros_count,
+        page=page)
+
+
+
 @APP.route('/projects/search')
 @APP.route('/projects/search/<pattern>')
 def projects_search(pattern=None):

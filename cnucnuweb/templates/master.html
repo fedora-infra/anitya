@@ -54,6 +54,16 @@
               </a>
             </li>
 
+            {% if current == 'distros' %}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+              <a href="{{url_for('distros')}}">
+                  distros
+              </a>
+            </li>
+
             {% if g.auth.logged_in %}
             {% if current == 'Add projects' %}
             <li class="active">
