@@ -7,11 +7,14 @@
 </div>
 
 <div class="row">
-  <div class="col-md-5">
 
     <form method="POST" action="{{ url_for('map_project', project_name=project.name) }}" >
       {{ form.csrf_token }}
       <table>
+        <tr>
+          <th>Linux distribution</th>
+          <th>Package name</th>
+        </tr>
         {% for pkg in project.packages %}
         <tr>
           <td>
@@ -45,8 +48,6 @@
 
     </form>
 
-
-  </div>
 </div>
 
 {% endblock %}
