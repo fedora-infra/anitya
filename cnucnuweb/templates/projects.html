@@ -32,6 +32,7 @@
             {% else %}
               <a href="{{ url_for('projects') }}?page={{page}}">
                 »
+              </a>
             {% endif %}
         </li>
     </ul>
@@ -49,42 +50,40 @@
 </div>
 
 <div class="row">
-  <div class="col-md-6">
-    <div class="list-group">
-    {% for project in projects %}
-      <span class="list-group-item">
-        <h4 class="list-group-item-heading">
-          <a href="{{ url_for('project', project_name=project.name) }}">
-            {{project.name}}
-          </a>
-        </h4>
-        <p class="list-group-item-text">
-          <dl class="dl-horizontal">
-            <table class="table table-condensed">
-              <tr>
-                <td>Homepage</td>
-                <td>
-                  <a href="{{ project.homepage }}" target="_blank">
-                    {{ project.homepage }}
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>Regex</td>
-                <td>{{ project.regex }}</td>
-              </tr>
-            </table>
-          </dl>
-        </p>
-        <div class="clearfix"></div>
-      </span>
-    {% else %}
-    <blockquote>
-        Oups this is embarrassing, it seems that no projects are being
-        monitored currently.
-    </blockquote>
-    {% endfor %}
-    </div>
+  <div class="list-group">
+  {% for project in projects %}
+    <span class="list-group-item">
+      <h4 class="list-group-item-heading">
+        <a href="{{ url_for('project', project_name=project.name) }}">
+          {{project.name}}
+        </a>
+      </h4>
+      <p class="list-group-item-text">
+        <dl class="dl-horizontal">
+          <table class="table table-condensed">
+            <tr>
+              <td>Homepage</td>
+              <td>
+                <a href="{{ project.homepage }}" target="_blank">
+                  {{ project.homepage }}
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td>Regex</td>
+              <td>{{ project.regex }}</td>
+            </tr>
+          </table>
+        </dl>
+      </p>
+      <div class="clearfix"></div>
+    </span>
+  {% else %}
+  <blockquote>
+      Oups this is embarrassing, it seems that no projects are being
+      monitored currently.
+  </blockquote>
+  {% endfor %}
   </div>
 </div>
 
