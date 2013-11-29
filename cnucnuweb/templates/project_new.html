@@ -45,13 +45,6 @@
                 </select>
               </td>
             </tr>
-            <tr>
-              {{ render_field_in_row(form.fedora_name) }}
-              <td></td>
-            </tr>
-            <tr>
-              {{ render_field_in_row(form.debian_name) }}
-              <td></td>
             </tr>
           </table>
         </span>
@@ -62,6 +55,12 @@
     <span class="glyphicon glyphicon-plus"></span>
     {{ context }} project
   </button>
+  <a href="{{ url_for('project', project_name=form.name.data) }}">
+    <button type="button" class="btn btn-danger">
+      <span class="glyphicon glyphicon-ban-circle"></span>
+      Cancel
+    </button>
+  </a>
   {{ form.csrf_token }}
 </form>
 
