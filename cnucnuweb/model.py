@@ -62,11 +62,11 @@ class Project(BASE):
     __tablename__ = 'projects'
 
     name = sa.Column(sa.String(200), primary_key=True)
-    homepage = sa.Column(sa.String(200), unique=True, nullable=False)
+    homepage = sa.Column(sa.String(200), nullable=False)
     version_url = sa.Column(sa.String(200), nullable=False)
     regex = sa.Column(sa.String(200), nullable=False)
-    fedora_name = sa.Column(sa.String(200))
-    debian_name = sa.Column(sa.String(200))
+    fedora_name = sa.Column(sa.String(200), unique=True)
+    debian_name = sa.Column(sa.String(200), unique=True)
 
     version = sa.Column(sa.String(50))
     logs = sa.Column(sa.Text)
@@ -84,6 +84,40 @@ class Project(BASE):
     @classmethod
     def all(cls, session, page=None, count=False):
         query = session.query(cls).order_by(cls.name)
+
+        if page:
+            try: page = int(page)
+            except ValueError:
+                page = None
+
+        if page:
+            limit = page * 50
+            offset = (page - 1) * 50
+            query = query.offset(offset).limit(limit)
+
+        if count:
+            return query.count()
+        else:
+            return query.all()
+
+    @classmethod
+    def search(cls, session, pattern, page=None, count=False):
+        ''' Search the projects by their name or package name '''
+
+        if '*' in pattern:
+            pattern = pattern.replace('*', '%')
+
+        query = session.query(
+            cls
+        ).filter(
+            sa.or_(
+                cls.name.like(pattern),
+                cls.fedora_name.like(pattern),
+                cls.debian_name.like(pattern),
+            )
+        ).order_by(
+            cls.name
+        ).distinct()
 
         if page:
             try: page = int(page)
