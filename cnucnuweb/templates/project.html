@@ -31,23 +31,25 @@
               <tr>
                 <td>Version URL</td>
                 <td>
+                  {% if '://' in project.version_url %}
                   <a href="{{ project.version_url }}" target="_blank">
                     {{ project.version_url }}
                   </a>
+                  {% else %}
+                  {{ project.version_url }}
+                  {% endif %}
                 </td>
               </tr>
               <tr>
                 <td>Regex</td>
                 <td>{{ project.regex }}</td>
               </tr>
+              {% for package in project.packages %}
               <tr>
-                <td>Fedora name</td>
-                <td>{{ project.fedora_name }}</td>
+                <td>{{ package.distro }} name</td>
+                <td>{{ package.package_name }}</td>
               </tr>
-              <tr>
-                <td>Debian name</td>
-                <td>{{ project.debian_name }}</td>
-              </tr>
+              {% endfor %}
 
             </table>
           </dl>
@@ -58,6 +60,12 @@
             <button type="submit" class="btn btn-info">
               <span class="glyphicon glyphicon-edit"></span>
               Edit
+            </button>
+          </a>
+          <a href="{{ url_for('delete_project', project_name=project.name) }}">
+            <button type="submit" class="btn btn-danger">
+              <span class="glyphicon glyphicon-remove"></span>
+              Delete
             </button>
           </a>
         </p>
