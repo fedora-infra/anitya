@@ -19,7 +19,6 @@
   </head>
 
   <body>
-
     <div id="wrap" class="container{{ ' max-width' if current == 'index' }}">
 
       <!-- Static navbar -->
@@ -45,7 +44,7 @@
               <a href="{{url_for('about')}}">about</a>
               <li>
 
-            {% if current == projects %}
+            {% if current == 'projects' %}
             <li class="active">
             {% else %}
             <li>
@@ -56,7 +55,11 @@
             </li>
 
             {% if g.auth.logged_in %}
+            {% if current == 'Add projects' %}
+            <li class="active">
+            {% else %}
             <li>
+            {% endif %}
               <a href="{{url_for('new_project')}}">
                   add project
               </a>

@@ -295,7 +295,7 @@ def new_project():
     return flask.render_template(
         'project_new.html',
         context='Add',
-        current='projects',
+        current='Add projects',
         form=form,
         url_aliases=URL_ALIASES,
         regex_aliases=REGEX_ALIASES)
