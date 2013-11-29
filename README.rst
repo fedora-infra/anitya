@@ -12,7 +12,7 @@ releases are announced on `fedmsg <http://fedmsg.com>`_ and notifications
 can then be sent via `FMN <http://github.com/fedora-infra/fmn>`_ (the FedMsg
 Notifications service).
 
-:Github repository: https://github.com/fedora-infra/cnucnuweb
+:Github page: https://github.com/fedora-infra/cnucnuweb
 
 
 Hacking
@@ -37,7 +37,7 @@ Next, install your dependencies::
     (my-cnucnu-env)$ pip install -r requirements.txt
 
 Create the database, by default it will be a sqlite database located at
-``/var/tmp/cnucnu-web-dev.sqlite``:
+``/var/tmp/cnucnu-web-dev.sqlite``::
 
     (my-cnucnu-env)$ python createdb.py
 
