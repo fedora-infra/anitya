@@ -153,9 +153,11 @@ def inject_variable():
 
 @APP.route('/')
 def index():
+    total = cnucnuweb.model.Project.all(SESSION, count=True)
     return flask.render_template(
         'index.html',
         current='index',
+        total=total,
     )
 
 
