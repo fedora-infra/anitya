@@ -207,6 +207,12 @@ def api_projects():
 def projects():
 
     page = flask.request.args.get('page', 1)
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+
     projects = cnucnuweb.model.Project.all(SESSION, page=page)
     projects_count = cnucnuweb.model.Project.all(SESSION, count=True)
 
@@ -215,6 +221,38 @@ def projects():
     return flask.render_template(
         'projects.html',
         current='projects',
+        projects=projects,
+        total_page=total_page,
+        projects_count=projects_count,
+        page=page)
+
+
+@APP.route('/projects/search')
+@APP.route('/projects/search/<pattern>')
+def projects_search(pattern=None):
+
+    pattern = flask.request.args.get('pattern', pattern) or '*'
+    page = flask.request.args.get('page', 1)
+
+    if not '*' in pattern:
+        pattern += '*'
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+
+    projects = cnucnuweb.model.Project.search(
+        SESSION, pattern=pattern, page=page)
+    projects_count = cnucnuweb.model.Project.search(
+        SESSION, pattern=pattern, count=True)
+
+    total_page = int(ceil(projects_count / float(50)))
+
+    return flask.render_template(
+        'search.html',
+        current='projects',
+        pattern=pattern,
         projects=projects,
         total_page=total_page,
         projects_count=projects_count,
