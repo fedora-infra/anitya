@@ -33,14 +33,11 @@ def migrate_wiki():
     cnt = 0
     failed = 0
     for pkg in get_package_list():
-
         project = model.Project(
             name=pkg.name,
             homepage=pkg.url,
-            version_url=pkg.url,
-            regex=pkg.raw_regex,
-            fedora_name=pkg.name,
-            debian_name=None
+            version_url=pkg.raw_url,
+            regex=pkg.raw_regex
         )
         SESSION.add(project)
         try:
@@ -49,6 +46,9 @@ def migrate_wiki():
             failed += 1
             print err
             SESSION.rollback()
+        pkg = model.Packages.get_or_create(
+            SESSION, project.name, 'Fedora', project.name)
+        SESSION.commit()
         cnt += 1
     print '{0} projects imported'.format(cnt)
     print '{0} projects failed to imported'.format(failed)
