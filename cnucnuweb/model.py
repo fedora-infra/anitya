@@ -65,7 +65,8 @@ class Distro(BASE):
 
     @classmethod
     def by_name(cls, session, name):
-        return session.query(cls).filter_by(name=name).first()
+        return session.query(cls).filter(
+            sa.func.lower(name) == sa.func.lower(name)).first()
 
     get = by_name
 
@@ -157,8 +158,8 @@ class Packages(BASE):
             cls
         ).filter_by(
             project=project
-        ).filter_by(
-            distro=distro
+        ).filter(
+            sa.func.lower(distro) == sa.func.lower(distro)
         ).first()
 
     get = by_project_distro
