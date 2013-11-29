@@ -58,11 +58,13 @@
       Your project of interest might be there, or not. To check it
       <a href="{{ url_for('projects') }}">browse the list of all projects</a>
       or simply search for them!</p>
-      <form action="{{ url_for('projects_search') }}">
-        <input type="text" name="pattern" placeholder="Project name"/>
-        <input type="submit" value="Search"/>
+      <form action="{{ url_for('projects_search') }}" role="form">
+        <div class="form-group">
+          <input type="text" name="pattern" placeholder="Project name" class="SearchBox"/>
+          <button type="submit" class="btn btn-default">Search</button>
+          <p><small>You may use * to search for pattern (ie: py*).</small></p>
+        </div><!-- /.form-group -->
       </form>
-        <p>You may use * to search for pattern (ie: py*).</p>
     </div><!-- /.col-lg-3 -->
   </div><!-- /.row -->
 </div>
