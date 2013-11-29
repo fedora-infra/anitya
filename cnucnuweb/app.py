@@ -249,6 +249,12 @@ def projects_search(pattern=None):
     projects_count = cnucnuweb.model.Project.search(
         SESSION, pattern=pattern, count=True)
 
+    if projects_count == 1 and projects[0].name == pattern.replace('*',''):
+        flask.flash(
+            'Only one result matching with an exact match, redirecting')
+        return flask.redirect(
+            flask.url_for('project', project_name=projects[0].name))
+
     total_page = int(ceil(projects_count / float(50)))
 
     return flask.render_template(
