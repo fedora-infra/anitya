@@ -39,11 +39,12 @@ def init(db_url, alembic_ini=None, debug=False, create=False):
     if create:
         BASE.metadata.create_all(engine)
 
-    # This... "causes problems"
-    #if db_url.startswith('sqlite:'):
-    #    def _fk_pragma_on_connect(dbapi_con, con_record):
-    #        dbapi_con.execute('pragma foreign_keys=ON')
-    #    sa.event.listen(engine, 'connect', _fk_pragma_on_connect)
+    # Source: http://docs.sqlalchemy.org/en/latest/dialects/sqlite.html
+    # see section 'sqlite-foreign-keys'
+    if db_url.startswith('sqlite:'):
+        def _fk_pragma_on_connect(dbapi_con, con_record):
+            dbapi_con.execute("PRAGMA foreign_keys=ON")
+        sa.event.listen(engine, 'connect', _fk_pragma_on_connect)
 
     if alembic_ini is not None:  # pragma: no cover
         # then, load the Alembic configuration and generate the
@@ -57,23 +58,10 @@ def init(db_url, alembic_ini=None, debug=False, create=False):
     return scopedsession
 
 
-
-class Project(BASE):
-    __tablename__ = 'projects'
+class Distro(BASE):
+    __tablename__ = 'distros'
 
     name = sa.Column(sa.String(200), primary_key=True)
-    homepage = sa.Column(sa.String(200), nullable=False)
-    version_url = sa.Column(sa.String(200), nullable=False)
-    regex = sa.Column(sa.String(200), nullable=False)
-    fedora_name = sa.Column(sa.String(200), unique=True)
-    debian_name = sa.Column(sa.String(200), unique=True)
-
-    version = sa.Column(sa.String(50))
-    logs = sa.Column(sa.Text)
-
-    updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
-                           onupdate=sa.func.current_timestamp())
-    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
 
     @classmethod
     def by_name(cls, session, name):
@@ -102,7 +90,7 @@ class Project(BASE):
 
     @classmethod
     def search(cls, session, pattern, page=None, count=False):
-        ''' Search the projects by their name or package name '''
+        ''' Search the distribuutions by their name '''
 
         if '*' in pattern:
             pattern = pattern.replace('*', '%')
@@ -111,9 +99,7 @@ class Project(BASE):
             cls
         ).filter(
             sa.or_(
-                cls.name.like(pattern),
-                cls.fedora_name.like(pattern),
-                cls.debian_name.like(pattern),
+                sa.func.lower(cls.name).like(sa.func.lower(pattern)),
             )
         ).order_by(
             cls.name
@@ -135,8 +121,142 @@ class Project(BASE):
             return query.all()
 
     @classmethod
-    def get_or_create(cls, session, name, homepage, version_url, regex,
-                      fedora_name=None, debian_name=None):
+    def get_or_create(cls, session, name):
+        distro = cls.by_name(session, name)
+        if not distro:
+            distro = cls(
+                name=name
+            )
+            session.add(distro)
+            session.flush()
+        return distro
+
+
+class Packages(BASE):
+    __tablename__ = 'packages'
+
+    project = sa.Column(
+        sa.String(200),
+        sa.ForeignKey(
+            "projects.name",
+            ondelete="cascade",
+            onupdate="cascade"),
+        primary_key=True)
+    distro = sa.Column(
+        sa.String(200),
+        sa.ForeignKey(
+            "distros.name",
+            ondelete="cascade",
+            onupdate="cascade"),
+        primary_key=True)
+    package_name = sa.Column(sa.String(200))
+
+    @classmethod
+    def by_project_distro(cls, session, project, distro):
+        return session.query(
+            cls
+        ).filter_by(
+            project=project
+        ).filter_by(
+            distro=distro
+        ).first()
+
+    get = by_project_distro
+
+    @classmethod
+    def get_or_create(cls, session, project, distro, name):
+        pkg = cls.by_project_distro(session, project, distro)
+        if not pkg:
+            distro = Distro.get_or_create(session, distro)
+            pkg = cls(
+                project=project,
+                distro=distro.name,
+                package_name=name
+            )
+            session.add(pkg)
+            session.flush()
+        return pkg
+
+
+class Project(BASE):
+    __tablename__ = 'projects'
+
+    name = sa.Column(sa.String(200), primary_key=True)
+    homepage = sa.Column(sa.String(200), nullable=False)
+    version_url = sa.Column(sa.String(200), nullable=False)
+    regex = sa.Column(sa.String(200), nullable=False)
+
+    version = sa.Column(sa.String(50))
+    logs = sa.Column(sa.Text)
+
+    packages = sa.orm.relationship(
+        'Packages',
+        backref="projects",
+        cascade="all, delete, delete-orphan")
+
+    updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
+                           onupdate=sa.func.current_timestamp())
+    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+
+    @classmethod
+    def by_name(cls, session, name):
+        return session.query(cls).filter_by(name=name).first()
+
+    get = by_name
+
+    @classmethod
+    def all(cls, session, page=None, count=False):
+        query = session.query(Project).order_by(Project.name)
+
+        if page:
+            try: page = int(page)
+            except ValueError:
+                page = None
+
+        if page:
+            limit = page * 50
+            offset = (page - 1) * 50
+            query = query.offset(offset).limit(limit)
+
+        if count:
+            return query.count()
+        else:
+            return query.all()
+
+    @classmethod
+    def search(cls, session, pattern, page=None, count=False):
+        ''' Search the projects by their name or package name '''
+
+        if '*' in pattern:
+            pattern = pattern.replace('*', '%')
+
+        query = session.query(
+            cls
+        ).filter(
+            sa.or_(
+                cls.name.like(pattern),
+            )
+        ).order_by(
+            cls.name
+        ).distinct()
+
+        if page:
+            try: page = int(page)
+            except ValueError:
+                page = None
+
+        if page:
+            limit = page * 50
+            offset = (page - 1) * 50
+            query = query.offset(offset).limit(limit)
+
+        if count:
+            return query.count()
+        else:
+            return query.all()
+
+    @classmethod
+    def get_or_create(cls, session, name, homepage, version_url, regex):
         project = cls.by_name(session, name)
         if not project:
             project = cls(
@@ -144,8 +264,6 @@ class Project(BASE):
                 homepage=homepage,
                 version_url=version_url,
                 regex=regex,
-                fedora_name=fedora_name,
-                debian_name=debian_name
             )
             session.add(project)
             session.flush()
