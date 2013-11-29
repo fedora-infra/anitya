@@ -273,7 +273,7 @@ def new_project():
         fedora_name = form.fedora_name.data
         debian_name = form.debian_name.data
 
-        project = cnucnu.lib.model.Project.get_or_create(
+        project = cnucnuweb.lib.model.Project.get_or_create(
             SESSION,
             name=name,
             homepage=homepage,
