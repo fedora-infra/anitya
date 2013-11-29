@@ -7,29 +7,32 @@
 </div>
 
 {% if total_page > 1 %}
-<table>
-    <tr>
-        <td>
+<ul class="pagination pagination-sm">
+    <li>
         {% if page > 1%}
-            <a href="{{ url_for('projects') }}?page={{page - 1}}">
-                &lt; Previous
-            </a>
+          <a href="{{ url_for('projects') }}?page={{page - 1}}">
+            «
+          </a>
         {% else %}
-            &lt; Previous
+          <a href="{{ url_for('projects') }}?page={{page}}">
+            «
+          </a>
         {% endif %}
-        </td>
-        <td>{{ page }} / {{ total_page }}</td>
-        <td>
-            {% if page < total_page %}
-            <a href="{{ url_for('projects') }}?page={{page + 1}}">
-                Next &gt;
-            </a>
-            {% else %}
-            Next >
-            {% endif %}
-        </td>
-    </tr>
-</table>
+    </li>
+    <li>
+        <a> {{ page }} / {{ total_page }} </a>
+    </li>
+    <li>
+        {% if page < total_page %}
+          <a href="{{ url_for('projects') }}?page={{page + 1}}">
+            »
+          </a>
+        {% else %}
+          <a href="{{ url_for('projects') }}?page={{page}}">
+            »
+        {% endif %}
+    </li>
+</ul>
 {% endif %}
 
 <div class="row">
@@ -46,8 +49,12 @@
           <dl class="dl-horizontal">
             <table class="table table-condensed">
               <tr>
-                <td>URL</td>
-                <td>{{ project.url }}</td>
+                <td>Homepage</td>
+                <td>
+                  <a href="{{ project.homepage }}" target="_blank">
+                    {{ project.homepage }}
+                  </a>
+                </td>
               </tr>
               <tr>
                 <td>Regex</td>
