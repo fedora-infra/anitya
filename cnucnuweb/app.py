@@ -101,8 +101,10 @@ def shutdown_session(exception=None):
     SESSION.remove()
 
 
-def admin(user):
-    return user in app.config.get('CNUCNU_ADMINS', [])
+def admin(user=None):
+    if not user and flask.g.auth.logged_in:
+        user = flask.g.auth.openid
+    return user in APP.config.get('CNUCNU_ADMINS', [])
 
 
 def login_required(function):
@@ -148,7 +150,8 @@ def inject_variable():
     """ Inject into all templates variables that we would like to have all
     the time.
     """
-    return dict(version=__version__)
+    return dict(version=__version__,
+                is_admin=admin())
 
 
 @APP.route('/')
@@ -324,8 +327,6 @@ def edit_project(project_name):
         homepage = form.homepage.data
         version_url = form.version_url.data
         regex = form.regex.data
-        fedora_name = form.fedora_name.data
-        debian_name = form.debian_name.data
 
         edit = False
         if name != project.name:
@@ -340,13 +341,6 @@ def edit_project(project_name):
         if regex != project.regex:
             project.regex = regex
             edit = True
-        if fedora_name != project.fedora_name:
-            project.fedora_name = fedora_name
-            edit = True
-        if debian_name != project.debian_name:
-            project.debian_name = debian_name
-            edit = True
-
 
         if edit:
             SESSION.add(project)
@@ -366,6 +360,34 @@ def edit_project(project_name):
         form=form,
         url_aliases=URL_ALIASES,
         regex_aliases=REGEX_ALIASES)
+
+
+@APP.route('/project/<project_name>/delete', methods=['GET', 'POST'])
+@login_required
+def delete_project(project_name):
+
+    project = cnucnuweb.model.Project.by_name(SESSION, project_name)
+    if not project:
+        flask.abort(404)
+
+    form = cnucnuweb.forms.ConfirmationForm()
+    confirm = flask.request.form.get('confirm', False)
+
+    if form.validate_on_submit():
+        if confirm:
+            SESSION.delete(project)
+            SESSION.commit()
+            flask.flash('Project %s has been removed' % project_name)
+            return flask.redirect(flask.url_for('projects'))
+        else:
+            return flask.redirect(
+                flask.url_for('project', project_name=project_name))
+
+    return flask.render_template(
+        'project_delete.html',
+        current='projects',
+        project=project,
+        form=form)
 
 
 @APP.route('/login/', methods=('GET', 'POST'))
