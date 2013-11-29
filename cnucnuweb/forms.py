@@ -11,8 +11,6 @@ class ProjectForm(wtf.Form):
     homepage = TextField('Homepage', [validators.Required()])
     version_url = TextField('Version URL', [validators.Required()])
     regex = TextField('Regex', [validators.Required()])
-    fedora_name = TextField('Fedora package')
-    debian_name = TextField('Debian package')
 
     def __init__(self, *args, **kwargs):
         """ Calls the default constructor and fill in additional information.
@@ -25,5 +23,7 @@ class ProjectForm(wtf.Form):
             self.homepage.data = project.homepage
             self.version_url.data = project.version_url
             self.regex.data = project.regex
-            self.fedora_name.data = project.fedora_name
-            self.debian_name.data = project.debian_name
+
+
+class ConfirmationForm(wtf.Form):
+    pass
