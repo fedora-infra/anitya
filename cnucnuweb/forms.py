@@ -27,3 +27,16 @@ class ProjectForm(wtf.Form):
 
 class ConfirmationForm(wtf.Form):
     pass
+
+
+class DistroForm(wtf.Form):
+    name = TextField('Distribution name', [validators.Required()])
+
+    def __init__(self, *args, **kwargs):
+        """ Calls the default constructor and fill in additional information.
+        """
+        super(DistroForm, self).__init__(*args, **kwargs)
+
+        if 'distro' in kwargs:
+            distro = kwargs['distro']
+            self.name.data = distro.name

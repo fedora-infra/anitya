@@ -389,6 +389,46 @@ def edit_project(project_name):
         regex_aliases=REGEX_ALIASES)
 
 
+@APP.route('/distro/<distro_name>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_distro(distro_name):
+
+    distro = cnucnuweb.model.Distro.by_name(SESSION, distro_name)
+    if not distro:
+        flask.abort(404)
+
+    if not admin():
+        flask.abort(405)
+
+    form = cnucnuweb.forms.DistroForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+
+        edit = False
+        if name != distro.name:
+            distro.name = name
+            edit = True
+
+        if edit:
+            SESSION.add(distro)
+            SESSION.commit()
+            message = 'Distribution edited'
+            flask.flash(message)
+        return flask.redirect(
+            flask.url_for('distros')
+        )
+    else:
+        form = cnucnuweb.forms.DistroForm(distro=distro)
+
+    return flask.render_template(
+        'distro_edit.html',
+        current='distros',
+        distro=distro,
+        form=form)
+
+
+
 @APP.route('/project/<project_name>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_project(project_name):

@@ -51,6 +51,14 @@
       <h4 class="list-group-item-heading">
         {{distro.name}}
       </h4>
+      {% if is_admin %}
+      <a href="{{ url_for('edit_distro', distro_name=distro.name) }}">
+        <button type="submit" class="btn btn-info">
+          <span class="glyphicon glyphicon-edit"></span>
+          Edit
+        </button>
+      </a>
+      {% endif %}
       <div class="clearfix"></div>
     </span>
   {% else %}

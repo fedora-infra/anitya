@@ -1,0 +1,57 @@
+{% extends "master.html" %}
+{% from "functions.html" import render_field_in_row %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Edit disribution: {{ distro.name }}</h1>
+</div>
+
+<form method="POST" action="{{ url_for('edit_distro', distro_name=distro.name) }}" >
+  <div class="row">
+    <div class="col-md-6">
+      <div class="list-group">
+        <span class="list-group-item">
+          <table class="table table-condensed">
+            <tr>
+              {{ render_field_in_row(form.name) }}
+              <td></td>
+            </tr>
+         </table>
+        </span>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-success">
+    <span class="glyphicon glyphicon-plus"></span>
+    Edit distribution
+  </button>
+  <a href="{{ url_for('project', project_name=form.name.data) }}">
+    <button type="button" class="btn btn-danger">
+      <span class="glyphicon glyphicon-ban-circle"></span>
+      Cancel
+    </button>
+  </a>
+  {{ form.csrf_token }}
+</form>
+
+{% endblock %}
+
+{% block jscript %}
+<script>
+  $('#choices_url').change(function(){
+    var name = $('#name').val();
+    if (!name){
+      name = '<insert name here>';
+    }
+    $('#version_url').val($(this).val() + ':' + name);
+  })
+  $('#choices_regex').change(function(){
+    var name = $('#name').val();
+    if (!name){
+      name = '<insert name here>';
+    }
+    $('#regex').val($(this).val() + ':' + name);
+  })
+</script>
+{% endblock %}
