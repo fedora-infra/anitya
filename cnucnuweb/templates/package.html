@@ -10,7 +10,7 @@
 
     <form method="POST" action="{{ url_for('map_project', project_name=project.name) }}" >
       {{ form.csrf_token }}
-      <table>
+      <table id="input_table">
         <tr>
           <th>Linux distribution</th>
           <th>Package name</th>
@@ -35,10 +35,16 @@
         </tr>
       </table>
 
+      <button type="button" class="btn btn-info" onclick="add_row('input_table')" >
+        <span class="glyphicon glyphicon-plus"></span>
+        Add row
+      </button>
+
       <button type="submit" class="btn btn-success">
         <span class="glyphicon glyphicon-plus"></span>
         Add mapping project
       </button>
+
       <a href="{{ url_for('project', project_name=project.name) }}">
         <button type="button" class="btn btn-danger">
           <span class="glyphicon glyphicon-ban-circle"></span>
@@ -50,4 +56,32 @@
 
 </div>
 
+{% endblock %}
+
+{% block jscript %}
+<script>
+    function add_row(tableID) {
+        var table = document.getElementById(tableID);
+        var rowCount = table.rows.length;
+        var row = table.insertRow(rowCount);
+
+        var colCount = table.rows[0].cells.length;
+        for (var i = 0; i < colCount; i++) {
+            var newcell = row.insertCell(i);
+            newcell.innerHTML = table.rows[1].cells[i].innerHTML;
+            switch (newcell.childNodes[1].type) {
+                case "text":
+                    newcell.childNodes[1].value = "";
+                    break;
+                case "checkbox":
+                    newcell.childNodes[1].checked = false;
+                    break;
+                case "select-one":
+                    newcell.childNodes[1].selectedIndex = 0;
+                    break;
+            }
+        }
+        return false;
+    };
+</script>
 {% endblock %}
