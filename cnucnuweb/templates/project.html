@@ -81,11 +81,15 @@
     </div>
 
     <div class="panel panel-heading">
-      <p class="panel-title">
+      <p class="panel-title" id="version_info">
         {% if project.version %}
         Latest version: {{ project.version }}
         {% else %}
         No version available for this package
+        <button type="submit" class="btn btn-success" id="checknow">
+          <span class="glyphicon glyphicon-refresh"></span>
+          Check now
+        </button>
         {% endif %}
       </p>
     </div>
@@ -115,4 +119,32 @@
   </div>
 </div>
 
+{% endblock %}
+
+{% block jscript %}
+<script>
+  $('#checknow').click(function(){
+    var _name = "{{ project.name }}";
+    var _project_url = "{{ project.version_url }}";
+    var _regex = "{{ project.regex }}";
+    var _url = "{{ url_for('api_get_version') }}";
+    $.ajax({
+        url: _url ,
+        type: 'POST',
+        data: {name: _name, url: _project_url, regex: _regex},
+        dataType: 'json',
+        success: function(res) {
+            //console.log(res);
+            $('#checknow').text(
+                "Latest version: " + res.responseJSON.latest_version);
+        },
+        error: function(res) {
+            alert(
+                'Unable to retrieve the latest version form upstream!\n'
+                + 'ERROR: ' + res.responseJSON.error );
+        }
+    });
+    return false;
+  })
+</script>
 {% endblock %}
