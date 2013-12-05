@@ -13,6 +13,7 @@ try:
 except ImportError:
     PBAR = False
 
+
 def main():
     ''' Retrieve all the packages and for each of them update the release
     version.

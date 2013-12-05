@@ -161,7 +161,8 @@ class Distro(BASE):
         query = session.query(cls).order_by(cls.name)
 
         if page:
-            try: page = int(page)
+            try:
+                page = int(page)
             except ValueError:
                 page = None
 
@@ -193,7 +194,8 @@ class Distro(BASE):
         ).distinct()
 
         if page:
-            try: page = int(page)
+            try:
+                page = int(page)
             except ValueError:
                 page = None
 
@@ -239,7 +241,7 @@ class Packages(BASE):
     package_name = sa.Column(sa.String(200))
 
     def __repr__(self):
-        return '<Packages(%s, %s: %s)>' %(
+        return '<Packages(%s, %s: %s)>' % (
             self.project, self.distro, self.package_name)
 
     @classmethod
@@ -247,7 +249,7 @@ class Packages(BASE):
         query = session.query(
             cls
         ).filter(
-            cls.project==project
+            cls.project == project
         ).filter(
             sa.func.lower(cls.distro) == sa.func.lower(distro)
         )
@@ -301,7 +303,8 @@ class Project(BASE):
         query = session.query(Project).order_by(sa.func.lower(Project.name))
 
         if page:
-            try: page = int(page)
+            try:
+                page = int(page)
             except ValueError:
                 page = None
 
@@ -333,7 +336,8 @@ class Project(BASE):
         ).distinct()
 
         if page:
-            try: page = int(page)
+            try:
+                page = int(page)
             except ValueError:
                 page = None
 

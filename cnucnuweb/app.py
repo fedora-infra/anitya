@@ -199,15 +199,15 @@ def api_projects():
     projects = []
     for project in project_objs:
         tmp = '* {name} {regex} {version_url}'.format(
-            name = project.name,
-            regex = project.regex,
-            version_url = project.version_url)
+            name=project.name,
+            regex=project.regex,
+            version_url=project.version_url)
         projects.append(tmp)
 
     return flask.Response(
-            "\n".join(projects),
-            content_type="text/plain;charset=UTF-8"
-        )
+        "\n".join(projects),
+        content_type="text/plain;charset=UTF-8"
+    )
 
 
 @APP.route('/api/version/', methods=['POST'])
@@ -241,10 +241,10 @@ def api_get_version():
                 'name': pkg.name,
                 'url': pkg.url,
                 'regex': pkg.regex,
-                'raw_url' : pkg.raw_url,
-                'raw_regex' : pkg.raw_regex,
-                'versions' : versions,
-                'latest_version' : latest_version,
+                'raw_url': pkg.raw_url,
+                'raw_regex': pkg.raw_regex,
+                'versions': versions,
+                'latest_version': latest_version,
             }
 
     jsonout = flask.jsonify(output)
@@ -302,7 +302,6 @@ def distros():
         page=page)
 
 
-
 @APP.route('/projects/search')
 @APP.route('/projects/search/<pattern>')
 def projects_search(pattern=None):
@@ -323,7 +322,7 @@ def projects_search(pattern=None):
     projects_count = cnucnuweb.model.Project.search(
         SESSION, pattern=pattern, count=True)
 
-    if projects_count == 1 and projects[0].name == pattern.replace('*',''):
+    if projects_count == 1 and projects[0].name == pattern.replace('*', ''):
         flask.flash(
             'Only one result matching with an exact match, redirecting')
         return flask.redirect(
@@ -361,14 +360,14 @@ def new_project():
             regex=regex,
         )
         cnucnuweb.model.Log.insert(
-                SESSION,
-                user=flask.g.auth.email,
-                project=project,
-                description='%(user)s added project %(project)s' % {
-                    'user': flask.g.auth.email,
-                    'project': project,
-                }
-            )
+            SESSION,
+            user=flask.g.auth.email,
+            project=project,
+            description='%(user)s added project %(project)s' % {
+                'user': flask.g.auth.email,
+                'project': project,
+            }
+        )
         SESSION.commit()
         if project.created_on.date() == datetime.today():
             message = 'Project created'
@@ -425,10 +424,10 @@ def edit_project(project_name):
                 project=project,
                 description='%(user)s edited the fields %(fields)s fields '
                             'of project %(project)s' % {
-                    'user': flask.g.auth.email,
-                    'project': project,
-                    'fields': ', '.join(edit)
-                }
+                                'user': flask.g.auth.email,
+                                'project': project,
+                                'fields': ', '.join(edit)
+                            }
             )
 
             SESSION.add(project)
@@ -466,7 +465,6 @@ def edit_distro(distro_name):
     if form.validate_on_submit():
         name = form.name.data
 
-
         if name != distro.name:
             cnucnuweb.model.Log.insert(
                 SESSION,
@@ -474,10 +472,10 @@ def edit_distro(distro_name):
                 distro=distro,
                 description='%(user)s edited distro name from %(old)s to '
                             '%(new)s' % {
-                    'user': flask.g.auth.email,
-                    'old': distro.name,
-                    'new': name,
-                }
+                                'user': flask.g.auth.email,
+                                'old': distro.name,
+                                'new': name,
+                            }
             )
 
             distro.name = name
@@ -497,7 +495,6 @@ def edit_distro(distro_name):
         current='distros',
         distro=distro,
         form=form)
-
 
 
 @APP.route('/project/<project_name>/delete', methods=['GET', 'POST'])
@@ -584,14 +581,14 @@ def map_project(project_name):
                         SESSION, project.name, distro, pkgname)
                     flask.flash('%s updated' % distro)
                     msgs.append(
-                            '%(user)s mapped the name of %(project)s in '
-                            '%(distro)s as %(new)s' % {
-                                'user': flask.g.auth.email,
-                                'project': project.name,
-                                'distro': distro,
-                                'new': pkgname
-                            }
-                        )
+                        '%(user)s mapped the name of %(project)s in '
+                        '%(distro)s as %(new)s' % {
+                            'user': flask.g.auth.email,
+                            'project': project.name,
+                            'distro': distro,
+                            'new': pkgname
+                        }
+                    )
             cnt += 1
 
         for msg in msgs:
@@ -603,7 +600,7 @@ def map_project(project_name):
 
         SESSION.commit()
         return flask.redirect(
-                flask.url_for('project', project_name=project_name))
+            flask.url_for('project', project_name=project_name))
 
     return flask.render_template(
         'package.html',
