@@ -65,8 +65,11 @@ class Distro(BASE):
 
     @classmethod
     def by_name(cls, session, name):
-        return session.query(cls).filter(
-            sa.func.lower(name) == sa.func.lower(name)).first()
+        return session.query(
+            cls
+        ).filter(
+            sa.func.lower(cls.name) == sa.func.lower(name)
+        ).first()
 
     get = by_name
 
@@ -152,15 +155,20 @@ class Packages(BASE):
         primary_key=True)
     package_name = sa.Column(sa.String(200))
 
+    def __repr__(self):
+        return '<Packages(%s, %s: %s)>' %(
+            self.project, self.distro, self.package_name)
+
     @classmethod
     def by_project_distro(cls, session, project, distro):
-        return session.query(
+        query = session.query(
             cls
-        ).filter_by(
-            project=project
         ).filter(
-            sa.func.lower(distro) == sa.func.lower(distro)
-        ).first()
+            cls.project==project
+        ).filter(
+            sa.func.lower(cls.distro) == sa.func.lower(distro)
+        )
+        return query.first()
 
     get = by_project_distro
 
