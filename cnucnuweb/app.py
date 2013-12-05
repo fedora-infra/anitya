@@ -179,8 +179,8 @@ def about():
 @APP.route('/project/<project_name>/')
 def project(project_name):
 
-
     project = cnucnuweb.model.Project.by_name(SESSION, project_name)
+
     if not project:
         flask.abort(404)
 
@@ -246,7 +246,6 @@ def api_get_version():
                 'versions' : versions,
                 'latest_version' : latest_version,
             }
-
 
     jsonout = flask.jsonify(output)
     jsonout.status_code = httpcode
@@ -353,8 +352,6 @@ def new_project():
         homepage = form.homepage.data
         version_url = form.version_url.data
         regex = form.regex.data
-        fedora_name = form.fedora_name.data
-        debian_name = form.debian_name.data
 
         project = cnucnuweb.model.Project.get_or_create(
             SESSION,
@@ -362,8 +359,6 @@ def new_project():
             homepage=homepage,
             version_url=version_url,
             regex=regex,
-            fedora_name=fedora_name,
-            debian_name=debian_name,
         )
         SESSION.commit()
         if project.created_on.date() == datetime.today():
