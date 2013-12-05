@@ -58,6 +58,89 @@ def init(db_url, alembic_ini=None, debug=False, create=False):
     return scopedsession
 
 
+class Log(BASE):
+    ''' Simple table to store/log action occuring in the database. '''
+    __tablename__ = 'logs'
+
+    id = sa.Column(sa.Integer, primary_key=True)
+    user = sa.Column(sa.String(200), index=True, nullable=False)
+    project = sa.Column(sa.String(200), index=True, nullable=True)
+    distro = sa.Column(sa.String(200), index=True, nullable=True)
+    description = sa.Column(sa.Text, nullable=False)
+    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+
+    def __init__(self, user, project=None, distro=None, description=None):
+        ''' Constructor.
+        '''
+        self.user = user
+        self.project = project
+        self.distro = distro
+        self.description = description
+
+    @classmethod
+    def insert(cls, session, user, project=None, distro=None,
+               description=None):
+        """ Insert the given log entry into the database.
+
+        :arg session: the session to connect to the database with
+        :arg user: the username of the user doing the action
+        :arg project: the `Project` object of the project changed
+        :arg distro: the `Distro` object of the distro changed
+        :arg description: a short textual description of the action
+            performed
+
+        """
+        project_name = None
+        if project:
+            project_name = project.name
+
+        distro_name = None
+        if distro:
+            distro_name = distro.name
+
+        log = Log(user=user, project=project_name, distro=distro_name,
+                  description=description)
+        session.add(log)
+        session.flush()
+
+    @classmethod
+    def search(cls, session, project_name=None, from_date=None, limit=None,
+               offset=None, count=False):
+        """ Return the list of the last Log entries present in the database.
+
+        :arg cls: the class object
+        :arg session: the database session used to query the information.
+        :kwarg project_name: the name of the project to restrict the logs to.
+        :kwarg limit: limit the result to X row
+        :kwarg offset: start the result at row X
+        :kwarg from_date: the date from which to give the entries
+        :kwarg count: a boolean to return the result of a COUNT query
+            if true, returns the data if false (default).
+
+        """
+        query = session.query(
+            cls
+        )
+
+        if count:
+            return query.count()
+
+        if package_id:
+            query = query.filter(cls.project == project_name)
+
+        if from_date:
+            query = query.filter(cls.created_on <= from_date)
+
+        query = query.order_by(cls.created_on.desc())
+
+        if offset:
+            query = query.offset(offset)
+        if limit:
+            query = query.limit(limit)
+
+        return query.all()
+
+
 class Distro(BASE):
     __tablename__ = 'distros'
 
