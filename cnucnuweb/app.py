@@ -106,7 +106,7 @@ def shutdown_session(exception=None):
 def admin(user=None):
     if not user and flask.g.auth.logged_in:
         user = flask.g.auth.openid
-    return user in APP.config.get('CNUCNU_ADMINS', [])
+    return user in APP.config.get('CNUCNU_WEB_ADMINS', [])
 
 
 def login_required(function):
@@ -210,7 +210,7 @@ def api_projects():
         )
 
 
-@APP.route('/api/versions/', methods=['POST'])
+@APP.route('/api/version/', methods=['POST'])
 def api_get_version():
 
     name = flask.request.form.get('name', None)
