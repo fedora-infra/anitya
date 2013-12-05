@@ -138,6 +138,7 @@
         success: function(res) {
             $('#version_info').text(
                 "Latest version: " + res.latest_version);
+            this.parentElement.removeChild($('#checknow'));
         },
         error: function(res) {
             alert(
