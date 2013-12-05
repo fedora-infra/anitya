@@ -499,6 +499,7 @@ def delete_project(project_name):
         project=project,
         form=form)
 
+
 @APP.route('/project/<project_name>/map', methods=['GET', 'POST'])
 @login_required
 def map_project(project_name):
@@ -522,13 +523,10 @@ def map_project(project_name):
             else:
                 pkg = cnucnuweb.model.Packages.get_or_create(
                     SESSION, project.name, distro, pkgname)
-                if pkg.package_name != pkgname:
-                    pkg.package_name = pkgname
-                    SESSION.add(pkg)
-                    flask.flash('%s updated' % distro)
-                SESSION.commit()
+                flask.flash('%s updated' % distro)
             cnt += 1
 
+        SESSION.commit()
         return flask.redirect(
                 flask.url_for('project', project_name=project_name))
 
