@@ -55,7 +55,11 @@
     <span class="glyphicon glyphicon-plus"></span>
     {{ context }} project
   </button>
-  <a href="{{ url_for('project', project_name=form.name.data) }}">
+  {% if context == 'Add' %}
+  <a href="{{ url_for('projects') }}">
+  {% elif context == 'Edit' %}
+  <a href="{{ url_for('project', project_name=project.name) }}">
+  {% endif %}
     <button type="button" class="btn btn-danger">
       <span class="glyphicon glyphicon-ban-circle"></span>
       Cancel
