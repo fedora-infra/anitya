@@ -473,6 +473,9 @@ def edit_distro(distro_name):
 @login_required
 def delete_project(project_name):
 
+    if not admin():
+        flask.abort(403)
+
     project = cnucnuweb.model.Project.by_name(SESSION, project_name)
     if not project:
         flask.abort(404)
