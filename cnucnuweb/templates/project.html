@@ -134,9 +134,8 @@
         data: {name: _name, url: _project_url, regex: _regex},
         dataType: 'json',
         success: function(res) {
-            //console.log(res);
-            $('#checknow').text(
-                "Latest version: " + res.responseJSON.latest_version);
+            $('#version_info').text(
+                "Latest version: " + res.latest_version);
         },
         error: function(res) {
             alert(
