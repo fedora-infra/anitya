@@ -521,9 +521,16 @@ def map_project(project_name):
             if not distro or not pkgname:
                 continue
             else:
-                pkg = cnucnuweb.model.Packages.get_or_create(
-                    SESSION, project.name, distro, pkgname)
-                flask.flash('%s updated' % distro)
+                pkg = cnucnuweb.model.Packages.get(
+                    SESSION, project.name, distro)
+                if pkg:
+                    if pkg.package_name != pkgname:
+                        pkg.package_name = pkgname
+                        flask.flash('%s updated' % distro)
+                else:
+                    pkg = cnucnuweb.model.Packages.get_or_create(
+                        SESSION, project.name, distro, pkgname)
+                    flask.flash('%s updated' % distro)
             cnt += 1
 
         SESSION.commit()
