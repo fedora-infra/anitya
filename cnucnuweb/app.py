@@ -632,6 +632,7 @@ def browse_logs():
 
     return flask.render_template(
         'logs.html',
+        current='logs',
         refresh=refresh,
         logs=logs,
         cnt_logs=cnt_logs,

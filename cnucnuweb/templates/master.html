@@ -77,6 +77,19 @@
                   add project
               </a>
             </li>
+
+            {% if is_admin %}
+            {% if current == 'logs' %}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+              <a href="{{url_for('browse_logs')}}">
+                  logs
+              </a>
+            </li>
+            {% endif %}
+
             <li><a href="{{url_for('logout')}}">logout</a></li>
             {% else %}
             <li>
