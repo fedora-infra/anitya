@@ -10,7 +10,6 @@ check if the user is an admin and other utility functions.
 import codecs
 import functools
 import os
-from collections import OrderedDict
 
 import docutils
 import docutils.examples
@@ -41,36 +40,6 @@ OID = OpenID(APP)
 
 SESSION = cnucnuweb.model.init(
     APP.config['DB_URL'], debug=False, create=False)
-
-
-URL_ALIASES = OrderedDict({
-    '': 'Specific version page',
-    'SF-DEFAULT': 'SourceForge project',
-    'FM-DEFAULT': 'FreshMeat project',
-    'GNU-DEFAULT': 'GNU project',
-    'CPAN-DEFAULT': 'CPAN project',
-    'HACKAGE-DEFAULT': 'Hackage project',
-    'DEBIAN-DEFAULT': 'Debian project',
-    'GOOGLE-DEFAULT': 'Google code project',
-    'PYPI-DEFAULT': 'PYPI project',
-    'PEAR-DEFAULT': 'PHP pear project',
-    'PECL-DEFAULT': 'PHP pecl project',
-    'LP-DEFAULT': 'LaunchPad project',
-    'GNOME-DEFAULT': 'GNOME project',
-    'RUBYGEMS-DEFAULT': 'Rubygems project',
-})
-
-
-REGEX_ALIASES = OrderedDict({
-    '': 'Specific regex',
-    'DEFAULT': 'Default regex',
-    'CPAN-DEFAULT': 'Default CPAN regex',
-    'PEAR-DEFAULT': 'Default PEAR regex',
-    'PECL-DEFAULT': 'Default PECL regex',
-    'FM-DEFAULT': 'Default FreshMeat regex',
-    'HACKAGE-DEFAULT': 'Default Hackage regex',
-    'RUBYGEMS-DEFAULT': 'Default Rubygems regex',
-})
 
 
 @APP.before_request
