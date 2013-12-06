@@ -185,7 +185,7 @@ def new_project():
         )
         cnucnuweb.log(
             SESSION,
-            distro=distro,
+            project=project,
             topic='project.add',
             message=dict(
                 agent=flask.g.auth.email,
