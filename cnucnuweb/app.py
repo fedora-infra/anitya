@@ -420,7 +420,7 @@ def edit_project(project_name):
         if edit:
             cnucnuweb.log(
                 SESSION,
-                distro=distro,
+                project=project,
                 topic='project.edit',
                 message=dict(
                     agent=flask.g.auth.email,
@@ -447,6 +447,7 @@ def edit_project(project_name):
         project=project,
         url_aliases=URL_ALIASES,
         regex_aliases=REGEX_ALIASES)
+
 
 @APP.route('/distro/add', methods=['GET', 'POST'])
 @login_required
