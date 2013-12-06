@@ -146,6 +146,10 @@ class Distro(BASE):
 
     name = sa.Column(sa.String(200), primary_key=True)
 
+    def __init__(self, name):
+        ''' Constructor. '''
+        self.name = name
+
     @classmethod
     def by_name(cls, session, name):
         return session.query(
