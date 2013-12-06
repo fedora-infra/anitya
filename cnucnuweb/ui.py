@@ -153,14 +153,14 @@ def new_project():
             regex=regex,
         )
         cnucnuweb.log(
-                SESSION,
-                distro=distro,
-                topic='project.add',
-                message=dict(
-                    agent=flask.g.auth.email,
-                    project=project,
-                )
+            SESSION,
+            distro=distro,
+            topic='project.add',
+            message=dict(
+                agent=flask.g.auth.email,
+                project=project,
             )
+        )
         SESSION.commit()
         if project.created_on.date() == datetime.today():
             message = 'Project created'
@@ -308,4 +308,3 @@ def map_project(project_name):
         current='projects',
         project=project,
         form=form)
-

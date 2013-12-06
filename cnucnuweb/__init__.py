@@ -53,7 +53,6 @@ def check_release(project, session):
     session.commit()
 
 
-
 def _construct_substitutions(msg):
     """ Convert a fedmsg message into a dict of substitutions. """
     subs = {}
