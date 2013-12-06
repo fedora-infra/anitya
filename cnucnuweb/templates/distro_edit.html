@@ -26,7 +26,7 @@
     <span class="glyphicon glyphicon-plus"></span>
     Edit distribution
   </button>
-  <a href="{{ url_for('project', project_name=form.name.data) }}">
+  <a href="{{ url_for('distros') }}">
     <button type="button" class="btn btn-danger">
       <span class="glyphicon glyphicon-ban-circle"></span>
       Cancel
@@ -35,23 +35,4 @@
   {{ form.csrf_token }}
 </form>
 
-{% endblock %}
-
-{% block jscript %}
-<script>
-  $('#choices_url').change(function(){
-    var name = $('#name').val();
-    if (!name){
-      name = '<insert name here>';
-    }
-    $('#version_url').val($(this).val() + ':' + name);
-  })
-  $('#choices_regex').change(function(){
-    var name = $('#name').val();
-    if (!name){
-      name = '<insert name here>';
-    }
-    $('#regex').val($(this).val() + ':' + name);
-  })
-</script>
 {% endblock %}
