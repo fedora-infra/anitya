@@ -1,10 +1,16 @@
 #-*- coding: utf-8 -*-
 
+"""
+The main file for the application.
+This file creates the flask application and contains the functions used to
+check if the user is an admin and other utility functions.
+"""
+
+
 import codecs
 import functools
 import os
 from collections import OrderedDict
-from datetime import datetime
 
 import docutils
 import docutils.examples
@@ -69,6 +75,9 @@ REGEX_ALIASES = OrderedDict({
 
 @APP.before_request
 def check_auth():
+    ''' Set the flask.g variables using the session information if the user
+    is logged in.
+    '''
     flask.g.auth = Bunch(
         logged_in=False,
         method=None,
@@ -85,6 +94,9 @@ def check_auth():
 
 @OID.after_login
 def after_openid_login(resp):
+    ''' This function saved the information about the user right after the
+    login was successful on the OpenID server.
+    '''
     default = flask.url_for('index')
     if resp.identity_url:
         openid_url = resp.identity_url
@@ -100,18 +112,21 @@ def after_openid_login(resp):
 
 @APP.teardown_request
 def shutdown_session(exception=None):
-    """ Remove the DB session at the end of each request. """
+    ''' Remove the DB session at the end of each request. '''
     SESSION.remove()
 
 
 def is_admin(user=None):
+    ''' Check if the provided user, or the user logged in are recognized
+    as being admins.
+    '''
     if not user and flask.g.auth.logged_in:
         user = flask.g.auth.openid
     return user in APP.config.get('CNUCNU_WEB_ADMINS', [])
 
 
 def login_required(function):
-    """ Flask decorator to retrict access to logged-in users. """
+    ''' Flask decorator to retrict access to logged-in users. '''
     @functools.wraps(function)
     def decorated_function(*args, **kwargs):
         """ Decorated function, actually does the work. """
@@ -124,35 +139,11 @@ def login_required(function):
     return decorated_function
 
 
-def api_method(function):
-    """ A decorator to handle common API output stuff. """
-
-    @functools.wraps(function)
-    def wrapper(*args, **kwargs):
-        try:
-            result = function(*args, **kwargs)
-        except APIError as e:
-            app.logger.exception(e)
-            response = flask.jsonify(e.errors)
-            response.status_code = e.status_code
-        else:
-            # Redirect browsers to the object.
-            # otherwise, return json response to api clients.
-            if 'url' in result and request_wants_html():
-                response = flask.redirect(result['url'])
-            else:
-                response = flask.jsonify(result)
-                response.status_code = 200
-        return response
-
-    return wrapper
-
-
 @APP.context_processor
 def inject_variable():
-    """ Inject into all templates variables that we would like to have all
+    ''' Inject into all templates variables that we would like to have all
     the time.
-    """
+    '''
     return dict(version=__version__,
                 is_admin=is_admin())
 
@@ -161,6 +152,9 @@ def inject_variable():
 @APP.route('/login', methods=('GET', 'POST'))
 @OID.loginhandler
 def login():
+    ''' Handle the login when no OpenID server have been selected in the
+    list.
+    '''
     default = flask.url_for('index')
     next_url = flask.request.args.get('next', default)
     if flask.g.auth.logged_in:
@@ -179,6 +173,7 @@ def login():
 @APP.route('/login/fedora')
 @OID.loginhandler
 def fedora_login():
+    ''' Handles login against the Fedora OpenID server. '''
     default = flask.url_for('index')
     next_url = flask.request.args.get('next', default)
     return OID.try_login(
@@ -190,6 +185,7 @@ def fedora_login():
 @APP.route('/login/google')
 @OID.loginhandler
 def google_login():
+    ''' Handles login via the Google OpenID. '''
     default = flask.url_for('index')
     next_url = flask.request.args.get('next', default)
     return OID.try_login(
@@ -201,6 +197,7 @@ def google_login():
 @APP.route('/login/yahoo')
 @OID.loginhandler
 def yahoo_login():
+    ''' Handles login via the Yahoo OpenID. '''
     default = flask.url_for('index')
     next_url = flask.request.args.get('next', default)
     return OID.try_login(
@@ -211,12 +208,13 @@ def yahoo_login():
 @APP.route('/logout/')
 @APP.route('/logout')
 def logout():
+    ''' Logout the user. '''
     flask.session.pop('openid')
     return flask.redirect(flask.url_for('index'))
 
 
 def modify_rst(rst):
-    """ Downgrade some of our rst directives if docutils is too old. """
+    ''' Downgrade some of our rst directives if docutils is too old. '''
 
     try:
         # The rst features we need were introduced in this version
@@ -242,8 +240,8 @@ def modify_rst(rst):
 
 
 def modify_html(html):
-    """ Perform style substitutions where docutils doesn't do what we want.
-    """
+    ''' Perform style substitutions where docutils doesn't do what we want.
+    '''
 
     substitutions = {
         '<tt class="docutils literal">': '<code>',
@@ -256,7 +254,7 @@ def modify_html(html):
 
 
 def preload_docs(endpoint):
-    """ Utility to load an RST file and turn it into fancy HTML. """
+    ''' Utility to load an RST file and turn it into fancy HTML. '''
 
     here = os.path.dirname(os.path.abspath(__file__))
     fname = os.path.join(here, 'docs', endpoint + '.rst')
