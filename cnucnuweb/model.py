@@ -125,7 +125,7 @@ class Log(BASE):
         if count:
             return query.count()
 
-        if package_id:
+        if project_name:
             query = query.filter(cls.project == project_name)
 
         if from_date:
