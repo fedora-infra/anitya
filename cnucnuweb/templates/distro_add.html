@@ -1,0 +1,38 @@
+{% extends "master.html" %}
+{% from "functions.html" import render_field_in_row %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Add a new disribution</h1>
+</div>
+
+<form method="POST" action="{{ url_for('add_distro') }}" >
+  <div class="row">
+    <div class="col-md-6">
+      <div class="list-group">
+        <span class="list-group-item">
+          <table class="table table-condensed">
+            <tr>
+              {{ render_field_in_row(form.name) }}
+              <td></td>
+            </tr>
+         </table>
+        </span>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-success">
+    <span class="glyphicon glyphicon-plus"></span>
+    Add distribution
+  </button>
+  <a href="{{ url_for('distros') }}">
+    <button type="button" class="btn btn-danger">
+      <span class="glyphicon glyphicon-ban-circle"></span>
+      Cancel
+    </button>
+  </a>
+  {{ form.csrf_token }}
+</form>
+
+{% endblock %}

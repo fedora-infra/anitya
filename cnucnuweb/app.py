@@ -448,6 +448,42 @@ def edit_project(project_name):
         url_aliases=URL_ALIASES,
         regex_aliases=REGEX_ALIASES)
 
+@APP.route('/distro/add', methods=['GET', 'POST'])
+@login_required
+def add_distro():
+
+    if not admin():
+        flask.abort(405)
+
+    form = cnucnuweb.forms.DistroForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+
+        distro = cnucnuweb.model.Distro(name)
+
+        cnucnuweb.log(
+            SESSION,
+            distro=distro,
+            topic='distro.add',
+            message=dict(
+                agent=flask.g.auth.email,
+                distro=distro.name,
+            )
+        )
+
+        SESSION.add(distro)
+        SESSION.commit()
+        flask.flash('Distribution added')
+        return flask.redirect(
+            flask.url_for('distros')
+        )
+
+    return flask.render_template(
+        'distro_add.html',
+        current='distros',
+        form=form)
+
 
 @APP.route('/distro/<distro_name>/edit', methods=['GET', 'POST'])
 @login_required
