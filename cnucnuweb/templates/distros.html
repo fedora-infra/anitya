@@ -45,6 +45,16 @@
     Here is the list of all the distribution having at least one project
     mapped as a package of this distribution and monitored by cnucnu.
   </p>
+  {% if is_admin %}
+  <p>
+  <a href="{{ url_for('add_distro') }}">
+    <button type="submit" class="btn btn-success">
+      <span class="glyphicon glyphicon-edit"></span>
+      Add a new distribution
+    </button>
+  </a>
+  </p>
+  {% endif %}
   <div class="list-group">
   {% for distro in distros %}
     <span class="list-group-item">
