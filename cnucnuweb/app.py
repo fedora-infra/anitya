@@ -444,6 +444,7 @@ def edit_project(project_name):
         context='Edit',
         current='projects',
         form=form,
+        project=project,
         url_aliases=URL_ALIASES,
         regex_aliases=REGEX_ALIASES)
 
