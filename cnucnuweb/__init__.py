@@ -79,18 +79,20 @@ def log(session, project=None, distro=None, topic=None, message=None):
 
     # A big lookup of fedmsg topics to model.Log template strings.
     templates = {
-        'distro.add': '%(agent)s added the distro named %(distro)s',
-        'distro.edit': '%(agent)s edited distro name from %(old)s to '
+        'distro.add': '%(agent)s added the distro named: %(distro)s',
+        'distro.edit': '%(agent)s edited distro name from: %(old)s to: '
                        '%(new)s',
-        'project.add': '%(agent)s added project %(project)s',
-        'project.edit': '%(agent)s edited the fields %(fields)s fields '
-                        'of project %(project)s',
+        'project.add': '%(agent)s added project: %(project)s',
+        'project.add.tried': '%(agent)s tried to add an already existing '
+                             'project: %(project)s',
+        'project.edit': '%(agent)s edited the fields: %(fields)s fields '
+                        'of project: %(project)s',
 
-        'project.remove': '%(agent)s removed the project %(project)s',
+        'project.remove': '%(agent)s removed the project: %(project)s',
         'project.map.new': '%(agent)s mapped the name of %(project)s in '
                            '%(distro)s as %(new)s',
         'project.map.update': '%(agent)s update the name of %(project)s in '
-                              '%(distro)s from %(prev)s to %(new)s',
+                              '%(distro)s from: %(prev)s to: %(new)s',
     }
     substitutions = _construct_substitutions(message)
     final_msg = templates[topic] % substitutions

@@ -183,20 +183,22 @@ def new_project():
             version_url=version_url,
             regex=regex,
         )
+        if project.created_on.date() == datetime.today():
+            topic='project.add'
+            message = 'Project created'
+        else:
+            topic='project.add.tried'
+            message = 'Project existed already'
         cnucnuweb.log(
             SESSION,
             project=project,
-            topic='project.add',
+            topic=topic,
             message=dict(
                 agent=flask.g.auth.email,
-                project=project,
+                project=project.name,
             )
         )
         SESSION.commit()
-        if project.created_on.date() == datetime.today():
-            message = 'Project created'
-        else:
-            message = 'Project existed already'
         flask.flash(message)
         return flask.redirect(
             flask.url_for('project', project_name=name)
@@ -248,7 +250,7 @@ def edit_project(project_name):
                 topic='project.edit',
                 message=dict(
                     agent=flask.g.auth.email,
-                    project=project,
+                    project=project.name,
                     fields=', '.join(edit)
                 )
             )
