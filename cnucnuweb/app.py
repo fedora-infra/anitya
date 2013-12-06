@@ -359,15 +359,15 @@ def new_project():
             version_url=version_url,
             regex=regex,
         )
-        cnucnuweb.model.Log.insert(
-            SESSION,
-            user=flask.g.auth.email,
-            project=project,
-            description='%(user)s added project %(project)s' % {
-                'user': flask.g.auth.email,
-                'project': project,
-            }
-        )
+        cnucnuweb.log(
+                SESSION,
+                distro=distro,
+                topic='project.add',
+                message=dict(
+                    agent=flask.g.auth.email,
+                    project=project,
+                )
+            )
         SESSION.commit()
         if project.created_on.date() == datetime.today():
             message = 'Project created'
@@ -418,16 +418,15 @@ def edit_project(project_name):
             edit = 'regex'
 
         if edit:
-            cnucnuweb.model.Log.insert(
+            cnucnuweb.log(
                 SESSION,
-                user=flask.g.auth.email,
-                project=project,
-                description='%(user)s edited the fields %(fields)s fields '
-                            'of project %(project)s' % {
-                                'user': flask.g.auth.email,
-                                'project': project,
-                                'fields': ', '.join(edit)
-                            }
+                distro=distro,
+                topic='project.edit',
+                message=dict(
+                    agent=flask.g.auth.email,
+                    project=project,
+                    fields=', '.join(edit)
+                )
             )
 
             SESSION.add(project)
@@ -466,16 +465,15 @@ def edit_distro(distro_name):
         name = form.name.data
 
         if name != distro.name:
-            cnucnuweb.model.Log.insert(
+            cnucnuweb.log(
                 SESSION,
-                user=flask.g.auth.email,
                 distro=distro,
-                description='%(user)s edited distro name from %(old)s to '
-                            '%(new)s' % {
-                                'user': flask.g.auth.email,
-                                'old': distro.name,
-                                'new': name,
-                            }
+                topic='distro.edit',
+                message=dict(
+                    agent=flask.g.auth.email,
+                    old=distro.name,
+                    new=name,
+                )
             )
 
             distro.name = name
@@ -513,14 +511,14 @@ def delete_project(project_name):
 
     if form.validate_on_submit():
         if confirm:
-            cnucnuweb.model.Log.insert(
+            cnucnuweb.log(
                 SESSION,
-                user=flask.g.auth.email,
                 project=project,
-                description='%(user)s removed the project %(project)s' % {
-                    'user': flask.g.auth.email,
-                    'project': project
-                }
+                topic='project.remove',
+                message=dict(
+                    agent=flask.g.auth.email,
+                    project=project.name,
+                )
             )
 
             SESSION.delete(project)
@@ -564,15 +562,17 @@ def map_project(project_name):
                     SESSION, project.name, distro)
                 if pkg:
                     if pkg.package_name != pkgname:
-                        msgs.append(
-                            '%(user)s update the name of %(project)s in '
-                            '%(distro)s from %(prev)s to %(new)s' % {
-                                'user': flask.g.auth.email,
-                                'project': project.name,
-                                'distro': distro,
-                                'prev': pkg.package_name,
-                                'new': pkgname
-                            }
+                        cnucnuweb.log(
+                            SESSION,
+                            project=project,
+                            topic='project.map.update',
+                            message=dict(
+                                agent=flask.g.auth.email,
+                                project=project.name,
+                                distro=distro,
+                                prev=pkg.package_name,
+                                new=pkgname,
+                            )
                         )
                         pkg.package_name = pkgname
                         flask.flash('%s updated' % distro)
@@ -580,23 +580,18 @@ def map_project(project_name):
                     pkg = cnucnuweb.model.Packages.get_or_create(
                         SESSION, project.name, distro, pkgname)
                     flask.flash('%s updated' % distro)
-                    msgs.append(
-                        '%(user)s mapped the name of %(project)s in '
-                        '%(distro)s as %(new)s' % {
-                            'user': flask.g.auth.email,
-                            'project': project.name,
-                            'distro': distro,
-                            'new': pkgname
-                        }
+                    cnucnuweb.log(
+                        SESSION,
+                        project=project,
+                        topic='project.map.new',
+                        message=dict(
+                            agent=flask.g.auth.email,
+                            project=project.name,
+                            distro=distro,
+                            new=pkgname,
+                        )
                     )
             cnt += 1
-
-        for msg in msgs:
-            cnucnuweb.model.Log.insert(
-                SESSION,
-                user=flask.g.auth.email,
-                project=project,
-                description=msg)
 
         SESSION.commit()
         return flask.redirect(

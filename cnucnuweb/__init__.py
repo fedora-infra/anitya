@@ -51,3 +51,54 @@ def check_release(project, session):
     if updated:
         session.add(project)
     session.commit()
+
+
+
+def _construct_substitutions(msg):
+    """ Convert a fedmsg message into a dict of substitutions. """
+    subs = {}
+    for key1 in msg:
+        if isinstance(msg[key1], dict):
+            subs.update(dict([
+                ('.'.join([key1, key2]), val2)
+                for key2, val2 in _construct_substitutions(msg[key1]).items()
+            ]))
+
+        subs[key1] = msg[key1]
+
+    return subs
+
+
+def log(session, project=None, distro=None, topic=None, message=None):
+    """ Take a partial fedmsg topic and message.
+
+    Publish the message and log it in the db.
+    """
+
+    # To avoid a circular import.
+    import cnucnuweb.model as model
+
+    # A big lookup of fedmsg topics to model.Log template strings.
+    templates = {
+        'project.add': '%(agent)s added project %(project)s',
+        'project.edit': '%(agent)s edited the fields %(fields)s fields '
+                        'of project %(project)s',
+        'distro.edit': '%(agent)s edited distro name from %(old)s to '
+                       '%(new)s',
+        'project.remove': '%(agent)s removed the project %(project)s',
+        'project.map.new': '%(agent)s mapped the name of %(project)s in '
+                           '%(distro)s as %(new)s',
+        'project.map.update': '%(agent)s update the name of %(project)s in '
+                              '%(distro)s from %(prev)s to %(new)s',
+    }
+    substitutions = _construct_substitutions(message)
+    final_msg = templates[topic] % substitutions
+
+    model.Log.insert(
+        session,
+        user=message['agent'],
+        project=project,
+        distro=distro,
+        description=final_msg)
+
+    return final_msg
