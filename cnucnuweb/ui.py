@@ -9,7 +9,7 @@ import flask
 import cnucnuweb
 import cnucnuweb.model
 
-from cnucnuweb.app import APP, SESSION, login_required
+from cnucnuweb.app import APP, SESSION, login_required, load_docs
 
 
 URL_ALIASES = OrderedDict({
