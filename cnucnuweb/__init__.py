@@ -85,8 +85,8 @@ def log(session, project=None, distro=None, topic=None, message=None):
         'project.add': '%(agent)s added project: %(project)s',
         'project.add.tried': '%(agent)s tried to add an already existing '
                              'project: %(project)s',
-        'project.edit': '%(agent)s edited the fields: %(fields)s fields '
-                        'of project: %(project)s',
+        'project.edit': '%(agent)s edited the fields: %(fields)s of '
+                        'project: %(project)s',
 
         'project.remove': '%(agent)s removed the project: %(project)s',
         'project.map.new': '%(agent)s mapped the name of %(project)s in '
