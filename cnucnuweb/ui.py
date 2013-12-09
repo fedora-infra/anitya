@@ -232,16 +232,16 @@ def edit_project(project_name):
         edit = []
         if name != project.name:
             project.name = name
-            edit = 'name'
+            edit.append('name')
         if homepage != project.homepage:
             project.homepage = homepage
-            edit = 'homepage'
+            edit.append('homepage')
         if version_url != project.version_url:
             project.version_url = version_url
-            edit = 'version_url'
+            edit.append('version_url')
         if regex != project.regex:
             project.regex = regex
-            edit = 'regex'
+            edit.append('regex')
 
         if edit:
             cnucnuweb.log(
