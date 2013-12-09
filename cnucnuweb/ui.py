@@ -184,10 +184,10 @@ def new_project():
             regex=regex,
         )
         if project.created_on.date() == datetime.today():
-            topic='project.add'
+            topic = 'project.add'
             message = 'Project created'
         else:
-            topic='project.add.tried'
+            topic = 'project.add.tried'
             message = 'Project existed already'
         cnucnuweb.log(
             SESSION,
