@@ -2,6 +2,8 @@
 
 import flask
 
+from cnucnu.package_list import Package
+
 import cnucnuweb
 import cnucnuweb.model
 

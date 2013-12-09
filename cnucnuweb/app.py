@@ -20,8 +20,6 @@ import sqlalchemy
 from bunch import Bunch
 from flask.ext.openid import OpenID
 
-from cnucnu.package_list import Package
-
 import cnucnuweb.model
 import cnucnuweb.forms
 
