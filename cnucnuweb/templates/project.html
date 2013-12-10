@@ -6,26 +6,23 @@
   <h1>Project: {{ project.name }}</h1>
 </div>
 
-<div class="row">
+<div class="row" resource="{{ project.homepage }}" typeof="doap:Project">
   <div class="col-md-5">
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">
-            {{ project.name }}
-        </h3>
+        <h3 class="panel-title" property="doap:name">{{ project.name }}</h3>
       </div>
 
       <span class="list-group-item">
-        <p class="list-group-item-text">
+        <span class="list-group-item-text">
           <dl class="dl-horizontal">
             <table class="table table-condensed">
               <tr>
                 <td>Homepage</td>
                 <td>
-                  <a href="{{ project.homepage }}" target="_blank">
-                    {{ project.homepage }}
-                  </a>
+                  <a property="doap:homepage" href="{{ project.homepage }}"
+                     target="_blank">{{ project.homepage }}</a>
                 </td>
               </tr>
               <tr>
@@ -53,7 +50,7 @@
 
             </table>
           </dl>
-        </p>
+        </span>
         {% if g.auth.logged_in %}
         <p class="pull-right">
            <a href="{{ url_for('map_project', project_name=project.name) }}">
@@ -83,7 +80,7 @@
     </div>
 
     <div class="panel panel-heading">
-      <p class="panel-title" id="version_info">
+      <span class="panel-title" id="version_info">
         {% if project.version %}
         Latest version: {{ project.version }}
         {% else %}
@@ -93,7 +90,7 @@
           Check now
         </button>
         {% endif %}
-      </p>
+      </span>
     </div>
 
   </div>
@@ -109,11 +106,11 @@
         </h3>
       </div>
       <span class="list-group-item">
-        <p class="list-group-item-text">
+        <span class="list-group-item-text">
           <dl class="dl-horizontal">
             {{ project.logs }}
           </dl>
-        </p>
+        </span>
         <div class="clearfix"></div>
       </span>
     </div>
