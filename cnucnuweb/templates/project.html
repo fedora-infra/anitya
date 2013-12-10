@@ -82,7 +82,10 @@
     <div class="panel panel-heading">
       <span class="panel-title" id="version_info">
         {% if project.version %}
-        Latest version: {{ project.version }}
+        Latest version:
+        <span property="doap:release" typeof="doap:Version">
+            <span property="doap:revision">{{ project.version }}</span>
+        </span>
         {% else %}
         No version available for this package
         <button type="submit" class="btn btn-success" id="checknow">
