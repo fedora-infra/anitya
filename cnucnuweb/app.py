@@ -124,6 +124,7 @@ def login():
     '''
     default = flask.url_for('index')
     next_url = flask.request.args.get('next', default)
+    OID.store_factory=None
     if flask.g.auth.logged_in:
         return flask.redirect(next_url)
 
@@ -156,6 +157,7 @@ def google_login():
     ''' Handles login via the Google OpenID. '''
     default = flask.url_for('index')
     next_url = flask.request.args.get('next', default)
+    OID.store_factory=None
     return OID.try_login(
         "https://www.google.com/accounts/o8/id",
         ask_for=['email', 'fullname'])
@@ -168,6 +170,7 @@ def yahoo_login():
     ''' Handles login via the Yahoo OpenID. '''
     default = flask.url_for('index')
     next_url = flask.request.args.get('next', default)
+    OID.store_factory=None
     return OID.try_login(
         "https://me.yahoo.com/",
         ask_for=['email', 'fullname'])
