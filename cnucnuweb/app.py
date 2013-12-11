@@ -143,6 +143,7 @@ def fedora_login():
     ''' Handles login against the Fedora OpenID server. '''
     default = flask.url_for('index')
     next_url = flask.request.args.get('next', default)
+    OID.store_factory=lambda: None
     return OID.try_login(
         APP.config['CNUCNU_WEB_FEDORA_OPENID'],
         ask_for=['email', 'fullname', 'nickname'])
