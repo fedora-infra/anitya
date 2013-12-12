@@ -322,6 +322,7 @@ def map_project(project_name):
                     cnucnuweb.log(
                         SESSION,
                         project=project,
+                        distro=distro,
                         topic='project.map.new',
                         message=dict(
                             agent=flask.g.auth.email,
