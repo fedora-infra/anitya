@@ -150,6 +150,9 @@ class Distro(BASE):
         ''' Constructor. '''
         self.name = name
 
+    def __json__(self):
+        return dict(name=self.name)
+
     @classmethod
     def by_name(cls, session, name):
         return session.query(
@@ -248,6 +251,13 @@ class Packages(BASE):
         return '<Packages(%s, %s: %s)>' % (
             self.project, self.distro, self.package_name)
 
+    def __json__(self):
+        return dict(
+            name=self.package_name,
+            project=self.project.__json__(),
+            distro=self.distro.__json__(),
+        )
+
     @classmethod
     def by_project_distro(cls, session, project, distro):
         query = session.query(
@@ -295,6 +305,18 @@ class Project(BASE):
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
                            onupdate=sa.func.current_timestamp())
     created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+
+    def __json__(self):
+        return dict(
+            name=self.name,
+            homepage=self.homepage,
+            version_url=self.version_url,
+            regex=self.regex,
+            version=self.version,
+            logs=self.logs,
+            created_on=self.created_on,
+            updated_on=self.updated_on,
+        )
 
     @classmethod
     def by_name(cls, session, name):
