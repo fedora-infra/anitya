@@ -254,8 +254,8 @@ class Packages(BASE):
     def __json__(self):
         return dict(
             name=self.package_name,
-            project=self.project.__json__(),
-            distro=self.distro.__json__(),
+            project=self.project,
+            distro=self.distro,
         )
 
     @classmethod
