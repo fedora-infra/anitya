@@ -5,6 +5,9 @@ import cnucnuweb
 import cnucnuweb.app
 import cnucnuweb.model
 
+import fedmsg
+import fedmsg.config
+
 import logging
 
 PBAR = True
@@ -12,6 +15,14 @@ try:
     from progressbar import Bar, ETA, Percentage, ProgressBar, RotatingMarker
 except ImportError:
     PBAR = False
+
+
+def fedmsg_init():
+    config = fedmsg.config.load_config()
+    config['active'] = True
+    config['name'] = 'relay_inbound'
+    config['cert_prefix'] = 'cnucnuweb'
+    fedmsg.init(**config)
 
 
 def main():
@@ -42,4 +53,5 @@ def main():
 
 
 if __name__ == '__main__':
+    fedmsg_init()
     main()

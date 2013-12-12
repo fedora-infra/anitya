@@ -27,6 +27,8 @@ def check_release(project, session):
     updated = False
 
     up_version = None
+    max_version = None
+
     try:
         up_version = pkg.latest_upstream
     except CnuCnuError as err:
@@ -51,7 +53,15 @@ def check_release(project, session):
             project.logs = 'Version retrieved correctly'
 
     if updated:
+        strange = max_version == up_version
+        fedmsg.publish(topic="project.version.update", msg=dict(
+            project=project.__json__(),
+            upstream_version=up_version,
+            old_version=p_version,
+            strange=strange,
+        ))
         session.add(project)
+
     session.commit()
 
 
