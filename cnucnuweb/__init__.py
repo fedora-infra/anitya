@@ -2,6 +2,8 @@
 
 import logging
 
+import fedmsg
+
 from cnucnu.package_list import Package
 from cnucnu.errors import CnuCnuError
 from cnucnu.helper import upstream_max
@@ -96,6 +98,12 @@ def log(session, project=None, distro=None, topic=None, message=None):
     }
     substitutions = _construct_substitutions(message)
     final_msg = templates[topic] % substitutions
+
+    fedmsg.publish(topic=topic, msg=dict(
+        project=project,
+        distro=distro,
+        message=message,
+    ))
 
     model.Log.insert(
         session,
