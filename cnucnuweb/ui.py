@@ -251,7 +251,7 @@ def edit_project(project_name):
                 message=dict(
                     agent=flask.g.auth.email,
                     project=project.name,
-                    fields=', '.join(edit)
+                    fields=edit,
                 )
             )
 
