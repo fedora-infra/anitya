@@ -7,6 +7,7 @@ import pkg_resources
 
 import datetime
 import logging
+import time
 
 import sqlalchemy as sa
 from sqlalchemy import create_engine
@@ -150,6 +151,9 @@ class Distro(BASE):
         ''' Constructor. '''
         self.name = name
 
+    def __json__(self):
+        return dict(name=self.name)
+
     @classmethod
     def by_name(cls, session, name):
         return session.query(
@@ -248,6 +252,13 @@ class Packages(BASE):
         return '<Packages(%s, %s: %s)>' % (
             self.project, self.distro, self.package_name)
 
+    def __json__(self):
+        return dict(
+            name=self.package_name,
+            project=self.project,
+            distro=self.distro,
+        )
+
     @classmethod
     def by_project_distro(cls, session, project, distro):
         query = session.query(
@@ -295,6 +306,18 @@ class Project(BASE):
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
                            onupdate=sa.func.current_timestamp())
     created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+
+    def __json__(self):
+        return dict(
+            name=self.name,
+            homepage=self.homepage,
+            version_url=self.version_url,
+            regex=self.regex,
+            version=self.version,
+            logs=self.logs,
+            created_on=time.mktime(self.created_on.timetuple()),
+            updated_on=time.mktime(self.updated_on.timetuple()),
+        )
 
     @classmethod
     def by_name(cls, session, name):

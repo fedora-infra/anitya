@@ -251,7 +251,7 @@ def edit_project(project_name):
                 message=dict(
                     agent=flask.g.auth.email,
                     project=project.name,
-                    fields=', '.join(edit)
+                    fields=edit,
                 )
             )
 
@@ -293,6 +293,7 @@ def map_project(project_name):
         msgs = []
         for distro in distros:
             distro = distro.strip()
+            distro_obj = cnucnuweb.model.Distro.get(SESSION, distro)
             pkgname = pkgnames[cnt].strip()
             if not distro or not pkgname:
                 continue
@@ -303,6 +304,7 @@ def map_project(project_name):
                     if pkg.package_name != pkgname:
                         cnucnuweb.log(
                             SESSION,
+                            distro=distro_obj,
                             project=project,
                             topic='project.map.update',
                             message=dict(
@@ -322,6 +324,7 @@ def map_project(project_name):
                     cnucnuweb.log(
                         SESSION,
                         project=project,
+                        distro=distro_obj,
                         topic='project.map.new',
                         message=dict(
                             agent=flask.g.auth.email,

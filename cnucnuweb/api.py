@@ -70,3 +70,22 @@ def api_get_version():
     jsonout = flask.jsonify(output)
     jsonout.status_code = httpcode
     return jsonout
+
+
+@APP.route('/api/project/<project_name>', methods=['GET'])
+@APP.route('/api/project/<project_name>/', methods=['GET'])
+def api_get_project(project_name):
+
+    project = cnucnuweb.model.Project.get(SESSION, name=project_name)
+
+    if not project:
+        output = {'output': 'notok', 'error': 'no such project'}
+        httpcode = 404
+    else:
+        output = project.__json__()
+        output['packages'] = [pkg.__json__() for pkg in project.packages]
+        httpcode = 200
+
+    jsonout = flask.jsonify(output)
+    jsonout.status_code = httpcode
+    return jsonout
