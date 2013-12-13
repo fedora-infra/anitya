@@ -25,6 +25,7 @@ def check_release(project, session):
     )
 
     updated = False
+    errored = False
 
     up_version = None
     max_version = None
@@ -34,7 +35,7 @@ def check_release(project, session):
     except CnuCnuError as err:
         LOG.exception("CnuCnuError catched:")
         project.logs = err.message
-        updated = True
+        updated = errored = True
 
     p_version = project.version
     if not p_version:
@@ -45,6 +46,7 @@ def check_release(project, session):
         max_version = upstream_max([up_version, p_version])
         updated = True
         if max_version != up_version:
+            errored = True
             project.logs = 'Something strange occured, we found that this '\
                 'project has released a version "%s" while we had the latest '\
                 'version at "%s"' % (up_version, project.version)
@@ -52,13 +54,11 @@ def check_release(project, session):
             project.version = up_version
             project.logs = 'Version retrieved correctly'
 
-    if updated:
-        strange = max_version == up_version
+    if updated and not errored:
         fedmsg.publish(topic="project.version.update", msg=dict(
             project=project.__json__(),
             upstream_version=up_version,
             old_version=p_version,
-            strange=strange,
         ))
         session.add(project)
 
