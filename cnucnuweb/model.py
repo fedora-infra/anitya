@@ -7,6 +7,7 @@ import pkg_resources
 
 import datetime
 import logging
+import time
 
 import sqlalchemy as sa
 from sqlalchemy import create_engine
@@ -314,8 +315,8 @@ class Project(BASE):
             regex=self.regex,
             version=self.version,
             logs=self.logs,
-            created_on=self.created_on,
-            updated_on=self.updated_on,
+            created_on=time.mktime(self.created_on.timetuple()),
+            updated_on=time.mktime(self.updated_on.timetuple()),
         )
 
     @classmethod
