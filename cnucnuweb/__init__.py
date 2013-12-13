@@ -59,6 +59,7 @@ def check_release(project, session):
             project=project.__json__(),
             upstream_version=up_version,
             old_version=p_version,
+            packages=[pkg.__json__() for pkg in project.packages],
         ))
         session.add(project)
 
