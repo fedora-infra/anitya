@@ -1,12 +1,8 @@
 {% extends "master.html" %}
 
 {% block body %}
-<div id="notifications-carousel" class="carousel slide" data-ride="carousel">
+<div id="notifications-carousel" class="carousel slide">
   <!-- Indicators -->
-  <ol class="carousel-indicators">
-    <li data-target="#notifications-carousel" data-slide-to="0" class="active"></li>
-    <li data-target="#notifications-carousel" data-slide-to="1"></li>
-  </ol>
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner">
@@ -21,16 +17,6 @@
           release of new version. Cnucnu can help!</p>
       </div>
     </div>
-
-    <div class="item">
-      <img src="{{ url_for('static', filename='img/slide-2-900x300.png') }}">
-      <div class="carousel-caption">
-        <h3>One place</h3>
-        <p>...all linux distributions and even Windows users wants to watch
-        new release of their favorite tool/application.</p>
-      </div>
-    </div>
-
   </div>
 
 </div>
