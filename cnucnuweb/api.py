@@ -89,3 +89,33 @@ def api_get_project(project_name):
     jsonout = flask.jsonify(output)
     jsonout.status_code = httpcode
     return jsonout
+
+
+@APP.route('/api/project/<distro>/<package_name>', methods=['GET'])
+@APP.route('/api/project/<distro>/<package_name>/', methods=['GET'])
+def api_get_project_distro(distro, package_name):
+
+    package = cnucnuweb.model.Packages.by_package_name_distro(
+        SESSION, package_name, distro)
+
+    if not package:
+        output = {
+            'output': 'notok',
+            'error': 'No package "%s" found in distro "%s"' % (
+                package_name, distro)}
+        httpcode = 404
+
+    else:
+        project = cnucnuweb.model.Project.get(SESSION, name=package.project)
+
+        if not project:
+            output = {'output': 'notok', 'error': 'no such project'}
+            httpcode = 404
+        else:
+            output = project.__json__()
+            output['packages'] = [pkg.__json__() for pkg in project.packages]
+            httpcode = 200
+
+    jsonout = flask.jsonify(output)
+    jsonout.status_code = httpcode
+    return jsonout
