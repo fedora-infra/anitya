@@ -302,7 +302,7 @@ class Project(BASE):
     __tablename__ = 'projects'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    name = sa.Column(sa.String(200), nullable=False)
+    name = sa.Column(sa.String(200), nullable=False, index=True)
     homepage = sa.Column(sa.String(200), nullable=False)
     version_url = sa.Column(sa.String(200), nullable=False)
     regex = sa.Column(sa.String(200), nullable=False)
@@ -310,14 +310,18 @@ class Project(BASE):
     version = sa.Column(sa.String(50))
     logs = sa.Column(sa.Text)
 
+    updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
+                           onupdate=sa.func.current_timestamp())
+    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+
+    __table_args__ = (
+        sa.UniqueConstraint('name', 'homepage'),
+    )
+
     packages = sa.orm.relationship(
         'Packages',
         backref="project",
         cascade="all, delete, delete-orphan")
-
-    updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
-                           onupdate=sa.func.current_timestamp())
-    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
 
     def __json__(self):
         return dict(
