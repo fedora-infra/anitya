@@ -124,7 +124,7 @@ def login():
     '''
     default = flask.url_for('index')
     next_url = flask.request.args.get('next', default)
-    OID.store_factory=None
+    OID.store_factory=lambda: None
     if flask.g.auth.logged_in:
         return flask.redirect(next_url)
 
@@ -134,7 +134,8 @@ def login():
             openid_server, ask_for=['email', 'fullname', 'nickname'])
 
     return flask.render_template(
-        'login.html', next=OID.get_next_url(), error=OID.fetch_error())
+        'login.html',
+        next=OID.get_next_url(), error=OID.fetch_error())
 
 
 @APP.route('/login/fedora/')
