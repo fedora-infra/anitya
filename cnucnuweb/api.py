@@ -27,7 +27,10 @@ def api_projects():
 
     projects = [project.__json__() for project in project_objs]
 
-    output = {'projects': projects}
+    output = {
+        'total': len(projects),
+        'projects': projects
+    }
 
     jsonout = flask.jsonify(output)
     jsonout.status_code = 200
