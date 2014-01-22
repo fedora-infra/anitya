@@ -232,10 +232,10 @@ class Distro(BASE):
 class Packages(BASE):
     __tablename__ = 'packages'
 
-    project = sa.Column(
+    project_id = sa.Column(
         sa.String(200),
         sa.ForeignKey(
-            "projects.name",
+            "projects.id",
             ondelete="cascade",
             onupdate="cascade"),
         primary_key=True)
@@ -255,7 +255,7 @@ class Packages(BASE):
     def __json__(self):
         return dict(
             package_name=self.package_name,
-            project=self.project,
+            project=self.project.name,
             distro=self.distro,
         )
 
@@ -301,7 +301,8 @@ class Packages(BASE):
 class Project(BASE):
     __tablename__ = 'projects'
 
-    name = sa.Column(sa.String(200), primary_key=True)
+    id = sa.Column(sa.Integer, primary_key=True)
+    name = sa.Column(sa.String(200), nullable=False)
     homepage = sa.Column(sa.String(200), nullable=False)
     version_url = sa.Column(sa.String(200), nullable=False)
     regex = sa.Column(sa.String(200), nullable=False)
@@ -311,7 +312,7 @@ class Project(BASE):
 
     packages = sa.orm.relationship(
         'Packages',
-        backref="projects",
+        backref="project",
         cascade="all, delete, delete-orphan")
 
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
@@ -328,6 +329,7 @@ class Project(BASE):
             logs=self.logs,
             created_on=time.mktime(self.created_on.timetuple()),
             updated_on=time.mktime(self.updated_on.timetuple()),
+            packages=[pkg.__json__() for pkg in self.packages]
         )
 
     @classmethod
