@@ -254,7 +254,7 @@ class Packages(BASE):
 
     def __json__(self):
         return dict(
-            name=self.package_name,
+            package_name=self.package_name,
             project=self.project,
             distro=self.distro,
         )
@@ -273,18 +273,29 @@ class Packages(BASE):
     get = by_project_distro
 
     @classmethod
-    def get_or_create(cls, session, project, distro, name):
+    def get_or_create(cls, session, project, distro, package_name):
         pkg = cls.by_project_distro(session, project, distro)
         if not pkg:
             distro = Distro.get_or_create(session, distro)
             pkg = cls(
                 project=project,
                 distro=distro.name,
-                package_name=name
+                package_name=package_name
             )
             session.add(pkg)
             session.flush()
         return pkg
+
+    @classmethod
+    def by_package_name_distro(cls, session, package_name, distro):
+        query = session.query(
+            cls
+        ).filter(
+            cls.package_name == package_name
+        ).filter(
+            sa.func.lower(cls.distro) == sa.func.lower(distro)
+        )
+        return query.first()
 
 
 class Project(BASE):
