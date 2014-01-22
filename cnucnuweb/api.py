@@ -14,6 +14,30 @@ from cnucnuweb.app import APP, SESSION
 @APP.route('/api/projects/')
 def api_projects():
 
+    pattern = flask.request.args.get('pattern', None)
+
+    if pattern and not '*' in pattern:
+        pattern += '*'
+
+    if pattern:
+        project_objs = cnucnuweb.model.Project.search(
+            SESSION, pattern=pattern)
+    else:
+        project_objs = cnucnuweb.model.Project.all(SESSION)
+
+    projects = [project.__json__() for project in project_objs]
+
+    output = {'projects': projects}
+
+    jsonout = flask.jsonify(output)
+    jsonout.status_code = 200
+    return jsonout
+
+
+@APP.route('/api/projects/wiki')
+@APP.route('/api/projects/wiki/')
+def api_projects_list():
+
     project_objs = cnucnuweb.model.Project.all(SESSION)
 
     projects = []
@@ -83,7 +107,6 @@ def api_get_project(project_name):
         httpcode = 404
     else:
         output = project.__json__()
-        output['packages'] = [pkg.__json__() for pkg in project.packages]
         httpcode = 200
 
     jsonout = flask.jsonify(output)
@@ -106,14 +129,14 @@ def api_get_project_distro(distro, package_name):
         httpcode = 404
 
     else:
-        project = cnucnuweb.model.Project.get(SESSION, name=package.project)
+        project = cnucnuweb.model.Project.get(
+            SESSION, name=package.project.name)
 
         if not project:
             output = {'output': 'notok', 'error': 'no such project'}
             httpcode = 404
         else:
             output = project.__json__()
-            output['packages'] = [pkg.__json__() for pkg in project.packages]
             httpcode = 200
 
     jsonout = flask.jsonify(output)
