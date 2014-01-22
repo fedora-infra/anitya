@@ -6,35 +6,48 @@
   <h1>Search projects</h1>
 </div>
 
-{% if total_page > 1 %}
-<ul class="pagination pagination-sm">
-    <li>
-        {% if page > 1%}
-            <a href="{{url_for('projects_search')}}?page={{page - 1}}&pattern={{pattern}}">
+<div class="row show-grid">
+  <div class="col-sm-6">
+    {% if total_page > 1 %}
+    <ul class="pagination pagination-sm">
+        <li>
+            {% if page > 1%}
+              <a href="{{ url_for('projects_search') }}?page={{page - 1}}&pattern={{pattern}}">
                 «
-            </a>
-        {% else %}
-            <a href="{{url_for('projects_search')}}?page={{page}}&pattern={{pattern}}">
-            «
-            </a>
-        {% endif %}
-    </li>
-    <li>
-        <a> {{ page }} / {{ total_page }} </a>
-    </li>
-    <li>
-        {% if page < total_page %}
-            <a href="{{url_for('projects_search')}}?page={{page + 1}}&pattern={{pattern}}">
+              </a>
+            {% else %}
+              <a href="{{url_for('projects_search')}}?page={{page}}&pattern={{pattern}}">
+                «
+              </a>
+            {% endif %}
+        </li>
+        <li>
+            <a> {{ page }} / {{ total_page }} </a>
+        </li>
+        <li>
+            {% if page < total_page %}
+              <a href="{{ url_for('projects_search') }}?page={{page + 1}}&pattern={{pattern}}">
                 »
-            </a>
-        {% else %}
-            <a href="{{url_for('projects_search')}}?page={{page}}&pattern={{pattern}}">
+              </a>
+            {% else %}
+              <a href="{{ url_for('projects_search') }}?page={{page}}&pattern={{pattern}}">
                 »
-            </a>
-        {% endif %}
-    </li>
-</ul>
-{% endif %}
+              </a>
+            {% endif %}
+        </li>
+    </ul>
+    {% endif %}
+  </div>
+
+  <div class="col-sm-6">
+    <form action="{{ url_for('projects_search') }}" role="form">
+      <div class="form-group">
+        <input type="text" name="pattern" placeholder="Project name" class="SearchBox"/>
+        <button type="submit" class="btn btn-default">Search</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <div class="row">
   <div class="col-md-6">
