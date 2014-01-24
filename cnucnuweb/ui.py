@@ -299,7 +299,7 @@ def map_project(project_name):
                 continue
             else:
                 pkg = cnucnuweb.model.Packages.get(
-                    SESSION, project.name, distro)
+                    SESSION, project.id, distro)
                 if pkg:
                     if pkg.package_name != pkgname:
                         cnucnuweb.log(
@@ -318,8 +318,8 @@ def map_project(project_name):
                         pkg.package_name = pkgname
                         flask.flash('%s updated' % distro)
                 else:
-                    pkg = cnucnuweb.model.Packages.get_or_create(
-                        SESSION, project.name, distro, pkgname)
+                    pkg = cnucnuweb.model.Packages.create(
+                        SESSION, project.id, distro, pkgname)
                     flask.flash('%s updated' % distro)
                     cnucnuweb.log(
                         SESSION,
