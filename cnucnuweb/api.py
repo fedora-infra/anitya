@@ -57,6 +57,33 @@ def api_projects_list():
     )
 
 
+@APP.route('/api/projects/names')
+@APP.route('/api/projects/names/')
+def api_projects_names():
+
+    pattern = flask.request.args.get('pattern', None)
+
+    if pattern and not '*' in pattern:
+        pattern += '*'
+
+    if pattern:
+        project_objs = cnucnuweb.model.Project.search(
+            SESSION, pattern=pattern)
+    else:
+        project_objs = cnucnuweb.model.Project.all(SESSION)
+
+    projects = [project.name for project in project_objs]
+
+    output = {
+        'total': len(projects),
+        'projects': projects
+    }
+
+    jsonout = flask.jsonify(output)
+    jsonout.status_code = 200
+    return jsonout
+
+
 @APP.route('/api/version/', methods=['POST'])
 def api_get_version():
 
