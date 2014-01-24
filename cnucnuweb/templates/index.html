@@ -24,21 +24,18 @@
 <div class="container marketing">
   <!-- Three columns of text below the carousel -->
   <div class="row">
-    <div class="col-lg-3">
       <h2><span class="glyphicon glyphicon-bullhorn"></span> Cnucnu Web</h2>
       <p>Monitor upstream releases and broadcast them on
       <a href="http://fedmsg.com">fedmsg</a>, the FEDerated MeSsaGe bus. </p>
       <p>Use <a href="http://fedmsg.com">fedmsg notifications (FMN)</a>,
       to set up your own, <em>personalized</em>, notifications of these
       releases.</p>
-    </div><!-- /.col-lg-3 -->
   </div><!-- /.row -->
 </div>
 
 <div class="container marketing">
   <!-- Three columns of text below the carousel -->
   <div class="row">
-    <div class="col-lg-3">
       <h2><span class="glyphicon glyphicon-search"></span> Search monitored project</h2>
       <p>Currently {{ total }} projects are being monitored by Cnucnu Web.
       Your project of interest might be there, or not. To check it
@@ -46,13 +43,39 @@
       or simply search for them!</p>
       <form action="{{ url_for('projects_search') }}" role="form">
         <div class="form-group">
-          <input type="text" name="pattern" placeholder="Project name" class="SearchBox"/>
+          <input id="searchbox" type="text" name="pattern" placeholder="Project name" class="SearchBox"/>
           <button type="submit" class="btn btn-default">Search</button>
           <p><small>You may use * to search for pattern (ie: py*).</small></p>
         </div><!-- /.form-group -->
       </form>
-    </div><!-- /.col-lg-3 -->
   </div><!-- /.row -->
 </div>
 
+{% endblock %}
+
+{% block jscript %}
+<script type="text/javascript"
+    src="{{ url_for('static', filename='jquery-1.10.2.js') }}">
+</script>
+<script type="text/javascript"
+    src="{{ url_for('static', filename='jquery-ui-1.10.4.custom.min.js') }}">
+</script>
+<script type="text/javascript">
+  $(function() {
+    $('#searchbox').autocomplete({
+        source: function( request, response ) {
+            $.getJSON(
+              "{{ url_for('api_projects_names') }}", {
+                pattern: request.term + '*'
+              },
+              function( data ) {
+                response( data.projects );
+              }
+            );
+        },
+        minLength: 3,
+        delay: 600,
+    });
+  });
+</script>
 {% endblock %}
