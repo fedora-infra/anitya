@@ -8,4 +8,6 @@ docutils
 markupsafe
 bunch
 fedmsg
+# Deps of cnucnu itself
 python-bugzilla
+PyYAML
