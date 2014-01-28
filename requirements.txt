@@ -8,3 +8,4 @@ docutils
 markupsafe
 bunch
 fedmsg
+bugzilla
