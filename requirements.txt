@@ -8,4 +8,4 @@ docutils
 markupsafe
 bunch
 fedmsg
-bugzilla
+python-bugzilla
