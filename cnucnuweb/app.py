@@ -148,7 +148,8 @@ def fedora_login():
     OID.store_factory=lambda: None
     return OID.try_login(
         APP.config['CNUCNU_WEB_FEDORA_OPENID'],
-        ask_for=['email', 'fullname', 'nickname'])
+        ask_for=['email', 'nickname'],
+        ask_for_optional=['fullname'])
 
 
 @APP.route('/login/google/')
