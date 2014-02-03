@@ -180,8 +180,6 @@ def new_project():
             SESSION,
             name=name,
             homepage=homepage,
-            version_url=version_url,
-            regex=regex,
         )
         if project.created_on.date() == datetime.today():
             topic = 'project.add'
@@ -198,8 +196,18 @@ def new_project():
                 project=project.name,
             )
         )
+        SESSION.flush()
+
+        projectpkg = cnucnuweb.model.ProjectPackage.get_or_create(
+            SESSION,
+            project_id=project.id,
+            version_url=version_url,
+            regex=regex
+        )
+
         SESSION.commit()
         flask.flash(message)
+
         return flask.redirect(
             flask.url_for('project', project_name=name)
         )
