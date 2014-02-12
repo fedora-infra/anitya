@@ -4,6 +4,8 @@ from collections import OrderedDict
 from datetime import datetime
 from math import ceil
 
+from sqlalchemy.exc import SQLAlchemyError
+
 import flask
 
 import cnucnuweb
@@ -61,11 +63,11 @@ def about():
     )
 
 
-@APP.route('/project/<project_name>')
-@APP.route('/project/<project_name>/')
-def project(project_name):
+@APP.route('/project/<project_id>')
+@APP.route('/project/<project_id>/')
+def project(project_id):
 
-    project = cnucnuweb.model.Project.by_name(SESSION, project_name)
+    project = cnucnuweb.model.Project.by_id(SESSION, project_id)
 
     if not project:
         flask.abort(404)
@@ -173,8 +175,6 @@ def new_project():
     if form.validate_on_submit():
         name = form.name.data
         homepage = form.homepage.data
-        version_url = form.version_url.data
-        regex = form.regex.data
 
         project = cnucnuweb.model.Project.get_or_create(
             SESSION,
@@ -196,20 +196,12 @@ def new_project():
                 project=project.name,
             )
         )
-        SESSION.flush()
-
-        projectpkg = cnucnuweb.model.ProjectPackage.get_or_create(
-            SESSION,
-            project_id=project.id,
-            version_url=version_url,
-            regex=regex
-        )
 
         SESSION.commit()
         flask.flash(message)
 
         return flask.redirect(
-            flask.url_for('project', project_name=name)
+            flask.url_for('project', project_id=project.id)
         )
 
     return flask.render_template(
@@ -221,11 +213,11 @@ def new_project():
         regex_aliases=REGEX_ALIASES)
 
 
-@APP.route('/project/<project_name>/edit', methods=['GET', 'POST'])
+@APP.route('/project/<project_id>/edit', methods=['GET', 'POST'])
 @login_required
-def edit_project(project_name):
+def edit_project(project_id):
 
-    project = cnucnuweb.model.Project.by_name(SESSION, project_name)
+    project = cnucnuweb.model.Project.get(SESSION, project_id)
     if not project:
         flask.abort(404)
 
@@ -234,8 +226,6 @@ def edit_project(project_name):
     if form.validate_on_submit():
         name = form.name.data
         homepage = form.homepage.data
-        version_url = form.version_url.data
-        regex = form.regex.data
 
         edit = []
         if name != project.name:
@@ -244,31 +234,33 @@ def edit_project(project_name):
         if homepage != project.homepage:
             project.homepage = homepage
             edit.append('homepage')
-        if version_url != project.version_url:
-            project.version_url = version_url
-            edit.append('version_url')
-        if regex != project.regex:
-            project.regex = regex
-            edit.append('regex')
 
-        if edit:
-            cnucnuweb.log(
-                SESSION,
-                project=project,
-                topic='project.edit',
-                message=dict(
-                    agent=flask.g.auth.email,
-                    project=project.name,
-                    fields=edit,
+        try:
+            if edit:
+                cnucnuweb.log(
+                    SESSION,
+                    project=project,
+                    topic='project.edit',
+                    message=dict(
+                        agent=flask.g.auth.email,
+                        project=project.name,
+                        fields=edit,
+                    )
                 )
-            )
 
-            SESSION.add(project)
-            SESSION.commit()
-            message = 'Project edited'
-            flask.flash(message)
+                SESSION.add(project)
+                SESSION.commit()
+                message = 'Project edited'
+                flask.flash(message)
+        except SQLAlchemyError, err:
+            SESSION.rollback()
+            print err
+            flask.flash(
+                'Could not edit this project. Is there already a project '
+                'with this homepage?', 'errors')
+
         return flask.redirect(
-            flask.url_for('project', project_name=name)
+            flask.url_for('project', project_id=project.id)
         )
     else:
         form = cnucnuweb.forms.ProjectForm(project=project)
@@ -283,11 +275,11 @@ def edit_project(project_name):
         regex_aliases=REGEX_ALIASES)
 
 
-@APP.route('/project/<project_name>/map', methods=['GET', 'POST'])
+@APP.route('/project/<project_id>/map', methods=['GET', 'POST'])
 @login_required
-def map_project(project_name):
+def map_project(project_id):
 
-    project = cnucnuweb.model.Project.by_name(SESSION, project_name)
+    project = cnucnuweb.model.Project.get(SESSION, project_id)
     if not project:
         flask.abort(404)
 
@@ -296,56 +288,65 @@ def map_project(project_name):
     if form.validate_on_submit():
         distros = flask.request.form.getlist('distros')
         pkgnames = flask.request.form.getlist('pkgname')
+        version_urls = flask.request.form.getlist('version_url')
+        regexs = flask.request.form.getlist('regex')
 
         cnt = 0
         msgs = []
         for distro in distros:
-            distro = distro.strip()
-            distro_obj = cnucnuweb.model.Distro.get(SESSION, distro)
+            distro_obj = cnucnuweb.model.Distro.get(
+                SESSION, distro.strip())
+
+            if not distro_obj:
+                distro_obj = cnucnuweb.model.Distro.get_or_create(
+                    SESSION, distro)
+                cnucnuweb.log(
+                    SESSION,
+                    distro=distro_obj,
+                    topic='distro.add',
+                    message=dict(
+                        agent=flask.g.auth.email,
+                        distro=distro,
+                    )
+                )
+
             pkgname = pkgnames[cnt].strip()
-            if not distro or not pkgname:
+            version_url = version_urls[cnt].strip()
+            regex = regexs[cnt].strip()
+
+            if not distro or not pkgname or not version_url or not regex:
                 continue
+
             else:
                 pkg = cnucnuweb.model.Packages.get(
-                    SESSION, project.id, distro)
-                if pkg:
-                    if pkg.package_name != pkgname:
-                        cnucnuweb.log(
-                            SESSION,
-                            distro=distro_obj,
-                            project=project,
-                            topic='project.map.update',
-                            message=dict(
-                                agent=flask.g.auth.email,
-                                project=project.name,
-                                distro=distro,
-                                prev=pkg.package_name,
-                                new=pkgname,
-                            )
-                        )
-                        pkg.package_name = pkgname
-                        flask.flash('%s updated' % distro)
-                else:
-                    pkg = cnucnuweb.model.Packages.create(
-                        SESSION, project.id, distro, pkgname)
-                    flask.flash('%s updated' % distro)
-                    cnucnuweb.log(
-                        SESSION,
-                        project=project,
-                        distro=distro_obj,
-                        topic='project.map.new',
-                        message=dict(
-                            agent=flask.g.auth.email,
-                            project=project.name,
-                            distro=distro,
-                            new=pkgname,
-                        )
+                    SESSION, project.id, distro, pkgname)
+
+                topic = 'project.map.update'
+                if not pkg:
+                    topic = 'project.map.new'
+
+                cnucnuweb.model.map_project_distro(
+                        SESSION, project_id, distro_obj.name, pkgname,
+                        version_url, regex)
+
+                flask.flash('%s updated' % distro)
+                cnucnuweb.log(
+                    SESSION,
+                    project=project,
+                    distro=distro_obj,
+                    topic=topic,
+                    message=dict(
+                        agent=flask.g.auth.email,
+                        project=project.name,
+                        distro=distro,
+                        new=pkgname,
                     )
+                )
             cnt += 1
 
         SESSION.commit()
         return flask.redirect(
-            flask.url_for('project', project_name=project_name))
+            flask.url_for('project', project_id=project_id))
 
     return flask.render_template(
         'package.html',
