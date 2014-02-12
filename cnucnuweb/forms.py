@@ -9,8 +9,6 @@ from wtforms import TextField, IntegerField, validators
 class ProjectForm(wtf.Form):
     name = TextField('Project name', [validators.Required()])
     homepage = TextField('Homepage', [validators.Required()])
-    version_url = TextField('Version URL', [validators.Required()])
-    regex = TextField('Regex', [validators.Required()])
 
     def __init__(self, *args, **kwargs):
         """ Calls the default constructor and fill in additional information.
@@ -21,8 +19,6 @@ class ProjectForm(wtf.Form):
             project = kwargs['project']
             self.name.data = project.name
             self.homepage.data = project.homepage
-            self.version_url.data = project.version_url
-            self.regex.data = project.regex
 
 
 class ConfirmationForm(wtf.Form):
