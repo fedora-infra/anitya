@@ -51,13 +51,14 @@
 
 <div class="row">
   <div class="list-group">
-  {% for project in projects %}
+    {% if projects %}
     <span class="list-group-item">
       <h4 class="list-group-item-heading">
         <table class="table table-condensed">
+        {% for project in projects %}
             <tr>
               <td>
-                <a href="{{ url_for('project', project_name=project.name) }}">
+                <a href="{{ url_for('project', project_id=project.id) }}">
                 {{project.name}}
                 </a>
               </td>
@@ -67,6 +68,7 @@
                 </a>
               </td>
             </tr>
+          {% endfor %}
           </table>
       </h4>
       <div class="clearfix"></div>
@@ -76,7 +78,7 @@
       Oups this is embarrassing, it seems that no projects are being
       monitored currently.
   </blockquote>
-  {% endfor %}
+  {% endif %}
   </div>
 </div>
 

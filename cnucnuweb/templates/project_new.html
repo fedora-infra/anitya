@@ -9,7 +9,7 @@
 {% if context == 'Add' %}
 <form method="POST" action="{{ url_for('new_project') }}" >
 {% elif context == 'Edit' %}
-<form method="POST" action="{{ url_for('edit_project', project_name=form.name.data) }}" >
+<form method="POST" action="{{ url_for('edit_project', project_id=project.id) }}" >
 {% endif %}
   <div class="row">
     <div class="col-md-6">
@@ -25,27 +25,6 @@
               {{ render_field_in_row(form.homepage) }}
               <td></td>
             </tr>
-            <tr>
-              {{ render_field_in_row(form.version_url) }}
-              <td>
-                <select id="choices_url">
-                  {% for key in url_aliases | sort %}
-                  <option value="{{ key }}">{{ url_aliases[key] }}</option>
-                  {% endfor %}
-                </select>
-              </td>
-            </tr>
-            <tr>
-              {{ render_field_in_row(form.regex) }}
-              <td>
-                <select id="choices_regex">
-                  {% for key in regex_aliases | sort %}
-                  <option value="{{ key }}">{{ regex_aliases[key] }}</option>
-                  {% endfor %}
-                </select>
-              </td>
-            </tr>
-            </tr>
           </table>
         </span>
       </div>
@@ -58,7 +37,7 @@
   {% if context == 'Add' %}
   <a href="{{ url_for('projects') }}">
   {% elif context == 'Edit' %}
-  <a href="{{ url_for('project', project_name=project.name) }}">
+  <a href="{{ url_for('project', project_id=project.id) }}">
   {% endif %}
     <button type="button" class="btn btn-danger">
       <span class="glyphicon glyphicon-ban-circle"></span>

@@ -17,7 +17,7 @@
       </div>
 
       <form method="POST" action="{{ url_for('delete_project',
-                                             project_name=project.name) }}" >
+                                             project_id=project.id) }}" >
         <span class="list-group-item">
           <p class="list-group-item-text">
             <dl class="dl-horizontal">
@@ -59,13 +59,13 @@
           {% if g.auth.logged_in %}
           {{ form.csrf_token }}
           <p class="pull-right">
-            <a href="{{ url_for('delete_project', project_name=project.name) }}">
+            <a href="{{ url_for('delete_project', project_id=project.id) }}">
               <button type="submit" name="confirm" value="Yes" class="btn btn-warning">
                 <span class="glyphicon glyphicon-remove"></span>
                 Delete project
               </button>
             </a>
-            <a href="{{ url_for('project', project_name=project.name) }}">
+            <a href="{{ url_for('project', project_id=project.id) }}">
               <button type="submit" class="btn btn-danger">
                 <span class="glyphicon glyphicon-ban-circle"></span>
                 Cancel
