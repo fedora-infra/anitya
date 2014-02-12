@@ -94,16 +94,18 @@ def edit_distro(distro_name):
         form=form)
 
 
-@APP.route('/project/<project_name>/delete', methods=['GET', 'POST'])
+@APP.route('/project/<project_id>/delete', methods=['GET', 'POST'])
 @login_required
-def delete_project(project_name):
+def delete_project(project_id):
 
     if not is_admin():
         flask.abort(403)
 
-    project = cnucnuweb.model.Project.by_name(SESSION, project_name)
+    project = cnucnuweb.model.Project.get(SESSION, project_id)
     if not project:
         flask.abort(404)
+
+    project_name = project.name
 
     form = cnucnuweb.forms.ConfirmationForm()
     confirm = flask.request.form.get('confirm', False)
@@ -126,7 +128,7 @@ def delete_project(project_name):
             return flask.redirect(flask.url_for('projects'))
         else:
             return flask.redirect(
-                flask.url_for('project', project_name=project_name))
+                flask.url_for('project', project_id=project.id))
 
     return flask.render_template(
         'project_delete.html',
@@ -134,6 +136,55 @@ def delete_project(project_name):
         project=project,
         form=form)
 
+
+@APP.route('/project/<project_id>/delete/<regex_id>', methods=['GET', 'POST'])
+@login_required
+def delete_project_mapping(project_id, regex_id):
+
+    if not is_admin():
+        flask.abort(403)
+
+    project = cnucnuweb.model.Project.get(SESSION, project_id)
+    if not project:
+        flask.abort(404)
+
+    regex = cnucnuweb.model.PackageRegex.get(SESSION, regex_id)
+    if not regex:
+        flask.abort(404)
+
+    form = cnucnuweb.forms.ConfirmationForm()
+    confirm = flask.request.form.get('confirm', False)
+
+    if form.validate_on_submit():
+        if confirm:
+            cnucnuweb.log(
+                SESSION,
+                project=project,
+                topic='project.map.remove',
+                message=dict(
+                    agent=flask.g.auth.email,
+                    project=project.name,
+                    distro=regex.packages[0].distro,
+                )
+            )
+
+            SESSION.delete(regex.packages[0])
+            SESSION.commit()
+
+            SESSION.delete(regex)
+            SESSION.commit()
+            flask.flash('Mapping for %s has been removed' % project.name)
+            return flask.redirect(flask.url_for('projects'))
+        else:
+            return flask.redirect(
+                flask.url_for('project', project_id=project.id))
+
+    return flask.render_template(
+        'regex_delete.html',
+        current='projects',
+        project=project,
+        regex=regex,
+        form=form)
 
 @APP.route('/logs')
 @login_required
