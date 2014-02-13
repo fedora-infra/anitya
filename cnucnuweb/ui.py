@@ -292,76 +292,153 @@ def map_project(project_id):
     if not project:
         flask.abort(404)
 
-    form = cnucnuweb.forms.ConfirmationForm()
+    form = cnucnuweb.forms.MappingForm()
 
     if form.validate_on_submit():
-        distros = flask.request.form.getlist('distros')
-        pkgnames = flask.request.form.getlist('pkgname')
-        version_urls = flask.request.form.getlist('version_url')
-        regexs = flask.request.form.getlist('regex')
+        distro = form.distro.data
+        pkgname = form.package_name.data
+        version_url = form.version_url.data
+        regex = flask.regex.data
 
         cnt = 0
         msgs = []
-        for distro in distros:
-            if not distro.strip():
-                continue
 
-            distro_obj = cnucnuweb.model.Distro.get(
-                SESSION, distro.strip())
+        distro_obj = cnucnuweb.model.Distro.get(
+            SESSION, distro.strip())
 
-            if not distro_obj:
-                distro_obj = cnucnuweb.model.Distro.get_or_create(
-                    SESSION, distro)
-                cnucnuweb.log(
-                    SESSION,
-                    distro=distro_obj,
-                    topic='distro.add',
-                    message=dict(
-                        agent=flask.g.auth.email,
-                        distro=distro,
-                    )
+        if not distro_obj:
+            distro_obj = cnucnuweb.model.Distro.get_or_create(
+                SESSION, distro)
+            cnucnuweb.log(
+                SESSION,
+                distro=distro_obj,
+                topic='distro.add',
+                message=dict(
+                    agent=flask.g.auth.email,
+                    distro=distro,
                 )
+            )
 
-            pkgname = pkgnames[cnt].strip()
-            version_url = version_urls[cnt].strip()
-            regex = regexs[cnt].strip()
+        pkgname = pkgnames[cnt].strip()
+        version_url = version_urls[cnt].strip()
+        regex = regexs[cnt].strip()
 
-            if not distro or not pkgname or not version_url or not regex:
-                continue
+        pkg = cnucnuweb.model.Packages.get(
+            SESSION, project.id, distro, pkgname)
 
-            else:
-                pkg = cnucnuweb.model.Packages.get(
-                    SESSION, project.id, distro, pkgname)
+        topic = 'project.map.update'
+        if not pkg:
+            topic = 'project.map.new'
 
-                topic = 'project.map.update'
-                if not pkg:
-                    topic = 'project.map.new'
+        cnucnuweb.model.map_project_distro(
+                SESSION, project_id, distro_obj.name, pkgname,
+                version_url, regex)
 
-                cnucnuweb.model.map_project_distro(
-                        SESSION, project_id, distro_obj.name, pkgname,
-                        version_url, regex)
-
-                flask.flash('%s updated' % distro)
-                cnucnuweb.log(
-                    SESSION,
-                    project=project,
-                    distro=distro_obj,
-                    topic=topic,
-                    message=dict(
-                        agent=flask.g.auth.email,
-                        project=project.name,
-                        distro=distro,
-                        new=pkgname,
-                    )
-                )
-            cnt += 1
+        flask.flash('%s updated' % distro)
+        cnucnuweb.log(
+            SESSION,
+            project=project,
+            distro=distro_obj,
+            topic=topic,
+            message=dict(
+                agent=flask.g.auth.email,
+                project=project.name,
+                distro=distro,
+                new=pkgname,
+            )
+        )
 
         SESSION.commit()
         return flask.redirect(
             flask.url_for('project', project_id=project_id))
 
     return flask.render_template(
-        'package.html',
+        'mapping.html',
         current='projects',
         project=project,
-        form=form)
+        form=form,
+        url_aliases=URL_ALIASES,
+        regex_aliases=REGEX_ALIASES,
+        )
+
+
+@APP.route('/project/<project_id>/map/<pkg_id>', methods=['GET', 'POST'])
+@login_required
+def edit_project_mapping(project_id, pkg_id):
+
+    project = cnucnuweb.model.Project.get(SESSION, project_id)
+    if not project:
+        flask.abort(404)
+
+    package = cnucnuweb.model.Packages.by_id(SESSION, pkg_id)
+    if not package:
+        flask.abort(404)
+
+    form = cnucnuweb.forms.MappingForm()
+
+    if form.validate_on_submit():
+        distro = form.distro.data
+        pkgname = form.package_name.data
+        version_url = form.version_url.data
+        regex = form.regex.data
+
+        cnt = 0
+        msgs = []
+
+        distro_obj = cnucnuweb.model.Distro.get(
+            SESSION, distro.strip())
+
+        if not distro_obj:
+            distro_obj = cnucnuweb.model.Distro.get_or_create(
+                SESSION, distro)
+            cnucnuweb.log(
+                SESSION,
+                distro=distro_obj,
+                topic='distro.add',
+                message=dict(
+                    agent=flask.g.auth.email,
+                    distro=distro,
+                )
+            )
+
+        pkg = cnucnuweb.model.Packages.get(
+            SESSION, project.id, distro, pkgname)
+
+        topic = 'project.map.update'
+        if not pkg:
+            topic = 'project.map.new'
+
+        cnucnuweb.model.map_project_distro(
+                SESSION, project_id, distro_obj.name, pkgname,
+                version_url, regex)
+
+        flask.flash('%s updated' % distro)
+        cnucnuweb.log(
+            SESSION,
+            project=project,
+            distro=distro_obj,
+            topic=topic,
+            message=dict(
+                agent=flask.g.auth.email,
+                project=project.name,
+                distro=distro,
+                new=pkgname,
+            )
+        )
+
+        SESSION.commit()
+        return flask.redirect(
+            flask.url_for('project', project_id=project_id))
+
+    elif flask.request.method == 'GET':
+        form = cnucnuweb.forms.MappingForm(package=package)
+
+    return flask.render_template(
+        'mapping.html',
+        current='projects',
+        project=project,
+        package=package,
+        form=form,
+        url_aliases=URL_ALIASES,
+        regex_aliases=REGEX_ALIASES,
+        )
