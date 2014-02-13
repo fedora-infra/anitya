@@ -102,13 +102,14 @@
       <span class="panel-title" id="version_info">
         {% if versions_known %}
         Latest version:
-        <li>
+        <ul>
           {% for pkg in project.packages %}
-          <ul property="doap:release" typeof="doap:Version">
-              <span property="doap:revision">{{ pkg.regex.version }}</span>
-          </ul>
+          <li property="doap:release" typeof="doap:Version">
+            {{ pkg.distro }}:
+            <span property="doap:revision">{{ pkg.regex.version }}</span>
+          </li>
           {% endfor %}
-        </li>
+        </ul>
         {% else %}
         No version available for this package
         <button type="submit" class="btn btn-success" id="checknow">
