@@ -44,7 +44,11 @@
                 <td>{{ distro.distro }}</td>
                 <td>{{ distro.package_name }}</td>
                 {% if distro.regex %}
-                <td>{{ distro.regex.version_url }}</td>
+                <td>
+                  <a href="{{ distro.regex.version_url }}">
+                    {{ distro.regex.version_url }}
+                  </a>
+                </td>
                 <td>{{ distro.regex.regex }}</td>
                 {% else %}
                 <td></td>
@@ -96,11 +100,15 @@
 
     <div class="panel panel-heading">
       <span class="panel-title" id="version_info">
-        {% if project.version %}
+        {% if versions_known %}
         Latest version:
-        <span property="doap:release" typeof="doap:Version">
-            <span property="doap:revision">{{ project.version }}</span>
-        </span>
+        <li>
+          {% for pkg in project.packages %}
+          <ul property="doap:release" typeof="doap:Version">
+              <span property="doap:revision">{{ pkg.regex.version }}</span>
+          </ul>
+          {% endfor %}
+        </li>
         {% else %}
         No version available for this package
         <button type="submit" class="btn btn-success" id="checknow">
@@ -141,19 +149,24 @@
 {% block jscript %}
 <script>
   $('#checknow').click(function(){
-    var _name = "{{ project.name }}";
-    var _project_url = "{{ project.version_url }}";
-    var _regex = "{{ project.regex }}";
+    var _id = "{{ project.id }}";
     var _url = "{{ url_for('api_get_version') }}";
     $.ajax({
         url: _url ,
         type: 'POST',
-        data: {name: _name, url: _project_url, regex: _regex},
+        data: {id: _id},
         dataType: 'json',
         success: function(res) {
-            $('#version_info').text(
-                "Latest version: " + res.latest_version);
-            this.parentElement.removeChild($('#checknow'));
+          output = "";
+          for (var it in res) {
+            if (res[it].latest_version){
+              output += "<li>" + it + ": " + res[it].latest_version + "</li>";
+            } else {
+              output += "<li>" + it + ": " + res[it].error + "</li>";
+            }
+          }
+          $('#version_info').html(
+              "Latest versions: <ul>" + output + "</ul>");
         },
         error: function(res) {
             alert(
