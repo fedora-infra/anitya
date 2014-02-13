@@ -277,7 +277,7 @@ class Packages(BASE):
         sa.UniqueConstraint('distro', 'package_name'),
     )
 
-    #project = sa.orm.relation('Project')
+    project = sa.orm.relation('Project')
     regex = sa.orm.relation('PackageRegex')
 
     def __repr__(self):
