@@ -105,7 +105,7 @@
         <ul>
           {% for pkg in project.packages %}
           <li property="doap:release" typeof="doap:Version">
-            {{ pkg.distro }}:
+            <strong>{{ pkg.distro }}:</strong>
             <span property="doap:revision">{{ pkg.regex.version }}</span>
           </li>
           {% endfor %}
@@ -136,7 +136,7 @@
         <span class="list-group-item-text">
           {% for pkg in project.packages %}
           <dl class="dl-horizontal">
-            {{ pkg.distro }}: {{ pkg.regex.logs }}
+            <strong>{{ pkg.distro }}:</strong> {{ pkg.regex.logs }}
           </dl>
           {% endfor %}
         </span>
