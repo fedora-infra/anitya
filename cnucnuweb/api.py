@@ -87,50 +87,56 @@ def api_projects_names():
 @APP.route('/api/version/', methods=['POST'])
 def api_get_version():
 
-    name = flask.request.form.get('name', None)
-    url = flask.request.form.get('url', None)
-    regex = flask.request.form.get('regex', None)
+    project_id = flask.request.form.get('id', None)
     httpcode = 200
 
-    if not name or not url or not regex:
+    if not project_id:
         errors = []
-        if not name:
-            errors.append('No name specified')
-        if not url:
-            errors.append('No url specified')
-        if not regex:
-            errors.append('No regex specified')
+        if not project_id:
+            errors.append('No project id specified')
         output = {'output': 'notok', 'error': errors}
         httpcode = 400
     else:
-        try:
-            pkg = Package(name=name, url=url, regex=regex)
-            versions = pkg.upstream_versions
-            latest_version = pkg.latest_upstream
-        except Exception as err:
-            output = {'output': 'notok', 'error': err.message}
-            httpcode = 400
+
+        project = cnucnuweb.model.Project.get(
+            SESSION, project_id=project_id)
+
+        if not project:
+            output = {'output': 'notok', 'error': 'no such project'}
+            httpcode = 404
         else:
-            output = {
-                'name': pkg.name,
-                'url': pkg.url,
-                'regex': pkg.regex,
-                'raw_url': pkg.raw_url,
-                'raw_regex': pkg.raw_regex,
-                'versions': versions,
-                'latest_version': latest_version,
-            }
+            output = {}
+            for package in project.packages:
+                try:
+                    pkg = Package(
+                        name=project.name,
+                        url=package.regex.version_url,
+                        regex=package.regex.regex)
+                    versions = pkg.upstream_versions
+                    latest_version = pkg.latest_upstream
+                except Exception as err:
+                    output[package.distro] = {'output': 'notok', 'error': err.message}
+                else:
+                    output[package.distro] = {
+                        'name': pkg.name,
+                        'url': pkg.url,
+                        'regex': pkg.regex,
+                        'raw_url': pkg.raw_url,
+                        'raw_regex': pkg.raw_regex,
+                        'versions': versions,
+                        'latest_version': latest_version,
+                    }
 
     jsonout = flask.jsonify(output)
     jsonout.status_code = httpcode
     return jsonout
 
 
-@APP.route('/api/project/<project_name>', methods=['GET'])
-@APP.route('/api/project/<project_name>/', methods=['GET'])
-def api_get_project(project_name):
+@APP.route('/api/project/<project_id>', methods=['GET'])
+@APP.route('/api/project/<project_id>/', methods=['GET'])
+def api_get_project(project_id):
 
-    project = cnucnuweb.model.Project.get(SESSION, name=project_name)
+    project = cnucnuweb.model.Project.get(SESSION, project_id=project_id)
 
     if not project:
         output = {'output': 'notok', 'error': 'no such project'}
