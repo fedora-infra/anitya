@@ -361,7 +361,7 @@ class PackageRegex(BASE):
 
     def __repr__(self):
         return '<PackageRegex(package:%s - %s, %s, %s)>' % (
-            self.package_id, self.version_url, self.regex, self.version)
+            self.id, self.version_url, self.regex, self.version)
 
     def __json__(self):
         return dict(
