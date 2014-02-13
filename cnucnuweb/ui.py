@@ -303,6 +303,9 @@ def map_project(project_id):
         cnt = 0
         msgs = []
         for distro in distros:
+            if not distro.strip():
+                continue
+
             distro_obj = cnucnuweb.model.Distro.get(
                 SESSION, distro.strip())
 
