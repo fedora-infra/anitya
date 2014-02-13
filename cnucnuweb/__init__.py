@@ -18,45 +18,46 @@ def check_release(project, session):
     :arg package: a Package object has defined in cnucnuweb.model.Project
 
     '''
-    pkg = Package(
-        name=project.name,
-        regex=project.regex,
-        url=project.version_url,
-    )
+    for package in project.packages:
+        pkg = Package(
+            name=project.name,
+            regex=package.regex.regex,
+            url=package.regex.version_url,
+        )
 
-    publish = False
-    up_version = None
-    max_version = None
+        publish = False
+        up_version = None
+        max_version = None
 
-    try:
-        up_version = pkg.latest_upstream
-    except CnuCnuError as err:
-        LOG.exception("CnuCnuError catched:")
-        project.logs = err.message
+        try:
+            up_version = pkg.latest_upstream
+        except CnuCnuError as err:
+            LOG.exception("CnuCnuError catched:")
+            project.logs = err.message
 
-    p_version = project.version
-    if not p_version:
-        p_version = ''
+        p_version = package.regex.version
+        if not p_version:
+            p_version = ''
 
-    if up_version and up_version != p_version:
-        max_version = upstream_max([up_version, p_version])
-        if max_version != up_version:
-            project.logs = 'Something strange occured, we found that this '\
-                'project has released a version "%s" while we had the latest '\
-                'version at "%s"' % (up_version, project.version)
-        else:
-            publish = True
-            project.version = up_version
-            project.logs = 'Version retrieved correctly'
+        if up_version and up_version != p_version:
+            max_version = upstream_max([up_version, p_version])
+            if max_version != up_version:
+                project.logs = 'Something strange occured, we found that this '\
+                    'project has released a version "%s" while we had the latest '\
+                    'version at "%s"' % (up_version, project.version)
+            else:
+                publish = True
+                package.regex.version = up_version
+                package.regex.logs = 'Version retrieved correctly'
 
-    if publish:
-        fedmsg.publish(topic="project.version.update", msg=dict(
-            project=project.__json__(),
-            upstream_version=up_version,
-            old_version=p_version,
-            packages=[pkg.__json__() for pkg in project.packages],
-        ))
-        session.add(project)
+        if publish:
+            fedmsg.publish(topic="project.version.update", msg=dict(
+                project=project.__json__(),
+                upstream_version=up_version,
+                old_version=p_version,
+                packages=[pkg.__json__() for pkg in project.packages],
+            ))
+            session.add(project)
 
     session.commit()
 
