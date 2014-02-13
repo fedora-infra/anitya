@@ -48,22 +48,3 @@
 </form>
 
 {% endblock %}
-
-{% block jscript %}
-<script>
-  $('#choices_url').change(function(){
-    var name = $('#name').val();
-    if (!name){
-      name = '<insert name here>';
-    }
-    $('#version_url').val($(this).val() + ':' + name);
-  })
-  $('#choices_regex').change(function(){
-    var name = $('#name').val();
-    if (!name){
-      name = '<insert name here>';
-    }
-    $('#regex').val($(this).val() + ':' + name);
-  })
-</script>
-{% endblock %}
