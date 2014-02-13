@@ -72,10 +72,19 @@ def project(project_id):
     if not project:
         flask.abort(404)
 
+    versions_known = True
+    for pkg in project.packages:
+        if not pkg.regex.version:
+            versions_known = False
+            break
+
+
     return flask.render_template(
         'project.html',
         current='project',
-        project=project)
+        project=project,
+        versions_known=versions_known,
+    )
 
 
 @APP.route('/projects')
