@@ -33,7 +33,7 @@ def check_release(project, session):
             up_version = pkg.latest_upstream
         except CnuCnuError as err:
             LOG.exception("CnuCnuError catched:")
-            project.logs = err.message
+            package.regex.logs = err.message
 
         p_version = package.regex.version
         if not p_version:
@@ -42,7 +42,7 @@ def check_release(project, session):
         if up_version and up_version != p_version:
             max_version = upstream_max([up_version, p_version])
             if max_version != up_version:
-                project.logs = 'Something strange occured, we found that this '\
+                package.regex.logs = 'Something strange occured, we found that this '\
                     'project has released a version "%s" while we had the latest '\
                     'version at "%s"' % (up_version, project.version)
             else:
@@ -57,7 +57,7 @@ def check_release(project, session):
                 old_version=p_version,
                 packages=[pkg.__json__() for pkg in project.packages],
             ))
-            session.add(project)
+        session.add(package.regex)
 
     session.commit()
 
