@@ -292,6 +292,10 @@ class Packages(BASE):
         )
 
     @classmethod
+    def by_id(cls, session, pkg_id):
+        return session.query(cls).filter_by(id=pkg_id).first()
+
+    @classmethod
     def get(cls, session, project_id, distro, package_name):
         query = session.query(
             cls
