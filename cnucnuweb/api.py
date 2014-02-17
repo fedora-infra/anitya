@@ -119,6 +119,7 @@ def api_get_version():
                 else:
                     output[package.distro] = {
                         'name': pkg.name,
+                        'package_name': package.package_name,
                         'url': pkg.url,
                         'regex': pkg.regex,
                         'raw_url': pkg.raw_url,
