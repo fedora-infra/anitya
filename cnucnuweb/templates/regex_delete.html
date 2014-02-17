@@ -3,49 +3,50 @@
 {% block body %}
 
 <div class="page-header">
-  <h1>Project: {{ project.name }}</h1>
+  <h1>Project: {{ project.name }} - Delete package</h1>
 </div>
 
 <div class="row">
 
-    <form method="POST" action="{{ url_for('map_project', project_name=project.name) }}" >
+    <form method="POST" action="{{
+        url_for('delete_project_mapping',
+                project_id=project.id,
+                distro_name=package.distro,
+                pkg_name=package.package_name) }}" >
       {{ form.csrf_token }}
       <table id="input_table">
         <tr>
           <th>Linux distribution</th>
+          <td>
+            {{ package.distro }}
+          </td>
+        </tr>
+        <tr>
           <th>Package name</th>
-        </tr>
-        {% for pkg in project.packages %}
-        <tr>
           <td>
-            <input type="text" name="distros" value="{{ pkg.distro }}" />
-          </td>
-          <td>
-            <input type="text" name="pkgname" value="{{ pkg.package_name }}" />
+            {{ package.package_name }}
           </td>
         </tr>
-        {% endfor %}
         <tr>
+          <th>Version URL</th>
           <td>
-            <input type="text" name="distros" value="" />
+            {{ package.version_url }}
           </td>
+        </tr>
+        <tr>
+          <th>Regex</th>
           <td>
-            <input type="text" name="pkgname" value="" />
+            {{ package.regex }}
           </td>
         </tr>
       </table>
 
-      <button type="button" class="btn btn-info" onclick="add_row('input_table')" >
-        <span class="glyphicon glyphicon-plus"></span>
-        Add row
+      <button type="submit" name="confirm" value="Yes" class="btn btn-warning">
+        <span class="glyphicon glyphicon-remove"></span>
+        Delete mapping
       </button>
 
-      <button type="submit" class="btn btn-success">
-        <span class="glyphicon glyphicon-plus"></span>
-        Add mapping project
-      </button>
-
-      <a href="{{ url_for('project', project_name=project.name) }}">
+      <a href="{{ url_for('project', project_id=project.id) }}">
         <button type="button" class="btn btn-danger">
           <span class="glyphicon glyphicon-ban-circle"></span>
           Cancel

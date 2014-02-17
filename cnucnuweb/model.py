@@ -15,6 +15,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 
+import cnucnu
+
 BASE = declarative_base()
 
 log = logging.getLogger(__name__)
@@ -57,6 +59,26 @@ def init(db_url, alembic_ini=None, debug=False, create=False):
 
     scopedsession = scoped_session(sessionmaker(bind=engine))
     return scopedsession
+
+
+def map_project_distro(
+        session, project_id, distro_name, pkg_name, version_url, regex):
+    """ Map the provided project into the provided distro with the
+    specified version url and regex.
+    """
+    package = Packages.get(
+        session, project_id, distro_name, pkg_name)
+    if not package:
+        package = Packages.create(
+            session, project_id, pkg_name, distro_name, regex, version_url)
+
+    if package.regex != regex:
+        package.regex = regex
+    if package.version_url != version_url:
+        package.version_url = version_url
+
+    session.add(package)
+    return package
 
 
 class Log(BASE):
@@ -156,11 +178,13 @@ class Distro(BASE):
 
     @classmethod
     def by_name(cls, session, name):
-        return session.query(
+        query = session.query(
             cls
         ).filter(
             sa.func.lower(cls.name) == sa.func.lower(name)
-        ).first()
+        )
+
+        return query.first()
 
     get = by_name
 
@@ -232,32 +256,56 @@ class Distro(BASE):
 class Packages(BASE):
     __tablename__ = 'packages'
 
-    project_id = sa.Column(
-        sa.String(200),
-        sa.ForeignKey(
-            "projects.id",
-            ondelete="cascade",
-            onupdate="cascade"),
-        primary_key=True)
+    id = sa.Column(sa.Integer, primary_key=True)
     distro = sa.Column(
         sa.String(200),
         sa.ForeignKey(
             "distros.name",
             ondelete="cascade",
-            onupdate="cascade"),
-        primary_key=True)
-    package_name = sa.Column(sa.String(200), primary_key=True)
+            onupdate="cascade"))
+    project_id = sa.Column(
+        sa.String(200),
+        sa.ForeignKey(
+            "projects.id",
+            ondelete="cascade",
+            onupdate="cascade")
+    )
+
+    version_url = sa.Column(sa.String(200), nullable=False)
+    regex = sa.Column(sa.String(200), nullable=False)
+
+    version = sa.Column(sa.String(50))
+    logs = sa.Column(sa.Text)
+
+    package_name = sa.Column(sa.String(200))
+
+    __table_args__ = (
+        sa.UniqueConstraint('distro', 'package_name'),
+    )
+
+    project = sa.orm.relation('Project')
+
+    @property
+    def full_version_url(self):
+        url = cnucnu.convert_url(self.package_name, self.version_url)
+        return url
 
     def __repr__(self):
         return '<Packages(%s, %s: %s)>' % (
-            self.project.name, self.distro, self.package_name)
+            self.project_id, self.distro, self.package_name)
 
     def __json__(self):
         return dict(
             package_name=self.package_name,
             project=self.project.name,
             distro=self.distro,
+            regex=self.regex,
+            version_url=self.version_url,
         )
+
+    @classmethod
+    def by_id(cls, session, pkg_id):
+        return session.query(cls).filter_by(id=pkg_id).first()
 
     @classmethod
     def get(cls, session, project_id, distro, package_name):
@@ -273,20 +321,16 @@ class Packages(BASE):
         return query.first()
 
     @classmethod
-    def get_or_create(cls, session, project_id, distro, package_name):
-        pkg = cls.get(session, project_id, distro, package_name)
-        if not pkg:
-            pkg = cls.create(session, distro, project_id, package_name)
-        return pkg
-
-    @classmethod
-    def create(cls, session, distro, project_id, package_name):
+    def create(cls, session, project_id, package_name, distro, regex,
+               version_url):
         """ Create a Package object. """
         distro = Distro.get_or_create(session, distro)
         pkg = cls(
             project_id=project_id,
             distro=distro.name,
-            package_name=package_name
+            package_name=package_name,
+            version_url=version_url,
+            regex=regex
         )
         session.add(pkg)
         session.flush()
@@ -310,43 +354,34 @@ class Project(BASE):
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.String(200), nullable=False, index=True)
     homepage = sa.Column(sa.String(200), nullable=False, unique=True)
-    version_url = sa.Column(sa.String(200), nullable=False)
-    regex = sa.Column(sa.String(200), nullable=False)
-
-    version = sa.Column(sa.String(50))
-    logs = sa.Column(sa.Text)
 
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
                            onupdate=sa.func.current_timestamp())
     created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
 
-    packages = sa.orm.relationship(
-        'Packages',
-        backref="project",
-        cascade="all, delete, delete-orphan")
+    packages = sa.orm.relation('Packages')
 
     def __repr__(self):
-        return '<Project(%s, %s: %s)>' % (
-            self.name, self.homepage, self.version)
+        return '<Project(%s, %s)>' % (self.name, self.homepage)
 
     def __json__(self):
         return dict(
             name=self.name,
             homepage=self.homepage,
-            version_url=self.version_url,
-            regex=self.regex,
-            version=self.version,
-            logs=self.logs,
             created_on=time.mktime(self.created_on.timetuple()),
             updated_on=time.mktime(self.updated_on.timetuple()),
-            packages=[pkg.__json__() for pkg in self.packages]
+            #packages=[pkg.__json__() for pkg in self.packages]
         )
 
     @classmethod
     def by_name(cls, session, name):
-        return session.query(cls).filter_by(name=name).first()
+        return session.query(cls).filter_by(name=name).all()
 
-    get = by_name
+    @classmethod
+    def by_id(cls, session, project_id):
+        return session.query(cls).filter_by(id=project_id).first()
+
+    get = by_id
 
     @classmethod
     def by_homepage(cls, session, homepage):
@@ -406,15 +441,10 @@ class Project(BASE):
             return query.all()
 
     @classmethod
-    def get_or_create(cls, session, name, homepage, version_url, regex):
+    def get_or_create(cls, session, name, homepage):
         project = cls.by_homepage(session, homepage)
         if not project:
-            project = cls(
-                name=name,
-                homepage=homepage,
-                version_url=version_url,
-                regex=regex,
-            )
+            project = cls(name=name, homepage=homepage)
             session.add(project)
             session.flush()
         return project

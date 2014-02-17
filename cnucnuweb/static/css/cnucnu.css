@@ -5,3 +5,7 @@
 .SearchBox{
     height: 34px;
 }
+
+.errors {
+    color:red;
+}
