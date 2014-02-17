@@ -74,7 +74,7 @@ def project(project_id):
 
     versions_known = True
     for pkg in project.packages:
-        if not pkg.regex.version:
+        if pkg.regex and not pkg.version:
             versions_known = False
             break
 
@@ -298,7 +298,9 @@ def map_project(project_id):
         distro = form.distro.data
         pkgname = form.package_name.data
         version_url = form.version_url.data
-        regex = flask.regex.data
+        regex = form.regex.data
+
+        print distro, pkgname, version_url, regex
 
         cnt = 0
         msgs = []
@@ -319,10 +321,6 @@ def map_project(project_id):
                 )
             )
 
-        pkgname = pkgnames[cnt].strip()
-        version_url = version_urls[cnt].strip()
-        regex = regexs[cnt].strip()
-
         pkg = cnucnuweb.model.Packages.get(
             SESSION, project.id, distro, pkgname)
 
@@ -331,8 +329,12 @@ def map_project(project_id):
             topic = 'project.map.new'
 
         cnucnuweb.model.map_project_distro(
-                SESSION, project_id, distro_obj.name, pkgname,
-                version_url, regex)
+            SESSION,
+            project_id=project.id,
+            distro_name=distro_obj.name,
+            pkg_name=pkgname,
+            version_url=version_url,
+            regex=regex)
 
         flask.flash('%s updated' % distro)
         cnucnuweb.log(
@@ -350,7 +352,7 @@ def map_project(project_id):
 
         SESSION.commit()
         return flask.redirect(
-            flask.url_for('project', project_id=project_id))
+            flask.url_for('project', project_id=project.id))
 
     return flask.render_template(
         'mapping.html',
@@ -359,7 +361,7 @@ def map_project(project_id):
         form=form,
         url_aliases=URL_ALIASES,
         regex_aliases=REGEX_ALIASES,
-        )
+    )
 
 
 @APP.route('/project/<project_id>/map/<pkg_id>', methods=['GET', 'POST'])

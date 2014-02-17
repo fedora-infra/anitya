@@ -110,8 +110,8 @@ def api_get_version():
                 try:
                     pkg = Package(
                         name=project.name,
-                        url=package.regex.version_url,
-                        regex=package.regex.regex)
+                        url=package.version_url,
+                        regex=package.regex)
                     versions = pkg.upstream_versions
                     latest_version = pkg.latest_upstream
                 except Exception as err:

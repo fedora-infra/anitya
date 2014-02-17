@@ -39,23 +39,24 @@
                 {% endif %}
               </tr>
 
-              {% for distro in project.packages %}
+              {% for package in project.packages %}
               <tr>
-                <td>{{ distro.distro }}</td>
-                <td>{{ distro.package_name }}</td>
-                {% if distro.regex %}
+                <td>{{ package.distro }}</td>
+                <td>{{ package.package_name }}</td>
+                {% if package.regex %}
                 <td>
-                  <a href="{{ distro.regex.version_url }}">
-                    {{ distro.regex.version_url }}
+                  <a href="{{ package.version_url }}">
+                    {{ package.version_url }}
                   </a>
                 </td>
                 <td>
-                  {{ distro.regex.regex }}
+                  {{ package.regex }}
                 </td>
                 <td>
                   <a href="{{
                     url_for('edit_project_mapping',
-                            project_id=project.id, pkg_id=distro.id) }}">
+                            project_id=project.id,
+                            pkg_id=package.id) }}">
                     <button type="submit" class="btn btn-info">
                       <span class="glyphicon glyphicon-edit"></span>
 
@@ -68,14 +69,13 @@
                 <td></td>
                 <td></td>
                 {% endif %}
-                {% if distro.regex %}
-
-                {% endif %}
-                {% if is_admin and distro.regex %}
+                {% if is_admin and package.regex %}
                 <td>
                   <a href="{{
                     url_for('delete_project_mapping',
-                            project_id=project.id, regex_id=distro.regex.id) }}">
+                            project_id=project.id,
+                            distro_name=package.distro,
+                            pkg_name=package.package_name) }}">
                     <button type="submit" class="btn btn-warning">
                       <span class="glyphicon glyphicon-remove"></span>
                       Delete
@@ -179,11 +179,14 @@
         dataType: 'json',
         success: function(res) {
           output = "";
+          console.log(res);
           for (var it in res) {
             if (res[it].latest_version){
-              output += "<li>" + it + ": " + res[it].latest_version + "</li>";
+              output += "<li>" + it + ": " + res[it].name + ": "
+                     + res[it].latest_version + "</li>";
             } else {
-              output += "<li>" + it + ": " + res[it].error + "</li>";
+              output += "<li>" + it + ": " + res[it].name + ": "
+                     + res[it].error + "</li>";
             }
           }
           $('#version_info').html(

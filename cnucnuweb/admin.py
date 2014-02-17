@@ -137,9 +137,11 @@ def delete_project(project_id):
         form=form)
 
 
-@APP.route('/project/<project_id>/delete/<regex_id>', methods=['GET', 'POST'])
+@APP.route(
+    '/project/<project_id>/delete/<distro_name>/<pkg_name>',
+    methods=['GET', 'POST'])
 @login_required
-def delete_project_mapping(project_id, regex_id):
+def delete_project_mapping(project_id, distro_name, pkg_name):
 
     if not is_admin():
         flask.abort(403)
@@ -148,8 +150,13 @@ def delete_project_mapping(project_id, regex_id):
     if not project:
         flask.abort(404)
 
-    regex = cnucnuweb.model.PackageRegex.get(SESSION, regex_id)
-    if not regex:
+    distro = cnucnuweb.model.Distro.get(SESSION, distro_name)
+    if not distro:
+        flask.abort(404)
+
+    package = cnucnuweb.model.Packages.get(
+        SESSION, project.id, distro.name, pkg_name)
+    if not package:
         flask.abort(404)
 
     form = cnucnuweb.forms.ConfirmationForm()
@@ -164,15 +171,13 @@ def delete_project_mapping(project_id, regex_id):
                 message=dict(
                     agent=flask.g.auth.email,
                     project=project.name,
-                    distro=regex.packages[0].distro,
+                    distro=distro.name,
                 )
             )
 
-            SESSION.delete(regex.packages[0])
+            SESSION.delete(package)
             SESSION.commit()
 
-            SESSION.delete(regex)
-            SESSION.commit()
             flask.flash('Mapping for %s has been removed' % project.name)
             return flask.redirect(flask.url_for('projects'))
         else:
@@ -183,7 +188,7 @@ def delete_project_mapping(project_id, regex_id):
         'regex_delete.html',
         current='projects',
         project=project,
-        regex=regex,
+        package=package,
         form=form)
 
 @APP.route('/logs')

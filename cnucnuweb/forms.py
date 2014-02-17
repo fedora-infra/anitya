@@ -36,8 +36,8 @@ class MappingForm(wtf.Form):
             package = kwargs['package']
             self.distro.data = package.distro
             self.package_name.data = package.package_name
-            self.version_url.data = package.regex.version_url
-            self.regex.data = package.regex.regex
+            self.version_url.data = package.version_url
+            self.regex.data = package.regex
 
 
 class ConfirmationForm(wtf.Form):

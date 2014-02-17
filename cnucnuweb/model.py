@@ -64,14 +64,19 @@ def map_project_distro(
     """ Map the provided project into the provided distro with the
     specified version url and regex.
     """
-    pkg_regex = PackageRegex.get_or_create(
-        session, version_url, regex)
+    package = Packages.get(
+        session, project_id, distro_name, pkg_name)
+    if not package:
+        package = Packages.create(
+            session, project_id, pkg_name, distro_name, regex, version_url)
 
-    package = Packages.get_or_create(
-        session, project_id, pkg_regex.id, distro_name, pkg_name)
+    if package.regex != regex:
+        package.regex = regex
+    if package.version_url != version_url:
+        package.version_url = version_url
 
-    if package.regex_id != pkg_regex.id:
-        package.regex_id = pkg_regex.id
+    session.add(package)
+    return package
 
 
 class Log(BASE):
@@ -263,13 +268,12 @@ class Packages(BASE):
             ondelete="cascade",
             onupdate="cascade")
     )
-    regex_id = sa.Column(
-        sa.String(200),
-        sa.ForeignKey(
-            "packages_regex.id",
-            ondelete="cascade",
-            onupdate="cascade")
-    )
+
+    version_url = sa.Column(sa.String(200), nullable=False)
+    regex = sa.Column(sa.String(200), nullable=False)
+
+    version = sa.Column(sa.String(50))
+    logs = sa.Column(sa.Text)
 
     package_name = sa.Column(sa.String(200))
 
@@ -278,7 +282,6 @@ class Packages(BASE):
     )
 
     project = sa.orm.relation('Project')
-    regex = sa.orm.relation('PackageRegex')
 
     def __repr__(self):
         return '<Packages(%s, %s: %s)>' % (
@@ -289,6 +292,8 @@ class Packages(BASE):
             package_name=self.package_name,
             project=self.project.name,
             distro=self.distro,
+            regex=self.regex,
+            version_url=self.version_url,
         )
 
     @classmethod
@@ -309,23 +314,16 @@ class Packages(BASE):
         return query.first()
 
     @classmethod
-    def get_or_create(
-            cls, session, project_id, regex_id, distro, package_name):
-        pkg = cls.get(session, project_id, distro, package_name)
-        if not pkg:
-            pkg = cls.create(
-                session, distro, regex_id, project_id, package_name)
-        return pkg
-
-    @classmethod
-    def create(cls, session, distro, regex_id, project_id, package_name):
+    def create(cls, session, project_id, package_name, distro, regex,
+               version_url):
         """ Create a Package object. """
         distro = Distro.get_or_create(session, distro)
         pkg = cls(
             project_id=project_id,
             distro=distro.name,
             package_name=package_name,
-            regex_id=regex_id
+            version_url=version_url,
+            regex=regex
         )
         session.add(pkg)
         session.flush()
@@ -341,71 +339,6 @@ class Packages(BASE):
             sa.func.lower(cls.distro) == sa.func.lower(distro)
         )
         return query.first()
-
-
-class PackageRegex(BASE):
-    __tablename__ = 'packages_regex'
-
-    id = sa.Column(sa.Integer, primary_key=True)
-    version_url = sa.Column(sa.String(200), nullable=False)
-    regex = sa.Column(sa.String(200), nullable=False)
-
-    version = sa.Column(sa.String(50))
-    logs = sa.Column(sa.Text)
-
-    packages = sa.orm.relation('Packages')
-
-    updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
-                           onupdate=sa.func.current_timestamp())
-    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
-
-    __table_args__ = (
-        sa.UniqueConstraint('version_url', 'regex'),
-    )
-
-    def __repr__(self):
-        return '<PackageRegex(package:%s - %s, %s, %s)>' % (
-            self.id, self.version_url, self.regex, self.version)
-
-    def __json__(self):
-        return dict(
-            version_url=self.version_url,
-            regex=self.regex,
-            version=self.version,
-            created_on=time.mktime(self.created_on.timetuple()),
-            updated_on=time.mktime(self.updated_on.timetuple()),
-        )
-
-    @classmethod
-    def by_id(cls, session, regex_id):
-        return session.query(
-            cls
-        ).filter_by(
-            id=regex_id
-        ).first()
-
-    get = by_id
-
-    @classmethod
-    def by_info(cls, session, version_url, regex):
-        return session.query(
-            cls
-        ).filter_by(
-            version_url=version_url
-        ).filter_by(
-            regex=regex
-        ).first()
-
-    @classmethod
-    def get_or_create(cls, session, version_url, regex):
-        pkgregex = cls.by_info(session, version_url, regex)
-        if not pkgregex:
-            pkgregex = cls(
-                version_url=version_url,
-                regex=regex)
-            session.add(pkgregex)
-            session.flush()
-        return pkgregex
 
 
 class Project(BASE):

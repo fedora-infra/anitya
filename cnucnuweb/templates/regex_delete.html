@@ -3,38 +3,40 @@
 {% block body %}
 
 <div class="page-header">
-  <h1>Project: {{ project.name }} - Delete regex</h1>
+  <h1>Project: {{ project.name }} - Delete package</h1>
 </div>
 
 <div class="row">
 
     <form method="POST" action="{{
         url_for('delete_project_mapping',
-                project_id=project.id, regex_id=regex.id) }}" >
+                project_id=project.id,
+                distro_name=package.distro,
+                pkg_name=package.package_name) }}" >
       {{ form.csrf_token }}
       <table id="input_table">
         <tr>
           <th>Linux distribution</th>
           <td>
-            {{ regex.packages[0].distro }}
+            {{ package.distro }}
           </td>
         </tr>
         <tr>
           <th>Package name</th>
           <td>
-            {{ regex.packages[0].package_name }}
+            {{ package.package_name }}
           </td>
         </tr>
         <tr>
           <th>Version URL</th>
           <td>
-            {{ regex.version_url }}
+            {{ package.version_url }}
           </td>
         </tr>
         <tr>
           <th>Regex</th>
           <td>
-            {{ regex.regex }}
+            {{ package.regex }}
           </td>
         </tr>
       </table>
