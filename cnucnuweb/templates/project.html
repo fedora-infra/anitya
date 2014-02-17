@@ -154,7 +154,8 @@
         <span class="list-group-item-text">
           {% for pkg in project.packages %}
           <dl class="dl-horizontal">
-            <strong>{{ pkg.distro }}:</strong> {{ pkg.regex.logs }}
+            <strong>{{ pkg.distro }} - {{ pkg.package_name }}:</strong>
+            {{ pkg.logs }}
           </dl>
           {% endfor %}
         </span>
