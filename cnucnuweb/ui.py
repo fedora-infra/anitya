@@ -161,7 +161,7 @@ def projects_search(pattern=None):
         flask.flash(
             'Only one result matching with an exact match, redirecting')
         return flask.redirect(
-            flask.url_for('project', project_name=projects[0].name))
+            flask.url_for('project', project_id=projects[0].id))
 
     total_page = int(ceil(projects_count / float(50)))
 
