@@ -180,7 +180,6 @@
         dataType: 'json',
         success: function(res) {
           output = "";
-          console.log(res);
           for (var it in res) {
             for (var pkg in res[it]) {
               if (res[it][pkg].latest_version){
