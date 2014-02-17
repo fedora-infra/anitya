@@ -181,12 +181,14 @@
           output = "";
           console.log(res);
           for (var it in res) {
-            if (res[it].latest_version){
-              output += "<li>" + it + ": " + res[it].package_name + ": "
-                     + res[it].latest_version + "</li>";
-            } else {
-              output += "<li>" + it + ": " + res[it].package_name + ": "
-                     + res[it].error + "</li>";
+            for (var pkg in res[it]) {
+              if (res[it][pkg].latest_version){
+                output += "<li>" + it + ": " + res[it][pkg].package_name + ": "
+                       + res[it][pkg].latest_version + "</li>";
+              } else {
+                output += "<li>" + it + ": " + res[it][pkg].package_name + ": "
+                       + res[it][pkg].error + "</li>";
+              }
             }
           }
           $('#version_info').html(
