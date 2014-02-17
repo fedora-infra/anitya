@@ -15,6 +15,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 
+import cnucnu
+
 BASE = declarative_base()
 
 log = logging.getLogger(__name__)
@@ -282,6 +284,11 @@ class Packages(BASE):
     )
 
     project = sa.orm.relation('Project')
+
+    @property
+    def full_version_url(self):
+        url = cnucnu.convert_url(self.package_name, self.version_url)
+        return url
 
     def __repr__(self):
         return '<Packages(%s, %s: %s)>' % (
