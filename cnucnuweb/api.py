@@ -120,16 +120,20 @@ def api_get_version():
                         'package_name': package.package_name,
                         'error': err.message}
                 else:
-                    output[package.distro] = {
-                        'name': pkg.name,
-                        'package_name': package.package_name,
-                        'url': pkg.url,
-                        'regex': pkg.regex,
-                        'raw_url': pkg.raw_url,
-                        'raw_regex': pkg.raw_regex,
-                        'versions': versions,
-                        'latest_version': latest_version,
-                    }
+                    info = {
+                            'name': pkg.name,
+                            'package_name': package.package_name,
+                            'url': pkg.url,
+                            'regex': pkg.regex,
+                            'raw_url': pkg.raw_url,
+                            'raw_regex': pkg.raw_regex,
+                            'versions': versions,
+                            'latest_version': latest_version,
+                        }
+                    if package.distro in output:
+                        output[package.distro].append(info)
+                    else:
+                        output[package.distro] = [info]
 
     jsonout = flask.jsonify(output)
     jsonout.status_code = httpcode
