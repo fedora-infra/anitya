@@ -115,7 +115,10 @@ def api_get_version():
                     versions = pkg.upstream_versions
                     latest_version = pkg.latest_upstream
                 except Exception as err:
-                    output[package.distro] = {'output': 'notok', 'error': err.message}
+                    output[package.distro] = {
+                        'output': 'notok',
+                        'package_name': package.package_name,
+                        'error': err.message}
                 else:
                     output[package.distro] = {
                         'name': pkg.name,
