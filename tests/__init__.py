@@ -139,7 +139,25 @@ def create_project(session):
 
 def create_package(session):
     """ Create some basic packages to work with. """
-    pass
+    package = model.Packages(
+        project_id=1,
+        distro='Fedora',
+        package_name='geany',
+        version_url='http://www.geany.org/Download/Releases',
+        regex='DEFAULT',
+    )
+    session.add(package)
+
+    package = model.Packages(
+        project_id=2,
+        distro='Fedora',
+        package_name='subsurface',
+        version_url='http://subsurface.hohndel.org/downloads/',
+        regex='DEFAULT',
+    )
+    session.add(package)
+
+    session.commit()
 
 
 if __name__ == '__main__':
