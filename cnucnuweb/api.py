@@ -10,8 +10,8 @@ import cnucnuweb.model
 from cnucnuweb.app import APP, SESSION
 
 
-@APP.route('/api/projects')
 @APP.route('/api/projects/')
+@APP.route('/api/projects')
 def api_projects():
 
     pattern = flask.request.args.get('pattern', None)
@@ -37,19 +37,20 @@ def api_projects():
     return jsonout
 
 
-@APP.route('/api/projects/wiki')
 @APP.route('/api/projects/wiki/')
+@APP.route('/api/projects/wiki')
 def api_projects_list():
 
     project_objs = cnucnuweb.model.Project.all(SESSION)
 
     projects = []
     for project in project_objs:
-        tmp = '* {name} {regex} {version_url}'.format(
-            name=project.name,
-            regex=project.regex,
-            version_url=project.version_url)
-        projects.append(tmp)
+        for package in project.packages:
+            tmp = '* {name} {regex} {version_url}'.format(
+                name=package.package_name,
+                regex=package.regex,
+                version_url=package.version_url)
+            projects.append(tmp)
 
     return flask.Response(
         "\n".join(projects),
@@ -57,8 +58,8 @@ def api_projects_list():
     )
 
 
-@APP.route('/api/projects/names')
 @APP.route('/api/projects/names/')
+@APP.route('/api/projects/names')
 def api_projects_names():
 
     pattern = flask.request.args.get('pattern', None)
@@ -102,7 +103,7 @@ def api_get_version():
             SESSION, project_id=project_id)
 
         if not project:
-            output = {'output': 'notok', 'error': 'no such project'}
+            output = {'output': 'notok', 'error': 'No such project'}
             httpcode = 404
         else:
             output = {}
@@ -114,7 +115,7 @@ def api_get_version():
                         regex=package.regex)
                     versions = pkg.upstream_versions
                     latest_version = pkg.latest_upstream
-                except Exception as err:
+                except Exception as err:  # pragma: no cover
                     info = {
                         'output': 'notok',
                         'package_name': package.package_name,
@@ -145,8 +146,8 @@ def api_get_version():
     return jsonout
 
 
-@APP.route('/api/project/<project_id>', methods=['GET'])
 @APP.route('/api/project/<project_id>/', methods=['GET'])
+@APP.route('/api/project/<project_id>', methods=['GET'])
 def api_get_project(project_id):
 
     project = cnucnuweb.model.Project.get(SESSION, project_id=project_id)
@@ -163,8 +164,8 @@ def api_get_project(project_id):
     return jsonout
 
 
-@APP.route('/api/project/<distro>/<package_name>', methods=['GET'])
 @APP.route('/api/project/<distro>/<package_name>/', methods=['GET'])
+@APP.route('/api/project/<distro>/<package_name>', methods=['GET'])
 def api_get_project_distro(distro, package_name):
 
     package = cnucnuweb.model.Packages.by_package_name_distro(
@@ -179,10 +180,10 @@ def api_get_project_distro(distro, package_name):
 
     else:
         project = cnucnuweb.model.Project.get(
-            SESSION, name=package.project.name)
+            SESSION, project_id=package.project.id)
 
         if not project:
-            output = {'output': 'notok', 'error': 'no such project'}
+            output = {'output': 'notok', 'error': 'No such project'}
             httpcode = 404
         else:
             output = project.__json__()
