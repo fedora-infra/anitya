@@ -182,12 +182,8 @@ def api_get_project_distro(distro, package_name):
         project = cnucnuweb.model.Project.get(
             SESSION, project_id=package.project.id)
 
-        if not project:
-            output = {'output': 'notok', 'error': 'No such project'}
-            httpcode = 404
-        else:
-            output = project.__json__()
-            httpcode = 200
+        output = project.__json__()
+        httpcode = 200
 
     jsonout = flask.jsonify(output)
     jsonout.status_code = httpcode
