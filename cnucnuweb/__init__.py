@@ -44,7 +44,7 @@ def check_release(project, session):
             if max_version != up_version:
                 package.logs = 'Something strange occured, we found that this '\
                     'project has released a version "%s" while we had the latest '\
-                    'version at "%s"' % (up_version, project.version)
+                    'version at "%s"' % (up_version, package.version)
             else:
                 publish = True
                 package.version = up_version
