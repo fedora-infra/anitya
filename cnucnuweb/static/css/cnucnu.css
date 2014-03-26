@@ -9,3 +9,13 @@
 .errors {
     color:red;
 }
+
+.intro {
+    background-color: rgba(0,0,0,0.8);
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    padding: 10px 30px 10px 30px;
+    margin: auto;
+    max-width: 600px;
+    color: #fff;
+}

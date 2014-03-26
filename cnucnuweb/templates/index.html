@@ -1,25 +1,16 @@
 {% extends "master.html" %}
 
 {% block body %}
-<div id="notifications-carousel" class="carousel slide">
-  <!-- Indicators -->
-
-  <!-- Wrapper for slides -->
-  <div class="carousel-inner">
-
-    <div class="item active">
-      <img src="{{ url_for('static', filename='img/slide-1-900x300.png') }}">
-      <div class="carousel-caption">
-          <h3>Monitor the release of your favorite projects</h3>
-          <p>We all have our favorite projects and we all like to use their
-          latest versions with their latest features. However, it is hard
-          to keep in touch with all of them and be informed when they
-          release of new version. Cnucnu can help!</p>
-      </div>
-    </div>
+  <div class="intro">
+      <h3>
+        <span class="glyphicon glyphicon-eye-open"></span>
+        Monitor the release of your favorite projects
+      </h3>
+      <p>We all have our favorite projects and we all like to use their
+      latest versions with their latest features. However, it is hard
+      to keep in touch with all of them and be informed when they
+      release of new version. Cnucnu can help!</p>
   </div>
-
-</div>
 
 <div class="container marketing">
   <!-- Three columns of text below the carousel -->
