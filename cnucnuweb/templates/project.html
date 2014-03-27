@@ -124,7 +124,7 @@
           {% for pkg in project.packages %}
           <li property="doap:release" typeof="doap:Version">
             <strong>{{ pkg.distro }}:</strong>
-            <span property="doap:revision">{{ pkg.regex.version }}</span>
+            <span property="doap:revision">{{ pkg.version }}</span>
           </li>
           {% endfor %}
         </ul>
