@@ -16,7 +16,7 @@ def api_projects():
 
     pattern = flask.request.args.get('pattern', None)
 
-    if pattern and not '*' in pattern:
+    if pattern and '*' not in pattern:
         pattern += '*'
 
     if pattern:
@@ -64,7 +64,7 @@ def api_projects_names():
 
     pattern = flask.request.args.get('pattern', None)
 
-    if pattern and not '*' in pattern:
+    if pattern and '*' not in pattern:
         pattern += '*'
 
     if pattern:
@@ -127,15 +127,15 @@ def api_get_version():
                         output[package.distro] = [info]
                 else:
                     info = {
-                            'name': pkg.name,
-                            'package_name': package.package_name,
-                            'url': pkg.url,
-                            'regex': pkg.regex,
-                            'raw_url': pkg.raw_url,
-                            'raw_regex': pkg.raw_regex,
-                            'versions': versions,
-                            'latest_version': latest_version,
-                        }
+                        'name': pkg.name,
+                        'package_name': package.package_name,
+                        'url': pkg.url,
+                        'regex': pkg.regex,
+                        'raw_url': pkg.raw_url,
+                        'raw_regex': pkg.raw_regex,
+                        'versions': versions,
+                        'latest_version': latest_version,
+                    }
                     if package.distro in output:
                         output[package.distro].append(info)
                     else:

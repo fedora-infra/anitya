@@ -204,7 +204,8 @@ class CnucnuWebAPItests(Modeltests):
                     "package_name": "geany",
                     "raw_regex": "DEFAULT",
                     "raw_url": "http://www.geany.org/Download/Releases",
-                    "regex": "(?i)\\bgeany[-_](?:(?:src|source)[-_])?"
+                    "regex":
+                        "(?i)\\bgeany[-_](?:(?:src|source)[-_])?"
                         "([^-/_\\s]*?\\d[^-/_\\s]*?)(?:[-_.]"
                         "(?:src|source|orig))?\\.(?:[jt]ar|t[bglx]z|tbz2|zip)"
                         "\\b",
@@ -278,7 +279,8 @@ class CnucnuWebAPItests(Modeltests):
         data = json.loads(output.data)
 
         exp = {
-            "error": "No package \"gnome-terminal\" found in distro \"Fedora\"",
+            "error": "No package \"gnome-terminal\" found in distro "
+                     "\"Fedora\"",
             "output": "notok"
         }
         self.assertEqual(data, exp)

@@ -78,7 +78,6 @@ def project(project_id):
             versions_known = False
             break
 
-
     return flask.render_template(
         'project.html',
         current='project',
@@ -144,7 +143,7 @@ def projects_search(pattern=None):
     pattern = flask.request.args.get('pattern', pattern) or '*'
     page = flask.request.args.get('page', 1)
 
-    if not '*' in pattern:
+    if '*' not in pattern:
         pattern += '*'
 
     try:
@@ -411,8 +410,8 @@ def edit_project_mapping(project_id, pkg_id):
             topic = 'project.map.new'
 
         cnucnuweb.model.map_project_distro(
-                SESSION, project_id, distro_obj.name, pkgname,
-                version_url, regex)
+            SESSION, project_id, distro_obj.name, pkgname,
+            version_url, regex)
 
         flask.flash('%s updated' % distro)
         cnucnuweb.log(

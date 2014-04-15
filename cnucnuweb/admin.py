@@ -189,6 +189,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
         package=package,
         form=form)
 
+
 @APP.route('/logs')
 @login_required
 def browse_logs():
