@@ -4,14 +4,13 @@ from collections import OrderedDict
 from datetime import datetime
 from math import ceil
 
-from sqlalchemy.exc import SQLAlchemyError
-
 import flask
 
 import anitya
-import anitya.model
+import anitya.lib
+import anitya.lib.model
 
-from anitya.app import APP, SESSION, login_required, load_docs
+from anitya.app import APP, SESSION, PLUGINS, login_required, load_docs
 
 
 URL_ALIASES = OrderedDict({
@@ -67,7 +66,7 @@ def about():
 @APP.route('/project/<project_id>/')
 def project(project_id):
 
-    project = cnucnuweb.model.Project.by_id(SESSION, project_id)
+    project = anitya.lib.model.Project.by_id(SESSION, project_id)
 
     if not project:
         flask.abort(404)
@@ -97,8 +96,8 @@ def projects():
     except ValueError:
         page = 1
 
-    projects = cnucnuweb.model.Project.all(SESSION, page=page)
-    projects_count = cnucnuweb.model.Project.all(SESSION, count=True)
+    projects = anitya.lib.model.Project.all(SESSION, page=page)
+    projects_count = anitya.lib.model.Project.all(SESSION, count=True)
 
     total_page = int(ceil(projects_count / float(50)))
 
@@ -122,8 +121,8 @@ def distros():
     except ValueError:
         page = 1
 
-    distros = cnucnuweb.model.Distro.all(SESSION, page=page)
-    distros_count = cnucnuweb.model.Distro.all(SESSION, count=True)
+    distros = anitya.lib.model.Distro.all(SESSION, page=page)
+    distros_count = anitya.lib.model.Distro.all(SESSION, count=True)
 
     total_page = int(ceil(distros_count / float(50)))
 
@@ -151,9 +150,9 @@ def projects_search(pattern=None):
     except ValueError:
         page = 1
 
-    projects = cnucnuweb.model.Project.search(
+    projects = anitya.lib.model.Project.search(
         SESSION, pattern=pattern, page=page)
-    projects_count = cnucnuweb.model.Project.search(
+    projects_count = anitya.lib.model.Project.search(
         SESSION, pattern=pattern, count=True)
 
     if projects_count == 1 and projects[0].name == pattern.replace('*', ''):
@@ -178,23 +177,24 @@ def projects_search(pattern=None):
 @login_required
 def new_project():
 
-    form = cnucnuweb.forms.ProjectForm()
+    form = cnucnuweb.forms.ProjectForm(backends=PLUGINS)
 
     if form.validate_on_submit():
-        name = form.name.data
-        homepage = form.homepage.data
-
-        project = cnucnuweb.model.Project.get_or_create(
-            SESSION,
-            name=name,
-            homepage=homepage,
-        )
-        if project.created_on.date() == datetime.today():
+        try:
+            project = anitya.lib.create_project(
+                SESSION,
+                name=form.name.data,
+                homepage=form.homepage.data,
+                backend=form.backend.data,
+                version_url=form.version_url.data,
+                regex=form.regex.data,
+            )
             topic = 'project.add'
             message = 'Project created'
-        else:
+        except AnityaException:
             topic = 'project.add.tried'
             message = 'Project existed already'
+
         cnucnuweb.log(
             SESSION,
             project=project,
