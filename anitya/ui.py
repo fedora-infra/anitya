@@ -8,9 +8,10 @@ import flask
 
 import anitya
 import anitya.lib
+import anitya.lib.exceptions
 import anitya.lib.model
 
-from anitya.app import APP, SESSION, PLUGINS, login_required, load_docs
+from anitya.app import APP, SESSION, login_required, load_docs
 
 
 URL_ALIASES = OrderedDict({
@@ -177,9 +178,12 @@ def projects_search(pattern=None):
 @login_required
 def new_project():
 
-    form = anitya.forms.ProjectForm(backends=PLUGINS)
+    plugins = anitya.plugins.get_plugin_names()
+
+    form = anitya.forms.ProjectForm(backends=plugins)
 
     if form.validate_on_submit():
+        project = None
         try:
             project = anitya.lib.create_project(
                 SESSION,
@@ -188,29 +192,16 @@ def new_project():
                 backend=form.backend.data,
                 version_url=form.version_url.data,
                 regex=form.regex.data,
+                user_mail=flask.g.auth.email,
             )
-            topic = 'project.add'
-            message = 'Project created'
-        except AnityaException:
-            topic = 'project.add.tried'
-            message = 'Project existed already'
+            flask.flash('Project created')
+        except anitya.lib.exceptions.AnityaException as err:
+            flask.flash(err)
 
-        cnucnuweb.log(
-            SESSION,
-            project=project,
-            topic=topic,
-            message=dict(
-                agent=flask.g.auth.email,
-                project=project.name,
+        if project:
+            return flask.redirect(
+                flask.url_for('project', project_id=project.id)
             )
-        )
-
-        SESSION.commit()
-        flask.flash(message)
-
-        return flask.redirect(
-            flask.url_for('project', project_id=project.id)
-        )
 
     return flask.render_template(
         'project_new.html',
@@ -225,53 +216,35 @@ def new_project():
 @login_required
 def edit_project(project_id):
 
-    project = cnucnuweb.model.Project.get(SESSION, project_id)
+    project = anitya.lib.model.Project.get(SESSION, project_id)
     if not project:
         flask.abort(404)
 
-    form = cnucnuweb.forms.ProjectForm()
+    plugins = anitya.plugins.get_plugin_names()
+
+    form = anitya.forms.ProjectForm(
+        backends=plugins,
+        obj=project)
 
     if form.validate_on_submit():
-        name = form.name.data
-        homepage = form.homepage.data
-
-        edit = []
-        if name != project.name:
-            project.name = name
-            edit.append('name')
-        if homepage != project.homepage:
-            project.homepage = homepage
-            edit.append('homepage')
-
         try:
-            if edit:
-                cnucnuweb.log(
-                    SESSION,
-                    project=project,
-                    topic='project.edit',
-                    message=dict(
-                        agent=flask.g.auth.email,
-                        project=project.name,
-                        fields=edit,
-                    )
-                )
-
-                SESSION.add(project)
-                SESSION.commit()
-                message = 'Project edited'
-                flask.flash(message)
-        except SQLAlchemyError, err:
-            SESSION.rollback()
-            print err
-            flask.flash(
-                'Could not edit this project. Is there already a project '
-                'with this homepage?', 'errors')
+            anitya.lib.edit_project(
+                SESSION,
+                project=project,
+                name=form.name.data,
+                homepage=form.homepage.data,
+                backend=form.backend.data,
+                version_url=form.version_url.data,
+                regex=form.regex.data,
+                user_mail=flask.g.auth.email,
+            )
+            flask.flash('Project created')
+        except anitya.lib.exceptions.AnityaException as err:
+            flask.flash(err)
 
         return flask.redirect(
             flask.url_for('project', project_id=project.id)
         )
-    else:
-        form = cnucnuweb.forms.ProjectForm(project=project)
 
     return flask.render_template(
         'project_new.html',
