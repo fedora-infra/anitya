@@ -20,7 +20,7 @@
 #
 
 '''
-pkgdb tests.
+Anitya tests.
 '''
 
 __requires__ = ['SQLAlchemy >= 0.7']
@@ -43,12 +43,12 @@ from sqlalchemy.orm import scoped_session
 sys.path.insert(0, os.path.join(os.path.dirname(
     os.path.abspath(__file__)), '..'))
 
-from cnucnuweb.app import APP
-import cnucnuweb.model as model
+from anitya.app import APP
+import anitya.model as model
 
 #DB_PATH = 'sqlite:///:memory:'
 ## A file database is required to check the integrity, don't ask
-DB_PATH = 'sqlite:////tmp/cnucnuweb_test.sqlite'
+DB_PATH = 'sqlite:////tmp/anitya_test.sqlite'
 FAITOUT_URL = 'http://209.132.184.152/faitout/a'
 
 try:

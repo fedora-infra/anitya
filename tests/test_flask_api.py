@@ -20,7 +20,7 @@
 #
 
 '''
-cnucnuweb tests for the flask API.
+anitya tests for the flask API.
 '''
 
 __requires__ = ['SQLAlchemy >= 0.7']
@@ -34,8 +34,8 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(
     os.path.abspath(__file__)), '..'))
 
-import cnucnuweb
-import cnucnuweb.model as model
+import anitya
+import anitya.model as model
 from tests import Modeltests, create_distro, create_project, create_package
 
 
