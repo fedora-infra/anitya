@@ -15,11 +15,26 @@ class BaseBackend(object):
 
     @classmethod
     def get_version(self, project):
-        ''' Method called to retrieve the versions of the projects provided,
-        project that relies on the backend of this plugin.
+        ''' Method called to retrieve the latest version of the projects
+        provided, project that relies on the backend of this plugin.
 
         :arg Project project: a :class:`model.Project` object whose backend
             corresponds to the current plugin.
+
+        '''
+        pass
+
+
+    @classmethod
+    def get_versions(self, project):
+        ''' Method called to retrieve all the versions (that can be found)
+        of the projects provided, project that relies on the backend of
+        this plugin.
+
+        :arg Project project: a :class:`model.Project` object whose backend
+            corresponds to the current plugin.
+        :return: a list of all the possible releases found
+        :return type: list
 
         '''
         pass
