@@ -9,18 +9,24 @@ from wtforms import TextField, IntegerField, validators
 class ProjectForm(wtf.Form):
     name = TextField('Project name', [validators.Required()])
     homepage = TextField('Homepage', [validators.Required()])
+    backend = wtforms.SelectField(
+        'Backend',
+        [wtforms.validators.Required()],
+        choices=[(item, item) for item in []]
+    )
     version_url = TextField('Version URL', [validators.Required()])
     regex = TextField('Regex', [validators.Required()])
 
     def __init__(self, *args, **kwargs):
-        """ Calls the default constructor and fill in additional information.
+        """ Calls the default constructor with the normal argument but
+        uses the list of backends provided to fill the choices of the
+        drop-down list.
         """
         super(ProjectForm, self).__init__(*args, **kwargs)
-
-        if 'project' in kwargs:
-            project = kwargs['project']
-            self.name.data = project.name
-            self.homepage.data = project.homepage
+        if 'backends' in kwargs:
+            self.backend.choices = [
+                (backend, backend) for backend in kwargs['backends']
+            ]
 
 
 class MappingForm(wtf.Form):
