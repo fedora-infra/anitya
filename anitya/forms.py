@@ -3,15 +3,15 @@
 """ Forms used in anitya. """
 
 from flask.ext import wtf
-from wtforms import TextField, IntegerField, validators
+from wtforms import TextField, IntegerField, validators, SelectField
 
 
 class ProjectForm(wtf.Form):
     name = TextField('Project name', [validators.Required()])
     homepage = TextField('Homepage', [validators.Required()])
-    backend = wtforms.SelectField(
+    backend = SelectField(
         'Backend',
-        [wtforms.validators.Required()],
+        [validators.Required()],
         choices=[(item, item) for item in []]
     )
     version_url = TextField('Version URL', [validators.Required()])
