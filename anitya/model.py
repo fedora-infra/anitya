@@ -176,6 +176,11 @@ class Backend(BASE):
 
     name = sa.Column(sa.String(200), primary_key=True)
 
+    @classmethod
+    def all(cls, session):
+        query = session.query(cls).order_by(cls.name)
+        return query.all()
+
 
 class Distro(BASE):
     __tablename__ = 'distros'
@@ -338,7 +343,7 @@ class Project(BASE):
     name = sa.Column(sa.String(200), nullable=False, index=True)
     homepage = sa.Column(sa.String(200), nullable=False)
 
-    project_id = sa.Column(
+    backend = sa.Column(
         sa.String(200),
         sa.ForeignKey(
             "Backend.name",
