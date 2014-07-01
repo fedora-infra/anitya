@@ -264,7 +264,7 @@ class Packages(BASE):
             ondelete="cascade",
             onupdate="cascade"))
     project_id = sa.Column(
-        sa.String(200),
+        sa.Integer,
         sa.ForeignKey(
             "projects.id",
             ondelete="cascade",
