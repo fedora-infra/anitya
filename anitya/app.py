@@ -20,8 +20,8 @@ import sqlalchemy
 from bunch import Bunch
 from flask.ext.openid import OpenID
 
-import cnucnuweb.model
-import cnucnuweb.forms
+import anitya.model
+import anitya.forms
 
 
 __version__ = '0.1.0'
@@ -29,9 +29,9 @@ __version__ = '0.1.0'
 # Create the application.
 APP = flask.Flask(__name__)
 
-APP.config.from_object('cnucnuweb.default_config')
-if 'CNUCNU_WEB_CONFIG' in os.environ:  # pragma: no cover
-    app.config.from_envvar('CNUCNU_WEB_CONFIG')
+APP.config.from_object('anitya.default_config')
+if 'ANITYA_WEB_CONFIG' in os.environ:  # pragma: no cover
+    app.config.from_envvar('ANITYA_WEB_CONFIG')
 
 # Set up OpenID
 OID = OpenID(APP)

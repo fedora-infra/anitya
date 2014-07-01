@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-""" Forms used in Cnucnu Web. """
+""" Forms used in anitya. """
 
 from flask.ext import wtf
 from wtforms import TextField, IntegerField, validators

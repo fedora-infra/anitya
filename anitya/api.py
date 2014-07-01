@@ -2,12 +2,10 @@
 
 import flask
 
-from cnucnu.package_list import Package
+import anitya
+import anitya.model
 
-import cnucnuweb
-import cnucnuweb.model
-
-from cnucnuweb.app import APP, SESSION
+from anitya.app import APP, SESSION
 
 
 @APP.route('/api/projects/')

@@ -4,10 +4,10 @@ from math import ceil
 
 import flask
 
-import cnucnuweb
-import cnucnuweb.model
+import anitya
+import anitya.model
 
-from cnucnuweb.app import APP, SESSION, login_required, is_admin
+from anitya.app import APP, SESSION, login_required, is_admin
 
 
 @APP.route('/distro/add', methods=['GET', 'POST'])

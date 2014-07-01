@@ -8,10 +8,10 @@ from sqlalchemy.exc import SQLAlchemyError
 
 import flask
 
-import cnucnuweb
-import cnucnuweb.model
+import anitya
+import anitya.model
 
-from cnucnuweb.app import APP, SESSION, login_required, load_docs
+from anitya.app import APP, SESSION, login_required, load_docs
 
 
 URL_ALIASES = OrderedDict({

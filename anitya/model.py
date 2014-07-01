@@ -1,6 +1,14 @@
 #-*- coding: utf-8 -*-
 
-""" Cnucnu mapping of python classes to Database Tables. """
+"""
+ (c) 2014 - Copyright Red Hat Inc
+
+ Authors:
+   Pierre-Yves Chibon <pingou@pingoured.fr>
+
+anitya mapping of python classes to Database Tables.
+"""
+
 
 __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
@@ -15,7 +23,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 
-import cnucnu
 
 BASE = declarative_base()
 
