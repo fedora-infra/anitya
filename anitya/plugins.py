@@ -20,7 +20,7 @@ def load_plugins(session):
     ''' Load all the plugins and insert them in the database if they are
     not already present. '''
     try:
-        backends = model.Backend.all(session)
+        backends = [bcke.name for bcke in model.Backend.all(session)]
     except SQLAlchemyError:
         return
 
