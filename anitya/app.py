@@ -40,7 +40,7 @@ OID = OpenID(APP)
 SESSION = anitya.lib.init(
     APP.config['DB_URL'], debug=False, create=False)
 
-PLUGINS = anitya.plugins.load_plugins(SESSION)
+anitya.plugins.load_plugins(SESSION)
 
 
 @APP.before_request
