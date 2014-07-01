@@ -437,3 +437,5 @@ class ProjectVersion(BASE):
         primary_key=True,
     )
     version = sa.Column(sa.String(50), primary_key=True)
+
+    project = sa.orm.relation('Project', backref='versions')
