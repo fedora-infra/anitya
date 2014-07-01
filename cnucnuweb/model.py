@@ -424,3 +424,16 @@ class Project(BASE):
             return query.count()
         else:
             return query.all()
+
+class ProjectVersion(BASE):
+    __tablename__ = 'projects_versions'
+
+    project_id = sa.Column(
+        sa.Integer,
+        sa.ForeignKey(
+            "projects.id",
+            ondelete="cascade",
+            onupdate="cascade"),
+        primary_key=True,
+    )
+    version = sa.Column(sa.String(50), primary_key=True)
