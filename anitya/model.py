@@ -164,6 +164,12 @@ class Log(BASE):
         return query.all()
 
 
+class Backend(BASE):
+    __tablename__ = 'backends'
+
+    name = sa.Column(sa.String(200), primary_key=True)
+
+
 class Distro(BASE):
     __tablename__ = 'distros'
 
@@ -325,7 +331,15 @@ class Project(BASE):
     name = sa.Column(sa.String(200), nullable=False, index=True)
     homepage = sa.Column(sa.String(200), nullable=False)
 
-    backend = sa.Column(sa.String(200), nullable=False, default='custom')
+    project_id = sa.Column(
+        sa.String(200),
+        sa.ForeignKey(
+            "Backend.name",
+            ondelete="cascade",
+            onupdate="cascade"),
+        nullable=False,
+        default='custom',
+    )
     version_url = sa.Column(sa.String(200), nullable=False)
     regex = sa.Column(sa.String(200), nullable=False)
 
