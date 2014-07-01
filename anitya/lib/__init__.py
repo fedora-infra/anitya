@@ -70,7 +70,8 @@ def init(db_url, alembic_ini=None, debug=False, create=False):
     return scopedsession
 
 
-def create_project(session, name, homepage, backend, version_url, regex):
+def create_project(
+        session, name, homepage, backend, version_url, regex, user_mail):
     """ Create the project in the database.
 
     """
@@ -83,8 +84,21 @@ def create_project(session, name, homepage, backend, version_url, regex):
     )
 
     session.add(project)
+
     try:
-        session.commit()
+        session.flush()
     except SQLAlchemyError:
+        session.rollback()
         raise exceptions.AnityaException(
             'Could not add this project, already exists?')
+
+    anitya.log(
+        SESSION,
+        project=project,
+        topic='project.add',
+        message=dict(
+            agent=user_mail,
+            project=project.name,
+        )
+    )
+    session.commit()
