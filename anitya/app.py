@@ -20,7 +20,7 @@ import sqlalchemy
 from bunch import Bunch
 from flask.ext.openid import OpenID
 
-import anitya.model
+import anitya.lib
 import anitya.forms
 
 
@@ -38,6 +38,8 @@ OID = OpenID(APP)
 
 SESSION = anitya.model.init(
     APP.config['DB_URL'], debug=False, create=False)
+
+PLUGINS = anitya.plugins.load_plugins(SESSION)
 
 
 @APP.before_request
