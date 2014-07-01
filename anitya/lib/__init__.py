@@ -102,3 +102,47 @@ def create_project(
         )
     )
     session.commit()
+
+
+def edit_project(
+        session, project, name, homepage, backend, version_url, regex,
+        user_mail):
+    """ Edit a project in the database.
+
+    """
+    edit = []
+    if name != project.name:
+        project.name = name
+        edit.append('name')
+    if homepage != project.homepage:
+        project.homepage = homepage
+        edit.append('homepage')
+    if backend != project.backend:
+        project.backend = backend
+        edit.append('backend')
+    if version_url != project.version_url:
+        project.version_url = version_url
+        edit.append('version_url')
+    if regex != project.regex:
+        project.regex = regex
+        edit.append('regex')
+
+    try:
+        if edit:
+            anitya.log(
+                session,
+                project=project,
+                topic='project.edit',
+                message=dict(
+                    agent=user_mail,
+                    project=project.name,
+                    fields=edit,
+                )
+            )
+            session.add(project)
+            session.commit()
+    except SQLAlchemyError, err:
+        session.rollback()
+        raise exceptions.AnityaException(
+            'Could not edit this project. Is there already a project '
+            'with this homepage?', 'errors')
