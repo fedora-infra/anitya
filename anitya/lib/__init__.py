@@ -24,8 +24,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 
-import model
-import exceptions
+import anitya.lib
+import anitya.lib.model
+import anitya.lib.exceptions
 
 log = logging.getLogger(__name__)
 
