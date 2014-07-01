@@ -9,14 +9,14 @@
 
 #import os
 ## Set the environment variable pointing to the configuration file
-#os.environ['CNUCNU_WEB_CONFIG'] = '/etc/cnucnu/cnucnu.cfg'
+#os.environ['ANITYA_WEB_CONFIG'] = '/etc/anitya/anitya.cfg'
 
-## The following is only needed if you did not install cnucnuweb
+## The following is only needed if you did not install anitya
 ## as a python module (for example if you run it from a git clone).
 #import sys
-#sys.path.insert(0, '/path/to/cnucnu/')
+#sys.path.insert(0, '/path/to/anitya/')
 
 
 ## The most import line to make the wsgi working
-#from cnucnu.app import APP as application
+#from anitya.app import APP as application
 #application.debug = True

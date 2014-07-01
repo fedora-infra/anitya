@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
-import cnucnuweb
-import cnucnuweb.app
-import cnucnuweb.model
+import anitya
+import anitya.app
+import anitya.model
 
 import fedmsg
 import fedmsg.config
@@ -21,7 +21,7 @@ def fedmsg_init():
     config = fedmsg.config.load_config()
     config['active'] = True
     config['name'] = 'relay_inbound'
-    config['cert_prefix'] = 'cnucnuweb'
+    config['cert_prefix'] = 'anitya'
     fedmsg.init(**config)
 
 
