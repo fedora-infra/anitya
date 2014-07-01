@@ -36,7 +36,7 @@ if 'ANITYA_WEB_CONFIG' in os.environ:  # pragma: no cover
 # Set up OpenID
 OID = OpenID(APP)
 
-SESSION = cnucnuweb.model.init(
+SESSION = anitya.model.init(
     APP.config['DB_URL'], debug=False, create=False)
 
 
