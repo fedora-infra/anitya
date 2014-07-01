@@ -346,7 +346,7 @@ class Project(BASE):
     backend = sa.Column(
         sa.String(200),
         sa.ForeignKey(
-            "Backend.name",
+            "backends.name",
             ondelete="cascade",
             onupdate="cascade"),
         nullable=False,
