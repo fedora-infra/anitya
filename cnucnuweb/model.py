@@ -329,7 +329,6 @@ class Project(BASE):
     version_url = sa.Column(sa.String(200), nullable=False)
     regex = sa.Column(sa.String(200), nullable=False)
 
-    version = sa.Column(sa.String(50))
     logs = sa.Column(sa.Text)
 
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
@@ -424,6 +423,7 @@ class Project(BASE):
             return query.count()
         else:
             return query.all()
+
 
 class ProjectVersion(BASE):
     __tablename__ = 'projects_versions'
