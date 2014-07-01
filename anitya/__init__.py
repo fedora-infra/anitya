@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import warnings
 
 import fedmsg
 
@@ -10,6 +11,20 @@ from cnucnu.helper import upstream_max
 
 
 LOG = logging.getLogger(__name__)
+
+def fedmsg_publish(*args, **kwargs):  # pragma: no cover
+    ''' Try to publish a message on the fedmsg bus. '''
+    ## We catch Exception if we want :-p
+    # pylint: disable=W0703
+    ## Ignore message about fedmsg import
+    # pylint: disable=F0401
+    kwargs['modname'] = 'anitya'
+    try:
+        import fedmsg
+        fedmsg.publish(*args, **kwargs)
+    except Exception, err:
+        warnings.warn(str(err))
+
 
 
 def check_release(project, session):
@@ -84,7 +99,7 @@ def log(session, project=None, distro=None, topic=None, message=None):
     """
 
     # To avoid a circular import.
-    import cnucnuweb.model as model
+    import anitya.lib.model as model
 
     # A big lookup of fedmsg topics to model.Log template strings.
     templates = {
@@ -109,7 +124,7 @@ def log(session, project=None, distro=None, topic=None, message=None):
     substitutions = _construct_substitutions(message)
     final_msg = templates[topic] % substitutions
 
-    fedmsg.publish(topic=topic, msg=dict(
+    fedmsg_publish(topic=topic, msg=dict(
         project=project,
         distro=distro,
         message=message,
