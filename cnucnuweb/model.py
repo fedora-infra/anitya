@@ -271,12 +271,6 @@ class Packages(BASE):
             onupdate="cascade")
     )
 
-    version_url = sa.Column(sa.String(200), nullable=False)
-    regex = sa.Column(sa.String(200), nullable=False)
-
-    version = sa.Column(sa.String(50))
-    logs = sa.Column(sa.Text)
-
     package_name = sa.Column(sa.String(200))
 
     __table_args__ = (
@@ -285,11 +279,6 @@ class Packages(BASE):
 
     project = sa.orm.relation('Project')
 
-    @property
-    def full_version_url(self):
-        url = cnucnu.convert_url(self.package_name, self.version_url)
-        return url
-
     def __repr__(self):
         return '<Packages(%s, %s: %s)>' % (
             self.project_id, self.distro, self.package_name)
@@ -297,10 +286,7 @@ class Packages(BASE):
     def __json__(self):
         return dict(
             package_name=self.package_name,
-            project=self.project.name,
             distro=self.distro,
-            regex=self.regex,
-            version_url=self.version_url,
         )
 
     @classmethod
@@ -321,22 +307,6 @@ class Packages(BASE):
         return query.first()
 
     @classmethod
-    def create(cls, session, project_id, package_name, distro, regex,
-               version_url):
-        """ Create a Package object. """
-        distro = Distro.get_or_create(session, distro)
-        pkg = cls(
-            project_id=project_id,
-            distro=distro.name,
-            package_name=package_name,
-            version_url=version_url,
-            regex=regex
-        )
-        session.add(pkg)
-        session.flush()
-        return pkg
-
-    @classmethod
     def by_package_name_distro(cls, session, package_name, distro):
         query = session.query(
             cls
@@ -353,13 +323,24 @@ class Project(BASE):
 
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.String(200), nullable=False, index=True)
-    homepage = sa.Column(sa.String(200), nullable=False, unique=True)
+    homepage = sa.Column(sa.String(200), nullable=False)
+
+    backend = sa.Column(sa.String(200), nullable=False, default='custom')
+    version_url = sa.Column(sa.String(200), nullable=False)
+    regex = sa.Column(sa.String(200), nullable=False)
+
+    version = sa.Column(sa.String(50))
+    logs = sa.Column(sa.Text)
 
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
                            onupdate=sa.func.current_timestamp())
     created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
 
     packages = sa.orm.relation('Packages')
+
+    __table_args__ = (
+        sa.UniqueConstraint('name', 'homepage'),
+    )
 
     def __repr__(self):
         return '<Project(%s, %s)>' % (self.name, self.homepage)
@@ -368,6 +349,10 @@ class Project(BASE):
         return dict(
             name=self.name,
             homepage=self.homepage,
+            regex=self.regex,
+            backend=self.backend,
+            version_url=self.version_url,
+            version=self.version,
             created_on=time.mktime(self.created_on.timetuple()),
             updated_on=time.mktime(self.updated_on.timetuple()),
             #packages=[pkg.__json__() for pkg in self.packages]
@@ -385,7 +370,7 @@ class Project(BASE):
 
     @classmethod
     def by_homepage(cls, session, homepage):
-        return session.query(cls).filter_by(homepage=homepage).first()
+        return session.query(cls).filter_by(homepage=homepage).all()
 
     @classmethod
     def all(cls, session, page=None, count=False):
@@ -439,12 +424,3 @@ class Project(BASE):
             return query.count()
         else:
             return query.all()
-
-    @classmethod
-    def get_or_create(cls, session, name, homepage):
-        project = cls.by_homepage(session, homepage)
-        if not project:
-            project = cls(name=name, homepage=homepage)
-            session.add(project)
-            session.flush()
-        return project
