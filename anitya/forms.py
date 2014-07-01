@@ -14,8 +14,8 @@ class ProjectForm(wtf.Form):
         [validators.Required()],
         choices=[(item, item) for item in []]
     )
-    version_url = TextField('Version URL', [validators.Required()])
-    regex = TextField('Regex', [validators.Required()])
+    version_url = TextField('Version URL', [validators.optional()])
+    regex = TextField('Regex', [validators.optional()])
 
     def __init__(self, *args, **kwargs):
         """ Calls the default constructor with the normal argument but
