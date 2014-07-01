@@ -29,65 +29,6 @@ BASE = declarative_base()
 log = logging.getLogger(__name__)
 
 
-def init(db_url, alembic_ini=None, debug=False, create=False):
-    """ Create the tables in the database using the information from the
-    url obtained.
-
-    :arg db_url, URL used to connect to the database. The URL contains
-        information with regards to the database engine, the host to
-        connect to, the user and password and the database name.
-          ie: <engine>://<user>:<password>@<host>/<dbname>
-    :kwarg alembic_ini, path to the alembic ini file. This is necessary
-        to be able to use alembic correctly, but not for the unit-tests.
-    :kwarg debug, a boolean specifying wether we should have the verbose
-        output of sqlalchemy or not.
-    :return a session that can be used to query the database.
-
-    """
-    engine = create_engine(db_url, echo=debug)
-
-    if create:
-        BASE.metadata.create_all(engine)
-
-    # Source: http://docs.sqlalchemy.org/en/latest/dialects/sqlite.html
-    # see section 'sqlite-foreign-keys'
-    if db_url.startswith('sqlite:'):
-        def _fk_pragma_on_connect(dbapi_con, con_record):
-            dbapi_con.execute("PRAGMA foreign_keys=ON")
-        sa.event.listen(engine, 'connect', _fk_pragma_on_connect)
-
-    if alembic_ini is not None:  # pragma: no cover
-        # then, load the Alembic configuration and generate the
-        # version table, "stamping" it with the most recent rev:
-        from alembic.config import Config
-        from alembic import command
-        alembic_cfg = Config(alembic_ini)
-        command.stamp(alembic_cfg, "head")
-
-    scopedsession = scoped_session(sessionmaker(bind=engine))
-    return scopedsession
-
-
-def map_project_distro(
-        session, project_id, distro_name, pkg_name, version_url, regex):
-    """ Map the provided project into the provided distro with the
-    specified version url and regex.
-    """
-    package = Packages.get(
-        session, project_id, distro_name, pkg_name)
-    if not package:
-        package = Packages.create(
-            session, project_id, pkg_name, distro_name, regex, version_url)
-
-    if package.regex != regex:
-        package.regex = regex
-    if package.version_url != version_url:
-        package.version_url = version_url
-
-    session.add(package)
-    return package
-
-
 class Log(BASE):
     ''' Simple table to store/log action occuring in the database. '''
     __tablename__ = 'logs'
