@@ -19,11 +19,18 @@
           <table class="table table-condensed">
             <tr>
               {{ render_field_in_row(form.name) }}
-              <td></td>
             </tr>
             <tr>
               {{ render_field_in_row(form.homepage) }}
-              <td></td>
+            </tr>
+            <tr>
+              {{ render_field_in_row(form.backend) }}
+            </tr>
+            <tr>
+              {{ render_field_in_row(form.version_url) }}
+            </tr>
+            <tr>
+              {{ render_field_in_row(form.regex) }}
             </tr>
           </table>
         </span>
