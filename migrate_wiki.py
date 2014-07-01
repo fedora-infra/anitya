@@ -11,8 +11,8 @@
 
 import cnucnu
 from cnucnu.package_list import PackageList
-from cnucnuweb import model
-from cnucnuweb.app import SESSION
+from anitya import model
+from anitya.app import SESSION
 
 CONVERT_URL = {
     'SF-DEFAULT': 'http://sourceforge.net/projects/%s',
