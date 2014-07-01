@@ -45,7 +45,7 @@ REGEX_ALIASES = OrderedDict({
 
 @APP.route('/')
 def index():
-    total = cnucnuweb.model.Project.all(SESSION, count=True)
+    total = anitya.lib.model.Project.all(SESSION, count=True)
     return flask.render_template(
         'index.html',
         current='index',
