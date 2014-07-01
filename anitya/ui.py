@@ -177,7 +177,7 @@ def projects_search(pattern=None):
 @login_required
 def new_project():
 
-    form = cnucnuweb.forms.ProjectForm(backends=PLUGINS)
+    form = anitya.forms.ProjectForm(backends=PLUGINS)
 
     if form.validate_on_submit():
         try:
