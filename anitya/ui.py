@@ -1,7 +1,5 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
-from collections import OrderedDict
-from datetime import datetime
 from math import ceil
 
 import flask
@@ -214,8 +212,7 @@ def edit_project(project_id):
         current='projects',
         form=form,
         project=project,
-        url_aliases=URL_ALIASES,
-        regex_aliases=REGEX_ALIASES)
+    )
 
 
 @APP.route('/project/<project_id>/map', methods=['GET', 'POST'])
@@ -231,7 +228,7 @@ def map_project(project_id):
     if form.validate_on_submit():
 
         try:
-            pkg = anitya.lib.map_project(
+            anitya.lib.map_project(
                 SESSION,
                 project=project,
                 package_name=form.package_name.data,
@@ -246,7 +243,6 @@ def map_project(project_id):
         return flask.redirect(
             flask.url_for('project', project_id=project.id)
         )
-
 
     return flask.render_template(
         'mapping.html',
@@ -272,7 +268,7 @@ def edit_project_mapping(project_id, pkg_id):
 
     if form.validate_on_submit():
 
-        pkg = anitya.lib.map_project(
+        anitya.lib.map_project(
             SESSION,
             project=project,
             package_name=form.package_name.data,
