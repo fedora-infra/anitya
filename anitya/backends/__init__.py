@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 """
  (c) 2014 - Copyright Red Hat Inc
@@ -7,6 +7,7 @@
    Pierre-Yves Chibon <pingou@pingoured.fr>
 
 """
+
 
 class BaseBackend(object):
     ''' The base class that all the different backend should extend. '''
@@ -23,7 +24,6 @@ class BaseBackend(object):
 
         '''
         pass
-
 
     @classmethod
     def get_versions(self, project):

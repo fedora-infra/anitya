@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 """
  (c) 2014 - Copyright Red Hat Inc
@@ -35,7 +35,6 @@ class PypiBackend(BaseBackend):
             return
 
         return data['info']['version']
-
 
     @classmethod
     def get_versions(self, project):
