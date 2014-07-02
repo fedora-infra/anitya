@@ -52,20 +52,20 @@ def add_distro():
 @login_required
 def edit_distro(distro_name):
 
-    distro = cnucnuweb.model.Distro.by_name(SESSION, distro_name)
+    distro = anitya.lib.model.Distro.by_name(SESSION, distro_name)
     if not distro:
         flask.abort(404)
 
     if not is_admin():
         flask.abort(405)
 
-    form = cnucnuweb.forms.DistroForm()
+    form = anitya.forms.DistroForm(obj=distro)
 
     if form.validate_on_submit():
         name = form.name.data
 
         if name != distro.name:
-            cnucnuweb.log(
+            anitya.log(
                 SESSION,
                 distro=distro,
                 topic='distro.edit',
@@ -85,8 +85,6 @@ def edit_distro(distro_name):
         return flask.redirect(
             flask.url_for('distros')
         )
-    else:
-        form = cnucnuweb.forms.DistroForm(distro=distro)
 
     return flask.render_template(
         'distro_edit.html',
