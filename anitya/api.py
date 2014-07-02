@@ -3,7 +3,8 @@
 import flask
 
 import anitya
-import anitya.model
+import anitya.plugins
+import anitya.lib.model
 
 from anitya.app import APP, SESSION
 
@@ -97,47 +98,24 @@ def api_get_version():
         httpcode = 400
     else:
 
-        project = cnucnuweb.model.Project.get(
+        project = anitya.lib.model.Project.get(
             SESSION, project_id=project_id)
 
         if not project:
             output = {'output': 'notok', 'error': 'No such project'}
             httpcode = 404
         else:
-            output = {}
-            for package in project.packages:
-                try:
-                    pkg = Package(
-                        name=project.name,
-                        url=package.version_url,
-                        regex=package.regex)
-                    versions = pkg.upstream_versions
-                    latest_version = pkg.latest_upstream
-                except Exception as err:  # pragma: no cover
-                    info = {
-                        'output': 'notok',
-                        'package_name': package.package_name,
-                        'error': err.message
-                    }
-                    if package.distro in output:
-                        output[package.distro].append(info)
-                    else:
-                        output[package.distro] = [info]
-                else:
-                    info = {
-                        'name': pkg.name,
-                        'package_name': package.package_name,
-                        'url': pkg.url,
-                        'regex': pkg.regex,
-                        'raw_url': pkg.raw_url,
-                        'raw_regex': pkg.raw_regex,
-                        'versions': versions,
-                        'latest_version': latest_version,
-                    }
-                    if package.distro in output:
-                        output[package.distro].append(info)
-                    else:
-                        output[package.distro] = [info]
+            backend = anitya.plugins.get_plugin(project.backend)
+            latest_version = backend.get_version(project)
+
+            output = {
+                'name': project.name,
+                'backend': project.backend,
+                'homepage': project.homepage,
+                'regex': project.regex,
+                'version_url': project.version_url,
+                'latest_version': latest_version,
+            }
 
     jsonout = flask.jsonify(output)
     jsonout.status_code = httpcode
