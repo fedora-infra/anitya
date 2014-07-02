@@ -212,8 +212,8 @@ def map_project(session, project, package_name, distribution, user_mail):
 
     message = dict(
         agent=user_mail,
-        project=project,
-        distro=distro_obj,
+        project=project.name,
+        distro=distribution,
         new=package_name,
     )
     if edited:
