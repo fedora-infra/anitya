@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 """
 The main file for the application.
@@ -16,7 +16,6 @@ import docutils.examples
 import flask
 import jinja2
 import markupsafe
-import sqlalchemy
 from bunch import Bunch
 from flask.ext.openid import OpenID
 
@@ -32,7 +31,7 @@ APP = flask.Flask(__name__)
 
 APP.config.from_object('anitya.default_config')
 if 'ANITYA_WEB_CONFIG' in os.environ:  # pragma: no cover
-    app.config.from_envvar('ANITYA_WEB_CONFIG')
+    APP.config.from_envvar('ANITYA_WEB_CONFIG')
 
 # Set up OpenID
 OID = OpenID(APP)
