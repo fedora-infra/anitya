@@ -147,25 +147,25 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
     if not is_admin():
         flask.abort(403)
 
-    project = cnucnuweb.model.Project.get(SESSION, project_id)
+    project = anitya.lib.model.Project.get(SESSION, project_id)
     if not project:
         flask.abort(404)
 
-    distro = cnucnuweb.model.Distro.get(SESSION, distro_name)
+    distro = anitya.lib.model.Distro.get(SESSION, distro_name)
     if not distro:
         flask.abort(404)
 
-    package = cnucnuweb.model.Packages.get(
+    package = anitya.lib.model.Packages.get(
         SESSION, project.id, distro.name, pkg_name)
     if not package:
         flask.abort(404)
 
-    form = cnucnuweb.forms.ConfirmationForm()
+    form = anitya.forms.ConfirmationForm()
     confirm = flask.request.form.get('confirm', False)
 
     if form.validate_on_submit():
         if confirm:
-            cnucnuweb.log(
+            anitya.log(
                 SESSION,
                 project=project,
                 topic='project.map.remove',
