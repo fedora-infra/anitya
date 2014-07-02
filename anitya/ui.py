@@ -253,8 +253,6 @@ def map_project(project_id):
         current='projects',
         project=project,
         form=form,
-        url_aliases=URL_ALIASES,
-        regex_aliases=REGEX_ALIASES,
     )
 
 
