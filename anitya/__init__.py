@@ -4,18 +4,17 @@ import logging
 import re
 import warnings
 
-import fedmsg
-
 import anitya.plugins
 
 
 LOG = logging.getLogger(__name__)
 
+
 def fedmsg_publish(*args, **kwargs):  # pragma: no cover
     ''' Try to publish a message on the fedmsg bus. '''
-    ## We catch Exception if we want :-p
+    # We catch Exception if we want :-p
     # pylint: disable=W0703
-    ## Ignore message about fedmsg import
+    # Ignore message about fedmsg import
     # pylint: disable=F0401
     kwargs['modname'] = 'anitya'
     try:
@@ -139,7 +138,7 @@ def check_release(project, session):
         up_version = backend.get_version(project)
     except AnityaError as err:
         LOG.exception("AnityaError catched:")
-        package.logs = err.message
+        project.logs = err.message
 
     if up_version not in project.versions:
         project.versions_obj.append(
@@ -156,7 +155,7 @@ def check_release(project, session):
         if max_version != up_version:
             project.logs = 'Something strange occured, we found that this '\
                 'project has released a version "%s" while we had the latest '\
-                'version at "%s"' % (up_version, package.version)
+                'version at "%s"' % (up_version, project.latest_version)
         else:
             publish = True
             project.latest_version = up_version
