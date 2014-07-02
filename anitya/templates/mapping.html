@@ -28,28 +28,6 @@
           <td></td>
         </tr>
 
-        <tr>
-          {{ render_field_in_row(form.version_url) }}
-          <td>
-            <select id="choices_url">
-              {% for key in url_aliases | sort %}
-              <option value="{{ key }}">{{ url_aliases[key] }}</option>
-              {% endfor %}
-            </select>
-          </td>
-        </tr>
-
-        <tr>
-          {{ render_field_in_row(form.regex) }}
-          <td>
-            <select id="choices_regex">
-              {% for key in regex_aliases | sort %}
-              <option value="{{ key }}">{{ regex_aliases[key] }}</option>
-              {% endfor %}
-            </select>
-          </td>
-        </tr>
-
       </table>
 
       <div class="clearfix"></div>
