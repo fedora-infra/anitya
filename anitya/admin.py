@@ -5,7 +5,8 @@ from math import ceil
 import flask
 
 import anitya
-import anitya.model
+import anitya.forms
+import anitya.lib.model
 
 from anitya.app import APP, SESSION, login_required, is_admin
 
@@ -101,18 +102,18 @@ def delete_project(project_id):
     if not is_admin():
         flask.abort(403)
 
-    project = cnucnuweb.model.Project.get(SESSION, project_id)
+    project = anitya.lib.model.Project.get(SESSION, project_id)
     if not project:
         flask.abort(404)
 
     project_name = project.name
 
-    form = cnucnuweb.forms.ConfirmationForm()
+    form = anitya.forms.ConfirmationForm()
     confirm = flask.request.form.get('confirm', False)
 
     if form.validate_on_submit():
         if confirm:
-            cnucnuweb.log(
+            anitya.log(
                 SESSION,
                 project=project,
                 topic='project.remove',
