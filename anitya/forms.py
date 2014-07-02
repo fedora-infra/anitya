@@ -1,9 +1,9 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 """ Forms used in anitya. """
 
 from flask.ext import wtf
-from wtforms import TextField, IntegerField, validators, SelectField
+from wtforms import TextField, validators, SelectField
 
 
 class ProjectForm(wtf.Form):
