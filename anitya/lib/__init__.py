@@ -220,6 +220,7 @@ def map_project(
         new=package_name,
     )
     if edited:
+        message['prev'] = old_package_name or package_name
         message['edited'] = edited
 
     anitya.log(
