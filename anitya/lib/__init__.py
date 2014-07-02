@@ -93,7 +93,7 @@ def create_project(
             'Could not add this project, already exists?')
 
     anitya.log(
-        SESSION,
+        session,
         project=project,
         topic='project.add',
         message=dict(
@@ -102,6 +102,7 @@ def create_project(
         )
     )
     session.commit()
+    return project
 
 
 def edit_project(
