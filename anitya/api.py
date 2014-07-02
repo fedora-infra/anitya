@@ -105,35 +105,8 @@ def api_get_version():
             output = {'output': 'notok', 'error': 'No such project'}
             httpcode = 404
         else:
-            backend = anitya.plugins.get_plugin(project.backend)
-            latest_version = backend.get_version(project)
-
-            if latest_version not in project.versions:
-                project.versions.append(
-                    anitya.lib.model.ProjectVersion(
-                        project_id=project.id,
-                        version=latest_version
-                    )
-                )
-                SESSION.add(project)
-                SESSION.commit()
-                anitya.fedmsg_publish(
-                    topic="project.version.update",
-                    msg=dict(
-                        project=project.__json__(),
-                        upstream_version=latest_version,
-                        versions=[version for version in project.versions],
-                    )
-                )
-
-            output = {
-                'name': project.name,
-                'backend': project.backend,
-                'homepage': project.homepage,
-                'regex': project.regex,
-                'version_url': project.version_url,
-                'latest_version': latest_version,
-            }
+            anitya.check_release(project, SESSION)
+            output = project.__json__()
 
     jsonout = flask.jsonify(output)
     jsonout.status_code = httpcode
