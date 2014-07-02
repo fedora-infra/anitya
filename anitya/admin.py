@@ -18,14 +18,14 @@ def add_distro():
     if not is_admin():
         flask.abort(405)
 
-    form = cnucnuweb.forms.DistroForm()
+    form = anitya.forms.DistroForm()
 
     if form.validate_on_submit():
         name = form.name.data
 
-        distro = cnucnuweb.model.Distro(name)
+        distro = anitya.lib.model.Distro(name)
 
-        cnucnuweb.log(
+        anitya.log(
             SESSION,
             distro=distro,
             topic='distro.add',
