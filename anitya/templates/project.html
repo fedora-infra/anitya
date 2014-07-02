@@ -93,9 +93,9 @@
         {% if project.versions %}
         Latest version:
         <ul>
-          {% for version in project.versions | sort %}
+          {% for version in project.versions %}
           <li property="doap:release" typeof="doap:Version">
-            <span property="doap:revision">{{ version.version }}</span>
+            <span property="doap:revision">{{ version }}</span>
           </li>
           {% endfor %}
         </ul>
