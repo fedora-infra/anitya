@@ -108,6 +108,16 @@ def api_get_version():
             backend = anitya.plugins.get_plugin(project.backend)
             latest_version = backend.get_version(project)
 
+            if latest_version not in project.versions:
+                project.versions.append(
+                    anitya.lib.model.ProjectVersion(
+                        project_id=project.id,
+                        version=latest_version
+                    )
+                )
+                SESSION.add(project)
+                SESSION.commit()
+
             output = {
                 'name': project.name,
                 'backend': project.backend,
