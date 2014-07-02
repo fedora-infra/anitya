@@ -14,36 +14,6 @@ import anitya.lib.model
 from anitya.app import APP, SESSION, login_required, load_docs
 
 
-URL_ALIASES = OrderedDict({
-    '': 'Specific version page',
-    'SF-DEFAULT': 'SourceForge project',
-    'FM-DEFAULT': 'FreshMeat project',
-    'GNU-DEFAULT': 'GNU project',
-    'CPAN-DEFAULT': 'CPAN project',
-    'HACKAGE-DEFAULT': 'Hackage project',
-    'DEBIAN-DEFAULT': 'Debian project',
-    'GOOGLE-DEFAULT': 'Google code project',
-    'PYPI-DEFAULT': 'PYPI project',
-    'PEAR-DEFAULT': 'PHP pear project',
-    'PECL-DEFAULT': 'PHP pecl project',
-    'LP-DEFAULT': 'LaunchPad project',
-    'GNOME-DEFAULT': 'GNOME project',
-    'RUBYGEMS-DEFAULT': 'Rubygems project',
-})
-
-
-REGEX_ALIASES = OrderedDict({
-    '': 'Specific regex',
-    'DEFAULT': 'Default regex',
-    'CPAN-DEFAULT': 'Default CPAN regex',
-    'PEAR-DEFAULT': 'Default PEAR regex',
-    'PECL-DEFAULT': 'Default PECL regex',
-    'FM-DEFAULT': 'Default FreshMeat regex',
-    'HACKAGE-DEFAULT': 'Default Hackage regex',
-    'RUBYGEMS-DEFAULT': 'Default Rubygems regex',
-})
-
-
 @APP.route('/')
 def index():
     total = anitya.lib.model.Project.all(SESSION, count=True)
@@ -201,8 +171,7 @@ def new_project():
         context='Add',
         current='Add projects',
         form=form,
-        url_aliases=URL_ALIASES,
-        regex_aliases=REGEX_ALIASES)
+    )
 
 
 @APP.route('/project/<project_id>/edit', methods=['GET', 'POST'])
@@ -366,6 +335,4 @@ def edit_project_mapping(project_id, pkg_id):
         project=project,
         package=package,
         form=form,
-        url_aliases=URL_ALIASES,
-        regex_aliases=REGEX_ALIASES,
-        )
+    )
