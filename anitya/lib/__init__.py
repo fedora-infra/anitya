@@ -149,7 +149,9 @@ def edit_project(
             'with this homepage?', 'errors')
 
 
-def map_project(session, project, package_name, distribution, user_mail):
+def map_project(
+        session, project, package_name, distribution, user_mail,
+        old_package_name=None):
     """ Map a project to a distribution.
 
     """
@@ -180,8 +182,9 @@ def map_project(session, project, package_name, distribution, user_mail):
                 'Could not add the distribution %s to the database, '
                 'please inform an admin.' % distribution, 'errors')
 
+    pkgname = old_package_name or package_name
     pkg = anitya.lib.model.Packages.get(
-        session, project.id, distribution, package_name)
+        session, project.id, distribution, pkgname)
 
     edited = None
     if not pkg:
