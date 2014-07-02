@@ -147,3 +147,84 @@ def edit_project(
         raise exceptions.AnityaException(
             'Could not edit this project. Is there already a project '
             'with this homepage?', 'errors')
+
+
+def map_project(session, project, package_name, distribution, user_mail):
+    """ Map a project to a distribution.
+
+    """
+
+    distribution = distribution.strip()
+    cnt = 0
+    msgs = []
+
+    distro_obj = anitya.lib.model.Distro.get(session, distribution)
+
+    if not distro_obj:
+        distro_obj = anitya.lib.model.Distro(name=distribution)
+        anitya.log(
+            session,
+            distro=distro_obj,
+            topic='distro.add',
+            message=dict(
+                agent=user_mail,
+                distro=distro_obj,
+            )
+        )
+        session.add(distro_obj)
+        try:
+            session.flush()
+        except SQLAlchemyError, err:
+            session.rollback()
+            raise exceptions.AnityaException(
+                'Could not add the distribution %s to the database, '
+                'please inform an admin.' % distribution, 'errors')
+
+    pkg = anitya.lib.model.Packages.get(
+        session, project.id, distribution, package_name)
+
+    edited = None
+    if not pkg:
+        topic = 'project.map.new'
+        pkg = anitya.lib.model.Packages(
+            distro=distribution,
+            project_id=project.id,
+            package_name=package_name
+        )
+    else:
+        topic = 'project.map.update'
+        edited = []
+        if pkg.distro != distribution:
+            pkg.distro = distribution
+            edited.append('distribution')
+        if pkg.package_name != package_name:
+            pkg.package_name = package_name
+            edited.append('package_name')
+
+    session.add(pkg)
+    try:
+        session.flush()
+    except SQLAlchemyError, err:
+        session.rollback()
+        raise exceptions.AnityaException(
+            'Could not add the mapping of %s to %s, please inform an '
+            'admin.' % (package_name, distribution), 'errors')
+
+    message = dict(
+        agent=user_mail,
+        project=project,
+        distro=distro_obj,
+        new=package_name,
+    )
+    if edited:
+        message['edited'] = edited
+
+    anitya.log(
+        session,
+        project=project,
+        distro=distro_obj,
+        topic=topic,
+        message=message,
+    )
+
+    return pkg
