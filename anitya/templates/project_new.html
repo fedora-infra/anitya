@@ -26,10 +26,10 @@
             <tr>
               {{ render_field_in_row(form.backend) }}
             </tr>
-            <tr>
+            <tr id="version_url_row">
               {{ render_field_in_row(form.version_url) }}
             </tr>
-            <tr>
+            <tr id="regex_row">
               {{ render_field_in_row(form.regex) }}
             </tr>
           </table>
@@ -54,4 +54,25 @@
   {{ form.csrf_token }}
 </form>
 
+{% endblock %}
+
+
+{% block jscript %}
+<script type="text/javascript">
+  function show_hide(){
+    $('#regex_row').hide();
+    $('#version_url_row').hide();
+    var str = $( '#backend option:selected' ).text();
+    if (str == 'apache folder'){
+      $('#version_url_row').show();
+    };
+  };
+
+  $(document).ready(function() {
+    show_hide();
+    $('#backend').change(function() {
+      show_hide();
+    });
+  });
+</script>
 {% endblock %}
