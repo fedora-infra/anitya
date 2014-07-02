@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 """
  (c) 2014 - Copyright Red Hat Inc
@@ -13,14 +13,11 @@ anitya internal library.
 __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
 
-import datetime
 import logging
-import time
 
 import sqlalchemy as sa
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 
@@ -49,7 +46,7 @@ def init(db_url, alembic_ini=None, debug=False, create=False):
     engine = create_engine(db_url, echo=debug)
 
     if create:
-        model.BASE.metadata.create_all(engine)
+        anitya.lib.model.BASE.metadata.create_all(engine)
 
     # Source: http://docs.sqlalchemy.org/en/latest/dialects/sqlite.html
     # see section 'sqlite-foreign-keys'
@@ -75,7 +72,7 @@ def create_project(
     """ Create the project in the database.
 
     """
-    project = model.Project(
+    project = anitya.lib.model.Project(
         name=name,
         homepage=homepage,
         backend=backend,
@@ -89,7 +86,7 @@ def create_project(
         session.flush()
     except SQLAlchemyError:
         session.rollback()
-        raise exceptions.AnityaException(
+        raise anitya.lib.exceptions.AnityaException(
             'Could not add this project, already exists?')
 
     anitya.log(
@@ -144,7 +141,7 @@ def edit_project(
             session.commit()
     except SQLAlchemyError, err:
         session.rollback()
-        raise exceptions.AnityaException(
+        raise anitya.lib.exceptions.AnityaException(
             'Could not edit this project. Is there already a project '
             'with this homepage?', 'errors')
 
@@ -157,8 +154,6 @@ def map_project(
     """
 
     distribution = distribution.strip()
-    cnt = 0
-    msgs = []
 
     distro_obj = anitya.lib.model.Distro.get(session, distribution)
 
@@ -178,7 +173,7 @@ def map_project(
             session.flush()
         except SQLAlchemyError, err:
             session.rollback()
-            raise exceptions.AnityaException(
+            raise anitya.lib.exceptions.AnityaException(
                 'Could not add the distribution %s to the database, '
                 'please inform an admin.' % distribution, 'errors')
 
@@ -209,7 +204,7 @@ def map_project(
         session.flush()
     except SQLAlchemyError, err:
         session.rollback()
-        raise exceptions.AnityaException(
+        raise anitya.lib.exceptions.AnityaException(
             'Could not add the mapping of %s to %s, please inform an '
             'admin.' % (package_name, distribution), 'errors')
 
