@@ -253,71 +253,31 @@ def edit_project(project_id):
 @login_required
 def map_project(project_id):
 
-    project = cnucnuweb.model.Project.get(SESSION, project_id)
+    project = anitya.lib.model.Project.get(SESSION, project_id)
     if not project:
         flask.abort(404)
 
-    form = cnucnuweb.forms.MappingForm()
+    form = anitya.forms.MappingForm()
 
     if form.validate_on_submit():
-        distro = form.distro.data
-        pkgname = form.package_name.data
-        version_url = form.version_url.data
-        regex = form.regex.data
 
-        print distro, pkgname, version_url, regex
-
-        cnt = 0
-        msgs = []
-
-        distro_obj = cnucnuweb.model.Distro.get(
-            SESSION, distro.strip())
-
-        if not distro_obj:
-            distro_obj = cnucnuweb.model.Distro.get_or_create(
-                SESSION, distro)
-            cnucnuweb.log(
+        try:
+            pkg = anitya.lib.map_project(
                 SESSION,
-                distro=distro_obj,
-                topic='distro.add',
-                message=dict(
-                    agent=flask.g.auth.email,
-                    distro=distro,
-                )
+                project=project,
+                package_name=form.package_name.data,
+                distribution=form.distro.data,
+                user_mail=flask.g.auth.email,
             )
+            #flask.flash('Project created')
+            SESSION.commit()
+        except anitya.lib.exceptions.AnityaException as err:
+            flask.flash(err)
 
-        pkg = cnucnuweb.model.Packages.get(
-            SESSION, project.id, distro, pkgname)
-
-        topic = 'project.map.update'
-        if not pkg:
-            topic = 'project.map.new'
-
-        cnucnuweb.model.map_project_distro(
-            SESSION,
-            project_id=project.id,
-            distro_name=distro_obj.name,
-            pkg_name=pkgname,
-            version_url=version_url,
-            regex=regex)
-
-        flask.flash('%s updated' % distro)
-        cnucnuweb.log(
-            SESSION,
-            project=project,
-            distro=distro_obj,
-            topic=topic,
-            message=dict(
-                agent=flask.g.auth.email,
-                project=project.name,
-                distro=distro,
-                new=pkgname,
-            )
+        return flask.redirect(
+            flask.url_for('project', project_id=project.id)
         )
 
-        SESSION.commit()
-        return flask.redirect(
-            flask.url_for('project', project_id=project.id))
 
     return flask.render_template(
         'mapping.html',
