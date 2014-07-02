@@ -309,6 +309,11 @@ class Project(BASE):
         sa.UniqueConstraint('name', 'homepage'),
     )
 
+    @property
+    def versions(self):
+        ''' Return the list of all versions stored. '''
+        return sorted([version.version for version in self.versions_obj])
+
     def __repr__(self):
         return '<Project(%s, %s)>' % (self.name, self.homepage)
 
@@ -405,4 +410,4 @@ class ProjectVersion(BASE):
     )
     version = sa.Column(sa.String(50), primary_key=True)
 
-    project = sa.orm.relation('Project', backref='versions')
+    project = sa.orm.relation('Project', backref='versions_obj')
