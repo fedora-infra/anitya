@@ -170,7 +170,7 @@ def map_project(
             topic='distro.add',
             message=dict(
                 agent=user_mail,
-                distro=distro_obj,
+                distro=distro_obj.name,
             )
         )
         session.add(distro_obj)
