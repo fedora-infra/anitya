@@ -5,10 +5,6 @@ import warnings
 
 import fedmsg
 
-from cnucnu.package_list import Package
-from cnucnu.errors import CnuCnuError
-from cnucnu.helper import upstream_max
-
 
 LOG = logging.getLogger(__name__)
 
@@ -66,7 +62,7 @@ def check_release(project, session):
                 package.logs = 'Version retrieved correctly'
 
         if publish:
-            fedmsg.publish(topic="project.version.update", msg=dict(
+            fedmsg_publish(topic="project.version.update", msg=dict(
                 project=project.__json__(),
                 upstream_version=up_version,
                 old_version=p_version,
