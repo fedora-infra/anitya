@@ -214,9 +214,8 @@ def log(session, project=None, distro=None, topic=None, message=None):
         'project.map.new': '%(agent)s mapped the name of %(project)s in '
                            '%(distro)s as %(new)s',
         'project.map.update': '%(agent)s update the name of %(project)s in '
-                              '%(distro)s %(new)s',
-                              # from: %(prev)s to: %(new)s',
-        'project.map.remove': '%(agent)s removed the mapping of %(project)s'
+                              '%(distro)s from: %(prev)s to: %(new)s',
+        'project.map.remove': '%(agent)s removed the mapping of %(project)s '
                               'in %(distro)s',
     }
     substitutions = _construct_substitutions(message)
