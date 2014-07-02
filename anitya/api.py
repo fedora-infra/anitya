@@ -117,6 +117,14 @@ def api_get_version():
                 )
                 SESSION.add(project)
                 SESSION.commit()
+                anitya.fedmsg_publish(
+                    topic="project.version.update",
+                    msg=dict(
+                        project=project.__json__(),
+                        upstream_version=latest_version,
+                        versions=[version for version in project.versions],
+                    )
+                )
 
             output = {
                 'name': project.name,
