@@ -260,72 +260,31 @@ def map_project(project_id):
 @login_required
 def edit_project_mapping(project_id, pkg_id):
 
-    project = cnucnuweb.model.Project.get(SESSION, project_id)
+    project = anitya.lib.model.Project.get(SESSION, project_id)
     if not project:
         flask.abort(404)
 
-    package = cnucnuweb.model.Packages.by_id(SESSION, pkg_id)
+    package = anitya.lib.model.Packages.by_id(SESSION, pkg_id)
     if not package:
         flask.abort(404)
 
-    form = cnucnuweb.forms.MappingForm()
+    form = anitya.forms.MappingForm(obj=package)
 
     if form.validate_on_submit():
-        distro = form.distro.data
-        pkgname = form.package_name.data
-        version_url = form.version_url.data
-        regex = form.regex.data
 
-        cnt = 0
-        msgs = []
-
-        distro_obj = cnucnuweb.model.Distro.get(
-            SESSION, distro.strip())
-
-        if not distro_obj:
-            distro_obj = cnucnuweb.model.Distro.get_or_create(
-                SESSION, distro)
-            cnucnuweb.log(
-                SESSION,
-                distro=distro_obj,
-                topic='distro.add',
-                message=dict(
-                    agent=flask.g.auth.email,
-                    distro=distro,
-                )
-            )
-
-        pkg = cnucnuweb.model.Packages.get(
-            SESSION, project.id, distro, pkgname)
-
-        topic = 'project.map.update'
-        if not pkg:
-            topic = 'project.map.new'
-
-        cnucnuweb.model.map_project_distro(
-            SESSION, project_id, distro_obj.name, pkgname,
-            version_url, regex)
-
-        flask.flash('%s updated' % distro)
-        cnucnuweb.log(
+        pkg = anitya.lib.map_project(
             SESSION,
             project=project,
-            distro=distro_obj,
-            topic=topic,
-            message=dict(
-                agent=flask.g.auth.email,
-                project=project.name,
-                distro=distro,
-                new=pkgname,
-            )
+            package_name=form.package_name.data,
+            distribution=form.distro.data,
+            user_mail=flask.g.auth.email,
+            old_package_name=package.package_name,
         )
 
         SESSION.commit()
+
         return flask.redirect(
             flask.url_for('project', project_id=project_id))
-
-    elif flask.request.method == 'GET':
-        form = cnucnuweb.forms.MappingForm(package=package)
 
     return flask.render_template(
         'mapping.html',
