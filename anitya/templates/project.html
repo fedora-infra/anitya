@@ -32,8 +32,6 @@
               <tr>
                 <th>Distribution</th>
                 <th>Package name </th>
-                <th>Version URL</th>
-                <th>Regex</th>
                 {% if is_admin %}
                 <th></th>
                 {% endif %}
@@ -43,33 +41,7 @@
               <tr>
                 <td>{{ package.distro }}</td>
                 <td>{{ package.package_name }}</td>
-                {% if package.regex %}
-                <td>
-                  <a href="{{ package.full_version_url }}">
-                    {{ package.version_url }}
-                  </a>
-                </td>
-                <td>
-                  {{ package.regex }}
-                </td>
-                <td>
-                  <a href="{{
-                    url_for('edit_project_mapping',
-                            project_id=project.id,
-                            pkg_id=package.id) }}">
-                    <button type="submit" class="btn btn-info">
-                      <span class="glyphicon glyphicon-edit"></span>
-
-                      Edit
-                    </button>
-                  </a>
-                </td>
-                {% else %}
-                <td></td>
-                <td></td>
-                <td></td>
-                {% endif %}
-                {% if is_admin and package.regex %}
+                {% if is_admin %}
                 <td>
                   <a href="{{
                     url_for('delete_project_mapping',
@@ -179,20 +151,13 @@
         data: {id: _id},
         dataType: 'json',
         success: function(res) {
-          output = "";
-          for (var it in res) {
-            for (var pkg in res[it]) {
-              if (res[it][pkg].latest_version){
-                output += "<li>" + it + ": " + res[it][pkg].package_name + ": "
-                       + res[it][pkg].latest_version + "</li>";
-              } else {
-                output += "<li>" + it + ": " + res[it][pkg].package_name + ": "
-                       + res[it][pkg].error + "</li>";
-              }
-            }
+          if (res.latest_version){
+            output = res.latest_version;
+          } else {
+            output = res.error;
           }
           $('#version_info').html(
-              "Latest versions: <ul>" + output + "</ul>");
+              "Latest versions: " + output);
         },
         error: function(res) {
             alert(
