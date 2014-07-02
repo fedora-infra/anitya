@@ -90,13 +90,12 @@
 
     <div class="panel panel-heading">
       <span class="panel-title" id="version_info">
-        {% if versions_known %}
+        {% if project.versions %}
         Latest version:
         <ul>
-          {% for pkg in project.packages %}
+          {% for version in project.versions | sort %}
           <li property="doap:release" typeof="doap:Version">
-            <strong>{{ pkg.distro }}:</strong>
-            <span property="doap:revision">{{ pkg.version }}</span>
+            <span property="doap:revision">{{ version.version }}</span>
           </li>
           {% endfor %}
         </ul>
