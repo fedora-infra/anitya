@@ -150,8 +150,8 @@
         data: {id: _id},
         dataType: 'json',
         success: function(res) {
-          if (res.latest_version){
-            output = res.latest_version;
+          if (res.version){
+            output = res.version;
           } else {
             output = res.error;
           }
