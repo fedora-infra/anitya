@@ -296,6 +296,7 @@ class Project(BASE):
     version_url = sa.Column(sa.String(200), nullable=False)
     regex = sa.Column(sa.String(200), nullable=False)
 
+    latest_version = sa.Column(sa.String(50))
     logs = sa.Column(sa.Text)
 
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
@@ -318,10 +319,9 @@ class Project(BASE):
             regex=self.regex,
             backend=self.backend,
             version_url=self.version_url,
-            version=self.version,
+            version=self.latest_version,
             created_on=time.mktime(self.created_on.timetuple()),
             updated_on=time.mktime(self.updated_on.timetuple()),
-            #packages=[pkg.__json__() for pkg in self.packages]
         )
 
     @classmethod
