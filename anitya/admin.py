@@ -198,7 +198,7 @@ def browse_logs():
     if not is_admin():
         flask.abort(403)
 
-    cnt_logs = cnucnuweb.model.Log.search(SESSION, count=True)
+    cnt_logs = anitya.lib.model.Log.search(SESSION, count=True)
 
     from_date = flask.request.args.get('from_date', None)
     project = flask.request.args.get('project', None)
@@ -233,7 +233,7 @@ def browse_logs():
 
     logs = []
     try:
-        logs = cnucnuweb.model.Log.search(
+        logs = anitya.lib.model.Log.search(
             SESSION,
             project_name=project or None,
             from_date=from_date,
