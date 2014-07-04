@@ -4,7 +4,8 @@ import logging
 import re
 import warnings
 
-import anitya.plugins
+import anitya.lib.plugins
+import anitya.lib.exceptions
 
 
 LOG = logging.getLogger(__name__)
@@ -136,11 +137,11 @@ def check_release(project, session):
 
     try:
         up_version = backend.get_version(project)
-    except AnityaError as err:
+    except anitya.lib.exceptions.AnityaPluginException as err:
         LOG.exception("AnityaError catched:")
         project.logs = err.message
 
-    if up_version not in project.versions:
+    if up_version and up_version not in project.versions:
         project.versions_obj.append(
             anitya.lib.model.ProjectVersion(
                 project_id=project.id,
