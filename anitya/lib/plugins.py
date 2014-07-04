@@ -13,7 +13,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 import anitya.lib.model as model
 from straight.plugin import load
-from anitya.backends import BaseBackend
+from anitya.lib.backends import BaseBackend
 
 
 def load_plugins(session):
@@ -35,14 +35,14 @@ def load_plugins(session):
 
 def get_plugin_names():
     ''' Return the list of plugins names. '''
-    plugins = load('anitya.backends', subclasses=BaseBackend)
+    plugins = load('anitya.lib.backends', subclasses=BaseBackend)
     output = [plugin.name for plugin in plugins]
     return output
 
 
 def get_plugin(plugin_name):
     ''' Return the plugin corresponding to the given plugin name. '''
-    plugins = load('anitya.backends', subclasses=BaseBackend)
+    plugins = load('anitya.lib.backends', subclasses=BaseBackend)
     for plugin in plugins:
         if plugin.name == plugin_name:
             return plugin
