@@ -44,7 +44,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(
     os.path.abspath(__file__)), '..'))
 
 from anitya.app import APP
-import anitya.model as model
+import anitya.lib
+import anitya.lib.model as model
 
 #DB_PATH = 'sqlite:///:memory:'
 ## A file database is required to check the integrity, don't ask
@@ -72,11 +73,18 @@ class Modeltests(unittest.TestCase):
     # pylint: disable=C0103
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
-        if '///' in DB_PATH:
-            dbfile = DB_PATH.split('///')[1]
+        if ':///' in DB_PATH:
+            dbfile = DB_PATH.split(':///')[1]
             if os.path.exists(dbfile):
                 os.unlink(dbfile)
-        self.session = model.init(DB_PATH, create=True, debug=False)
+        self.session = anitya.lib.init(DB_PATH, create=True, debug=False)
+
+        backend = model.Backend(
+            name='custom',
+        )
+        self.session.add(backend)
+
+        self.session.commit()
 
     # pylint: disable=C0103
     def tearDown(self):
@@ -119,12 +127,16 @@ def create_project(session):
     project = model.Project(
         name='geany',
         homepage='http://www.geany.org/',
+        version_url='http://www.geany.org/Download/Releases',
+        regex='DEFAULT',
     )
     session.add(project)
 
     project = model.Project(
         name='subsurface',
         homepage='http://subsurface.hohndel.org/',
+        version_url='http://subsurface.hohndel.org/downloads/',
+        regex='DEFAULT',
     )
     session.add(project)
 
@@ -143,8 +155,6 @@ def create_package(session):
         project_id=1,
         distro='Fedora',
         package_name='geany',
-        version_url='http://www.geany.org/Download/Releases',
-        regex='DEFAULT',
     )
     session.add(package)
 
@@ -152,8 +162,6 @@ def create_package(session):
         project_id=2,
         distro='Fedora',
         package_name='subsurface',
-        version_url='http://subsurface.hohndel.org/downloads/',
-        regex='DEFAULT',
     )
     session.add(package)
 
