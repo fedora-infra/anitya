@@ -21,7 +21,7 @@ from flask.ext.openid import OpenID
 
 import anitya.lib
 import anitya.forms
-import anitya.plugins
+import anitya.lib.plugins
 
 
 __version__ = '0.1.0'
@@ -39,7 +39,7 @@ OID = OpenID(APP)
 SESSION = anitya.lib.init(
     APP.config['DB_URL'], debug=False, create=False)
 
-anitya.plugins.load_plugins(SESSION)
+anitya.lib.plugins.load_plugins(SESSION)
 
 
 @APP.before_request
