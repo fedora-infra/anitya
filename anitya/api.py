@@ -3,7 +3,7 @@
 import flask
 
 import anitya
-import anitya.plugins
+import anitya.lib.plugins
 import anitya.lib.model
 
 from anitya.app import APP, SESSION
