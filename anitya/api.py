@@ -47,8 +47,8 @@ def api_projects_list():
         for package in project.packages:
             tmp = '* {name} {regex} {version_url}'.format(
                 name=package.package_name,
-                regex=package.regex,
-                version_url=package.version_url)
+                regex=project.regex,
+                version_url=project.version_url)
             projects.append(tmp)
 
     return flask.Response(
