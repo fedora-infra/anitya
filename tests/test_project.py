@@ -88,18 +88,20 @@ class Projecttests(Modeltests):
         """ Test the by_homepage function of Project. """
         create_project(self.session)
 
-        project = model.Project.by_homepage(
+        projects = model.Project.by_homepage(
             self.session, 'http://www.geany.org/')
-        self.assertEqual(project.name, 'geany')
-        self.assertEqual(project.homepage, 'http://www.geany.org/')
+        self.assertEqual(len(projects), 1)
+        self.assertEqual(projects[0].name, 'geany')
+        self.assertEqual(projects[0].homepage, 'http://www.geany.org/')
 
-        project = model.Project.by_homepage(
+        projects = model.Project.by_homepage(
             self.session, 'http://subsurface.hohndel.org/')
-        self.assertEqual(project.name, 'subsurface')
-        self.assertEqual(project.homepage, 'http://subsurface.hohndel.org/')
+        self.assertEqual(len(projects), 1)
+        self.assertEqual(projects[0].name, 'subsurface')
+        self.assertEqual(projects[0].homepage, 'http://subsurface.hohndel.org/')
 
         project = model.Project.by_homepage(self.session, 'terminal')
-        self.assertEqual(project, None)
+        self.assertEqual(project, [])
 
     def test_project_all(self):
         """ Test the all function of Project. """
@@ -125,23 +127,6 @@ class Projecttests(Modeltests):
         projects = model.Project.search(self.session, 'gea*')
         self.assertEqual(projects[0].name, 'geany')
         self.assertEqual(projects[0].homepage, 'http://www.geany.org/')
-
-    def test_project_get_or_create(self):
-        """ Test the get_or_create function of Project. """
-        create_project(self.session)
-
-        project = model.Project.get_or_create(
-            self.session, 'geany', 'http://www.geany.org/')
-        self.assertEqual(project.name, 'geany')
-        self.assertEqual(project.homepage, 'http://www.geany.org/')
-        self.assertEqual(3, model.Project.all(self.session, count=True))
-
-        project = model.Project.get_or_create(
-            self.session, 'chai', 'https://github.com/agoragames/chai/')
-        self.assertEqual(project.name, 'chai')
-        self.assertEqual(
-            project.homepage, 'https://github.com/agoragames/chai/')
-        self.assertEqual(4, model.Project.all(self.session, count=True))
 
     def test_distro_repr(self):
         """ Test the __repr__ function of Project. """
