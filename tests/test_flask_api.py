@@ -39,17 +39,17 @@ import anitya.model as model
 from tests import Modeltests, create_distro, create_project, create_package
 
 
-class CnucnuWebAPItests(Modeltests):
+class AnityaWebAPItests(Modeltests):
     """ Flask API tests. """
 
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
-        super(CnucnuWebAPItests, self).setUp()
+        super(AnityaWebAPItests, self).setUp()
 
-        cnucnuweb.app.APP.config['TESTING'] = True
-        cnucnuweb.app.SESSION = self.session
-        cnucnuweb.api.SESSION = self.session
-        self.app = cnucnuweb.app.APP.test_client()
+        anitya.app.APP.config['TESTING'] = True
+        anitya.app.SESSION = self.session
+        anitya.api.SESSION = self.session
+        self.app = anitya.app.APP.test_client()
 
     def test_api_projects(self):
         """ Test the api_projects function of the API. """
@@ -75,20 +75,33 @@ class CnucnuWebAPItests(Modeltests):
         exp = {
             "projects": [
                 {
+                    "backend": "custom",
                     "homepage": "http://www.geany.org/",
                     "name": "geany",
+                    "regex": "DEFAULT",
+                    "version": None,
+                    "version_url": "http://www.geany.org/Download/Releases"
                 },
                 {
+                    "backend": "custom",
                     "homepage": "https://fedorahosted.org/r2spec/",
                     "name": "R2spec",
+                    "regex": None,
+                    "version": None,
+                    "version_url": None
                 },
                 {
+                    "backend": "custom",
                     "homepage": "http://subsurface.hohndel.org/",
                     "name": "subsurface",
+                    "regex": "DEFAULT",
+                    "version": None,
+                    "version_url": "http://subsurface.hohndel.org/downloads/"
                 }
             ],
             "total": 3
         }
+
         self.assertEqual(data, exp)
 
         output = self.app.get('/api/projects/?pattern=ge')
@@ -102,9 +115,13 @@ class CnucnuWebAPItests(Modeltests):
         exp = {
             "projects": [
                 {
+                    "backend": "custom",
                     "homepage": "http://www.geany.org/",
                     "name": "geany",
-                }
+                    "regex": "DEFAULT",
+                    "version": None,
+                    "version_url": "http://www.geany.org/Download/Releases"
+                },
             ],
             "total": 1
         }
@@ -253,10 +270,15 @@ class CnucnuWebAPItests(Modeltests):
         del(data['updated_on'])
 
         exp = {
+            "backend": "custom",
             "homepage": "http://www.geany.org/",
             "name": "geany",
+            "regex": 'DEFAULT',
+            "version": None,
+            "version_url": 'http://www.geany.org/Download/Releases',
         }
-        self.assertEqual(data, exp)
+
+        self.assertEqual(exp, data)
 
     def test_api_get_project_distro(self):
         """ Test the api_get_project_distro function of the API. """
@@ -293,12 +315,16 @@ class CnucnuWebAPItests(Modeltests):
         del(data['updated_on'])
 
         exp = {
+            "backend": "custom",
             "homepage": "http://www.geany.org/",
             "name": "geany",
+            "regex": 'DEFAULT',
+            "version": None,
+            "version_url": 'http://www.geany.org/Download/Releases',
         }
         self.assertEqual(data, exp)
 
 
 if __name__ == '__main__':
-    SUITE = unittest.TestLoader().loadTestsFromTestCase(CnucnuWebAPItests)
+    SUITE = unittest.TestLoader().loadTestsFromTestCase(AnityaWebAPItests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)
