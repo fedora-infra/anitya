@@ -342,7 +342,11 @@ class Project(BASE):
 
     @classmethod
     def all(cls, session, page=None, count=False):
-        query = session.query(Project).order_by(sa.func.lower(Project.name))
+        query = session.query(
+            Project
+        ).order_by(
+            sa.func.lower(Project.name)
+        )
 
         if page:
             try:
