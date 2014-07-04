@@ -105,8 +105,12 @@ def api_get_version():
             output = {'output': 'notok', 'error': 'No such project'}
             httpcode = 404
         else:
-            anitya.check_release(project, SESSION)
-            output = project.__json__()
+            try:
+                anitya.check_release(project, SESSION)
+                output = project.__json__()
+            except anitya.lib.exceptions.AnityaException as err:
+                output = {'output': 'notok', 'error': [str(err)]}
+                httpcode = 400
 
     jsonout = flask.jsonify(output)
     jsonout.status_code = httpcode
