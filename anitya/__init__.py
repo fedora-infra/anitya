@@ -129,7 +129,10 @@ def check_release(project, session):
     :arg package: a Package object has defined in anitya.lib.model.Project
 
     '''
-    backend = anitya.plugins.get_plugin(project.backend)
+    backend = anitya.lib.plugins.get_plugin(project.backend)
+    if not backend:
+        raise anitya.lib.exceptions.AnityaException(
+            'No backend was found for "%s"' % project.backend)
 
     publish = False
     up_version = None
