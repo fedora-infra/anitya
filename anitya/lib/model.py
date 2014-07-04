@@ -290,8 +290,8 @@ class Project(BASE):
         nullable=False,
         default='custom',
     )
-    version_url = sa.Column(sa.String(200), nullable=False)
-    regex = sa.Column(sa.String(200), nullable=False)
+    version_url = sa.Column(sa.String(200), nullable=True)
+    regex = sa.Column(sa.String(200), nullable=True)
 
     latest_version = sa.Column(sa.String(50))
     logs = sa.Column(sa.Text)
