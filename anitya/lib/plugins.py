@@ -28,7 +28,10 @@ def load_plugins(session):
     for backend in set(backends).symmetric_difference(set(plugins)):
         bcke = model.Backend(name=backend)
         session.add(bcke)
-        session.flush()
+        try:
+            session.flush()
+        except SQLAlchemyError:
+            session.rollback()
     session.commit()
     return plugins
 
