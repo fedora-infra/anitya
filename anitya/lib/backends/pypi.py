@@ -25,6 +25,11 @@ class PypiBackend(BaseBackend):
 
         :arg Project project: a :class:`model.Project` object whose backend
             corresponds to the current plugin.
+        :return: the latest version found upstream
+        :return type: str
+        :raise AnityaPluginException: a
+            :class:`anitya.lib.exceptions.AnityaPluginException` exception
+            when the version cannot be retrieved correctly
 
         '''
         url = 'https://pypi.python.org/pypi/%s/json' % project.name
@@ -46,6 +51,9 @@ class PypiBackend(BaseBackend):
             corresponds to the current plugin.
         :return: a list of all the possible releases found
         :return type: list
+        :raise AnityaPluginException: a
+            :class:`anitya.lib.exceptions.AnityaPluginException` exception
+            when the versions cannot be retrieved correctly
 
         '''
         url = 'https://pypi.python.org/pypi/%s/json' % project.name
