@@ -10,7 +10,7 @@
 
 import requests
 
-from anitya.backends import BaseBackend
+from anitya.lib.backends import BaseBackend
 
 
 class PypiBackend(BaseBackend):

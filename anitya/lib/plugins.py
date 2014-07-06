@@ -11,8 +11,9 @@ Module handling the load/call of the plugins of anitya
 
 from sqlalchemy.exc import SQLAlchemyError
 
-import anitya.lib.model as model
 from straight.plugin import load
+
+import anitya.lib.model as model
 from anitya.lib.backends import BaseBackend
 
 
