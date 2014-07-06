@@ -15,7 +15,7 @@ class BaseBackend(object):
     name = None
 
     @classmethod
-    def get_version(self, project):
+    def get_version(self, project):  # pragma: no cover
         ''' Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
@@ -31,7 +31,7 @@ class BaseBackend(object):
         pass
 
     @classmethod
-    def get_versions(self, project):
+    def get_versions(self, project):  # pragma: no cover
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
         this plugin.
