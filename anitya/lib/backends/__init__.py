@@ -21,6 +21,11 @@ class BaseBackend(object):
 
         :arg Project project: a :class:`model.Project` object whose backend
             corresponds to the current plugin.
+        :return: the latest version found upstream
+        :return type: str
+        :raise AnityaPluginException: a
+            :class:`anitya.lib.exceptions.AnityaPluginException` exception
+            when the version cannot be retrieved correctly
 
         '''
         pass
@@ -35,6 +40,9 @@ class BaseBackend(object):
             corresponds to the current plugin.
         :return: a list of all the possible releases found
         :return type: list
+        :raise AnityaPluginException: a
+            :class:`anitya.lib.exceptions.AnityaPluginException` exception
+            when the versions cannot be retrieved correctly
 
         '''
         pass
