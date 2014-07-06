@@ -79,12 +79,7 @@ class Modeltests(unittest.TestCase):
                 os.unlink(dbfile)
         self.session = anitya.lib.init(DB_PATH, create=True, debug=False)
 
-        backend = model.Backend(
-            name='custom',
-        )
-        self.session.add(backend)
-
-        self.session.commit()
+        anitya.lib.plugins.load_plugins(self.session)
 
     # pylint: disable=C0103
     def tearDown(self):
