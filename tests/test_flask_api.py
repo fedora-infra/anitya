@@ -212,31 +212,16 @@ class AnityaWebAPItests(Modeltests):
         output = self.app.post('/api/version/', data=data)
         self.assertEqual(output.status_code, 200)
         data = json.loads(output.data)
+        del(data['created_on'])
+        del(data['updated_on'])
 
         exp = {
-            "Fedora": [
-                {
-                    "latest_version": "1.23.1",
-                    "name": "geany",
-                    "package_name": "geany",
-                    "raw_regex": "DEFAULT",
-                    "raw_url": "http://www.geany.org/Download/Releases",
-                    "regex":
-                        "(?i)\\bgeany[-_](?:(?:src|source)[-_])?"
-                        "([^-/_\\s]*?\\d[^-/_\\s]*?)(?:[-_.]"
-                        "(?:src|source|orig))?\\.(?:[jt]ar|t[bglx]z|tbz2|zip)"
-                        "\\b",
-                    "url": "http://www.geany.org/Download/Releases",
-                    "versions": [
-                        "1.23.1",
-                        "1.23.1",
-                        "1.23.1",
-                        "1.23.1",
-                        "1.23.1",
-                        "1.23.1"
-                    ]
-                }
-            ]
+            "backend": "custom",
+            "homepage": "http://www.geany.org/",
+            "name": "geany",
+            "regex": "DEFAULT",
+            "version": "1.24.1",
+            "version_url": "http://www.geany.org/Download/Releases"
         }
         # This test will break for every update of geany, so we need to
         # keep the output easy on hand.
