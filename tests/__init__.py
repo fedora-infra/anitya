@@ -50,16 +50,17 @@ import anitya.lib.model as model
 #DB_PATH = 'sqlite:///:memory:'
 ## A file database is required to check the integrity, don't ask
 DB_PATH = 'sqlite:////tmp/anitya_test.sqlite'
-FAITOUT_URL = 'http://209.132.184.152/faitout/a'
+FAITOUT_URL = 'http://209.132.184.152/faitout/'
 
-try:
-    import requests
-    req = requests.get('%s/new' % FAITOUT_URL)
-    if req.status_code == 200:
-        DB_PATH = req.text
-        print 'Using faitout at: %s' % DB_PATH
-except:
-    pass
+if os.environ.get('BUILD_ID'):
+    try:
+        import requests
+        req = requests.get('%s/new' % FAITOUT_URL)
+        if req.status_code == 200:
+            DB_PATH = req.text
+            print 'Using faitout at: %s' % DB_PATH
+    except:
+        pass
 
 
 class Modeltests(unittest.TestCase):
