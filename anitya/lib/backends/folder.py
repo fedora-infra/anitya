@@ -8,13 +8,7 @@
 
 """
 
-import re
-# sre_constants contains re exceptions
-import sre_constants
-
-import requests
-
-from anitya.lib.backends import BaseBackend
+from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 
 REGEX = b'href="([0-9][0-9.]*)/"'
@@ -65,32 +59,4 @@ class FolderBackend(BaseBackend):
         '''
         url = project.version_url
 
-        try:
-            req = requests.get(url)
-        except Exception:
-            raise AnityaPluginException(
-                'Could not call : "%s" of "%s"' % (url, project.name))
-
-        try:
-            upstream_versions = list(set(re.findall(REGEX, req.text)))
-        except sre_constants.error:
-            raise AnityaPluginException(
-                "%s: invalid regular expression" % project.name)
-
-        for index, version in enumerate(upstream_versions):
-            if type(version) == tuple:
-                version = ".".join([v for v in version if not v == ""])
-                upstream_versions[index] = version
-            if " " in version:
-                raise AnityaPluginException(
-                    "%s: invalid upstream version:>%s< - %s - %s " % (
-                        project.name, version, project.version_url,
-                        REGEX))
-        if len(upstream_versions) == 0:
-            raise AnityaPluginException(
-                "%(name)s: no upstream version found. - %(version_url)s -  "
-                "%(regex)s" % {
-                    'name': project.name, 'version_url': project.version_url,
-                    'regex': REGEX})
-
-        return upstream_versions
+        return get_versions_by_regex(url, REGEX, project)
