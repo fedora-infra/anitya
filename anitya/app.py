@@ -39,8 +39,6 @@ OID = OpenID(APP)
 SESSION = anitya.lib.init(
     APP.config['DB_URL'], debug=False, create=False)
 
-anitya.lib.plugins.load_plugins(SESSION)
-
 
 @APP.before_request
 def check_auth():
