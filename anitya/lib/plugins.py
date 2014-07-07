@@ -27,10 +27,9 @@ def load_plugins(session):
         bcke = model.Backend(name=backend)
         session.add(bcke)
         try:
-            session.flush()
-        except SQLAlchemyError:
+            session.commit()
+        except SQLAlchemyError, err:
             session.rollback()
-    session.commit()
     return plugins
 
 
