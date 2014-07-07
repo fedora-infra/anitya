@@ -4,6 +4,8 @@ import logging
 import re
 import warnings
 
+from pkg_resources import parse_version
+
 import anitya.lib.plugins
 import anitya.lib.exceptions
 
@@ -25,102 +27,14 @@ def fedmsg_publish(*args, **kwargs):  # pragma: no cover
         warnings.warn(str(err))
 
 
-__rc_upstream_regex = re.compile("(.*?)\.?(-?(rc|pre|beta|alpha|dev)([0-9]*))",
-                                 re.I)
-__rc_release_regex = re.compile(r'0\.[0-9]+\.(rc|pre|beta|alpha|dev)([0-9]*)',
-                                re.I)
 
-
-def split_rc(version):
-    """ Split (upstream) version into version and release candidate string +
-    release candidate number if possible
-    """
-    match = __rc_upstream_regex.match(version)
-    if not match:
-        return (version, "", "")
-
-    rc_str = match.group(3)
-    if rc_str:
-        v = match.group(1)
-        rc_num = match.group(4)
-        return (v, rc_str, rc_num)
-    else:
-        # if version contains a dash, but no release candidate string is found,
-        # v != version, therefore use version here
-        # Example version: 1.8.23-20100128-r1100
-        # Then: v=1.8.23, but rc_str=""
-        return (version, "", "")
-
-
-def rpm_cmp(v1, v2):
-    import rpm
-    diff = rpm.labelCompare((None, v1, None), (None, v2, None))
-    return diff
-
-
-def rpm_max(list):
-    list.sort(cmp=rpm_cmp)
-    return list[-1]
-
-
-def upstream_cmp(v1, v2):
-    """ Compare two upstream versions
-
-    :Parameters:
-        v1 : str
-            Upstream version string 1
-        v2 : str
-            Upstream version string 2
-
-    :return:
-        - -1 - second version newer
-        - 0  - both are the same
-        - 1  - first version newer
-
-    :rtype: int
-
-    """
-
-    v1, rc1, rcn1 = split_rc(v1)
-    v2, rc2, rcn2 = split_rc(v2)
-
-    diff = rpm_cmp(v1, v2)
-    if diff != 0:
-        # base versions are different, ignore rc-status
-        return diff
-
-    if rc1 and rc2:
-        # both are rc, higher rc is newer
-        diff = cmp(rc1.lower(), rc2.lower())
-        if diff != 0:
-            # rc > pre > beta > alpha
-            return diff
-        if rcn1 and rcn2:
-            # both have rc number
-            return cmp(int(rcn1), int(rcn2))
-        if rcn1:
-            # only first has rc number, then it is newer
-            return 1
-        if rcn2:
-            # only second has rc number, then it is newer
-            return -1
-        # both rc numbers are missing or same
-        return 0
-
-    if rc1:
-        # only first is rc, then second is newer
-        return -1
-    if rc2:
-        # only second is rc, then first is newer
-        return 1
-
-    # neither is a rc
-    return 0
-
-
-def upstream_max(list):
-    list.sort(cmp=upstream_cmp)
-    return list[-1]
+def order_versions(vlist):
+    ''' For a provided list of versions, return the list ordered from the
+    oldest to the newest version.
+    '''
+    return sorted(
+        vlist,
+        cmp=lambda x,y: cmp(parse_version(x), parse_version(y)))
 
 
 def check_release(project, session):
@@ -158,7 +72,7 @@ def check_release(project, session):
     p_version = project.latest_version or ''
 
     if up_version and up_version != p_version:
-        max_version = upstream_max([up_version, p_version])
+        max_version = order_versions([up_version, p_version])[-1]
         if max_version != up_version:
             project.logs = 'Something strange occured, we found that this '\
                 'project has released a version "%s" while we had the latest '\
