@@ -18,7 +18,7 @@ REGEX= b'%(name)s[-_]([^-/_\s]+?)(?i)(?:[-_]'\
 
 
 class RubygemsBackend(BaseBackend):
-    ''' The custom class for projects hosted on Google code.
+    ''' The custom class for projects hosted on rubygems.org.
 
     This backend allows to specify a version_url and a regex that will
     be used to retrieve the version information.
