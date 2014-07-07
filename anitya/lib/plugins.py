@@ -20,10 +20,7 @@ from anitya.lib.backends import BaseBackend
 def load_plugins(session):
     ''' Load all the plugins and insert them in the database if they are
     not already present. '''
-    try:
-        backends = [bcke.name for bcke in model.Backend.all(session)]
-    except SQLAlchemyError:
-        return
+    backends = [bcke.name for bcke in model.Backend.all(session)]
 
     plugins = get_plugin_names()
     for backend in set(backends).symmetric_difference(set(plugins)):
