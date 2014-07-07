@@ -98,12 +98,11 @@ def get_versions_by_regex(url, regex, project):
         if " " in version:
             raise AnityaPluginException(
                 "%s: invalid upstream version:>%s< - %s - %s " % (
-                    project.name, version, project.version_url, regex))
+                    project.name, version, url, regex))
     if len(upstream_versions) == 0:
         raise AnityaPluginException(
-            "%(name)s: no upstream version found. - %(version_url)s -  "
+            "%(name)s: no upstream version found. - %(url)s -  "
             "%(regex)s" % {
-                'name': project.name, 'version_url': project.version_url,
-                'regex': regex})
+                'name': project.name, 'url': url, 'regex': regex})
 
     return upstream_versions
