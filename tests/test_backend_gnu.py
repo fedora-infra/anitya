@@ -34,18 +34,21 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(
     os.path.abspath(__file__)), '..'))
 
-import anitya.lib.backends.folder as backend
+import anitya.lib.backends.gnu as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
 from tests import Modeltests, create_distro
 
 
-class FolderBackendtests(Modeltests):
+BACKEND = 'GNU project'
+
+
+class GnuBackendtests(Modeltests):
     """ custom backend tests. """
 
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
-        super(FolderBackendtests, self).setUp()
+        super(GnuBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
@@ -56,7 +59,7 @@ class FolderBackendtests(Modeltests):
             name='gnash',
             homepage='https://www.gnu.org/software/gnash/',
             version_url='http://ftp.gnu.org/pub/gnu/gnash/',
-            backend='folder',
+            backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
@@ -64,7 +67,7 @@ class FolderBackendtests(Modeltests):
         project = model.Project(
             name='fake',
             homepage='https://pypi.python.org/pypi/repo_manager_fake',
-            backend='folder',
+            backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
@@ -73,7 +76,7 @@ class FolderBackendtests(Modeltests):
             name='subsurface',
             homepage='http://subsurface.hohndel.org/',
             version_url='http://subsurface.hohndel.org/downloads/',
-            backend='folder',
+            backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
@@ -83,14 +86,14 @@ class FolderBackendtests(Modeltests):
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = '0.8.10'
-        obs = backend.FolderBackend.get_version(project)
+        obs = backend.GnuBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = model.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
-            backend.FolderBackend.get_version,
+            backend.GnuBackend.get_version,
             project
         )
 
@@ -98,7 +101,7 @@ class FolderBackendtests(Modeltests):
         project = model.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
-            backend.FolderBackend.get_version,
+            backend.GnuBackend.get_version,
             project
         )
 
@@ -110,14 +113,14 @@ class FolderBackendtests(Modeltests):
             '0.7.1', '0.7.2', '0.8.0', '0.8.1', '0.8.2', '0.8.3', '0.8.4',
             '0.8.5', '0.8.6', '0.8.7', '0.8.8', '0.8.9', '0.8.10'
         ]
-        obs = backend.FolderBackend.get_ordered_versions(project)
+        obs = backend.GnuBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = model.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
-            backend.FolderBackend.get_version,
+            backend.GnuBackend.get_version,
             project
         )
 
@@ -125,11 +128,11 @@ class FolderBackendtests(Modeltests):
         project = model.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
-            backend.FolderBackend.get_version,
+            backend.GnuBackend.get_version,
             project
         )
 
 
 if __name__ == '__main__':
-    SUITE = unittest.TestLoader().loadTestsFromTestCase(FolderBackendtests)
+    SUITE = unittest.TestLoader().loadTestsFromTestCase(GnuBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)
