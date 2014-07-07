@@ -96,7 +96,7 @@ class PypiBackendtests(Modeltests):
         project = model.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
-            backend.PypiBackend.get_version,
+            backend.PypiBackend.get_versions,
             project
         )
 
