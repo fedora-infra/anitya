@@ -31,6 +31,10 @@ class CustomBackend(BaseBackend):
     '''
 
     name = 'custom'
+    examples = [
+        'http://subsurface.hohndel.org/downloads/',
+        'www.geany.org/Download/Releases',
+    ]
 
     @classmethod
     def get_version(cls, project):
