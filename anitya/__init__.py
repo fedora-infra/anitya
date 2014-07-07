@@ -143,6 +143,9 @@ def check_release(project, session):
     except anitya.lib.exceptions.AnityaPluginException as err:
         LOG.exception("AnityaError catched:")
         project.logs = err.message
+        session.add(project)
+        session.commit()
+        raise
 
     if up_version and up_version not in project.versions:
         project.versions_obj.append(
