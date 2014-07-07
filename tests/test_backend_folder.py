@@ -40,6 +40,9 @@ from anitya.lib.exceptions import AnityaPluginException
 from tests import Modeltests, create_distro
 
 
+BACKEND = 'folder'
+
+
 class FolderBackendtests(Modeltests):
     """ custom backend tests. """
 
@@ -56,7 +59,7 @@ class FolderBackendtests(Modeltests):
             name='gnash',
             homepage='https://www.gnu.org/software/gnash/',
             version_url='http://ftp.gnu.org/pub/gnu/gnash/',
-            backend='folder',
+            backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
@@ -64,7 +67,7 @@ class FolderBackendtests(Modeltests):
         project = model.Project(
             name='fake',
             homepage='https://pypi.python.org/pypi/repo_manager_fake',
-            backend='folder',
+            backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
@@ -73,7 +76,7 @@ class FolderBackendtests(Modeltests):
             name='subsurface',
             homepage='http://subsurface.hohndel.org/',
             version_url='http://subsurface.hohndel.org/downloads/',
-            backend='folder',
+            backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()

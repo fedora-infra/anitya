@@ -40,6 +40,9 @@ from anitya.lib.exceptions import AnityaPluginException
 from tests import Modeltests, create_distro
 
 
+BACKEND = 'pypi'
+
+
 class PypiBackendtests(Modeltests):
     """ pypi backend tests. """
 
@@ -55,7 +58,7 @@ class PypiBackendtests(Modeltests):
         project = model.Project(
             name='repo_manager',
             homepage='https://pypi.python.org/pypi/repo_manager',
-            backend='pypi',
+            backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
@@ -63,7 +66,7 @@ class PypiBackendtests(Modeltests):
         project = model.Project(
             name='fake',
             homepage='https://pypi.python.org/pypi/repo_manager_fake',
-            backend='pypi',
+            backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
@@ -71,7 +74,7 @@ class PypiBackendtests(Modeltests):
         project = model.Project(
             name='chai',
             homepage='https://pypi.python.org/pypi/chai',
-            backend='pypi',
+            backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()

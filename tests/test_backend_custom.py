@@ -39,6 +39,7 @@ import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
 from tests import Modeltests, create_distro
 
+BACKEND = 'custom'
 
 class CustomBackendtests(Modeltests):
     """ custom backend tests. """
@@ -57,7 +58,7 @@ class CustomBackendtests(Modeltests):
             homepage='http://www.geany.org/',
             version_url='http://www.geany.org/Download/Releases',
             regex='DEFAULT',
-            backend='custom',
+            backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
@@ -66,7 +67,7 @@ class CustomBackendtests(Modeltests):
             name='fake',
             homepage='https://pypi.python.org/pypi/repo_manager_fake',
             regex='DEFAULT',
-            backend='custom',
+            backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
@@ -76,7 +77,7 @@ class CustomBackendtests(Modeltests):
             homepage='http://subsurface.hohndel.org/',
             version_url='http://subsurface.hohndel.org/downloads/',
             regex='DEFAULT',
-            backend='custom',
+            backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()

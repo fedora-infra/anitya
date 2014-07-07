@@ -40,6 +40,9 @@ from anitya.lib.exceptions import AnityaPluginException
 from tests import Modeltests, create_distro
 
 
+BACKEND = 'CPAN (perl)'
+
+
 class CpanBackendtests(Modeltests):
     """ custom backend tests. """
 
@@ -55,7 +58,7 @@ class CpanBackendtests(Modeltests):
         project = model.Project(
             name='SOAP',
             homepage='http://search.cpan.org/dist/SOAP/',
-            backend='CPAN (perl)',
+            backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
@@ -63,7 +66,7 @@ class CpanBackendtests(Modeltests):
         project = model.Project(
             name='foo',
             homepage='http://search.cpan.org/dist/foo/',
-            backend='CPAN (perl)',
+            backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
