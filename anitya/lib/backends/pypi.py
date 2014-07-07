@@ -11,6 +11,7 @@
 import requests
 
 from anitya.lib.backends import BaseBackend
+from anitya.lib.exceptions import AnityaPluginException
 
 
 class PypiBackend(BaseBackend):
@@ -33,11 +34,15 @@ class PypiBackend(BaseBackend):
 
         '''
         url = 'https://pypi.python.org/pypi/%s/json' % project.name
-        req = requests.get(url)
+        try:
+            req = requests.get(url)
+        except Exception:
+            raise AnityaPluginException('Could not contact %s' % url)
+
         try:
             data = req.json()
         except Exception:
-            return
+            raise AnityaPluginException('No JSON returned by %s' % url)
 
         return data['info']['version']
 
@@ -57,10 +62,14 @@ class PypiBackend(BaseBackend):
 
         '''
         url = 'https://pypi.python.org/pypi/%s/json' % project.name
-        req = requests.get(url)
+        try:
+            req = requests.get(url)
+        except Exception:
+            raise AnityaPluginException('Could not contact %s' % url)
+
         try:
             data = req.json()
         except Exception:
-            return
+            raise AnityaPluginException('No JSON returned by %s' % url)
 
         return data['releases'].keys()
