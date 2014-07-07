@@ -34,8 +34,9 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(
     os.path.abspath(__file__)), '..'))
 
-import anitya.lib.backends.pypi as pypi
+import anitya.lib.backends.pypi as backend
 import anitya.lib.model as model
+from anitya.lib.exceptions import AnityaPluginException
 from tests import Modeltests, create_distro
 
 
@@ -72,28 +73,32 @@ class PypiBackendtests(Modeltests):
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = '0.1.0'
-        obs = pypi.PypiBackend.get_version(project)
+        obs = backend.PypiBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = model.Project.get(self.session, pid)
-        exp = None
-        obs = pypi.PypiBackend.get_version(project)
-        self.assertEqual(obs, exp)
+        self.assertRaises(
+            AnityaPluginException,
+            backend.PypiBackend.get_version,
+            project
+        )
 
     def test_pypi_get_versions(self):
         """ Test the get_versions function of the pypi backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = ['0.1.0']
-        obs = pypi.PypiBackend.get_versions(project)
+        obs = backend.PypiBackend.get_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = model.Project.get(self.session, pid)
-        exp = None
-        obs = pypi.PypiBackend.get_versions(project)
-        self.assertEqual(obs, exp)
+        self.assertRaises(
+            AnityaPluginException,
+            backend.PypiBackend.get_version,
+            project
+        )
 
 
 if __name__ == '__main__':
