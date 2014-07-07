@@ -63,7 +63,11 @@
     $('#regex_row').hide();
     $('#version_url_row').hide();
     var str = $( '#backend option:selected' ).text();
-    if (str == 'apache folder'){
+    if (str == 'folder'){
+      $('#version_url_row').show();
+    };
+    if (str == 'custom'){
+      $('#regex_row').show();
       $('#version_url_row').show();
     };
   };
