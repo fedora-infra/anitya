@@ -8,6 +8,8 @@
 
 """
 
+import anitya
+
 
 class BaseBackend(object):
     ''' The base class that all the different backend should extend. '''
@@ -46,3 +48,20 @@ class BaseBackend(object):
 
         '''
         pass
+
+    @classmethod
+    def get_ordered_versions(self, project):
+        ''' Method called to retrieve all the versions (that can be found)
+        of the projects provided, ordered from the oldest to the newest.
+
+        :arg Project project: a :class:`model.Project` object whose backend
+            corresponds to the current plugin.
+        :return: a list of all the possible releases found
+        :return type: list
+        :raise AnityaPluginException: a
+            :class:`anitya.lib.exceptions.AnityaPluginException` exception
+            when the versions cannot be retrieved correctly
+
+        '''
+        vlist = self.get_versions(project)
+        return anitya.order_versions(vlist)
