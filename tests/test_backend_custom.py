@@ -71,6 +71,16 @@ class CustomBackendtests(Modeltests):
         self.session.add(project)
         self.session.commit()
 
+        project = model.Project(
+            name='subsurface',
+            homepage='http://subsurface.hohndel.org/',
+            version_url='http://subsurface.hohndel.org/downloads/',
+            regex='DEFAULT',
+            backend='custom',
+        )
+        self.session.add(project)
+        self.session.commit()
+
     def test_custom_get_version(self):
         """ Test the get_version function of the custom backend. """
         pid = 1
@@ -87,6 +97,12 @@ class CustomBackendtests(Modeltests):
             project
         )
 
+        pid = 3
+        project = model.Project.get(self.session, pid)
+        exp = '4.1'
+        obs = backend.CustomBackend.get_version(project)
+        self.assertEqual(obs, exp)
+
     def test_custom_get_versions(self):
         """ Test the get_versions function of the custom backend. """
         pid = 1
@@ -102,6 +118,12 @@ class CustomBackendtests(Modeltests):
             backend.CustomBackend.get_version,
             project
         )
+
+        pid = 3
+        project = model.Project.get(self.session, pid)
+        exp = ['3.1.1', '4.0', '4.0.1', '4.0.2', '4.0.3', '4.1']
+        obs = backend.CustomBackend.get_ordered_versions(project)
+        self.assertEqual(obs, exp)
 
 
 if __name__ == '__main__':
