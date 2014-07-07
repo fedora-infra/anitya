@@ -139,7 +139,7 @@ def projects_search(pattern=None):
 @login_required
 def new_project():
 
-    plugins = anitya.plugins.get_plugin_names()
+    plugins = anitya.lib.plugins.load_plugins(SESSION)
 
     form = anitya.forms.ProjectForm(backends=plugins)
 
@@ -180,7 +180,7 @@ def edit_project(project_id):
     if not project:
         flask.abort(404)
 
-    plugins = anitya.plugins.get_plugin_names()
+    plugins = anitya.lib.plugins.load_plugins(SESSION)
 
     form = anitya.forms.ProjectForm(
         backends=plugins,
