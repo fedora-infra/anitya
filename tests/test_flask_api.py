@@ -208,6 +208,37 @@ class AnityaWebAPItests(Modeltests):
         exp = {"error": "No such project", "output": "notok"}
         self.assertEqual(data, exp)
 
+        # Modify the project so that it fails
+        project = model.Project.get(self.session, 1)
+        project.version_url = "http://www.geany.org/Down"
+        self.session.add(project)
+        self.session.commit()
+
+        data = {'id': 1}
+        output = self.app.post('/api/version/', data=data)
+        self.assertEqual(output.status_code, 400)
+        data = json.loads(output.data)
+
+        exp = {
+            "error": [
+                "geany: no upstream version found. "
+                "- http://www.geany.org/Down - "
+                " geany[-_]([^-/_\\s]+?)(?i)(?:[-_](?:src|source))?"
+                "\\.(?:tar|t[bglx]z|tbz2|zip)"
+            ],
+            "output": "notok"
+        }
+
+        # This test will break for every update of geany, so we need to
+        # keep the output easy on hand.
+        #print output.data
+        self.assertEqual(data, exp)
+
+        # Modify it back:
+        project.version_url = "http://www.geany.org/Download/Releases"
+        self.session.add(project)
+        self.session.commit()
+
         data = {'id': 1}
         output = self.app.post('/api/version/', data=data)
         self.assertEqual(output.status_code, 200)
