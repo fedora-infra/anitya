@@ -96,6 +96,4 @@ class CustomBackend(BaseBackend):
                     'name': project.name, 'version_url': project.version_url,
                     'regex': regex})
 
-        # FIXME: order the versions retrieved from the newest to the oldest
-
         return upstream_versions
