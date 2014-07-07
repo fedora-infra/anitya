@@ -46,7 +46,7 @@ class CustomBackend(BaseBackend):
             when the version cannot be retrieved correctly
 
         '''
-        return cls.get_versions(project)[0]
+        return cls.get_ordered_versions(project)[-1]
 
     @classmethod
     def get_versions(cls, project):
