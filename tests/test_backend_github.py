@@ -101,7 +101,7 @@ class GithubBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '0.4'
+        exp = 'v1.14.4'
         obs = backend.GithubBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -128,11 +128,12 @@ class GithubBackendtests(Modeltests):
         pid = 3
         project = model.Project.get(self.session, pid)
         exp = [
-            'v0.1', 'v0.2', 'v0.2.1', 'v0.3', 'v0.5', 'v0.6', 'v0.7',
+            'v0.1', 'v0.2', 'v0.2.1', 'v0.3', 'v0.4', 'v0.5', 'v0.6', 'v0.7',
             'v0.8', 'v1.0', 'v1.1', 'v1.2', 'v1.3', 'v1.4', 'v1.5', 'v1.6',
             'v1.7', 'v1.8', 'v1.8.1', 'v1.8.2', 'v1.9', 'v1.9.1', 'v1.9.2',
             'v1.10', 'v1.10.1', 'v1.11', 'v1.11.1', 'v1.12', 'v1.12.1',
-            'v1.13', 'v1.13.1', 'v1.13.2', 'v1.13.3', '0.4']
+            'v1.13', 'v1.13.1', 'v1.13.2', 'v1.13.3', 'v1.14', 'v1.14.1',
+            'v1.14.2', 'v1.14.3', 'v1.14.4']
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
