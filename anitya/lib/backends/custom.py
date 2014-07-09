@@ -27,7 +27,7 @@ class CustomBackend(BaseBackend):
     name = 'custom'
     examples = [
         'http://subsurface.hohndel.org/downloads/',
-        'www.geany.org/Download/Releases',
+        'http://www.geany.org/Download/Releases',
     ]
 
     @classmethod
