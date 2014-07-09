@@ -133,14 +133,7 @@
         </h3>
       </div>
       <span class="list-group-item">
-        <span class="list-group-item-text">
-          {% for pkg in project.packages %}
-          <dl class="dl-horizontal">
-            <strong>{{ pkg.distro }} - {{ pkg.package_name }}:</strong>
-            {{ pkg.logs }}
-          </dl>
-          {% endfor %}
-        </span>
+            {{ project.logs }}
         <div class="clearfix"></div>
       </span>
     </div>
