@@ -26,6 +26,7 @@ anitya tests of the model.
 __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
 
+import datetime
 import unittest
 import sys
 import os
@@ -58,6 +59,103 @@ class Modeltests(Modeltests):
         self.assertEqual(projects[0].name, 'geany')
         self.assertEqual(projects[1].name, 'R2spec')
         self.assertEqual(projects[2].name, 'subsurface')
+
+    def test_log_search(self):
+        """ Test the Log.search function. """
+        create_project(self.session)
+
+        logs = model.Log.search(self.session)
+        self.assertEqual(len(logs), 3)
+        self.assertEqual(
+            logs[0].description,
+            'noreply@fedoraproject.org added project: R2spec')
+        self.assertEqual(
+            logs[1].description,
+            'noreply@fedoraproject.org added project: subsurface')
+        self.assertEqual(
+            logs[2].description,
+            'noreply@fedoraproject.org added project: geany')
+
+        logs = model.Log.search(self.session, count=True)
+        self.assertEqual(logs, 3)
+
+        from_date = datetime.date.today() - datetime.timedelta(days=1)
+        logs = model.Log.search(
+            self.session, from_date=from_date, offset=1, limit=1)
+        self.assertEqual(len(logs), 1)
+        self.assertEqual(
+            logs[0].description,
+            'noreply@fedoraproject.org added project: subsurface')
+
+        logs = model.Log.search(self.session, project_name='subsurface')
+        self.assertEqual(len(logs), 1)
+        self.assertEqual(
+            logs[0].description,
+            'noreply@fedoraproject.org added project: subsurface')
+
+    def test_distro_search(self):
+        """ Test the Distro.search function. """
+        create_distro(self.session)
+
+        logs = model.Distro.search(self.session, '*', count=True)
+        self.assertEqual(logs, 2)
+
+        logs = model.Distro.search(self.session, 'Fed*')
+        self.assertEqual(len(logs), 1)
+        self.assertEqual(logs[0].name, 'Fedora')
+
+        logs = model.Distro.search(self.session, 'Fed*', page=1)
+        self.assertEqual(len(logs), 1)
+        self.assertEqual(logs[0].name, 'Fedora')
+
+        logs = model.Distro.search(self.session, 'Fed*', page='as')
+        self.assertEqual(len(logs), 1)
+        self.assertEqual(logs[0].name, 'Fedora')
+
+    def test_packages_by_id(self):
+        """ Test the Packages.by_id function. """
+        create_project(self.session)
+        create_distro(self.session)
+        create_package(self.session)
+
+        pkg = model.Packages.by_id(self.session, 1)
+        self.assertEqual(pkg.package_name, 'geany')
+        self.assertEqual(pkg.distro, 'Fedora')
+
+    def test_packages__repr__(self):
+        """ Test the Packages.__repr__ function. """
+        create_project(self.session)
+        create_distro(self.session)
+        create_package(self.session)
+
+        pkg = model.Packages.by_id(self.session, 1)
+        self.assertEqual(str(pkg), '<Packages(1, Fedora: geany)>')
+
+    def test_project_all(self):
+        """ Test the Project.all function. """
+        create_project(self.session)
+
+        projects = model.Project.all(self.session, count=True)
+        self.assertEqual(projects, 3)
+
+        projects = model.Project.all(self.session, page=2)
+        self.assertEqual(len(projects), 0)
+
+        projects = model.Project.all(self.session, page='asd')
+        self.assertEqual(len(projects), 3)
+
+    def test_project_search(self):
+        """ Test the Project.search function. """
+        create_project(self.session)
+
+        projects = model.Project.search(self.session, '*', count=True)
+        self.assertEqual(projects, 3)
+
+        projects = model.Project.search(self.session, '*', page=2)
+        self.assertEqual(len(projects), 0)
+
+        projects = model.Project.search(self.session, '*', page='asd')
+        self.assertEqual(len(projects), 3)
 
 
 if __name__ == '__main__':
