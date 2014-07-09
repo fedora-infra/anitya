@@ -1,70 +1,80 @@
-Cnucnu Web
-==========
+Anitya
+======
 
-Cnucnu is a project monitoring daily for new releases made by projects.
+Anitya is a project version monitoring system.
 
-With this application, you can register an application you have interest in,
-all you need to do this is the name of the project, its homepage, then a url
-to a page providing the different version and a regular expression to find
-the version in this page.
+Every-day Anitya checks if there is a new version available and broadcast the
+new versions found via a message bus: `fedmsg <http://www.fedmsg.com/>`_.
 
-
-Project name
-------------
-
-The three names can be specified, the first is the cannonical name of
-the project itself. After this, a name can be specified for the Fedora
-package corresponding to this project and the same thing for the Debian
-package.
+Anyone with an OpenID account can register a new application on Anitya. To
+do so, all you need is the project name and its home page, the combination
+of both must be unique. In order to retrieve the new version, you can specify
+a backend for the project hosting. More information below.
 
 
-Homepage URL
-------------
+Backends
+--------
 
-This refers to the main URL of the project.
+The backend of a project tells Anitya how to retrieve the versions of the
+project.
+
+The backends available are:
+
+* ``cpan.py`` for perl projects hosted on `CPAN <http://www.cpan.org/>`_
+* ``debian.py`` for projects hosted on the
+  `Debian ftp <http://ftp.debian.org/debian/pool/main/>`_
+* ``drupal6.py`` for Drupal6 modules hosted on
+  `drupal.org <http://drupal.org/project/>`_
+* ``drupal7.py`` for Drupal7 modules hosted on
+  `drupal.org <http://drupal.org/project/>`_
+* ``folder.py`` for projects whose release archives are provided in a folder
+  basic apache folder or modified one.
+* ``freshmeat.py`` for projects hosted on
+  `freshmeat.net <http://freshmeat.net/>`_ / `freecode.com <http://freecode.com/>`_
+* ``github.py`` for projects hosted on `github.com <http://github.com/>`_
+* ``gnome.py`` for projects hosted on
+  `download.gnome.org <https://download.gnome.org/sources/>`_
+* ``gnu.py`` for projects hosted on `gnu.org <https://www.gnu.org/software/>`_
+* ``google.py`` for projects hosted on
+  `code.google.com <https://code.google.com/>`_
+* ``hackage.py`` for projects hosted on
+  `hackage.haskell.org <http://hackage.haskell.org/>`_
+* ``launchpad.py`` for projects hosted on
+  `launchpad.net <https://launchpad.net/>`_
+* ``npmjs.py`` for projects hosted on `npmjs.org <https://www.npmjs.org/>`_
+* ``pear.py`` for projects hosted on
+  `pear.php.net <http://pear.php.net/>`_
+* ``pecl.py`` for projects hosted on
+  `pecl.php.net <http://pecl.php.net/>`_
+* ``pypi.py`` for projects hosted on
+  `pypi.python.org <https://pypi.python.org/pypi>`_
+* ``rubygems.py`` for projects hosted on
+  `rubygems.org <http://rubygems.org/>`_
+* ``sourceforge.py`` for projects hosted on
+  `sourceforge.net <http://sourceforge.net/>`_
+
+If your project cannot be used with any of these backend you can always try
+the ``custom`` backend.
+
+* ``custom.py`` for projects who require a more flexible way of finding their
+  version.
 
 
-Version URL
------------
+The custom backend requires two arguments:
 
-For a number of forges of projects, Cnucnu has pre-set URLs, by simply
-specifying one of these pre-set you spare yourself the work of finding the
-best page to follow the new version.
+* ``version_url`` the url of the page where the versions information can be
+  found, for example for `banshee <http://banshee.fm/>`_
+  that would be `their download page <http://banshee.fm/download/>`_
 
+* ``regex`` a regular expression to find the releases on the ``version_url``
+  page.
 
-Version Regex
--------------
+.. note:: In most cases, you can set the ``regex`` to `DEFAULT` which will
+          make anitya use its default regular expression:
 
-For a number of forges/repositories of projects, Cnucnu has a number of
-pre-set regular expression. You can use this if the project is using the
-classic place/versioning system.
+          ::
 
-
-The default regex is::
-
-    \b<package name>[-_]([^-/_\s]+?)(?i)(?:[-_](?:src|source))?\.(?:tar|t[bglx]z|tbz2|zip)\b
-
-The other pre-set regex are:
-
-* ``CPAN-DEFAULT`` remove `perl-` from the project name (if present) and use the default regex.
-* ``PEAR-DEFAULT`` remove `php-pear-` from the project name (if present) and use the default regex.
-* ``PECL-DEFAULT`` remove `php-pecl-` from the project name (if present) and use the default regex.
-* ``HACKAGE-DEFAULT`` remove `ghc-` from the project name (if present) and use the default regex.
-* ``FM-DEFAULT`` a dedicated regex for FreshMeat::
-
-        <a href="/projects/[^/]*/releases/[0-9]*">([^<]*)</a>
-
-* ``DIR-LISTING-DEFAULT`` a dedicated regex for apache directory listing::
-
-    href="([0-9][0-9.]*)/"
-
-* ``RUBYGEMS-DEFAULT`` a dedicated regex for rubygems to match the version of gem in JSON::
-
-    "gem_uri":"http:\/\/rubygems.org\/gems\/<project name>-([0-9.]*?)\.gem"
-
-* ``NPM-DEFAULT`` remove `nodejs-` prefix from the project name and use a dedicated regex for npmjs.org::
-
-    "version":"([0-9.]*?)"
+            <package name>[-_]([^-/_\s]+?)(?i)(?:[-_](?:src|source))?\.(?:tar|t[bglx]z|tbz2|zip)
 
 
 Dénouement
