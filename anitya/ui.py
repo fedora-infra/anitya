@@ -275,6 +275,7 @@ def edit_project_mapping(project_id, pkg_id):
             distribution=form.distro.data,
             user_mail=flask.g.auth.email,
             old_package_name=package.package_name,
+            old_distro_name=package.distro,
         )
 
         SESSION.commit()
