@@ -119,6 +119,12 @@ class Backend(BASE):
         query = session.query(cls).order_by(cls.name)
         return query.all()
 
+    @classmethod
+    def by_name(cls, session, name):
+        return session.query(cls).filter_by(name=name).first()
+
+    get = by_name
+
 
 class Distro(BASE):
     __tablename__ = 'distros'
@@ -327,10 +333,20 @@ class Project(BASE):
         )
 
     @classmethod
-    def get_or_create(cls, session, name, homepage):
+    def get_or_create(cls, session, name, homepage, backend='custom'):
         project = cls.by_name_and_homepage(session, name, homepage)
         if not project:
-            project = cls(name=name, homepage=homepage)
+            print "No such project %s/%s(%s).  Creating!" % (
+                name, homepage, backend)
+
+            # Before creating, make sure the backend already exists
+            backend_obj = Backend.get(session, name=backend)
+            if not backend_obj:
+                # We don't want to automatically create these.  They must have
+                # code associated with them in anitya.lib.backends
+                raise ValueError("No such backend %r" % backend)
+
+            project = cls(name=name, homepage=homepage, backend=backend)
             session.add(project)
             session.flush()
         return project

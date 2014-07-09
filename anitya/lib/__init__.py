@@ -64,6 +64,10 @@ def init(db_url, alembic_ini=None, debug=False, create=False):
         command.stamp(alembic_cfg, "head")
 
     scopedsession = scoped_session(sessionmaker(bind=engine))
+
+    if create:
+        anitya.lib.plugins.load_plugins(scopedsession)
+
     return scopedsession
 
 

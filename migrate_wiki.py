@@ -17,6 +17,24 @@ import anitya.lib
 from anitya.lib import model
 from anitya.app import SESSION
 
+import anitya.lib.backends.sourceforge
+import anitya.lib.backends.gnu
+import anitya.lib.backends.freshmeat
+import anitya.lib.backends.cpan
+# TODO what about drupal6?
+import anitya.lib.backends.drupal7
+import anitya.lib.backends.hackage
+import anitya.lib.backends.debian
+import anitya.lib.backends.google
+import anitya.lib.backends.pypi
+import anitya.lib.backends.pear
+import anitya.lib.backends.pecl
+import anitya.lib.backends.launchpad
+import anitya.lib.backends.gnome
+import anitya.lib.backends.npmjs
+import anitya.lib.backends.rubygems
+
+
 CONVERT_URL = {
     'SF-DEFAULT': 'http://sourceforge.net/projects/%s',
     'FM-DEFAULT': 'http://freshmeat.net/projects/%s',
@@ -33,6 +51,26 @@ CONVERT_URL = {
     'GNOME-DEFAULT': 'http://download.gnome.org/sources/%s/*/',
     'NPM-DEFAULT': 'http://npmjs.org/package/%s',
     'RUBYGEMS-DEFAULT': 'http://rubygems.org/gems/%s'
+}
+
+
+# Map old wiki names to new anitya names for our one-time conversion.
+name_mapping = {
+    'SF-DEFAULT': anitya.lib.backends.sourceforge.SourceforgeBackend.name,
+    'GNU-DEFAULT': anitya.lib.backends.gnu.GnuBackend.name,
+    'FM-DEFAULT': anitya.lib.backends.freshmeat.FreshmeatBackend.name,
+    'CPAN-DEFAULT': anitya.lib.backends.cpan.CpanBackend.name,
+    'DRUPAL-DEFAULT': anitya.lib.backends.drupal7.Drupal7Backend.name,
+    'HACKAGE-DEFAULT': anitya.lib.backends.hackage.HackageBackend.name,
+    'DEBIAN-DEFAULT': anitya.lib.backends.debian.DebianBackend.name,
+    'GOOGLE-DEFAULT': anitya.lib.backends.google.GoogleBackend.name,
+    'PYPI-DEFAULT': anitya.lib.backends.pypi.PypiBackend.name,
+    'PEAR-DEFAULT': anitya.lib.backends.pear.PearBackend.name,
+    'PECL-DEFAULT': anitya.lib.backends.pecl.PeclBackend.name,
+    'LP-DEFAULT': anitya.lib.backends.launchpad.LaunchpadBackend.name,
+    'GNOME-DEFAULT': anitya.lib.backends.gnome.GnomeBackend.name,
+    'NPM-DEFAULT': anitya.lib.backends.npmjs.NpmjsBackend.name,
+    'RUBYGEMS-DEFAULT': anitya.lib.backends.rubygems.RubygemsBackend.name,
 }
 
 
@@ -79,10 +117,12 @@ def migrate_wiki(agent):
 
         name = None
         url = pkg.raw_url
+        backend_name = 'custom'
         for key in CONVERT_URL:
             if url.startswith(key) and ':' in url:
                 url, name = url.split(':')
         if url in CONVERT_URL:
+            backend = name_mapping.get(url, url)
             url = CONVERT_URL[url] % (name or pkg.name)
         else:
             url = clean_url(url)
@@ -99,6 +139,7 @@ def migrate_wiki(agent):
             SESSION,
             name=(name or pkg.name),
             homepage=url,
+            backend=backend,
         )
 
         package = anitya.lib.map_project(
