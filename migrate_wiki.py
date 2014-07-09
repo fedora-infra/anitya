@@ -86,11 +86,13 @@ def migrate_wiki(agent):
         else:
             url = clean_url(url)
 
-        if name:
-            name = cnucnu.clear_name(name, url)
-            # Only keep the name if it is
-            #if pkg.name.lower().startswith(name.lower()):
-                #name = None
+        # @pypingou, what is going on here?  cnucnu.clear_name only exists in
+        # your fork?  but, I can't find your fork.  What should be done here?
+        #if name:
+        #    name = cnucnu.clear_name(name, url)
+        #    # Only keep the name if it is
+        #    #if pkg.name.lower().startswith(name.lower()):
+        #        #name = None
 
         project = model.Project.get_or_create(
             SESSION,
