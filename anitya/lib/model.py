@@ -353,7 +353,7 @@ class Project(BASE):
     def by_name_and_homepage(cls, session, name, homepage):
         return session.query(cls)\
             .filter_by(name=name)\
-            .filter_by(homepage=homepage).all()
+            .filter_by(homepage=homepage).first()
 
     @classmethod
     def all(cls, session, page=None, count=False):

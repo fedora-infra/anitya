@@ -13,6 +13,7 @@ import os
 
 import cnucnu
 from cnucnu.package_list import PackageList
+import anitya.lib
 from anitya.lib import model
 from anitya.app import SESSION
 
@@ -94,25 +95,14 @@ def migrate_wiki(agent):
         #    #if pkg.name.lower().startswith(name.lower()):
         #        #name = None
 
-        project = model.Project.get_or_create(
+        project = anitya.lib.model.Project.get_or_create(
             SESSION,
             name=(name or pkg.name),
             homepage=url,
         )
-        SESSION.add(project)
-        try:
-            SESSION.commit()
-        except Exception as err:
-            failed += 1
-            print pkg.name, name
-            print url
-            print err
-            SESSION.rollback()
-            continue
 
-        package = model.map_project_distro(
-            SESSION, project.id, 'Fedora', pkg.name,
-            pkg.raw_url, pkg.raw_regex)
+        package = anitya.lib.map_project(
+            SESSION, project, pkg.name, 'Fedora', agent)
         project.packages.append(package)
 
         SESSION.commit()
