@@ -11,7 +11,7 @@
 
 import cnucnu
 from cnucnu.package_list import PackageList
-from anitya import model
+from anitya.lib import model
 from anitya.app import SESSION
 
 CONVERT_URL = {
