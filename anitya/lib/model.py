@@ -97,7 +97,7 @@ class Log(BASE):
             query = query.filter(cls.project == project_name)
 
         if from_date:
-            query = query.filter(cls.created_on <= from_date)
+            query = query.filter(cls.created_on >= from_date)
 
         query = query.order_by(cls.created_on.desc())
 
