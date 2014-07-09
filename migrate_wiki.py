@@ -10,6 +10,7 @@
 # python-fedora -- python-fedora
 
 import os
+import pprint
 
 import cnucnu
 from cnucnu.package_list import PackageList
@@ -82,6 +83,7 @@ def get_package_list():
         'base url': 'https://fedoraproject.org/w/',
         'page': 'Upstream_release_monitoring',
     }
+    print "Getting package list from %(base url)s/%(page)s" % mediawiki
     pkglist = PackageList(mediawiki=mediawiki)
     return pkglist
 
@@ -110,9 +112,11 @@ def migrate_wiki(agent):
     ''' Retrieve the list of projects from the wiki and import them into
     the database.
     '''
+
+    print "Migrating from wiki as %r" % agent
+
     cnt = 0
-    failed = 0
-    k = []
+    problems = []
     for pkg in get_package_list():
 
         name = None
@@ -142,14 +146,19 @@ def migrate_wiki(agent):
             backend=backend,
         )
 
-        package = anitya.lib.map_project(
-            SESSION, project, pkg.name, 'Fedora', agent)
-        project.packages.append(package)
+        try:
+            package = anitya.lib.map_project(
+                SESSION, project, pkg.name, 'Fedora', agent)
+            project.packages.append(package)
 
-        SESSION.commit()
-        cnt += 1
+            SESSION.commit()
+            cnt += 1
+        except Exception:
+            problems.append(pkg.name)
+
     print '{0} projects imported'.format(cnt)
-    print '{0} projects failed to imported'.format(failed)
+    print '{0} projects failed to imported'.format(len(problems))
+    pprint.pprint(problems)
 
 
 if __name__ == '__main__':

@@ -293,7 +293,6 @@ class Project(BASE):
             "backends.name",
             ondelete="cascade",
             onupdate="cascade"),
-        nullable=False,
         default='custom',
     )
     version_url = sa.Column(sa.String(200), nullable=True)
@@ -336,8 +335,7 @@ class Project(BASE):
     def get_or_create(cls, session, name, homepage, backend='custom'):
         project = cls.by_name_and_homepage(session, name, homepage)
         if not project:
-            print "No such project %s/%s(%s).  Creating!" % (
-                name, homepage, backend)
+            print "Creating %s/%s(%s)" % (name, homepage, backend)
 
             # Before creating, make sure the backend already exists
             backend_obj = Backend.get(session, name=backend)
