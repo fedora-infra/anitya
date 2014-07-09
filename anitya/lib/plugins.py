@@ -28,7 +28,8 @@ def load_plugins(session):
         session.add(bcke)
         try:
             session.commit()
-        except SQLAlchemyError, err:
+        except SQLAlchemyError, err:  # pragma: no cover
+            # We cannot test this as it would come from a defective DB
             session.rollback()
     return plugins
 
