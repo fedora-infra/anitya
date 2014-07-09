@@ -327,6 +327,15 @@ class Project(BASE):
         )
 
     @classmethod
+    def get_or_create(cls, session, name, homepage):
+        project = cls.by_name_and_homepage(session, name, homepage)
+        if not project:
+            project = cls(name=name, homepage=homepage)
+            session.add(project)
+            session.flush()
+        return project
+
+    @classmethod
     def by_name(cls, session, name):
         return session.query(cls).filter_by(name=name).all()
 
@@ -339,6 +348,12 @@ class Project(BASE):
     @classmethod
     def by_homepage(cls, session, homepage):
         return session.query(cls).filter_by(homepage=homepage).all()
+
+    @classmethod
+    def by_name_and_homepage(cls, session, name, homepage):
+        return session.query(cls)\
+            .filter_by(name=name)\
+            .filter_by(homepage=homepage).all()
 
     @classmethod
     def all(cls, session, page=None, count=False):
