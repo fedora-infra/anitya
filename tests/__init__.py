@@ -120,29 +120,30 @@ def create_distro(session):
 
 def create_project(session):
     """ Create some basic projects to work with. """
-    project = model.Project(
+    anitya.lib.create_project(
+        session,
         name='geany',
         homepage='http://www.geany.org/',
         version_url='http://www.geany.org/Download/Releases',
         regex='DEFAULT',
+        user_mail='noreply@fedoraproject.org',
     )
-    session.add(project)
 
-    project = model.Project(
+    anitya.lib.create_project(
+        session,
         name='subsurface',
         homepage='http://subsurface.hohndel.org/',
         version_url='http://subsurface.hohndel.org/downloads/',
         regex='DEFAULT',
+        user_mail='noreply@fedoraproject.org',
     )
-    session.add(project)
 
-    project = model.Project(
+    anitya.lib.create_project(
+        session,
         name='R2spec',
         homepage='https://fedorahosted.org/r2spec/',
+        user_mail='noreply@fedoraproject.org',
     )
-    session.add(project)
-
-    session.commit()
 
 
 def create_package(session):
