@@ -99,11 +99,9 @@ class FolderBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        self.assertRaises(
-            AnityaPluginException,
-            backend.FolderBackend.get_version,
-            project
-        )
+        exp = '4.1'
+        obs = backend.FolderBackend.get_version(project)
+        self.assertEqual(obs, exp)
 
     def test_custom_get_versions(self):
         """ Test the get_versions function of the custom backend. """
@@ -126,11 +124,9 @@ class FolderBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        self.assertRaises(
-            AnityaPluginException,
-            backend.FolderBackend.get_version,
-            project
-        )
+        exp = ['3.1.1', '4.0', '4.0.1', '4.0.2', '4.0.3', '4.1']
+        obs = backend.FolderBackend.get_ordered_versions(project)
+        self.assertEqual(obs, exp)
 
 
 if __name__ == '__main__':
