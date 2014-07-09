@@ -153,7 +153,7 @@ def edit_project(
 
 def map_project(
         session, project, package_name, distribution, user_mail,
-        old_package_name=None):
+        old_package_name=None, old_distro_name=None):
     """ Map a project to a distribution.
 
     """
@@ -176,15 +176,17 @@ def map_project(
         session.add(distro_obj)
         try:
             session.flush()
-        except SQLAlchemyError, err:
+        except SQLAlchemyError, err:  # pragma: no cover
+            # We cannot test this situation
             session.rollback()
             raise anitya.lib.exceptions.AnityaException(
                 'Could not add the distribution %s to the database, '
                 'please inform an admin.' % distribution, 'errors')
 
     pkgname = old_package_name or package_name
+    distro = old_distro_name or distribution
     pkg = anitya.lib.model.Packages.get(
-        session, project.id, distribution, pkgname)
+        session, project.id, distro, pkgname)
 
     edited = None
     if not pkg:
@@ -207,7 +209,8 @@ def map_project(
     session.add(pkg)
     try:
         session.flush()
-    except SQLAlchemyError, err:
+    except SQLAlchemyError, err:  # pragma: no cover
+        # We cannot test this situation
         session.rollback()
         raise anitya.lib.exceptions.AnityaException(
             'Could not add the mapping of %s to %s, please inform an '
