@@ -87,8 +87,8 @@ def migrate_wiki(agent):
         else:
             url = clean_url(url)
 
-        # @pypingou, what is going on here?  cnucnu.clear_name only exists in
-        # your fork?  but, I can't find your fork.  What should be done here?
+        # Code for this lives here:
+        # http://ambre.pingoured.fr/cgit/cnucnu.git/tree/cnucnu/__init__.py?h=devel#n39
         #if name:
         #    name = cnucnu.clear_name(name, url)
         #    # Only keep the name if it is
