@@ -9,6 +9,8 @@
 # pycurl -- python-pycurl
 # python-fedora -- python-fedora
 
+import os
+
 import cnucnu
 from cnucnu.package_list import PackageList
 from anitya.lib import model
@@ -65,7 +67,7 @@ def clean_url(url):
     return url
 
 
-def migrate_wiki():
+def migrate_wiki(agent):
     ''' Retrieve the list of projects from the wiki and import them into
     the database.
     '''
@@ -118,4 +120,5 @@ def migrate_wiki():
 
 
 if __name__ == '__main__':
-    migrate_wiki()
+    agent = os.getlogin() + "@fedoraproject.org"
+    migrate_wiki(agent)
