@@ -7,123 +7,152 @@
 </div>
 
 <div class="row" resource="{{ project.homepage }}" typeof="doap:Project">
-  <div class="col-md-5">
-  <p>
-    <a property="doap:homepage" href="{{ project.homepage }}"
-       target="_blank">{{ project.homepage }}
-    </a>
-    <a href="{{ url_for('edit_project', project_id=project.id) }}">
-        <button type="submit" class="btn btn-info">
-          <span class="glyphicon glyphicon-edit"></span>
-          Edit
-        </button>
-      </a>
-  </p>
+  <div class="col-md-5 col-md-offset-1">
 
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title" property="doap:name">{{ project.name }}</h3>
       </div>
 
-      <span class="list-group-item">
-        <span class="list-group-item-text">
-          <dl class="dl-horizontal">
-            <table class="table table-condensed">
-              <tr>
-                <th>Distribution</th>
-                <th>Package name </th>
-                {% if is_admin %}
-                <th></th>
-                {% endif %}
-              </tr>
-
-              {% for package in project.packages %}
-              <tr>
-                <td>{{ package.distro }}</td>
-                <td>{{ package.package_name }}</td>
-                <td>
-                  <a href="{{
-                    url_for('edit_project_mapping',
-                            project_id=project.id,
-                            pkg_id=package.id) }}">
-                    <button type="submit" class="btn btn-info">
-                      <span class="glyphicon glyphicon-edit"></span>
-                      Edit
-                    </button>
-                  </a>
-                </td>
-                {% if is_admin %}
-                <td>
-                  <a href="{{
-                    url_for('delete_project_mapping',
-                            project_id=project.id,
-                            distro_name=package.distro,
-                            pkg_name=package.package_name) }}">
-                    <button type="submit" class="btn btn-warning">
-                      <span class="glyphicon glyphicon-remove"></span>
-                      Delete
-                    </button>
-                  </a>
-                </td>
-                {% endif %}
-              </tr>
+      <div class="list-group">
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Latest version(s):</h4>
+          <div class="list-group-item-text">
+            {% if project.versions %}
+            <ul>
+              {% for version in project.versions %}
+              <li property="doap:release" typeof="doap:Version">
+                <span property="doap:revision">{{ version }}</span>
+              </li>
               {% endfor %}
+            </ul>
+            {% else %}
+            <button type="submit" class="btn btn-success btn-sm pull-right" id="checknow">
+              <span class="glyphicon glyphicon-refresh"></span>
+              Check now
+            </button>
+            <p id="version_info">No version available for this package</p>
+            {% endif %}
+          </div>
+        </div><!-- end list-group-item -->
 
-            </table>
-          </dl>
-        </span>
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Homepage:</h4>
+          <div class="list-group-item-text">
+            <a href="{{ url_for('edit_project', project_id=project.id) }}">
+                <button type="submit" class="btn btn-info btn-sm pull-right">
+                  <span class="glyphicon glyphicon-edit"></span>
+                  Edit
+                </button>
+            </a>
+            <p><a property="doap:homepage" href="{{ project.homepage }}"
+               target="_blank">{{ project.homepage }}
+             </a><p>
+          </div>
+        </div><!-- end list-group-item -->
 
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Backend:</h4>
+          <div class="list-group-item-text">
+            <a href="{{ url_for('edit_project', project_id=project.id) }}">
+                <button type="submit" class="btn btn-info btn-sm pull-right">
+                  <span class="glyphicon glyphicon-edit"></span>
+                  Edit
+                </button>
+            </a>
+            <p>{{ project.backend }}</p>
+          </div>
+        </div><!-- end list-group-item -->
+
+      {% if is_admin %}
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Whoah..</h4>
+          <div class="list-group-item-text">
+            <a href="{{url_for('delete_project', project_id=project.id) }}">
+              <button type="submit" class="btn btn-danger btn-sm pull-right">
+                <span class="glyphicon glyphicon-remove"></span>
+                Delete
+              </button>
+            </a>
+            <p>Delete this project all-together?</p>
+          </div>
+        </div><!-- end list-group-item -->
+      {% endif %}
+
+      </div><!-- end list-group -->
+    </div><!-- end panel -->
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Mappings</h3>
+      </div>
+
+      <div class="list-group">
+        <div class="list-group-item">
+          <div class="list-group-item-text">
+            <dl class="dl-horizontal">
+              <table class="table table-condensed">
+                <tr>
+                  <th>Distribution</th>
+                  <th>Package name </th>
+                  {% if is_admin %}
+                  <th></th>
+                  {% endif %}
+                </tr>
+
+                {% for package in project.packages %}
+                <tr>
+                  <td>{{ package.distro }}</td>
+                  <td>{{ package.package_name }}</td>
+                  <td>
+                    <a href="{{
+                      url_for('edit_project_mapping',
+                              project_id=project.id,
+                              pkg_id=package.id) }}">
+                      <button type="submit" class="btn btn-info btn-sm pull-right">
+                        <span class="glyphicon glyphicon-edit"></span>
+                        Edit
+                      </button>
+                    </a>
+                  </td>
+                  {% if is_admin %}
+                  <td>
+                    <a href="{{
+                      url_for('delete_project_mapping',
+                              project_id=project.id,
+                              distro_name=package.distro,
+                              pkg_name=package.package_name) }}">
+                      <button type="submit" class="btn btn-warning btn-sm pull-right">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        Delete
+                      </button>
+                    </a>
+                  </td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+
+              </table>
+            </dl>
+          </div><!-- end group-item-text -->
+        </div><!-- end group-item -->
         {% if g.auth.logged_in %}
-        <p class="pull-left">
-           <a href="{{ url_for('map_project', project_id=project.id) }}">
-            <button type="submit" class="btn btn-info">
+        <div class="list-group-item">
+          <div class="list-group-item-text">
+            <p><a href="{{ url_for('map_project', project_id=project.id) }}">
+            <button type="submit" class="btn btn-info btn-sm pull-right">
               <span class="glyphicon glyphicon-map-marker"></span>
-              Add distribution mapping
+              Add new distribution mapping
             </button>
-          </a>
-        </p>
-        {% endif %}
-
-        {% if is_admin %}
-        <p class="pull-right">
-          <a href="{{url_for('delete_project', project_id=project.id) }}">
-            <button type="submit" class="btn btn-danger">
-              <span class="glyphicon glyphicon-remove"></span>
-              Delete
-            </button>
-          </a>
-        </p>
-        {% endif %}
-
+          </a></p>
         <div class="clearfix"></div>
-      </span>
-    </div>
-
-    <div class="panel panel-heading">
-      <span class="panel-title" id="version_info">
-        {% if project.versions %}
-        Latest version:
-        <ul>
-          {% for version in project.versions %}
-          <li property="doap:release" typeof="doap:Version">
-            <span property="doap:revision">{{ version }}</span>
-          </li>
-          {% endfor %}
-        </ul>
-        {% else %}
-        No version available for this package
-        <button type="submit" class="btn btn-success" id="checknow">
-          <span class="glyphicon glyphicon-refresh"></span>
-          Check now
-        </button>
+          </div><!-- end group-item-text -->
+        </div><!-- end group-item -->
         {% endif %}
-      </span>
-    </div>
+      </div><!-- end-group -->
+    </div><!-- end panel -->
+  </div><!-- end column -->
 
-  </div>
-</div>
-
-<div class="row">
   <div class="col-md-5">
 
     <div class="panel panel-default">
