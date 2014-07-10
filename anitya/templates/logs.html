@@ -34,7 +34,7 @@
     {% if total_page > 1 %}
     <ul class="pagination pagination-sm">
         <li>
-            {% if page >= 1%}
+            {% if page > 1%}
               <a href="{{ url_for('browse_logs') }}?page={{page - 1}}">
                 «
               </a>

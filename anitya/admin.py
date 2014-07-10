@@ -229,7 +229,7 @@ def browse_logs():
 
     offset = 0
     if page is not None and limit is not None and limit != 0:
-        offset = page * limit
+        offset = (page - 1) * limit
 
     logs = []
     try:
