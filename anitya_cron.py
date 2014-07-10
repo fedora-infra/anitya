@@ -3,7 +3,8 @@
 
 import anitya
 import anitya.app
-import anitya.model
+import anitya.lib.exceptions
+import anitya.lib.model
 
 import fedmsg
 import fedmsg.config
@@ -29,8 +30,10 @@ def main():
     ''' Retrieve all the packages and for each of them update the release
     version.
     '''
-    session = cnucnuweb.app.SESSION
-    projects = cnucnuweb.model.Project.all(session)
+    session = anitya.app.SESSION
+    LOG = logging.getLogger('anitya')
+    LOG.setLevel(logging.CRITICAL)
+    projects = anitya.lib.model.Project.all(session)
 
     if PBAR:
         widgets = ['Release update: ',
@@ -44,7 +47,10 @@ def main():
     cnt = 0
     for project in projects:
         logging.info(project.name)
-        cnucnuweb.check_release(project, session)
+        try:
+            anitya.check_release(project, session)
+        except anitya.lib.exceptions.AnityaException as err:
+            pass
         cnt += 1
         if PBAR:
             pbar.update(cnt)
