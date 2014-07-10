@@ -268,17 +268,20 @@ def edit_project_mapping(project_id, pkg_id):
 
     if form.validate_on_submit():
 
-        anitya.lib.map_project(
-            SESSION,
-            project=project,
-            package_name=form.package_name.data,
-            distribution=form.distro.data,
-            user_mail=flask.g.auth.email,
-            old_package_name=package.package_name,
-            old_distro_name=package.distro,
-        )
+        try:
+            anitya.lib.map_project(
+                SESSION,
+                project=project,
+                package_name=form.package_name.data,
+                distribution=form.distro.data,
+                user_mail=flask.g.auth.email,
+                old_package_name=package.package_name,
+                old_distro_name=package.distro,
+            )
 
-        SESSION.commit()
+            SESSION.commit()
+        except anitya.lib.exceptions.AnityaException as err:
+            flask.flash(str(err), 'error')
 
         return flask.redirect(
             flask.url_for('project', project_id=project_id))
