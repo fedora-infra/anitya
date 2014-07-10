@@ -127,7 +127,7 @@ def migrate_wiki(agent):
 
         name = None
         url = pkg.raw_url
-        backend_name = 'custom'
+        backend = 'custom'
         for key in CONVERT_URL:
             if url.startswith(key) and ':' in url:
                 url, name = url.split(':')
