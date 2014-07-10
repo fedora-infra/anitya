@@ -335,7 +335,7 @@ class Project(BASE):
     def get_or_create(cls, session, name, homepage, backend='custom'):
         project = cls.by_name_and_homepage(session, name, homepage)
         if not project:
-            print "Creating %s/%s(%s)" % (name, homepage, backend)
+            #print "Creating %s/%s(%s)" % (name, homepage, backend)
 
             # Before creating, make sure the backend already exists
             backend_obj = Backend.get(session, name=backend)
