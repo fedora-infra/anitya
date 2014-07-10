@@ -63,7 +63,9 @@ class CustomBackend(BaseBackend):
         '''
         url = project.version_url
 
-        regex = REGEX_ALIASES.get(project.regex, project.regex)
+        regex = REGEX_ALIASES['DEFAULT']
+        if project.regex:
+            regex = REGEX_ALIASES.get(project.regex, project.regex)
         regex = regex % {'name': project.name}
 
         return get_versions_by_regex(url, regex, project)
