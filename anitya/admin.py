@@ -227,8 +227,9 @@ def browse_logs():
     if from_date:
         from_date = from_date.date()
 
+    offset = 0
     if page is not None and limit is not None and limit != 0:
-        page = (page - 1) * limit
+        offset = page * limit
 
     logs = []
     try:
@@ -236,7 +237,7 @@ def browse_logs():
             SESSION,
             project_name=project or None,
             from_date=from_date,
-            offset=page,
+            offset=offset,
             limit=limit,
         )
     except Exception, err:
