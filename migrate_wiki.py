@@ -151,6 +151,8 @@ def migrate_wiki(agent):
             homepage=url,
             backend=backend,
         )
+        if backend == 'custom':
+            project.version_url = url
 
         try:
             package = anitya.lib.map_project(
