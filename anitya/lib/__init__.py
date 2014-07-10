@@ -224,7 +224,7 @@ def map_project(
         session.rollback()
         raise anitya.lib.exceptions.AnityaException(
             'Could not add the mapping of %s to %s, please inform an '
-            'admin.' % (package_name, distribution), 'errors')
+            'admin.' % (package_name, distribution))
 
     message = dict(
         agent=user_mail,
