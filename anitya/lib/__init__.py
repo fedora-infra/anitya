@@ -197,6 +197,16 @@ def map_project(
             package_name=package_name
         )
     else:
+        # Check that we can update the mapping to the new info provided
+        other_pkg = anitya.lib.model.Packages.by_package_name_distro(
+            session, package_name, distribution)
+
+        if other_pkg:
+            raise anitya.lib.exceptions.AnityaException(
+                'Could not edit the mapping of %s on %s, there is already '
+                'a package %s on %s.' % (
+                pkgname, distro, package_name, distribution))
+
         topic = 'project.map.update'
         edited = []
         if pkg.distro != distribution:
