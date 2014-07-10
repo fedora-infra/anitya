@@ -15,6 +15,7 @@ import pprint
 import cnucnu
 from cnucnu.package_list import PackageList
 import anitya.lib
+import anitya.lib.plugins
 from anitya.lib import model
 from anitya.app import SESSION
 
@@ -114,6 +115,8 @@ def migrate_wiki(agent):
     '''
 
     print "Migrating from wiki as %r" % agent
+
+    anitya.lib.plugins.load_plugins(SESSION)
 
     cnt = 0
     problems = []
