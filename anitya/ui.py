@@ -238,7 +238,7 @@ def map_project(project_id):
             #flask.flash('Project created')
             SESSION.commit()
         except anitya.lib.exceptions.AnityaException as err:
-            flask.flash(err)
+            flask.flash(str(err), 'error')
 
         return flask.redirect(
             flask.url_for('project', project_id=project.id)
