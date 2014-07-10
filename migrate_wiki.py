@@ -14,10 +14,10 @@ import pprint
 
 import cnucnu
 from cnucnu.package_list import PackageList
+import anitya.app
 import anitya.lib
 import anitya.lib.plugins
 from anitya.lib import model
-from anitya.app import SESSION
 
 import anitya.lib.backends.sourceforge
 import anitya.lib.backends.gnu
@@ -116,7 +116,10 @@ def migrate_wiki(agent):
 
     print "Migrating from wiki as %r" % agent
 
-    anitya.lib.plugins.load_plugins(SESSION)
+    SESSION = anitya.lib.init(
+        anitya.app.APP.config['DB_URL'],
+        None,
+        create=True)
 
     cnt = 0
     problems = []
