@@ -4,30 +4,27 @@
   <div class="intro">
       <h3>
         <span class="glyphicon glyphicon-eye-open"></span>
-        Monitor the release of your favorite projects
+        Watch for releases of your favorite projects
       </h3>
       <p>We all have our favorite projects and we all like to use their
       latest versions with their latest features. However, it is hard
       to keep in touch with all of them and be informed when they
-      release of new version. Anitya can help!</p>
+      release a new version.  Anitya can help!</p>
   </div>
 
 <div class="container marketing">
   <!-- Three columns of text below the carousel -->
   <div class="row">
-      <h2><span class="glyphicon glyphicon-bullhorn"></span> Upstream monitoring</h2>
-      <p>Monitor upstream releases and broadcast them on
+    <div class="col-md-4 col-md-offset-2">
+      <h2><span class="glyphicon glyphicon-bullhorn"></span> Announce</h2>
+      <p>We monitor upstream releases and broadcast them on
       <a href="http://fedmsg.com">fedmsg</a>, the FEDerated MeSsaGe bus. </p>
-      <p>Use <a href="http://fedmsg.com">fedmsg notifications (FMN)</a>,
-      to set up your own, <em>personalized</em>, notifications of these
-      releases.</p>
-  </div><!-- /.row -->
-</div>
-
-<div class="container marketing">
-  <!-- Three columns of text below the carousel -->
-  <div class="row">
-      <h2><span class="glyphicon glyphicon-search"></span> Search monitored project</h2>
+      <p>Use <a href="https://apps.fedoraproject.org/notifications">fedmsg
+      notifications (FMN)</a>, to set up your own, <em>personalized</em>,
+      alerts.</p>
+    </div>
+    <div class="col-md-4">
+      <h2><span class="glyphicon glyphicon-search"></span> Search</h2>
       <p>Currently {{ total }} projects are being monitored by Anitya.
       Your project of interest might be there, or not. To check it
       <a href="{{ url_for('projects') }}">browse the list of all projects</a>
@@ -39,6 +36,7 @@
           <p><small>You may use * to search for pattern (ie: py*).</small></p>
         </div><!-- /.form-group -->
       </form>
+    </div>
   </div><!-- /.row -->
 </div>
 
