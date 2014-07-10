@@ -10,7 +10,7 @@ import anitya.lib.plugins
 import anitya.lib.exceptions
 
 
-LOG = logging.getLogger(__name__)
+LOG = logging.getLogger('anitya')
 
 
 def fedmsg_publish(*args, **kwargs):  # pragma: no cover
