@@ -62,6 +62,7 @@
   function show_hide(){
     $('#regex_row').hide();
     $('#version_url_row').hide();
+    $("label[for='version_url']").text('Version URL');
     var str = $( '#backend option:selected' ).text();
     if (str == 'folder'){
       $('#version_url_row').show();
