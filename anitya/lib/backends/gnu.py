@@ -12,6 +12,8 @@ from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 
 REGEX = b'href="([0-9][0-9.]*)/"'
+DEFAULT_REGEX = b'%(name)s[-_]([^-/_\s]+?)(?i)(?:[-_]' \
+    '(?:src|source))?\.(?:tar|t[bglx]z|tbz2|zip)'
 
 
 class GnuBackend(BaseBackend):
@@ -59,4 +61,10 @@ class GnuBackend(BaseBackend):
         '''
         url = 'http://ftp.gnu.org/gnu/%(name)s/' % {'name': project.name}
 
-        return get_versions_by_regex(url, REGEX, project)
+        try:
+            versions = get_versions_by_regex(url, REGEX, project)
+        except AnityaPluginException:
+            regex = DEFAULT_REGEX % {'name': project.name}
+            versions = get_versions_by_regex (url, regex, project)
+
+        return versions
