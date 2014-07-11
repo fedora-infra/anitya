@@ -17,6 +17,27 @@ import anitya
 from anitya.lib.exceptions import AnityaPluginException
 
 
+def call_url(url):
+        ''' Dedicated method to query a URL.
+
+        It is important to use this method as it allows to query them with
+        a defined user-agent header thus informing the projects we are
+        querying what our intentions are.
+
+        :arg url: the url to request (get).
+        :type url: str
+        :return: the request object corresponding to the request made
+        :return type: Request
+        '''
+
+        headers = {
+            'User-Agent': 'Anitya %s at upstream-monitoring.org',
+            #'From': 'admin@upstream-monitoring.org',
+        }
+
+        return requests.get(url, headers=headers)
+
+
 class BaseBackend(object):
     ''' The base class that all the different backend should extend. '''
 
@@ -72,6 +93,21 @@ class BaseBackend(object):
         vlist = self.get_versions(project)
         return anitya.order_versions(vlist)
 
+    def call_url(self, url):
+        ''' Dedicated method to query a URL.
+
+        It is important to use this method as it allows to query them with
+        a defined user-agent header thus informing the projects we are
+        querying what our intentions are.
+
+        :arg url: the url to request (get).
+        :type url: str
+        :return: the request object corresponding to the request made
+        :return type: Request
+        '''
+
+        return call_url(url)
+
 
 def get_versions_by_regex(url, regex, project):
     ''' For the provided url, return all the version retrieved via the
@@ -80,7 +116,7 @@ def get_versions_by_regex(url, regex, project):
     '''
 
     try:
-        req = requests.get(url)
+        req = call_url(url)
     except Exception:
         raise AnityaPluginException(
             'Could not call : "%s" of "%s"' % (url, project.name))
