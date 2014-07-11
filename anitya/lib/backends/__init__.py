@@ -110,10 +110,10 @@ def get_versions_by_regex(url, regex, project):
         raise AnityaPluginException(
             'Could not call : "%s" of "%s"' % (url, project.name))
 
-    return get_versions_by_regex_for_text(req.text, regex, project)
+    return get_versions_by_regex_for_text(req.text, url, regex, project)
 
 
-def get_versions_by_regex_for_text(text, regex, project):
+def get_versions_by_regex_for_text(text, url, regex, project):
     ''' For the provided text, return all the version retrieved via the
     specified regular expression.
 
