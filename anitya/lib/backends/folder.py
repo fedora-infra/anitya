@@ -11,8 +11,7 @@
 from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
 from anitya.lib.exceptions import AnityaPluginException
 
-REGEX = b'href="([0-9][0-9.]*)/"'
-DEFAULT_REGEX = REGEX
+DEFAULT_REGEX = b'href="([0-9][0-9.]*)/"'
 
 
 class FolderBackend(BaseBackend):
