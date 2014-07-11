@@ -8,9 +8,8 @@
 
 """
 
-import requests
 
-from anitya.lib.backends import BaseBackend, get_versions_by_regex
+from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 
 
@@ -46,7 +45,7 @@ class NpmjsBackend(BaseBackend):
         url = url_template % {'name': project.name}
 
         try:
-            req = requests.get(url)
+            req = cls.call_url(url)
         except Exception:
             raise AnityaPluginException('Could not contact %s' % url)
 
@@ -80,7 +79,7 @@ class NpmjsBackend(BaseBackend):
         url = url_template % {'name': project.name}
 
         try:
-            req = self.call_url(url)
+            req = cls.call_url(url)
         except Exception:
             raise AnityaPluginException('Could not contact %s' % url)
 
