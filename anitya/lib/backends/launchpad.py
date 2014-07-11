@@ -9,11 +9,8 @@
 """
 
 
-from anitya.lib.backends import BaseBackend, get_versions_by_regex
+from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
 from anitya.lib.exceptions import AnityaPluginException
-
-REGEX= b'%(name)s[-_]([^-/_\s]+?)(?i)(?:[-_]'\
-    '(?:src|source))?\.(?:tar|t[bglx]z|tbz2|zip)'
 
 
 class LaunchpadBackend(BaseBackend):
