@@ -8,7 +8,8 @@
 
 """
 
-from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
+from anitya.lib.backends import (BaseBackend, REGEX,
+    get_versions_by_regex_for_text)
 from anitya.lib.exceptions import AnityaPluginException
 
 
@@ -68,11 +69,11 @@ class GnuBackend(BaseBackend):
 
         versions = None
         try:
-            regex = DEFAULT_REGEX % {'name': project.name}
+            regex = REGEX % {'name': project.name}
             versions = get_versions_by_regex_for_text(
-                req.text, regex, project)
+                req.text, url, regex, project)
         except AnityaPluginException:
             versions = get_versions_by_regex_for_text(
-                req.text, REGEX, project)
+                req.text, url, DEFAULT_REGEX, project)
 
         return versions
