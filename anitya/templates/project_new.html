@@ -66,6 +66,10 @@
     if (str == 'folder'){
       $('#version_url_row').show();
     };
+    if (str == 'Github'){
+        $("label[for='version_url']").text('Github owner/project');
+        $('#version_url_row').show();
+    };
     if (str == 'custom'){
       $('#regex_row').show();
       $('#version_url_row').show();
