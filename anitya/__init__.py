@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import re
 import warnings
 
 from pkg_resources import parse_version
