@@ -61,9 +61,18 @@ class GnuBackend(BaseBackend):
         url = 'http://ftp.gnu.org/gnu/%(name)s/' % {'name': project.name}
 
         try:
-            versions = get_versions_by_regex(url, REGEX, project)
-        except AnityaPluginException:
+            req = cls.call_url(url)
+        except Exception:
+            raise AnityaPluginException(
+                'Could not call : "%s" of "%s"' % (url, project.name))
+
+        versions = None
+        try:
             regex = DEFAULT_REGEX % {'name': project.name}
-            versions = get_versions_by_regex(url, regex, project)
+            versions = get_versions_by_regex_for_text(
+                req.text, regex, project)
+        except AnityaPluginException:
+            versions = get_versions_by_regex_for_text(
+                req.text, REGEX, project)
 
         return versions
