@@ -9,7 +9,6 @@
 """
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
-from anitya.lib.exceptions import AnityaPluginException
 
 
 REGEX = b'<a href="/projects/[^/]*/releases/[0-9]*">([^<]*)</a>'

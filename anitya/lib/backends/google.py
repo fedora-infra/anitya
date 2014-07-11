@@ -10,7 +10,6 @@
 
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
-from anitya.lib.exceptions import AnityaPluginException
 
 
 class GoogleBackend(BaseBackend):
