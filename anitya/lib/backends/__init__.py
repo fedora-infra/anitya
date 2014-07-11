@@ -16,8 +16,10 @@ import requests
 import anitya
 from anitya.lib.exceptions import AnityaPluginException
 
+
 REGEX = b'%(name)s[-_]([^-/_\s]+?)(?i)(?:[-_]'\
     '(?:src|source))?\.(?:tar|t[bglx]z|tbz2|zip)'
+
 
 def call_url(url):
         ''' Dedicated method to query a URL.

@@ -205,7 +205,7 @@ def map_project(
             raise anitya.lib.exceptions.AnityaException(
                 'Could not edit the mapping of %s on %s, there is already '
                 'a package %s on %s.' % (
-                pkgname, distro, package_name, distribution))
+                    pkgname, distro, package_name, distribution))
 
         topic = 'project.map.update'
         edited = []

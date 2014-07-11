@@ -64,6 +64,6 @@ class GnuBackend(BaseBackend):
             versions = get_versions_by_regex(url, REGEX, project)
         except AnityaPluginException:
             regex = DEFAULT_REGEX % {'name': project.name}
-            versions = get_versions_by_regex (url, regex, project)
+            versions = get_versions_by_regex(url, regex, project)
 
         return versions

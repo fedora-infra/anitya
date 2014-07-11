@@ -62,4 +62,4 @@ class SourceforgeBackend(BaseBackend):
         url = url_template % {'name': project.name}
         regex = REGEX % {'name': project.name}
 
-        return get_versions_by_regex (url, regex, project)
+        return get_versions_by_regex(url, regex, project)

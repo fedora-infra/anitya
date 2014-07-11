@@ -62,4 +62,4 @@ class GoogleBackend(BaseBackend):
 
         regex = REGEX % {'name': project.name}
 
-        return get_versions_by_regex (url, regex, project)
+        return get_versions_by_regex(url, regex, project)

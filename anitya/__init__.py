@@ -27,14 +27,13 @@ def fedmsg_publish(*args, **kwargs):  # pragma: no cover
         warnings.warn(str(err))
 
 
-
 def order_versions(vlist):
     ''' For a provided list of versions, return the list ordered from the
     oldest to the newest version.
     '''
     return sorted(
         vlist,
-        cmp=lambda x,y: cmp(parse_version(x), parse_version(y)))
+        cmp=lambda x, y: cmp(parse_version(x), parse_version(y)))
 
 
 def check_release(project, session):

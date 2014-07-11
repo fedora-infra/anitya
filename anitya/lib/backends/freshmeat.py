@@ -12,7 +12,7 @@ from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 
 
-REGEX= b'<a href="/projects/[^/]*/releases/[0-9]*">([^<]*)</a>'
+REGEX = b'<a href="/projects/[^/]*/releases/[0-9]*">([^<]*)</a>'
 
 
 class FreshmeatBackend(BaseBackend):
@@ -63,4 +63,4 @@ class FreshmeatBackend(BaseBackend):
 
         url = url_template % {'name': project.name}
 
-        return get_versions_by_regex (url, REGEX, project)
+        return get_versions_by_regex(url, REGEX, project)

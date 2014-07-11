@@ -12,7 +12,7 @@ from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 
 
-REGEX= b'(?s)Recommended releases.*?>7.x-([^<]*)'
+REGEX = b'(?s)Recommended releases.*?>7.x-([^<]*)'
 
 
 class Drupal7Backend(BaseBackend):
@@ -64,4 +64,4 @@ class Drupal7Backend(BaseBackend):
         url = url_template % {'name': project.name}
         regex = REGEX % {'name': project.name}
 
-        return get_versions_by_regex (url, regex, project)
+        return get_versions_by_regex(url, regex, project)

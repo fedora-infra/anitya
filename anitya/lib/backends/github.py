@@ -11,7 +11,7 @@
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 
-REGEX= b'class="tag-name">([^<]*)</span'
+REGEX = b'class="tag-name">([^<]*)</span'
 
 
 class GithubBackend(BaseBackend):
@@ -62,4 +62,4 @@ class GithubBackend(BaseBackend):
 
         url = url_template % {'version_url': project.version_url}
 
-        return get_versions_by_regex (url, REGEX, project)
+        return get_versions_by_regex(url, REGEX, project)
