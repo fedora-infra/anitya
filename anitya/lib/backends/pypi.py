@@ -8,7 +8,6 @@
 
 """
 
-import requests
 
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
@@ -20,7 +19,7 @@ class PypiBackend(BaseBackend):
     name = 'pypi'
 
     @classmethod
-    def get_version(self, project):
+    def get_version(cls, project):
         ''' Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
@@ -35,7 +34,7 @@ class PypiBackend(BaseBackend):
         '''
         url = 'https://pypi.python.org/pypi/%s/json' % project.name
         try:
-            req = requests.get(url)
+            req = cls.call_url(url)
         except Exception:
             raise AnityaPluginException('Could not contact %s' % url)
 
@@ -47,7 +46,7 @@ class PypiBackend(BaseBackend):
         return data['info']['version']
 
     @classmethod
-    def get_versions(self, project):
+    def get_versions(cls, project):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
         this plugin.
@@ -63,7 +62,7 @@ class PypiBackend(BaseBackend):
         '''
         url = 'https://pypi.python.org/pypi/%s/json' % project.name
         try:
-            req = self.call_url(url)
+            req = cls.call_url(url)
         except Exception:
             raise AnityaPluginException('Could not contact %s' % url)
 
