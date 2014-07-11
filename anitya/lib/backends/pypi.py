@@ -63,7 +63,7 @@ class PypiBackend(BaseBackend):
         '''
         url = 'https://pypi.python.org/pypi/%s/json' % project.name
         try:
-            req = requests.get(url)
+            req = self.call_url(url)
         except Exception:
             raise AnityaPluginException('Could not contact %s' % url)
 

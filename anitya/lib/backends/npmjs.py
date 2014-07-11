@@ -80,7 +80,7 @@ class NpmjsBackend(BaseBackend):
         url = url_template % {'name': project.name}
 
         try:
-            req = requests.get(url)
+            req = self.call_url(url)
         except Exception:
             raise AnityaPluginException('Could not contact %s' % url)
 
