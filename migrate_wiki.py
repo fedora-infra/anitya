@@ -28,6 +28,7 @@ import anitya.lib.backends.drupal7
 import anitya.lib.backends.hackage
 import anitya.lib.backends.debian
 import anitya.lib.backends.google
+import anitya.lib.backends.github
 import anitya.lib.backends.pypi
 import anitya.lib.backends.pear
 import anitya.lib.backends.pecl
@@ -52,7 +53,8 @@ CONVERT_URL = {
     'LP-DEFAULT': 'https://launchpad.net/%s',
     'GNOME-DEFAULT': 'http://download.gnome.org/sources/%s/*/',
     'NPM-DEFAULT': 'http://npmjs.org/package/%s',
-    'RUBYGEMS-DEFAULT': 'http://rubygems.org/gems/%s'
+    'RUBYGEMS-DEFAULT': 'http://rubygems.org/gems/%s',
+    'GITHUB-TAGS': 'https://github.com/%s',
 }
 
 
@@ -73,6 +75,7 @@ name_mapping = {
     'GNOME-DEFAULT': anitya.lib.backends.gnome.GnomeBackend.name,
     'NPM-DEFAULT': anitya.lib.backends.npmjs.NpmjsBackend.name,
     'RUBYGEMS-DEFAULT': anitya.lib.backends.rubygems.RubygemsBackend.name,
+    'GITHUB-TAGS': anitya.lib.backends.github.GithubBackend.name,
 }
 
 
@@ -153,6 +156,8 @@ def migrate_wiki(agent):
         )
         if backend == 'custom':
             project.version_url = url
+        if backend == 'Github':
+            project.version_url = (name or pkg.name)
 
         try:
             package = anitya.lib.map_project(
