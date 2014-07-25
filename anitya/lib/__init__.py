@@ -14,6 +14,7 @@ __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
 
 import logging
+import sys
 
 import sqlalchemy as sa
 from sqlalchemy import create_engine
@@ -26,6 +27,9 @@ import anitya.lib.model
 import anitya.lib.exceptions
 
 log = logging.getLogger(__name__)
+STDERR_LOG = logging.StreamHandler(sys.stderr)
+STDERR_LOG.setLevel(logging.INFO)
+log.addHandler(STDERR_LOG)
 
 
 def init(db_url, alembic_ini=None, debug=False, create=False):
