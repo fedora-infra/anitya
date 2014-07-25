@@ -89,7 +89,8 @@ def create_project(
 
     try:
         session.flush()
-    except SQLAlchemyError:
+    except SQLAlchemyError as err:
+        log.exception(err)
         session.rollback()
         raise anitya.lib.exceptions.AnityaException(
             'Could not add this project, already exists?')
@@ -144,7 +145,8 @@ def edit_project(
             )
             session.add(project)
             session.commit()
-    except SQLAlchemyError, err:
+    except SQLAlchemyError as err:
+        log.exception(err)
         session.rollback()
         raise anitya.lib.exceptions.AnityaException(
             'Could not edit this project. Is there already a project '
@@ -219,7 +221,8 @@ def map_project(
     session.add(pkg)
     try:
         session.flush()
-    except SQLAlchemyError, err:  # pragma: no cover
+    except SQLAlchemyError as err:  # pragma: no cover
+        log.exception(err)
         # We cannot test this situation
         session.rollback()
         raise anitya.lib.exceptions.AnityaException(
