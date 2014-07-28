@@ -259,6 +259,97 @@ a backend for the project hosting. More information below.</p>"""
         self.assertEqual(projects, 1)
 
 
+    def test_edit_project(self):
+        """ Test the edit_project function. """
+        create_distro(self.session)
+        create_project(self.session)
+
+        output = self.app.get('/project/1/edit', follow_redirects=True)
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(
+            '<li class="errors">Login required</li>' in output.data)
+
+        projects = model.Project.all(self.session)
+        self.assertEqual(len(projects), 3)
+        self.assertEqual(projects[0].name, 'geany')
+        self.assertEqual(projects[0].id, 1)
+        self.assertEqual(projects[1].name, 'R2spec')
+        self.assertEqual(projects[1].id, 3)
+        self.assertEqual(projects[2].name, 'subsurface')
+        self.assertEqual(projects[2].id, 2)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/project/10/edit', follow_redirects=True)
+            self.assertEqual(output.status_code, 404)
+
+            output = c.get('/project/1/edit', follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+
+            self.assertTrue('<h1>Edit project</h1>' in output.data)
+            self.assertTrue(
+                '<td><label for="regex">Regex</label></td>' in output.data)
+
+            data = {
+                'name': 'repo_manager',
+                'homepage': 'https://pypi.python.org/pypi/repo_manager',
+                'backend': 'pypi',
+            }
+
+            output = c.post(
+                '/project/1/edit', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Edit project</h1>' in output.data)
+            self.assertTrue(
+                '<td><label for="regex">Regex</label></td>' in output.data)
+
+            # This should works just fine
+            csrf_token = output.data.split(
+                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+
+            data['csrf_token'] = csrf_token
+
+            output = c.post(
+                '/project/1/edit', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<li class="message">Project edited</li>' in output.data)
+            self.assertTrue(
+                '<h1>Project: repo_manager</h1>' in output.data)
+
+            # This should fail, the R2spec project already exists
+            data = {
+                'name': 'R2spec',
+                'homepage': 'https://fedorahosted.org/r2spec/',
+                'backend': 'folder',
+                'csrf_token': csrf_token,
+            }
+
+            output = c.post(
+                '/project/1/edit', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<li class="errors">Could not edit this project. Is there '
+                'already a project with these name and homepage?</li>'
+                in output.data)
+            self.assertTrue(
+                '<h1>Project: repo_manager</h1>' in output.data)
+
+        projects = model.Project.all(self.session)
+        self.assertEqual(len(projects), 3)
+        self.assertEqual(projects[0].name, 'R2spec')
+        self.assertEqual(projects[0].id, 3)
+        self.assertEqual(projects[1].name, 'repo_manager')
+        self.assertEqual(projects[1].id, 1)
+        self.assertEqual(projects[2].name, 'subsurface')
+        self.assertEqual(projects[2].id, 2)
+
+
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FlaskTest)
     unittest.TextTestRunner(verbosity=2).run(SUITE)
