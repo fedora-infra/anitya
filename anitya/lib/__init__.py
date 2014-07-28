@@ -154,7 +154,7 @@ def edit_project(
         session.rollback()
         raise anitya.lib.exceptions.AnityaException(
             'Could not edit this project. Is there already a project '
-            'with these name and homepage?', 'errors')
+            'with these name and homepage?')
 
 
 def map_project(
