@@ -31,6 +31,8 @@ import unittest
 import sys
 import os
 
+import flask
+
 sys.path.insert(0, os.path.join(os.path.dirname(
     os.path.abspath(__file__)), '..'))
 
@@ -192,6 +194,27 @@ a backend for the project hosting. More information below.</p>"""
         expected = '<li class="message">Only one result matching with an '\
             'exact match, redirecting</li>'
         self.assertTrue(expected in output.data)
+
+    def test_new_project(self):
+        """ Test the new_project function. """
+        output = self.app.get('/project/new', follow_redirects=True)
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(
+            '<li class="errors">Login required</li>' in output.data)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/project/new', follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+
+            self.assertTrue('<h1>Add project</h1>' in output.data)
+            self.assertTrue(
+                '<td><label for="regex">Regex</label></td>' in output.data)
 
 
 if __name__ == '__main__':
