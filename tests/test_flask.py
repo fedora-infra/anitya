@@ -95,6 +95,24 @@ a backend for the project hosting. More information below.</p>"""
 
         self.assertTrue(expected in output.data)
 
+    def test_project(self):
+        """ Test the project function. """
+        create_distro(self.session)
+        create_project(self.session)
+
+        output = self.app.get('/project/1/')
+        self.assertEqual(output.status_code, 200)
+
+        expected = """
+            <p><a property="doap:homepage" href="http://www.geany.org/"
+               target="_blank">http://www.geany.org/
+             </a><p>"""
+
+        self.assertTrue(expected in output.data)
+
+        output = self.app.get('/project/10/')
+        self.assertEqual(output.status_code, 404)
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FlaskTest)
