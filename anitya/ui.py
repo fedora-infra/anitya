@@ -201,7 +201,7 @@ def edit_project(project_id):
             )
             flask.flash('Project edited')
         except anitya.lib.exceptions.AnityaException as err:
-            flask.flash(err)
+            flask.flash(str(err), 'errors')
 
         return flask.redirect(
             flask.url_for('project', project_id=project.id)
