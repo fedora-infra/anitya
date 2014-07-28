@@ -26,6 +26,7 @@ Anitya tests.
 __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
 
+import logging
 import unittest
 import sys
 import os
@@ -61,6 +62,11 @@ if os.environ.get('BUILD_ID'):
             print 'Using faitout at: %s' % DB_PATH
     except:
         pass
+
+
+log = logging.getLogger('anitya.lib')
+anitya.lib.log.handlers = []
+log.handlers = []
 
 
 class Modeltests(unittest.TestCase):
