@@ -98,6 +98,7 @@ def distros():
 
 
 @APP.route('/projects/search')
+@APP.route('/projects/search/')
 @APP.route('/projects/search/<pattern>')
 def projects_search(pattern=None):
 
