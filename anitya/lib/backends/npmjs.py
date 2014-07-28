@@ -46,12 +46,12 @@ class NpmjsBackend(BaseBackend):
 
         try:
             req = cls.call_url(url)
-        except Exception:
+        except Exception:  # pragma: no cover
             raise AnityaPluginException('Could not contact %s' % url)
 
         try:
             data = req.json()
-        except Exception:
+        except Exception:  # pragma: no cover
             raise AnityaPluginException('No JSON returned by %s' % url)
 
         if 'dist-tags' in data and 'latest' in data['dist-tags']:
@@ -80,12 +80,12 @@ class NpmjsBackend(BaseBackend):
 
         try:
             req = cls.call_url(url)
-        except Exception:
+        except Exception:  # pragma: no cover
             raise AnityaPluginException('Could not contact %s' % url)
 
         try:
             data = req.json()
-        except Exception:
+        except Exception:  # pragma: no cover
             raise AnityaPluginException('No JSON returned by %s' % url)
 
         if 'error' in data or 'versions' not in data:

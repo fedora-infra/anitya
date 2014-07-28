@@ -35,12 +35,12 @@ class PypiBackend(BaseBackend):
         url = 'https://pypi.python.org/pypi/%s/json' % project.name
         try:
             req = cls.call_url(url)
-        except Exception:
+        except Exception:  # pragma: no cover
             raise AnityaPluginException('Could not contact %s' % url)
 
         try:
             data = req.json()
-        except Exception:
+        except Exception:  # pragma: no cover
             raise AnityaPluginException('No JSON returned by %s' % url)
 
         return data['info']['version']
@@ -63,12 +63,12 @@ class PypiBackend(BaseBackend):
         url = 'https://pypi.python.org/pypi/%s/json' % project.name
         try:
             req = cls.call_url(url)
-        except Exception:
+        except Exception:  # pragma: no cover
             raise AnityaPluginException('Could not contact %s' % url)
 
         try:
             data = req.json()
-        except Exception:
+        except Exception:  # pragma: no cover
             raise AnityaPluginException('No JSON returned by %s' % url)
 
         return data['releases'].keys()

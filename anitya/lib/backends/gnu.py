@@ -63,7 +63,7 @@ class GnuBackend(BaseBackend):
 
         try:
             req = cls.call_url(url)
-        except Exception:
+        except Exception:  # pragma: no cover
             raise AnityaPluginException(
                 'Could not call : "%s" of "%s"' % (url, project.name))
 

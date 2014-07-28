@@ -67,12 +67,12 @@ class PackagistBackend(BaseBackend):
 
         try:
             req = cls.call_url(url)
-        except Exception:
+        except Exception:  # pragma: no cover
             raise AnityaPluginException('Could not contact %s' % url)
 
         try:
             data = req.json()
-        except Exception:
+        except Exception:  # pragma: no cover
             raise AnityaPluginException('No JSON returned by %s' % url)
 
         if 'package' in data and 'versions' in data['package']:
