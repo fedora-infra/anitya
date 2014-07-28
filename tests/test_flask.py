@@ -242,6 +242,19 @@ a backend for the project hosting. More information below.</p>"""
             self.assertTrue(
                 '<h1>Project: repo_manager</h1>' in output.data)
 
+            output = c.post(
+                '/project/new', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertFalse(
+                '<li class="message">Project created</li>' in output.data)
+            self.assertFalse(
+                '<h1>Project: repo_manager</h1>' in output.data)
+            self.assertTrue(
+                '="message">Could not add this project, already exists?</'
+                in output.data)
+            self.assertTrue('<h1>Add project</h1>' in output.data)
+
+
         projects = model.Project.all(self.session, count=True)
         self.assertEqual(projects, 1)
 
