@@ -24,6 +24,7 @@ class PackagistBackend(BaseBackend):
     examples = [
         'https://packagist.org/packages/phpunit/php-code-coverage',
         'https://packagist.org/packages/phpunit/php-timer',
+        'https://packagist.org/packages/<owner or group>/<project-name>'
     ]
 
     @classmethod
