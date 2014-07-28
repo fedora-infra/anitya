@@ -164,6 +164,25 @@ class Modeltests(Modeltests):
         backend = model.Backend.by_name(self.session, 'pypi')
         self.assertEqual(backend.name, 'pypi')
 
+    def test_project_get_or_create(self):
+        """ Test the Project.get_or_create function. """
+        project = model.Project.get_or_create(
+            self.session,
+            name='test',
+            homepage='http://test.org',
+            backend='custom')
+        self.assertEqual(project.name, 'test')
+        self.assertEqual(project.homepage, 'http://test.org')
+        self.assertEqual(project.backend, 'custom')
+
+        self.assertRaises(
+            ValueError,
+            model.Project.get_or_create,
+            self.session,
+            name='test_project',
+            homepage='http://project.test.org',
+            backend='foobar'
+        )
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(Modeltests)
