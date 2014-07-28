@@ -100,13 +100,10 @@ class Modeltests(unittest.TestCase):
         self.session.close()
 
         if DB_PATH.startswith('postgres'):
-            if 'localhost' in DB_PATH:
-                model.drop_tables(DB_PATH, self.session.bind)
-            else:
-                db_name = DB_PATH.rsplit('/', 1)[1]
-                req = requests.get(
-                    '%s/clean/%s' % (FAITOUT_URL, db_name))
-                print req.text
+            db_name = DB_PATH.rsplit('/', 1)[1]
+            req = requests.get(
+                '%s/clean/%s' % (FAITOUT_URL, db_name))
+            print req.text
 
 
 def create_distro(session):
