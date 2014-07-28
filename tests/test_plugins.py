@@ -48,8 +48,8 @@ class Pluginstests(Modeltests):
         exp = [
             'CPAN (perl)', 'Debian project', 'Drupal6', 'Drupal7', 'Freshmeat',
             'GNOME', 'GNU project', 'Github', 'Google code', 'Hackage',
-            'Launchpad', 'Pear', 'Pecl', 'Rubygems', 'Sourceforge',
-            'bioconductor', 'custom', 'folder', 'npmjs', 'pypi'
+            'Launchpad', 'Packagist', 'Pear', 'Pecl', 'Rubygems',
+            'Sourceforge', 'custom', 'folder', 'npmjs', 'pypi'
         ]
 
         self.assertEqual(sorted(plgns), exp)
@@ -61,8 +61,8 @@ class Pluginstests(Modeltests):
         exp = [
             'CPAN (perl)', 'Debian project', 'Drupal6', 'Drupal7', 'Freshmeat',
             'GNOME', 'GNU project', 'Github', 'Google code', 'Hackage',
-            'Launchpad', 'Pear', 'Pecl', 'Rubygems', 'Sourceforge',
-            'bioconductor', 'custom', 'folder', 'npmjs', 'pypi'
+            'Launchpad', 'Packagist', 'Pear', 'Pecl', 'Rubygems',
+            'Sourceforge', 'custom', 'folder', 'npmjs', 'pypi'
         ]
 
         self.assertEqual(sorted(plgns), exp)
