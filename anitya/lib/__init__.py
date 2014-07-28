@@ -26,7 +26,7 @@ import anitya.lib
 import anitya.lib.model
 import anitya.lib.exceptions
 
-log = logging.getLogger(__name__)
+log = logging.getLogger('anitya.lib')
 STDERR_LOG = logging.StreamHandler(sys.stderr)
 STDERR_LOG.setLevel(logging.INFO)
 log.addHandler(STDERR_LOG)
