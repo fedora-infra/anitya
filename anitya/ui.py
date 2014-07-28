@@ -199,7 +199,7 @@ def edit_project(project_id):
                 regex=form.regex.data,
                 user_mail=flask.g.auth.email,
             )
-            flask.flash('Project created')
+            flask.flash('Project edited')
         except anitya.lib.exceptions.AnityaException as err:
             flask.flash(err)
 
