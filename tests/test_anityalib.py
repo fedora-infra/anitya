@@ -184,6 +184,21 @@ class AnityaLibtests(Modeltests):
         self.assertEqual(project_obj.packages[1].package_name, 'geany2')
         self.assertEqual(project_obj.packages[1].distro, 'CentOS')
 
+        # Edit the mapping of the `geany` project to Fedora
+        project_obj = anitya.lib.model.Project.get(self.session, 2)
+        self.assertEqual(project_obj.name, 'subsurface')
+        self.assertEqual(len(project_obj.packages), 0)
+
+        self.assertRaises(
+            anitya.lib.exceptions.AnityaException,
+            anitya.lib.map_project,
+            self.session,
+            project=project_obj,
+            package_name='geany2',
+            distribution='CentOS',
+            user_mail='noreply@fedoraproject.org',
+        )
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(AnityaLibtests)
