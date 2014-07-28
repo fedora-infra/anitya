@@ -145,6 +145,24 @@ a backend for the project hosting. More information below.</p>"""
         self.assertEqual(output.status_code, 200)
         self.assertEqual(output.data.count('<a href="/project/'), 3)
 
+    def test_distros(self):
+        """ Test the distros function. """
+        create_distro(self.session)
+        create_project(self.session)
+
+        output = self.app.get('/distros/')
+        self.assertEqual(output.status_code, 200)
+
+        expected = """
+  <p>
+    Here is the list of all the distribution having at least one project
+    mapped as a package of this distribution and monitored by anitya.
+  </p>"""
+        self.assertTrue(expected in output.data)
+
+        output = self.app.get('/distros/?page=ab')
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(expected in output.data)
 
 
 if __name__ == '__main__':
