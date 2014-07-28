@@ -164,6 +164,35 @@ a backend for the project hosting. More information below.</p>"""
         self.assertEqual(output.status_code, 200)
         self.assertTrue(expected in output.data)
 
+    def test_projects_search(self):
+        """ Test the projects_search function. """
+        create_distro(self.session)
+        create_project(self.session)
+
+        output = self.app.get('/projects/search/g')
+        self.assertEqual(output.status_code, 200)
+
+        expected = """
+                  <a href="http://www.geany.org/" target="_blank">
+                    http://www.geany.org/
+                  </a>"""
+        self.assertTrue(expected in output.data)
+
+        self.assertEqual(output.data.count('<a href="/project/'), 1)
+
+        output = self.app.get('/projects/search/?page=ab')
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(expected in output.data)
+        self.assertEqual(output.data.count('<a href="/project/'), 3)
+
+        output = self.app.get(
+            '/projects/search/geany*', follow_redirects=True)
+        self.assertEqual(output.status_code, 200)
+
+        expected = '<li class="message">Only one result matching with an '\
+            'exact match, redirecting</li>'
+        self.assertTrue(expected in output.data)
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FlaskTest)
