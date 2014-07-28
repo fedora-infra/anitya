@@ -113,6 +113,39 @@ a backend for the project hosting. More information below.</p>"""
         output = self.app.get('/project/10/')
         self.assertEqual(output.status_code, 404)
 
+    def test_projects(self):
+        """ Test the projects function. """
+        create_distro(self.session)
+        create_project(self.session)
+
+        output = self.app.get('/projects/')
+        self.assertEqual(output.status_code, 200)
+
+        expected = """
+                <a href="http://www.geany.org/" target="_blank">
+                  http://www.geany.org/
+                </a>"""
+        self.assertTrue(expected in output.data)
+
+        expected = """
+                <a href="https://fedorahosted.org/r2spec/" target="_blank">
+                  https://fedorahosted.org/r2spec/
+                </a>"""
+        self.assertTrue(expected in output.data)
+
+        expected = """
+                <a href="http://subsurface.hohndel.org/" target="_blank">
+                  http://subsurface.hohndel.org/
+                </a>"""
+        self.assertTrue(expected in output.data)
+
+        self.assertEqual(output.data.count('<a href="/project/'), 3)
+
+        output = self.app.get('/projects/?page=ab')
+        self.assertEqual(output.status_code, 200)
+        self.assertEqual(output.data.count('<a href="/project/'), 3)
+
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FlaskTest)
