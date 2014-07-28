@@ -157,6 +157,13 @@ class Modeltests(Modeltests):
         projects = model.Project.search(self.session, '*', page='asd')
         self.assertEqual(len(projects), 3)
 
+    def test_backend_by_name(self):
+        """ Test the Backend.by_name function. """
+        import anitya.lib.plugins as plugins
+        plugins.load_plugins(self.session)
+        backend = model.Backend.by_name(self.session, 'pypi')
+        self.assertEqual(backend.name, 'pypi')
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(Modeltests)
