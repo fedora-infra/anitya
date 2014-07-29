@@ -103,12 +103,12 @@ def edit_distro(distro_name):
 @login_required
 def delete_project(project_id):
 
-    if not is_admin():
-        flask.abort(405)
-
     project = anitya.lib.model.Project.get(SESSION, project_id)
     if not project:
         flask.abort(404)
+
+    if not is_admin():
+        flask.abort(405)
 
     project_name = project.name
 
