@@ -18,7 +18,7 @@ from anitya.app import APP, SESSION, login_required, is_admin
 def add_distro():
 
     if not is_admin():
-        flask.abort(405)
+        flask.abort(401)
 
     form = anitya.forms.DistroForm()
 
@@ -63,7 +63,7 @@ def edit_distro(distro_name):
         flask.abort(404)
 
     if not is_admin():
-        flask.abort(405)
+        flask.abort(401)
 
     form = anitya.forms.DistroForm(obj=distro)
 
@@ -108,7 +108,7 @@ def delete_project(project_id):
         flask.abort(404)
 
     if not is_admin():
-        flask.abort(405)
+        flask.abort(401)
 
     project_name = project.name
 
@@ -148,8 +148,6 @@ def delete_project(project_id):
 @login_required
 def delete_project_mapping(project_id, distro_name, pkg_name):
 
-    if not is_admin():
-        flask.abort(403)
 
     project = anitya.lib.model.Project.get(SESSION, project_id)
     if not project:
@@ -163,6 +161,9 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
         SESSION, project.id, distro.name, pkg_name)
     if not package:
         flask.abort(404)
+
+    if not is_admin():
+        flask.abort(401)
 
     form = anitya.forms.ConfirmationForm()
     confirm = flask.request.form.get('confirm', False)
