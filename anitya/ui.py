@@ -281,6 +281,7 @@ def edit_project_mapping(project_id, pkg_id):
             )
 
             SESSION.commit()
+            flask.flash('Mapping edited')
         except anitya.lib.exceptions.AnityaException as err:
             flask.flash(str(err), 'error')
 
