@@ -4,6 +4,7 @@ from dateutil import parser
 from math import ceil
 
 import flask
+from sqlalchemy.exc import SQLAlchemyError
 
 import anitya
 import anitya.forms
@@ -36,9 +37,13 @@ def add_distro():
             )
         )
 
-        SESSION.add(distro)
-        SESSION.commit()
-        flask.flash('Distribution added')
+        try:
+            SESSION.add(distro)
+            SESSION.commit()
+            flask.flash('Distribution added')
+        except SQLAlchemyError as err:
+            flask.flash(
+                'Could not add this distro, already exists?', 'error')
         return flask.redirect(
             flask.url_for('distros')
         )
