@@ -124,7 +124,6 @@ class FlaskAdminTest(Modeltests):
             self.assertTrue(
                 '<a href="/distro/Debian/edit">' in output.data)
 
-
     def test_edit_distro(self):
         """ Test the edit_distro function. """
         self.test_add_distro()
@@ -188,6 +187,80 @@ class FlaskAdminTest(Modeltests):
             self.assertTrue(
                 '<a href="/distro/debian/edit">' in output.data)
 
+    def test_delete_project(self):
+        """ Test the delete_project function. """
+        create_distro(self.session)
+        create_project(self.session)
+
+        output = self.app.get('/project/1/delete', follow_redirects=True)
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(
+            '<li class="errors">Login required</li>' in output.data)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/project/100/delete', follow_redirects=True)
+            self.assertEqual(output.status_code, 404)
+
+            output = c.get('/project/1/delete', follow_redirects=True)
+            self.assertEqual(output.status_code, 405)
+
+        output = c.get('/projects/')
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue('<h1>Projects monitored</h1>' in output.data)
+        self.assertEqual(output.data.count('<a href="/project/1'), 1)
+        self.assertEqual(output.data.count('<a href="/project/2'), 1)
+        self.assertEqual(output.data.count('<a href="/project/3'), 1)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/project/1/delete', follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<h1>Delete project geany?</h1>' in output.data)
+            self.assertTrue(
+                '<button type="submit" name="confirm" value="Yes"'
+                in output.data)
+
+            data = {
+                'confirm': 'Yes',
+            }
+
+            output = c.post(
+                '/project/1/delete', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<h1>Delete project geany?</h1>' in output.data)
+            self.assertTrue(
+                '<button type="submit" name="confirm" value="Yes"'
+                in output.data)
+
+            csrf_token = output.data.split(
+                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+
+            data['csrf_token'] = csrf_token
+
+            output = c.post(
+                '/project/1/delete', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<h1>Projects monitored</h1>' in output.data)
+            self.assertTrue(
+                '<li class="message">Project geany has been removed</li>'
+                in output.data)
+            self.assertEqual(output.data.count('<a href="/project/1'), 0)
+            self.assertEqual(output.data.count('<a href="/project/2'), 1)
+            self.assertEqual(output.data.count('<a href="/project/3'), 1)
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FlaskAdminTest)
