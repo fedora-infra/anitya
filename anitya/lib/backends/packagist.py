@@ -9,7 +9,7 @@
 """
 
 
-from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
+from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 
 
@@ -77,7 +77,8 @@ class PackagistBackend(BaseBackend):
 
         if 'package' in data and 'versions' in data['package']:
             return sorted(data['package']['versions'].keys())
-        elif 'status' in data and data['status'] == 'error' and 'message' in data:
+        elif 'status' in data and data['status'] == 'error' \
+                and 'message' in data:
             raise AnityaPluginException(data['message'])
         else:
             raise AnityaPluginException('Invalid JSON returned by %s' % url)
