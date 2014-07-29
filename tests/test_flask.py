@@ -437,6 +437,7 @@ a backend for the project hosting. More information below.</p>"""
         self.assertEqual(projects[0].name, 'geany')
         self.assertEqual(projects[0].id, 1)
         self.assertEqual(len(projects[0].packages), 1)
+        self.assertEqual(projects[0].packages[0].package_name, 'geany')
         self.assertEqual(projects[1].name, 'R2spec')
         self.assertEqual(projects[1].id, 3)
         self.assertEqual(len(projects[1].packages), 0)
