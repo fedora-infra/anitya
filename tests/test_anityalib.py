@@ -179,11 +179,11 @@ class AnityaLibtests(Modeltests):
         project_obj = anitya.lib.model.Project.get(self.session, 1)
         self.assertEqual(project_obj.name, 'geany')
         self.assertEqual(len(project_obj.packages), 2)
-        pkgs = sorted(project_obj.packages)
-        self.assertEqual(pkgs[0].package_name, 'geany3')
-        self.assertEqual(pkgs[0].distro, 'Fedora')
-        self.assertEqual(pkgs[1].package_name, 'geany2')
-        self.assertEqual(pkgs[1].distro, 'CentOS')
+        pkgs = sorted(project_obj.packages, key=lambda x: x.package_name)
+        self.assertEqual(pkgs[0].package_name, 'geany2')
+        self.assertEqual(pkgs[0].distro, 'CentOS')
+        self.assertEqual(pkgs[1].package_name, 'geany3')
+        self.assertEqual(pkgs[1].distro, 'Fedora')
 
         # Edit the mapping of the `geany` project to Fedora
         project_obj = anitya.lib.model.Project.get(self.session, 2)
