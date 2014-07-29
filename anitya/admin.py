@@ -148,7 +148,6 @@ def delete_project(project_id):
 @login_required
 def delete_project_mapping(project_id, distro_name, pkg_name):
 
-
     project = anitya.lib.model.Project.get(SESSION, project_id)
     if not project:
         flask.abort(404)
