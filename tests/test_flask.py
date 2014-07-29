@@ -518,7 +518,7 @@ a backend for the project hosting. More information below.</p>"""
             }
 
             output = c.post(
-                '/project/1/map', data=data, follow_redirects=True)
+                '/project/1/map/1', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
                 '<li class="error">Could not edit the mapping of geany2 on '
