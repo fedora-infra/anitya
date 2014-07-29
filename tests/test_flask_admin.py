@@ -249,6 +249,15 @@ class FlaskAdminTest(Modeltests):
                 'name="csrf_token" type="hidden" value="')[1].split('">')[0]
 
             data['csrf_token'] = csrf_token
+            del(data['confirm'])
+
+            output = c.post(
+                '/project/1/delete', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<h1>Project: geany</h1>' in output.data)
+
+            data['confirm'] = True
 
             output = c.post(
                 '/project/1/delete', data=data, follow_redirects=True)
