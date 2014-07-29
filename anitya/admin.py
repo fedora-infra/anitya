@@ -201,7 +201,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
 def browse_logs():
 
     if not is_admin():
-        flask.abort(403)
+        flask.abort(401)
 
     cnt_logs = anitya.lib.model.Log.search(SESSION, count=True)
 
