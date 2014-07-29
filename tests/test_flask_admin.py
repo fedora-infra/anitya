@@ -38,7 +38,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 
 import anitya
 from anitya.lib import model
-from tests import Modeltests, create_distro, create_project
+from tests import Modeltests, create_distro, create_project, create_package
 
 
 class FlaskAdminTest(Modeltests):
@@ -270,6 +270,101 @@ class FlaskAdminTest(Modeltests):
             self.assertEqual(output.data.count('<a href="/project/1'), 0)
             self.assertEqual(output.data.count('<a href="/project/2'), 1)
             self.assertEqual(output.data.count('<a href="/project/3'), 1)
+
+    def test_delete_project_mapping(self):
+        """ Test the delete_project_mapping function. """
+        create_distro(self.session)
+        create_project(self.session)
+        create_package(self.session)
+
+        output = self.app.get(
+            '/project/1/delete/Fedora/geany', follow_redirects=True)
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(
+            '<li class="errors">Login required</li>' in output.data)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get(
+                '/project/100/delete/Fedora/geany', follow_redirects=True)
+            self.assertEqual(output.status_code, 404)
+
+            output = c.get(
+                '/project/1/delete/CentOS/geany', follow_redirects=True)
+            self.assertEqual(output.status_code, 404)
+
+            output = c.get(
+                '/project/1/delete/Fedora/geany2', follow_redirects=True)
+            self.assertEqual(output.status_code, 404)
+
+            output = c.get(
+                '/project/1/delete/Fedora/geany', follow_redirects=True)
+            self.assertEqual(output.status_code, 401)
+
+        output = c.get('/project/1/')
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue('<h1>Project: geany</h1>' in output.data)
+        self.assertTrue('<td>Fedora</td>' in output.data)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/project/1/delete/Fedora/geany', follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<h1>Project: geany - Delete package</h1>' in output.data)
+            self.assertTrue(
+                '<button type="submit" name="confirm" value="Yes"'
+                in output.data)
+
+            data = {
+                'confirm': 'Yes',
+            }
+
+            output = c.post(
+                '/project/1/delete/Fedora/geany', data=data,
+                follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<h1>Project: geany - Delete package</h1>' in output.data)
+            self.assertTrue(
+                '<button type="submit" name="confirm" value="Yes"'
+                in output.data)
+
+            csrf_token = output.data.split(
+                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+
+            data['csrf_token'] = csrf_token
+            del(data['confirm'])
+
+            output = c.post(
+                '/project/1/delete/Fedora/geany', data=data,
+                follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Project: geany</h1>' in output.data)
+            self.assertTrue('<td>Fedora</td>' in output.data)
+
+            data['confirm'] = True
+
+            output = c.post(
+                '/project/1/delete/Fedora/geany', data=data,
+                follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                'class="message">Mapping for geany has been removed</li>'
+                in output.data)
+            self.assertTrue('<h1>Project: geany</h1>' in output.data)
+            self.assertFalse('<td>Fedora</td>' in output.data)
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FlaskAdminTest)
