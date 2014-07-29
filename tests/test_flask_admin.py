@@ -26,6 +26,7 @@ anitya tests for the flask application.
 __requires__ = ['SQLAlchemy >= 0.8']
 import pkg_resources
 
+import datetime
 import json
 import unittest
 import sys
@@ -365,6 +366,46 @@ class FlaskAdminTest(Modeltests):
             self.assertTrue('<h1>Project: geany</h1>' in output.data)
             self.assertFalse('<td>Fedora</td>' in output.data)
 
+    def test_browse_logs(self):
+        """ Test the browse_logs function. """
+        self.test_add_distro()
+
+        output = self.app.get('/logs', follow_redirects=True)
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(
+            '<li class="errors">Login required</li>' in output.data)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/logs', follow_redirects=True)
+            self.assertEqual(output.status_code, 401)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/logs')
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Logs</h1>' in output.data)
+            self.assertTrue('added the distro named: Debian' in output.data)
+
+            output = c.get('/logs?page=abc&limit=def&from_date=ghi')
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Logs</h1>' in output.data)
+            self.assertTrue('added the distro named: Debian' in output.data)
+
+            output = c.get('/logs?from_date=%s' % datetime.date.today())
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Logs</h1>' in output.data)
+            self.assertTrue('added the distro named: Debian' in output.data)
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FlaskAdminTest)
