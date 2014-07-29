@@ -258,7 +258,6 @@ a backend for the project hosting. More information below.</p>"""
         projects = model.Project.all(self.session, count=True)
         self.assertEqual(projects, 1)
 
-
     def test_edit_project(self):
         """ Test the edit_project function. """
         create_distro(self.session)
@@ -348,6 +347,102 @@ a backend for the project hosting. More information below.</p>"""
         self.assertEqual(projects[1].id, 1)
         self.assertEqual(projects[2].name, 'subsurface')
         self.assertEqual(projects[2].id, 2)
+
+    def test_map_project(self):
+        """ Test the map_project function. """
+        create_distro(self.session)
+        create_project(self.session)
+
+        output = self.app.get('/project/1/map', follow_redirects=True)
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(
+            '<li class="errors">Login required</li>' in output.data)
+
+        projects = model.Project.all(self.session)
+        self.assertEqual(len(projects), 3)
+        self.assertEqual(projects[0].name, 'geany')
+        self.assertEqual(len(projects[0].packages), 0)
+        self.assertEqual(projects[0].id, 1)
+        self.assertEqual(projects[1].name, 'R2spec')
+        self.assertEqual(projects[1].id, 3)
+        self.assertEqual(len(projects[1].packages), 0)
+        self.assertEqual(projects[2].name, 'subsurface')
+        self.assertEqual(projects[2].id, 2)
+        self.assertEqual(len(projects[2].packages), 0)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/project/10/map', follow_redirects=True)
+            self.assertEqual(output.status_code, 404)
+
+            output = c.get('/project/1/map', follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+
+            self.assertTrue('<h1>Project: geany</h1>' in output.data)
+            self.assertTrue(
+                '<td><label for="distro">Distribution</label></td>'
+                in output.data)
+
+            data = {
+                'package_name': 'geany',
+                'distro': 'CentOS',
+            }
+
+            output = c.post(
+                '/project/1/map', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Project: geany</h1>' in output.data)
+            self.assertTrue(
+                '<td><label for="distro">Distribution</label></td>'
+                in output.data)
+
+            # This should works just fine
+            csrf_token = output.data.split(
+                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+
+            data['csrf_token'] = csrf_token
+
+            output = c.post(
+                '/project/1/map', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<li class="message">Mapping added</li>' in output.data)
+            self.assertTrue(
+                '<h1>Project: geany</h1>' in output.data)
+
+            # This should fail, the mapping already exists
+            data = {
+                'package_name': 'geany',
+                'distro': 'CentOS',
+                'csrf_token': csrf_token,
+            }
+
+            output = c.post(
+                '/project/1/map', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<li class="error">Could not edit the mapping of geany on '
+                'CentOS, there is already a package geany on CentOS.</li>'
+                in output.data)
+            self.assertTrue(
+                '<h1>Project: geany</h1>' in output.data)
+
+        projects = model.Project.all(self.session)
+        self.assertEqual(len(projects), 3)
+        self.assertEqual(projects[0].name, 'geany')
+        self.assertEqual(projects[0].id, 1)
+        self.assertEqual(len(projects[0].packages), 1)
+        self.assertEqual(projects[1].name, 'R2spec')
+        self.assertEqual(projects[1].id, 3)
+        self.assertEqual(len(projects[1].packages), 0)
+        self.assertEqual(projects[2].name, 'subsurface')
+        self.assertEqual(projects[2].id, 2)
+        self.assertEqual(len(projects[2].packages), 0)
 
 
 if __name__ == '__main__':
