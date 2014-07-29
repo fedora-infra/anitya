@@ -71,7 +71,7 @@ class FlaskAdminTest(Modeltests):
                 sess['email'] = 'pingou@pingoured.fr'
 
             output = c.get('/distro/add', follow_redirects=True)
-            self.assertEqual(output.status_code, 405)
+            self.assertEqual(output.status_code, 401)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -144,7 +144,7 @@ class FlaskAdminTest(Modeltests):
             self.assertEqual(output.status_code, 404)
 
             output = c.get('/distro/Debian/edit', follow_redirects=True)
-            self.assertEqual(output.status_code, 405)
+            self.assertEqual(output.status_code, 401)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -208,7 +208,7 @@ class FlaskAdminTest(Modeltests):
             self.assertEqual(output.status_code, 404)
 
             output = c.get('/project/1/delete', follow_redirects=True)
-            self.assertEqual(output.status_code, 405)
+            self.assertEqual(output.status_code, 401)
 
         output = c.get('/projects/')
         self.assertEqual(output.status_code, 200)
