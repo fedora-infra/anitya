@@ -236,8 +236,8 @@ def map_project(project_id):
                 distribution=form.distro.data,
                 user_mail=flask.g.auth.email,
             )
-            #flask.flash('Project created')
             SESSION.commit()
+            flask.flash('Mapping added')
         except anitya.lib.exceptions.AnityaException as err:
             flask.flash(str(err), 'error')
 
