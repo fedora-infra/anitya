@@ -125,6 +125,70 @@ class FlaskAdminTest(Modeltests):
                 '<a href="/distro/Debian/edit">' in output.data)
 
 
+    def test_edit_distro(self):
+        """ Test the edit_distro function. """
+        self.test_add_distro()
+
+        output = self.app.get('/distro/Debian/edit', follow_redirects=True)
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(
+            '<li class="errors">Login required</li>' in output.data)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/distro/foobar/edit', follow_redirects=True)
+            self.assertEqual(output.status_code, 404)
+
+            output = c.get('/distro/Debian/edit', follow_redirects=True)
+            self.assertEqual(output.status_code, 405)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/distro/Debian/edit', follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<h1>Edit disribution: Debian</h1>' in output.data)
+            self.assertTrue(
+                '<input id="name" name="name" type="text" value="Debian"></'
+                in output.data)
+
+            data = {
+                'name': 'debian',
+            }
+
+            output = c.post(
+                '/distro/Debian/edit', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<h1>Edit disribution: Debian</h1>' in output.data)
+            self.assertTrue(
+                '<input id="name" name="name" type="text" value="debian"></'
+                in output.data)
+
+            csrf_token = output.data.split(
+                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+
+            data['csrf_token'] = csrf_token
+
+            output = c.post(
+                '/distro/Debian/edit', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<h1>Distribution participating</h1>' in output.data)
+            self.assertTrue(
+                '<a href="/distro/debian/edit">' in output.data)
+
+
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FlaskAdminTest)
     unittest.TextTestRunner(verbosity=2).run(SUITE)
