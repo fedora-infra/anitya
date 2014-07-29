@@ -445,6 +445,101 @@ a backend for the project hosting. More information below.</p>"""
         self.assertEqual(projects[2].id, 2)
         self.assertEqual(len(projects[2].packages), 0)
 
+    def test_edit_project_mapping(self):
+        """ Test the edit_project_mapping function. """
+        self.test_map_project()
+
+        projects = model.Project.all(self.session)
+        self.assertEqual(len(projects), 3)
+        self.assertEqual(projects[0].name, 'geany')
+        self.assertEqual(projects[0].id, 1)
+        self.assertEqual(len(projects[0].packages), 1)
+        self.assertEqual(projects[0].packages[0].package_name, 'geany')
+        self.assertEqual(projects[1].name, 'R2spec')
+        self.assertEqual(projects[1].id, 3)
+        self.assertEqual(len(projects[1].packages), 0)
+        self.assertEqual(projects[2].name, 'subsurface')
+        self.assertEqual(projects[2].id, 2)
+        self.assertEqual(len(projects[2].packages), 0)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/project/10/map/1', follow_redirects=True)
+            self.assertEqual(output.status_code, 404)
+
+            output = c.get('/project/1/map/10', follow_redirects=True)
+            self.assertEqual(output.status_code, 404)
+
+            output = c.get('/project/1/map/1', follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+
+            self.assertTrue('<h1>Project: geany</h1>' in output.data)
+            self.assertTrue(
+                '<td><label for="distro">Distribution</label></td>'
+                in output.data)
+
+            data = {
+                'package_name': 'geany2',
+                'distro': 'CentOS',
+            }
+
+            output = c.post(
+                '/project/1/map/1', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Project: geany</h1>' in output.data)
+            self.assertTrue(
+                '<td><label for="distro">Distribution</label></td>'
+                in output.data)
+
+            # This should works just fine
+            csrf_token = output.data.split(
+                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+
+            data['csrf_token'] = csrf_token
+
+            output = c.post(
+                '/project/1/map/1', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<li class="message">Mapping edited</li>' in output.data)
+            self.assertTrue(
+                '<h1>Project: geany</h1>' in output.data)
+
+            # This should fail, the mapping already exists
+            data = {
+                'package_name': 'geany2',
+                'distro': 'CentOS',
+                'csrf_token': csrf_token,
+            }
+
+            output = c.post(
+                '/project/1/map', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                '<li class="error">Could not edit the mapping of geany2 on '
+                'CentOS, there is already a package geany2 on CentOS.</li>'
+                in output.data)
+            self.assertTrue(
+                '<h1>Project: geany</h1>' in output.data)
+
+        projects = model.Project.all(self.session)
+        self.assertEqual(len(projects), 3)
+        self.assertEqual(projects[0].name, 'geany')
+        self.assertEqual(projects[0].id, 1)
+        self.assertEqual(len(projects[0].packages), 1)
+        self.assertEqual(projects[0].packages[0].package_name, 'geany2')
+        self.assertEqual(projects[1].name, 'R2spec')
+        self.assertEqual(projects[1].id, 3)
+        self.assertEqual(len(projects[1].packages), 0)
+        self.assertEqual(projects[2].name, 'subsurface')
+        self.assertEqual(projects[2].id, 2)
+        self.assertEqual(len(projects[2].packages), 0)
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FlaskTest)
