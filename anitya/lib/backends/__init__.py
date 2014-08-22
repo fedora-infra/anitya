@@ -121,7 +121,7 @@ def get_versions_by_regex_for_text(text, url, regex, project):
 
     try:
         upstream_versions = list(set(re.findall(regex, text)))
-    except sre_constants.error:
+    except sre_constants.error:  # pragma: no cover
         raise AnityaPluginException(
             "%s: invalid regular expression" % project.name)
 
