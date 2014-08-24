@@ -85,7 +85,7 @@ class DebianBackendtests(Modeltests):
         """ Test the get_version function of the debian backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '0.4.4.orig'
+        exp = '0.5.0~rc1.orig'
         obs = backend.DebianBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -107,7 +107,7 @@ class DebianBackendtests(Modeltests):
         """ Test the get_versions function of the debian backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = ['0.4.2.orig', '0.4.3.orig', '0.4.4.orig']
+        exp = ['0.4.2.orig', '0.4.3.orig', '0.4.4.orig', '0.5.0~rc1.orig']
         obs = backend.DebianBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
