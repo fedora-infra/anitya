@@ -32,6 +32,10 @@
             <tr id="regex_row">
               {{ render_field_in_row(form.regex) }}
             </tr>
+            <tr id="examples_row">
+              <th>Examples:</th>
+              <td id="example_txt"></td>
+            </tr>
           </table>
         </span>
       </div>
@@ -59,6 +63,15 @@
 
 {% block jscript %}
 <script type="text/javascript">
+
+    var examples = {};
+    {% for plugin in plugins %}
+    {% autoescape false  %}
+    examples["{{ plugin.name }}"]="{{ plugin.examples | format_examples }}";
+    {% endautoescape %}
+    {% endfor %}
+
+
   function show_hide(){
     $('#regex_row').hide();
     $('#version_url_row').hide();
@@ -79,6 +92,9 @@
       $('#regex_row').show();
       $('#version_url_row').show();
     };
+
+    $('#example_txt').html(examples[str]);
+
   };
 
   $(document).ready(function() {
