@@ -40,6 +40,19 @@ SESSION = anitya.lib.init(
     APP.config['DB_URL'], debug=False, create=False)
 
 
+@APP.template_filter('format_examples')
+def format_examples(examples):
+    ''' Return the plugins examples as HTML links. '''
+    output = ''
+    if examples:
+        for cnt, example in enumerate(examples):
+            if cnt > 0:
+                output += " <br /> "
+            output += "<a href='%(url)s'>%(url)s</a> " % ({'url': example})
+
+    return output
+
+
 @APP.before_request
 def check_auth():
     ''' Set the flask.g variables using the session information if the user
