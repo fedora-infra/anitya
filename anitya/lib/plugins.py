@@ -41,6 +41,11 @@ def get_plugin_names():
     return output
 
 
+def get_plugins():
+    ''' Return the list of plugins. '''
+    return load('anitya.lib.backends', subclasses=BaseBackend)
+
+
 def get_plugin(plugin_name):
     ''' Return the plugin corresponding to the given plugin name. '''
     plugins = load('anitya.lib.backends', subclasses=BaseBackend)
