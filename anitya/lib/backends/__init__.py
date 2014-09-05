@@ -25,6 +25,7 @@ class BaseBackend(object):
     ''' The base class that all the different backend should extend. '''
 
     name = None
+    examples = None
 
     @classmethod
     def get_version(self, project):  # pragma: no cover
