@@ -22,8 +22,9 @@ def load_plugins(session):
     not already present. '''
     backends = [bcke.name for bcke in model.Backend.all(session)]
 
-    plugins = get_plugin_names()
-    for backend in set(backends).symmetric_difference(set(plugins)):
+    plugins = get_plugins()
+    plg_names = [plugin.name for plugin in plugins]
+    for backend in set(backends).symmetric_difference(set(plg_names)):
         bcke = model.Backend(name=backend)
         session.add(bcke)
         try:
