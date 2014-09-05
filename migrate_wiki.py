@@ -131,6 +131,10 @@ def migrate_wiki(agent):
         name = None
         url = pkg.raw_url
         backend = 'custom'
+
+        if pkg.name.lower().startswith('rubygem-'):
+            name = pkg.name.replace('rubygem-', '')
+
         for key in CONVERT_URL:
             if url.startswith(key) and ':' in url:
                 url, name = url.split(':')
@@ -147,8 +151,6 @@ def migrate_wiki(agent):
         #    # Only keep the name if it is
         #    #if pkg.name.lower().startswith(name.lower()):
         #        #name = None
-        if pkg.name.lower().startswith('rubygem-'):
-            name = pkg.name.replace('rubygem-', '')
 
         project = anitya.lib.model.Project.get_or_create(
             SESSION,
