@@ -216,6 +216,7 @@ def edit_project(project_id):
         current='projects',
         form=form,
         project=project,
+        plugins=plugins,
     )
 
 
