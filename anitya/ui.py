@@ -184,9 +184,10 @@ def edit_project(project_id):
         flask.abort(404)
 
     plugins = anitya.lib.plugins.load_plugins(SESSION)
+    plg_names = [plugin.name for plugin in plugins]
 
     form = anitya.forms.ProjectForm(
-        backends=plugins,
+        backends=plg_names,
         obj=project)
 
     if form.validate_on_submit():
