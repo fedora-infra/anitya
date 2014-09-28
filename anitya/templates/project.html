@@ -11,7 +11,16 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title" property="doap:name">{{ project.name }}</h3>
+          <div class="list-group-item-text">
+        <a href="{{ url_for('edit_project', project_id=project.id) }}">
+            <button type="submit" class="btn btn-info btn-sm pull-right inline"
+                id="edit_btn">
+              <span class="glyphicon glyphicon-edit"></span>
+              Edit
+            </button>
+        </a>
+        <h3 class="panel-title inline" property="doap:name">{{ project.name }}</h3>
+        </div>
       </div>
 
       <div class="list-group">
@@ -39,12 +48,6 @@
         <div class="list-group-item">
           <h4 class="list-group-item-heading">Homepage:</h4>
           <div class="list-group-item-text">
-            <a href="{{ url_for('edit_project', project_id=project.id) }}">
-                <button type="submit" class="btn btn-info btn-sm pull-right">
-                  <span class="glyphicon glyphicon-edit"></span>
-                  Edit
-                </button>
-            </a>
             <p><a property="doap:homepage" href="{{ project.homepage }}"
                target="_blank">{{ project.homepage }}
              </a><p>
@@ -54,12 +57,6 @@
         <div class="list-group-item">
           <h4 class="list-group-item-heading">Backend:</h4>
           <div class="list-group-item-text">
-            <a href="{{ url_for('edit_project', project_id=project.id) }}">
-                <button type="submit" class="btn btn-info btn-sm pull-right">
-                  <span class="glyphicon glyphicon-edit"></span>
-                  Edit
-                </button>
-            </a>
             <p>{{ project.backend }}</p>
           </div>
         </div><!-- end list-group-item -->
