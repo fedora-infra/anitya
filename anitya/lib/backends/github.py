@@ -60,6 +60,8 @@ class GithubBackend(BaseBackend):
         '''
         url_template = 'https://github.com/%(version_url)s/tags'
 
-        url = url_template % {'version_url': project.version_url}
+        version_url = project.version_url.replace('https://github.com/', '')
+
+        url = url_template % {'version_url': version_url}
 
         return get_versions_by_regex(url, REGEX, project)
