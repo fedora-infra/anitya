@@ -3,7 +3,7 @@
 
 Name:           anitya
 Version:        0.1.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
 License:        GPLv2+
@@ -81,6 +81,12 @@ install -m 644 files/anitya.wsgi $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya.wsgi
 # Install the createdb script
 install -m 644 createdb.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_createdb.py
 
+# Install the migrate_wiki script
+install -m 644 files/migrate_wiki.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_migrate_wiki.py
+
+# Install the cron script
+install -m 644 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cron.py
+
 # Install the alembic files
 #cp -r alembic $RPM_BUILD_ROOT/%{_datadir}/anitya/
 #install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.ini
@@ -103,5 +109,11 @@ install -m 644 createdb.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_createdb.py
 
 
 %changelog
+* Wed Oct 01 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.0-3
+- Install the cron script
+
+* Wed Oct 01 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.0-2
+- Install the migrate_wiki script
+
 * Mon Sep 29 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.0-1
 - Initial packaging work for Fedora
