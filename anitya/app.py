@@ -135,8 +135,11 @@ def login():
     ''' Handle the login when no OpenID server have been selected in the
     list.
     '''
-    default = flask.url_for('index')
-    next_url = flask.request.args.get('next', default)
+    next_url = flask.url_for('index')
+    if 'next' in flask.request.args:
+        if is_safe_url(flask.request.args['next']):
+            next_url = flask.request.args['next']
+
     OID.store_factory = lambda: None
     if flask.g.auth.logged_in:
         return flask.redirect(next_url)
@@ -156,8 +159,11 @@ def login():
 @OID.loginhandler
 def fedora_login():
     ''' Handles login against the Fedora OpenID server. '''
-    default = flask.url_for('index')
-    next_url = flask.request.args.get('next', default)
+    next_url = flask.url_for('index')
+    if 'next' in flask.request.args:
+        if is_safe_url(flask.request.args['next']):
+            next_url = flask.request.args['next']
+
     OID.store_factory = lambda: None
     return OID.try_login(
         APP.config['CNUCNU_WEB_FEDORA_OPENID'],
@@ -170,8 +176,11 @@ def fedora_login():
 @OID.loginhandler
 def google_login():
     ''' Handles login via the Google OpenID. '''
-    default = flask.url_for('index')
-    next_url = flask.request.args.get('next', default)
+    next_url = flask.url_for('index')
+    if 'next' in flask.request.args:
+        if is_safe_url(flask.request.args['next']):
+            next_url = flask.request.args['next']
+
     OID.store_factory = None
     return OID.try_login(
         "https://www.google.com/accounts/o8/id",
@@ -183,8 +192,11 @@ def google_login():
 @OID.loginhandler
 def yahoo_login():
     ''' Handles login via the Yahoo OpenID. '''
-    default = flask.url_for('index')
-    next_url = flask.request.args.get('next', default)
+    next_url = flask.url_for('index')
+    if 'next' in flask.request.args:
+        if is_safe_url(flask.request.args['next']):
+            next_url = flask.request.args['next']
+
     OID.store_factory = None
     return OID.try_login(
         "https://me.yahoo.com/",
@@ -197,6 +209,17 @@ def logout():
     ''' Logout the user. '''
     flask.session.pop('openid')
     return flask.redirect(flask.url_for('index'))
+
+
+def is_safe_url(target):
+    """ Checks that the target url is safe and sending to the current
+    website not some other malicious one.
+    """
+    ref_url = urlparse.urlparse(flask.request.host_url)
+    test_url = urlparse.urlparse(
+        urlparse.urljoin(flask.request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+        ref_url.netloc == test_url.netloc
 
 
 def modify_rst(rst):
