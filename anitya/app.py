@@ -10,6 +10,7 @@ check if the user is an admin and other utility functions.
 import codecs
 import functools
 import os
+import urlparse
 
 import docutils
 import docutils.examples
