@@ -14,18 +14,6 @@ Notifications service).
 
 :Github page: https://github.com/fedora-infra/anitya
 
-UI overview
------------
-
-.. image:: overview.png
-   :height: 800px
-   :width: 400 px
-   :scale: 50 %
-   :alt: Small overview of Anitya's UI
-   :align: center
-   :target: overview.png
-
-
 Hacking
 -------
 
