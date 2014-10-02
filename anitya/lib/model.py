@@ -321,6 +321,7 @@ class Project(BASE):
 
     def __json__(self):
         return dict(
+            id = self.id,
             name=self.name,
             homepage=self.homepage,
             regex=self.regex,
