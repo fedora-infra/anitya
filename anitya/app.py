@@ -208,7 +208,12 @@ def yahoo_login():
 def logout():
     ''' Logout the user. '''
     flask.session.pop('openid')
-    return flask.redirect(flask.url_for('index'))
+    next_url = flask.url_for('index')
+    if 'next' in flask.request.args:
+        if is_safe_url(flask.request.args['next']):
+            next_url = flask.request.args['next']
+
+    return flask.redirect(next_url)
 
 
 def is_safe_url(target):
