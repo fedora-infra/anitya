@@ -19,6 +19,9 @@ def fedmsg_publish(*args, **kwargs):  # pragma: no cover
     # Ignore message about fedmsg import
     # pylint: disable=F0401
     kwargs['modname'] = 'anitya'
+    kwargs['cert_prefix'] = 'anitya'
+    kwargs['name'] = 'relay_inbound'
+    kwargs['active'] = True
     try:
         import fedmsg
         fedmsg.publish(*args, **kwargs)
