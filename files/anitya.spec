@@ -2,8 +2,8 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.0
-Release:        3%{?dist}
+Version:        0.1.1
+Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
 License:        GPLv2+
@@ -109,6 +109,12 @@ install -m 644 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Thu Oct 02 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.1-1
+- Update to 0.1.1
+- Include the project id in its project representation
+- Grammar fixes
+- Specify on which server is the IRC channel for feedbacks
+
 * Wed Oct 01 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.0-3
 - Install the cron script
 
