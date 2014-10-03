@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.1
+Version:        0.1.2
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,6 +109,14 @@ install -m 644 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Fri Oct 03 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.2-1
+- Update to 0.1.2
+- Fix redirection after logging in
+- Fix redirection after logging out
+- Set the redirection on the log out button
+- Instanciate fedmsg correctly (thanks to Ralph Bean)
+- Drop the recorded versions from the DB when dropping a project
+
 * Thu Oct 02 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.1-1
 - Update to 0.1.1
 - Include the project id in its project representation
