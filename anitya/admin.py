@@ -127,6 +127,9 @@ def delete_project(project_id):
                 )
             )
 
+            for version in project.versions_obj:
+                SESSION.delete(version)
+
             SESSION.delete(project)
             SESSION.commit()
             flask.flash('Project %s has been removed' % project_name)
