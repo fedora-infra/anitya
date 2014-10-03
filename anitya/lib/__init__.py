@@ -207,15 +207,15 @@ def map_project(
     if not pkg:
         topic = 'project.map.new'
         pkg = anitya.lib.model.Packages(
-            distro=distribution,
+            distro=distro_obj.name,
             project_id=project.id,
             package_name=package_name
         )
     else:
         topic = 'project.map.update'
         edited = []
-        if pkg.distro != distribution:
-            pkg.distro = distribution
+        if pkg.distro != distro_obj.name:
+            pkg.distro = distro_obj.name
             edited.append('distribution')
         if pkg.package_name != package_name:
             pkg.package_name = package_name
@@ -235,7 +235,7 @@ def map_project(
     message = dict(
         agent=user_mail,
         project=project.name,
-        distro=distribution,
+        distro=distro_obj.name,
         new=package_name,
     )
     if edited:
