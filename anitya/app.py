@@ -25,7 +25,7 @@ import anitya.forms
 import anitya.lib.plugins
 
 
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
 # Create the application.
 APP = flask.Flask(__name__)
