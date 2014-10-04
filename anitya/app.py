@@ -9,7 +9,10 @@ check if the user is an admin and other utility functions.
 
 import codecs
 import functools
+import logging
+import logging.handlers
 import os
+import sys
 import urlparse
 
 import docutils
@@ -20,9 +23,10 @@ import markupsafe
 from bunch import Bunch
 from flask.ext.openid import OpenID
 
-import anitya.lib
 import anitya.forms
+import anitya.lib
 import anitya.lib.plugins
+import anitya.mail_logging
 
 
 __version__ = '0.1.3'
@@ -36,6 +40,21 @@ if 'ANITYA_WEB_CONFIG' in os.environ:  # pragma: no cover
 
 # Set up OpenID
 OID = OpenID(APP)
+
+# Set up the logging
+if not APP.debug:
+    APP.logger.addHandler(anitya.mail_logging.get_mail_handler(
+        smtp_server=APP.config.get('SMTP_SERVER', '127.0.0.1'),
+        mail_admin=APP.config.get('MAIL_ADMIN', 'admin@fedoraproject.org')
+    ))
+
+# Log to stderr as well
+STDERR_LOG = logging.StreamHandler(sys.stderr)
+STDERR_LOG.setLevel(logging.INFO)
+APP.logger.addHandler(STDERR_LOG)
+
+LOG = APP.logger
+
 
 SESSION = anitya.lib.init(
     APP.config['DB_URL'], debug=False, create=False)
