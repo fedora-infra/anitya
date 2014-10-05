@@ -81,7 +81,7 @@ class SourceforgeBackendtests(Modeltests):
 
 
     def test_get_version(self):
-        """ Test the get_version function of the debian backend. """
+        """ Test the get_version function of the sourceforge backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = '3.9.0.5'
@@ -105,7 +105,7 @@ class SourceforgeBackendtests(Modeltests):
         )
 
     def test_get_versions(self):
-        """ Test the get_versions function of the debian backend. """
+        """ Test the get_versions function of the sourceforge backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = [
@@ -133,5 +133,6 @@ class SourceforgeBackendtests(Modeltests):
 
 
 if __name__ == '__main__':
-    SUITE = unittest.TestLoader().loadTestsFromTestCase(SourceforgeBackendtests)
+    SUITE = unittest.TestLoader().loadTestsFromTestCase(
+        SourceforgeBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)
