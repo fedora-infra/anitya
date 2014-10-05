@@ -75,6 +75,7 @@ class AnityaWebAPItests(Modeltests):
         exp = {
             "projects": [
                 {
+                    "id": 1,
                     "backend": "custom",
                     "homepage": "http://www.geany.org/",
                     "name": "geany",
@@ -83,6 +84,7 @@ class AnityaWebAPItests(Modeltests):
                     "version_url": "http://www.geany.org/Download/Releases"
                 },
                 {
+                    "id": 3,
                     "backend": "custom",
                     "homepage": "https://fedorahosted.org/r2spec/",
                     "name": "R2spec",
@@ -91,6 +93,7 @@ class AnityaWebAPItests(Modeltests):
                     "version_url": None
                 },
                 {
+                    "id": 2,
                     "backend": "custom",
                     "homepage": "http://subsurface.hohndel.org/",
                     "name": "subsurface",
@@ -115,6 +118,7 @@ class AnityaWebAPItests(Modeltests):
         exp = {
             "projects": [
                 {
+                    "id": 1,
                     "backend": "custom",
                     "homepage": "http://www.geany.org/",
                     "name": "geany",
@@ -247,6 +251,7 @@ class AnityaWebAPItests(Modeltests):
         del(data['updated_on'])
 
         exp = {
+            "id": 1,
             "backend": "custom",
             "homepage": "http://www.geany.org/",
             "name": "geany",
@@ -286,6 +291,7 @@ class AnityaWebAPItests(Modeltests):
         del(data['updated_on'])
 
         exp = {
+            "id": 1,
             "backend": "custom",
             "homepage": "http://www.geany.org/",
             "name": "geany",
@@ -331,6 +337,7 @@ class AnityaWebAPItests(Modeltests):
         del(data['updated_on'])
 
         exp = {
+            "id": 1,
             "backend": "custom",
             "homepage": "http://www.geany.org/",
             "name": "geany",

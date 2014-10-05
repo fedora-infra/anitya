@@ -157,8 +157,8 @@ a backend for the project hosting. More information below.</p>"""
 
         expected = """
   <p>
-    Here is the list of all the distribution having at least one project
-    mapped as a package of this distribution and monitored by anitya.
+    Here is the list of all the distributions having at least one project
+    mapped monitored by anitya.
   </p>"""
         self.assertTrue(expected in output.data)
 

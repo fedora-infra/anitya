@@ -83,7 +83,7 @@ class NpmjsBackendtests(Modeltests):
         """ Test the get_version function of the npmjs backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '2.40.0'
+        exp = '2.44.0'
         obs = backend.NpmjsBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -97,7 +97,7 @@ class NpmjsBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '0.6.2'
+        exp = '1.0.2'
         obs = backend.NpmjsBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -118,7 +118,7 @@ class NpmjsBackendtests(Modeltests):
             '2.21.0', '2.22.0', '2.23.0', '2.24.0', '2.25.0', '2.26.0',
             '2.27.0', '2.28.0', '2.29.0', '2.30.0', '2.31.0', '2.32.0',
             '2.33.0', '2.34.0', '2.35.0', '2.36.0', '2.37.0', '2.38.0',
-            '2.39.0', '2.40.0'
+            '2.39.0', '2.40.0', '2.41.0', '2.42.0', '2.43.0', '2.44.0'
         ]
         obs = backend.NpmjsBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -134,7 +134,9 @@ class NpmjsBackendtests(Modeltests):
         pid = 3
         project = model.Project.get(self.session, pid)
         exp = [
-            '0.3.0', '0.5.0', '0.5.1', '0.6.0', '0.6.0-1', '0.6.1', '0.6.2']
+            '0.3.0', '0.5.0', '0.5.1', '0.6.0', '0.6.0-1', '0.6.1', '0.6.2',
+            '1.0.0', '1.0.1', '1.0.2',
+        ]
         obs = backend.NpmjsBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 

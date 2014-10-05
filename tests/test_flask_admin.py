@@ -110,7 +110,7 @@ class FlaskAdminTest(Modeltests):
                 '/distro/add', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<h1>Distribution participating</h1>' in output.data)
+                '<h1>Distributions participating</h1>' in output.data)
             self.assertTrue(
                 '<a href="/distro/Debian/edit">' in output.data)
 
@@ -121,7 +121,7 @@ class FlaskAdminTest(Modeltests):
                 'class="error">Could not add this distro, already exists?</'
                 in output.data)
             self.assertTrue(
-                '<h1>Distribution participating</h1>' in output.data)
+                '<h1>Distributions participating</h1>' in output.data)
             self.assertTrue(
                 '<a href="/distro/Debian/edit">' in output.data)
 
@@ -184,7 +184,7 @@ class FlaskAdminTest(Modeltests):
                 '/distro/Debian/edit', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<h1>Distribution participating</h1>' in output.data)
+                '<h1>Distributions participating</h1>' in output.data)
             self.assertTrue(
                 '<a href="/distro/debian/edit">' in output.data)
 

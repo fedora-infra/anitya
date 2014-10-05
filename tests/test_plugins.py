@@ -43,7 +43,7 @@ class Pluginstests(Modeltests):
 
     def test_load_plugins(self):
         """ Test the plugins.load_plugins function. """
-        plgns = plugins.load_plugins(self.session)
+        plgns = [plg.name for plg in plugins.load_plugins(self.session)]
         self.assertEqual(len(plgns), 20)
         exp = [
             'CPAN (perl)', 'Debian project', 'Drupal6', 'Drupal7', 'Freshmeat',
