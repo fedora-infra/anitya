@@ -201,7 +201,7 @@ def google_login():
         if is_safe_url(flask.request.args['next']):
             next_url = flask.request.args['next']
 
-    OID.store_factory = None
+    OID.store_factory = lambda: None
     return OID.try_login(
         "https://www.google.com/accounts/o8/id",
         ask_for=['email', 'fullname'])
@@ -217,7 +217,7 @@ def yahoo_login():
         if is_safe_url(flask.request.args['next']):
             next_url = flask.request.args['next']
 
-    OID.store_factory = None
+    OID.store_factory = lambda: None
     return OID.try_login(
         "https://me.yahoo.com/",
         ask_for=['email', 'fullname'])
