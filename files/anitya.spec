@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.3
+Version:        0.1.4
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,6 +109,11 @@ install -m 644 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Mon Oct 06 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.4-1
+- Update to 0.1.4
+- Add a dedicated log handler reporting errors by email
+- Fix yahoo and google login
+
 * Fri Oct 03 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.3-1
 - Update to 0.1.3
 - Fix mapping a project onto an existing distribution
