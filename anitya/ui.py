@@ -164,6 +164,46 @@ def projects_search(pattern=None):
         page=page)
 
 
+@APP.route('/distro/<distroname>/search')
+@APP.route('/distro/<distroname>/search/')
+@APP.route('/distro/<distroname>/search/<pattern>')
+def distro_projects_search(distroname, pattern=None):
+
+    pattern = flask.request.args.get('pattern', pattern) or '*'
+    page = flask.request.args.get('page', 1)
+
+    if '*' not in pattern:
+        pattern += '*'
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+
+    projects = anitya.lib.model.Project.distro_search(
+        SESSION, pattern=pattern, distro=distroname, page=page)
+    projects_count = anitya.lib.model.Project.distro_search(
+        SESSION, pattern=pattern, distro=distroname, count=True)
+
+    if projects_count == 1 and projects[0].name == pattern.replace('*', ''):
+        flask.flash(
+            'Only one result matching with an exact match, redirecting')
+        return flask.redirect(
+            flask.url_for('project', project_id=projects[0].id))
+
+    total_page = int(ceil(projects_count / float(50)))
+
+    return flask.render_template(
+        'search.html',
+        current='projects',
+        pattern=pattern,
+        projects=projects,
+        distroname=distroname,
+        total_page=total_page,
+        projects_count=projects_count,
+        page=page)
+
+
 @APP.route('/project/new', methods=['GET', 'POST'])
 @login_required
 def new_project():
