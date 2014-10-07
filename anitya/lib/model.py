@@ -423,7 +423,7 @@ class Project(BASE):
             return query.all()
 
     @classmethod
-    def search(cls, session, pattern, page=None, count=False):
+    def search(cls, session, pattern, distro=None, page=None, count=False):
         ''' Search the projects by their name or package name '''
 
         if '*' in pattern:
@@ -439,43 +439,12 @@ class Project(BASE):
             cls.name
         ).distinct()
 
-        if page:
-            try:
-                page = int(page)
-            except ValueError:
-                page = None
-
-        if page:
-            limit = page * 50
-            offset = (page - 1) * 50
-            query = query.offset(offset).limit(limit)
-
-        if count:
-            return query.count()
-        else:
-            return query.all()
-
-    @classmethod
-    def distro_search(cls, session, pattern, distro, page=None, count=False):
-        ''' Search the projects of a certain distro by their name or
-        package name '''
-
-        if '*' in pattern:
-            pattern = pattern.replace('*', '%')
-
-        query = session.query(
-            cls
-        ).filter(
-            Project.id == Packages.project_id
-        ).filter(
-            sa.func.lower(Packages.distro) == sa.func.lower(distro)
-        ).filter(
-            sa.or_(
-                cls.name.like(pattern),
+        if distro is not None:
+            query = query.filter(
+                Project.id == Packages.project_id
+            ).filter(
+                sa.func.lower(Packages.distro) == sa.func.lower(distro)
             )
-        ).order_by(
-            cls.name
-        ).distinct()
 
         if page:
             try:
