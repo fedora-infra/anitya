@@ -35,7 +35,7 @@ def about():
 def fedmsg():
     return flask.render_template(
         'docs.html',
-        current='start',
+        current='fedmsg',
         docs=load_docs(flask.request),
     )
 
