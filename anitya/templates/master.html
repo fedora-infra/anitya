@@ -49,6 +49,13 @@
               {% endif %}
               <a href="{{url_for('about')}}">about</a>
               <li>
+              {% if 'fedmsg' == current %}
+              <li class="active">
+              {% else %}
+              <li>
+              {% endif %}
+              <a href="{{url_for('fedmsg')}}">fedmsg</a>
+              <li>
 
             {% if current == 'projects' %}
             <li class="active">
