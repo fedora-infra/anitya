@@ -432,12 +432,19 @@ class Project(BASE):
         query = session.query(
             cls
         ).filter(
+            Project.name.ilike(pattern)
+        ).distinct()
+
+        query2 = session.query(
+            cls
+        ).filter(
             Project.id == Packages.project_id
         ).filter(
-            sa.or_(
-                cls.name.ilike(pattern),
-                Packages.package_name.ilike(pattern),
-            )
+            Packages.package_name.ilike(pattern)
+        ).distinct()
+
+        query = query.union(
+            query2
         ).order_by(
             cls.name
         ).distinct()
