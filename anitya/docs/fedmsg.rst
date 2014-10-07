@@ -1,14 +1,12 @@
-Getting started with fedmsg/anitya
-==================================
+Getting started with anitya and fedmsg
+======================================
 
-`fedmsg <http://www.fedmsg.com>`_ is a bus. In other words it is a system
-that allows to send and receive notifications between applications.
-For anitya, every action made on the application is announced/broadcasted
-on this bus, allowing anyone listening to it to act immediately instead of
-(for example) pull hourly all the data to see the changes and act then.
-
-
-
+`fedmsg <http://www.fedmsg.com>`_ is a message bus. In other words it is a
+system that allows for the sending and receiving of notifications between
+applications.  For anitya, every action made on the application is
+announced/broadcasted on this bus, allowing anyone listening to it to act
+immediately instead of (for example) polling hourly all the data, looking for
+changes, and acting then.
 
 To start receiving `fedmsg <http://www.fedmsg.com>`_ messages from anitya,
 it is as simple as:
@@ -27,8 +25,8 @@ Via pip ::
 
   pip install fedmsg
 
-* in the configuration file: ``endpoints.py``, make sure you activate the
-  anitya endpoint
+* in the configuration file: ``/etc/fedmsg.d/endpoints.py``, make sure you
+  activate the anitya endpoint
 
   ::
 
