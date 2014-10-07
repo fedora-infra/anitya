@@ -31,6 +31,15 @@ def about():
     )
 
 
+@APP.route('/fedmsg')
+def fedmsg():
+    return flask.render_template(
+        'docs.html',
+        current='start',
+        docs=load_docs(flask.request),
+    )
+
+
 @APP.route('/project/<project_id>')
 @APP.route('/project/<project_id>/')
 def project(project_id):
