@@ -97,6 +97,34 @@ def distros():
         page=page)
 
 
+@APP.route('/distro/<distroname>')
+@APP.route('/distro/<distroname>/')
+def distro(distroname):
+
+    page = flask.request.args.get('page', 1)
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+
+    projects = anitya.lib.model.Project.by_distro(
+        SESSION, distro=distroname, page=page)
+    projects_count = anitya.lib.model.Project.by_distro(
+        SESSION, distro=distroname, count=True)
+
+    total_page = int(ceil(projects_count / float(50)))
+
+    return flask.render_template(
+        'projects.html',
+        current='projects',
+        projects=projects,
+        distroname=distroname,
+        total_page=total_page,
+        projects_count=projects_count,
+        page=page)
+
+
 @APP.route('/projects/search')
 @APP.route('/projects/search/')
 @APP.route('/projects/search/<pattern>')
