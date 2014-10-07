@@ -7,6 +7,7 @@ import anitya.lib.exceptions
 import anitya.lib.model
 
 import logging
+import sys
 
 PBAR = True
 try:
@@ -15,13 +16,15 @@ except ImportError:
     PBAR = False
 
 
-def main():
+def main(debug):
     ''' Retrieve all the packages and for each of them update the release
     version.
     '''
     session = anitya.app.SESSION
-    LOG = logging.getLogger('anitya-cron')
+    LOG = logging.getLogger('anitya')
     LOG.setLevel(logging.CRITICAL)
+    if debug:
+        LOG.setLevel(logging.INFO)
     projects = anitya.lib.model.Project.all(session)
 
     if PBAR:
@@ -48,4 +51,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    debug = '--debug' in sys.argv:
+    main(debug=debug)
