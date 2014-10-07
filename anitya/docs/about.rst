@@ -4,7 +4,8 @@ Anitya
 Anitya is a project version monitoring system.
 
 Every-day Anitya checks if there is a new version available and broadcast the
-new versions found via a message bus: `fedmsg <http://www.fedmsg.com/>`_.
+new versions found via a message bus: `fedmsg <http://fedmsg.com/>`_
+(`More information on fedmsg for anitya <fedmsg>`_).
 
 Anyone with an OpenID account can register a new application on Anitya. To
 do so, all you need is the project name and its home page, the combination
