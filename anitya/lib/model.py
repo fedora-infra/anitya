@@ -432,8 +432,11 @@ class Project(BASE):
         query = session.query(
             cls
         ).filter(
+            Project.id == Packages.project_id
+        ).filter(
             sa.or_(
-                cls.name.like(pattern),
+                cls.name.ilike(pattern),
+                Packages.package_name.ilike(pattern),
             )
         ).order_by(
             cls.name
@@ -441,8 +444,6 @@ class Project(BASE):
 
         if distro is not None:
             query = query.filter(
-                Project.id == Packages.project_id
-            ).filter(
                 sa.func.lower(Packages.distro) == sa.func.lower(distro)
             )
 
