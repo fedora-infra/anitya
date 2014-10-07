@@ -18,14 +18,6 @@ except ImportError:
     PBAR = False
 
 
-def fedmsg_init():
-    config = fedmsg.config.load_config()
-    config['active'] = True
-    config['name'] = 'relay_inbound'
-    config['cert_prefix'] = 'anitya'
-    fedmsg.init(**config)
-
-
 def main():
     ''' Retrieve all the packages and for each of them update the release
     version.
@@ -59,5 +51,4 @@ def main():
 
 
 if __name__ == '__main__':
-    fedmsg_init()
     main()
