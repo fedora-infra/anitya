@@ -167,6 +167,35 @@ a backend for the project hosting. More information below.</p>"""
         self.assertEqual(output.status_code, 200)
         self.assertTrue(expected in output.data)
 
+    def test_distro(self):
+        """ Test the distro function. """
+        create_distro(self.session)
+        create_project(self.session)
+
+        output = self.app.get('/distro/Fedora/')
+        self.assertEqual(output.status_code, 200)
+
+        expected = """
+  <blockquote>
+      Oups this is embarrassing, it seems that no projects are being
+      monitored currently.
+  </blockquote>"""
+        self.assertTrue(expected in output.data)
+        self.assertTrue(
+            'form action="/distro/Fedora/search/" role="form">'
+            in output.data)
+        self.assertTrue(
+            '<h1>Projects of Fedora monitored</h1>' in output.data)
+
+        output = self.app.get('/distro/Fedora/?page=ab')
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(expected in output.data)
+        self.assertTrue(
+            'form action="/distro/Fedora/search/" role="form">'
+            in output.data)
+        self.assertTrue(
+            '<h1>Projects of Fedora monitored</h1>' in output.data)
+
     def test_projects_search(self):
         """ Test the projects_search function. """
         create_distro(self.session)
