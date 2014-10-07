@@ -59,7 +59,9 @@
   {% for distro in distros %}
     <span class="list-group-item">
       <h4 class="list-group-item-heading">
-        {{distro.name}}
+        <a href="{{ url_for('distro', distroname=distro.name) }}">
+          {{distro.name}}
+        </a>
       </h4>
       {% if is_admin %}
       <a href="{{ url_for('edit_distro', distro_name=distro.name) }}">
