@@ -20,7 +20,7 @@ def main():
     version.
     '''
     session = anitya.app.SESSION
-    LOG = logging.getLogger('anitya')
+    LOG = logging.getLogger('anitya-cron')
     LOG.setLevel(logging.CRITICAL)
     projects = anitya.lib.model.Project.all(session)
 
