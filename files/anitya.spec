@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.8
+Version:        0.1.8.1
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,6 +109,10 @@ install -m 644 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Tue Oct 07 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.8.1-1
+- Update to 0.1.8.1
+- Fix typo in the cron script
+
 * Tue Oct 07 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.8-1
 - Update to 0.1.8
 - Add option to debug the cron script
