@@ -62,6 +62,8 @@ def check_release(project, session):
         session.commit()
         raise
 
+    p_version = project.latest_version or ''
+
     if up_version and up_version not in project.versions:
         publish = True
         project.versions_obj.append(
@@ -70,8 +72,6 @@ def check_release(project, session):
                 version=up_version
             )
         )
-
-    p_version = project.latest_version or ''
 
     if up_version and up_version != p_version:
         max_version = order_versions([up_version, p_version])[-1]
