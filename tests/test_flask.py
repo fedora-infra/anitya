@@ -89,7 +89,8 @@ class FlaskTest(Modeltests):
 <h1 class="title">Anitya</h1>
 <p>Anitya is a project version monitoring system.</p>
 <p>Every-day Anitya checks if there is a new version available and broadcast the
-new versions found via a message bus: <a class="reference external" href="http://www.fedmsg.com/">fedmsg</a>.</p>
+new versions found via a message bus: <a class="reference external" href="http://fedmsg.com/">fedmsg</a>
+(<a class="reference external" href="fedmsg">More information on fedmsg for anitya</a>).</p>
 <p>Anyone with an OpenID account can register a new application on Anitya. To
 do so, all you need is the project name and its home page, the combination
 of both must be unique. In order to retrieve the new version, you can specify

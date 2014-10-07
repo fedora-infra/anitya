@@ -213,7 +213,7 @@ class FlaskAdminTest(Modeltests):
 
         output = c.get('/projects/')
         self.assertEqual(output.status_code, 200)
-        self.assertTrue('<h1>Projects monitored</h1>' in output.data)
+        self.assertTrue('<h1>Projects   monitored</h1>' in output.data)
         self.assertEqual(output.data.count('<a href="/project/1'), 1)
         self.assertEqual(output.data.count('<a href="/project/2'), 1)
         self.assertEqual(output.data.count('<a href="/project/3'), 1)
@@ -264,7 +264,7 @@ class FlaskAdminTest(Modeltests):
                 '/project/1/delete', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<h1>Projects monitored</h1>' in output.data)
+                '<h1>Projects   monitored</h1>' in output.data)
             self.assertTrue(
                 '<li class="message">Project geany has been removed</li>'
                 in output.data)
