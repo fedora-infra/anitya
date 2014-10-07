@@ -401,7 +401,7 @@ class Project(BASE):
         ).filter(
             Project.id == Packages.project_id
         ).filter(
-            Packages.distro == distro
+            sa.func.lower(Packages.distro) == sa.func.lower(distro)
         ).order_by(
             sa.func.lower(Project.name)
         )
@@ -468,7 +468,7 @@ class Project(BASE):
         ).filter(
             Project.id == Packages.project_id
         ).filter(
-            Packages.distro == distro
+            sa.func.lower(Packages.distro) == sa.func.lower(distro)
         ).filter(
             sa.or_(
                 cls.name.like(pattern),
