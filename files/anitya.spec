@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.7
+Version:        0.1.8
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,6 +109,12 @@ install -m 644 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Tue Oct 07 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.8-1
+- Update to 0.1.8
+- Add option to debug the cron script
+- Better fedmsg doc
+- Announce any new release found, not just the latest one
+
 * Tue Oct 07 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.7-1
 - Update to 0.1.7
 - Add logging to the DB when finding a new version
