@@ -301,7 +301,7 @@ def preload_docs(endpoint):
     api_docs = markupsafe.Markup(api_docs)
     return api_docs
 
-htmldocs = dict.fromkeys(['about'])
+htmldocs = dict.fromkeys(['about', 'fedmsg'])
 for key in htmldocs:
     htmldocs[key] = preload_docs(key)
 
