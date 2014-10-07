@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.5
+Version:        0.1.6
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,6 +109,10 @@ install -m 644 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Tue Oct 07 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.6-1
+- Update to 0.1.6
+- Fix the search for projects that are not mapped in any distribution
+
 * Tue Oct 07 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.5-1
 - Update to 0.1.5
 - Add the possiblity to find all the packages/projects related to a distro
