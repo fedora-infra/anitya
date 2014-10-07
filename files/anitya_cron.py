@@ -51,5 +51,5 @@ def main(debug):
 
 
 if __name__ == '__main__':
-    debug = '--debug' in sys.argv:
+    debug = '--debug' in sys.argv
     main(debug=debug)
