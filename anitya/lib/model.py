@@ -395,6 +395,34 @@ class Project(BASE):
             return query.all()
 
     @classmethod
+    def by_distro(cls, session, distro, page=None, count=False):
+        query = session.query(
+            Project
+        ).filter(
+            Project.id == Packages.project_id
+        ).filter(
+            Packages.distro == distro
+        ).order_by(
+            sa.func.lower(Project.name)
+        )
+
+        if page:
+            try:
+                page = int(page)
+            except ValueError:
+                page = None
+
+        if page:
+            limit = page * 50
+            offset = (page - 1) * 50
+            query = query.offset(offset).limit(limit)
+
+        if count:
+            return query.count()
+        else:
+            return query.all()
+
+    @classmethod
     def search(cls, session, pattern, page=None, count=False):
         ''' Search the projects by their name or package name '''
 
