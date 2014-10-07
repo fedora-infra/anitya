@@ -6,9 +6,6 @@ import anitya.app
 import anitya.lib.exceptions
 import anitya.lib.model
 
-import fedmsg
-import fedmsg.config
-
 import logging
 
 PBAR = True
