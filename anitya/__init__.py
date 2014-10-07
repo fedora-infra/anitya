@@ -84,13 +84,19 @@ def check_release(project, session):
             project.logs = 'Version retrieved correctly'
 
     if publish:
-        fedmsg_publish(topic="project.version.update", msg=dict(
-            project=project.__json__(),
-            upstream_version=up_version,
-            old_version=p_version,
-            packages=[pkg.__json__() for pkg in project.packages],
-            versions=project.versions,
-        ))
+        anitya.log(
+            session,
+            project=project,
+            topic="project.version.update",
+            message=dict(
+                project=project.__json__(),
+                upstream_version=up_version,
+                old_version=p_version,
+                packages=[pkg.__json__() for pkg in project.packages],
+                versions=project.versions,
+                agent='anitya',
+            ),
+        )
 
     session.add(project)
     session.commit()
@@ -138,6 +144,9 @@ def log(session, project=None, distro=None, topic=None, message=None):
                               '%(distro)s from: %(prev)s to: %(new)s',
         'project.map.remove': '%(agent)s removed the mapping of %(project)s '
                               'in %(distro)s',
+        'project.version.update': 'new version: %(upstream_version)s found'
+                                  ' for project %(project.name)s '
+                                  '(project id: %(project.id)s).',
     }
     substitutions = _construct_substitutions(message)
     final_msg = templates[topic] % substitutions
