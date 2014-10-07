@@ -189,9 +189,9 @@ def distro_projects_search(distroname, pattern=None):
     except ValueError:
         page = 1
 
-    projects = anitya.lib.model.Project.distro_search(
+    projects = anitya.lib.model.Project.search(
         SESSION, pattern=pattern, distro=distroname, page=page)
-    projects_count = anitya.lib.model.Project.distro_search(
+    projects_count = anitya.lib.model.Project.search(
         SESSION, pattern=pattern, distro=distroname, count=True)
 
     if projects_count == 1 and projects[0].name == pattern.replace('*', ''):
