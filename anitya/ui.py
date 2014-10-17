@@ -93,6 +93,18 @@ def projects_updated(status='updated'):
     except ValueError:
         page = 1
 
+    statuses = ['new', 'updated', 'failed']
+
+    if status not in statuses:
+        flask.flash(
+            '%s is invalid, you should use one of: %s; using default: '
+            '`updated`' % (status, ', '.join(statuses)),
+            'errors'
+        )
+        flask.flash(
+            'Returning all the projects regardless of how/if their version '
+            'was retrieved correctly')
+
     projects = anitya.lib.model.Project.updated(
         SESSION, status=status, page=page)
     projects_count = anitya.lib.model.Project.updated(
