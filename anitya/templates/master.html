@@ -47,14 +47,14 @@
               {% else %}
               <li>
               {% endif %}
-              <a href="{{url_for('about')}}">about</a>
+                <a href="{{url_for('about')}}">about</a>
               <li>
               {% if 'fedmsg' == current %}
               <li class="active">
               {% else %}
               <li>
               {% endif %}
-              <a href="{{url_for('fedmsg')}}">fedmsg</a>
+                <a href="{{url_for('fedmsg')}}">fedmsg</a>
               <li>
 
             {% if current == 'projects' %}
@@ -62,9 +62,28 @@
             {% else %}
             <li>
             {% endif %}
-              <a href="{{url_for('projects')}}">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   projects
               </a>
+              <ul class="dropdown-menu">
+                  <li>
+                      <a href="{{url_for('projects')}}">All</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="{{url_for('projects_updated')}}">Updated</a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('projects_updated', status='new')}}">
+                      Not updated
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('projects_updated', status='failed')}}">
+                      Failed to update
+                    </a>
+                  </li>
+                </ul>
             </li>
 
             {% if current == 'distros' %}
