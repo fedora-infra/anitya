@@ -81,6 +81,35 @@ def projects():
         page=page)
 
 
+@APP.route('/projects/updates')
+@APP.route('/projects/updates/')
+@APP.route('/projects/updates/<status>')
+def projects_updated(status='updated'):
+
+    page = flask.request.args.get('page', 1)
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+
+    projects = anitya.lib.model.Project.updated(
+        SESSION, status=status, page=page)
+    projects_count = anitya.lib.model.Project.updated(
+        SESSION, status=status, count=True)
+
+    total_page = int(ceil(projects_count / float(50)))
+
+    return flask.render_template(
+        'updates.html',
+        current='projects',
+        projects=projects,
+        total_page=total_page,
+        projects_count=projects_count,
+        page=page,
+        status=status)
+
+
 @APP.route('/distros')
 @APP.route('/distros/')
 def distros():
