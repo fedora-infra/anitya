@@ -1,0 +1,96 @@
+{% extends "master.html" %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Projects monitored</h1>
+</div>
+
+<div class="row show-grid">
+    <p>
+      On this pages are present the projects
+      {% if status == 'updated' %}
+      that updated successfully at the last run
+      {% elif status == 'failed' %}
+      that failed to update at the last run
+      {% elif status == 'new' %}
+      have not been updated at all so far
+      {% endif %}
+    </p>
+</div>
+
+<div class="row show-grid">
+  <div class="col-sm-6">
+    {% if total_page > 1 %}
+    <ul class="pagination pagination-sm">
+        <li>
+            {% if page > 1%}
+              <a href="{{
+                url_for('projects_updated',
+                        status=status) }}?page={{page - 1}}">
+                «
+              </a>
+            {% else %}
+              <a href="{{
+                url_for('projects_updated',
+                        status=status) }}?page={{page}}">
+                «
+              </a>
+            {% endif %}
+        </li>
+        <li>
+            <a> {{ page }} / {{ total_page }} </a>
+        </li>
+        <li>
+            {% if page < total_page %}
+              <a href="{{
+                url_for('projects_updated',
+                        status=status) }}?page={{page + 1}}">
+                »
+              </a>
+            {% else %}
+              <a href="{{
+                url_for('projects_updated',
+                        status=status) }}?page={{page}}">
+                »
+              </a>
+            {% endif %}
+        </li>
+    </ul>
+    {% endif %}
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="list-group">
+    {% if projects %}
+    <span class="list-group-item">
+      <h4 class="list-group-item-heading">
+        <table class="table table-condensed">
+        {% for project in projects %}
+            <tr>
+              <td>
+                <a href="{{ url_for('project', project_id=project.id) }}">
+                {{project.name}}
+                </a>
+              </td>
+              <td>
+                {{ project.logs }}
+              </td>
+            </tr>
+          {% endfor %}
+          </table>
+      </h4>
+      <div class="clearfix"></div>
+    </span>
+  {% else %}
+  <blockquote>
+      Oups this is embarrassing, it seems that no projects are being
+      monitored currently.
+  </blockquote>
+  {% endif %}
+  </div>
+</div>
+
+{% endblock %}

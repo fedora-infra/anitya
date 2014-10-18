@@ -423,6 +423,46 @@ class Project(BASE):
             return query.all()
 
     @classmethod
+    def updated(cls, session, status='updated', page=None, count=False):
+
+        query = session.query(
+            Project
+        ).order_by(
+            sa.func.lower(Project.name)
+        )
+
+        if status == 'updated':
+            query = query.filter(
+                Project.logs != None,
+                Project.logs == 'Version retrieved correctly',
+            )
+        elif status == 'failed':
+            query = query.filter(
+                Project.logs != None,
+                Project.logs != 'Version retrieved correctly',
+            )
+        elif status == 'new':
+            query = query.filter(
+                Project.logs == None,
+            )
+
+        if page:
+            try:
+                page = int(page)
+            except ValueError:
+                page = None
+
+        if page:
+            limit = page * 50
+            offset = (page - 1) * 50
+            query = query.offset(offset).limit(limit)
+
+        if count:
+            return query.count()
+        else:
+            return query.all()
+
+    @classmethod
     def search(cls, session, pattern, distro=None, page=None, count=False):
         ''' Search the projects by their name or package name '''
 

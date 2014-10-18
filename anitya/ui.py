@@ -81,6 +81,47 @@ def projects():
         page=page)
 
 
+@APP.route('/projects/updates')
+@APP.route('/projects/updates/')
+@APP.route('/projects/updates/<status>')
+def projects_updated(status='updated'):
+
+    page = flask.request.args.get('page', 1)
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+
+    statuses = ['new', 'updated', 'failed']
+
+    if status not in statuses:
+        flask.flash(
+            '%s is invalid, you should use one of: %s; using default: '
+            '`updated`' % (status, ', '.join(statuses)),
+            'errors'
+        )
+        flask.flash(
+            'Returning all the projects regardless of how/if their version '
+            'was retrieved correctly')
+
+    projects = anitya.lib.model.Project.updated(
+        SESSION, status=status, page=page)
+    projects_count = anitya.lib.model.Project.updated(
+        SESSION, status=status, count=True)
+
+    total_page = int(ceil(projects_count / float(50)))
+
+    return flask.render_template(
+        'updates.html',
+        current='projects',
+        projects=projects,
+        total_page=total_page,
+        projects_count=projects_count,
+        page=page,
+        status=status)
+
+
 @APP.route('/distros')
 @APP.route('/distros/')
 def distros():
