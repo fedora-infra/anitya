@@ -36,6 +36,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 
 import anitya
 import anitya.lib.model as model
+from anitya.lib.backends import REGEX
 from tests import Modeltests, create_distro, create_project, create_package
 
 
@@ -227,8 +228,7 @@ class AnityaWebAPItests(Modeltests):
             "error": [
                 "geany: no upstream version found. "
                 "- http://www.geany.org/Down - "
-                " geany[-_]([^-/_\\s]+?)(?i)(?:[-_](?:src|source))?"
-                "\\.(?:tar|t[bglx]z|tbz2|zip)"
+                " " + REGEX % ({'name': 'geany'})
             ],
             "output": "notok"
         }
