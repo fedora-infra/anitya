@@ -95,12 +95,14 @@ class BaseBackend(object):
         '''
         user_agent = 'Anitya %s at upstream-monitoring.org' % \
             anitya.app.__version__
+        from_email = anitya.app.APP.config.get('ADMIN_EMAIL')
 
         if url.startswith('ftp://') or url.startswith('ftps://'):
             socket.setdefaulttimeout(30)
 
             req = urllib2.Request(url)
             req.add_header('User-Agent', user_agent)
+            req.add_header('From', from_email)
             resp = urllib2.urlopen(req)
             content = resp.read()
 
@@ -109,7 +111,7 @@ class BaseBackend(object):
         else:
             headers = {
                 'User-Agent': user_agent,
-                #'From': 'admin@upstream-monitoring.org',
+                'From': from_email,
             }
 
             return requests.get(url, headers=headers)
