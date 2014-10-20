@@ -20,7 +20,7 @@ import anitya.app
 from anitya.lib.exceptions import AnityaPluginException
 
 
-REGEX = b'%(name)s[-_]([^-/_\s]+?)(?i)(?:[-_]'\
+REGEX = b'%(name)s(?:[-_](?:src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
     '(?:src|source))?\.(?:tar|t[bglx]z|tbz2|zip)'
 
 
