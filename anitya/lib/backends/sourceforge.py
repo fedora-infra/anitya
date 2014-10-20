@@ -59,6 +59,6 @@ class SourceforgeBackend(BaseBackend):
             '%(name)s/mtime/desc/limit/200/rss'
 
         url = url_template % {'name': project.name}
-        regex = REGEX % {'name': project.name}
+        regex = REGEX % {'name': project.version_url or project.name}
 
         return get_versions_by_regex(url, regex, project)
