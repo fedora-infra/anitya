@@ -25,23 +25,31 @@
 
       <div class="list-group">
         <div class="list-group-item">
-          <h4 class="list-group-item-heading">Latest version(s):</h4>
-          <div class="list-group-item-text">
-            {% if project.versions %}
-            <ul>
-              {% for version in project.versions %}
-              <li property="doap:release" typeof="doap:Version">
-                <span property="doap:revision">{{ version }}</span>
-              </li>
-              {% endfor %}
-            </ul>
-            {% else %}
-            <button type="submit" class="btn btn-success btn-sm pull-right" id="checknow">
-              <span class="glyphicon glyphicon-refresh"></span>
-              Check now
-            </button>
-            <p id="version_info">No version available for this package</p>
-            {% endif %}
+          <div class="row">
+            <div class="col-md-10">
+                <h4 class="list-group-item-heading">Latest version(s):</h4>
+                <div class="list-group-item-text">
+                  {% if project.versions %}
+                  <ul>
+                    {% for version in project.versions %}
+                    <li property="doap:release" typeof="doap:Version">
+                      <span property="doap:revision">{{ version }}</span>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                  {% else %}
+                  <p id="version_info">No version available for this package</p>
+                  {% endif %}
+                </div>
+            </div>
+            <div class="col-md-2">
+              {% if g.auth.logged_in and (not project.versions or is_admin) %}
+              <button type="submit" class="btn btn-success btn-sm pull-right" id="checknow">
+                <span class="glyphicon glyphicon-refresh"></span>
+                Check now
+              </button>
+              {% endif %}
+            </div>
           </div>
         </div><!-- end list-group-item -->
 
