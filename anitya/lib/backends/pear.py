@@ -64,7 +64,9 @@ class PearBackend(BaseBackend):
 
         try:
             versions = get_versions_by_regex(url, regex, project)
-        except AnityaPluginException:
+        except AnityaPluginException, err:
+            if not '-' in project.name:
+                raise err
             name = project.name.replace("-", "_")
             url = url_template % {'name': name}
             regex = REGEX % {'name': name}
