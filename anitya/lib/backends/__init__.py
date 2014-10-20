@@ -9,11 +9,13 @@
 """
 
 import re
+import socket
 # sre_constants contains re exceptions
 import sre_constants
+import urllib2
 
-import requests
 import anitya
+import anitya.app
 from anitya.lib.exceptions import AnityaPluginException
 
 
@@ -91,12 +93,16 @@ class BaseBackend(object):
         :return type: Request
         '''
 
-        headers = {
-            'User-Agent': 'Anitya %s at upstream-monitoring.org',
-            #'From': 'admin@upstream-monitoring.org',
-        }
+        socket.setdefaulttimeout(30)
 
-        return requests.get(url, headers=headers)
+        req = urllib2.Request(url)
+        req.add_header(
+            'User-Agent',
+            'Anitya %s at upstream-monitoring.org' % anitya.app.__version__)
+        resp = urllib2.urlopen(req)
+        content = resp.read()
+
+        return content
 
 
 def get_versions_by_regex(url, regex, project):
@@ -111,7 +117,7 @@ def get_versions_by_regex(url, regex, project):
         raise AnityaPluginException(
             'Could not call : "%s" of "%s"' % (url, project.name))
 
-    return get_versions_by_regex_for_text(req.text, url, regex, project)
+    return get_versions_by_regex_for_text(req, url, regex, project)
 
 
 def get_versions_by_regex_for_text(text, url, regex, project):
