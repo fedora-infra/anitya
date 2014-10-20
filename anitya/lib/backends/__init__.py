@@ -96,7 +96,7 @@ class BaseBackend(object):
         user_agent = 'Anitya %s at upstream-monitoring.org' % \
             anitya.app.__version__
 
-        if url.startswith('ftp'):
+        if url.startswith('ftp://') or url.startswith('ftps://'):
             socket.setdefaulttimeout(30)
 
             req = urllib2.Request(url)
