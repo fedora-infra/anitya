@@ -9,11 +9,14 @@
 """
 
 import re
+import socket
 # sre_constants contains re exceptions
 import sre_constants
+import urllib2
 
 import requests
 import anitya
+import anitya.app
 from anitya.lib.exceptions import AnityaPluginException
 
 
@@ -90,13 +93,26 @@ class BaseBackend(object):
         :return: the request object corresponding to the request made
         :return type: Request
         '''
+        user_agent = 'Anitya %s at upstream-monitoring.org' % \
+            anitya.app.__version__
 
-        headers = {
-            'User-Agent': 'Anitya %s at upstream-monitoring.org',
-            #'From': 'admin@upstream-monitoring.org',
-        }
+        if url.startswith('ftp://') or url.startswith('ftps://'):
+            socket.setdefaulttimeout(30)
 
-        return requests.get(url, headers=headers)
+            req = urllib2.Request(url)
+            req.add_header('User-Agent', user_agent)
+            resp = urllib2.urlopen(req)
+            content = resp.read()
+
+            return content
+
+        else:
+            headers = {
+                'User-Agent': user_agent,
+                #'From': 'admin@upstream-monitoring.org',
+            }
+
+            return requests.get(url, headers=headers)
 
 
 def get_versions_by_regex(url, regex, project):
@@ -111,7 +127,10 @@ def get_versions_by_regex(url, regex, project):
         raise AnityaPluginException(
             'Could not call : "%s" of "%s"' % (url, project.name))
 
-    return get_versions_by_regex_for_text(req.text, url, regex, project)
+    if not isinstance(req, basestring):
+        req = req.text
+
+    return get_versions_by_regex_for_text(req, url, regex, project)
 
 
 def get_versions_by_regex_for_text(text, url, regex, project):
