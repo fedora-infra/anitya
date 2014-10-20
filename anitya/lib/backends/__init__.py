@@ -14,6 +14,7 @@ import socket
 import sre_constants
 import urllib2
 
+import requests
 import anitya
 import anitya.app
 from anitya.lib.exceptions import AnityaPluginException
@@ -92,17 +93,26 @@ class BaseBackend(object):
         :return: the request object corresponding to the request made
         :return type: Request
         '''
+        user_agent = 'Anitya %s at upstream-monitoring.org' % \
+            anitya.app.__version__
 
-        socket.setdefaulttimeout(30)
+        if url.startswith('ftp'):
+            socket.setdefaulttimeout(30)
 
-        req = urllib2.Request(url)
-        req.add_header(
-            'User-Agent',
-            'Anitya %s at upstream-monitoring.org' % anitya.app.__version__)
-        resp = urllib2.urlopen(req)
-        content = resp.read()
+            req = urllib2.Request(url)
+            req.add_header('User-Agent', user_agent)
+            resp = urllib2.urlopen(req)
+            content = resp.read()
 
-        return content
+            return content
+
+        else:
+            headers = {
+                'User-Agent': user_agent,
+                #'From': 'admin@upstream-monitoring.org',
+            }
+
+            return requests.get(url, headers=headers)
 
 
 def get_versions_by_regex(url, regex, project):
@@ -116,6 +126,9 @@ def get_versions_by_regex(url, regex, project):
     except Exception:
         raise AnityaPluginException(
             'Could not call : "%s" of "%s"' % (url, project.name))
+
+    if not isinstance(req, basestring):
+        req = req.text
 
     return get_versions_by_regex_for_text(req, url, regex, project)
 
