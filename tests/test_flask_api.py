@@ -227,7 +227,8 @@ class AnityaWebAPItests(Modeltests):
             "error": [
                 "geany: no upstream version found. "
                 "- http://www.geany.org/Down - "
-                " geany(?:[-_](?:src|source))?[-_]([^-/_\\s]+?)(?i)(?:[-_](?:src|source))?"
+                " geany(?:[-_](?:minsrc|src|source))?[-_]([^-/_\\s]+?)(?i)"
+                "(?:[-_](?:minsrc|src|source))?"
                 "\\.(?:tar|t[bglx]z|tbz2|zip)"
             ],
             "output": "notok"

@@ -75,7 +75,7 @@ The custom backend requires two arguments:
 
           ::
 
-            <package name>(?:[-_](?:src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_](?:src|source))?\.(?:tar|t[bglx]z|tbz2|zip)
+            <package name>(?:[-_](?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_](?:minsrc|src|source))?\.(?:tar|t[bglx]z|tbz2|zip)
 
 
 Dénouement
