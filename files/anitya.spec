@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.9
+Version:        0.1.10
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,6 +109,24 @@ install -m 644 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Tue Oct 21 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.10
+- Update to 0.1.10
+- Display the number of items returns in the projects, updates and search
+  templates
+- Always display the `Check now` button to admins
+- Allow overriding the project's name for the Sourceforge backend
+- Use urllib2 for FTP urls instead of requests
+- Adjust the default regex for project having src|source before the
+  version number
+- Adjust the default regex for project using srcmin instead of src/source
+- Adjust the drupal backend to try '_' instead of '-' if the first attempt
+  didn't work
+- Set the FROM header when making http/ftp queries
+- Add keyboard shortcut `e` on the project page to access the edit page
+- Add keyboard shortcut `esc` when editing/creating a project to leave
+- Adjust the launchpad backend to rely on the project's homepage instead of
+  its name
+
 * Sat Oct 18 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.9
 - Update to 0.1.9
 - Add the possibility to view the project according to their update status
