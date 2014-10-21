@@ -120,19 +120,19 @@ def edit_project(
     """
     edit = []
     if name != project.name:
-        project.name = name
+        project.name = name.strip() if name else None
         edit.append('name')
     if homepage != project.homepage:
-        project.homepage = homepage
+        project.homepage = homepage.strip() if homepage else None
         edit.append('homepage')
     if backend != project.backend:
         project.backend = backend
         edit.append('backend')
-    if version_url != project.version_url:
-        project.version_url = version_url
+    if  version_url != project.version_url:
+        project.version_url = version_url.strip() if version_url else None
         edit.append('version_url')
     if regex != project.regex:
-        project.regex = regex
+        project.regex = regex.strip() if regex else None
         edit.append('regex')
 
     try:

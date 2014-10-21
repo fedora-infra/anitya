@@ -56,8 +56,8 @@ class LaunchpadBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url = 'https://launchpad.net/%(name)s/+download' % {
-            'name': project.name}
+        url = '%(homepage)s/+download' % {
+            'homepage': project.homepage}
 
         regex = REGEX % {'name': project.name}
 

@@ -179,6 +179,11 @@
 
 {% block jscript %}
 <script>
+  $('body').bind('keyup', function(event) {
+    if (event.which == 69) { //e
+      window.location.replace("{{ url_for('edit_project', project_id=project.id) }}");
+    }
+  });
   $('#checknow').click(function(){
     var _id = "{{ project.id }}";
     var _url = "{{ url_for('api_get_version') }}";

@@ -110,5 +110,15 @@
       show_hide();
     });
   });
+
+  $('body').bind('keyup', function(event) {
+    if (event.which == 27) { // esc
+      {% if context == 'Add' %}
+      window.location.replace("{{ url_for('projects') }}");
+      {% elif context == 'Edit' %}
+      window.location.replace("{{ url_for('project', project_id=project.id) }}");
+      {% endif %}
+    }
+  });
 </script>
 {% endblock %}
