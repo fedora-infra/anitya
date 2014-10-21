@@ -63,6 +63,7 @@ class Drupal6Backend(BaseBackend):
 
         url = url_template % {'name': project.name}
         regex = REGEX % {'name': project.name}
+        versions = None
 
         try:
             versions = get_versions_by_regex(url, regex, project)
@@ -73,3 +74,5 @@ class Drupal6Backend(BaseBackend):
             url = url_template % {'name': name}
             regex = REGEX % {'name': name}
             versions = get_versions_by_regex(url, regex, project)
+
+        return versions
