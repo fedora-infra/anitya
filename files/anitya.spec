@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.10
+Version:        0.1.11
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,6 +109,13 @@ install -m 644 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Tue Oct 21 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.11
+- Update to 0.1.11
+- Adjust the default regex to handle project releasing as <project>src-<version>
+  (ie: with no '-' or '_' between the project and src/source/srcmin)
+- Adjust the project's log as soon as we properly retrieved a version which
+  should reduce the list of failed projects nicely
+
 * Tue Oct 21 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.10
 - Update to 0.1.10
 - Display the number of items returns in the projects, updates and search
