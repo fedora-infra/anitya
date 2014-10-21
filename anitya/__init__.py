@@ -64,9 +64,11 @@ def check_release(project, session):
 
     p_version = project.latest_version or ''
 
+    if up_version:
+        project.logs = 'Version retrieved correctly'
+
     if up_version and up_version not in project.versions:
         publish = True
-        project.logs = 'Version retrieved correctly'
         project.versions_obj.append(
             anitya.lib.model.ProjectVersion(
                 project_id=project.id,
