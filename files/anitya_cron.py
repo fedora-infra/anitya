@@ -22,9 +22,24 @@ def main(debug):
     '''
     session = anitya.app.SESSION
     LOG = logging.getLogger('anitya')
-    LOG.setLevel(logging.CRITICAL)
+    LOG.setLevel(logging.DEBUG)
+
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
     if debug:
-        LOG.setLevel(logging.INFO)
+        # Console handler
+        chand = logging.StreamHandler()
+        chand.setLevel(logging.INFO)
+        chand.setFormatter(formatter)
+        LOG.addHandler(chand)
+
+    # Save the logs in a file
+    fhand = logging.FileHandler('/var/tmp/anitya_cron.log')
+    fhand.setLevel(logging.INFO)
+    fhand.setFormatter(formatter)
+    LOG.addHandler(fhand)
+
     projects = anitya.lib.model.Project.all(session)
 
     if PBAR:
@@ -38,7 +53,7 @@ def main(debug):
 
     cnt = 0
     for project in projects:
-        logging.info(project.name)
+        LOG.info(project.name)
         try:
             anitya.check_release(project, session)
         except anitya.lib.exceptions.AnityaException as err:
