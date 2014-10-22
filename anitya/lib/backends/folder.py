@@ -68,12 +68,15 @@ class FolderBackend(BaseBackend):
                 'Could not call : "%s" of "%s"' % (url, project.name))
 
         versions = None
+        if not isinstance(req, basestring):
+            req = req.text
+
         try:
             regex = REGEX % {'name': project.name}
             versions = get_versions_by_regex_for_text(
-                req.text, url, regex, project)
+                req, url, regex, project)
         except AnityaPluginException:
             versions = get_versions_by_regex_for_text(
-                req.text, url, DEFAULT_REGEX, project)
+                req, url, DEFAULT_REGEX, project)
 
         return versions
