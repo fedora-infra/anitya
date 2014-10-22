@@ -59,8 +59,7 @@ class SourceforgeBackend(BaseBackend):
 
         url = url_template % {'name': project.name}
         regex = REGEX % {
-            'name': project.version_url.replace('+', '\+') \
-            or project.name.replace('+', '\+')
+            'name': (project.version_url or project.name).replace('+', '\+')
         }
 
         return get_versions_by_regex(url, regex, project)
