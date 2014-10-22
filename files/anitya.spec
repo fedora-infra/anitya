@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.11
+Version:        0.1.12
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,6 +109,15 @@ install -m 644 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Wed Oct 22 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.12
+- Update to 0.1.12
+- Update the project's log if we retrieved an update w/o problems
+- Add log handler on the cron job to monitor its progress
+- Handle the situation where the folder backend is used against a FTP source
+- Document a way to test a regular expression for anitya
+- Update the sourceforge url to use the new one
+- Escape the '+' symbols in the name of the projects in the regular expression
+
 * Tue Oct 21 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.11
 - Update to 0.1.11
 - Adjust the default regex to handle project releasing as <project>src-<version>
