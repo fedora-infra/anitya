@@ -81,8 +81,8 @@ The custom backend requires two arguments:
 Test you regex
 --------------
 
-Sometime one needs to use a custom regular expression to find the version on
-a page.
+Sometimes one needs to use a custom regular expression to find the version
+on a page.
 
 The simplest way to check your regular expression is to open a python shell
 and test it.
