@@ -55,8 +55,7 @@ class SourceforgeBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url_template = 'http://sourceforge.net/api/file/index/project-name/' \
-            '%(name)s/mtime/desc/limit/200/rss'
+        url_template = 'http://sourceforge.net/projects/%(name)s/rss?limit=200'
 
         url = url_template % {'name': project.name}
         regex = REGEX % {'name': project.version_url or project.name}
