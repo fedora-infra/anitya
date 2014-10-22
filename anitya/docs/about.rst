@@ -78,6 +78,29 @@ The custom backend requires two arguments:
             <package name>(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_](?:minsrc|src|source))?\.(?:tar|t[bglx]z|tbz2|zip)
 
 
+Test you regex
+--------------
+
+Sometimes one needs to use a custom regular expression to find the version
+on a page.
+
+The simplest way to check your regular expression is to open a python shell
+and test it.
+
+Below is an example on how it can be done::
+
+  >>> import requests
+  >>> import re
+  >>> text = requests.get('http://www.opendx.org/download.html').text
+  >>> re.findall('version.is ([\d]*)\.', text)
+  [u'4']
+  >>> re.findall('version.is ([\d\.-]*)\.', text)
+  [u'4.4.4']
+
+The regular expression ``version.is ([\d\.]*)\.`` can then be provided to
+anitya and used to find the new releases.
+
+
 Dénouement
 ----------
 
