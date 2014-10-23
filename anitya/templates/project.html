@@ -208,6 +208,10 @@
     if (event.which == 69) { //e
       window.location.replace("{{ url_for('edit_project', project_id=project.id) }}");
     }
+    if (event.which == 67) { //c
+      checkrelease();
+      return false;
+    }
   });
 
   $('#checknow').click(function(){
