@@ -208,10 +208,12 @@
     if (event.which == 69) { //e
       window.location.replace("{{ url_for('edit_project', project_id=project.id) }}");
     }
+    {% if g.auth.logged_in and (not project.versions or is_admin) %}
     if (event.which == 67) { //c
       checkrelease();
       return false;
     }
+    {% endif %}
   });
 
   $('#checknow').click(function(){
