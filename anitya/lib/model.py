@@ -423,7 +423,23 @@ class Project(BASE):
             return query.all()
 
     @classmethod
-    def updated(cls, session, status='updated', page=None, count=False):
+    def updated(
+        cls, session, status='updated', name=None, log=None,
+        page=None, count=False):
+        ''' Method used to retrieve projects according to their logs and
+        how they performed at the last cron job.
+
+        :kwarg status: used to filter the projects based on how they
+            performed at the last cron run
+        :kwarg name: if present, will return the entries having the matching
+            name
+        :kwarg log: if present, will return the entries having the matching
+            log
+        :kwarg page: The page number of returned, pages contain 50 entries
+        :kwarg count: A boolean used to return either the list of entries
+            matching the criterias or just the COUNT of entries
+
+        '''
 
         query = session.query(
             Project
@@ -444,6 +460,26 @@ class Project(BASE):
         elif status == 'new':
             query = query.filter(
                 Project.logs == None,
+            )
+
+        if name:
+            if '*' in name:
+                name = name.replace('*', '%')
+            else:
+                name = '%' + name + '%'
+
+            query = query.filter(
+                Project.name.ilike(name),
+            )
+
+        if log:
+            if '*' in log:
+                log = log.replace('*', '%')
+            else:
+                log = '%' + log + '%'
+
+            query = query.filter(
+                Project.logs.ilike(log),
             )
 
         if page:

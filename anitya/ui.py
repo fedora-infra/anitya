@@ -87,6 +87,8 @@ def projects():
 def projects_updated(status='updated'):
 
     page = flask.request.args.get('page', 1)
+    name = flask.request.args.get('name', None)
+    log = flask.request.args.get('log', None)
 
     try:
         page = int(page)
@@ -106,9 +108,9 @@ def projects_updated(status='updated'):
             'was retrieved correctly')
 
     projects = anitya.lib.model.Project.updated(
-        SESSION, status=status, page=page)
+        SESSION, status=status, name=name, log=log, page=page)
     projects_count = anitya.lib.model.Project.updated(
-        SESSION, status=status, count=True)
+        SESSION, status=status, name=name, log=log, count=True)
 
     total_page = int(ceil(projects_count / float(50)))
 
