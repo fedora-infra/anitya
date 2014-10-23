@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.12
+Version:        0.1.13
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,6 +109,15 @@ install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Thu Oct 23 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.13
+- Update to 0.1.13
+- Add a keyboard shortcut on `c` to check the version
+- Log the error when calling a certain website of a project and something
+  goes wrong
+- Support filtering by project name and log when viewing the list of project
+  that failed to update at the last cron run
+- Add a way to find the projects that simply never updated
+
 * Wed Oct 22 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.12
 - Update to 0.1.12
 - Update the project's log if we retrieved an update w/o problems
