@@ -85,7 +85,7 @@ install -m 644 createdb.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_createdb.py
 install -m 644 files/migrate_wiki.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_migrate_wiki.py
 
 # Install the cron script
-install -m 644 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cron.py
+install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cron.py
 
 # Install the alembic files
 #cp -r alembic $RPM_BUILD_ROOT/%{_datadir}/anitya/
