@@ -125,7 +125,8 @@ def get_versions_by_regex(url, regex, project):
 
     try:
         req = BaseBackend.call_url(url)
-    except Exception:
+    except Exception, err:
+        anitya.LOG.debug('%s ERROR: %s' % (project.name, err.message))
         raise AnityaPluginException(
             'Could not call : "%s" of "%s"' % (url, project.name))
 
