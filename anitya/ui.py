@@ -95,7 +95,7 @@ def projects_updated(status='updated'):
     except ValueError:
         page = 1
 
-    statuses = ['new', 'updated', 'failed']
+    statuses = ['new', 'updated', 'failed', 'never_updated']
 
     if status not in statuses:
         flask.flash(
