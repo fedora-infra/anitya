@@ -3,20 +3,17 @@
 {% block body %}
 
 <div class="page-header">
-  <h1>Projects monitored</h1>
-</div>
-
-<div class="row show-grid">
-    <p>
-      On this pages are present the projects
+  <h1>Projects
       {% if status == 'updated' %}
-      that updated successfully at the last run
+      <small>that updated successfully at the last run</small>
       {% elif status == 'failed' %}
-      that failed to update at the last run
+      <small>that failed to update at the last run</small>
       {% elif status == 'new' %}
-      have not been updated at all so far
+      <small>that have not been updated at all so far</small>
+      {% elif status == 'never_updated' %}
+      <small>that have never updated</small>
       {% endif %}
-    </p>
+  </h1>
 </div>
 
 <div class="row show-grid">
