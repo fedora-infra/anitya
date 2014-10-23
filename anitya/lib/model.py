@@ -461,6 +461,12 @@ class Project(BASE):
             query = query.filter(
                 Project.logs == None,
             )
+        elif status == 'never_updated':
+            query = query.filter(
+                Project.logs != None,
+                Project.logs != 'Version retrieved correctly',
+                Project.latest_version == None,
+            )
 
         if name:
             if '*' in name:
