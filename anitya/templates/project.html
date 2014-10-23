@@ -179,12 +179,7 @@
 
 {% block jscript %}
 <script>
-  $('body').bind('keyup', function(event) {
-    if (event.which == 69) { //e
-      window.location.replace("{{ url_for('edit_project', project_id=project.id) }}");
-    }
-  });
-  $('#checknow').click(function(){
+  function checkrelease(){
     var _id = "{{ project.id }}";
     var _url = "{{ url_for('api_get_version') }}";
     $.ajax({
@@ -207,7 +202,23 @@
                 + 'ERROR: ' + res.responseJSON.error );
         }
     });
+  };
+
+  $('body').bind('keyup', function(event) {
+    if (event.which == 69) { //e
+      window.location.replace("{{ url_for('edit_project', project_id=project.id) }}");
+    }
+    {% if g.auth.logged_in and (not project.versions or is_admin) %}
+    if (event.which == 67) { //c
+      checkrelease();
+      return false;
+    }
+    {% endif %}
+  });
+
+  $('#checknow').click(function(){
+    checkrelease();
     return false;
-  })
+  });
 </script>
 {% endblock %}
