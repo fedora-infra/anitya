@@ -267,4 +267,5 @@ def browse_logs():
         page=page,
         project=project or '',
         from_date=from_date or '',
+        user=user or ''
     )
