@@ -91,9 +91,6 @@ class Log(BASE):
             cls
         )
 
-        if count:
-            return query.count()
-
         if project_name:
             query = query.filter(cls.project == project_name)
 
@@ -104,6 +101,9 @@ class Log(BASE):
             query = query.filter(cls.user == user)
 
         query = query.order_by(cls.created_on.desc())
+
+        if count:
+            return query.count()
 
         if offset:
             query = query.offset(offset)
