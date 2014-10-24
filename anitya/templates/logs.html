@@ -97,12 +97,8 @@
 
 {% endblock %}
 
-{% block jscripts %}
+{% block jscript %}
 {{ super() }}
-<script type="text/javascript"
-    src="{{ url_for('static',
-        filename='jquery-ui-timespinner.js') }}">
-</script>
 <script type="text/javascript">
     $(function(){
         $('#from_date').datepicker({
