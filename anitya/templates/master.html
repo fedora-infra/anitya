@@ -16,7 +16,7 @@
     <link href="{{ url_for('static', filename='css/navbar.css') }}" rel="stylesheet" />
     <link href="{{ url_for('static', filename='css/footer.css') }}" rel="stylesheet" />
     <link href="{{ url_for('static', filename='css/cnucnu.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='jquery-ui-1.10.4.custom.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='jquery-ui-1.11.1.min.css') }}" rel="stylesheet" />
 
     {% block header %}{% endblock %}
 
@@ -184,8 +184,13 @@
     </div>
 
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{{ url_for('static', filename='js/jquery-1.10.2.min.js')}}"></script>
-    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js')}}"></script>
+    <script type="text/javascript"
+        src="{{ url_for('static', filename='js/jquery-1.10.2.min.js')}}"></script>
+    <script type="text/javascript"
+        src="{{ url_for('static', filename='jquery-ui.min-1.11.1.js') }}">
+    </script>
+    <script type="text/javascript"
+        src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js')}}"></script>
     {% block jscript %}{% endblock %}
   </body>
 </html>
