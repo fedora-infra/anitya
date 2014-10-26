@@ -131,15 +131,17 @@ def edit_project(
         old = project.backend
         project.backend = backend
         edit.append('backend edited from %s to %s' % (old, project.backend))
-    if  version_url != project.version_url:
+    if  project.version_url and version_url != project.version_url:
         old = project.version_url
         project.version_url = version_url.strip() if version_url else None
-        edit.append(
-            'version_url edited from %s to %s' % (old, project.version_url))
-    if regex != project.regex:
+        if old != project.version_url:
+            edit.append(
+                'version_url edited from %s to %s' % (old, project.version_url))
+    if project.regex and regex != project.regex:
         old = project.regex
         project.regex = regex.strip() if regex else None
-        edit.append('regex edited from %s to %s' % (old, project.regex))
+        if old != project.regex:
+            edit.append('regex edited from %s to %s' % (old, project.regex))
 
     try:
         if edit:
