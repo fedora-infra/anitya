@@ -120,20 +120,26 @@ def edit_project(
     """
     edit = []
     if name != project.name:
+        old = project.name
         project.name = name.strip() if name else None
-        edit.append('name')
+        edit.append('name edited from %s to %s' % (old, project.name))
     if homepage != project.homepage:
+        old = project.homepage
         project.homepage = homepage.strip() if homepage else None
-        edit.append('homepage')
+        edit.append('homepage edited from %s to %s' % (old, project.homepage))
     if backend != project.backend:
+        old = project.backend
         project.backend = backend
-        edit.append('backend')
+        edit.append('backend edited from %s to %s' % (old, project.backend))
     if  version_url != project.version_url:
+        old = project.version_url
         project.version_url = version_url.strip() if version_url else None
-        edit.append('version_url')
+        edit.append(
+            'version_url edited from %s to %s' % (old, project.version_url))
     if regex != project.regex:
+        old = project.regex
         project.regex = regex.strip() if regex else None
-        edit.append('regex')
+        edit.append('regex edited from %s to %s' % (old, project.regex))
 
     try:
         if edit:
