@@ -198,6 +198,67 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
         form=form)
 
 
+
+@APP.route(
+    '/project/<project_id>/delete/<version>', methods=['GET', 'POST'])
+@login_required
+def delete_project_version(project_id, version):
+
+    project = anitya.lib.model.Project.get(SESSION, project_id)
+    if not project:
+        flask.abort(404)
+
+    version_obj = None
+    for vers in project.versions_obj:
+        if version == vers.version:
+            version_obj = vers
+            break
+
+    if version_obj is None:
+        flask.abort(
+            404,
+            'Version %s not found for project %s' % (version, project.name)
+        )
+
+    if not is_admin():
+        flask.abort(401)
+
+    form = anitya.forms.ConfirmationForm()
+    confirm = flask.request.form.get('confirm', False)
+
+    if form.validate_on_submit():
+        if confirm:
+            anitya.log(
+                SESSION,
+                project=project,
+                topic='project.version.remove',
+                message=dict(
+                    agent=flask.g.auth.email,
+                    project=project.name,
+                    version=version,
+                )
+            )
+
+            # Delete the record of the version for this project
+            SESSION.delete(version_obj)
+            # Adjust the latest_version if needed
+            if project.latest_version == version:
+                project.latest_version = None
+                SESSION.add(project)
+            SESSION.commit()
+
+            flask.flash('Version for %s has been removed' % version)
+        return flask.redirect(
+            flask.url_for('project', project_id=project.id))
+
+    return flask.render_template(
+        'version_delete.html',
+        current='projects',
+        project=project,
+        version=version,
+        form=form)
+
+
 @APP.route('/logs')
 @login_required
 def browse_logs():
