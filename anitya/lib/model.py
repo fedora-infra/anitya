@@ -332,6 +332,7 @@ class Project(BASE):
             backend=self.backend,
             version_url=self.version_url,
             version=self.latest_version,
+            versions=self.versions,
             created_on=time.mktime(self.created_on.timetuple()),
             updated_on=time.mktime(self.updated_on.timetuple()),
         )
