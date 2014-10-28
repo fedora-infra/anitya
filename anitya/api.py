@@ -127,7 +127,7 @@ def api_get_project(project_id):
         output = {'output': 'notok', 'error': 'no such project'}
         httpcode = 404
     else:
-        output = project.__json__()
+        output = project.__json__(detailed=True)
         httpcode = 200
 
     jsonout = flask.jsonify(output)
