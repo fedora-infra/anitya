@@ -63,15 +63,22 @@
   </div>
 
   <div class="col-sm-8">
-    <form action="{{url_for('browse_logs') }}"
+    <form action="{{url_for('browse_logs') }}" class="form-horizontal"
           role="form" action="GET">
       <div class="form-group">
         <input type="text" name="project" placeholder="Project name"
-            class="SearchBox" value="{{ project }}"/>
+            class="form-control col-lg-2" value="{{ project }}"/>
         <input type="text" name="user" placeholder="User identifier"
-            class="SearchBox" value="{{ user }}"/>
-        <input type="text" name="from_date" id="from_date" placeholder="From Date"
-            class="SearchBox" value="{{ from_date }}"/>
+            class="form-control col-lg-2" value="{{ user }}"/>
+        <div class='input-group date' id='datetimepicker'>
+            <input type='text' class="form-control col-lg-2" name="from_date"
+                id="from_date" placeholder="From Date"
+                value="{{ from_date }}"
+                data-date-format="YYYY-MM-DD"/>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
         <button type="submit" class="btn btn-default">
           Filter
         </button>
@@ -100,9 +107,9 @@
 {% block jscript %}
 {{ super() }}
 <script type="text/javascript">
-    $(function(){
-        $('#from_date').datepicker({
-            dateFormat: "yy-mm-dd",
+    $(function () {
+        $('#datetimepicker').datetimepicker({
+            pickTime: false
         });
     });
 </script>
