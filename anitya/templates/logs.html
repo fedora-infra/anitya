@@ -62,18 +62,18 @@
     {% endif %}
   </div>
 
-  <div class="col-sm-8">
+  <div class="col-xs-10">
     <form action="{{url_for('browse_logs') }}" class="form-inline"
-          role="form" action="GET">
-      <div class="form-group">
+          role="form" action="GET" id="logs_form">
+      <div class="form-group col-xs-6 col-sm-3">
         <input type="text" name="project" placeholder="Project name"
-            class="form-control col-sm-6" value="{{ project }}"/>
+            class="form-control" value="{{ project }}"/>
       </div>
-      <div class="form-group">
+      <div class="form-group col-xs-6 col-sm-3">
         <input type="text" name="user" placeholder="User identifier"
-            class="form-control col-sm-6" value="{{ user }}"/>
+            class="form-control" value="{{ user }}"/>
       </div>
-      <div class="form-group">
+      <div class="form-group col-xs-6 col-sm-3">
         <div class='input-group date' id='datetimepicker'>
             <input type='text' class="form-control col-sm-6" name="from_date"
                 id="from_date" placeholder="From Date"
@@ -84,8 +84,8 @@
             </span>
         </div>
       </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-default">
+      <div class="form-group col-xs-6 col-sm-3">
+        <button type="submit" class="btn btn-default" class="form-control">
           Filter
         </button>
       </div>
