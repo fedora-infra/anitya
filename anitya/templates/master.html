@@ -187,13 +187,13 @@
     <script type="text/javascript"
         src="{{ url_for('static', filename='js/jquery-1.10.2.min.js')}}"></script>
     <script type="text/javascript"
-        src="//eonasdan.github.io/bootstrap-datetimepicker/scripts/bootstrap.min.js">
+        src="{{ url_for('static', filename='js/bootstrap.min.js') }}">
     </script>
     <script type="text/javascript"
-        src="//eonasdan.github.io/bootstrap-datetimepicker/scripts/moment.js">
+        src="{{ url_for('static', filename='js/moment.js') }}">
     </script>
     <script type="text/javascript"
-        src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/src/js/bootstrap-datetimepicker.js">
+        src="{{ url_for('static', filename='bootstrap-datetimepicker.js') }}">
     </script>
     {% block jscript %}{% endblock %}
   </body>
