@@ -16,7 +16,7 @@
     <link href="{{ url_for('static', filename='css/navbar.css') }}" rel="stylesheet" />
     <link href="{{ url_for('static', filename='css/footer.css') }}" rel="stylesheet" />
     <link href="{{ url_for('static', filename='css/cnucnu.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='jquery-ui-1.11.1.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />
 
     {% block header %}{% endblock %}
 
@@ -187,10 +187,14 @@
     <script type="text/javascript"
         src="{{ url_for('static', filename='js/jquery-1.10.2.min.js')}}"></script>
     <script type="text/javascript"
-        src="{{ url_for('static', filename='jquery-ui.min-1.11.1.js') }}">
+        src="//eonasdan.github.io/bootstrap-datetimepicker/scripts/bootstrap.min.js">
     </script>
     <script type="text/javascript"
-        src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js')}}"></script>
+        src="//eonasdan.github.io/bootstrap-datetimepicker/scripts/moment.js">
+    </script>
+    <script type="text/javascript"
+        src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/src/js/bootstrap-datetimepicker.js">
+    </script>
     {% block jscript %}{% endblock %}
   </body>
 </html>
