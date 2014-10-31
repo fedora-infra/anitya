@@ -119,29 +119,34 @@ def edit_project(
 
     """
     edit = []
+    changes = {}
     if name != project.name:
         old = project.name
         project.name = name.strip() if name else None
-        edit.append('name edited from %s to %s' % (old, project.name))
+        edit.append('name')
+        changes['name'] = {'old': old, 'new': project.name}
     if homepage != project.homepage:
         old = project.homepage
         project.homepage = homepage.strip() if homepage else None
-        edit.append('homepage edited from %s to %s' % (old, project.homepage))
+        edit.append('homepage')
+        changes['homepage'] = {'old': old, 'new': project.homepage}
     if backend != project.backend:
         old = project.backend
         project.backend = backend
-        edit.append('backend edited from %s to %s' % (old, project.backend))
+        edit.append('backend')
+        changes['backend'] = {'old': old, 'new': project.backend}
     if  project.version_url and version_url != project.version_url:
         old = project.version_url
         project.version_url = version_url.strip() if version_url else None
         if old != project.version_url:
-            edit.append(
-                'version_url edited from %s to %s' % (old, project.version_url))
+            edit.append('version_url')
+            changes['version_url'] = {'old': old, 'new': project.version_url}
     if project.regex and regex != project.regex:
         old = project.regex
         project.regex = regex.strip() if regex else None
         if old != project.regex:
-            edit.append('regex edited from %s to %s' % (old, project.regex))
+            edit.append('regex')
+            changes['regex'] = {'old': old, 'new': project.regex}
 
     try:
         if edit:
@@ -153,6 +158,7 @@ def edit_project(
                     agent=user_mail,
                     project=project.name,
                     fields=edit,
+                    changes=changes,
                 )
             )
             session.add(project)
