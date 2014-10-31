@@ -72,16 +72,17 @@ class Log(BASE):
         session.flush()
 
     @classmethod
-    def search(cls, session, project_name=None, from_date=None, limit=None,
-               offset=None, count=False):
+    def search(cls, session, project_name=None, from_date=None, user=None,
+               limit=None, offset=None, count=False):
         """ Return the list of the last Log entries present in the database.
 
         :arg cls: the class object
         :arg session: the database session used to query the information.
         :kwarg project_name: the name of the project to restrict the logs to.
-        :kwarg limit: limit the result to X row
-        :kwarg offset: start the result at row X
-        :kwarg from_date: the date from which to give the entries
+        :kwarg from_date: the date from which to give the entries.
+        :kwarg user: the name of the user to restrict the logs to.
+        :kwarg limit: limit the result to X rows.
+        :kwarg offset: start the result at row X.
         :kwarg count: a boolean to return the result of a COUNT query
             if true, returns the data if false (default).
 
@@ -90,16 +91,19 @@ class Log(BASE):
             cls
         )
 
-        if count:
-            return query.count()
-
         if project_name:
             query = query.filter(cls.project == project_name)
 
         if from_date:
             query = query.filter(cls.created_on >= from_date)
 
+        if user:
+            query = query.filter(cls.user == user)
+
         query = query.order_by(cls.created_on.desc())
+
+        if count:
+            return query.count()
 
         if offset:
             query = query.offset(offset)

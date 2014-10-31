@@ -30,7 +30,7 @@
 </div>
 
 <div class="row show-grid">
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     {% if total_page > 1 %}
     <ul class="pagination pagination-sm">
         <li>
@@ -61,6 +61,37 @@
     </ul>
     {% endif %}
   </div>
+
+  <div class="col-xs-10">
+    <form action="{{url_for('browse_logs') }}" class="form-inline"
+          role="form" action="GET" id="logs_form">
+      <div class="form-group col-xs-6 col-sm-3">
+        <input type="text" name="project" placeholder="Project name"
+            class="form-control" value="{{ project }}"/>
+      </div>
+      <div class="form-group col-xs-6 col-sm-3">
+        <input type="text" name="user" placeholder="User identifier"
+            class="form-control" value="{{ user }}"/>
+      </div>
+      <div class="form-group col-xs-6 col-sm-3">
+        <div class='input-group date' id='datetimepicker'>
+            <input type='text' class="form-control col-sm-6" name="from_date"
+                id="from_date" placeholder="From Date"
+                value="{{ from_date }}"
+                data-date-format="YYYY-MM-DD"/>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+      </div>
+      <div class="form-group col-xs-6 col-sm-3">
+        <button type="submit" class="btn btn-default" class="form-control">
+          Filter
+        </button>
+      </div>
+    </form>
+  </div>
+
 </div>
 
 
@@ -79,16 +110,12 @@
 
 {% endblock %}
 
-{% block jscripts %}
+{% block jscript %}
 {{ super() }}
-<script type="text/javascript"
-    src="{{ url_for('static',
-        filename='jquery-ui-timespinner.js') }}">
-</script>
 <script type="text/javascript">
-    $(function(){
-        $('#from_date').datepicker({
-            dateFormat: "yy-mm-dd",
+    $(function () {
+        $('#datetimepicker').datetimepicker({
+            pickTime: false
         });
     });
 </script>

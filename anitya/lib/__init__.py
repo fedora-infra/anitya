@@ -118,25 +118,32 @@ def edit_project(
     """ Edit a project in the database.
 
     """
-    edit = []
+    changes = {}
     if name != project.name:
+        old = project.name
         project.name = name.strip() if name else None
-        edit.append('name')
+        changes['name'] = {'old': old, 'new': project.name}
     if homepage != project.homepage:
+        old = project.homepage
         project.homepage = homepage.strip() if homepage else None
-        edit.append('homepage')
+        changes['homepage'] = {'old': old, 'new': project.homepage}
     if backend != project.backend:
+        old = project.backend
         project.backend = backend
-        edit.append('backend')
-    if  version_url != project.version_url:
+        changes['backend'] = {'old': old, 'new': project.backend}
+    if  project.version_url and version_url != project.version_url:
+        old = project.version_url
         project.version_url = version_url.strip() if version_url else None
-        edit.append('version_url')
-    if regex != project.regex:
+        if old != project.version_url:
+            changes['version_url'] = {'old': old, 'new': project.version_url}
+    if project.regex and regex != project.regex:
+        old = project.regex
         project.regex = regex.strip() if regex else None
-        edit.append('regex')
+        if old != project.regex:
+            changes['regex'] = {'old': old, 'new': project.regex}
 
     try:
-        if edit:
+        if changes:
             anitya.log(
                 session,
                 project=project,
@@ -144,7 +151,8 @@ def edit_project(
                 message=dict(
                     agent=user_mail,
                     project=project.name,
-                    fields=edit,
+                    fields=changes.keys(),  # be backward compat
+                    changes=changes,
                 )
             )
             session.add(project)

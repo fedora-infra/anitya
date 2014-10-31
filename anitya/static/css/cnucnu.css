@@ -2,10 +2,6 @@
     margin: 0;
 }
 
-.SearchBox{
-    height: 34px;
-}
-
 .errors {
     color:red;
 }
@@ -23,4 +19,9 @@
 
 #edit_btn {
   margin-top: -6px;
+}
+
+#logs_form div {
+    padding-left: 2px;
+    padding-right: 2px;
 }

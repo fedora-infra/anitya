@@ -205,9 +205,8 @@ def browse_logs():
     if not is_admin():
         flask.abort(401)
 
-    cnt_logs = anitya.lib.model.Log.search(SESSION, count=True)
-
     from_date = flask.request.args.get('from_date', None)
+    user = flask.request.args.get('user', None)
     project = flask.request.args.get('project', None)
     refresh = flask.request.args.get('refresh', False)
     limit = flask.request.args.get('limit', 50)
@@ -245,8 +244,17 @@ def browse_logs():
             SESSION,
             project_name=project or None,
             from_date=from_date,
+            user=user or None,
             offset=offset,
             limit=limit,
+        )
+
+        cnt_logs = anitya.lib.model.Log.search(
+            SESSION,
+            project_name=project or None,
+            from_date=from_date,
+            user=user or None,
+            count=True
         )
     except Exception, err:
         import logging
@@ -265,4 +273,5 @@ def browse_logs():
         page=page,
         project=project or '',
         from_date=from_date or '',
+        user=user or ''
     )
