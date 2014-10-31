@@ -137,7 +137,7 @@ def log(session, project=None, distro=None, topic=None, message=None):
         'project.add.tried': '%(agent)s tried to add an already existing '
                              'project: %(project)s',
         'project.edit': '%(agent)s edited the project: %(project)s fields: '
-                        '%(fields)s',
+                        '%(changes)s',
 
         'project.remove': '%(agent)s removed the project: %(project)s',
         'project.map.new': '%(agent)s mapped the name of %(project)s in '
