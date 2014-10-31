@@ -79,10 +79,10 @@ class Log(BASE):
         :arg cls: the class object
         :arg session: the database session used to query the information.
         :kwarg project_name: the name of the project to restrict the logs to.
-        :kwarg user: the name of the user to restrict the logs to.
-        :kwarg limit: limit the result to X row.
-        :kwarg offset: start the result at row X.
         :kwarg from_date: the date from which to give the entries.
+        :kwarg user: the name of the user to restrict the logs to.
+        :kwarg limit: limit the result to X rows.
+        :kwarg offset: start the result at row X.
         :kwarg count: a boolean to return the result of a COUNT query
             if true, returns the data if false (default).
 
