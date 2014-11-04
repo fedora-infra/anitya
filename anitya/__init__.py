@@ -146,6 +146,8 @@ def log(session, project=None, distro=None, topic=None, message=None):
                               '%(distro)s from: %(prev)s to: %(new)s',
         'project.map.remove': '%(agent)s removed the mapping of %(project)s '
                               'in %(distro)s',
+        'project.version.remove': '%(agent)s removed the version %(version)s '
+                                  'of %(project)s ',
         'project.version.update': 'new version: %(upstream_version)s found'
                                   ' for project %(project.name)s '
                                   '(project id: %(project.id)s).',

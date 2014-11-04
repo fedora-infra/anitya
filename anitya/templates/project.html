@@ -34,6 +34,11 @@
                     {% for version in project.versions %}
                     <li property="doap:release" typeof="doap:Version">
                       <span property="doap:revision">{{ version }}</span>
+                      {% if is_admin %}
+                      <a href="{{ url_for('delete_project_version',
+                                    project_id=project.id,
+                                    version=version) }}">delete</a>
+                      {% endif %}
                     </li>
                     {% endfor %}
                   </ul>
