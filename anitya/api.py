@@ -7,6 +7,51 @@ import anitya.lib.plugins
 import anitya.lib.model
 
 from anitya.app import APP, SESSION
+from anitya.doc_utils import load_doc
+
+
+@APP.template_filter('InsertDiv')
+def insert_div(content):
+    """ Template filter inserting an opening <div> and closing </div>
+    after the first title and then at the end of the content.
+    """
+    # This is quite a hack but simpler solution using .replace() didn't work
+    # for some reasons...
+    content = content.split('\n')
+    output = []
+    for row in content:
+        if row.startswith('<div class="document" id='):
+            continue
+        output.append(row)
+    output = "\n".join(output)
+    output = output.replace('<blockquote>', '<div>')
+    output = output.replace('</blockquote>', '')
+    output = output.replace('h1', 'h3')
+
+    return output
+
+
+@APP.route('/api/')
+@APP.route('/api')
+def api():
+    ''' Display the api information page. '''
+    doc_api_projects = load_doc(api_projects)
+    doc_api_projects_list = load_doc(api_projects_list)
+    doc_api_projects_names = load_doc(api_projects_names)
+    doc_api_get_version = load_doc(api_get_version)
+    doc_api_get_project = load_doc(api_get_project)
+    doc_api_get_project_distro = load_doc(api_get_project_distro)
+    return flask.render_template(
+        'api.html',
+        docs=[
+            doc_api_projects,
+            doc_api_projects_list,
+            doc_api_projects_names,
+            doc_api_get_version,
+            doc_api_get_project,
+            doc_api_get_project_distro,
+        ],
+    )
 
 
 @APP.route('/api/projects/')

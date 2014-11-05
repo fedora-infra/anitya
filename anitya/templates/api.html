@@ -1,0 +1,61 @@
+{% extends "master.html" %}
+
+{% block title %} API | Anitya {% endblock %}
+
+
+{% block body %}
+
+<h2>
+    API endpoints
+</h2>
+<div class="accordion">
+{% for html in docs %}
+{% autoescape false %}
+{{ html | InsertDiv}}
+{% endautoescape %}
+{% endfor %}
+</div>
+
+{% endblock %}
+
+{% block jscripts %}
+{{ super() }}
+<script type="text/javascript">
+
+    $(function(){
+        $('.accordion').accordion({
+            active: false,
+            collapsible: true,
+            heightStyle: "content",
+            create: function (event, ui) {
+                $(this).children('h3').each(function (i) {
+                    // set id here because jQuery UI sets them as "ui-accordion-#-header-#"
+                    this.id = this.textContent.toLowerCase().replace(/\s+/g, '_');
+                    // add the anchor
+                    $(this).before('<a class="accordion-link link" data-index="' + i +
+                     '" href="#' + this.id + '"></a>');
+                });
+                $(this).find('.accordion-link').click(function () {
+                    // the active option requires a numeric value (not a string, e.g. "1")
+                    this.accordion( "option", "active", $(this).data('index') );
+                    // uncomment out the return false below to prevent the header jump
+                    return false;
+                });
+            }
+        });
+
+        if (window.location.hash) {
+            $('.accordion').each(function(){
+                var hashId = null;
+                $(this).children('h3').each(function (i) {
+                    var txt = this.textContent.toLowerCase().replace(/\s+/g, '_');
+                    if ( txt === window.location.hash.slice(1) ) {
+                        hashId = i;
+                    }
+                });
+                $(this).accordion( "option", "active", hashId );
+            });
+        }
+    });
+</script>
+{% endblock %}
