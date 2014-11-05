@@ -231,7 +231,7 @@ List all projects names
     return jsonout
 
 
-@APP.route('/api/version/', methods=['POST'])
+@APP.route('/api/version/get', methods=['POST'])
 def api_get_version():
     '''
 Retrieve version
@@ -241,7 +241,7 @@ Retrieve version
 
     ::
 
-        /api/version/
+        /api/version/get
 
     Accept POST queries only.
 
