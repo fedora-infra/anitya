@@ -9,6 +9,9 @@ import anitya.lib.plugins
 import anitya.lib.exceptions
 
 
+__api_version__ = '1.0'
+
+
 LOG = logging.getLogger('anitya')
 
 

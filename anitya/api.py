@@ -35,6 +35,7 @@ def insert_div(content):
 @APP.route('/api')
 def api():
     ''' Display the api information page. '''
+    doc_api_version = load_doc(api_version)
     doc_api_projects = load_doc(api_projects)
     doc_api_projects_list = load_doc(api_projects_list)
     doc_api_projects_names = load_doc(api_projects_names)
@@ -44,6 +45,7 @@ def api():
     return flask.render_template(
         'api.html',
         docs=[
+            doc_api_version,
             doc_api_projects,
             doc_api_projects_list,
             doc_api_projects_names,
@@ -52,6 +54,32 @@ def api():
             doc_api_get_project_distro,
         ],
     )
+
+
+@APP.route('/api/version/')
+@APP.route('/api/version')
+def api_version():
+    '''
+API Version
+-----------
+    Display the api version information.
+
+    ::
+
+        /api/version
+
+    Accept GET queries only.
+
+    Sample response:
+
+    ::
+
+        {
+          "version": "1.0"
+        }
+
+    '''
+    return flask.jsonify({'version': anitya.__api_version__})
 
 
 @APP.route('/api/projects/')
