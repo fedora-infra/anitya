@@ -408,8 +408,8 @@ Retrieve a specific project
 @APP.route('/api/project/<distro>/<package_name>', methods=['GET'])
 def api_get_project_distro(distro, package_name):
     '''
-Retrieve project in a distro
-----------------------------
+Retrieve a package for a distro
+-------------------------------
     Retrieves a project in a distribution via the name of the distribution
     and the name of the package in said distribution.
 
