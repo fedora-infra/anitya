@@ -229,6 +229,8 @@ List all projects names
 
         /api/projects/names/?pattern=<pattern>
 
+        /api/projects/names/?pattern=py*
+
     Accepts GET queries only.
 
     :kwarg pattern: pattern to use to restrict the list of names returned.
