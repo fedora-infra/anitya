@@ -279,7 +279,7 @@ def api_get_version():
     '''
 Retrieve version
 ----------------
-    Retrieves the version of a specific project by actually calling its
+    Forces anitya to retrieve the latest version available from a project
     upstream.
 
     ::
