@@ -178,8 +178,8 @@ List all projects
 @APP.route('/api/projects/wiki')
 def api_projects_list():
     '''
-List all projects in the wiki format
-------------------------------------
+List all projects in mediawiki format
+-------------------------------------
     Lists all the projects registered in anitya using the format of the
     old wiki page.
 
