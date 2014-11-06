@@ -79,7 +79,7 @@ API Version
 
         /api/version
 
-    Accept GET queries only.
+    Accepts GET queries only.
 
     Sample response:
 
@@ -107,7 +107,7 @@ List all projects
 
         /api/projects/?pattern=<pattern>
 
-    Accept GET queries only.
+    Accepts GET queries only.
 
     :kwarg pattern: pattern to use to restrict the list of names returned.
 
@@ -187,7 +187,7 @@ List all projects in the wiki format
 
         /api/projects/wiki
 
-    Accept GET queries only.
+    Accepts GET queries only.
 
     Sample response:
 
@@ -229,7 +229,7 @@ List all projects names
 
         /api/projects/names/?pattern=<pattern>
 
-    Accept GET queries only.
+    Accepts GET queries only.
 
     :kwarg pattern: pattern to use to restrict the list of names returned.
 
@@ -282,7 +282,7 @@ Retrieve version
 
         /api/version/get
 
-    Accept POST queries only.
+    Accepts POST queries only.
 
     :arg id: the identifier of the project in anitya.
 
@@ -355,7 +355,7 @@ Retrieve a specific project
 
         /api/project/<project_id>
 
-    Accept GET queries only.
+    Accepts GET queries only.
 
     :arg project_id: the identifier of the project in anitya.
 
@@ -413,7 +413,7 @@ Retrieve project in a distro
 
         /api/project/<distro>/<package_name>
 
-    Accept GET queries only.
+    Accepts GET queries only.
 
     :arg distro: the name of the distribution (case insensitive).
     :arg package_name: the name of the package in the distribution specified.
