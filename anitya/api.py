@@ -22,12 +22,10 @@ def insert_div(content):
     for row in content:
         if row.startswith('<h1 class="title">'):
           title = row.split('"title">')[1].split('</h1>')[0]
-          link = '<a name="%(title)s" class="headerlink" '\
-              'title="Permalink to this headline" href="#%(title)s">'\
-              '<img src="%(url)s" /></a>' % (
+          link = '<a name="%(title)s" class="glyphicon glyphicon-link btn-xs" '\
+              'title="Permalink to this headline" href="#%(title)s"></a>' % (
                   {
                       'title': title.replace(' ', '_'),
-                      'url': flask.url_for('static', filename='link.png'),
                   }
               )
           row = str(row).replace('</h1>', link + '</h1>')
