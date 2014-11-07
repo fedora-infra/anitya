@@ -71,8 +71,8 @@ def api():
 @APP.route('/api/version')
 def api_version():
     '''
-API Version
------------
+    API Version
+    -----------
     Display the api version information.
 
     ::
@@ -97,8 +97,8 @@ API Version
 @APP.route('/api/projects')
 def api_projects():
     '''
-List all projects
------------------
+    List all projects
+    -----------------
     Lists all the projects registered in anitya.
 
     ::
@@ -180,8 +180,8 @@ List all projects
 @APP.route('/api/projects/wiki')
 def api_projects_list():
     '''
-List all projects in mediawiki format
--------------------------------------
+    List all projects in mediawiki format
+    -------------------------------------
     Lists all the projects registered in anitya using the format of the
     old wiki page.
 
@@ -221,8 +221,8 @@ List all projects in mediawiki format
 @APP.route('/api/projects/names')
 def api_projects_names():
     '''
-List all projects names
-------------------------
+    List all projects names
+    ------------------------
     Lists the names of all the projects registered in anitya.
 
     ::
@@ -277,8 +277,8 @@ List all projects names
 @APP.route('/api/version/get', methods=['POST'])
 def api_get_version():
     '''
-Retrieve version
-----------------
+    Retrieve version
+    ----------------
     Forces anitya to retrieve the latest version available from a project
     upstream.
 
@@ -351,8 +351,8 @@ Retrieve version
 @APP.route('/api/project/<project_id>', methods=['GET'])
 def api_get_project(project_id):
     '''
-Retrieve a specific project
-----------------------------
+    Retrieve a specific project
+    ----------------------------
     Retrieves a specific project using its identifier in anitya.
 
     ::
@@ -408,8 +408,8 @@ Retrieve a specific project
 @APP.route('/api/project/<distro>/<package_name>', methods=['GET'])
 def api_get_project_distro(distro, package_name):
     '''
-Retrieve a package for a distro
--------------------------------
+    Retrieve a package for a distro
+    -------------------------------
     Retrieves a project in a distribution via the name of the distribution
     and the name of the package in said distribution.
 
