@@ -4,6 +4,8 @@
 Provide utility function to convert rst in docstring of functions into html
 '''
 
+import textwrap
+
 import docutils
 import docutils.examples
 import markupsafe
@@ -55,7 +57,7 @@ def modify_html(html):
 def load_doc(endpoint):
     """ Utility to load an RST file and turn it into fancy HTML. """
 
-    rst = unicode(endpoint.__doc__)
+    rst = unicode(textwrap.dedent(endpoint.__doc__))
 
     rst = modify_rst(rst)
 
