@@ -35,8 +35,7 @@ def insert_div(content):
             continue
         output.append(row)
     output = "\n".join(output)
-    output = output.replace('<blockquote>', '<div>')
-    output = output.replace('</blockquote>', '')
+    output = output.replace('</div>', '')
     output = output.replace('h1', 'h3')
 
     return output
