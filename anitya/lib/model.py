@@ -323,8 +323,8 @@ class Project(BASE):
     def __repr__(self):
         return '<Project(%s, %s)>' % (self.name, self.homepage)
 
-    def __json__(self):
-        return dict(
+    def __json__(self, detailed=False):
+        output = dict(
             id = self.id,
             name=self.name,
             homepage=self.homepage,
@@ -332,9 +332,14 @@ class Project(BASE):
             backend=self.backend,
             version_url=self.version_url,
             version=self.latest_version,
+            versions=self.versions,
             created_on=time.mktime(self.created_on.timetuple()),
             updated_on=time.mktime(self.updated_on.timetuple()),
         )
+        if detailed:
+            output['packages'] = [pkg.__json__() for pkg in self.packages]
+
+        return output
 
     @classmethod
     def get_or_create(cls, session, name, homepage, backend='custom'):

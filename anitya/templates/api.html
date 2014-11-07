@@ -1,0 +1,19 @@
+{% extends "master.html" %}
+
+{% block title %} API | Anitya {% endblock %}
+
+
+{% block body %}
+
+<h2>
+    API endpoints
+</h2>
+<div>
+{% for html in docs %}
+{% autoescape false %}
+{{ html | InsertDiv}}
+{% endautoescape %}
+{% endfor %}
+</div>
+
+{% endblock %}
