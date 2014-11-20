@@ -81,7 +81,7 @@ def check_release(project, session):
 
     if up_version and up_version != p_version:
         max_version = order_versions([up_version, p_version])[-1]
-        if max_version != up_version:
+        if project.latest_version and max_version != up_version:
             project.logs = 'Something strange occured, we found that this '\
                 'project has released a version "%s" while we had the latest '\
                 'version at "%s"' % (up_version, project.latest_version)
