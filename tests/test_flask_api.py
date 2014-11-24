@@ -82,7 +82,8 @@ class AnityaWebAPItests(Modeltests):
                     "name": "geany",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://www.geany.org/Download/Releases"
+                    "version_url": "http://www.geany.org/Download/Releases",
+                    "versions": []
                 },
                 {
                     "id": 3,
@@ -91,7 +92,8 @@ class AnityaWebAPItests(Modeltests):
                     "name": "R2spec",
                     "regex": None,
                     "version": None,
-                    "version_url": None
+                    "version_url": None,
+                    "versions": []
                 },
                 {
                     "id": 2,
@@ -100,7 +102,8 @@ class AnityaWebAPItests(Modeltests):
                     "name": "subsurface",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://subsurface.hohndel.org/downloads/"
+                    "version_url": "http://subsurface.hohndel.org/downloads/",
+                    "versions": []
                 }
             ],
             "total": 3
@@ -125,11 +128,13 @@ class AnityaWebAPItests(Modeltests):
                     "name": "geany",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://www.geany.org/Download/Releases"
+                    "version_url": "http://www.geany.org/Download/Releases",
+                    "versions": [],
                 },
             ],
             "total": 1
         }
+
         self.assertEqual(data, exp)
 
     def test_api_projects_list(self):
@@ -192,10 +197,8 @@ class AnityaWebAPItests(Modeltests):
     def test_api_get_version(self):
         """ Test the api_get_version function of the API. """
         create_distro(self.session)
-        output = self.app.post('/api/version')
-        self.assertEqual(output.status_code, 301)
 
-        output = self.app.post('/api/version/')
+        output = self.app.post('/api/version/get')
         self.assertEqual(output.status_code, 400)
         data = json.loads(output.data)
 
@@ -206,7 +209,7 @@ class AnityaWebAPItests(Modeltests):
         create_package(self.session)
 
         data = {'id': 10}
-        output = self.app.post('/api/version/', data=data)
+        output = self.app.post('/api/version/get', data=data)
         self.assertEqual(output.status_code, 404)
         data = json.loads(output.data)
 
@@ -220,7 +223,7 @@ class AnityaWebAPItests(Modeltests):
         self.session.commit()
 
         data = {'id': 1}
-        output = self.app.post('/api/version/', data=data)
+        output = self.app.post('/api/version/get', data=data)
         self.assertEqual(output.status_code, 400)
         data = json.loads(output.data)
 
@@ -244,7 +247,7 @@ class AnityaWebAPItests(Modeltests):
         self.session.commit()
 
         data = {'id': 1}
-        output = self.app.post('/api/version/', data=data)
+        output = self.app.post('/api/version/get', data=data)
         self.assertEqual(output.status_code, 200)
         data = json.loads(output.data)
         del(data['created_on'])
@@ -257,8 +260,16 @@ class AnityaWebAPItests(Modeltests):
             "name": "geany",
             "regex": "DEFAULT",
             "version": "1.24.1",
-            "version_url": "http://www.geany.org/Download/Releases"
+            "version_url": "http://www.geany.org/Download/Releases",
+            "versions": ["1.24.1"],
+            "packages": [
+                {
+                  "distro": "Fedora",
+                  "package_name": "geany"
+                }
+            ],
         }
+
         # This test will break for every update of geany, so we need to
         # keep the output easy on hand.
         #print output.data
@@ -298,6 +309,13 @@ class AnityaWebAPItests(Modeltests):
             "regex": 'DEFAULT',
             "version": None,
             "version_url": 'http://www.geany.org/Download/Releases',
+            "versions": [],
+            "packages": [
+                {
+                  "distro": "Fedora",
+                  "package_name": "geany"
+                }
+            ],
         }
 
         self.assertEqual(exp, data)
@@ -344,7 +362,15 @@ class AnityaWebAPItests(Modeltests):
             "regex": 'DEFAULT',
             "version": None,
             "version_url": 'http://www.geany.org/Download/Releases',
+            "versions": [],
+            "packages": [
+                {
+                  "distro": "Fedora",
+                  "package_name": "geany"
+                }
+            ],
         }
+
         self.assertEqual(data, exp)
 
 
