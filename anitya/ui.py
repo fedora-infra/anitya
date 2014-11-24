@@ -265,6 +265,11 @@ def new_project():
 
     form = anitya.forms.ProjectForm(backends=plg_names)
 
+    if flask.request.method == 'GET':
+        form.name.data = flask.request.args.get('name', '')
+        form.homepage.data = flask.request.args.get('homepage', '')
+        form.backend.data = flask.request.args.get('backend', '')
+
     if form.validate_on_submit():
         project = None
         try:
@@ -350,8 +355,11 @@ def map_project(project_id):
 
     form = anitya.forms.MappingForm()
 
-    if form.validate_on_submit():
+    if flask.request.method == 'GET':
+        form.package_name.data = flask.request.args.get('package_name', '')
+        form.distro.data = flask.request.args.get('distro', '')
 
+    if form.validate_on_submit():
         try:
             anitya.lib.map_project(
                 SESSION,
