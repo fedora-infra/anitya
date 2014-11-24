@@ -4,8 +4,14 @@ Anitya
 Anitya is a release monitoring project.
 
 Its goal is to regulary check if a project has made a new release. Originally
-developed within Fedora, this project creates tickets on the `Fedora
+developed within Fedora, the project created tickets on the `Fedora
 bugzilla <https://bugzilla.redhat.com/>`_ when a new release is available.
+Now this service has been split into two parts:
+* `anitya <https://github.com/fedora-infra/anitya>`_: find and announce new
+  releases
+* `the new hotness <https://github.com/fedora-infra/the-new-hotness/>`_:
+  listens to the fedmsg bus, open a ticket on bugzilla for packages allowing
+  for it and trigger a scratch-build of the new version
 
 Anitya provides a user-friendly interface to add or edit projects. New
 releases are announced on `fedmsg <http://fedmsg.com>`_ and notifications
