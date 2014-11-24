@@ -43,10 +43,10 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'pypi'
 
 
-@skip_jenkins
 class PypiBackendtests(Modeltests):
     """ pypi backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(PypiBackendtests, self).setUp()

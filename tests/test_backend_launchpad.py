@@ -43,10 +43,10 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'Launchpad'
 
 
-@skip_jenkins
 class LaunchpadBackendtests(Modeltests):
     """ Launchpad backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(LaunchpadBackendtests, self).setUp()

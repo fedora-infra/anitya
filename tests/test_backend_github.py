@@ -43,10 +43,10 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'Github'
 
 
-@skip_jenkins
 class GithubBackendtests(Modeltests):
     """ Github backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(GithubBackendtests, self).setUp()

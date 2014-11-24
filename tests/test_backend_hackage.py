@@ -43,10 +43,10 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'Hackage'
 
 
-@skip_jenkins
 class HackageBackendtests(Modeltests):
     """ Hackage backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(HackageBackendtests, self).setUp()

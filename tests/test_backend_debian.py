@@ -43,10 +43,10 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'Debian project'
 
 
-@skip_jenkins
 class DebianBackendtests(Modeltests):
     """ Debian backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(DebianBackendtests, self).setUp()

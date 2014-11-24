@@ -43,10 +43,10 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'Pear'
 
 
-@skip_jenkins
 class PearBackendtests(Modeltests):
     """ Pear backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(PearBackendtests, self).setUp()

@@ -43,10 +43,10 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'Google code'
 
 
-@skip_jenkins
 class GoogleBackendtests(Modeltests):
     """ custom backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(GoogleBackendtests, self).setUp()

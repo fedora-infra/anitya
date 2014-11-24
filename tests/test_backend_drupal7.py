@@ -43,10 +43,10 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'Drupal7'
 
 
-@skip_jenkins
 class Drupal7Backendtests(Modeltests):
     """ Drupal backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(Drupal7Backendtests, self).setUp()

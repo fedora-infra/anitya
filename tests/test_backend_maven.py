@@ -41,10 +41,10 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'Maven Central'
 
 
-@skip_jenkins
 class MavenBackendTest(Modeltests):
     """ custom backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(MavenBackendTest, self).setUp()

@@ -43,10 +43,10 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'Sourceforge'
 
 
-@skip_jenkins
 class SourceforgeBackendtests(Modeltests):
     """ Sourceforge backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(SourceforgeBackendtests, self).setUp()

@@ -43,10 +43,10 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'GNU project'
 
 
-@skip_jenkins
 class GnuBackendtests(Modeltests):
     """ custom backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(GnuBackendtests, self).setUp()

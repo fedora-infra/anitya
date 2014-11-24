@@ -43,10 +43,10 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'Pecl'
 
 
-@skip_jenkins
 class PeclBackendtests(Modeltests):
     """ Pecl backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(PeclBackendtests, self).setUp()

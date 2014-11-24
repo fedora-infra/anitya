@@ -43,10 +43,10 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'npmjs'
 
 
-@skip_jenkins
 class NpmjsBackendtests(Modeltests):
     """ Drupal backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(NpmjsBackendtests, self).setUp()

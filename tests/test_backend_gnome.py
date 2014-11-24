@@ -43,10 +43,10 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'GNOME'
 
 
-@skip_jenkins
 class GnomeBackendtests(Modeltests):
     """ custom backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(GnomeBackendtests, self).setUp()
