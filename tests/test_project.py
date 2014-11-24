@@ -20,7 +20,7 @@
 #
 
 '''
-cnucnuweb tests for the Project object.
+anitya tests for the Project object.
 '''
 
 __requires__ = ['SQLAlchemy >= 0.7']
