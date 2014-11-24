@@ -31,8 +31,8 @@ BuildRequires:  fedmsg
 BuildRequires:  python-sqlalchemy0.8
 Requires:  python-sqlalchemy0.8
 %else
-BuildRequires:  python-sqlalchemy > 0.8
-Requires:  python-sqlalchemy > 0.8
+BuildRequires:  python-sqlalchemy > 0.7
+Requires:  python-sqlalchemy > 0.7
 %endif
 
 Requires:  python-flask
