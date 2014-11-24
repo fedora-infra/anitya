@@ -133,18 +133,18 @@
                     <b class="caret"></b> login
                 </a>
                 <ul class="dropdown-menu">
-                  {% if config['CNUCNU_WEB_FEDORA_OPENID'] and
-                        config['CNUCNU_WEB_ALLOW_FAS_OPENID'] %}
+                  {% if config['ANITYA_WEB_FEDORA_OPENID'] and
+                        config['ANITYA_WEB_ALLOW_FAS_OPENID'] %}
                   <li><a href="{{url_for('fedora_login')}}">Fedora</a></li>
                   <li class="divider"></li>
                   {% endif %}
-                  {% if config['CNUCNU_WEB_ALLOW_GOOGLE_OPENID'] %}
+                  {% if config['ANITYA_WEB_ALLOW_GOOGLE_OPENID'] %}
                   <li><a href="{{url_for('google_login')}}">Google</a></li>
                   {% endif %}
-                  {% if config['CNUCNU_WEB_ALLOW_YAHOO_OPENID'] %}
+                  {% if config['ANITYA_WEB_ALLOW_YAHOO_OPENID'] %}
                   <li><a href="{{url_for('yahoo_login')}}">Yahoo</a></li>
                   {% endif %}
-                  {% if config['CNUCNU_WEB_ALLOW_GENERIC_OPENID'] %}
+                  {% if config['ANITYA_WEB_ALLOW_GENERIC_OPENID'] %}
                   <li><a href="{{url_for('login')}}">Other OpenID</a></li>
                   {% endif %}
                 </ul>
