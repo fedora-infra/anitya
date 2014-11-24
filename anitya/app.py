@@ -122,7 +122,7 @@ def is_admin(user=None):
     '''
     if not user and flask.g.auth.logged_in:
         user = flask.g.auth.openid
-    return user in APP.config.get('CNUCNU_WEB_ADMINS', [])
+    return user in APP.config.get('ANITYA_WEB_ADMINS', [])
 
 
 def login_required(function):
@@ -186,7 +186,7 @@ def fedora_login():
 
     OID.store_factory = lambda: None
     return OID.try_login(
-        APP.config['CNUCNU_WEB_FEDORA_OPENID'],
+        APP.config['ANITYA_WEB_FEDORA_OPENID'],
         ask_for=['email', 'nickname'],
         ask_for_optional=['fullname'])
 

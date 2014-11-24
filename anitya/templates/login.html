@@ -5,7 +5,7 @@
   <div class="col-md-4">
 
   <div class="list-group">
-    {% if config.get('CNUCNU_WEB_ALLOW_GENERIC_OPENID') %}
+    {% if config.get('ANITYA_WEB_ALLOW_GENERIC_OPENID') %}
     <span class="list-group-item">
         <h4 class="list-group-item-heading">OpenId Login</h4>
           <form role="form" action="{{url_for('login')}}" method="post">
