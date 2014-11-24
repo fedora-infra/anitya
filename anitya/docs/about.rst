@@ -105,7 +105,7 @@ Dénouement
 ----------
 
 You can report `issues
-<https://github.com/fedora-infra/cnucnuweb/issues>`_ and find the
-`source <https://github.com/fedora-infra/cnucnuweb/>`_ on github.
+<https://github.com/fedora-infra/anitya/issues>`_ and find the
+`sources <https://github.com/fedora-infra/anitya/>`_ on github.
 The development team hangs out in ``#fedora-apps`` on the freenode network.
 Please do stop by and say hello.
