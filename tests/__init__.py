@@ -75,10 +75,9 @@ def skip_jenkins(function):
     @wraps(function)
     def decorated_function(*args, **kwargs):
         """ Decorated function, actually does the work. """
-        if not 'BUILD_ID' in os.env:
-            return function(*args, **kwargs)
-        else:
-            return 'Skipped'
+        if os.environ.get('BUILD_ID'):
+            raise unittest.SkipTest('Skip backend test on jenkins')
+        return function(*args, **kwargs)
 
     return decorated_function
 
