@@ -37,12 +37,13 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 import anitya.lib.backends.drupal7 as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from tests import Modeltests, create_distro
+from tests import Modeltests, create_distro, skip_jenkins
 
 
 BACKEND = 'Drupal7'
 
 
+@skip_jenkins
 class Drupal7Backendtests(Modeltests):
     """ Drupal backend tests. """
 

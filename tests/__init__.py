@@ -33,6 +33,7 @@ import os
 
 from datetime import date
 from datetime import timedelta
+from functools import wraps
 
 from contextlib import contextmanager
 from flask import appcontext_pushed, g
@@ -67,6 +68,19 @@ if os.environ.get('BUILD_ID'):
 log = logging.getLogger('anitya.lib')
 anitya.lib.log.handlers = []
 log.handlers = []
+
+
+def skip_jenkins(function):
+    """ Decorator to skip tests if AUTH is set to False """
+    @wraps(function)
+    def decorated_function(*args, **kwargs):
+        """ Decorated function, actually does the work. """
+        if not 'BUILD_ID' in os.env:
+            return function(*args, **kwargs)
+        else:
+            return 'Skipped'
+
+    return decorated_function
 
 
 class Modeltests(unittest.TestCase):

@@ -37,12 +37,13 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 import anitya.lib.backends.hackage as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from tests import Modeltests, create_distro
+from tests import Modeltests, create_distro, skip_jenkins
 
 
 BACKEND = 'Hackage'
 
 
+@skip_jenkins
 class HackageBackendtests(Modeltests):
     """ Hackage backend tests. """
 

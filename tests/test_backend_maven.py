@@ -35,12 +35,13 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 from anitya.lib.backends.maven import MavenBackend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from tests import Modeltests, create_distro
+from tests import Modeltests, create_distro, skip_jenkins
 
 
 BACKEND = 'Maven Central'
 
 
+@skip_jenkins
 class MavenBackendTest(Modeltests):
     """ custom backend tests. """
 

@@ -37,12 +37,13 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 import anitya.lib.backends.github as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from tests import Modeltests, create_distro
+from tests import Modeltests, create_distro, skip_jenkins
 
 
 BACKEND = 'Github'
 
 
+@skip_jenkins
 class GithubBackendtests(Modeltests):
     """ Github backend tests. """
 
