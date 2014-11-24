@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.13
+Version:        0.1.14
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,6 +109,17 @@ install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Mon Nov 24 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.14
+- Update to 0.1.14
+- Simplify tagline at the top of the projects page. (Ralph Bean)
+- Add fields to filter logs
+- Enable admins to delete specific versions (useful while debugging)
+- Add the /api endpoint documenting the API
+- Expand the current API
+- Check if there was a latest_version before complaining about the order
+- Fill pattern input if provided. (Ralph Bean)
+- Fill in form fields from query string if available. (Ralph Bean)
+
 * Thu Oct 23 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.13
 - Update to 0.1.13
 - Add a keyboard shortcut on `c` to check the version
