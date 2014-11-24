@@ -7,6 +7,7 @@ Its goal is to regulary check if a project has made a new release. Originally
 developed within Fedora, the project created tickets on the `Fedora
 bugzilla <https://bugzilla.redhat.com/>`_ when a new release is available.
 Now this service has been split into two parts:
+
 * `anitya <https://github.com/fedora-infra/anitya>`_: find and announce new
   releases
 * `the new hotness <https://github.com/fedora-infra/the-new-hotness/>`_:
