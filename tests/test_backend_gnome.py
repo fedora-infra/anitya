@@ -37,7 +37,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 import anitya.lib.backends.gnome as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from tests import Modeltests, create_distro
+from tests import Modeltests, create_distro, skip_jenkins
 
 
 BACKEND = 'GNOME'
@@ -46,6 +46,7 @@ BACKEND = 'GNOME'
 class GnomeBackendtests(Modeltests):
     """ custom backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(GnomeBackendtests, self).setUp()

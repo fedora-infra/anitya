@@ -37,7 +37,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 import anitya.lib.backends.npmjs as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from tests import Modeltests, create_distro
+from tests import Modeltests, create_distro, skip_jenkins
 
 
 BACKEND = 'npmjs'
@@ -46,6 +46,7 @@ BACKEND = 'npmjs'
 class NpmjsBackendtests(Modeltests):
     """ Drupal backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(NpmjsBackendtests, self).setUp()
@@ -83,7 +84,7 @@ class NpmjsBackendtests(Modeltests):
         """ Test the get_version function of the npmjs backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '2.45.0'
+        exp = '2.48.0'
         obs = backend.NpmjsBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -119,7 +120,7 @@ class NpmjsBackendtests(Modeltests):
             '2.27.0', '2.28.0', '2.29.0', '2.30.0', '2.31.0', '2.32.0',
             '2.33.0', '2.34.0', '2.35.0', '2.36.0', '2.37.0', '2.38.0',
             '2.39.0', '2.40.0', '2.41.0', '2.42.0', '2.43.0', '2.44.0',
-            '2.45.0',
+            '2.45.0', '2.46.0', '2.47.0', '2.48.0',
         ]
         obs = backend.NpmjsBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)

@@ -37,7 +37,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 import anitya.lib.backends.folder as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from tests import Modeltests, create_distro
+from tests import Modeltests, create_distro, skip_jenkins
 
 
 BACKEND = 'folder'
@@ -46,6 +46,7 @@ BACKEND = 'folder'
 class FolderBackendtests(Modeltests):
     """ custom backend tests. """
 
+    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(FolderBackendtests, self).setUp()
