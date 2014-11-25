@@ -131,12 +131,12 @@ def edit_project(
         old = project.backend
         project.backend = backend
         changes['backend'] = {'old': old, 'new': project.backend}
-    if  project.version_url and version_url != project.version_url:
+    if  version_url != project.version_url:
         old = project.version_url
         project.version_url = version_url.strip() if version_url else None
         if old != project.version_url:
             changes['version_url'] = {'old': old, 'new': project.version_url}
-    if project.regex and regex != project.regex:
+    if regex != project.regex:
         old = project.regex
         project.regex = regex.strip() if regex else None
         if old != project.regex:
