@@ -20,7 +20,7 @@ class PeclBackend(BaseBackend):
     be used to retrieve the version information.
     '''
 
-    name = 'Pecl'
+    name = 'PECL'
     examples = [
         'http://pecl.php.net/package/inotify',
         'http://pecl.php.net/package/gnupg',
