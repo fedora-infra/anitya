@@ -520,11 +520,11 @@ class Project(BASE):
         if '*' in pattern:
             pattern = pattern.replace('*', '%')
 
-        query = session.query(
+        query1 = session.query(
             cls
         ).filter(
             Project.name.ilike(pattern)
-        ).distinct()
+        )
 
         query2 = session.query(
             cls
@@ -532,18 +532,24 @@ class Project(BASE):
             Project.id == Packages.project_id
         ).filter(
             Packages.package_name.ilike(pattern)
-        ).distinct()
-
-        query = query.union(
-            query2
-        ).order_by(
-            cls.name
-        ).distinct()
+        )
 
         if distro is not None:
-            query = query.filter(
+            query1 = query1.filter(
+                Project.id == Packages.project_id
+            ).filter(
                 sa.func.lower(Packages.distro) == sa.func.lower(distro)
             )
+
+            query2 = query2.filter(
+                sa.func.lower(Packages.distro) == sa.func.lower(distro)
+            )
+
+        query = query1.distinct().union(
+            query2.distinct()
+        ).order_by(
+            cls.name
+        )
 
         if page:
             try:
