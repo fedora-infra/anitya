@@ -48,8 +48,8 @@ class Pluginstests(Modeltests):
         exp = [
             'CPAN (perl)', 'Debian project', 'Drupal6', 'Drupal7', 'Freshmeat',
             'GNOME', 'GNU project', 'Github', 'Google code', 'Hackage',
-            'Launchpad', 'Maven Central', 'Packagist', 'Pear', 'Pecl',
-            'Rubygems', 'Sourceforge', 'custom', 'folder', 'npmjs', 'pypi'
+            'Launchpad', 'Maven Central', 'PEAR', 'PECL', 'Packagist', 'PyPI',
+            'Rubygems', 'Sourceforge', 'custom', 'folder', 'npmjs',
         ]
 
         self.assertEqual(sorted(plgns), exp)
@@ -61,15 +61,15 @@ class Pluginstests(Modeltests):
         exp = [
             'CPAN (perl)', 'Debian project', 'Drupal6', 'Drupal7', 'Freshmeat',
             'GNOME', 'GNU project', 'Github', 'Google code', 'Hackage',
-            'Launchpad', 'Maven Central', 'Packagist', 'Pear', 'Pecl',
-            'Rubygems', 'Sourceforge', 'custom', 'folder', 'npmjs', 'pypi'
+            'Launchpad', 'Maven Central', 'PEAR', 'PECL', 'Packagist', 'PyPI',
+            'Rubygems', 'Sourceforge', 'custom', 'folder', 'npmjs',
         ]
 
         self.assertEqual(sorted(plgns), exp)
 
     def test_plugins_get_plugin(self):
         """ Test the plugins.get_plugin function. """
-        plgns = plugins.get_plugin('pypi')
+        plgns = plugins.get_plugin('PyPI')
         self.assertEqual(
             str(plgns), "<class 'anitya.lib.backends.pypi.PypiBackend'>")
 

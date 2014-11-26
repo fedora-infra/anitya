@@ -161,8 +161,11 @@ class Modeltests(Modeltests):
         """ Test the Backend.by_name function. """
         import anitya.lib.plugins as plugins
         plugins.load_plugins(self.session)
+        backend = model.Backend.by_name(self.session, 'PyPI')
+        self.assertEqual(backend.name, 'PyPI')
+
         backend = model.Backend.by_name(self.session, 'pypi')
-        self.assertEqual(backend.name, 'pypi')
+        self.assertEqual(backend, None)
 
     def test_project_get_or_create(self):
         """ Test the Project.get_or_create function. """
