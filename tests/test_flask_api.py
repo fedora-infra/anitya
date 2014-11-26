@@ -137,10 +137,10 @@ class AnityaWebAPItests(Modeltests):
 
         self.assertEqual(data, exp)
 
-    def test_api_projects_list(self):
-        """ Test the api_projects_list function of the API. """
+    def test_api_packages_wiki_list(self):
+        """ Test the api_packages_wiki_list function of the API. """
         create_distro(self.session)
-        output = self.app.get('/api/projects/wiki/')
+        output = self.app.get('/api/packages/wiki/')
         self.assertEqual(output.status_code, 200)
 
         self.assertEqual(output.data, '')
@@ -148,7 +148,7 @@ class AnityaWebAPItests(Modeltests):
         create_project(self.session)
         create_package(self.session)
 
-        output = self.app.get('/api/projects/wiki/')
+        output = self.app.get('/api/packages/wiki/')
         self.assertEqual(output.status_code, 200)
 
         exp = "* geany DEFAULT http://www.geany.org/Download/Releases\n"\
