@@ -184,6 +184,11 @@ def fedora_login():
         if is_safe_url(flask.request.args['next']):
             next_url = flask.request.args['next']
 
+    error = OID.fetch_error()
+    if error:
+        flask.flash('Error during login: %s' % error, 'errors')
+        return flask.redirect(flask.url_for('index'))
+
     OID.store_factory = lambda: None
     return OID.try_login(
         APP.config['ANITYA_WEB_FEDORA_OPENID'],
@@ -201,6 +206,11 @@ def google_login():
         if is_safe_url(flask.request.args['next']):
             next_url = flask.request.args['next']
 
+    error = OID.fetch_error()
+    if error:
+        flask.flash('Error during login: %s' % error, 'errors')
+        return flask.redirect(flask.url_for('index'))
+
     OID.store_factory = lambda: None
     return OID.try_login(
         "https://www.google.com/accounts/o8/id",
@@ -216,6 +226,11 @@ def yahoo_login():
     if 'next' in flask.request.args:
         if is_safe_url(flask.request.args['next']):
             next_url = flask.request.args['next']
+
+    error = OID.fetch_error()
+    if error:
+        flask.flash('Error during login: %s' % error, 'errors')
+        return flask.redirect(flask.url_for('index'))
 
     OID.store_factory = lambda: None
     return OID.try_login(
