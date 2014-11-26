@@ -51,5 +51,5 @@ def get_plugin(plugin_name):
     ''' Return the plugin corresponding to the given plugin name. '''
     plugins = load('anitya.lib.backends', subclasses=BaseBackend)
     for plugin in plugins:
-        if plugin.name == plugin_name:
+        if plugin.name.lower() == plugin_name.lower():
             return plugin
