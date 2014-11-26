@@ -45,7 +45,7 @@ def api():
     ''' Display the api information page. '''
     doc_api_version = load_doc(api_version)
     doc_api_projects = load_doc(api_projects)
-    doc_api_projects_list = load_doc(api_projects_list)
+    doc_api_projects_list = load_doc(api_packages_wiki_list)
     doc_api_projects_names = load_doc(api_projects_names)
     doc_api_get_version = load_doc(api_get_version)
     doc_api_get_project = load_doc(api_get_project)
@@ -55,7 +55,7 @@ def api():
         docs=[
             doc_api_version,
             doc_api_projects,
-            doc_api_projects_list,
+            doc_api_packages_wiki_list,
             doc_api_projects_names,
             doc_api_get_version,
             doc_api_get_project,
@@ -173,18 +173,19 @@ def api_projects():
     return jsonout
 
 
-@APP.route('/api/projects/wiki/')
-@APP.route('/api/projects/wiki')
-def api_projects_list():
+@APP.route('/api/packages/wiki/')
+@APP.route('/api/packages/wiki')
+def api_packages_wiki_list():
     '''
-    List all projects in mediawiki format
+    List all packages in mediawiki format
     -------------------------------------
-    Lists all the projects registered in anitya using the format of the
-    old wiki page.
+    Lists all the packages registered in anitya using the format of the
+    old wiki page. If a project is present multiple times on different
+    distribution, it will be shown multiple times.
 
     ::
 
-        /api/projects/wiki
+        /api/packages/wiki
 
     Accepts GET queries only.
 
