@@ -20,7 +20,7 @@ class PearBackend(BaseBackend):
     be used to retrieve the version information.
     '''
 
-    name = 'Pear'
+    name = 'PEAR'
     examples = [
         'http://pear.php.net/package/Auth/',
         'http://pear.php.net/package/PHP_UML',

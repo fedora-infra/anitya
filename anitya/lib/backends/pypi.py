@@ -16,7 +16,7 @@ from anitya.lib.exceptions import AnityaPluginException
 class PypiBackend(BaseBackend):
     ''' The PyPI class for project hosted on PyPI. '''
 
-    name = 'pypi'
+    name = 'PyPI'
     examples = [
         'https://pypi.python.org/pypi/arrow',
         'https://pypi.python.org/pypi/fedmsg',

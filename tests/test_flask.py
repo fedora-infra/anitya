@@ -269,7 +269,7 @@ a backend for the project hosting. More information below.</p>"""
             data = {
                 'name': 'repo_manager',
                 'homepage': 'https://pypi.python.org/pypi/repo_manager',
-                'backend': 'pypi',
+                'backend': 'PyPI',
             }
 
             output = c.post(
@@ -347,7 +347,7 @@ a backend for the project hosting. More information below.</p>"""
             data = {
                 'name': 'repo_manager',
                 'homepage': 'https://pypi.python.org/pypi/repo_manager',
-                'backend': 'pypi',
+                'backend': 'PyPI',
             }
 
             output = c.post(

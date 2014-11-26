@@ -40,7 +40,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from tests import Modeltests, create_distro, skip_jenkins
 
 
-BACKEND = 'Pecl'
+BACKEND = 'PECL'
 
 
 class PeclBackendtests(Modeltests):

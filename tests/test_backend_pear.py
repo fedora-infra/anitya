@@ -40,7 +40,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from tests import Modeltests, create_distro, skip_jenkins
 
 
-BACKEND = 'Pear'
+BACKEND = 'PEAR'
 
 
 class PearBackendtests(Modeltests):

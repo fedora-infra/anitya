@@ -94,7 +94,7 @@ class AnityaLibtests(Modeltests):
             project=project_objs[0],
             name=project_objs[0].name,
             homepage='http://www.geany.org',
-            backend='pypi',
+            backend='PyPI',
             version_url=None,
             regex=None,
             user_mail='noreply@fedoraproject.org')

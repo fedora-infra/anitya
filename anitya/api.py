@@ -345,8 +345,8 @@ def api_get_version():
     return jsonout
 
 
-@APP.route('/api/project/<project_id>/', methods=['GET'])
-@APP.route('/api/project/<project_id>', methods=['GET'])
+@APP.route('/api/project/<int:project_id>/', methods=['GET'])
+@APP.route('/api/project/<int:project_id>', methods=['GET'])
 def api_get_project(project_id):
     '''
     Retrieve a specific project
