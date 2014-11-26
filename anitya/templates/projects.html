@@ -6,17 +6,23 @@
   <h1>Projects {% if distroname %}of {{ distroname }} {% endif %}monitored</h1>
 </div>
 
+{% if distroname %}
+{% set page_url = url_for('distro', distroname=distroname) %}
+{% else %}
+{% set page_url = url_for('projects') %}
+{% endif %}
+
 <div class="row show-grid">
   <div class="col-sm-6">
     {% if total_page > 1 %}
     <ul class="pagination pagination-sm">
         <li>
             {% if page > 1%}
-              <a href="{{ url_for('projects') }}?page={{page - 1}}">
+              <a href="{{ page_url }}?page={{page - 1}}">
                 «
               </a>
             {% else %}
-              <a href="{{ url_for('projects') }}?page={{page}}">
+              <a href="{{ page_url }}?page={{page}}">
                 «
               </a>
             {% endif %}
@@ -26,11 +32,11 @@
         </li>
         <li>
             {% if page < total_page %}
-              <a href="{{ url_for('projects') }}?page={{page + 1}}">
+              <a href="{{ page_url }}?page={{page + 1}}">
                 »
               </a>
             {% else %}
-              <a href="{{ url_for('projects') }}?page={{page}}">
+              <a href="{{ page_url }}?page={{page}}">
                 »
               </a>
             {% endif %}
