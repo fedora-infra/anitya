@@ -36,6 +36,17 @@
               <th>Examples:</th>
               <td id="example_txt"></td>
             </tr>
+
+            {% if context == 'Add' %}
+            <tr>
+              {{ render_field_in_row(form.distro) }}
+              <td></td>
+            </tr>
+            <tr>
+              {{ render_field_in_row(form.package_name) }}
+              <td></td>
+            </tr>
+            {% endif %}
           </table>
         </span>
       </div>
