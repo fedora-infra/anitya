@@ -17,6 +17,9 @@ class ProjectForm(wtf.Form):
     version_url = TextField('Version URL', [validators.optional()])
     regex = TextField('Regex', [validators.optional()])
 
+    distro = TextField('Distro (optional)', [validators.optional()])
+    package_name = TextField('Package (optional)', [validators.optional()])
+
     def __init__(self, *args, **kwargs):
         """ Calls the default constructor with the normal argument but
         uses the list of backends provided to fill the choices of the

@@ -270,6 +270,9 @@ def new_project():
         form.homepage.data = flask.request.args.get('homepage', '')
         form.backend.data = flask.request.args.get('backend', '')
 
+        form.distro.data = flask.request.args.get('distro', '')
+        form.package_name.data = flask.request.args.get('package_name', '')
+
     if form.validate_on_submit():
         project = None
         try:
@@ -282,6 +285,19 @@ def new_project():
                 regex=form.regex.data,
                 user_mail=flask.g.auth.email,
             )
+            SESSION.commit()
+
+            # Optionally, the user can also map a distro when creating a proj.
+            if form.distro.data and form.package_name.data:
+                anitya.lib.map_project(
+                    SESSION,
+                    project=project,
+                    package_name=form.package_name.data,
+                    distribution=form.distro.data,
+                    user_mail=flask.g.auth.email,
+                )
+                SESSION.commit()
+
             flask.flash('Project created')
         except anitya.lib.exceptions.AnityaException as err:
             flask.flash(err)
