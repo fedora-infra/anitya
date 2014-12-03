@@ -319,11 +319,10 @@ class Project(BASE):
 
     @property
     def versions(self):
-        ''' Return iterator over all versions stored,
-        sorted from newest to oldest.
+        ''' Return list of all versions stored, sorted from newest to oldest.
         '''
-        return reversed(anitya.order_versions(
-            [v.version for v in self.versions_obj]))
+        return list(reversed(anitya.order_versions(
+            [v.version for v in self.versions_obj])))
 
     def __repr__(self):
         return '<Project(%s, %s)>' % (self.name, self.homepage)
