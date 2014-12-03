@@ -20,6 +20,8 @@ import time
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declarative_base
 
+import anitya
+
 
 BASE = declarative_base()
 
@@ -317,8 +319,11 @@ class Project(BASE):
 
     @property
     def versions(self):
-        ''' Return the list of all versions stored. '''
-        return sorted([version.version for version in self.versions_obj])
+        ''' Return iterator over all versions stored,
+        sorted from newest to oldest.
+        '''
+        return reversed(anitya.order_versions(
+            [v.version for v in self.versions_obj]))
 
     def __repr__(self):
         return '<Project(%s, %s)>' % (self.name, self.homepage)
