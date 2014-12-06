@@ -156,11 +156,7 @@ a backend for the project hosting. More information below.</p>"""
         output = self.app.get('/distros/')
         self.assertEqual(output.status_code, 200)
 
-        expected = """
-  <p>
-    Here is the list of all the distributions having at least one project
-    mapped monitored by anitya.
-  </p>"""
+        expected = "Here is the list of all the distributions"
         self.assertTrue(expected in output.data)
 
         output = self.app.get('/distros/?page=ab')
