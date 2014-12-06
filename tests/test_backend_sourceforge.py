@@ -110,7 +110,7 @@ class SourceforgeBackendtests(Modeltests):
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = [
-            '3.7.3', '3.7.4', '3.7.4.1', '3.8.0', '3.8.1', '3.9.0',
+            '3.7.4', '3.7.4.1', '3.8.0', '3.8.1', '3.9.0',
             '3.9.0.1', '3.9.0.2', '3.9.0.3', '3.9.0.4', '3.9.0.5', '3.9.0.6'
         ]
         obs = backend.SourceforgeBackend.get_ordered_versions(project)

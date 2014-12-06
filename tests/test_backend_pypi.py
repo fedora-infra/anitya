@@ -98,7 +98,7 @@ class PypiBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '1.0.0'
+        exp = '1.0.1'
         obs = backend.PypiBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -127,7 +127,7 @@ class PypiBackendtests(Modeltests):
             '0.1.20', '0.1.21', '0.1.22', '0.1.23', '0.2.0', '0.2.1',
             '0.2.2', '0.2.3', '0.2.4', '0.3.0', '0.3.1', '0.3.2', '0.3.3',
             '0.3.5', '0.3.6', '0.3.7', '0.4.0', '0.4.1', '0.4.2', '0.4.3',
-            '0.4.4', '0.4.5', '0.4.6', '0.4.7', '0.4.8', '1.0.0',
+            '0.4.4', '0.4.5', '0.4.6', '0.4.7', '0.4.8', '1.0.0', '1.0.1',
         ]
         obs = backend.PypiBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
