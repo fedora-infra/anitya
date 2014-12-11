@@ -70,6 +70,12 @@
           Edit
         </button>
       </a>
+      <a href="{{ url_for('delete_distro', distro_name=distro.name) }}">
+        <button type="submit" class="btn btn-warning btn-sm pull-right">
+          <span class="glyphicon glyphicon-remove"></span>
+            Delete
+        </button>
+      </a>
       {% endif %}
       <div class="clearfix"></div>
     </span>
