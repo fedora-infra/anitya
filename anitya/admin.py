@@ -177,7 +177,7 @@ def delete_project(project_id):
                 flask.url_for('project', project_id=project.id))
 
     return flask.render_template(
-        'distro_delete.html',
+        'project_delete.html',
         current='projects',
         project=project,
         form=form)
