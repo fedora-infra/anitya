@@ -99,6 +99,44 @@ def edit_distro(distro_name):
         form=form)
 
 
+@APP.route('/distro/<distro_name>/delete', methods=['GET', 'POST'])
+@login_required
+def delete_distro(distro_name):
+    """ Delete a distro """
+
+    distro = anitya.lib.model.Distro.by_name(SESSION, distro_name)
+    if not distro:
+        flask.abort(404)
+
+    if not is_admin():
+        flask.abort(401)
+
+    form = anitya.forms.ConfirmationForm()
+
+    if form.validate_on_submit():
+        anitya.log(
+            SESSION,
+            distro=distro,
+            topic='distro.remove',
+            message=dict(
+                agent=flask.g.auth.email,
+                distro=distro.name,
+            )
+        )
+
+        SESSION.delete(distro)
+        SESSION.commit()
+        flask.flash('Distro %s has been removed' % distro_name)
+        return flask.redirect(flask.url_for('distros'))
+
+    return flask.render_template(
+        'distro_delete.html',
+        current='distros',
+        distro=distro,
+        form=form)
+
+
+
 @APP.route('/project/<project_id>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_project(project_id):

@@ -136,6 +136,7 @@ def log(session, project=None, distro=None, topic=None, message=None):
         'distro.add': '%(agent)s added the distro named: %(distro)s',
         'distro.edit': '%(agent)s edited distro name from: %(old)s to: '
                        '%(new)s',
+        'distro.remove': '%(agent)s deleted the distro named: %(distro)s',
         'project.add': '%(agent)s added project: %(project)s',
         'project.add.tried': '%(agent)s tried to add an already existing '
                              'project: %(project)s',
