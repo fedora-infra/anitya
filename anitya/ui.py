@@ -278,11 +278,11 @@ def new_project():
         try:
             project = anitya.lib.create_project(
                 SESSION,
-                name=form.name.data,
-                homepage=form.homepage.data,
-                backend=form.backend.data,
-                version_url=form.version_url.data,
-                regex=form.regex.data,
+                name=form.name.data.strip(),
+                homepage=form.homepage.data.strip(),
+                backend=form.backend.data.strip(),
+                version_url=form.version_url.data.strip(),
+                regex=form.regex.data.strip(),
                 user_mail=flask.g.auth.email,
             )
             SESSION.commit()
@@ -336,11 +336,11 @@ def edit_project(project_id):
             anitya.lib.edit_project(
                 SESSION,
                 project=project,
-                name=form.name.data,
-                homepage=form.homepage.data,
-                backend=form.backend.data,
-                version_url=form.version_url.data,
-                regex=form.regex.data,
+                name=form.name.data.strip(),
+                homepage=form.homepage.data.strip(),
+                backend=form.backend.data.strip(),
+                version_url=form.version_url.data.strip(),
+                regex=form.regex.data.strip(),
                 user_mail=flask.g.auth.email,
             )
             flask.flash('Project edited')
@@ -380,8 +380,8 @@ def map_project(project_id):
             anitya.lib.map_project(
                 SESSION,
                 project=project,
-                package_name=form.package_name.data,
-                distribution=form.distro.data,
+                package_name=form.package_name.data.strip(),
+                distribution=form.distro.data.strip(),
                 user_mail=flask.g.auth.email,
             )
             SESSION.commit()
