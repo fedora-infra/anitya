@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.14
+Version:        0.1.15
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,7 +109,33 @@ install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
-* Mon Nov 24 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.14
+* Thu Dec 18 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.15-1
+- Fix changelog to include the release in addition to the version
+- Update to 0.1.15
+- Fix links to the documentation to the proper github project
+- Mention the-new-hotness in the README file
+- Replace CNUCNU_* configuration keys by ANITYA_* keys
+- Adjust the unit-tests to test the logic in jenkins (while skipping the backend
+  plugins)
+- Fix editing a project when version_url and regex are empty
+- Fix button text for project and distro edit (Praveen Kumar)
+- Display error message from the OpenID process (Patrick Uiterwijk)
+- Fix pagination when browsing the packages of a distro
+- Replace /api/projects/wiki by /api/packages/wiki and adjust the documentation
+- Adjust the case of the name of the backends
+- Allow an initial mapping when creating a project via GET arguments (Ralph
+  Bean)
+- update distro page text (Elan Ruusamäe)
+- Replace "check now" button with spinner while ajax in transit (Ralph Bean)
+- Fix sorting version from newest to oldest (Ralph Bean)
+- Add the possibility for admins to delete a distro
+- Adjust the launchpad backend to rely on the project name rather than the
+  project homepage
+- Strip all the inputs submitted by the user
+- Fix mail_logging for when we cannot retrieve the process information
+- Set a handler to the anitya logger to stderr
+
+* Mon Nov 24 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.14-1
 - Update to 0.1.14
 - Simplify tagline at the top of the projects page. (Ralph Bean)
 - Add fields to filter logs
@@ -120,7 +146,7 @@ install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 - Fill pattern input if provided. (Ralph Bean)
 - Fill in form fields from query string if available. (Ralph Bean)
 
-* Thu Oct 23 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.13
+* Thu Oct 23 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.13-1
 - Update to 0.1.13
 - Add a keyboard shortcut on `c` to check the version
 - Log the error when calling a certain website of a project and something
@@ -129,7 +155,7 @@ install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
   that failed to update at the last cron run
 - Add a way to find the projects that simply never updated
 
-* Wed Oct 22 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.12
+* Wed Oct 22 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.12-1
 - Update to 0.1.12
 - Update the project's log if we retrieved an update w/o problems
 - Add log handler on the cron job to monitor its progress
@@ -138,14 +164,14 @@ install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 - Update the sourceforge url to use the new one
 - Escape the '+' symbols in the name of the projects in the regular expression
 
-* Tue Oct 21 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.11
+* Tue Oct 21 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.11-1
 - Update to 0.1.11
 - Adjust the default regex to handle project releasing as <project>src-<version>
   (ie: with no '-' or '_' between the project and src/source/srcmin)
 - Adjust the project's log as soon as we properly retrieved a version which
   should reduce the list of failed projects nicely
 
-* Tue Oct 21 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.10
+* Tue Oct 21 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.10-1
 - Update to 0.1.10
 - Display the number of items returns in the projects, updates and search
   templates
@@ -163,7 +189,7 @@ install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 - Adjust the launchpad backend to rely on the project's homepage instead of
   its name
 
-* Sat Oct 18 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.9
+* Sat Oct 18 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.9-1
 - Update to 0.1.9
 - Add the possibility to view the project according to their update status
 
