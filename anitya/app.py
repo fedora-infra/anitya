@@ -52,6 +52,8 @@ if not APP.debug:
 STDERR_LOG = logging.StreamHandler(sys.stderr)
 STDERR_LOG.setLevel(logging.INFO)
 APP.logger.addHandler(STDERR_LOG)
+ANITYALOG = logging.getLogger('anitya')
+ANITYALOG.addHandler(STDERR_LOG)
 
 LOG = APP.logger
 
