@@ -45,7 +45,7 @@ def api():
     ''' Display the api information page. '''
     doc_api_version = load_doc(api_version)
     doc_api_projects = load_doc(api_projects)
-    doc_api_projects_list = load_doc(api_packages_wiki_list)
+    doc_api_packages_wiki_list = load_doc(api_packages_wiki_list)
     doc_api_projects_names = load_doc(api_projects_names)
     doc_api_get_version = load_doc(api_get_version)
     doc_api_get_project = load_doc(api_get_project)
