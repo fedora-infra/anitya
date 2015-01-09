@@ -137,6 +137,35 @@ class AnityaWebAPItests(Modeltests):
 
         self.assertEqual(data, exp)
 
+        output = self.app.get('/api/projects/?homepage=http://www.geany.org/')
+        self.assertEqual(output.status_code, 200)
+        data = json.loads(output.data)
+
+        for key in range(len(data['projects'])):
+            del(data['projects'][key]['created_on'])
+            del(data['projects'][key]['updated_on'])
+
+        exp = {
+            "projects": [
+                {
+                    "id": 1,
+                    "backend": "custom",
+                    "homepage": "http://www.geany.org/",
+                    "name": "geany",
+                    "regex": "DEFAULT",
+                    "version": None,
+                    "version_url": "http://www.geany.org/Download/Releases",
+                    "versions": [],
+                },
+            ],
+            "total": 1
+        }
+
+        self.assertEqual(data, exp)
+
+        output = self.app.get('/api/projects/?pattern=foo&homepage=bar')
+        self.assertEqual(output.status_code, 400)
+
     def test_api_packages_wiki_list(self):
         """ Test the api_packages_wiki_list function of the API. """
         create_distro(self.session)
