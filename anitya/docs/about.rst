@@ -89,9 +89,11 @@ and test it.
 
 Below is an example on how it can be done::
 
+  >>> url = 'http://www.opendx.org/download.html'
+  >>>
   >>> import requests
   >>> import re
-  >>> text = requests.get('http://www.opendx.org/download.html').text
+  >>> text = requests.get(url).text
   >>> re.findall('version.is ([\d]*)\.', text)
   [u'4']
   >>> re.findall('version.is ([\d\.-]*)\.', text)
