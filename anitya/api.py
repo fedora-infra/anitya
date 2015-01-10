@@ -106,9 +106,20 @@ def api_projects():
 
         /api/projects/?pattern=py*
 
+        /api/projects/?homepage=<homepage>
+
+        /api/projects/?homepage=https%3A%2F%2Fpypi.python.org%2Fpypi%2Fansi2html
+
     Accepts GET queries only.
 
-    :kwarg pattern: pattern to use to restrict the list of names returned.
+    :kwarg pattern: pattern to use to restrict the list of projects returned.
+
+    :kwarg homepage: upstream homepage to use to restrict the list of projects
+                     returned.
+
+    The ``pattern`` and ``homepage`` arguments are mutually exclusive and
+    cannot be combined.  You can query for packages by a pattern **or** you can
+    query by their upstream homepage, but not both.
 
     Sample response:
 
@@ -151,11 +162,20 @@ def api_projects():
     '''
 
     pattern = flask.request.args.get('pattern', None)
+    homepage = flask.request.args.get('homepage', None)
 
-    if pattern and '*' not in pattern:
-        pattern += '*'
+    if pattern and homepage:
+        err = 'pattern and homepage are mutually exclusive.  Specify only one.'
+        output = {'output': 'notok', 'error': [err]}
+        jsonout = flask.jsonify(output)
+        jsonout.status_code = 400
+        return jsonout
 
-    if pattern:
+    if homepage:
+        project_objs = anitya.lib.model.Project.by_homepage(SESSION, homepage)
+    elif pattern:
+        if '*' not in pattern:
+            pattern += '*'
         project_objs = anitya.lib.model.Project.search(
             SESSION, pattern=pattern)
     else:
