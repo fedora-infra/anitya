@@ -100,7 +100,7 @@ class FolderBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '4.2'
+        exp = '4.3'
         obs = backend.FolderBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -125,7 +125,7 @@ class FolderBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = ['3.1.1', '4.0', '4.0.1', '4.0.2', '4.0.3', '4.1', '4.2']
+        exp = ['3.1.1', '4.0', '4.0.1', '4.0.2', '4.0.3', '4.1', '4.2', '4.3']
         obs = backend.FolderBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 

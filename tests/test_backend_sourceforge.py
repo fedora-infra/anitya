@@ -85,7 +85,7 @@ class SourceforgeBackendtests(Modeltests):
         """ Test the get_version function of the sourceforge backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '3.9.0.6'
+        exp = '3.10.0'
         obs = backend.SourceforgeBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -110,8 +110,9 @@ class SourceforgeBackendtests(Modeltests):
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = [
-            '3.7.4', '3.7.4.1', '3.8.0', '3.8.1', '3.9.0',
-            '3.9.0.1', '3.9.0.2', '3.9.0.3', '3.9.0.4', '3.9.0.5', '3.9.0.6'
+            '3.8.0', '3.8.1', '3.9.0',
+            '3.9.0.1', '3.9.0.2', '3.9.0.3', '3.9.0.4', '3.9.0.5', '3.9.0.6',
+            '3.10.0',
         ]
         obs = backend.SourceforgeBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
