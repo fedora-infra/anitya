@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.15
+Version:        0.1.16
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,6 +109,13 @@ install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Thu Jan 29 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.16-1
+- Update to 0.1.16
+- In the documentation (about page) adjust the code to store the url in a
+  variable making it easier for people to copy/paste the code (Elan Ruusamäe)
+- Add api to query for a project by homepage. (Ralph Bean)
+- Typofix in the API docs generation. (Ralph Bean)
+
 * Thu Dec 18 2014 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.15-1
 - Fix changelog to include the release in addition to the version
 - Update to 0.1.15
