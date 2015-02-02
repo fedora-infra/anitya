@@ -8,6 +8,7 @@
 
 """
 
+import fnmatch
 import re
 import socket
 # sre_constants contains re exceptions
@@ -24,11 +25,149 @@ REGEX = b'%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
     '(?:minsrc|src|source))?\.(?:tar|t[bglx]z|tbz2|zip)'
 
 
+def upstream_cmp(v1, v2):
+    """ Compare two upstream versions
+
+    Code from Till Maas as part of
+    `cnucnu <https://fedorapeople.org/cgit/till/public_git/cnucnu.git/>`_
+
+    :Parameters:
+        v1 : str
+            Upstream version string 1
+        v2 : str
+            Upstream version string 2
+
+    :return:
+        - -1 - second version newer
+        - 0  - both are the same
+        - 1  - first version newer
+
+    :rtype: int
+
+    """
+
+    v1, rc1, rcn1 = split_rc(v1)
+    v2, rc2, rcn2 = split_rc(v2)
+
+    diff = rpm_cmp(v1, v2)
+    if diff != 0:
+        # base versions are different, ignore rc-status
+        return diff
+
+    if rc1 and rc2:
+        # both are rc, higher rc is newer
+        diff = cmp(rc1.lower(), rc2.lower())
+        if diff != 0:
+            # rc > pre > beta > alpha
+            return diff
+        if rcn1 and rcn2:
+            # both have rc number
+            return cmp(int(rcn1), int(rcn2))
+        if rcn1:
+            # only first has rc number, then it is newer
+            return 1
+        if rcn2:
+            # only second has rc number, then it is newer
+            return -1
+        # both rc numbers are missing or same
+        return 0
+
+    if rc1:
+        # only first is rc, then second is newer
+        return -1
+    if rc2:
+        # only second is rc, then first is newer
+        return 1
+
+    # neither is a rc
+    return 0
+
+
+def split_rc(version):
+    """ Split (upstream) version into version and release candidate string +
+    release candidate number if possible
+
+    Code from Till Maas as part of
+    `cnucnu <https://fedorapeople.org/cgit/till/public_git/cnucnu.git/>`_
+
+    """
+    rc_upstream_regex = re.compile(
+        "(.*?)\.?(-?(rc|pre|beta|alpha|dev)([0-9]*))", re.I)
+    match = rc_upstream_regex.match(version)
+    if not match:
+        return (version, "", "")
+
+    rc_str = match.group(3)
+    if rc_str:
+        v = match.group(1)
+        rc_num = match.group(4)
+        return (v, rc_str, rc_num)
+    else:
+        # if version contains a dash, but no release candidate string is found,
+        # v != version, therefore use version here
+        # Example version: 1.8.23-20100128-r1100
+        # Then: v=1.8.23, but rc_str=""
+        return (version, "", "")
+
+
+def rpm_cmp(v1, v2):
+    import rpm
+    diff = rpm.labelCompare((None, v1, None), (None, v2, None))
+    return diff
+
+
 class BaseBackend(object):
     ''' The base class that all the different backend should extend. '''
 
     name = None
     examples = None
+
+    @classmethod
+    def expand_subdirs(self, url, glob_char="*"):
+        ''' Expand dirs containing glob_char in the given URL with the latest
+        Example URL: http://www.example.com/foo/*/
+
+        The globbing char can be bundled with other characters enclosed within
+        the same slashes in the URL like "/rel*/".
+
+        Code originally from Till Maas as part of
+        `cnucnu <https://fedorapeople.org/cgit/till/public_git/cnucnu.git/>`_
+
+        '''
+        glob_pattern = "/([^/]*%s[^/]*)/" % re.escape(glob_char)
+        glob_match = re.search(glob_pattern, url)
+        if not glob_match:
+            return url
+        glob_str = glob_match.group(1)
+
+        # url until first slash before glob_match
+        url_prefix = url[0:glob_match.start() + 1]
+
+        # everything after the slash after glob_match
+        url_suffix = url[glob_match.end():]
+
+        html_regex = re.compile(r'\bhref\s*=\s*["\']([^"\'/]+)/["\']', re.I)
+        text_regex = re.compile(r'^d.+\s(\S+)\s*$', re.I | re.M)
+
+        if url_prefix != "":
+            dir_listing = self.call_url(url_prefix).text
+            if not dir_listing:
+                return url
+            subdirs = []
+            regex = url.startswith("ftp://") and text_regex or html_regex
+            for match in regex.finditer(dir_listing):
+                subdir = match.group(1)
+                if subdir not in (".", "..") \
+                        and fnmatch.fnmatch(subdir, glob_str):
+                    subdirs.append(subdir)
+            if not subdirs:
+                return url
+            list.sort(subdirs, cmp=upstream_cmp)
+            latest = subdirs[-1]
+
+            url = "%s%s/%s" % (url_prefix, latest, url_suffix)
+            return self.expand_subdirs(url, glob_char)
+        return url
 
     @classmethod
     def get_version(self, project):  # pragma: no cover
@@ -96,6 +235,9 @@ class BaseBackend(object):
         user_agent = 'Anitya %s at upstream-monitoring.org' % \
             anitya.app.__version__
         from_email = anitya.app.APP.config.get('ADMIN_EMAIL')
+
+        if '*' in url:
+            url = self.expand_subdirs(url)
 
         if url.startswith('ftp://') or url.startswith('ftps://'):
             socket.setdefaulttimeout(30)
