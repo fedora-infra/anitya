@@ -28,6 +28,9 @@ REGEX = b'%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
 def upstream_cmp(v1, v2):
     """ Compare two upstream versions
 
+    Code from Till Maas as part of
+    `cnucnu <fedorapeople.org/gitweb?p=till/public_git/cnucnu.git>`_
+
     :Parameters:
         v1 : str
             Upstream version string 1
@@ -83,6 +86,10 @@ def upstream_cmp(v1, v2):
 def split_rc(version):
     """ Split (upstream) version into version and release candidate string +
     release candidate number if possible
+
+    Code from Till Maas as part of
+    `cnucnu <fedorapeople.org/gitweb?p=till/public_git/cnucnu.git>`_
+
     """
     rc_upstream_regex = re.compile(
         "(.*?)\.?(-?(rc|pre|beta|alpha|dev)([0-9]*))", re.I)
@@ -122,6 +129,10 @@ class BaseBackend(object):
 
         The globbing char can be bundled with other characters enclosed within
         the same slashes in the URL like "/rel*/".
+
+        Code originally from Till Maas as part of
+        `cnucnu <fedorapeople.org/gitweb?p=till/public_git/cnucnu.git>`_
+
         '''
         glob_pattern = "/([^/]*%s[^/]*)/" % re.escape(glob_char)
         glob_match = re.search(glob_pattern, url)
