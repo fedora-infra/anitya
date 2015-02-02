@@ -29,7 +29,7 @@ def upstream_cmp(v1, v2):
     """ Compare two upstream versions
 
     Code from Till Maas as part of
-    `cnucnu <fedorapeople.org/gitweb?p=till/public_git/cnucnu.git>`_
+    `cnucnu <https://fedorapeople.org/cgit/till/public_git/cnucnu.git/>`_
 
     :Parameters:
         v1 : str
@@ -88,7 +88,7 @@ def split_rc(version):
     release candidate number if possible
 
     Code from Till Maas as part of
-    `cnucnu <fedorapeople.org/gitweb?p=till/public_git/cnucnu.git>`_
+    `cnucnu <https://fedorapeople.org/cgit/till/public_git/cnucnu.git/>`_
 
     """
     rc_upstream_regex = re.compile(
@@ -131,7 +131,7 @@ class BaseBackend(object):
         the same slashes in the URL like "/rel*/".
 
         Code originally from Till Maas as part of
-        `cnucnu <fedorapeople.org/gitweb?p=till/public_git/cnucnu.git>`_
+        `cnucnu <https://fedorapeople.org/cgit/till/public_git/cnucnu.git/>`_
 
         '''
         glob_pattern = "/([^/]*%s[^/]*)/" % re.escape(glob_char)
