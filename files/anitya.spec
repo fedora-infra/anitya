@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.16
+Version:        0.1.17
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,6 +109,12 @@ install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Tue Feb 10 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.17-1
+- Update to 0.1.17
+- Bring back from cnucnu support for URLs including '*', ie:
+  http://download.tuxfamily.org/xmoto/xmoto/*/ where anitya will go down the
+  folder structure to find the latest version
+
 * Thu Jan 29 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.16-1
 - Update to 0.1.16
 - In the documentation (about page) adjust the code to store the url in a
