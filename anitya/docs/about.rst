@@ -78,8 +78,8 @@ The custom backend requires two arguments:
             <package name>(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_](?:minsrc|src|source))?\.(?:tar|t[bglx]z|tbz2|zip)
 
 
-Test you regex
---------------
+Test your regex
+---------------
 
 Sometimes one needs to use a custom regular expression to find the version
 on a page.

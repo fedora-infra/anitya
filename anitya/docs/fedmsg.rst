@@ -46,7 +46,7 @@ From python
         print topic, msg
 
 
-Form the shell
+From the shell
 --------------
 
 ::
