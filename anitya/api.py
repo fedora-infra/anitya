@@ -292,6 +292,65 @@ def api_projects_names():
     return jsonout
 
 
+@APP.route('/api/distro/names/')
+@APP.route('/api/distro/names')
+def api_distro_names():
+    '''
+    List all distribution names
+    ---------------------------
+    Lists the names of all the distributions registered in anitya.
+
+    ::
+
+        /api/distro/names
+
+        /api/projects/names/?pattern=<pattern>
+
+        /api/projects/names/?pattern=f*
+
+    Accepts GET queries only.
+
+    :kwarg pattern: pattern to use to restrict the list of distro returned.
+
+    Accepts GET queries only.
+
+    Sample response:
+
+    ::
+
+      {
+        "distro": [
+          "Fedora",
+          "Debian",
+        ],
+        "total": 2
+      }
+
+    '''
+
+    pattern = flask.request.args.get('pattern', None)
+
+    if pattern and '*' not in pattern:
+        pattern += '*'
+
+    if pattern:
+        distro_objs = anitya.lib.model.Distro.search(
+            SESSION, pattern=pattern)
+    else:
+        distro_objs = anitya.lib.model.Distro.all(SESSION)
+
+    distros = [distro.name for distro in distro_objs]
+
+    output = {
+        'total': len(distros),
+        'distro': distros
+    }
+
+    jsonout = flask.jsonify(output)
+    jsonout.status_code = 200
+    return jsonout
+
+
 @APP.route('/api/version/get', methods=['POST'])
 def api_get_version():
     '''
