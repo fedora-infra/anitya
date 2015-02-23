@@ -119,7 +119,7 @@
 
   };
 
-  function show_project(_url) {
+  function show_project(_url, type) {
     $.ajax({
         url: _url,
         type: 'GET',
@@ -129,7 +129,7 @@
             $('#info_field').html(
               '<div class="list-group">' +
               '<span class="list-group-item">' +
-              '<p> Project with the same homepage:</p>' +
+              '<p> Project with the same ' + type + ':</p>' +
               '<ul id="info_field_list"></ul>'
             );
           }
@@ -147,10 +147,10 @@
     var _homepage = $('#homepage').val().trim();
     if (_homepage) {
       var _url = "{{ url_for('api_projects') }}?homepage=" + _homepage;
-      show_project(_url);
+      show_project(_url, 'homepage');
     } else if (_name) {
       var _url = "{{ url_for('api_projects') }}?pattern=" + _name;
-      show_project(_url);
+      show_project(_url, 'name');
     } else {
       $('#info_field').html('');
     }
