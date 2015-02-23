@@ -125,7 +125,7 @@
 
   };
 
-  function show_project(_url, type) {
+  function show_similar_projects(_url, type) {
     $.ajax({
         url: _url,
         type: 'GET',
@@ -166,7 +166,7 @@
         var _name = $('#name').val().trim();
         if (_name) {
           var _url = "{{ url_for('api_projects') }}?pattern=" + _name;
-          show_project(_url, 'name');
+          show_similar_projects(_url, 'name');
         } else {
           $('#info_field').hide();
         }
@@ -175,7 +175,7 @@
       var _homepage = $('#homepage').val().trim();
       if (_homepage) {
         var _url = "{{ url_for('api_projects') }}?homepage=" + _homepage;
-        show_project(_url, 'homepage');
+        show_similar_projects(_url, 'homepage');
       } else {
         $('#info_field').hide();
       }
