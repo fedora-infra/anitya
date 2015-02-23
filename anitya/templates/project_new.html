@@ -131,6 +131,7 @@
         type: 'GET',
         dataType: 'json',
         success: function(res) {
+          $('#info_field_list').html('');
           if (res.total > 0){
             for (i = 0; i < res.projects.length; i++){
               $('#info_field_title').html('Project with the same ' + type);
