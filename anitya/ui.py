@@ -344,6 +344,7 @@ def edit_project(project_id):
                 user_mail=flask.g.auth.email,
             )
             flask.flash('Project edited')
+            flask.session['justedit'] = True
         except anitya.lib.exceptions.AnityaException as err:
             flask.flash(str(err), 'errors')
 
