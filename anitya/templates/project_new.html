@@ -69,6 +69,10 @@
   {{ form.csrf_token }}
 </form>
 
+  <div class="row">
+    <div class="col-md-6" id="info_field">
+    </div>
+  </div>
 {% endblock %}
 
 
@@ -115,10 +119,54 @@
 
   };
 
+  function show_project(_url) {
+    $.ajax({
+        url: _url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(res) {
+          if (res.total > 0){
+            $('#info_field').html(
+              '<div class="list-group">' +
+              '<span class="list-group-item">' +
+              '<p> Project with the same homepage:</p>' +
+              '<ul id="info_field_list"></ul>'
+            );
+          }
+          for (i = 0; i < res.projects.length; i++){
+            $('#info_field_list').append(
+              '<li>'+ res.projects[i].name + '</li>');
+          }
+          $('#info_field').append('</ul></span></div>');
+        },
+      });
+  }
+
+  function check_project(){
+    var _name = $('#name').val().trim();
+    var _homepage = $('#homepage').val().trim();
+    if (_homepage) {
+      var _url = "{{ url_for('api_projects') }}?homepage=" + _homepage;
+      show_project(_url);
+    } else if (_name) {
+      var _url = "{{ url_for('api_projects') }}?pattern=" + _name;
+      show_project(_url);
+    } else {
+      $('#info_field').html('');
+    }
+  }
+
   $(document).ready(function() {
     show_hide();
     $('#backend').change(function() {
       show_hide();
+    });
+
+    $('#name').focusout(function(){
+        check_project()
+    });
+    $('#homepage').focusout(function(){
+      check_project()
     });
   });
 
