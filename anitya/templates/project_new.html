@@ -143,6 +143,15 @@
             $('#info_field').hide();
           }
         },
+        error: function(res) {
+          console.log(res);
+          $('#info_field_list').html('');
+          $('#info_field').show();
+          $('#info_field_title').html(
+            'An error occured while retrieving the list of similar project '
+            + 'please re-try or report the problem to an admin'
+          );
+        },
       });
   }
 
