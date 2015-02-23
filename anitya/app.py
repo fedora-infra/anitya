@@ -146,8 +146,12 @@ def inject_variable():
     ''' Inject into all templates variables that we would like to have all
     the time.
     '''
+    justedit = flask.session.get('justedit', False)
+    if justedit:  # pragma: no cover
+        flask.session['justedit'] = None
     return dict(version=__version__,
-                is_admin=is_admin())
+                is_admin=is_admin(),
+                justedit=justedit)
 
 
 @APP.route('/login/', methods=('GET', 'POST'))

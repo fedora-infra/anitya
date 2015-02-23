@@ -49,7 +49,8 @@
                 </div>
             </div>
             <div class="col-md-4">
-              {% if g.auth.logged_in and (not project.versions or is_admin) %}
+              {% if g.auth.logged_in and (not project.versions or is_admin
+                or justedit) %}
               <button type="submit" class="btn btn-success btn-sm pull-right" id="checknow">
                 <span class="glyphicon glyphicon-refresh"></span>
                 Check now
