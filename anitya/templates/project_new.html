@@ -71,6 +71,12 @@
 
   <div class="row">
     <div class="col-md-6" id="info_field">
+      <div class="list-group">
+        <span class="list-group-item">
+          <p id="info_field_title"></p>
+          <ul id="info_field_list"></ul>
+        </span>
+      </div>
     </div>
   </div>
 {% endblock %}
@@ -126,25 +132,21 @@
         dataType: 'json',
         success: function(res) {
           if (res.total > 0){
-            $('#info_field').html(
-              '<div class="list-group">' +
-              '<span class="list-group-item">' +
-              '<p> Project with the same ' + type + ':</p>' +
-              '<ul id="info_field_list"></ul>'
-            );
             for (i = 0; i < res.projects.length; i++){
+              $('#info_field_title').html('Project with the same ' + type);
               $('#info_field_list').append(
                 '<li>'+ res.projects[i].name + '</li>');
             }
-            $('#info_field').append('</ul></span></div>');
+            $('#info_field').show();
           } else {
-            $('#info_field').html('');
+            $('#info_field').hide();
           }
         },
       });
   }
 
   $(document).ready(function() {
+    $('#info_field').hide();
     show_hide();
     $('#backend').change(function() {
       show_hide();
@@ -156,7 +158,7 @@
           var _url = "{{ url_for('api_projects') }}?pattern=" + _name;
           show_project(_url, 'name');
         } else {
-          $('#info_field').html('');
+          $('#info_field').hide();
         }
     });
     $('#homepage').focusout(function(){
@@ -165,7 +167,7 @@
         var _url = "{{ url_for('api_projects') }}?homepage=" + _homepage;
         show_project(_url, 'homepage');
       } else {
-        $('#info_field').html('');
+        $('#info_field').hide();
       }
     });
   });
