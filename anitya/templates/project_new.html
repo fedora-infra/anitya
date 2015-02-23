@@ -132,28 +132,16 @@
               '<p> Project with the same ' + type + ':</p>' +
               '<ul id="info_field_list"></ul>'
             );
+            for (i = 0; i < res.projects.length; i++){
+              $('#info_field_list').append(
+                '<li>'+ res.projects[i].name + '</li>');
+            }
+            $('#info_field').append('</ul></span></div>');
+          } else {
+            $('#info_field').html('');
           }
-          for (i = 0; i < res.projects.length; i++){
-            $('#info_field_list').append(
-              '<li>'+ res.projects[i].name + '</li>');
-          }
-          $('#info_field').append('</ul></span></div>');
         },
       });
-  }
-
-  function check_project(){
-    var _name = $('#name').val().trim();
-    var _homepage = $('#homepage').val().trim();
-    if (_homepage) {
-      var _url = "{{ url_for('api_projects') }}?homepage=" + _homepage;
-      show_project(_url, 'homepage');
-    } else if (_name) {
-      var _url = "{{ url_for('api_projects') }}?pattern=" + _name;
-      show_project(_url, 'name');
-    } else {
-      $('#info_field').html('');
-    }
   }
 
   $(document).ready(function() {
@@ -163,10 +151,22 @@
     });
 
     $('#name').focusout(function(){
-        check_project()
+        var _name = $('#name').val().trim();
+        if (_name) {
+          var _url = "{{ url_for('api_projects') }}?pattern=" + _name;
+          show_project(_url, 'name');
+        } else {
+          $('#info_field').html('');
+        }
     });
     $('#homepage').focusout(function(){
-      check_project()
+      var _homepage = $('#homepage').val().trim();
+      if (_homepage) {
+        var _url = "{{ url_for('api_projects') }}?homepage=" + _homepage;
+        show_project(_url, 'homepage');
+      } else {
+        $('#info_field').html('');
+      }
     });
   });
 
