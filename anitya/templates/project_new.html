@@ -102,8 +102,8 @@
     if (str == 'Sourceforge'){
         $("label[for='version_url']").text('Sourceforge name');
         $('#version_url').after(
-        "<p>Use this field if the name used on the rss page of the project \
-        differs from the name of the project. </p>" );
+        "<p>Use this field if the name used on the rss page of the project "
+        + "differs from the name of the project. </p>" );
         $('#version_url_row').show();
     };
     if (str == 'custom'){
@@ -131,5 +131,24 @@
       {% endif %}
     }
   });
+
+  {% if context == 'Add' %}
+  $(function() {
+    $('#distro').autocomplete({
+        source: function( request, response ) {
+            $.getJSON(
+              "{{ url_for('.api_distro_names') }}", {
+                pattern: request.term
+              },
+              function( data ) {
+                response( data.distro );
+              }
+            );
+        },
+        minLength: 2,
+        delay: 200,
+    });
+  });
+  {% endif %}
 </script>
 {% endblock %}
