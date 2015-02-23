@@ -123,6 +123,14 @@
 
     $('#example_txt').html(examples[str]);
 
+    if (str == 'custom'){
+      $('#example_txt').append(
+        '<br /> More information at <a href="https://release-monitoring.org'
+        + '/about#test-you-regex">'
+        + 'https://release-monitoring.org/about#test-you-regex</a>'
+      );
+    }
+
   };
 
   function show_similar_projects(_url, type) {
