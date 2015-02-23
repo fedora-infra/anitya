@@ -96,6 +96,8 @@
   function show_hide(){
     $('#regex_row').hide();
     $('#version_url_row').hide();
+    $('#regex').attr('placeholder', '');
+
     $("label[for='version_url']").text('Version URL');
     var str = $( '#backend option:selected' ).text();
     if (str == 'folder'){
@@ -119,6 +121,7 @@
     if (str == 'custom'){
       $('#regex_row').show();
       $('#version_url_row').show();
+      $('#regex').attr('placeholder', 'Leave empty for default regex');
     };
 
     $('#example_txt').html(examples[str]);
