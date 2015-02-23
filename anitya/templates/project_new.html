@@ -69,6 +69,16 @@
   {{ form.csrf_token }}
 </form>
 
+  <div class="row">
+    <div class="col-md-6" id="info_field">
+      <div class="list-group">
+        <span class="list-group-item">
+          <p id="info_field_title"></p>
+          <ul id="info_field_list"></ul>
+        </span>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 
@@ -115,10 +125,60 @@
 
   };
 
+  function show_similar_projects(_url, type) {
+    $.ajax({
+        url: _url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(res) {
+          $('#info_field_list').html('');
+          if (res.total > 0){
+            $('#info_field_title').html('Project with the same ' + type);
+            for (i = 0; i < res.projects.length; i++){
+              $('#info_field_list').append(
+                '<li>'+ res.projects[i].name + '</li>');
+            }
+            $('#info_field').show();
+          } else {
+            $('#info_field').hide();
+          }
+        },
+        error: function(res) {
+          console.log(res);
+          $('#info_field_list').html('');
+          $('#info_field').show();
+          $('#info_field_title').html(
+            'An error occured while retrieving the list of similar project '
+            + 'please re-try or report the problem to an admin'
+          );
+        },
+      });
+  }
+
   $(document).ready(function() {
+    $('#info_field').hide();
     show_hide();
     $('#backend').change(function() {
       show_hide();
+    });
+
+    $('#name').focusout(function(){
+        var _name = $('#name').val().trim();
+        if (_name) {
+          var _url = "{{ url_for('api_projects') }}?pattern=" + _name;
+          show_similar_projects(_url, 'name');
+        } else {
+          $('#info_field').hide();
+        }
+    });
+    $('#homepage').focusout(function(){
+      var _homepage = $('#homepage').val().trim();
+      if (_homepage) {
+        var _url = "{{ url_for('api_projects') }}?homepage=" + _homepage;
+        show_similar_projects(_url, 'homepage');
+      } else {
+        $('#info_field').hide();
+      }
     });
   });
 
