@@ -63,7 +63,7 @@ class Drupal6Backend(BaseBackend):
 
         '''
         name = project.name
-        if 'drupal6:' in name.lower():
+        if name.lower().strip().startswith('drupal6:'):
             name = name[len('drupal6:'):].strip()
 
         url_template = 'https://www.drupal.org/project/%(name)s'

@@ -63,7 +63,7 @@ class Drupal7Backend(BaseBackend):
 
         '''
         name = project.name
-        if 'drupal7:' in name.lower():
+        if name.lower().strip().startswith('drupal7:'):
             name = name[len('drupal7:'):].strip()
 
         url_template = 'https://www.drupal.org/project/%(name)s'
