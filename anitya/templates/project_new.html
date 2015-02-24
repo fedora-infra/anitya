@@ -6,11 +6,11 @@
 <div class="page-header">
   <h1>{{ context }} project</h1>
 </div>
-{% if context == 'Add' %}
+{% if context == 'Add' -%}
 <form method="POST" action="{{ url_for('new_project') }}" >
-{% elif context == 'Edit' %}
+{%- elif context == 'Edit' -%}
 <form method="POST" action="{{ url_for('edit_project', project_id=project.id) }}" >
-{% endif %}
+{%- endif %}
   <div class="row">
     <div class="col-md-6">
       <p> {{ context }} your project to anitya</p>
@@ -37,7 +37,7 @@
               <td id="example_txt"></td>
             </tr>
 
-            {% if context == 'Add' %}
+            {%- if context == 'Add' -%}
             <tr>
               {{ render_field_in_row(form.distro) }}
               <td></td>
@@ -46,7 +46,7 @@
               {{ render_field_in_row(form.package_name) }}
               <td></td>
             </tr>
-            {% endif %}
+            {%- endif -%}
           </table>
         </span>
       </div>
@@ -56,11 +56,11 @@
     <span class="glyphicon glyphicon-plus"></span>
     Submit
   </button>
-  {% if context == 'Add' %}
+  {%- if context == 'Add' -%}
   <a href="{{ url_for('projects') }}">
-  {% elif context == 'Edit' %}
+  {%- elif context == 'Edit' -%}
   <a href="{{ url_for('project', project_id=project.id) }}">
-  {% endif %}
+  {%- endif -%}
     <button type="button" class="btn btn-danger">
       <span class="glyphicon glyphicon-ban-circle"></span>
       Cancel
@@ -87,13 +87,12 @@
 
     var examples = {};
     var more_info = {};
-    {% for plugin in plugins %}
-    {% autoescape false  %}
+    {% for plugin in plugins -%}
+    {%- autoescape false -%}
     examples["{{ plugin.name }}"]="{{ plugin.examples | format_examples }}";
     more_info["{{ plugin.name }}"]="{{ plugin.more_info }}";
-    {% endautoescape %}
-    {% endfor %}
-
+    {%- endautoescape -%}
+    {%- endfor %}
 
   function show_hide(){
     $('#regex_row').hide();

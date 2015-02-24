@@ -44,26 +44,26 @@
 
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-              {% if 'about' == current %}
+              {%- if 'about' == current -%}
               <li class="active">
-              {% else %}
+              {%- else -%}
               <li>
-              {% endif %}
+              {%- endif -%}
                 <a href="{{url_for('about')}}">about</a>
               <li>
-              {% if 'fedmsg' == current %}
+              {%- if 'fedmsg' == current -%}
               <li class="active">
-              {% else %}
+              {%- else -%}
               <li>
-              {% endif %}
+              {%- endif -%}
                 <a href="{{url_for('fedmsg')}}">fedmsg</a>
               <li>
 
-            {% if current == 'projects' %}
+            {%- if current == 'projects' -%}
             <li class="active">
-            {% else %}
+            {%- else -%}
             <li>
-            {% endif %}
+            {%- endif -%}
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   projects
               </a>
@@ -93,80 +93,80 @@
                 </ul>
             </li>
 
-            {% if current == 'distros' %}
+            {%- if current == 'distros' -%}
             <li class="active">
-            {% else %}
+            {%- else -%}
             <li>
-            {% endif %}
+            {%- endif -%}
               <a href="{{url_for('distros')}}">
                   distros
               </a>
             </li>
 
-            {% if g.auth.logged_in %}
-            {% if current == 'Add projects' %}
+            {%- if g.auth.logged_in -%}
+            {%- if current == 'Add projects' -%}
             <li class="active">
-            {% else %}
+            {%- else -%}
             <li>
-            {% endif %}
+            {%- endif -%}
               <a href="{{url_for('new_project')}}">
                   add project
               </a>
             </li>
 
-            {% if is_admin %}
-            {% if current == 'logs' %}
+            {%- if is_admin -%}
+            {%- if current == 'logs' -%}
             <li class="active">
-            {% else %}
+            {%- else -%}
             <li>
-            {% endif %}
+            {%- endif -%}
               <a href="{{url_for('browse_logs')}}">
                   logs
               </a>
             </li>
-            {% endif %}
+            {%- endif -%}
 
             <li>
               <a href="{{url_for('logout')}}?next={{request.url}}">logout</a>
             </li>
-            {% else %}
+            {%- else -%}
             <li>
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <b class="caret"></b> login
                 </a>
                 <ul class="dropdown-menu">
-                  {% if config['ANITYA_WEB_FEDORA_OPENID'] and
-                        config['ANITYA_WEB_ALLOW_FAS_OPENID'] %}
+                  {%- if config['ANITYA_WEB_FEDORA_OPENID'] and
+                        config['ANITYA_WEB_ALLOW_FAS_OPENID'] -%}
                   <li><a href="{{url_for('fedora_login')}}">Fedora</a></li>
                   <li class="divider"></li>
-                  {% endif %}
-                  {% if config['ANITYA_WEB_ALLOW_GOOGLE_OPENID'] %}
+                  {%- endif -%}
+                  {%- if config['ANITYA_WEB_ALLOW_GOOGLE_OPENID'] -%}
                   <li><a href="{{url_for('google_login')}}">Google</a></li>
-                  {% endif %}
-                  {% if config['ANITYA_WEB_ALLOW_YAHOO_OPENID'] %}
+                  {%- endif -%}
+                  {%- if config['ANITYA_WEB_ALLOW_YAHOO_OPENID'] -%}
                   <li><a href="{{url_for('yahoo_login')}}">Yahoo</a></li>
-                  {% endif %}
-                  {% if config['ANITYA_WEB_ALLOW_GENERIC_OPENID'] %}
+                  {%- endif -%}
+                  {%- if config['ANITYA_WEB_ALLOW_GENERIC_OPENID'] -%}
                   <li><a href="{{url_for('login')}}">Other OpenID</a></li>
-                  {% endif %}
+                  {%- endif -%}
                 </ul>
             </li>
-            {% endif %}
+            {%- endif -%}
 
           </ul>
 
         </div><!--/.nav-collapse -->
       </div>
 
-      {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if category, messages %}
+      {%- with messages = get_flashed_messages(with_categories=true) -%}
+        {%- if category, messages -%}
         <ul id="flashes">
-            {% for category, message in messages %}
+            {%- for category, message in messages -%}
             <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
+            {%- endfor -%}
         </ul>
-        {% endif %}
-      {% endwith %}
+        {%- endif -%}
+      {%- endwith -%}
 
       {% block body %}{% endblock %}
 
