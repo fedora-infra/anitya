@@ -383,7 +383,7 @@ class FlaskAdminTest(Modeltests):
                 sess['email'] = 'pingou@pingoured.fr'
 
             output = c.get('/logs', follow_redirects=True)
-            self.assertEqual(output.status_code, 401)
+            self.assertEqual(output.status_code, 200)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
