@@ -43,12 +43,6 @@
 {% endblock %}
 
 {% block jscript %}
-<script type="text/javascript"
-    src="{{ url_for('static', filename='jquery-1.10.2.js') }}">
-</script>
-<script type="text/javascript"
-    src="{{ url_for('static', filename='jquery-ui-1.10.4.custom.min.js') }}">
-</script>
 <script type="text/javascript">
   $(function() {
     $('#searchbox').autocomplete({

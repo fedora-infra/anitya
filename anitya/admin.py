@@ -301,11 +301,12 @@ def delete_project_version(project_id, version):
 @login_required
 def browse_logs():
 
-    if not is_admin():
-        flask.abort(401)
+    if is_admin():
+        user = flask.request.args.get('user', None)
+    else:
+        user = flask.g.auth.email
 
     from_date = flask.request.args.get('from_date', None)
-    user = flask.request.args.get('user', None)
     project = flask.request.args.get('project', None)
     refresh = flask.request.args.get('refresh', False)
     limit = flask.request.args.get('limit', 50)

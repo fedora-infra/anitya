@@ -56,7 +56,7 @@
 {% endblock %}
 
 {% block jscript %}
-<script>
+<script type="text/javascript">
   $('#choices_url').change(function(){
     var name = $('#package_name').val();
     if (!name){
@@ -71,5 +71,22 @@
     }
     $('#regex').val($(this).val() + ':' + name);
   })
+
+  $(function() {
+    $('#distro').autocomplete({
+        source: function( request, response ) {
+            $.getJSON(
+              "{{ url_for('.api_distro_names') }}", {
+                pattern: request.term
+              },
+              function( data ) {
+                response( data.distro );
+              }
+            );
+        },
+        minLength: 2,
+        delay: 200,
+    });
+  });
 </script>
 {% endblock %}

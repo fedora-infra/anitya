@@ -121,7 +121,10 @@ def projects_updated(status='updated'):
         total_page=total_page,
         projects_count=projects_count,
         page=page,
-        status=status)
+        status=status,
+        name=name,
+        log=log,
+    )
 
 
 @APP.route('/distros')
@@ -344,6 +347,7 @@ def edit_project(project_id):
                 user_mail=flask.g.auth.email,
             )
             flask.flash('Project edited')
+            flask.session['justedit'] = True
         except anitya.lib.exceptions.AnityaException as err:
             flask.flash(str(err), 'errors')
 

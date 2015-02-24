@@ -77,7 +77,7 @@ class PearBackendtests(Modeltests):
         """ Test the get_version function of the custom backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '1.6.1'
+        exp = '1.6.2'
         obs = backend.PearBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -97,7 +97,7 @@ class PearBackendtests(Modeltests):
         exp = [
             '0.4.2', '0.4.4', '0.5.0', '0.5.1', '0.5.2', '0.5.3', '1.0.0',
             '1.0.1', '1.5.0', '1.5.1', '1.5.2', '1.5.3', '1.5.4', '1.5.5',
-            '1.6.0', '1.6.1']
+            '1.6.0', '1.6.1', '1.6.2']
         obs = backend.PearBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
