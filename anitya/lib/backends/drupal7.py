@@ -68,8 +68,8 @@ class Drupal7Backend(BaseBackend):
 
         url_template = 'https://www.drupal.org/project/%(name)s'
 
-        url = url_template % {'name': project.name}
-        regex = REGEX % {'name': project.name}
+        url = url_template % {'name': name}
+        regex = REGEX % {'name': name}
         versions = None
 
         try:
