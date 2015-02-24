@@ -86,9 +86,11 @@
 <script type="text/javascript">
 
     var examples = {};
+    var more_info = {};
     {% for plugin in plugins %}
     {% autoescape false  %}
     examples["{{ plugin.name }}"]="{{ plugin.examples | format_examples }}";
+    more_info["{{ plugin.name }}"]="{{ plugin.more_info }}";
     {% endautoescape %}
     {% endfor %}
 
@@ -126,12 +128,8 @@
 
     $('#example_txt').html(examples[str]);
 
-    if (str == 'custom'){
-      $('#example_txt').append(
-        '<br /> More information in the '
-        + '<a href="{{ url_for("about") }}#test-you-regex">'
-        + 'about#test-you-regex</a>'
-      );
+    if (more_info[str]){
+      $('#example_txt').append('<br />' + more_info[str]);
     }
 
   };
