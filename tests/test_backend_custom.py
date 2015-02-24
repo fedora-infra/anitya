@@ -102,7 +102,7 @@ class CustomBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '4.3'
+        exp = '4.4.1'
         obs = backend.CustomBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -125,7 +125,7 @@ class CustomBackendtests(Modeltests):
         pid = 3
         project = model.Project.get(self.session, pid)
         exp = [u'3.1.1', u'4.0', u'4.0.1', u'4.0.2', u'4.0.3',
-               u'4.1', u'4.2', u'4.3']
+               u'4.1', u'4.2', u'4.3', u'4.4.0', u'4.4.1']
         obs = backend.CustomBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
