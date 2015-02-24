@@ -27,6 +27,9 @@ class Drupal6Backend(BaseBackend):
         'https://www.drupal.org/project/pathauto',
         'https://www.drupal.org/project/wysiwyg',
     ]
+    more_info = 'If the project exists for Drupal 6 and 7 and is '\
+        'monitored for both, you can prefix the name with `Drupal6:`, '\
+        'for example: `Drupal6: cck`.'
 
     @classmethod
     def get_version(cls, project):
@@ -59,9 +62,13 @@ class Drupal6Backend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
+        name = project.name
+        if 'drupal6:' in name.lower():
+            name = name[len('drupal6:'):].strip()
+
         url_template = 'https://www.drupal.org/project/%(name)s'
 
-        url = url_template % {'name': project.name}
+        url = url_template % {'name': name}
         regex = REGEX % {'name': project.name}
         versions = None
 
