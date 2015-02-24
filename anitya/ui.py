@@ -121,7 +121,10 @@ def projects_updated(status='updated'):
         total_page=total_page,
         projects_count=projects_count,
         page=page,
-        status=status)
+        status=status,
+        name=name,
+        log=log,
+    )
 
 
 @APP.route('/distros')
