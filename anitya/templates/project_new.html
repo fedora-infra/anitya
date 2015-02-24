@@ -128,9 +128,9 @@
 
     if (str == 'custom'){
       $('#example_txt').append(
-        '<br /> More information at <a href="https://release-monitoring.org'
-        + '/about#test-you-regex">'
-        + 'https://release-monitoring.org/about#test-you-regex</a>'
+        '<br /> More information in the '
+        + '<a href="{{ url_for("about") }}#test-you-regex">'
+        + 'about#test-you-regex</a>'
       );
     }
 
