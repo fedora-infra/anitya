@@ -114,7 +114,6 @@
               </a>
             </li>
 
-            {%- if is_admin -%}
             {%- if current == 'logs' -%}
             <li class="active">
             {%- else -%}
@@ -124,7 +123,6 @@
                   logs
               </a>
             </li>
-            {%- endif -%}
 
             <li>
               <a href="{{url_for('logout')}}?next={{request.url}}">logout</a>
