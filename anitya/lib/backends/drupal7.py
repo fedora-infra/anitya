@@ -27,6 +27,9 @@ class Drupal7Backend(BaseBackend):
         'https://www.drupal.org/project/pathauto',
         'https://www.drupal.org/project/wysiwyg',
     ]
+    more_info = 'If the project exists for Drupal 6 and 7 and is '\
+        'monitored for both, you can prefix the name with `Drupal7:`, '\
+        'for example: `Drupal7: cck`.'
 
     @classmethod
     def get_version(cls, project):
@@ -59,6 +62,10 @@ class Drupal7Backend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
+        name = project.name
+        if 'drupal7:' in name.lower():
+            name = name[len('drupal7:'):].strip()
+
         url_template = 'https://www.drupal.org/project/%(name)s'
 
         url = url_template % {'name': project.name}
