@@ -99,7 +99,7 @@ class Drupal6Backendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '1.8'
+        exp = '1.9'
         obs = backend.Drupal6Backend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -121,7 +121,7 @@ class Drupal6Backendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = ['1.8']
+        exp = ['1.9']
         obs = backend.Drupal6Backend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 

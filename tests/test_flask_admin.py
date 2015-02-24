@@ -82,6 +82,7 @@ class FlaskAdminTest(Modeltests):
                 sess['email'] = 'pingou@pingoured.fr'
 
             output = c.get('/distro/add', follow_redirects=True)
+            print output.data
             self.assertEqual(output.status_code, 200)
 
             self.assertTrue('<h1>Add a new disribution</h1>' in output.data)
