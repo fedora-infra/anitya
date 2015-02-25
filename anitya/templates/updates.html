@@ -24,13 +24,13 @@
             {% if page > 1%}
               <a href="{{
                 url_for('projects_updated',
-                        status=status, name=name, log=log) }}?page={{page - 1}}">
+                        status=status, name=name, log=log, page=page-1) }}">
                 «
               </a>
             {% else %}
               <a href="{{
                 url_for('projects_updated',
-                        status=status, name=name, log=log) }}?page={{page}}">
+                        status=status, name=name, log=log, page=page) }}">
                 «
               </a>
             {% endif %}
@@ -42,13 +42,13 @@
             {% if page < total_page %}
               <a href="{{
                 url_for('projects_updated',
-                        status=status, name=name, log=log) }}?page={{page + 1}}">
+                        status=status, name=name, log=log, page=page+1) }}">
                 »
               </a>
             {% else %}
               <a href="{{
                 url_for('projects_updated',
-                        status=status, name=name, log=log) }}?page={{page}}">
+                        status=status, name=name, log=log, page=page) }}">
                 »
               </a>
             {% endif %}
