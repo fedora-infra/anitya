@@ -56,6 +56,37 @@ def project(project_id):
     )
 
 
+@APP.route('/project/<project_name>')
+@APP.route('/project/<project_name>/')
+def project_name(project_name):
+
+    page = flask.request.args.get('page', 1)
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+
+    projects = anitya.lib.model.Project.search(
+        SESSION, pattern=project_name, page=page)
+    projects_count = anitya.lib.model.Project.search(
+        SESSION, pattern=project_name, count=True)
+
+    if projects_count == 1:
+        return project(projects[0].id)
+
+    total_page = int(ceil(projects_count / float(50)))
+
+    return flask.render_template(
+        'search.html',
+        current='projects',
+        pattern=project_name,
+        projects=projects,
+        total_page=total_page,
+        projects_count=projects_count,
+        page=page)
+
+
 @APP.route('/projects')
 @APP.route('/projects/')
 def projects():
