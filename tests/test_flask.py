@@ -474,7 +474,8 @@ a backend for the project hosting. More information below.</p>"""
             self.assertTrue(
                 '<li class="error">Could not edit the mapping of geany on '
                 'CentOS, there is already a package geany on CentOS '
-                'as part as the project `geany`.</li>'
+                'as part of the project <a href="/project/1/">geany'
+                '</a>.</li>'
                 in output.data)
             self.assertTrue(
                 '<h1>Project: geany</h1>' in output.data)
@@ -570,7 +571,8 @@ a backend for the project hosting. More information below.</p>"""
             self.assertTrue(
                 '<li class="error">Could not edit the mapping of geany2 on '
                 'CentOS, there is already a package geany2 on CentOS '
-                'as part as the project `geany`.</li>'
+                'as part of the project <a href="/project/1/">geany'
+                '</a>.</li>'
                 in output.data)
             self.assertTrue(
                 '<h1>Project: geany</h1>' in output.data)
