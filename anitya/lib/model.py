@@ -521,6 +521,7 @@ class Project(BASE):
     def search(cls, session, pattern, distro=None, page=None, count=False):
         ''' Search the projects by their name or package name '''
 
+        pattern = pattern.replace('_', '\_')
         if '*' in pattern:
             pattern = pattern.replace('*', '%')
 
