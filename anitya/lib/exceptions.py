@@ -20,3 +20,32 @@ class AnityaPluginException(AnityaException):
     an error.
     '''
     pass
+
+
+class AnityaInvalidMappingException(Exception):
+    ''' Specific exception class for invalid mapping. '''
+
+    def __init__(self, pkgname, distro, found_pkgname,
+                 found_distro, project_id, project_name, link=None):
+        self.pkgname = pkgname
+        self.distro = distro
+        self.found_pkgname = found_pkgname
+        self.found_distro = found_distro
+        self.project_id = project_id
+        self.project_name = project_name
+        self.link = link
+
+    @property
+    def message(self):
+        return 'Could not edit the mapping of {pkgname} on ' \
+                '{distro}, there is already a package {found_pkgname} on ' \
+                '{found_distro} as part of the project <a href="{link}">' \
+                '{project_name}</a>.'.format(
+            pkgname=self.pkgname,
+            distro=self.distro,
+            found_pkgname=self.found_pkgname,
+            found_distro=self.found_distro,
+            project_id=self.project_id,
+            project_name=self.project_name,
+            link= self.link,
+        )
