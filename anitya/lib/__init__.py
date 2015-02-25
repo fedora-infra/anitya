@@ -208,8 +208,9 @@ def map_project(
     if other_pkg:
         raise anitya.lib.exceptions.AnityaException(
             'Could not edit the mapping of %s on %s, there is already '
-            'a package %s on %s.' % (
-                pkgname, distro, package_name, distribution))
+            'a package %s on %s as part as the project `%s`.' % (
+                pkgname, distro, package_name, distribution,
+                other_pkg.project.name))
 
     edited = None
     if not pkg:
