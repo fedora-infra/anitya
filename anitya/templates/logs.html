@@ -35,11 +35,13 @@
     <ul class="pagination pagination-sm">
         <li>
             {% if page > 1%}
-              <a href="{{ url_for('browse_logs') }}?page={{page - 1}}">
+              <a href="{{ url_for('browse_logs', page=page-1, project=project,
+                user=user, from_date=from_date) }}">
                 «
               </a>
             {% else %}
-              <a href="{{ url_for('browse_logs') }}?page={{page}}">
+              <a href="{{ url_for('browse_logs', page=page, project=project,
+                user=user, from_date=from_date) }}">
                 «
               </a>
             {% endif %}
@@ -49,11 +51,13 @@
         </li>
         <li>
             {% if page < total_page %}
-              <a href="{{ url_for('browse_logs') }}?page={{page + 1}}">
+              <a href="{{ url_for('browse_logs', page=page+1, project=project,
+                user=user, from_date=from_date) }}">
                 »
               </a>
             {% else %}
-              <a href="{{ url_for('browse_logs') }}?page={{page}}">
+              <a href="{{ url_for('browse_logs', page=page, project=project,
+                user=user, from_date=from_date) }}">
                 »
               </a>
             {% endif %}
