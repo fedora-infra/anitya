@@ -160,7 +160,9 @@
         {%- if category, messages -%}
         <ul id="flashes">
             {%- for category, message in messages -%}
+            {%- autoescape false -%}
             <li class="{{ category }}">{{ message }}</li>
+            {%- endautoescape -%}
             {%- endfor -%}
         </ul>
         {%- endif -%}
