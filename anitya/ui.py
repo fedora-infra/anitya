@@ -40,8 +40,8 @@ def fedmsg():
     )
 
 
-@APP.route('/project/<project_id>')
-@APP.route('/project/<project_id>/')
+@APP.route('/project/<int:project_id>')
+@APP.route('/project/<int:project_id>/')
 def project(project_id):
 
     project = anitya.lib.model.Project.by_id(SESSION, project_id)
