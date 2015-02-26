@@ -40,10 +40,7 @@
                 «
               </a>
             {% else %}
-              <a href="{{ url_for('browse_logs', page=page, project=project,
-                user=user, from_date=from_date) }}">
-                «
-              </a>
+              <a> « </a>
             {% endif %}
         </li>
         <li>
@@ -56,10 +53,7 @@
                 »
               </a>
             {% else %}
-              <a href="{{ url_for('browse_logs', page=page, project=project,
-                user=user, from_date=from_date) }}">
-                »
-              </a>
+              <a> » </a>
             {% endif %}
         </li>
     </ul>
