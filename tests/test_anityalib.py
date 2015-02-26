@@ -191,7 +191,7 @@ class AnityaLibtests(Modeltests):
         self.assertEqual(len(project_obj.packages), 0)
 
         self.assertRaises(
-            anitya.lib.exceptions.AnityaException,
+            anitya.lib.exceptions.AnityaInvalidMappingException,
             anitya.lib.map_project,
             self.session,
             project=project_obj,

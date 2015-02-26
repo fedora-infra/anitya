@@ -12,13 +12,11 @@
     <ul class="pagination pagination-sm">
         <li>
             {% if page > 1%}
-              <a href="{{ url_for('projects_search') }}?page={{page - 1}}&pattern={{pattern}}">
+              <a href="{{ url_for('projects_search', page=page-1, pattern=pattern) }}">
                 «
               </a>
             {% else %}
-              <a href="{{url_for('projects_search')}}?page={{page}}&pattern={{pattern}}">
-                «
-              </a>
+              <a> « </a>
             {% endif %}
         </li>
         <li>
@@ -26,13 +24,11 @@
         </li>
         <li>
             {% if page < total_page %}
-              <a href="{{ url_for('projects_search') }}?page={{page + 1}}&pattern={{pattern}}">
+              <a href="{{ url_for('projects_search', page=page+1, pattern=pattern) }}">
                 »
               </a>
             {% else %}
-              <a href="{{ url_for('projects_search') }}?page={{page}}&pattern={{pattern}}">
-                »
-              </a>
+              <a> » </a>
             {% endif %}
         </li>
     </ul>

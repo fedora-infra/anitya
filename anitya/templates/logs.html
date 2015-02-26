@@ -35,13 +35,12 @@
     <ul class="pagination pagination-sm">
         <li>
             {% if page > 1%}
-              <a href="{{ url_for('browse_logs') }}?page={{page - 1}}">
+              <a href="{{ url_for('browse_logs', page=page-1, project=project,
+                user=user, from_date=from_date) }}">
                 «
               </a>
             {% else %}
-              <a href="{{ url_for('browse_logs') }}?page={{page}}">
-                «
-              </a>
+              <a> « </a>
             {% endif %}
         </li>
         <li>
@@ -49,13 +48,12 @@
         </li>
         <li>
             {% if page < total_page %}
-              <a href="{{ url_for('browse_logs') }}?page={{page + 1}}">
+              <a href="{{ url_for('browse_logs', page=page+1, project=project,
+                user=user, from_date=from_date) }}">
                 »
               </a>
             {% else %}
-              <a href="{{ url_for('browse_logs') }}?page={{page}}">
-                »
-              </a>
+              <a> » </a>
             {% endif %}
         </li>
     </ul>
@@ -69,10 +67,12 @@
         <input type="text" name="project" placeholder="Project name"
             class="form-control" value="{{ project }}"/>
       </div>
+      {% if is_admin %}
       <div class="form-group col-xs-6 col-sm-3">
         <input type="text" name="user" placeholder="User identifier"
             class="form-control" value="{{ user }}"/>
       </div>
+      {% endif %}
       <div class="form-group col-xs-6 col-sm-3">
         <div class='input-group date' id='datetimepicker'>
             <input type='text' class="form-control col-sm-6" name="from_date"
