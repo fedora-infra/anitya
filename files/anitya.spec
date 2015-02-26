@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.1.17
+Version:        0.2.0
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,6 +109,22 @@ install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Thu Feb 26 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.2.0
+- Fix doc typos (reported by tibbs, fixed by Ralph Bean)
+- Fix typo when unable to retrieve the latest version (Thomas Spura)
+- Autocomplete distribution name when mapping a project
+- Dynamically check existing projects while adding a new one
+- Check now button available after an edit
+- More information for the custom backend
+- Fix the drupal backends to make them suppor project named 'drupal6: foo'
+  or 'drupal7: bar'
+- Fix pagination on quite some pages
+- Allow users to browse their own log
+- On postgresql '_' is a special character that we should escape
+- User friendly url for example: /project/guake
+- More info when mapping a project fails (including a link to the project
+  causing the failure to map)
+
 * Tue Feb 10 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.1.17-1
 - Update to 0.1.17
 - Bring back from cnucnu support for URLs including '*', ie:
