@@ -28,11 +28,7 @@
                 «
               </a>
             {% else %}
-              <a href="{{
-                url_for('projects_updated',
-                        status=status, name=name, log=log, page=page) }}">
-                «
-              </a>
+              <a> « </a>
             {% endif %}
         </li>
         <li>
@@ -46,11 +42,7 @@
                 »
               </a>
             {% else %}
-              <a href="{{
-                url_for('projects_updated',
-                        status=status, name=name, log=log, page=page) }}">
-                »
-              </a>
+              <a> » </a>
             {% endif %}
         </li>
     </ul>
