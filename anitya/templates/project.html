@@ -129,6 +129,14 @@
                         Edit
                       </button>
                     </a>
+                    <a href="{{
+                      url_for('flag_project',
+                              project_id=project.id}}">
+                      <button type="submit" class="btn btn-info btn-sm pull-right">
+                        <span class="glyphicon glyphicon-flag"></span>
+                        Flag
+                      </button>
+                    </a>
                   </td>
                   {% if is_admin %}
                   <td>

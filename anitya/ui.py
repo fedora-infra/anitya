@@ -434,6 +434,51 @@ def edit_project(project_id):
     )
 
 
+@APP.route('/project/<project_id>/flag', methods=['GET', 'POST'])
+@login_required
+def flag_project(project_id):
+
+    project = anitya.lib.model.Project.get(SESSION, project_id)
+    if not project:
+        flask.abort(404)
+
+    plugins = anitya.lib.plugins.load_plugins(SESSION)
+    plg_names = [plugin.name for plugin in plugins]
+
+    form = anitya.forms.FlagProjectForm(
+        obj=project)
+
+    if form.validate_on_submit():
+        try:
+            # TODO: add anitya.lib.flag_project
+            anitya.lib.flag_project(
+                SESSION,
+                project=project,
+                name=form.name.data.strip(),
+                regex=form.regex.data.strip(),
+                user_mail=flask.g.auth.email,
+            )
+            flask.flash('Project flagged for admin review')
+            # TODO: what happens with justflag? Need to change something
+            # somewhere else for that to work?
+            flask.session['justflag'] = True
+        except anitya.lib.exceptions.AnityaException as err:
+            flask.flash(str(err), 'errors')
+
+        return flask.redirect(
+            flask.url_for('project', project_id=project.id)
+        )
+
+    return flask.render_template(
+        'project_flag.html',
+        context='Flag',
+        current='projects',
+        form=form,
+        project=project,
+        plugins=plugins,
+    )
+
+
 @APP.route('/project/<project_id>/map', methods=['GET', 'POST'])
 @login_required
 def map_project(project_id):

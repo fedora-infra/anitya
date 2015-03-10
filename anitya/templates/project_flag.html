@@ -1,0 +1,192 @@
+{% extends "master.html" %}
+{% from "functions.html" import render_field_in_row %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Flag project</h1>
+</div>
+<form method="POST" action="{{ url_for('flag_project', project_id=project.id) }}" >
+  <div class="row">
+    <div class="col-md-12">
+      <p> Flag a project for admin review. Use this form to request that the project
+          be deleted, or otherwise changed in a way that can't be done normally.</p>
+      <div class="list-group">
+        <span class="list-group-item">
+          <table class="table table-condensed">
+            <tr>
+              {{ render_field_in_row(form.reason) }}
+            </tr>
+          </table>
+        </span>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-success">
+    <span class="glyphicon glyphicon-plus"></span>
+    Submit
+  </button>
+  {%- if context == 'Add' -%}
+  <a href="{{ url_for('projects') }}">
+  {%- elif context == 'Edit' -%}
+  <a href="{{ url_for('project', project_id=project.id) }}">
+  {%- endif -%}
+    <button type="button" class="btn btn-danger">
+      <span class="glyphicon glyphicon-ban-circle"></span>
+      Cancel
+    </button>
+  </a>
+  {{ form.csrf_token }}
+</form>
+
+  <div class="row">
+    <div class="col-md-6" id="info_field">
+      <div class="list-group">
+        <span class="list-group-item">
+          <p id="info_field_title"></p>
+          <ul id="info_field_list"></ul>
+        </span>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+{% block jscript %}
+<script type="text/javascript">
+
+    var examples = {};
+    var more_info = {};
+    {% for plugin in plugins -%}
+    {%- autoescape false -%}
+    examples["{{ plugin.name }}"]="{{ plugin.examples | format_examples }}";
+    more_info["{{ plugin.name }}"]="{{ plugin.more_info }}";
+    {%- endautoescape -%}
+    {%- endfor %}
+
+  function show_hide(){
+    $('#regex_row').hide();
+    $('#version_url_row').hide();
+    $('#regex').attr('placeholder', '');
+
+    $("label[for='version_url']").text('Version URL');
+    var str = $( '#backend option:selected' ).text();
+    if (str == 'folder'){
+      $('#version_url_row').show();
+    };
+    if (str == 'Github'){
+        $("label[for='version_url']").text('Github owner/project');
+        $('#version_url_row').show();
+    };
+    if (str == 'Packagist'){
+        $("label[for='version_url']").text('Packagist owner/group');
+        $('#version_url_row').show();
+    };
+    if (str == 'Sourceforge'){
+        $("label[for='version_url']").text('Sourceforge name');
+        $('#version_url').after(
+        "<p>Use this field if the name used on the rss page of the project "
+        + "differs from the name of the project. </p>" );
+        $('#version_url_row').show();
+    };
+    if (str == 'custom'){
+      $('#regex_row').show();
+      $('#version_url_row').show();
+      $('#regex').attr('placeholder', 'Leave empty for default regex');
+    };
+
+    $('#example_txt').html(examples[str]);
+
+    if (more_info[str]){
+      $('#example_txt').append('<br />' + more_info[str]);
+    }
+
+  };
+
+  function show_similar_projects(_url, type) {
+    $.ajax({
+        url: _url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(res) {
+          $('#info_field_list').html('');
+          if (res.total > 0){
+            $('#info_field_title').html('Project with the same ' + type);
+            for (i = 0; i < res.projects.length; i++){
+              $('#info_field_list').append(
+                '<li>'+ res.projects[i].name + '</li>');
+            }
+            $('#info_field').show();
+          } else {
+            $('#info_field').hide();
+          }
+        },
+        error: function(res) {
+          console.log(res);
+          $('#info_field_list').html('');
+          $('#info_field').show();
+          $('#info_field_title').html(
+            'An error occured while retrieving the list of similar project '
+            + 'please re-try or report the problem to an admin'
+          );
+        },
+      });
+  }
+
+  $(document).ready(function() {
+    $('#info_field').hide();
+    show_hide();
+    $('#backend').change(function() {
+      show_hide();
+    });
+
+    $('#name').focusout(function(){
+        var _name = $('#name').val().trim();
+        if (_name) {
+          var _url = "{{ url_for('api_projects') }}?pattern=" + _name;
+          show_similar_projects(_url, 'name');
+        } else {
+          $('#info_field').hide();
+        }
+    });
+    $('#homepage').focusout(function(){
+      var _homepage = $('#homepage').val().trim();
+      if (_homepage) {
+        var _url = "{{ url_for('api_projects') }}?homepage=" + _homepage;
+        show_similar_projects(_url, 'homepage');
+      } else {
+        $('#info_field').hide();
+      }
+    });
+  });
+
+  $('body').bind('keyup', function(event) {
+    if (event.which == 27) { // esc
+      {% if context == 'Add' %}
+      window.location.replace("{{ url_for('projects') }}");
+      {% elif context == 'Edit' %}
+      window.location.replace("{{ url_for('project', project_id=project.id) }}");
+      {% endif %}
+    }
+  });
+
+  {% if context == 'Add' %}
+  $(function() {
+    $('#distro').autocomplete({
+        source: function( request, response ) {
+            $.getJSON(
+              "{{ url_for('.api_distro_names') }}", {
+                pattern: request.term
+              },
+              function( data ) {
+                response( data.distro );
+              }
+            );
+        },
+        minLength: 2,
+        delay: 200,
+    });
+  });
+  {% endif %}
+</script>
+{% endblock %}
