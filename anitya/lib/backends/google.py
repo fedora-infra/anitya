@@ -60,6 +60,6 @@ class GoogleBackend(BaseBackend):
         url = 'http://code.google.com/p/%(name)s/downloads/list'\
             '?sort=releasedate' % {'name': projectname}
 
-        regex = REGEX % {'name': projectname}
+        regex = REGEX % {'name': project.name}
 
         return get_versions_by_regex(url, regex, project)
