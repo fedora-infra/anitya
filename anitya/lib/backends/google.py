@@ -56,8 +56,9 @@ class GoogleBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
+	projectname = project.name.lower()
         url = 'http://code.google.com/p/%(name)s/downloads/list'\
-            '?sort=releasedate' % {'name': project.name}
+            '?sort=releasedate' % {'name': projectname}
 
         regex = REGEX % {'name': project.name}
 
