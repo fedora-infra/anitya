@@ -57,7 +57,7 @@ class GoogleBackend(BaseBackend):
 
         '''
         url = 'http://code.google.com/p/%(name)s/downloads/list'\
-            '?sort=releasedate' % {'name': project.name}
+            '?sort=releasedate' % {'name': project.name.lower()}
 
         regex = REGEX % {'name': project.name}
 
