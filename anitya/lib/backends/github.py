@@ -21,7 +21,7 @@ class GithubBackend(BaseBackend):
     be used to retrieve the version information.
     '''
 
-    name = 'Github'
+    name = 'GitHub'
     examples = [
         'https://github.com/fedora-infra/fedocal',
         'https://github.com/fedora-infra/pkgdb2',
