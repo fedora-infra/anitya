@@ -303,6 +303,7 @@ class Project(BASE):
     )
     version_url = sa.Column(sa.String(200), nullable=True)
     regex = sa.Column(sa.String(200), nullable=True)
+    insecure = sa.Column(sa.Boolean, nullable=False, default=False)
 
     latest_version = sa.Column(sa.String(50))
     logs = sa.Column(sa.Text)
