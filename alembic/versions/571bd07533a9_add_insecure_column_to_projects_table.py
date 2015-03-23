@@ -15,12 +15,18 @@ import sqlalchemy as sa
 
 
 def upgrade():
+    ''' Add the `insecure` column on the projects table. '''
     op.add_column(
         'projects',
         sa.Column(
-            'insecure', sa.Boolean(), nullable=False, server_default=False)
+            'insecure',
+            sa.Boolean,
+            default=False,
+            server_default="FALSE",
+            nullable=False)
     )
 
 
 def downgrade():
+    ''' Drop the `insecure` column of the projects table. '''
     op.drop_column('projects', 'insecure')
