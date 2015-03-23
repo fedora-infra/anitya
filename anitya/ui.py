@@ -375,6 +375,7 @@ def edit_project(project_id):
                 backend=form.backend.data.strip(),
                 version_url=form.version_url.data.strip(),
                 regex=form.regex.data.strip(),
+                insecure=form.insecure.data,
                 user_mail=flask.g.auth.email,
             )
             flask.flash('Project edited')
