@@ -1,13 +1,15 @@
-python-openid
-flask-openid
-flask
-sqlalchemy
-wtforms
-flask-wtf
-docutils
-markupsafe
+alembic
 bunch
+dateutils
+docutils
 fedmsg
+flask
+flask-openid
+flask-wtf
+markupsafe
+python-openid
+sqlalchemy
 # https://github.com/ironfroggy/straight.plugin/issues/17#issuecomment-41466275
 straight.plugin==1.4.0-post-1
-dateutils
+wtforms
+
