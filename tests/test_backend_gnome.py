@@ -84,7 +84,7 @@ class GnomeBackendtests(Modeltests):
         """ Test the get_version function of the gnome backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '3.13'
+        exp = '3.16'
         obs = backend.GnomeBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -98,7 +98,7 @@ class GnomeBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '3.15'
+        exp = '3.16'
         obs = backend.GnomeBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -111,7 +111,8 @@ class GnomeBackendtests(Modeltests):
             '1.8', '1.9', '1.10', '1.11', '1.12', '2.21', '2.22', '2.23',
             '2.24', '2.25', '2.26', '2.27', '2.28', '2.29', '2.30', '2.31',
             '2.32', '2.91', '3.0', '3.1', '3.2', '3.3', '3.4', '3.5', '3.6',
-            '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13',
+            '3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.15',
+            '3.16',
         ]
         obs = backend.GnomeBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -130,7 +131,7 @@ class GnomeBackendtests(Modeltests):
             '2.19', '2.20', '2.21', '2.22', '2.23', '2.24', '2.25', '2.26',
             '2.27', '2.28', '2.29', '2.30', '2.31', '2.32', '2.90', '2.91',
             '3.0', '3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8',
-            '3.9', '3.10', '3.11', '3.12', '3.13', '3.14', '3.15',
+            '3.9', '3.10', '3.11', '3.12', '3.13', '3.14', '3.15', '3.16',
         ]
         obs = backend.GnomeBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
