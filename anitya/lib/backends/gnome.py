@@ -58,7 +58,22 @@ class GnomeBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url = 'https://download.gnome.org/sources/%(name)s/' % {
+        # First try to get the version by using the cache.json file
+        url = 'https://download.gnome.org/sources/%(name)s/cache.json' % {
             'name': project.name}
 
-        return get_versions_by_regex(url, REGEX, project)
+        output = None
+        try:
+            req = cls.call_url(url)
+            data = req.json()
+            for item in data:
+                if isinstance(item, dict) and project.name in item \
+                        and isinstance(item[project.name], list):
+                    output = item[project.name]
+        except Exception:  # pragma: no cover
+            # if it fails, try using a regex
+            url = 'https://download.gnome.org/sources/%(name)s/' % {
+                'name': project.name}
+            output = get_versions_by_regex(url, REGEX, project)
+
+        return output
