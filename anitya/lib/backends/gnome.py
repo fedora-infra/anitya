@@ -14,6 +14,32 @@ from anitya.lib.backends import BaseBackend, get_versions_by_regex
 REGEX = b'href="([0-9][0-9.]*)/"'
 
 
+def use_gnome_cache_json(project):
+    ''' Try retrieving the specified project's versions using the cache.json
+    file if there is one.
+    '''
+    output = None
+    url = 'https://download.gnome.org/sources/%(name)s/cache.json' % {
+        'name': project.name}
+    req = cls.call_url(url)
+    data = req.json()
+    for item in data:
+        if isinstance(item, dict) and project.name in item \
+                and isinstance(item[project.name], list):
+            output = item[project.name]
+    return output
+
+
+def use_gnome_regex(project):
+    ''' Try retrieving the specified project's versions a regular expression.
+    '''
+    output = None
+    url = 'https://download.gnome.org/sources/%(name)s/' % {
+                'name': project.name}
+    output = get_versions_by_regex(url, REGEX, project)
+    return output
+
+
 class GnomeBackend(BaseBackend):
     ''' The custom class for project hosted by the GNOME project.
 
@@ -58,22 +84,12 @@ class GnomeBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        # First try to get the version by using the cache.json file
-        url = 'https://download.gnome.org/sources/%(name)s/cache.json' % {
-            'name': project.name}
 
         output = None
         try:
-            req = cls.call_url(url)
-            data = req.json()
-            for item in data:
-                if isinstance(item, dict) and project.name in item \
-                        and isinstance(item[project.name], list):
-                    output = item[project.name]
-        except Exception:  # pragma: no cover
-            # if it fails, try using a regex
-            url = 'https://download.gnome.org/sources/%(name)s/' % {
-                'name': project.name}
-            output = get_versions_by_regex(url, REGEX, project)
+            # First try to get the version by using the cache.json file
+            use_gnome_cache_json(project)
+        except Exception:
+            use_gnome_regex(project)
 
         return output
