@@ -97,6 +97,7 @@ class AnityaLibtests(Modeltests):
             backend='PyPI',
             version_url=None,
             regex=None,
+            insecure=False,
             user_mail='noreply@fedoraproject.org')
 
         project_objs = anitya.lib.model.Project.all(self.session)
@@ -116,6 +117,7 @@ class AnityaLibtests(Modeltests):
             backend=project_objs[2].backend,
             version_url=project_objs[2].version_url,
             regex=project_objs[2].regex,
+            insecure=False,
             user_mail='noreply@fedoraproject.org',
         )
 
