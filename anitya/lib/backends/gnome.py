@@ -21,7 +21,7 @@ def use_gnome_cache_json(project):
     output = None
     url = 'https://download.gnome.org/sources/%(name)s/cache.json' % {
         'name': project.name}
-    req = cls.call_url(url)
+    req = BaseBackend.call_url(url)
     data = req.json()
     for item in data:
         if isinstance(item, dict) and project.name in item \
@@ -88,8 +88,8 @@ class GnomeBackend(BaseBackend):
         output = None
         try:
             # First try to get the version by using the cache.json file
-            use_gnome_cache_json(project)
+            output = use_gnome_cache_json(project)
         except Exception:
-            use_gnome_regex(project)
+            output = use_gnome_regex(project)
 
         return output
