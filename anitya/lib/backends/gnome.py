@@ -8,6 +8,7 @@
 
 """
 
+import anitya
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 
 
@@ -89,7 +90,8 @@ class GnomeBackend(BaseBackend):
         try:
             # First try to get the version by using the cache.json file
             output = use_gnome_cache_json(project)
-        except Exception:
+        except Exception as err:
+            anitya.LOG.exception(err)
             output = use_gnome_regex(project)
 
         return output
