@@ -32,6 +32,9 @@
             <tr id="regex_row">
               {{ render_field_in_row(form.regex) }}
             </tr>
+            <tr id="insecure_row">
+              {{ render_field_in_row(form.insecure) }}
+            </tr>
             <tr id="examples_row">
               <th>Examples:</th>
               <td id="example_txt"></td>
@@ -97,6 +100,7 @@
   function show_hide(){
     $('#regex_row').hide();
     $('#version_url_row').hide();
+    $('#insecure_row').hide();
     $('#regex').attr('placeholder', '');
 
     $("label[for='version_url']").text('Version URL');
@@ -122,6 +126,7 @@
     if (str == 'custom'){
       $('#regex_row').show();
       $('#version_url_row').show();
+      $('#insecure_row').show();
       $('#regex').attr('placeholder', 'Leave empty for default regex');
     };
 

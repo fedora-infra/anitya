@@ -3,7 +3,7 @@
 """ Forms used in anitya. """
 
 from flask.ext import wtf
-from wtforms import TextField, validators, SelectField
+from wtforms import TextField, validators, SelectField, BooleanField
 
 
 class ProjectForm(wtf.Form):
@@ -16,6 +16,8 @@ class ProjectForm(wtf.Form):
     )
     version_url = TextField('Version URL', [validators.optional()])
     regex = TextField('Regex', [validators.optional()])
+    insecure = BooleanField(
+        'Use insecure connection', [validators.optional()])
 
     distro = TextField('Distro (optional)', [validators.optional()])
     package_name = TextField('Package (optional)', [validators.optional()])
