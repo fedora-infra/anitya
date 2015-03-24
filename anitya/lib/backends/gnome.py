@@ -18,7 +18,7 @@ def use_gnome_cache_json(project):
     ''' Try retrieving the specified project's versions using the cache.json
     file if there is one.
     '''
-    output = None
+    output = []
     url = 'https://download.gnome.org/sources/%(name)s/cache.json' % {
         'name': project.name}
     req = BaseBackend.call_url(url)
@@ -33,7 +33,7 @@ def use_gnome_cache_json(project):
 def use_gnome_regex(project):
     ''' Try retrieving the specified project's versions a regular expression.
     '''
-    output = None
+    output = []
     url = 'https://download.gnome.org/sources/%(name)s/' % {
                 'name': project.name}
     output = get_versions_by_regex(url, REGEX, project)
@@ -85,7 +85,7 @@ class GnomeBackend(BaseBackend):
 
         '''
 
-        output = None
+        output = []
         try:
             # First try to get the version by using the cache.json file
             output = use_gnome_cache_json(project)
