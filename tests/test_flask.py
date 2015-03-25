@@ -219,7 +219,10 @@ a backend for the project hosting. More information below.</p>"""
 
         output = self.app.get('/projects/search/g')
         self.assertEqual(output.status_code, 200)
+        self.assertEqual(output.data.count('<a href="/project/'), 0)
 
+        output = self.app.get('/projects/search/g*')
+        self.assertEqual(output.status_code, 200)
         expected = """
                   <a href="http://www.geany.org/" target="_blank">
                     http://www.geany.org/
