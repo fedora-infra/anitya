@@ -255,9 +255,6 @@ def distro_projects_search(distroname, pattern=None):
     pattern = flask.request.args.get('pattern', pattern) or '*'
     page = flask.request.args.get('page', 1)
 
-    if '*' not in pattern:
-        pattern += '*'
-
     try:
         page = int(page)
     except ValueError:
