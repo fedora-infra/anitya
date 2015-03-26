@@ -46,6 +46,11 @@ def upstream_cmp(v1, v2):
 
     """
 
+    # Strip leading 'v' characters; turn v1.0 into 1.0.
+    # https://github.com/fedora-infra/anitya/issues/110
+    v1 = v1.lstrip('v')
+    v2 = v2.lstrip('v')
+
     v1, rc1, rcn1 = split_rc(v1)
     v2, rc2, rcn2 = split_rc(v2)
 
