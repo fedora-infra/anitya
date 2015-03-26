@@ -98,7 +98,7 @@ class GnomeBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '3.16.0'
+        exp = '3.15.4'
         obs = backend.GnomeBackend.get_version(project)
         self.assertEqual(obs, exp)
 
