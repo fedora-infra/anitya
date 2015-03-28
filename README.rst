@@ -3,7 +3,7 @@ Anitya
 
 Anitya is a release monitoring project.
 
-Its goal is to regulary check if a project has made a new release. Originally
+Its goal is to regularly check if a project has made a new release. Originally
 developed within Fedora, the project created tickets on the `Fedora
 bugzilla <https://bugzilla.redhat.com/>`_ when a new release is available.
 Now this service has been split into two parts:
@@ -11,8 +11,8 @@ Now this service has been split into two parts:
 * `anitya <https://github.com/fedora-infra/anitya>`_: find and announce new
   releases
 * `the new hotness <https://github.com/fedora-infra/the-new-hotness/>`_:
-  listens to the fedmsg bus, open a ticket on bugzilla for packages allowing
-  for it and trigger a scratch-build of the new version
+  listens to the fedmsg bus, opens a ticket on bugzilla for packages allowing
+  for it and triggers a scratch-build of the new version
 
 Anitya provides a user-friendly interface to add or edit projects. New
 releases are announced on `fedmsg <http://fedmsg.com>`_ and notifications
@@ -25,7 +25,7 @@ Hacking
 -------
 
 Here are some preliminary instructions about how to stand up your own instance
-of anitya.  We'll use a virtualenv and a sqlite database and we'll install
+of anitya. We'll use a virtualenv and a sqlite database and we'll install
 our dependencies from the Python Package Index (PyPI).  None of these are best
 practices for a production instance, but they will do for development.
 
@@ -35,7 +35,7 @@ First, set up a virtualenv::
     $ virtualenv anitya-env
     $ source anitya-env/bin/activate
 
-Issueing that last command should change your prompt to indicate that you are
+Issuing that last command should change your prompt to indicate that you are
 operating in an active virtualenv.
 
 Next, install your dependencies::
