@@ -11,8 +11,8 @@ Now this service has been split into two parts:
 * `anitya <https://github.com/fedora-infra/anitya>`_: find and announce new
   releases
 * `the new hotness <https://github.com/fedora-infra/the-new-hotness/>`_:
-  listen to the fedmsg bus, open a ticket on bugzilla for packages allowing
-  for it and trigger a scratch-build of the new version
+  listens to the fedmsg bus, opens a ticket on bugzilla for packages allowing
+  for it and triggers a scratch-build of the new version
 
 Anitya provides a user-friendly interface to add or edit projects. New
 releases are announced on `fedmsg <http://fedmsg.com>`_ and notifications
