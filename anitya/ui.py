@@ -243,6 +243,16 @@ def projects_search(pattern=None):
     projects_count = anitya.lib.model.Project.search(
         SESSION, pattern=pattern, count=True)
 
+    # Extends the search
+    projects.extend(
+        anitya.lib.model.Project.search(
+            SESSION,
+            pattern=get_extended_pattern(pattern),
+            page=page)
+        )
+    projects_count += anitya.lib.model.Project.search(
+        SESSION, pattern=get_extended_pattern(pattern), count=True)
+
     if projects_count == 1 and projects[0].name == pattern.replace('*', ''):
         flask.flash(
             'Only one result matching with an exact match, redirecting')
@@ -250,19 +260,11 @@ def projects_search(pattern=None):
             flask.url_for('project', project_id=projects[0].id))
 
     total_page = int(ceil(projects_count / float(50)))
-    extended_pattern = pattern
-    if not extended_pattern.startswith('*') and not extended_pattern.endswith('*'):
-        extended_pattern += '*'
-    elif not extended_pattern.startswith('*') and extended_pattern.endswith('*'):
-        extended_pattern = '*' + extended_pattern
-    elif extended_pattern.startswith('*') and not extended_pattern.endswith('*'):
-        extended_pattern += '*'
 
     return flask.render_template(
         'search.html',
         current='projects',
         pattern=pattern,
-        extended_pattern=extended_pattern,
         projects=projects,
         total_page=total_page,
         projects_count=projects_count,
@@ -287,6 +289,19 @@ def distro_projects_search(distroname, pattern=None):
     projects_count = anitya.lib.model.Project.search(
         SESSION, pattern=pattern, distro=distroname, count=True)
 
+    # Extends the search
+    projects.extend(
+        anitya.lib.model.Project.search(
+            SESSION,
+            pattern=get_extended_pattern(pattern),
+            distro=distroname,
+            page=page)
+        )
+    projects_count += anitya.lib.model.Project.search(
+        SESSION,
+        pattern=get_extended_pattern(pattern),
+        distro=distroname, count=True)
+
     if projects_count == 1 and projects[0].name == pattern.replace('*', ''):
         flask.flash(
             'Only one result matching with an exact match, redirecting')
@@ -294,19 +309,11 @@ def distro_projects_search(distroname, pattern=None):
             flask.url_for('project', project_id=projects[0].id))
 
     total_page = int(ceil(projects_count / float(50)))
-    extended_pattern = pattern
-    if not extended_pattern.startswith('*') and not extended_pattern.endswith('*'):
-        extended_pattern += '*'
-    elif not extended_pattern.endswith('*') and extended_pattern.endswith('*'):
-        extended_pattern = '*' + extended_pattern
-    elif extended_pattern.startswith('*') and not extended_pattern.endswith('*'):
-        extended_pattern += '*'
 
     return flask.render_template(
         'search.html',
         current='projects',
         pattern=pattern,
-        extended_pattern=extended_pattern,
         projects=projects,
         distroname=distroname,
         total_page=total_page,
