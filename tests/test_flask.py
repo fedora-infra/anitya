@@ -219,7 +219,7 @@ a backend for the project hosting. More information below.</p>"""
 
         output = self.app.get('/projects/search/g')
         self.assertEqual(output.status_code, 200)
-        self.assertEqual(output.data.count('<a href="/project/'), 0)
+        self.assertEqual(output.data.count('<a href="/project/'), 1)
 
         output = self.app.get('/projects/search/g*')
         self.assertEqual(output.status_code, 200)
