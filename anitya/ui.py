@@ -12,6 +12,20 @@ import anitya.lib.model
 from anitya.app import APP, SESSION, login_required, load_docs
 
 
+def get_extended_pattern(pattern):
+    ''' For a given pattern `p` return it so that it looks like `*p*`
+    adjusting it accordingly.
+    '''
+
+    if not pattern.startswith('*') and not pattern.endswith('*'):
+        pattern += '*'
+    elif not pattern.startswith('*') and pattern.endswith('*'):
+        pattern = '*' + pattern
+    elif pattern.startswith('*') and not pattern.endswith('*'):
+        pattern += '*'
+    return pattern
+
+
 @APP.route('/')
 def index():
     total = anitya.lib.model.Project.all(SESSION, count=True)
