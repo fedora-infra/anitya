@@ -47,7 +47,8 @@
             class="SearchBox" value="{{ pattern }}"/>
         <button type="submit" class="btn btn-default">Search</button>
         {% if pattern != extended_pattern %}
-        <a href="{{ url_for('projects_search', pattern=extended_pattern) }}">
+        <a href="{{ url_for('projects_search', pattern=extended_pattern) }}"
+            title="Extend the search by searching for {{ extended_pattern }}">
             <button type="button" class="btn btn-default">Extend</button>
         </a>
         {% endif %}
