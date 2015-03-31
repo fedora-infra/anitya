@@ -236,11 +236,17 @@ def projects_search(pattern=None):
             flask.url_for('project', project_id=projects[0].id))
 
     total_page = int(ceil(projects_count / float(50)))
+    extended_pattern = pattern
+    if not extended_pattern.startswith('*'):
+        extended_pattern = '*' + extended_pattern
+    if not extended_pattern.endswith('*'):
+        extended_pattern += '*'
 
     return flask.render_template(
         'search.html',
         current='projects',
         pattern=pattern,
+        extended_pattern=extended_pattern,
         projects=projects,
         total_page=total_page,
         projects_count=projects_count,
@@ -272,11 +278,17 @@ def distro_projects_search(distroname, pattern=None):
             flask.url_for('project', project_id=projects[0].id))
 
     total_page = int(ceil(projects_count / float(50)))
+    extended_pattern = pattern
+    if not extended_pattern.startswith('*'):
+        extended_pattern = '*' + extended_pattern
+    if not extended_pattern.endswith('*'):
+        extended_pattern += '*'
 
     return flask.render_template(
         'search.html',
         current='projects',
         pattern=pattern,
+        extended_pattern=extended_pattern,
         projects=projects,
         distroname=distroname,
         total_page=total_page,
