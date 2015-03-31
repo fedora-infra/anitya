@@ -237,10 +237,10 @@ def projects_search(pattern=None):
 
     total_page = int(ceil(projects_count / float(50)))
     extended_pattern = pattern
-    if not extended_pattern.startswith('*'):
-        extended_pattern = '*' + extended_pattern
-    if not extended_pattern.endswith('*'):
+    if not extended_pattern.startswith('*') and not extended_pattern.endswith('*'):
         extended_pattern += '*'
+    elif not extended_pattern.startswith('*') and extended_pattern.endswith('*'):
+        extended_pattern = '*' + extended_pattern
 
     return flask.render_template(
         'search.html',
@@ -279,10 +279,10 @@ def distro_projects_search(distroname, pattern=None):
 
     total_page = int(ceil(projects_count / float(50)))
     extended_pattern = pattern
-    if not extended_pattern.startswith('*'):
-        extended_pattern = '*' + extended_pattern
-    if not extended_pattern.endswith('*'):
+    if not extended_pattern.startswith('*') and not extended_pattern.endswith('*'):
         extended_pattern += '*'
+    elif not extended_pattern.endswith('*') and extended_pattern.endswith('*'):
+        extended_pattern = '*' + extended_pattern
 
     return flask.render_template(
         'search.html',
