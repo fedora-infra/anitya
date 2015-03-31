@@ -4,4 +4,5 @@ recursive-include anitya *
 recursive-include fedmsg.d *
 recursive-include tests *
 recursive-include files *
+recursive-include alembic *
 

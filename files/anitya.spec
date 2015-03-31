@@ -3,7 +3,7 @@
 
 Name:           anitya
 Version:        0.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
 License:        GPLv2+
@@ -35,6 +35,7 @@ BuildRequires:  python-sqlalchemy > 0.7
 Requires:  python-sqlalchemy > 0.7
 %endif
 
+Requires:  python-alembic
 Requires:  python-flask
 Requires:  python-flask-wtf
 Requires:  python-flask-openid
@@ -88,8 +89,8 @@ install -m 644 files/migrate_wiki.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_m
 install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cron.py
 
 # Install the alembic files
-#cp -r alembic $RPM_BUILD_ROOT/%{_datadir}/anitya/
-#install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.ini
+cp -r alembic $RPM_BUILD_ROOT/%{_datadir}/anitya/
+install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.ini
 
 ## Running the tests would require having flask >= 0.10 which is not present in
 ## epel6
@@ -100,7 +101,7 @@ install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 %doc README.rst LICENSE
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/anitya.conf
 %config(noreplace) %{_sysconfdir}/anitya/anitya.cfg
-#config(noreplace) %{_sysconfdir}/anitya/alembic.ini
+%config(noreplace) %{_sysconfdir}/anitya/alembic.ini
 %dir %{_sysconfdir}/anitya/
 %{_datadir}/anitya/
 %{python_sitelib}/anitya/
@@ -109,7 +110,11 @@ install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
-* Tue Mar 31 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.3.0
+* Tue Mar 31 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.3.0-2
+- Fix changelog of version 0.3.0-1
+- Include and install the alembic files
+
+* Tue Mar 31 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.3.0-1
 - Converted Google project name to lower case in their URL (Aayush Kasurde)
 - Fix the casing of GitHub (Aayush Kasurde)
 - Allow projects to make insecure http calls
