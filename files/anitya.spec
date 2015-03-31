@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.2.0
+Version:        0.3.0
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -109,6 +109,18 @@ install -m 755 files/anitya_cron.py $RPM_BUILD_ROOT/%{_datadir}/anitya/anitya_cr
 
 
 %changelog
+* Tue Mar 31 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.3.0
+- Converted Google project name to lower case in their URL (Aayush Kasurde)
+- Fix the casing of GitHub (Aayush Kasurde)
+- Allow projects to make insecure http calls
+- Update the GNOME backend to rely on the cache.json if present
+- Include in the fedmsg message if the new version found is odd or not
+- Strip leading v from versions before we compare them (Ralph Bean)
+- Update instructions in the README (Shagufta)
+- Only place the name in the regex if it is asked for
+- When searching show first the results of exact match search then the
+  results of a broader search
+
 * Thu Feb 26 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.2.0
 - Fix doc typos (reported by tibbs, fixed by Ralph Bean)
 - Fix typo when unable to retrieve the latest version (Thomas Spura)
