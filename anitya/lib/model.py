@@ -528,17 +528,31 @@ class Project(BASE):
 
         query1 = session.query(
             cls
-        ).filter(
-            Project.name.ilike(pattern)
         )
+
+        if '%' in pattern:
+            query1 = query1.filter(
+                Project.name.ilike(pattern)
+            )
+        else:
+            query1 = query1.filter(
+                Project.name == pattern
+            )
 
         query2 = session.query(
             cls
         ).filter(
             Project.id == Packages.project_id
-        ).filter(
-            Packages.package_name.ilike(pattern)
         )
+
+        if '%' in pattern:
+            query2 = query2.filter(
+                Packages.package_name.ilike(pattern)
+            )
+        else:
+            query2 = query2.filter(
+                Packages.package_name == pattern
+            )
 
         if distro is not None:
             query1 = query1.filter(

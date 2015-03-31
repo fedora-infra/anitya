@@ -12,6 +12,20 @@ import anitya.lib.model
 from anitya.app import APP, SESSION, login_required, load_docs
 
 
+def get_extended_pattern(pattern):
+    ''' For a given pattern `p` return it so that it looks like `*p*`
+    adjusting it accordingly.
+    '''
+
+    if not pattern.startswith('*') and not pattern.endswith('*'):
+        pattern += '*'
+    elif not pattern.startswith('*') and pattern.endswith('*'):
+        pattern = '*' + pattern
+    elif pattern.startswith('*') and not pattern.endswith('*'):
+        pattern += '*'
+    return pattern
+
+
 @APP.route('/')
 def index():
     total = anitya.lib.model.Project.all(SESSION, count=True)
@@ -218,9 +232,7 @@ def projects_search(pattern=None):
 
     pattern = flask.request.args.get('pattern', pattern) or '*'
     page = flask.request.args.get('page', 1)
-
-    if '*' not in pattern:
-        pattern += '*'
+    exact = flask.request.args.get('exact', 0)
 
     try:
         page = int(page)
@@ -231,6 +243,17 @@ def projects_search(pattern=None):
         SESSION, pattern=pattern, page=page)
     projects_count = anitya.lib.model.Project.search(
         SESSION, pattern=pattern, count=True)
+
+    if not str(exact).lower() in ['1', 'true']:
+        # Extends the search
+        projects.extend(
+            anitya.lib.model.Project.search(
+                SESSION,
+                pattern=get_extended_pattern(pattern),
+                page=page)
+            )
+        projects_count += anitya.lib.model.Project.search(
+            SESSION, pattern=get_extended_pattern(pattern), count=True)
 
     if projects_count == 1 and projects[0].name == pattern.replace('*', ''):
         flask.flash(
@@ -257,9 +280,7 @@ def distro_projects_search(distroname, pattern=None):
 
     pattern = flask.request.args.get('pattern', pattern) or '*'
     page = flask.request.args.get('page', 1)
-
-    if '*' not in pattern:
-        pattern += '*'
+    exact = flask.request.args.get('exact', 0)
 
     try:
         page = int(page)
@@ -270,6 +291,20 @@ def distro_projects_search(distroname, pattern=None):
         SESSION, pattern=pattern, distro=distroname, page=page)
     projects_count = anitya.lib.model.Project.search(
         SESSION, pattern=pattern, distro=distroname, count=True)
+
+    if not str(exact).lower() in ['1', 'true']:
+        # Extends the search
+        projects.extend(
+            anitya.lib.model.Project.search(
+                SESSION,
+                pattern=get_extended_pattern(pattern),
+                distro=distroname,
+                page=page)
+            )
+        projects_count += anitya.lib.model.Project.search(
+            SESSION,
+            pattern=get_extended_pattern(pattern),
+            distro=distroname, count=True)
 
     if projects_count == 1 and projects[0].name == pattern.replace('*', ''):
         flask.flash(
