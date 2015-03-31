@@ -442,9 +442,6 @@ def flag_project(project_id):
     if not project:
         flask.abort(404)
 
-    plugins = anitya.lib.plugins.load_plugins(SESSION)
-    plg_names = [plugin.name for plugin in plugins]
-
     form = anitya.forms.FlagProjectForm(
         obj=project)
 
