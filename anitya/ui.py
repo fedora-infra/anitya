@@ -430,7 +430,6 @@ def edit_project(project_id):
         current='projects',
         form=form,
         project=project,
-        plugins=plugins,
     )
 
 
@@ -451,8 +450,6 @@ def flag_project(project_id):
             anitya.lib.flag_project(
                 SESSION,
                 project=project,
-                name=form.name.data.strip(),
-                regex=form.regex.data.strip(),
                 user_mail=flask.g.auth.email,
             )
             flask.flash('Project flagged for admin review')
