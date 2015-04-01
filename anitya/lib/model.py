@@ -582,6 +582,7 @@ class ProjectFlag(BASE):
 
     reason = sa.Column(sa.Text, nullable=False)
     user = sa.Column(sa.String(200), index=True, nullable=False)
+    state = sa.Column(sa.String(50), default='open', nullable=False)
 
     created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
@@ -590,13 +591,15 @@ class ProjectFlag(BASE):
     project = sa.orm.relation('Project')
 
     def __repr__(self):
-        return '<ProjectFlag(%s, %s)>' % (self.project.name, self.user)
+        return '<ProjectFlag(%s, %s, %s)>' % (self.project.name, self.user,
+                                              self.state)
 
     def __json__(self, detailed=False):
         output = dict(
             id = self.id,
             project=self.project.name,
             user=self.user,
+            state=self.state,
             created_on=time.mktime(self.created_on.timetuple()),
             updated_on=time.mktime(self.updated_on.timetuple()),
         )
@@ -615,7 +618,7 @@ class ProjectFlag(BASE):
     
     @classmethod
     def search(cls, session, project_name=None, from_date=None, user=None,
-               limit=None, offset=None, count=False):
+               state=None, limit=None, offset=None, count=False):
         """ Return the list of the last Flag entries present in the database.
 
         :arg cls: the class object
@@ -623,6 +626,7 @@ class ProjectFlag(BASE):
         :kwarg project_name: the name of the project to restrict the flags to.
         :kwarg from_date: the date from which to give the entries.
         :kwarg user: the name of the user to restrict the flags to.
+        :kwarg state: the flag's status (open or closed).
         :kwarg limit: limit the result to X rows.
         :kwarg offset: start the result at row X.
         :kwarg count: a boolean to return the result of a COUNT query
@@ -641,6 +645,9 @@ class ProjectFlag(BASE):
 
         if user:
             query = query.filter(cls.user == user)
+
+        if state:
+            query = query.filter(cls.state == state)
 
         query = query.order_by(cls.created_on.desc())
 
