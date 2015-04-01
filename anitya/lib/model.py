@@ -660,3 +660,12 @@ class ProjectFlag(BASE):
             query = query.limit(limit)
 
         return query.all()
+
+
+    @classmethod
+    def get(cls, session, flag_id):
+        query = session.query(
+            cls
+        ).filter(
+            cls.id == flag_id)
+        return query.first()

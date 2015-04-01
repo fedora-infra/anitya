@@ -296,3 +296,28 @@ def flag_project(session, project, reason, user_mail):
     )
     session.commit()
     return project
+
+def set_flag_state(session, flag, state, user_mail):
+    """ Change the state of a ProjectFlag in the database.
+
+    """
+
+    flag.state = state
+
+    try:
+        anitya.log(
+            session,
+            topic='project.flag.set',
+            message=dict(
+                agent=user_mail,
+                flag=flag.id,
+                state=state,
+            )
+        )
+        session.add(flag)
+        session.commit()
+    except SQLAlchemyError as err:
+        log.exception(err)
+        session.rollback()
+        raise anitya.lib.exceptions.AnityaException(
+            'Could not set the state of this flag.')

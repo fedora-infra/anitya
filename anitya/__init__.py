@@ -143,6 +143,7 @@ def log(session, project=None, distro=None, topic=None, message=None):
         'project.edit': '%(agent)s edited the project: %(project)s fields: '
                         '%(changes)s',
         'project.flag': '%(agent)s flagged the project: %(project)s',
+        'project.flag.set': '%(agent)s set flag %(flag)s to %(state)s',
         'project.remove': '%(agent)s removed the project: %(project)s',
         'project.map.new': '%(agent)s mapped the name of %(project)s in '
                            '%(distro)s as %(new)s',
