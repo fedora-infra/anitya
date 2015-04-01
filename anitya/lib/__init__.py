@@ -262,3 +262,37 @@ def map_project(
     )
 
     return pkg
+
+
+def flag_project(session, project, user_mail)
+    """ Flag a project in the database.
+
+    """
+
+    flag = anitya.lib.model.ProjectFlag(
+        project=project,
+        reason=reason,
+        user=user_mail)
+
+    session.add(flag)
+
+    try:
+        session.flush()
+    except SQLAlchemyError as err:
+        log.exception(err)
+        session.rollback()
+        raise anitya.lib.exceptions.AnityaException(
+            'Could not flag this project.')
+
+    anitya.log(
+        session,
+        project=project,
+        topic='project.flag',
+        message=dict(
+            agent=user_mail,
+            project=project.name,
+            # TODO: Include reason here?
+        )
+    )
+    session.commit()
+    return project
