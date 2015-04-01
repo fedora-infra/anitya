@@ -450,6 +450,7 @@ def flag_project(project_id):
             anitya.lib.flag_project(
                 SESSION,
                 project=project,
+                reason=reason,
                 user_mail=flask.g.auth.email,
             )
             flask.flash('Project flagged for admin review')
