@@ -446,11 +446,10 @@ def flag_project(project_id):
 
     if form.validate_on_submit():
         try:
-            # TODO: add anitya.lib.flag_project
             anitya.lib.flag_project(
                 SESSION,
                 project=project,
-                reason=reason,
+                reason=form.reason.data,
                 user_mail=flask.g.auth.email,
             )
             flask.flash('Project flagged for admin review')
