@@ -218,6 +218,9 @@
   };
 
   $('body').bind('keyup', function(event) {
+    if (event.ctrlKey){
+        return false;
+    }
     if (event.which == 69) { //e
       window.location.replace("{{ url_for('edit_project', project_id=project.id) }}");
     }
