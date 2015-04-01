@@ -268,7 +268,7 @@ def map_project(
     return pkg
 
 
-def flag_project(session, project, user_mail)
+def flag_project(session, project, reason, user_mail)
     """ Flag a project in the database.
 
     """
