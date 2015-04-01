@@ -29,6 +29,11 @@
   margin-right: 6px; /* Gives space between Cancel button */
 }
 
+textarea#reason {
+  width: 600px;
+  height: 120px;
+}
+
 #logs_form div {
     padding-left: 2px;
     padding-right: 2px;
