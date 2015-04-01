@@ -565,3 +565,43 @@ class ProjectVersion(BASE):
     version = sa.Column(sa.String(50), primary_key=True)
 
     project = sa.orm.relation('Project', backref='versions_obj')
+
+
+class ProjectFlag(BASE):
+    __tablename__ = 'projects_flags'
+
+    id = sa.Column(sa.Integer, primary_key=True)
+
+    # TODO: Does this project relation need a 'backref' or something?
+    # Good as it is?
+    project = sa.orm.relation('Project')
+    reason = sa.Column(sa.Text, nullable=False)
+    user = sa.Column(sa.String(200), index=True, nullable=False)
+
+    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+    updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
+                           onupdate=sa.func.current_timestamp())
+
+    def __repr__(self):
+        return '<ProjectFlag(%s, %s)>' % (self.project.name, self.user)
+
+    def __json__(self, detailed=False):
+        output = dict(
+            id = self.id,
+            project=self.project.name,
+            user=self.user,
+            created_on=time.mktime(self.created_on.timetuple()),
+            updated_on=time.mktime(self.updated_on.timetuple()),
+        )
+        if detailed:
+            output['reason'] = self.reason
+
+        return output
+
+    @classmethod
+    def all(cls, session, page=None, count=False):
+        query = session.query(
+            ProjectFlag
+        ).order_by(created_on)
+
+        return query.all()
