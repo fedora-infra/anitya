@@ -572,13 +572,22 @@ class ProjectFlag(BASE):
 
     id = sa.Column(sa.Integer, primary_key=True)
 
-    project = sa.orm.relation('Project')
+    project_id = sa.Column(
+        sa.Integer,
+        sa.ForeignKey(
+            "projects.id",
+            ondelete="cascade",
+            onupdate="cascade")
+    )
+
     reason = sa.Column(sa.Text, nullable=False)
     user = sa.Column(sa.String(200), index=True, nullable=False)
 
     created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
                            onupdate=sa.func.current_timestamp())
+
+    project = sa.orm.relation('Project')
 
     def __repr__(self):
         return '<ProjectFlag(%s, %s)>' % (self.project.name, self.user)
