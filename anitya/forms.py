@@ -38,13 +38,6 @@ class ProjectForm(wtf.Form):
 class FlagProjectForm(wtf.Form):
     reason = TextAreaField('Reason for flagging', [validators.Required()])
 
-    def __init__(self, *args, **kwargs):
-        """ Calls the default constructor with the normal argument but
-        uses the list of backends provided to fill the choices of the
-        drop-down list.
-        """
-        super(FlagProjectForm, self).__init__(*args, **kwargs)
-
 
 class MappingForm(wtf.Form):
     distro = TextField('Distribution', [validators.Required()])
