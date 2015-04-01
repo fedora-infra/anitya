@@ -1,0 +1,122 @@
+{% extends "master.html" %}
+
+{%block header %}
+{% if refresh %}
+<meta http-equiv="refresh" content="5" >
+{% endif %}
+{% endblock %}
+
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Flags</h1>
+  {% if refresh %}
+  <p>This page should refresh automatically every 5 seconds</p>
+  <a href="{{ url_for('browse_flags') }}?page={{page}}">
+    <button type="submit" class="btn btn-danger" id="checknow">
+      <span class="glyphicon glyphicon-remove-sign"></span>
+      Remove auto-refresh
+    </button>
+  </a>
+  {% else %}
+  <a href="{{ url_for('browse_flags') }}?page={{page}}&refresh=True">
+    <button type="submit" class="btn btn-success" id="checknow">
+      <span class="glyphicon glyphicon-refresh"></span>
+      Activate auto-refresh
+    </button>
+  </a>
+  {% endif %}
+</div>
+
+<div class="row show-grid">
+  <div class="col-sm-4">
+    {% if total_page > 1 %}
+    <ul class="pagination pagination-sm">
+        <li>
+            {% if page > 1%}
+              <a href="{{ url_for('browse_flags', page=page-1, project=project,
+                user=user, from_date=from_date) }}">
+                «
+              </a>
+            {% else %}
+              <a> « </a>
+            {% endif %}
+        </li>
+        <li>
+            <a> {{ page }} / {{ total_page }} </a>
+        </li>
+        <li>
+            {% if page < total_page %}
+              <a href="{{ url_for('browse_flags', page=page+1, project=project,
+                user=user, from_date=from_date) }}">
+                »
+              </a>
+            {% else %}
+              <a> » </a>
+            {% endif %}
+        </li>
+    </ul>
+    {% endif %}
+  </div>
+
+  <div class="col-xs-10">
+    <form action="{{url_for('browse_flags') }}" class="form-inline"
+          role="form" action="GET" id="flags_form">
+      <div class="form-group col-xs-6 col-sm-3">
+        <input type="text" name="project" placeholder="Project name"
+            class="form-control" value="{{ project }}"/>
+      </div>
+      {% if is_admin %}
+      <div class="form-group col-xs-6 col-sm-3">
+        <input type="text" name="user" placeholder="User identifier"
+            class="form-control" value="{{ user }}"/>
+      </div>
+      {% endif %}
+      <div class="form-group col-xs-6 col-sm-3">
+        <div class='input-group date' id='datetimepicker'>
+            <input type='text' class="form-control col-sm-6" name="from_date"
+                id="from_date" placeholder="From Date"
+                value="{{ from_date }}"
+                data-date-format="YYYY-MM-DD"/>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+      </div>
+      <div class="form-group col-xs-6 col-sm-3">
+        <button type="submit" class="btn btn-default" class="form-control">
+          Filter
+        </button>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+
+<table>
+{% for flag in flags %}
+    <tr>
+        <td>
+            {{ flag.created_on.strftime('%Y-%m-%d %H:%M:%S') }}
+        </td>
+        <td>
+        {{ flag.reason }}
+        </td>
+    </tr>
+{% endfor %}
+</table>
+
+{% endblock %}
+
+{% block jscript %}
+{{ super() }}
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker').datetimepicker({
+            pickTime: false
+        });
+    });
+</script>
+{% endblock %}
