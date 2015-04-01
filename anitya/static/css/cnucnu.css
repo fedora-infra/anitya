@@ -17,8 +17,12 @@
     color: #fff;
 }
 
-#edit_btn {
+#edit_btn, #flag_btn {
   margin-top: -6px;
+}
+
+#flag_btn {
+  margin-right: 6px;
 }
 
 #logs_form div {

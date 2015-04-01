@@ -19,6 +19,13 @@
               Edit
             </button>
         </a>
+        <a href="{{ url_for('flag_project', project_id=project.id) }}">
+          <button type="submit" class="btn btn-warning btn-sm pull-right inline"
+                id="flag_btn">
+            <span class="glyphicon glyphicon-flag"></span>
+            Flag
+          </button>
+        </a>
         <h3 class="panel-title inline" property="doap:name">{{ project.name }}</h3>
         </div>
       </div>
@@ -127,16 +134,6 @@
                       <button type="submit" class="btn btn-info btn-sm pull-right">
                         <span class="glyphicon glyphicon-edit"></span>
                         Edit
-                      </button>
-                    </a>
-                  </td>
-                  <td>
-                    <a href="{{
-                      url_for('flag_project',
-                              project_id=project.id) }}">
-                      <button type="submit" class="btn btn-warning btn-sm pull-right">
-                        <span class="glyphicon glyphicon-flag"></span>
-                        Flag
                       </button>
                     </a>
                   </td>
