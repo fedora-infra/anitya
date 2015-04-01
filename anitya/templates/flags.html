@@ -67,12 +67,10 @@
         <input type="text" name="project" placeholder="Project name"
             class="form-control" value="{{ project }}"/>
       </div>
-      {% if is_admin %}
       <div class="form-group col-xs-6 col-sm-3">
         <input type="text" name="user" placeholder="User identifier"
             class="form-control" value="{{ user }}"/>
       </div>
-      {% endif %}
       <div class="form-group col-xs-6 col-sm-3">
         <div class='input-group date' id='datetimepicker'>
             <input type='text' class="form-control col-sm-6" name="from_date"
