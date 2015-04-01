@@ -24,6 +24,7 @@ DB_URL = 'sqlite:////var/tmp/anitya-dev.sqlite'
 ANITYA_WEB_ADMINS = [
     'http://ralph.id.fedoraproject.org/',
     'http://pingou.id.fedoraproject.org/',
+    'http://oddshocks.id.fedoraproject.org/',
 ]
 
 # Fedora OpenID endpoint
