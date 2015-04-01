@@ -34,7 +34,7 @@ textarea#reason {
   height: 120px;
 }
 
-#logs_form div {
+#logs_form div, #flags_form div {
     padding-left: 2px;
     padding-right: 2px;
 }

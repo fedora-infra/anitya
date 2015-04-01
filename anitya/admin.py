@@ -375,3 +375,82 @@ def browse_logs():
         from_date=from_date or '',
         user=user or ''
     )
+
+
+@APP.route('/flags')
+@login_required
+def browse_flags():
+
+    if not is_admin():
+        flask.abort(401)
+
+    from_date = flask.request.args.get('from_date', None)
+    project = flask.request.args.get('project', None)
+    user = flask.request.args.get('user', None)
+    refresh = flask.request.args.get('refresh', False)
+    limit = flask.request.args.get('limit', 50)
+    page = flask.request.args.get('page', 1)
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+
+    try:
+        int(limit)
+    except ValueError:
+        limit = 50
+        flask.flash('Incorrect limit provided, using default', 'errors')
+
+    if from_date:
+        try:
+            from_date = parser.parse(from_date)
+        except (ValueError, TypeError):
+            flask.flash(
+                'Incorrect from_date provided, using default', 'errors')
+            from_date = None
+
+    if from_date:
+        from_date = from_date.date()
+
+    offset = 0
+    if page is not None and limit is not None and limit != 0:
+        offset = (page - 1) * limit
+
+    flags = []
+    try:
+        flags = anitya.lib.model.ProjectFlag.search(
+            SESSION,
+            project_name=project or None,
+            from_date=from_date,
+            user=user or None,
+            offset=offset,
+            limit=limit,
+        )
+
+        cnt_flags = anitya.lib.model.ProjectFlag.search(
+            SESSION,
+            project_name=project or None,
+            from_date=from_date,
+            user=user or None,
+            count=True
+        )
+    except Exception, err:
+        import logging
+        logging.exception(err)
+        flask.flash(err, 'errors')
+
+    total_page = int(ceil(cnt_flags / float(limit)))
+
+    return flask.render_template(
+        'flags.html',
+        current='flags',
+        refresh=refresh,
+        flags=flags,
+        cnt_flags=cnt_flags,
+        total_page=total_page,
+        page=page,
+        project=project or '',
+        from_date=from_date or '',
+        user=user or ''
+    )

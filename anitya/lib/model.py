@@ -612,3 +612,44 @@ class ProjectFlag(BASE):
         ).order_by(created_on)
 
         return query.all()
+    
+    @classmethod
+    def search(cls, session, project_name=None, from_date=None, user=None,
+               limit=None, offset=None, count=False):
+        """ Return the list of the last Flag entries present in the database.
+
+        :arg cls: the class object
+        :arg session: the database session used to query the information.
+        :kwarg project_name: the name of the project to restrict the flags to.
+        :kwarg from_date: the date from which to give the entries.
+        :kwarg user: the name of the user to restrict the flags to.
+        :kwarg limit: limit the result to X rows.
+        :kwarg offset: start the result at row X.
+        :kwarg count: a boolean to return the result of a COUNT query
+            if true, returns the data if false (default).
+
+        """
+        query = session.query(
+            cls
+        )
+
+        if project_name:
+            query = query.filter(cls.project == project_name)
+
+        if from_date:
+            query = query.filter(cls.created_on >= from_date)
+
+        if user:
+            query = query.filter(cls.user == user)
+
+        query = query.order_by(cls.created_on.desc())
+
+        if count:
+            return query.count()
+
+        if offset:
+            query = query.offset(offset)
+        if limit:
+            query = query.limit(limit)
+
+        return query.all()
