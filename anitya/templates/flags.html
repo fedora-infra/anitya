@@ -95,15 +95,17 @@
 </div>
 
 
-<table>
+<table id="flag_list">
+<th>State</th><th>Created</th><th>Project</th><th>Reason</th><th>User</th>
 {% for flag in flags %}
     <tr>
+        <td> {{ flag.state }} </td>
         <td>
             {{ flag.created_on.strftime('%Y-%m-%d %H:%M:%S') }}
         </td>
-        <td>
-        {{ flag.reason }}
-        </td>
+        <td> {{ flag.project.name }} </td>
+        <td> {{ flag.reason }} </td>
+        <td> {{ flag.user }} </td>
     </tr>
 {% endfor %}
 </table>

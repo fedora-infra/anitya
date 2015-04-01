@@ -39,6 +39,10 @@ textarea#reason {
     padding-right: 2px;
 }
 
+#flag_list td, #flag_list th {
+    padding: 6px;
+}
+
 table input[type="text"] {
     width: 300px;
 }
