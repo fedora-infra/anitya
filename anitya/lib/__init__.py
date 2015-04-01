@@ -291,7 +291,7 @@ def flag_project(session, project, reason, user_mail)
         message=dict(
             agent=user_mail,
             project=project.name,
-            # TODO: Include reason here?
+            reason=reason,
         )
     )
     session.commit()
