@@ -96,9 +96,29 @@
 
 
 <table id="flag_list">
-<th>State</th><th>Created</th><th>Project</th><th>Reason</th><th>User</th>
+<th></th><th>State</th><th>Created</th><th>Project</th><th>Reason</th><th>User</th>
 {% for flag in flags %}
     <tr>
+        <td>
+          {% if flag.state == 'open' %}
+          <a href="{{ url_for('set_flag_state', flag_id=flag.id, state='closed') }}">
+            <button type="submit" class="btn btn-warning btn-sm pull-right inline"
+                  id="flag_btn">
+              <span class="glyphicon glyphicon-flag"></span>
+              Close
+            </button>
+          </a>
+          {% else %}
+          <a href="{{ url_for('set_flag_state', flag_id=flag.id, state='open') }}">
+            <button type="submit" class="btn btn-warning btn-sm pull-right inline"
+                  id="flag_btn">
+              <span class="glyphicon glyphicon-flag"></span>
+              Open
+            </button>
+          </a>
+          {% endif %}
+
+        </td>
         <td> {{ flag.state }} </td>
         <td>
             {{ flag.created_on.strftime('%Y-%m-%d %H:%M:%S') }}

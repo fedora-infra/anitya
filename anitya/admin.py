@@ -454,3 +454,33 @@ def browse_flags():
         from_date=from_date or '',
         user=user or ''
     )
+
+
+@APP.route('/flags/<flag_id>/set/<state>', methods=['GET', 'POST'])
+@login_required
+def set_flag_state(flag_id, state):
+    
+    if not is_admin():
+        flask.abort(401)
+
+    flag = anitya.lib.model.ProjectFlag.get(SESSION, flag_id)
+
+    if not flag:
+        flask.abort(404)
+
+    try:
+        anitya.lib.set_flag_state(
+            SESSION,
+            flag=flag,
+            state=state,
+            user_mail=flask.g.auth.email,
+        )
+        flask.flash('Flag {0} set to {1}'.format(flag.id, state))
+        # TODO: what happens with justflag?:
+        flask.session['justflag'] = True
+    except anitya.lib.exceptions.AnityaException as err:
+        flask.flash(str(err), 'errors')
+
+    return flask.redirect(
+        flask.url_for('browse_flags')
+    )
