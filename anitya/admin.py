@@ -385,6 +385,7 @@ def browse_flags():
         flask.abort(401)
 
     from_date = flask.request.args.get('from_date', None)
+    state = flask.request.args.get('state', None)
     project = flask.request.args.get('project', None)
     user = flask.request.args.get('user', None)
     refresh = flask.request.args.get('refresh', False)
@@ -422,6 +423,7 @@ def browse_flags():
         flags = anitya.lib.model.ProjectFlag.search(
             SESSION,
             project_name=project or None,
+            state=state or None,
             from_date=from_date,
             user=user or None,
             offset=offset,
@@ -431,6 +433,7 @@ def browse_flags():
         cnt_flags = anitya.lib.model.ProjectFlag.search(
             SESSION,
             project_name=project or None,
+            state=state or None,
             from_date=from_date,
             user=user or None,
             count=True
