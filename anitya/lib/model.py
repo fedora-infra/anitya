@@ -572,8 +572,6 @@ class ProjectFlag(BASE):
 
     id = sa.Column(sa.Integer, primary_key=True)
 
-    # TODO: Does this project relation need a 'backref' or something?
-    # Good as it is?
     project = sa.orm.relation('Project')
     reason = sa.Column(sa.Text, nullable=False)
     user = sa.Column(sa.String(200), index=True, nullable=False)
