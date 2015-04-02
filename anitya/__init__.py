@@ -3,8 +3,6 @@
 import logging
 import warnings
 
-from pkg_resources import parse_version
-
 import anitya.lib.plugins
 import anitya.lib.exceptions
 
@@ -36,9 +34,8 @@ def order_versions(vlist):
     ''' For a provided list of versions, return the list ordered from the
     oldest to the newest version.
     '''
-    return sorted(
-        vlist,
-        cmp=lambda x, y: cmp(parse_version(x), parse_version(y)))
+    import anitya.lib.backends  # Avoid circular import
+    return sorted(vlist, cmp=anitya.lib.backends.upstream_cmp)
 
 
 def check_release(project, session):
