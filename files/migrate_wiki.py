@@ -160,7 +160,7 @@ def migrate_wiki(agent):
         )
         if backend == 'custom':
             project.version_url = url
-        if backend == 'Github':
+        if backend == 'GitHub':
             project.version_url = (name or pkg.name)
 
         try:
