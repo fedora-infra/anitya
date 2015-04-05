@@ -167,7 +167,7 @@ class Distro(BASE):
                 page = None
 
         if page:
-            limit = page * 50
+            limit = 50
             offset = (page - 1) * 50
             query = query.offset(offset).limit(limit)
 
@@ -200,7 +200,7 @@ class Distro(BASE):
                 page = None
 
         if page:
-            limit = page * 50
+            limit = 50
             offset = (page - 1) * 50
             query = query.offset(offset).limit(limit)
 
@@ -427,7 +427,7 @@ class Project(BASE):
                 page = None
 
         if page:
-            limit = page * 50
+            limit = 50
             offset = (page - 1) * 50
             query = query.offset(offset).limit(limit)
 
@@ -509,7 +509,7 @@ class Project(BASE):
                 page = None
 
         if page:
-            limit = page * 50
+            limit = 50
             offset = (page - 1) * 50
             query = query.offset(offset).limit(limit)
 
@@ -578,7 +578,7 @@ class Project(BASE):
                 page = None
 
         if page:
-            limit = page * 50
+            limit = 50
             offset = (page - 1) * 50
             query = query.offset(offset).limit(limit)
 
