@@ -28,6 +28,23 @@ BASE = declarative_base()
 log = logging.getLogger(__name__)
 
 
+def _paginate_query(query, page):
+    ''' Paginate a given query to returned the specified page (if any).
+    '''
+    if page:
+        try:
+            page = int(page)
+        except ValueError:
+            page = None
+
+    if page:
+        limit = 50
+        offset = (page - 1) * limit
+        query = query.offset(offset).limit(limit)
+
+    return query
+
+
 class Log(BASE):
     ''' Simple table to store/log action occuring in the database. '''
     __tablename__ = 'logs'
@@ -160,16 +177,7 @@ class Distro(BASE):
     def all(cls, session, page=None, count=False):
         query = session.query(cls).order_by(cls.name)
 
-        if page:
-            try:
-                page = int(page)
-            except ValueError:
-                page = None
-
-        if page:
-            limit = 50
-            offset = (page - 1) * 50
-            query = query.offset(offset).limit(limit)
+        query = _paginate_query(query, page)
 
         if count:
             return query.count()
@@ -193,16 +201,7 @@ class Distro(BASE):
             cls.name
         ).distinct()
 
-        if page:
-            try:
-                page = int(page)
-            except ValueError:
-                page = None
-
-        if page:
-            limit = 50
-            offset = (page - 1) * 50
-            query = query.offset(offset).limit(limit)
+        query = _paginate_query(query, page)
 
         if count:
             return query.count()
@@ -392,16 +391,7 @@ class Project(BASE):
             sa.func.lower(Project.name)
         )
 
-        if page:
-            try:
-                page = int(page)
-            except ValueError:
-                page = None
-
-        if page:
-            limit = 50
-            offset = (page - 1) * 50
-            query = query.offset(offset).limit(limit)
+        query = _paginate_query(query, page)
 
         if count:
             return query.count()
@@ -420,16 +410,7 @@ class Project(BASE):
             sa.func.lower(Project.name)
         )
 
-        if page:
-            try:
-                page = int(page)
-            except ValueError:
-                page = None
-
-        if page:
-            limit = 50
-            offset = (page - 1) * 50
-            query = query.offset(offset).limit(limit)
+        query = _paginate_query(query, page)
 
         if count:
             return query.count()
@@ -502,16 +483,7 @@ class Project(BASE):
                 Project.logs.ilike(log),
             )
 
-        if page:
-            try:
-                page = int(page)
-            except ValueError:
-                page = None
-
-        if page:
-            limit = 50
-            offset = (page - 1) * 50
-            query = query.offset(offset).limit(limit)
+        query = _paginate_query(query, page)
 
         if count:
             return query.count()
@@ -571,16 +543,7 @@ class Project(BASE):
             cls.name
         )
 
-        if page:
-            try:
-                page = int(page)
-            except ValueError:
-                page = None
-
-        if page:
-            limit = 50
-            offset = (page - 1) * 50
-            query = query.offset(offset).limit(limit)
+        query = _paginate_query(query, page)
 
         if count:
             return query.count()
