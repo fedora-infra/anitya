@@ -2,8 +2,8 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.3.0
-Release:        2%{?dist}
+Version:        0.4.0
+Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
 License:        GPLv2+
@@ -110,6 +110,13 @@ install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.i
 
 
 %changelog
+* Sun Apr 05 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.4.0-1
+- Fix the search to uniquify the results
+- Prevent the keyboard shortcuts to work is the control key was hold
+- Sort versions consistently (Ralph Bean)
+- Fix GitHub capitalization (Piotr Popieluch)
+- Fix the pagination when browsing the list of projects (limit was wrongly set)
+
 * Tue Mar 31 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.3.0-2
 - Fix changelog of version 0.3.0-1
 - Include and install the alembic files
