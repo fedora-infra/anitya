@@ -22,7 +22,7 @@ from anitya.lib.exceptions import AnityaPluginException
 
 
 REGEX = b'%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
-    '(?:minsrc|src|source))?\.(?:tar|t[bglx]z|tbz2|zip)'
+    '(?:minsrc|src|source|asc))?\.(?:tar|t[bglx]z|tbz2|zip)'
 
 
 def upstream_cmp(v1, v2):
