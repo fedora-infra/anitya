@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2014-2015 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
@@ -22,7 +22,7 @@ from anitya.lib.exceptions import AnityaPluginException
 
 
 REGEX = b'%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
-    '(?:minsrc|src|source))?\.(?:tar|t[bglx]z|tbz2|zip)'
+    '(?:minsrc|src|source|asc))?\.(?:tar|t[bglx]z|tbz2|zip)'
 
 
 def upstream_cmp(v1, v2):
