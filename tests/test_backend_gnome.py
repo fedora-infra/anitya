@@ -84,7 +84,7 @@ class GnomeBackendtests(Modeltests):
         """ Test the get_version function of the gnome backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '3.16.0'
+        exp = '3.13.9'
         obs = backend.GnomeBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -98,7 +98,7 @@ class GnomeBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '3.16.0'
+        exp = '3.15.4'
         obs = backend.GnomeBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -153,10 +153,11 @@ class GnomeBackendtests(Modeltests):
             '3.10.3', '3.10.4', '3.11.1', '3.11.2', '3.11.3', '3.11.4',
             '3.11.5', '3.11.90', '3.11.91', '3.11.92', '3.12.0', '3.12.1',
             '3.12.2', '3.12.3', '3.12.4', '3.12.5', '3.12.6', '3.12.7',
-            '3.12.7.1', '3.12.8', '3.12.9', '3.12.10', '3.12.11', '3.13.1',
+            '3.12.7.1', '3.12.8', '3.12.9', '3.12.10', #'3.12.11',
+            '3.13.1',
             '3.13.2', '3.13.3', '3.13.4', '3.13.5', '3.13.6', '3.13.7',
-            '3.13.8', '3.13.9', '3.13.10', '3.13.90', '3.15.91', '3.15.92',
-            '3.16.0'
+            '3.13.8', '3.13.9', #'3.13.10', '3.13.90', '3.15.91', '3.15.92',
+            #'3.16.0'
         ]
         obs = backend.GnomeBackend.get_ordered_versions(project)
         #print [str(o) for o in obs]
@@ -199,8 +200,9 @@ class GnomeBackendtests(Modeltests):
             '3.10.2', '3.10.3', '3.11.1', '3.11.2', '3.11.3', '3.11.5',
             '3.11.90', '3.11.91', '3.11.92', '3.12.0', '3.12.1', '3.13.1',
             '3.13.2', '3.13.3', '3.13.4', '3.13.90', '3.13.91', '3.13.92',
-            '3.14.0', '3.14.1', '3.14.2', '3.14.3', '3.14.4', '3.15.4',
-            '3.15.90', '3.15.91', '3.15.92', '3.16.0'
+            '3.14.0', '3.14.1', '3.14.2', #'3.14.3', '3.14.4',
+            '3.15.4',
+            #'3.15.90', '3.15.91', '3.15.92', '3.16.0'
         ]
         obs = backend.GnomeBackend.get_ordered_versions(project)
         #print [str(o) for o in obs]

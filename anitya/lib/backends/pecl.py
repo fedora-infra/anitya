@@ -16,7 +16,7 @@ from anitya.lib.exceptions import AnityaPluginException
 def _get_versions(url):
     ''' Retrieve the versions for the provided url. '''
     try:
-        req = PearBackend.call_url(url)
+        req = PeclBackend.call_url(url)
     except Exception:  # pragma: no cover
         raise AnityaPluginException('Could not contact %s' % url)
 
