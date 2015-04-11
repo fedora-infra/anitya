@@ -13,6 +13,22 @@ from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
 from anitya.lib.exceptions import AnityaPluginException
 
 
+def _get_versions(url):
+    ''' Retrieve the versions for the provided url. '''
+    try:
+        req = PearBackend.call_url(url)
+    except Exception:  # pragma: no cover
+        raise AnityaPluginException('Could not contact %s' % url)
+
+    data = req.text
+    versions = []
+    for line in data.split('\n'):
+        if '<v>' in line and '</v>' in line:
+            version = line.split('v>', 2)[1].split('</')[0]
+            versions.append(version)
+    return versions
+
+
 class PearBackend(BaseBackend):
     ''' The custom class for projects hosted on pear.php.net.
 
@@ -40,7 +56,7 @@ class PearBackend(BaseBackend):
             when the version cannot be retrieved correctly
 
         '''
-        return cls.get_ordered_versions(project)[-1]
+        return cls.get_versions(project)[0]
 
     @classmethod
     def get_versions(cls, project):
@@ -57,19 +73,22 @@ class PearBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url_template = 'http://pear.php.net/package/%(name)s/download/All'
+        url_template = 'https://pear.php.net/rest/r/%(name)s/allreleases.xml'
 
-        url = url_template % {'name': project.name}
-        regex = REGEX % {'name': project.name}
-
+        url = url_template % {'name': project.name.lower()}
+        versions = []
         try:
-            versions = get_versions_by_regex(url, regex, project)
-        except AnityaPluginException, err:
-            if not '-' in project.name:
-                raise err
-            name = project.name.replace("-", "_")
-            url = url_template % {'name': name}
-            regex = REGEX % {'name': name}
-            versions = get_versions_by_regex(url, regex, project)
+            versions = _get_versions(url)
+        except AnityaPluginException:
+            pass
+
+        if not versions and '-' in project.name:
+            pname = project.name.lower().replace('-', '_')
+            url = url_template % {'name': pname}
+            versions = _get_versions(url)
+
+        if not versions:
+            raise AnityaPluginException(
+                'No versions found for %s' % project.name.lower())
 
         return versions

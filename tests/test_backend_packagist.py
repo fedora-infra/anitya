@@ -116,7 +116,8 @@ class PackagistBackendtests(Modeltests):
             '2.0.1', '2.0.10', '2.0.11', '2.0.12', '2.0.13', '2.0.14',
             '2.0.15',
             '2.0.2', '2.0.3', '2.0.4', '2.0.5',
-            '2.0.6', '2.0.7', '2.0.8', '2.0.9', 'dev-master',
+            '2.0.6', '2.0.7', '2.0.8', '2.0.9',
+            'dev-feature/three-shades-of-green', 'dev-master',
         ]
         obs = backend.PackagistBackend.get_versions(project)
         self.assertEqual(obs, exp)
