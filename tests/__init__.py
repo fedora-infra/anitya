@@ -23,29 +23,18 @@
 Anitya tests.
 '''
 
-__requires__ = ['SQLAlchemy >= 0.7']
-import pkg_resources
-
 import logging
 import unittest
 import sys
 import os
 
-from datetime import date
-from datetime import timedelta
 from functools import wraps
 
-from contextlib import contextmanager
-from flask import appcontext_pushed, g
-
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import scoped_session
+import vcr
 
 sys.path.insert(0, os.path.join(os.path.dirname(
     os.path.abspath(__file__)), '..'))
 
-from anitya.app import APP
 import anitya.lib
 import anitya.lib.model as model
 
@@ -102,10 +91,14 @@ class Modeltests(unittest.TestCase):
         anitya.LOG.setLevel(logging.CRITICAL)
 
         anitya.lib.plugins.load_plugins(self.session)
+        self.vcr = vcr.use_cassette('tests/request-data/' + self.id())
+        self.vcr.__enter__()
 
     # pylint: disable=C0103
     def tearDown(self):
         """ Remove the test.db database if there is one. """
+        self.vcr.__exit__()
+
         if '///' in DB_PATH:
             dbfile = DB_PATH.split('///')[1]
             if os.path.exists(dbfile):
