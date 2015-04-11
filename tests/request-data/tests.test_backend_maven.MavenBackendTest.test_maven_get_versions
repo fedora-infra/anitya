@@ -1,0 +1,89 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.3.0 at upstream-monitoring.org]
+    method: GET
+    uri: http://repo1.maven.org/maven2/org/codehaus/plexus/plexus-maven-plugin
+  response:
+    body: {string: !!python/unicode "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\
+        \n<body bgcolor=\"white\">\r\n<center><h1>301 Moved Permanently</h1></center>\r\
+        \n<hr><center>nginx/1.4.1</center>\r\n</body>\r\n</html>\r\n"}
+    headers:
+      accept-ranges: [bytes]
+      age: ['178592']
+      connection: [keep-alive]
+      content-length: ['184']
+      content-type: [text/html]
+      date: ['Sat, 11 Apr 2015 19:46:49 GMT']
+      location: ['http://repo1.maven.org/maven2/org/codehaus/plexus/plexus-maven-plugin/']
+      server: [nginx]
+      vary: ['Fastly-SSL,']
+      via: [1.1 varnish, 1.1 varnish]
+      x-cache: ['HIT, HIT']
+      x-cache-hits: ['1, 1']
+      x-served-by: ['cache-iad2144-IAD, cache-atl6226-ATL']
+      x-timer: ['S1428781609.454918,VS0,VE0']
+    status: {code: 301, message: Moved Permanently}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.3.0 at upstream-monitoring.org]
+    method: GET
+    uri: http://repo1.maven.org/maven2/org/codehaus/plexus/plexus-maven-plugin/
+  response:
+    body: {string: !!python/unicode "<html>\r\n<head><title>Index of /maven2/org/codehaus/plexus/plexus-maven-plugin/</title></head>\r\
+        \n<body bgcolor=\"white\">\r\n<h1>Index of /maven2/org/codehaus/plexus/plexus-maven-plugin/</h1><hr><pre><a\
+        \ href=\"../\">../</a>\r\n<a href=\"1.1/\">1.1/</a>                      \
+        \                         21-Apr-2010 08:41                   -\r\n<a href=\"\
+        1.1-alpha-7/\">1.1-alpha-7/</a>                                       21-Apr-2010\
+        \ 08:41                   -\r\n<a href=\"1.1.1/\">1.1.1/</a>             \
+        \                                21-Apr-2010 08:41                   -\r\n\
+        <a href=\"1.1.2/\">1.1.2/</a>                                            \
+        \ 21-Apr-2010 08:41                   -\r\n<a href=\"1.1.3/\">1.1.3/</a> \
+        \                                            21-Apr-2010 08:41           \
+        \        -\r\n<a href=\"1.2/\">1.2/</a>                                  \
+        \             21-Apr-2010 08:41                   -\r\n<a href=\"1.3/\">1.3/</a>\
+        \                                               21-Apr-2010 08:41        \
+        \           -\r\n<a href=\"1.3.1/\">1.3.1/</a>                           \
+        \                  21-Apr-2010 08:41                   -\r\n<a href=\"1.3.2/\"\
+        >1.3.2/</a>                                             21-Apr-2010 08:41\
+        \                   -\r\n<a href=\"1.3.3/\">1.3.3/</a>                   \
+        \                          21-Apr-2010 08:41                   -\r\n<a href=\"\
+        1.3.4/\">1.3.4/</a>                                             21-Apr-2010\
+        \ 08:41                   -\r\n<a href=\"1.3.5/\">1.3.5/</a>             \
+        \                                21-Apr-2010 08:41                   -\r\n\
+        <a href=\"1.3.6/\">1.3.6/</a>                                            \
+        \ 21-Apr-2010 08:41                   -\r\n<a href=\"1.3.7/\">1.3.7/</a> \
+        \                                            21-Apr-2010 08:41           \
+        \        -\r\n<a href=\"1.3.8/\">1.3.8/</a>                              \
+        \               21-Apr-2010 08:41                   -\r\n<a href=\"maven-metadata.xml\"\
+        >maven-metadata.xml</a>                                 21-Apr-2010 08:41\
+        \                 779\r\n<a href=\"maven-metadata.xml.md5\">maven-metadata.xml.md5</a>\
+        \                             21-Apr-2010 08:41                  32\r\n<a\
+        \ href=\"maven-metadata.xml.sha1\">maven-metadata.xml.sha1</a>           \
+        \                 21-Apr-2010 08:41                  40\r\n</pre><hr></body>\r\
+        \n</html>\r\n"}
+    headers:
+      accept-ranges: [bytes]
+      age: ['178592']
+      connection: [keep-alive]
+      content-length: ['2288']
+      content-type: [text/html]
+      date: ['Sat, 11 Apr 2015 19:46:49 GMT']
+      server: [nginx]
+      via: [1.1 varnish, 1.1 varnish]
+      x-cache: ['HIT, HIT']
+      x-cache-hits: ['1, 1']
+      x-served-by: ['cache-iad2136-IAD, cache-atl6226-ATL']
+      x-timer: ['S1428781609.486720,VS0,VE0']
+    status: {code: 200, message: OK}
+version: 1

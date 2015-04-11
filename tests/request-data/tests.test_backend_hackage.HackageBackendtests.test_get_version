@@ -1,0 +1,195 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.3.0 at upstream-monitoring.org]
+    method: GET
+    uri: http://hackage.haskell.org/package/Biobase
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0
+        Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>Biobase:
+        Base library for bioinformatics | Hackage</title><link rel="stylesheet" href="/static/hackage.css"
+        type="text/css" /><link rel="search" href="/packages/opensearch.xml" type="application/opensearchdescription+xml"
+        title="Hackage" /></head><body><div id="page-header"><ul class="links" id="page-menu"><li><a
+        href="/">Home</a></li><li><form action="/packages/search" class="search" method="get"><button
+        type="submit">Search</button>&nbsp;<input type="text" name="terms" /></form></li><li><a
+        href="/packages/">Browse</a></li><li><a href="/packages/recent">What''s new</a></li><li><a
+        href="/upload">Upload</a></li><li><a href="/accounts">User accounts</a></li></ul><p
+        class="caption">Biobase: Base library for bioinformatics</p></div><div id="content"><h1>The
+        Biobase package</h1><div style="font-size: small">[<a href="/packages/tags">Tags</a>:
+        <a href="/packages/tag/gpl">gpl</a>, <a href="/packages/tag/library">library</a>]
+        </div><p>Base library for bioinformatics providing the following features:
+
+        </p><p>RNA sequences and energy files:
+
+        </p><ul><li><p> efficient format for RNA sequences, based on the vector package
+
+        </p></li><li><p> internal conversion from strings and bytestrings
+
+        </p></li><li><p> secondary structure manipulation functions, im- and export
+        of Vienna-dotbracket notation
+
+        </p></li></ul><p>Utility classes:
+
+        </p><ul><li><p> algebraic ring class
+
+        </p></li><li><p> instances for Gibbs free energy, partition function probabilities,
+        and scores
+
+        </p></li><li><p> conversion between different entities
+
+        </p></li></ul><p>Bioinformatics data sources:
+
+        </p><ul><li><p> mostly just imports, some export functions are provided
+
+        </p></li><li><p> Fasta (please use the <tt>bio</tt> library by Ketil Malde)
+
+        </p></li><li><p> Mafft
+
+        </p></li><li><p> RNA secondary structure: Dot-Bracket, CT
+
+        </p></li><li><p> ViennaRNA energy files (with default parameters)
+
+        </p></li><li><p> Turner energy files: cf. <a href="http://rna.urmc.rochester.edu/NNDB/index.html">http://rna.urmc.rochester.edu/NNDB/index.html</a>
+
+        </p></li><li><p> RNAstrand database: dot-parenthesis (one file, many entries)
+
+        </p></li><li><p> FR3D: basepairs
+
+        </p></li><li><p> Infernal: covariance models (text-based)
+
+        </p></li><li><p> MC-Fold: NCM database
+
+        </p></li></ul><p>Important notes:
+
+        </p><ul><li><p> In general, this library is not unicode safe (and could somebody
+        tell me the reason for encoding DNA/RNA sequences in unicode?)
+
+        </p></li></ul><hr /><ul><li>No changelog available</li></ul><h2>Properties</h2><table
+        class="properties"><tr><th>Versions</th><td><a href="/package/Biobase-0.0.2.0">0.0.2.0</a>,
+        <a href="/package/Biobase-0.0.2.1">0.0.2.1</a>, <a href="/package/Biobase-0.1.0.0">0.1.0.0</a>,
+        <a href="/package/Biobase-0.1.0.1">0.1.0.1</a>, <a href="/package/Biobase-0.3.1.0">0.3.1.0</a>,
+        <strong>0.3.1.1</strong></td></tr><tr><th>Dependencies</th><td><a href="/package/array">array</a>,
+        <a href="/package/base">base</a> (==4.*), <a href="/package/bytestring">bytestring</a>,
+        <a href="/package/containers">containers</a>, <a href="/package/deepseq">deepseq</a>,
+        <a href="/package/directory">directory</a> (&gt;=1), <a href="/package/either-unwrap">either-unwrap</a>,
+        <a href="/package/file-embed">file-embed</a> (&gt;=0.0.3), <a href="/package/filemanip">filemanip</a>
+        (&gt;=0.3.3 &amp;&amp; &lt;0.4), <a href="/package/filepath">filepath</a>,
+        <a href="/package/ghc-prim">ghc-prim</a>, <a href="/package/HsTools">HsTools</a>
+        (&gt;=0.0.1.1 &amp;&amp; &lt;0.0.2), <a href="/package/mtl">mtl</a>, <a href="/package/parsec">parsec</a>
+        (==3.*), <a href="/package/ParsecTools">ParsecTools</a> (==0.0.2.*), <a href="/package/primitive">primitive</a>
+        (==0.3.*), <a href="/package/PrimitiveArray">PrimitiveArray</a> (&gt;=0.0.3.1
+        &amp;&amp; &lt;0.0.4), <a href="/package/split">split</a> (&gt;=0.1.2.3),
+        <a href="/package/tuple">tuple</a> (&gt;=0.2.0.1), <a href="/package/utility-ht">utility-ht</a>,
+        <a href="/package/vector">vector</a> (==0.7.*), <a href="/package/vector-read-instances">vector-read-instances</a>,
+        <a href="/package/zlib">zlib</a></td></tr><tr><th>License</th><td>GPL-3</td></tr><tr><th>Copyright</th><td>Christian
+        Hoener zu Siederdissen, 2010,2011</td></tr><tr><th>Author</th><td>Christian
+        Hoener zu Siederdissen</td></tr><tr><th>Maintainer</th><td>choener@tbi.univie.ac.at</td></tr><tr><th>Stability</th><td>experimental</td></tr><tr><th>Category</th><td><a
+        href="/packages/#cat:Bioinformatics">Bioinformatics</a></td></tr><tr><th>Home
+        page</th><td><a href="http://www.tbi.univie.ac.at/~choener/">http://www.tbi.univie.ac.at/~choener/</a></td></tr><tr><th>Uploaded</th><td>Fri
+        Apr  8 12:46:37 UTC 2011 by <a href="/user/ChristianHoener">ChristianHoener</a></td></tr><tr><th>Distributions</th><td>NixOS:<a
+        href="http://hydra.nixos.org/job/nixpkgs/haskell-updates/haskellngPackages.Biobase.x86_64-linux">0.3.1.1</a></td></tr><tr><th>Downloads</th><td>1217
+        total (87 in last 30 days)</td></tr><tr><th>Status</th><td>Docs not available
+        <span style="font-size: small">[<a href="/package/Biobase-0.3.1.1/reports/1">build
+        log</a>]</span><br />All reported builds failed <span style="font-size: small">[<a
+        href="/package/Biobase-0.3.1.1/reports/">all 1 reports</a>]</span></td></tr></table><h2>Modules</h2><div
+        id="module-list"><ul class="modules"><li><i>Biobase</i><ul class="modules"><li><span
+        class="module">Biobase.Constants</span></li><li><i>DataSource</i><ul class="modules"><li><span
+        class="module">Biobase.DataSource.CT</span><ul class="modules"><li><span class="module">Biobase.DataSource.CT.Import</span></li></ul></li><li><span
+        class="module">Biobase.DataSource.DotParen</span><ul class="modules"><li><span
+        class="module">Biobase.DataSource.DotParen.Import</span></li></ul></li><li><span
+        class="module">Biobase.DataSource.FR3D</span><ul class="modules"><li><span
+        class="module">Biobase.DataSource.FR3D.Import</span></li></ul></li><li><span
+        class="module">Biobase.DataSource.InfernalCM</span><ul class="modules"><li><span
+        class="module">Biobase.DataSource.InfernalCM.Export</span></li><li><span class="module">Biobase.DataSource.InfernalCM.Import</span></li></ul></li><li><span
+        class="module">Biobase.DataSource.MCFold</span><ul class="modules"><li><span
+        class="module">Biobase.DataSource.MCFold.Conversions</span></li><li><span
+        class="module">Biobase.DataSource.MCFold.Import</span></li></ul></li><li><span
+        class="module">Biobase.DataSource.Mafft</span><ul class="modules"><li><span
+        class="module">Biobase.DataSource.Mafft.Import</span></li></ul></li><li><span
+        class="module">Biobase.DataSource.Turner</span><ul class="modules"><li><span
+        class="module">Biobase.DataSource.Turner.Import</span></li><li><span class="module">Biobase.DataSource.Turner.Tables</span></li></ul></li><li><span
+        class="module">Biobase.DataSource.Vienna</span><ul class="modules"><li><span
+        class="module">Biobase.DataSource.Vienna.Default</span></li><li><i>Export</i><ul
+        class="modules"><li><span class="module">Biobase.DataSource.Vienna.Export.ViennaC</span></li><li><span
+        class="module">Biobase.DataSource.Vienna.Export.ViennaPar</span></li></ul></li><li><i>Import</i><ul
+        class="modules"><li><span class="module">Biobase.DataSource.Vienna.Import.Turner</span></li><li><span
+        class="module">Biobase.DataSource.Vienna.Import.ViennaPar</span></li></ul></li><li><i>Modification</i><ul
+        class="modules"><li><span class="module">Biobase.DataSource.Vienna.Modification.NonStandard</span></li><li><span
+        class="module">Biobase.DataSource.Vienna.Modification.Partition</span></li><li><span
+        class="module">Biobase.DataSource.Vienna.Modification.Temperature</span></li></ul></li></ul></li></ul></li><li><span
+        class="module">Biobase.RNA</span><ul class="modules"><li><span class="module">Biobase.RNA.Complex</span></li><li><span
+        class="module">Biobase.RNA.Hashes</span></li><li><span class="module">Biobase.RNA.NucBounds</span></li><li><span
+        class="module">Biobase.RNA.Pairs</span></li><li><span class="module">Biobase.RNA.ViennaPair</span></li></ul></li><li><span
+        class="module">Biobase.ScoreTypes</span></li><li><span class="module">Biobase.Structure</span><ul
+        class="modules"><li><span class="module">Biobase.Structure.Constraint</span></li><li><span
+        class="module">Biobase.Structure.Shapes</span></li></ul></li><li><i>Types</i><ul
+        class="modules"><li><span class="module">Biobase.Types.Convert</span></li><li><span
+        class="module">Biobase.Types.Energy</span></li><li><span class="module">Biobase.Types.Partition</span></li><li><span
+        class="module">Biobase.Types.Ring</span></li><li><span class="module">Biobase.Types.Score</span></li></ul></li></ul></li></ul></div><h2>Downloads</h2><ul><li><a
+        href="/package/Biobase-0.3.1.1/Biobase-0.3.1.1.tar.gz">Biobase-0.3.1.1.tar.gz</a>
+        [<a href="/package/Biobase-0.3.1.1/src/">browse</a>] (Cabal source package)</li><li><a
+        href="/package/Biobase-0.3.1.1/Biobase.cabal">Package description</a> (included
+        in the package)</li></ul><h4>Maintainers'' corner</h4><p>For package maintainers
+        and hackage trustees</p><ul><li><a href="Biobase/maintain">edit package information</a></li></ul></div><div
+        id="footer"><p>Produced by <a href="/">hackage</a> and <a href="http://haskell.org/cabal/">Cabal</a>
+        1.20.0.2</p></div></body></html>'}
+    headers:
+      accept-ranges: [bytes]
+      age: ['0']
+      connection: [keep-alive]
+      content-type: [text/html; charset=utf-8]
+      date: ['Sat, 11 Apr 2015 19:46:44 GMT']
+      server: [nginx/1.6.2]
+      transfer-encoding: [chunked]
+      via: [1.1 varnish]
+      x-cache: [MISS]
+      x-cache-hits: ['0']
+      x-served-by: [cache-iad2130-IAD]
+      x-timer: ['S1428781604.630365,VS0,VE40']
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.3.0 at upstream-monitoring.org]
+    method: GET
+    uri: http://hackage.haskell.org/package/foobar
+  response:
+    body: {string: !!python/unicode "<!DOCTYPE html>\n<html>\n<head>\n<link rel=\"\
+        stylesheet\" href=\"/static/hackage.css\" type=\"text/css\" />\n<link rel=\"\
+        search\" type=\"application/opensearchdescription+xml\" title=\"Hackage\"\
+        \ href=\"/packages/opensearch.xml\" />\n<title>Package not found | Hackage</title>\n\
+        </head>\n\n<body>\n<div id=\"page-header\">\n\n<ul class=\"links\" id=\"page-menu\"\
+        >\n\n    <li><a href=\"/\">Home</a></li>\n\n    <li>\n      <form action=\"\
+        /packages/search\" method=\"get\" class=\"search\">\n        <button type=\"\
+        submit\">Search&nbsp;</button>\n        <input type=\"text\" name=\"terms\"\
+        \ />\n      </form>\n    </li>\n\n    <li><a href=\"/packages/\">Browse</a></li>\n\
+        \n    <li><a href=\"/packages/recent\">What's new</a></li>\n\n    <li><a href=\"\
+        /upload\">Upload</a></li>\n\n    <li><a href=\"/accounts\">User accounts</a></li>\n\
+        \n</ul>\n\n<a class=\"caption\" href=\"/\">Hackage :: [Package]</a>\n\n</div>\n\
+        \n<div id=\"content\">\n<h1>Package not found</h1>\n\n<p>No such package in\
+        \ package index</p>\n\n</div>\n</body>\n</html>"}
+    headers:
+      accept-ranges: [bytes]
+      age: ['0']
+      connection: [keep-alive]
+      content-type: [text/html; charset=utf-8]
+      date: ['Sat, 11 Apr 2015 19:46:44 GMT']
+      server: [nginx/1.6.2]
+      transfer-encoding: [chunked]
+      vary: [Accept]
+      via: [1.1 varnish]
+      x-cache: [MISS]
+      x-cache-hits: ['0']
+      x-served-by: [cache-iad2123-IAD]
+      x-timer: ['S1428781604.727325,VS0,VE82']
+    status: {code: 404, message: Not Found}
+version: 1
