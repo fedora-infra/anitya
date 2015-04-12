@@ -1,0 +1,303 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.3.0 at upstream-monitoring.org]
+    method: GET
+    uri: http://search.cpan.org/dist/SOAP/
+  response:
+    body: {string: !!python/unicode "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01\
+        \ Transitional//EN\">\n<html>\n <head>\n  <link rel=\"stylesheet\" href=\"\
+        http://st.pimg.net/tucs/style.css?3\" type=\"text/css\" />\n<style>\n.styleswitch\
+        \ {\n  text-align: right;\n}\n</style>\n\n\n<script type=\"text/javascript\"\
+        \ src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"\
+        ></script>\n<script type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/jquery.cookie.js\"\
+        ></script>\n<script type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/sh_main.min.js\"\
+        ></script>\n<script type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/sh_perl.min.js\"\
+        ></script>\n<script type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/jquery.styleswitch.js\"\
+        ></script>\n\n<link rel=\"stylesheet\" href=\"http://st.pimg.net/tucs/print.css\"\
+        \ type=\"text/css\" media=\"print\" />\n  <link rel=\"alternate\" type=\"\
+        application/rss+xml\" title=\"RSS 1.0\" href=\"http://search.cpan.org/uploads.rdf\"\
+        \ />\n  <link rel=\"search\" href=\"http://st.pimg.net/tucs/opensearch.xml\"\
+        \ type=\"application/opensearchdescription+xml\" title=\"SearchCPAN\" />\n\
+        \  <title>Keith Brown / SOAP - search.cpan.org</title>\n <script type=\"text/javascript\"\
+        >\n    var _gaq = _gaq || [];\n    _gaq.push(['_setAccount', 'UA-3528438-1']);\n\
+        \    _gaq.push([\"_setCustomVar\",5,\"Release\",\"SOAP-0.28\",3]);\n    _gaq.push([\"\
+        _setCustomVar\",2,\"Distribution\",\"SOAP\",3]);\n    _gaq.push([\"_setCustomVar\"\
+        ,1,\"Author\",\"KBROWN\",3]);\n    _gaq.push(['_trackPageview']);\n  </script>\n\
+        \ </head>\n <body id=\"cpansearch\">\n   <div class=\"header\">\n<center><div\
+        \ class=\"logo\"><a href=\"/\"><img src=\"http://st.pimg.net/tucs/img/cpan_banner.png\"\
+        \ alt=\"CPAN\"></a></div></center>\n<div class=\"menubar\">\n <a href=\"/\"\
+        >Home</a>\n&middot; <a href=\"/author/\">Authors</a>\n&middot; <a href=\"\
+        /recent\">Recent</a>\n&middot; <a href=\"http://log.perl.org/cpansearch/\"\
+        >News</a>\n&middot; <a href=\"/mirror\">Mirrors</a>\n&middot; <a href=\"/faq.html\"\
+        >FAQ</a>\n&middot; <a href=\"/feedback\">Feedback</a>\n</div>\n<form method=\"\
+        get\" action=\"/search\" name=\"f\" class=\"searchbox\">\n<input type=\"text\"\
+        \ name=\"query\" value=\"\" size=\"35\">\n<br>in <select name=\"mode\">\n\
+        \ <option value=\"all\">All</option>\n <option value=\"module\" >Modules</option>\n\
+        \ <option value=\"dist\" >Distributions</option>\n <option value=\"author\"\
+        \ >Authors</option>\n</select>&nbsp;<input type=\"submit\" value=\"CPAN Search\"\
+        >\n</form>\n</div>\n\n\n  <div class=path>\n<div id=permalink class=\"noprint\"\
+        ><a href=\"/dist/SOAP/\">permalink</a></div>\n  <a href=\"/~kbrown/\">Keith\
+        \ Brown</a> &gt;\n  SOAP\n </div>\n\n <div class=box>\n  <h1 class=t1>SOAP</h1>\n\
+        <a href=\"http://hexten.net/cpan-faces/\"><img src=\"http://www.gravatar.com/avatar/58b29a24803bb9bd2a0b5c31340a531f?r=g&s=80&d=http%3A%2F%2Fst.pimg.net%2Ftucs%2Fimg%2Fwho.png\"\
+        \ width=80 height=80 \nstyle=\"float:right\"\n/></a>\n\n  <table>\n   <tr>\n\
+        \    <td class=label>This Release</td>\n    <td class=cell>SOAP-0.28</td>\n\
+        \    <td><small>&nbsp;[<a href=\"/CPAN/authors/id/K/KB/KBROWN/SOAP-0.28.tar.gz\"\
+        >Download</a>]\n    [<a href=\"/src/KBROWN/SOAP-0.28/\">Browse</a>]&nbsp;</small></td>\n\
+        \    <td><small>05 Sep 2000</small>\n    </td>\n   </tr>\n\n\n\n   <tr>\n\
+        \    <td class=label>Other Releases</td>\n    <td class=cell colspan=3>\n\
+        \     <form action=\"/redirect\">\n      <select name=\"url\">\n       <option\
+        \ value=\"/~kbrown/SOAP-0.26/\">SOAP-0.26&nbsp;&nbsp;--&nbsp;&nbsp;31 Aug\
+        \ 2000</option>\n       <option value=\"/~kbrown/SOAP-0.25/\">SOAP-0.25&nbsp;&nbsp;--&nbsp;&nbsp;16\
+        \ Aug 2000</option>\n       <option value=\"/~kbrown/SOAP-0.23/\">SOAP-0.23&nbsp;&nbsp;--&nbsp;&nbsp;09\
+        \ Jan 2000</option>\n       <option value=\"/~kbrown/SOAP-0.22/\">SOAP-0.22&nbsp;&nbsp;--&nbsp;&nbsp;03\
+        \ Jan 2000</option>\n      </select><input type=submit value=\"Goto\">\n \
+        \    </form></td></tr>\n\n   <tr>\n    <td class=label>Links</td>\n    <td\
+        \ class=cell colspan=3><small>\n     [&nbsp;<a href=\"http://www.cpanforum.com/dist/SOAP\"\
+        >Discussion&nbsp;Forum</a>&nbsp;]\n     [&nbsp;<a href=\"https://rt.cpan.org/Public/Dist/Display.html?Name=SOAP\"\
+        >View/Report&nbsp;Bugs (3)</a>&nbsp;]\n     [&nbsp;<a href=\"http://deps.cpantesters.org/?module=SOAP;perl=latest\"\
+        >Dependencies</a>&nbsp;]\n     [&nbsp;<a href=\"/tools/SOAP-0.28\">Other&nbsp;Tools</a>&nbsp;]\n\
+        \    </small></td></tr>\n\n\n<tr>\n    <td class=label>CPAN Testers</td>\n\
+        \    <td class=cell colspan=3><small>\nPASS (72)&nbsp;&nbsp;\nFAIL (10)&nbsp;&nbsp;\n\
+        NA (3)&nbsp;&nbsp;\nUNKNOWN (3)&nbsp;&nbsp;\n     [&nbsp;<a href=\"http://www.cpantesters.org/distro/S/SOAP.html#SOAP-0.28\"\
+        >View&nbsp;Reports</a>&nbsp;]\n     [&nbsp;<a href=\"http://matrix.cpantesters.org/?dist=SOAP+0.28\"\
+        >Perl/Platform&nbsp;Version&nbsp;Matrix</a>&nbsp;]\n    </small></td></tr>\n\
+        \n\n   <tr>\n    <td class=label>Rating</td>\n    <td class=cell colspan=3\
+        \ nowrap><small>\n<img src=\"http://st.pimg.net/tucs/img/stars-1.0.gif\" alt=\"\
+        *    \">\n     (<a href=\"http://cpanratings.perl.org/d/SOAP\">1 Reviews</a>)\n\
+        \     [&nbsp;<a href=\"http://cpanratings.perl.org/rate/?distribution=SOAP\"\
+        >Rate&nbsp;this&nbsp;distribution</a>&nbsp;]\n\n    </small></td></tr>\n\n\
+        \   <tr>\n    <td class=label>License</td>\n    <td class=cell colspan=3>\n\
+        Unknown\n</td>\n   </tr>\n   <tr>\n    <td class=label>Special Files</td>\n\
+        \    <td class=cell colspan=3><table><tr class=distfiles>\n     <td>\n   \
+        \   <a href=\"/src/KBROWN/SOAP-0.28/Changes\">Changes</a><br>\n     </td>\n\
+        \     <td>\n      <a href=\"/src/KBROWN/SOAP-0.28/Makefile.PL\">Makefile.PL</a><br>\n\
+        \     </td>\n     <td>\n      <a href=\"MANIFEST\">MANIFEST</a><br>\n    \
+        \ </td>\n     <td>\n      <a href=\"/src/KBROWN/SOAP-0.28/README\">README</a><br>\n\
+        \     </td>\n    </tr></table></td>\n   </tr>\n  </table>\n </div>\n\n <div\
+        \ class=box>\n  <h2 class=t2>Modules</h2>\n  <table width=\"100%\">\n   <tr\
+        \ class=r>\n    <td>\n     <a href=\"lib/SOAP.pm\">SOAP</a>\n    </td>\n \
+        \   <td width=\"99%\">\n     <small>Library for SOAP clients and servers in\
+        \ Perl&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\"\
+        >0.28</td>\n   </tr>\n   <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/Defs.pm\"\
+        >SOAP::Defs</a>\n    </td>\n    <td width=\"99%\">\n     <small>Spec-defined\
+        \ constants&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n    <td class=\"\
+        version\">0.28</td>\n   </tr>\n   <tr class=r>\n    <td>\n     <a href=\"\
+        lib/SOAP/Envelope.pm\">SOAP::Envelope</a>\n    </td>\n    <td width=\"99%\"\
+        >\n     <small>Creates SOAP streams&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n\
+        \    <td class=\"version\">0.28</td>\n   </tr>\n   <tr class=s>\n    <td>\n\
+        \     <a href=\"lib/SOAP/EnvelopeMaker.pm\">SOAP::EnvelopeMaker</a>\n    </td>\n\
+        \    <td width=\"99%\">\n     <small>Creates SOAP envelopes&nbsp;</small>\n\
+        \    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n\
+        \   <tr class=r>\n    <td>\n     <a href=\"lib/SOAP/GenericHashSerializer.pm\"\
+        >SOAP::GenericHashSerializer</a>\n    </td>\n    <td width=\"99%\">\n    \
+        \ <small>Generic serializer for Perl hashes&nbsp;</small>\n    </td>\n   \
+        \ <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n   <tr class=s>\n\
+        \    <td>\n     <a href=\"lib/SOAP/GenericInputStream.pm\">SOAP::GenericInputStream</a>\n\
+        \    </td>\n    <td width=\"99%\">\n     <small>Default handler for SOAP::Parser\
+        \ output&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\"\
+        >0.28</td>\n   </tr>\n   <tr class=r>\n    <td>\n     <a href=\"lib/SOAP/GenericScalarSerializer.pm\"\
+        >SOAP::GenericScalarSerializer</a>\n    </td>\n    <td width=\"99%\">\n  \
+        \   <small>Generic serializer for Perl scalar references&nbsp;</small>\n \
+        \   </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n\
+        \   <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/OutputStream.pm\">SOAP::OutputStream</a>\n\
+        \    </td>\n    <td width=\"99%\">\n     <small>Writes SOAP fragments&nbsp;</small>\n\
+        \    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n\
+        \   <tr class=r>\n    <td>\n     <a href=\"lib/SOAP/Packager.pm\">SOAP::Packager</a>\n\
+        \    </td>\n    <td width=\"99%\">\n     <small>SOAP internal helper class&nbsp;</small>\n\
+        \    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n\
+        \   <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/Parser.pm\">SOAP::Parser</a>\n\
+        \    </td>\n    <td width=\"99%\">\n     <small>Parses SOAP documents&nbsp;</small>\n\
+        \    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n\
+        \   <tr class=r>\n    <td>\n     <a href=\"lib/SOAP/Serializer.pm\">SOAP::Serializer</a>\n\
+        \    </td>\n    <td width=\"99%\">\n     <small>serialization utilities&nbsp;</small>\n\
+        \    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n\
+        \   <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/SimpleTypeWrapper.pm\"\
+        >SOAP::SimpleTypeWrapper</a>\n    </td>\n    <td width=\"99%\">\n     <small>deprecated&nbsp;</small>\n\
+        \    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n\
+        \   <tr class=r>\n    <td>\n     <a href=\"lib/SOAP/Struct.pm\">SOAP::Struct</a>\n\
+        \    </td>\n    <td width=\"99%\">\n     <small>support for ordered hashes&nbsp;</small>\n\
+        \    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n\
+        \   <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/StructSerializer.pm\"\
+        >SOAP::StructSerializer</a>\n    </td>\n    <td width=\"99%\">\n     <small>(internal)\
+        \ serializer for SOAP structs&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n\
+        \    <td class=\"version\">0.28</td>\n   </tr>\n   <tr class=r>\n    <td>\n\
+        \     <a href=\"lib/SOAP/Transport/HTTP/Apache.pm\">SOAP::Transport::HTTP::Apache</a>\n\
+        \    </td>\n    <td width=\"99%\">\n     <small>SOAP mod_perl handler&nbsp;</small>\n\
+        \    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n\
+        \   <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/Transport/HTTP/CGI.pm\"\
+        >SOAP::Transport::HTTP::CGI</a>\n    </td>\n    <td width=\"99%\">\n     <small>Generic\
+        \ SOAP CGI handler&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n    <td\
+        \ class=\"version\">0.28</td>\n   </tr>\n   <tr class=r>\n    <td>\n     <a\
+        \ href=\"lib/SOAP/Transport/HTTP/Client.pm\">SOAP::Transport::HTTP::Client</a>\n\
+        \    </td>\n    <td width=\"99%\">\n     <small>Client side HTTP support for\
+        \ SOAP/Perl&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n    <td class=\"\
+        version\">0.28</td>\n   </tr>\n   <tr class=s>\n    <td>\n     <a href=\"\
+        lib/SOAP/Transport/HTTP/Server.pm\">SOAP::Transport::HTTP::Server</a>\n  \
+        \  </td>\n    <td width=\"99%\">\n     <small>Server side HTTP support for\
+        \ SOAP/Perl&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n    <td class=\"\
+        version\">0.28</td>\n   </tr>\n   <tr class=r>\n    <td>\n     <a href=\"\
+        lib/SOAP/TypeMapper.pm\">SOAP::TypeMapper</a>\n    </td>\n    <td width=\"\
+        99%\">\n     <small>Maps Perl types to their serializer/deserializer classes&nbsp;</small>\n\
+        \    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n\
+        \   <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/TypedPrimitive.pm\">SOAP::TypedPrimitive</a>\n\
+        \    </td>\n    <td width=\"99%\">\n     <small>Wrapper for xsd primitives\
+        \ that need explicit SOAP type attributes&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n\
+        \    <td class=\"version\">0.28</td>\n   </tr>\n   <tr class=r>\n    <td>\n\
+        \     <a href=\"lib/SOAP/TypedPrimitiveSerializer.pm\">SOAP::TypedPrimitiveSerializer</a>\n\
+        \    </td>\n    <td width=\"99%\">\n     <small>serializer for xsd scalars&nbsp;</small>\n\
+        \    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n\
+        \  </table>\n </div>\n\n\n<div class=\"footer\"><div class=\"cpanstats\">109502\
+        \ Uploads, 31652 Distributions\n149737 Modules, 12129 Uploaders\n</div>\n\
+        <div class=\"sponsor\">\nhosted by <a href=\"http://www.yellowbot.com\">YellowBot</a><br/>\n\
+        <a href=\"http://www.yellowbot.com\"><img alt=\"do. tag. write. share.\" src=\"\
+        http://st.pimg.net/tucs/img/yellowbot_logo.gif\"></a>\n</div>\n</div>\n<script\
+        \ type=\"text/javascript\">\nvar gaJsHost = ((\"https:\" == document.location.protocol)\
+        \ ? \"https://ssl.\" : \"http://www.\");\ndocument.write(unescape(\"%3Cscript\
+        \ src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"\
+        ));\n</script>\n<script type=\"text/javascript\" src=\"http://ipv4.v6test.develooper.com/js/v1/v6test.js\"\
+        ></script>\n\n<script type=\"text/javascript\">\n   // v6.target = '';\n \
+        \  if (!v6.target) { v6.only_once = true }\n   v6.site = '7A0D89A6-2B82-11DF-B9DA-F61CBD13F020';\n\
+        \   v6.api_server = 'http://ipv4.v6test.develooper.com';\n   try {\n     v6.test();\n\
+        \   } catch(err) {}\n</script>\n<script type=\"text/javascript\">\n  $(document).ready(function(){\n\
+        \    $(\"a[href^=http:]\").click(function(){\n      var href = $(this).attr('href');\n\
+        \      var m = href.match('\\/\\/([^\\/:]+)');\n      _gaq.push(['_trackEvent','External',m[1],'Distribution']);\n\
+        \    });\n    $(\"a[href^=/CPAN/]\").click(function(){\n      var href = $(this).attr('href');\n\
+        \      _gaq.push(['_trackEvent','Download',href,'Distribution']);\n    });\n\
+        \  });\n</script>\n<!-- Sat Apr 11 19:46:06 2015 GMT (0.0254697799682617)\
+        \ @cpansearch2 -->\n </body>\n</html>\n"}
+    headers:
+      cache-control: [max-age=3599]
+      content-length: ['12358']
+      content-type: [text/html]
+      date: ['Sat, 11 Apr 2015 19:46:06 GMT']
+      expires: ['Sat, 11 Apr 2015 20:46:06 GMT']
+      last-modified: ['Sat, 11 Apr 2015 19:46:06 GMT']
+      server: [Plack/Starman (Perl)]
+      x-proxy: [proxy1]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.3.0 at upstream-monitoring.org]
+    method: GET
+    uri: http://search.cpan.org/dist/foo/
+  response:
+    body: {string: !!python/unicode "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01\
+        \ Transitional//EN\">\n<html>\n <head>\n  <link rel=\"stylesheet\" href=\"\
+        http://st.pimg.net/tucs/style.css?3\" type=\"text/css\" />\n<style>\n.styleswitch\
+        \ {\n  text-align: right;\n}\n</style>\n\n\n<script type=\"text/javascript\"\
+        \ src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"\
+        ></script>\n<script type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/jquery.cookie.js\"\
+        ></script>\n<script type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/sh_main.min.js\"\
+        ></script>\n<script type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/sh_perl.min.js\"\
+        ></script>\n<script type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/jquery.styleswitch.js\"\
+        ></script>\n\n<link rel=\"stylesheet\" href=\"http://st.pimg.net/tucs/print.css\"\
+        \ type=\"text/css\" media=\"print\" />\n  <link rel=\"alternate\" type=\"\
+        application/rss+xml\" title=\"RSS 1.0\" href=\"http://search.cpan.org/uploads.rdf\"\
+        \ />\n  <link rel=\"search\" href=\"http://st.pimg.net/tucs/opensearch.xml\"\
+        \ type=\"application/opensearchdescription+xml\" title=\"SearchCPAN\" />\n\
+        \  <title>The CPAN Search Site - search.cpan.org</title>\n <script type=\"\
+        text/javascript\">\n    var _gaq = _gaq || [];\n    _gaq.push(['_setAccount',\
+        \ 'UA-3528438-1']);\n    _gaq.push(['_trackPageview']);\n  </script>\n </head>\n\
+        \ <body id=\"cpansearch\">\n   <div class=\"header\">\n<center><div class=\"\
+        logo\"><a href=\"/\"><img src=\"http://st.pimg.net/tucs/img/cpan_banner.png\"\
+        \ alt=\"CPAN\"></a></div></center>\n<div class=\"menubar\">\n <a href=\"/\"\
+        >Home</a>\n&middot; <a href=\"/author/\">Authors</a>\n&middot; <a href=\"\
+        /recent\">Recent</a>\n&middot; <a href=\"http://log.perl.org/cpansearch/\"\
+        >News</a>\n&middot; <a href=\"/mirror\">Mirrors</a>\n&middot; <a href=\"/faq.html\"\
+        >FAQ</a>\n&middot; <a href=\"/feedback\">Feedback</a>\n</div>\n<form method=\"\
+        get\" action=\"/search\" name=\"f\" class=\"searchbox\">\n<input type=\"text\"\
+        \ name=\"query\" value=\"\" size=\"35\">\n<br>in <select name=\"mode\">\n\
+        \ <option value=\"all\">All</option>\n <option value=\"module\" >Modules</option>\n\
+        \ <option value=\"dist\" >Distributions</option>\n <option value=\"author\"\
+        \ >Authors</option>\n</select>&nbsp;<input type=\"submit\" value=\"CPAN Search\"\
+        >\n</form>\n</div>\n\nThe distribution '<b>foo</b>' cannot be found, did you\
+        \ mean one of these<br />\n\n\n<br><div class=t4>\n<small>\nResults <b>1</b>\
+        \ - <b>10</b> of\n<b>10</b> Found</small></div>\n<!--results-->\n<!--item-->\n\
+        \  <p><h2 class=sr><a href=\"/~miket/DBIx-Foo-0.03/\"><b>DBIx-Foo</b></a></h2>\n\
+        <small>Simple Database Wrapper and Helper Functions. Easy DB integration without\
+        \ the need for an ORM. </small><br/>\n<small>   <a href=\"/~miket/DBIx-Foo-0.03/\"\
+        >DBIx-Foo-0.03</a> -\n   <span class=date>22 Feb 2013</span> -\n   <a href=\"\
+        /~miket/\">Mike Tonks</a>\n</small>\n<!--end item-->\n<!--item-->\n  <p><h2\
+        \ class=sr><a href=\"/~fayland/Foorum-1.001000/\"><b>Foorum</b></a></h2>\n\
+        <small>forum system based on Catalyst </small><br/>\n<small>   <a href=\"\
+        /~fayland/Foorum-1.001000/\">Foorum-1.001000</a> -\n   <span class=date>27\
+        \ Sep 2009</span> -\n   <a href=\"/~fayland/\">Fayland &#x6797;</a>\n</small>\n\
+        <!--end item-->\n<!--item-->\n  <p><h2 class=sr><a href=\"/~manwar/Food-ECodes-0.11/\"\
+        ><b>Food-ECodes</b></a></h2>\n<small>Interface to Food Additive ECodes.</small><br/>\n\
+        <small>   <a href=\"/~manwar/Food-ECodes-0.11/\">Food-ECodes-0.11</a><img\
+        \ src=\"http://st.pimg.net/tucs/img/stars-4.0.gif\" alt=\"**** \">\n     (<a\
+        \ href=\"http://cpanratings.perl.org/d/Food-ECodes\">1 Reviews</a>)\n\n -\n\
+        \   <span class=date>16 Jan 2015</span> -\n   <a href=\"/~manwar/\">Mohammad\
+        \ S Anwar</a>\n</small>\n<!--end item-->\n<!--item-->\n  <p><h2 class=sr><a\
+        \ href=\"/~strytoast/Football-League-Match-0.01/\"><b>Football-League-Match</b></a></h2>\n\
+        <small>A single footie match</small><br/>\n<small>   <a href=\"/~strytoast/Football-League-Match-0.01/\"\
+        >Football-League-Match-0.01</a> -\n   <span class=date>14 Apr 2003</span>\
+        \ -\n   <a href=\"/~strytoast/\">Stray Taoist</a>\n</small>\n<!--end item-->\n\
+        <!--item-->\n  <p><h2 class=sr><a href=\"/~bpostle/I18NFool-0.31/\"><b>I18NFool</b></a></h2>\n\
+        <small>Internationalization File Object Oriented Leech</small><br/>\n<small>\
+        \   <a href=\"/~bpostle/I18NFool-0.31/\">I18NFool-0.31</a> -\n   <span class=date>07\
+        \ Oct 2004</span> -\n   <a href=\"/~bpostle/\">Bruno Postle</a>\n</small>\n\
+        <!--end item-->\n<!--item-->\n  <p><h2 class=sr><a href=\"/~miyagawa/Kwiki-Footnote-0.01/\"\
+        ><b>Kwiki-Footnote</b></a></h2>\n<small>Footnote plugin for Kwiki</small><br/>\n\
+        <small>   <a href=\"/~miyagawa/Kwiki-Footnote-0.01/\">Kwiki-Footnote-0.01</a>\
+        \ -\n   <span class=date>02 Apr 2005</span> -\n   <a href=\"/~miyagawa/\"\
+        >Tatsuhiko Miyagawa</a>\n</small>\n<!--end item-->\n<!--item-->\n  <p><h2\
+        \ class=sr><a href=\"/~spurkis/Scalar-Footnote-0.99_01/\"><b>Scalar-Footnote</b></a></h2>\n\
+        <small>Attach hidden scalars to references</small><br/>\n<small>   <a href=\"\
+        /~spurkis/Scalar-Footnote-0.99_01/\">Scalar-Footnote-0.99_01</a> -\n   <span\
+        \ class=date>30 May 2004</span> -\n   <a href=\"/~spurkis/\">Steve Purkis</a>\n\
+        </small>\n<!--end item-->\n<!--item-->\n  <p><h2 class=sr><a href=\"/~plytle/WWW-WuFoo-0.007/\"\
+        ><b>WWW-WuFoo</b></a></h2>\n<small>Interface to WuFoo.com&#39;s online forms</small><br/>\n\
+        <small>   <a href=\"/~plytle/WWW-WuFoo-0.007/\">WWW-WuFoo-0.007</a> -\n  \
+        \ <span class=date>13 Apr 2013</span> -\n   <a href=\"/~plytle/\">Peter Lytle</a>\n\
+        </small>\n<!--end item-->\n<!--item-->\n  <p><h2 class=sr><a href=\"/~ikuta/Net-RabbitFoot-1.03/\"\
+        ><b>Net-RabbitFoot</b></a></h2>\n<small>An Asynchronous and multi channel\
+        \ Perl AMQP client.</small><br/>\n<small>   <a href=\"/~ikuta/Net-RabbitFoot-1.03/\"\
+        >Net-RabbitFoot-1.03</a> -\n   <span class=date>07 Apr 2011</span> -\n   <a\
+        \ href=\"/~ikuta/\">Masahito Ikuta</a>\n</small>\n<!--end item-->\n<!--item-->\n\
+        \  <p><h2 class=sr><a href=\"/~barefoot/Dist-Zilla-PluginBundle-BAREFOOT-0.03/\"\
+        ><b>Dist-Zilla-PluginBundle-BAREFOOT</b></a></h2>\n<small>Dist::Zilla configuration\
+        \ the way BAREFOOT does it</small><br/>\n<small>   <a href=\"/~barefoot/Dist-Zilla-PluginBundle-BAREFOOT-0.03/\"\
+        >Dist-Zilla-PluginBundle-BAREFOOT-0.03</a> -\n   <span class=date>21 Feb 2013</span>\
+        \ -\n   <a href=\"/~barefoot/\">Buddy Burden</a>\n</small>\n<!--end item-->\n\
+        <!--end results-->\n<br>\n\n\n<div class=\"footer\"><div class=\"cpanstats\"\
+        >109502 Uploads, 31652 Distributions\n149737 Modules, 12129 Uploaders\n</div>\n\
+        <div class=\"sponsor\">\nhosted by <a href=\"http://www.yellowbot.com\">YellowBot</a><br/>\n\
+        <a href=\"http://www.yellowbot.com\"><img alt=\"do. tag. write. share.\" src=\"\
+        http://st.pimg.net/tucs/img/yellowbot_logo.gif\"></a>\n</div>\n</div>\n<script\
+        \ type=\"text/javascript\">\nvar gaJsHost = ((\"https:\" == document.location.protocol)\
+        \ ? \"https://ssl.\" : \"http://www.\");\ndocument.write(unescape(\"%3Cscript\
+        \ src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"\
+        ));\n</script>\n<script type=\"text/javascript\" src=\"http://ipv4.v6test.develooper.com/js/v1/v6test.js\"\
+        ></script>\n\n<script type=\"text/javascript\">\n   // v6.target = '';\n \
+        \  if (!v6.target) { v6.only_once = true }\n   v6.site = '7A0D89A6-2B82-11DF-B9DA-F61CBD13F020';\n\
+        \   v6.api_server = 'http://ipv4.v6test.develooper.com';\n   try {\n     v6.test();\n\
+        \   } catch(err) {}\n</script>\n<script type=\"text/javascript\">\n  $(document).ready(function(){\n\
+        \    $(\"a[href^=http:]\").click(function(){\n      var href = $(this).attr('href');\n\
+        \      var m = href.match('\\/\\/([^\\/:]+)');\n      _gaq.push(['_trackEvent','External',m[1],'Other']);\n\
+        \    });\n    $(\"a[href^=/CPAN/]\").click(function(){\n      var href = $(this).attr('href');\n\
+        \      _gaq.push(['_trackEvent','Download',href,'Other']);\n    });\n  });\n\
+        </script>\n<!-- Sat Apr 11 19:46:06 2015 GMT (0.00854396820068359) @cpansearch2\
+        \ -->\n </body>\n</html>\n"}
+    headers:
+      cache-control: [max-age=3599]
+      content-length: ['7469']
+      content-type: [text/html]
+      date: ['Sat, 11 Apr 2015 19:46:06 GMT']
+      expires: ['Sat, 11 Apr 2015 20:46:06 GMT']
+      last-modified: ['Sat, 11 Apr 2015 19:46:06 GMT']
+      server: [Plack/Starman (Perl)]
+      x-proxy: [proxy1]
+    status: {code: 410, message: Gone}
+version: 1
