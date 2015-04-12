@@ -29,7 +29,7 @@ class CustomBackend(BaseBackend):
         'http://www.geany.org/Download/Releases',
     ]
     more_info = '<br /> More information in the '\
-        '<a href=\'/about#test-you-regex\'>about#test-you-regex</a>'
+        '<a href=\'/about#test-your-regex\'>about#test-your-regex</a>'
 
     @classmethod
     def get_version(cls, project):
