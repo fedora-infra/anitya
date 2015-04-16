@@ -301,6 +301,7 @@ def flag_project(session, project, reason, user_mail):
     session.commit()
     return project
 
+
 def set_flag_state(session, flag, state, user_mail):
     """ Change the state of a ProjectFlag in the database.
 
