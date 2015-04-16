@@ -419,6 +419,11 @@ def browse_flags():
         offset = (page - 1) * limit
 
     flags = []
+
+    # TODO: Without the below line, UnboundLocalError is thrown
+    # for a reference before assignment.
+    cnt_flags = 0
+
     try:
         flags = anitya.lib.model.ProjectFlag.search(
             SESSION,
