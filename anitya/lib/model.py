@@ -580,14 +580,14 @@ class ProjectFlag(BASE):
             onupdate="cascade")
     )
 
-    project = sa.orm.relation('Project')
     reason = sa.Column(sa.Text, nullable=False)
     user = sa.Column(sa.String(200), index=True, nullable=False)
     state = sa.Column(sa.String(50), default='open', nullable=False)
-
     created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
                            onupdate=sa.func.current_timestamp())
+
+    project = sa.orm.relation('Project')
 
     def __init__(self, user, project, reason):
         ''' Constructor.
