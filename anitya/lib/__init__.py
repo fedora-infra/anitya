@@ -270,9 +270,9 @@ def flag_project(session, project, reason, user_mail):
     """
 
     flag = anitya.lib.model.ProjectFlag(
+        user=user_mail,
         project=project,
-        reason=reason,
-        user=user_mail)
+        reason=reason)
 
     session.add(flag)
 

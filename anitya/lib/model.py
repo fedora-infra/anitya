@@ -580,6 +580,8 @@ class ProjectFlag(BASE):
             onupdate="cascade")
     )
 
+    #project = sa.Column(sa.String(200), index=True, nullable=True)
+    project = sa.orm.relation('Project')
     reason = sa.Column(sa.Text, nullable=False)
     user = sa.Column(sa.String(200), index=True, nullable=False)
     state = sa.Column(sa.String(50), default='open', nullable=False)
@@ -588,7 +590,12 @@ class ProjectFlag(BASE):
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
                            onupdate=sa.func.current_timestamp())
 
-    project = sa.orm.relation('Project')
+    def __init__(self, user, project, reason):
+        ''' Constructor.
+        '''
+        self.user = user
+        self.project = project
+        self.reason = reason
 
     def __repr__(self):
         return '<ProjectFlag(%s, %s, %s)>' % (self.project.name, self.user,
@@ -607,6 +614,22 @@ class ProjectFlag(BASE):
             output['reason'] = self.reason
 
         return output
+
+    @classmethod
+    def insert(cls, session, user, project, reason):
+        """ Insert the given flag into the database.
+
+        :arg session: the session to connect to the database with
+        :arg user: the username of the user doing the action
+        :arg project: the `Project` object of the project changed
+        :arg reason: a textual description of the reason for flagging
+
+        """
+        project_name = project.name
+
+        flag = ProjectFlag(user=user, project=project_name, reason=reason)
+        session.add(flag)
+        session.flush()
 
     @classmethod
     def all(cls, session, page=None, count=False):
@@ -638,7 +661,8 @@ class ProjectFlag(BASE):
         )
 
         if project_name:
-            query = query.filter(cls.project == project_name)
+            # TODO: This doesn't work, maybe because I need a join somewhere?
+            query = query.filter(cls.project.name == project_name)
 
         if from_date:
             query = query.filter(cls.created_on >= from_date)
