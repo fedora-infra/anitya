@@ -304,21 +304,23 @@ def set_flag_state(session, flag, state, user_mail):
     """
 
     flag.state = state
+    session.add(flag)
 
     try:
-        anitya.log(
-            session,
-            topic='project.flag.set',
-            message=dict(
-                agent=user_mail,
-                flag=flag.id,
-                state=state,
-            )
-        )
-        session.add(flag)
-        session.commit()
+        session.flush()
     except SQLAlchemyError as err:
         log.exception(err)
         session.rollback()
         raise anitya.lib.exceptions.AnityaException(
             'Could not set the state of this flag.')
+
+    anitya.log(
+        session,
+        topic='project.flag.set',
+        message=dict(
+            agent=user_mail,
+            flag=flag.id,
+            state=state,
+        )
+    )
+    session.commit()
