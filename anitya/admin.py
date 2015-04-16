@@ -464,7 +464,7 @@ def browse_flags():
     )
 
 
-@APP.route('/flags/<flag_id>/set/<state>', methods=['POST'])
+@APP.route('/flags/<flag_id>/set/<state>', methods=['GET'])
 @login_required
 def set_flag_state(flag_id, state):
     
