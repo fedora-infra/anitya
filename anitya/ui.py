@@ -453,9 +453,6 @@ def flag_project(project_id):
                 user_mail=flask.g.auth.email,
             )
             flask.flash('Project flagged for admin review')
-            # TODO: what happens with justflag? Need to change something
-            # somewhere else for that to work?
-            flask.session['justflag'] = True
         except anitya.lib.exceptions.AnityaException as err:
             flask.flash(str(err), 'errors')
 

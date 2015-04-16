@@ -480,8 +480,6 @@ def set_flag_state(flag_id, state):
             user_mail=flask.g.auth.email,
         )
         flask.flash('Flag {0} set to {1}'.format(flag.id, state))
-        # TODO: what happens with justflag?:
-        flask.session['justflag'] = True
     except anitya.lib.exceptions.AnityaException as err:
         flask.flash(str(err), 'errors')
 
