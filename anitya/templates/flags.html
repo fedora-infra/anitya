@@ -13,14 +13,14 @@
   <h1>Flags</h1>
   {% if refresh %}
   <p>This page should refresh automatically every 5 seconds</p>
-  <a href="{{ url_for('browse_flags') }}?page={{page}}">
+  <a href="{{ url_for('browse_flags', page=page) }}">
     <button type="submit" class="btn btn-danger" id="checknow">
       <span class="glyphicon glyphicon-remove-sign"></span>
       Remove auto-refresh
     </button>
   </a>
   {% else %}
-  <a href="{{ url_for('browse_flags') }}?page={{page}}&refresh=True">
+  <a href="{{ url_for('browse_flags', page=page, refresh=True) }}">
     <button type="submit" class="btn btn-success" id="checknow">
       <span class="glyphicon glyphicon-refresh"></span>
       Activate auto-refresh
