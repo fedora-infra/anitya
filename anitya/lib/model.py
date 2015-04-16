@@ -660,7 +660,8 @@ class ProjectFlag(BASE):
         )
 
         if project_name:
-            query = query.filter(cls.project_id == Project.id).filter(Project.name  == project_name)
+            query = query.filter(cls.project_id == Project.id)\
+                         .filter(Project.name == project_name)
 
         if from_date:
             query = query.filter(cls.created_on >= from_date)
