@@ -580,7 +580,6 @@ class ProjectFlag(BASE):
             onupdate="cascade")
     )
 
-    #project = sa.Column(sa.String(200), index=True, nullable=True)
     project = sa.orm.relation('Project')
     reason = sa.Column(sa.Text, nullable=False)
     user = sa.Column(sa.String(200), index=True, nullable=False)
@@ -661,8 +660,7 @@ class ProjectFlag(BASE):
         )
 
         if project_name:
-            # TODO: This doesn't work, maybe because I need a join somewhere?
-            query = query.filter(cls.project.name == project_name)
+            query = query.filter(cls.project_id == Project.id).filter(Project.name  == project_name)
 
         if from_date:
             query = query.filter(cls.created_on >= from_date)
