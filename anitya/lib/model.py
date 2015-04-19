@@ -615,22 +615,6 @@ class ProjectFlag(BASE):
         return output
 
     @classmethod
-    def insert(cls, session, user, project, reason):
-        """ Insert the given flag into the database.
-
-        :arg session: the session to connect to the database with
-        :arg user: the username of the user doing the action
-        :arg project: the `Project` object of the project changed
-        :arg reason: a textual description of the reason for flagging
-
-        """
-        project_name = project.name
-
-        flag = ProjectFlag(user=user, project=project_name, reason=reason)
-        session.add(flag)
-        session.flush()
-
-    @classmethod
     def all(cls, session, page=None, count=False):
         query = session.query(
             ProjectFlag
