@@ -446,6 +446,8 @@ def browse_flags():
 
     total_page = int(ceil(cnt_flags / float(limit)))
 
+    form = anitya.forms.ConfirmationForm()
+
     return flask.render_template(
         'flags.html',
         current='flags',
@@ -453,6 +455,7 @@ def browse_flags():
         flags=flags,
         cnt_flags=cnt_flags,
         total_page=total_page,
+        form=form,
         page=page,
         project=project or '',
         from_date=from_date or '',
@@ -460,7 +463,7 @@ def browse_flags():
     )
 
 
-@APP.route('/flags/<flag_id>/set/<state>', methods=['GET'])
+@APP.route('/flags/<flag_id>/set/<state>', methods=['POST'])
 @login_required
 def set_flag_state(flag_id, state):
     
@@ -472,16 +475,19 @@ def set_flag_state(flag_id, state):
     if not flag:
         flask.abort(404)
 
-    try:
-        anitya.lib.set_flag_state(
-            SESSION,
-            flag=flag,
-            state=state,
-            user_mail=flask.g.auth.email,
-        )
-        flask.flash('Flag {0} set to {1}'.format(flag.id, state))
-    except anitya.lib.exceptions.AnityaException as err:
-        flask.flash(str(err), 'errors')
+    form = anitya.forms.ConfirmationForm()
+
+    if form.validate_on_submit():
+        try:
+            anitya.lib.set_flag_state(
+                SESSION,
+                flag=flag,
+                state=state,
+                user_mail=flask.g.auth.email,
+            )
+            flask.flash('Flag {0} set to {1}'.format(flag.id, state))
+        except anitya.lib.exceptions.AnityaException as err:
+            flask.flash(str(err), 'errors')
 
     return flask.redirect(
         flask.url_for('browse_flags')
