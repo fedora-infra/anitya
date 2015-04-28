@@ -407,6 +407,50 @@ class FlaskAdminTest(Modeltests):
             self.assertTrue('<h1>Logs</h1>' in output.data)
             self.assertTrue('added the distro named: Debian' in output.data)
 
+    def test_browse_flags(self):
+        """ Test the browse_flags function. """
+        output = self.app.get('/flags', follow_redirects=True)
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(
+            '<li class="errors">Login required</li>' in output.data)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/flags', follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/flags')
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Flags</h1>' in output.data)
+            self.assertTrue('geany' in output.data)
+
+            output = c.get('/flags?page=abc&limit=def&from_date=ghi')
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Flags</h1>' in output.data)
+            self.assertTrue('geany' in output.data)
+
+            output = c.get('/flags?from_date=%s' % datetime.date.today())
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Flags</h1>' in output.data)
+            self.assertTrue('geany' in output.data)
+
+            output = c.get('/flags?from_date=%s&project=geany' % datetime.date.today())
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Flags</h1>' in output.data)
+            self.assertTrue('geany' in output.data)
+
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FlaskAdminTest)
     unittest.TextTestRunner(verbosity=2).run(SUITE)
