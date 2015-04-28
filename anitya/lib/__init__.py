@@ -209,7 +209,7 @@ def map_project(
     # Check that we can update the mapping to the new info provided
     other_pkg = anitya.lib.model.Packages.by_package_name_distro(
         session, package_name, distro)
-    if other_pkg:
+    if other_pkg and other_pkg.project:
         raise anitya.lib.exceptions.AnityaInvalidMappingException(
                 pkgname, distro, package_name, distribution,
                 other_pkg.project.id, other_pkg.project.name)
@@ -217,11 +217,15 @@ def map_project(
     edited = None
     if not pkg:
         topic = 'project.map.new'
-        pkg = anitya.lib.model.Packages(
-            distro=distro_obj.name,
-            project_id=project.id,
-            package_name=package_name
-        )
+        if not other_pkg:
+            pkg = anitya.lib.model.Packages(
+                distro=distro_obj.name,
+                project_id=project.id,
+                package_name=package_name
+            )
+        else:
+            other_pkg.project = project
+            pkg = other_pkg
     else:
         topic = 'project.map.update'
         edited = []
