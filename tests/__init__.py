@@ -176,6 +176,30 @@ def create_package(session):
     session.commit()
 
 
+def create_flagged_project(session):
+    """ Create and flag a project. """
+    project = anitya.lib.create_project(
+        session,
+        name='geany',
+        homepage='http://www.geany.org/',
+        version_url='http://www.geany.org/Download/Releases',
+        regex='DEFAULT',
+        user_mail='noreply@fedoraproject.org',
+    )
+
+    session.add(project)
+
+    flag = anitya.lib.flag_project(
+        session,
+        project,
+        "This is a duplicate.",
+        "dgay@redhat.com")
+
+    session.add(flag)
+
+    session.commit()
+
+
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(Modeltests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)
