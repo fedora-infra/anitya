@@ -40,6 +40,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 import anitya
 from anitya.lib import model
 from tests import Modeltests, create_distro, create_project, create_package
+from tests import create_flagged_project
 
 
 class FlaskAdminTest(Modeltests):
@@ -409,6 +410,7 @@ class FlaskAdminTest(Modeltests):
 
     def test_browse_flags(self):
         """ Test the browse_flags function. """
+        create_flagged_project(self.session)
         output = self.app.get('/flags', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
