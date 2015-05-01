@@ -57,9 +57,11 @@ class SourceforgeBackend(BaseBackend):
         '''
         url_template = 'http://sourceforge.net/projects/%(name)s/rss?limit=200'
 
-        url = url_template % {'name': project.name}
-        regex = REGEX % {
+        url = url_template % {
             'name': (project.version_url or project.name).replace('+', '\+')
+        }
+        regex = REGEX % {
+            'name': project.name.replace('+', '\+')
         }
 
         return get_versions_by_regex(url, regex, project)
