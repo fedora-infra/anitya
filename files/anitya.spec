@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.4.0
+Version:        0.5.0
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -110,6 +110,15 @@ install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.i
 
 
 %changelog
+* Tue May 05 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.5.0-1
+- Update to 0.5.0
+- Adjust the default regex to ignore .asc in filename
+- Adjust php backends and fix unit-tests
+- Fix link to the regex documentation
+- Use vcr to mock out all http stuff in the tests (Ralph Bean)
+- Fix mapping of a project on an existing package
+- Invert the project name and SF name in the SourceForge backend.
+
 * Sun Apr 05 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.4.0-1
 - Fix the search to uniquify the results
 - Prevent the keyboard shortcuts to work is the control key was hold
