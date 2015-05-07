@@ -10,3 +10,6 @@ doc/_build/
 start-pkgdb
 .coverage
 cnucnu/
+*.swp
+*.swo
+*.egg
