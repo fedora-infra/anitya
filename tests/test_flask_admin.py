@@ -471,7 +471,7 @@ class FlaskAdminTest(Modeltests):
 
             output = c.get('/flags/{0}/set/closed'.format(flag.id),
                            follow_redirects=True)
-            self.assertEqual(output.status_code, 401)
+            self.assertEqual(output.status_code, 405)
 
         self.assertEqual(flag.state, 'open')
 
