@@ -455,6 +455,66 @@ class FlaskAdminTest(Modeltests):
             self.assertTrue('<h1>Flags</h1>' in output.data)
             self.assertTrue('geany' in output.data)
 
+    def test_flag_project(self):
+        """ Test setting the flag state of a project. """
+
+        flag = create_flagged_project(self.session)
+
+        self.assertEqual(flag.state, 'open')
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/flags/{0}/set/closed'.format(flag.id),
+                           follow_redirects=True)
+            self.assertEqual(output.status_code, 401)
+
+        self.assertEqual(flag.state, 'open')
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/flags/{0}/set/closed'.format(flag.id),
+                           follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+
+        self.assertEqual(flag.state, 'closed')
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/flags/{0}/set/open'.format(flag.id),
+                           follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+
+        self.assertEqual(flag.state, 'open')
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/flags/{0}/set/nonsense'.format(flag.id),
+                           follow_redirects=True)
+            self.assertEqual(output.status_code, 404)
+
+        self.assertEqual(flag.state, 'open')
+
+
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FlaskAdminTest)
     unittest.TextTestRunner(verbosity=2).run(SUITE)
