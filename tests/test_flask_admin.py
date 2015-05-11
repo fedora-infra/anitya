@@ -510,7 +510,7 @@ class FlaskAdminTest(Modeltests):
 
             output = c.get('/flags/{0}/set/nonsense'.format(flag.id),
                            follow_redirects=True)
-            self.assertEqual(output.status_code, 404)
+            self.assertEqual(output.status_code, 422)
 
         self.assertEqual(flag.state, 'open')
 
