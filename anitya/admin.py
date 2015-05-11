@@ -470,6 +470,9 @@ def set_flag_state(flag_id, state):
     if not is_admin():
         flask.abort(401)
 
+    if state not in ('open', 'closed'):
+        flask.abort(404)
+
     flag = anitya.lib.model.ProjectFlag.get(SESSION, flag_id)
 
     if not flag:
