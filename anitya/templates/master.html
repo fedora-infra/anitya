@@ -158,14 +158,20 @@
 
       {%- with messages = get_flashed_messages(with_categories=true) -%}
         {%- if category, messages -%}
-        <ul id="flashes">
-            {%- for category, message in messages -%}
-            {%- autoescape false -%}
-            <li class="{{ category }}">{{ message }}</li>
-            {%- endautoescape -%}
-            {%- endfor -%}
-        </ul>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+              <ul id="flashes" class="list-group">
+                    {%- for category, message in messages -%}
+                    {%- autoescape false -%}
+                    <li class="list-group-item list-group-item-{{ category | context_class }}">{{ message }}</li>
+                    {%- endautoescape -%}
+                    {%- endfor -%}
         {%- endif -%}
+              </ul>
+            </div>
+          </div>
+        </div>
       {%- endwith -%}
 
       {% block body %}{% endblock %}
