@@ -177,7 +177,7 @@ def create_package(session):
 
 
 def create_flagged_project(session):
-    """ Create and flag a project. """
+    """ Create and flag a project. Returns the ProjectFlag. """
     project = anitya.lib.create_project(
         session,
         name='geany',
@@ -198,6 +198,7 @@ def create_flagged_project(session):
     session.add(flag)
 
     session.commit()
+    return flag
 
 
 if __name__ == '__main__':
