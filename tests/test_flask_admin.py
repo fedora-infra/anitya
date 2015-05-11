@@ -410,7 +410,9 @@ class FlaskAdminTest(Modeltests):
 
     def test_browse_flags(self):
         """ Test the browse_flags function. """
+
         create_flagged_project(self.session)
+
         output = self.app.get('/flags', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
