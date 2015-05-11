@@ -92,11 +92,6 @@ def check_auth():
     is logged in.
     '''
 
-    flask.flash('default')
-    flask.flash('error, etc..', 'error')
-    flask.flash('warning', 'warning')
-    flask.flash('info', 'info')
-
     flask.g.auth = Bunch(
         logged_in=False,
         method=None,
