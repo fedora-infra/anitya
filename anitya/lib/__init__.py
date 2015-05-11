@@ -299,7 +299,7 @@ def flag_project(session, project, reason, user_mail):
         )
     )
     session.commit()
-    return project
+    return flag
 
 
 def set_flag_state(session, flag, state, user_mail):
@@ -332,3 +332,4 @@ def set_flag_state(session, flag, state, user_mail):
         )
     )
     session.commit()
+    return flag
