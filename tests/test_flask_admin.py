@@ -469,7 +469,7 @@ class FlaskAdminTest(Modeltests):
                 sess['nickname'] = 'pingou'
                 sess['email'] = 'pingou@pingoured.fr'
 
-            output = c.get('/flags/{0}/set/closed'.format(flag.id),
+            output = c.post('/flags/{0}/set/closed'.format(flag.id),
                            follow_redirects=True)
             self.assertEqual(output.status_code, 405)
 
@@ -482,7 +482,7 @@ class FlaskAdminTest(Modeltests):
                 sess['nickname'] = 'pingou'
                 sess['email'] = 'pingou@pingoured.fr'
 
-            output = c.get('/flags/{0}/set/closed'.format(flag.id),
+            output = c.post('/flags/{0}/set/closed'.format(flag.id),
                            follow_redirects=True)
             self.assertEqual(output.status_code, 200)
 
@@ -495,7 +495,7 @@ class FlaskAdminTest(Modeltests):
                 sess['nickname'] = 'pingou'
                 sess['email'] = 'pingou@pingoured.fr'
 
-            output = c.get('/flags/{0}/set/open'.format(flag.id),
+            output = c.post('/flags/{0}/set/open'.format(flag.id),
                            follow_redirects=True)
             self.assertEqual(output.status_code, 200)
 
@@ -508,7 +508,7 @@ class FlaskAdminTest(Modeltests):
                 sess['nickname'] = 'pingou'
                 sess['email'] = 'pingou@pingoured.fr'
 
-            output = c.get('/flags/{0}/set/nonsense'.format(flag.id),
+            output = c.post('/flags/{0}/set/nonsense'.format(flag.id),
                            follow_redirects=True)
             self.assertEqual(output.status_code, 422)
 
