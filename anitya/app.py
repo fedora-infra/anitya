@@ -75,11 +75,23 @@ def format_examples(examples):
     return output
 
 
+@APP.template_filter('context_class')
+def context_class(category):
+    ''' Return bootstrap context class for a given category. '''
+    values = {
+        'message': 'default',
+        'error': 'danger',
+        'info': 'info',
+    }
+    return values.get(category, 'warning')
+
+
 @APP.before_request
 def check_auth():
     ''' Set the flask.g variables using the session information if the user
     is logged in.
     '''
+
     flask.g.auth = Bunch(
         logged_in=False,
         method=None,
