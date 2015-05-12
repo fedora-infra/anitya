@@ -471,7 +471,19 @@ class FlaskAdminTest(Modeltests):
 
             output = c.post('/flags/{0}/set/closed'.format(flag.id),
                            follow_redirects=True)
-            self.assertEqual(output.status_code, 405)
+            self.assertEqual(output.status_code, 401)
+
+            data = {}
+
+            csrf_token = output.data.split(
+                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+
+            data['csrf_token'] = csrf_token
+
+            output = c.post('/flags/{0}/set/closed'.format(flag.id),
+                            data=data,
+                            follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
 
         self.assertEqual(flag.state, 'open')
 
