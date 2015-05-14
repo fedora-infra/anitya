@@ -22,6 +22,7 @@ import jinja2
 import markupsafe
 from bunch import Bunch
 from flask.ext.openid import OpenID
+from flask_wtf.csrf import CsrfProtect
 
 import anitya.forms
 import anitya.lib
@@ -40,6 +41,9 @@ if 'ANITYA_WEB_CONFIG' in os.environ:  # pragma: no cover
 
 # Set up OpenID
 OID = OpenID(APP)
+
+# Turn on CSRF protection
+CsrfProtect(APP)
 
 # Set up the logging
 if not APP.debug:
