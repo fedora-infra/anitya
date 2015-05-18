@@ -587,7 +587,7 @@ class ProjectFlag(BASE):
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
                            onupdate=sa.func.current_timestamp())
 
-    project = sa.orm.relation('Project')
+    project = sa.orm.relation('Project', backref='flags')
 
     def __init__(self, user, project, reason):
         ''' Constructor.
