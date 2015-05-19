@@ -460,18 +460,40 @@ class FlaskAdminTest(Modeltests):
 
         flag = create_flagged_project(self.session)
 
-        self.assertEqual(flag.state, 'open')
+        project = model.Project.by_name(self.session, 'geany')[0]
+        self.assertEqual(len(project.flags), 1)
+        self.assertEqual(project.flags[0].state, 'open')
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
+                sess['openid'] = 'some_invalid_openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
                 sess['nickname'] = 'pingou'
                 sess['email'] = 'pingou@pingoured.fr'
 
             output = c.post('/flags/{0}/set/closed'.format(flag.id),
                            follow_redirects=True)
+
+            # Non-admin ID will complain, insufficient creds
             self.assertEqual(output.status_code, 401)
+
+        # Nothing should have changed.
+        project = model.Project.by_name(self.session, 'geany')[0]
+        self.assertEqual(len(project.flags), 1)
+        self.assertEqual(project.flags[0].state, 'open')
+
+        self.assertEqual(flag.state, 'open')
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.post('/flags/{0}/set/closed'.format(flag.id),
+                           follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
 
             data = {}
 
@@ -485,20 +507,11 @@ class FlaskAdminTest(Modeltests):
                             follow_redirects=True)
             self.assertEqual(output.status_code, 200)
 
-        self.assertEqual(flag.state, 'open')
+        # Now the flag state should have toggled.
+        project = model.Project.by_name(self.session, 'geany')[0]
+        self.assertEqual(len(project.flags), 1)
+        self.assertEqual(project.flags[0].state, 'closed')
 
-        with anitya.app.APP.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.post('/flags/{0}/set/closed'.format(flag.id),
-                           follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-
-        self.assertEqual(flag.state, 'closed')
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -511,7 +524,12 @@ class FlaskAdminTest(Modeltests):
                            follow_redirects=True)
             self.assertEqual(output.status_code, 200)
 
-        self.assertEqual(flag.state, 'open')
+        # Make sure we can toggle the flag again.
+        project = model.Project.by_name(self.session, 'geany')[0]
+        self.assertEqual(len(project.flags), 1)
+        raise "this next line fails because we didn't pass a csrf token when we tried to re-open it..."
+        self.assertEqual(project.flags[0].state, 'open')
+
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -524,7 +542,10 @@ class FlaskAdminTest(Modeltests):
                            follow_redirects=True)
             self.assertEqual(output.status_code, 422)
 
-        self.assertEqual(flag.state, 'open')
+        # Make sure that passing garbage doesn't change anything.
+        project = model.Project.by_name(self.session, 'geany')[0]
+        self.assertEqual(len(project.flags), 1)
+        self.assertEqual(project.flags[0].state, 'open')
 
 
 if __name__ == '__main__':
