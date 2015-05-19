@@ -32,7 +32,7 @@ practices for a production instance, but they will do for development.
 First, set up a virtualenv::
 
     $ sudo yum install python-virtualenv
-    $ virtualenv anitya-env
+    $ virtualenv anitya-env --system-site-packages
     $ source anitya-env/bin/activate
 
 Issuing that last command should change your prompt to indicate that you are
