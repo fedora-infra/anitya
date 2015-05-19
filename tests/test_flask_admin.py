@@ -495,6 +495,13 @@ class FlaskAdminTest(Modeltests):
                            follow_redirects=True)
             self.assertEqual(output.status_code, 200)
 
+            # Now the flag state should *not* have toggled because while we did
+            # provide a valid admin openid, we did not provide a CSRF token.
+            project = model.Project.by_name(self.session, 'geany')[0]
+            self.assertEqual(len(project.flags), 1)
+            self.assertEqual(project.flags[0].state, 'open')
+
+            # Go ahead and get the csrf token from the page and try again.
             data = {}
 
             csrf_token = output.data.split(
