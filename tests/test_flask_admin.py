@@ -526,6 +526,9 @@ class FlaskAdminTest(Modeltests):
                 sess['nickname'] = 'pingou'
                 sess['email'] = 'pingou@pingoured.fr'
 
+                output = c.post('/flags/{0}/set/open'.format(flag.id),
+                               follow_redirects=True)
+
                 # Grab the CSRF token again so we can toggle the flag again
                 data = {}
 
