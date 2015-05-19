@@ -519,7 +519,6 @@ class FlaskAdminTest(Modeltests):
         self.assertEqual(len(project.flags), 1)
         self.assertEqual(project.flags[0].state, 'closed')
 
-
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'http://pingou.id.fedoraproject.org/'
@@ -527,16 +526,23 @@ class FlaskAdminTest(Modeltests):
                 sess['nickname'] = 'pingou'
                 sess['email'] = 'pingou@pingoured.fr'
 
-            output = c.post('/flags/{0}/set/open'.format(flag.id),
-                           follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
+                # Grab the CSRF token again so we can toggle the flag again
+                data = {}
+
+                csrf_token = output.data.split(
+                    'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+
+                data['csrf_token'] = csrf_token
+
+                output = c.post('/flags/{0}/set/open'.format(flag.id),
+                                data=data,
+                                follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
 
         # Make sure we can toggle the flag again.
         project = model.Project.by_name(self.session, 'geany')[0]
         self.assertEqual(len(project.flags), 1)
-        raise "this next line fails because we didn't pass a csrf token when we tried to re-open it..."
         self.assertEqual(project.flags[0].state, 'open')
-
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
