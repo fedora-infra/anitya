@@ -309,7 +309,9 @@ def set_flag_state(session, flag, state, user_mail):
 
     # Don't toggle the state or send a new fedmsg if the flag's
     # state wouldn't actually be changed.
-    if flag.state == state: return
+    if flag.state == state:
+        raise anitya.lib.exceptions.AnityaException(
+            'Flag state unchanged.')
 
     flag.state = state
     session.add(flag)
