@@ -408,6 +408,13 @@ class FlaskAdminTest(Modeltests):
             self.assertTrue('<h1>Logs</h1>' in output.data)
             self.assertTrue('added the distro named: Debian' in output.data)
 
+            # the Debian log shouldn't show up if the "from date" is tomorrow
+            tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+            output = c.get('/logs?from_date=%s' % tomorrow)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Logs</h1>' in output.data)
+            self.assertFalse('added the distro named: Debian' in output.data)
+
     def test_browse_flags(self):
         """ Test the browse_flags function. """
 
