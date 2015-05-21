@@ -664,7 +664,6 @@ class ProjectFlag(BASE):
 
         return query.all()
 
-
     @classmethod
     def get(cls, session, flag_id):
         query = session.query(
