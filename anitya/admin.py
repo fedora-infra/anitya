@@ -466,7 +466,7 @@ def browse_flags():
 @APP.route('/flags/<flag_id>/set/<state>', methods=['POST'])
 @login_required
 def set_flag_state(flag_id, state):
-    
+
     if not is_admin():
         flask.abort(401)
 
