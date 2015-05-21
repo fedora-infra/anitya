@@ -385,7 +385,7 @@ def browse_flags():
         flask.abort(401)
 
     from_date = flask.request.args.get('from_date', None)
-    state = flask.request.args.get('state', None)
+    state = flask.request.args.get('state', 'open')
     project = flask.request.args.get('project', None)
     user = flask.request.args.get('user', None)
     refresh = flask.request.args.get('refresh', False)
@@ -459,7 +459,8 @@ def browse_flags():
         page=page,
         project=project or '',
         from_date=from_date or '',
-        user=user or ''
+        user=user or '',
+        state=state or ''
     )
 
 

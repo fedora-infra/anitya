@@ -65,9 +65,9 @@
           role="form" action="GET" id="flags_form">
       <div class="form-group col-xs-6 col-sm-2">
         <select name="state" class="form-control">
-            <option value="">all</option>
-            <option value="open">open</option>
-            <option value="closed">closed</option>
+            <option value="open" {% if state== 'open' %}selected="selected"{% endif %}>open</option>
+            <option value="closed" {% if state== 'closed' %}selected="selected"{% endif %}>closed</option>
+            <option value="" {% if state== '' %}selected="selected"{% endif %}>all</option>
         </select>
       </div>
       <div class="form-group col-xs-6 col-sm-3">
