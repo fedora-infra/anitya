@@ -1,0 +1,38 @@
+{% extends "master.html" %}
+{% from "functions.html" import render_field_in_row %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Flag project</h1>
+</div>
+<form method="POST" action="{{ url_for('flag_project', project_id=project.id) }}" >
+  <div class="row">
+    <div class="col-md-12">
+      <p> Flag a project for admin review. Use this form to request that the project
+          be deleted or otherwise changed in a way that can't be done by a regular
+          user.</p>
+      <div class="list-group">
+        <span class="list-group-item">
+          <table class="table table-condensed">
+            <tr>
+              {{ render_field_in_row(form.reason) }}
+            </tr>
+          </table>
+        </span>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-success" id="submit_btn">
+    <span class="glyphicon glyphicon-plus"></span>
+    Submit
+  </button>
+  <a href="{{ url_for('project', project_id=project.id) }}">
+    <button type="button" class="btn btn-danger">
+      <span class="glyphicon glyphicon-ban-circle"></span>
+      Cancel
+    </button>
+  </a>
+  {{ form.csrf_token }}
+</form>
+{% endblock %}

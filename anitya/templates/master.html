@@ -124,6 +124,15 @@
               </a>
             </li>
 
+            {%- if current == 'flags' -%}
+            <li class="active">
+            {%- else -%}
+            <li>
+            {%- endif -%}
+              <a href="{{url_for('browse_flags')}}">
+                  flags</a>
+            </li>
+
             <li>
               <a href="{{url_for('logout')}}?next={{request.url}}">logout</a>
             </li>

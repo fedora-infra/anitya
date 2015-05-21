@@ -375,3 +375,124 @@ def browse_logs():
         from_date=from_date or '',
         user=user or ''
     )
+
+
+@APP.route('/flags')
+@login_required
+def browse_flags():
+
+    if not is_admin():
+        flask.abort(401)
+
+    from_date = flask.request.args.get('from_date', None)
+    state = flask.request.args.get('state', 'open')
+    project = flask.request.args.get('project', None)
+    user = flask.request.args.get('user', None)
+    refresh = flask.request.args.get('refresh', False)
+    limit = flask.request.args.get('limit', 50)
+    page = flask.request.args.get('page', 1)
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+
+    try:
+        int(limit)
+    except ValueError:
+        limit = 50
+        flask.flash('Incorrect limit provided, using default', 'errors')
+
+    if from_date:
+        try:
+            from_date = parser.parse(from_date)
+        except (ValueError, TypeError):
+            flask.flash(
+                'Incorrect from_date provided, using default', 'errors')
+            from_date = None
+
+    if from_date:
+        from_date = from_date.date()
+
+    offset = 0
+    if page is not None and limit is not None and limit != 0:
+        offset = (page - 1) * limit
+
+    flags = []
+
+    try:
+        flags = anitya.lib.model.ProjectFlag.search(
+            SESSION,
+            project_name=project or None,
+            state=state or None,
+            from_date=from_date,
+            user=user or None,
+            offset=offset,
+            limit=limit,
+        )
+
+        cnt_flags = anitya.lib.model.ProjectFlag.search(
+            SESSION,
+            project_name=project or None,
+            state=state or None,
+            from_date=from_date,
+            user=user or None,
+            count=True
+        )
+    except Exception, err:
+        import logging
+        logging.exception(err)
+        flask.flash(err, 'errors')
+
+    total_page = int(ceil(cnt_flags / float(limit)))
+
+    form = anitya.forms.ConfirmationForm()
+
+    return flask.render_template(
+        'flags.html',
+        current='flags',
+        refresh=refresh,
+        flags=flags,
+        cnt_flags=cnt_flags,
+        total_page=total_page,
+        form=form,
+        page=page,
+        project=project or '',
+        from_date=from_date or '',
+        user=user or '',
+        state=state or ''
+    )
+
+
+@APP.route('/flags/<flag_id>/set/<state>', methods=['POST'])
+@login_required
+def set_flag_state(flag_id, state):
+
+    if not is_admin():
+        flask.abort(401)
+
+    if state not in ('open', 'closed'):
+        flask.abort(422)
+
+    flag = anitya.lib.model.ProjectFlag.get(SESSION, flag_id)
+
+    if not flag:
+        flask.abort(404)
+
+    form = anitya.forms.ConfirmationForm()
+
+    if form.validate_on_submit():
+        try:
+            anitya.lib.set_flag_state(
+                SESSION,
+                flag=flag,
+                state=state,
+                user_mail=flask.g.auth.email,
+            )
+            flask.flash('Flag {0} set to {1}'.format(flag.id, state))
+        except anitya.lib.exceptions.AnityaException as err:
+            flask.flash(str(err), 'errors')
+
+    return flask.redirect(
+        flask.url_for('browse_flags')
+    )

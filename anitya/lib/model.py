@@ -565,3 +565,109 @@ class ProjectVersion(BASE):
     version = sa.Column(sa.String(50), primary_key=True)
 
     project = sa.orm.relation('Project', backref='versions_obj')
+
+
+class ProjectFlag(BASE):
+    __tablename__ = 'projects_flags'
+
+    id = sa.Column(sa.Integer, primary_key=True)
+
+    project_id = sa.Column(
+        sa.Integer,
+        sa.ForeignKey(
+            "projects.id",
+            ondelete="cascade",
+            onupdate="cascade")
+    )
+
+    reason = sa.Column(sa.Text, nullable=False)
+    user = sa.Column(sa.String(200), index=True, nullable=False)
+    state = sa.Column(sa.String(50), default='open', nullable=False)
+    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+    updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
+                           onupdate=sa.func.current_timestamp())
+
+    project = sa.orm.relation('Project', backref='flags')
+
+    def __repr__(self):
+        return '<ProjectFlag(%s, %s, %s)>' % (self.project.name, self.user,
+                                              self.state)
+
+    def __json__(self, detailed=False):
+        output = dict(
+            id = self.id,
+            project=self.project.name,
+            user=self.user,
+            state=self.state,
+            created_on=time.mktime(self.created_on.timetuple()),
+            updated_on=time.mktime(self.updated_on.timetuple()),
+        )
+        if detailed:
+            output['reason'] = self.reason
+
+        return output
+
+    @classmethod
+    def all(cls, session, page=None, count=False):
+        query = session.query(
+            ProjectFlag
+        ).order_by(ProjectFlag.created_on)
+
+        return query.all()
+    
+    @classmethod
+    def search(cls, session, project_name=None, from_date=None, user=None,
+               state=None, limit=None, offset=None, count=False):
+        """ Return the list of the last Flag entries present in the database.
+
+        :arg cls: the class object
+        :arg session: the database session used to query the information.
+        :kwarg project_name: the name of the project to restrict the flags to.
+        :kwarg from_date: the date from which to give the entries.
+        :kwarg user: the name of the user to restrict the flags to.
+        :kwarg state: the flag's status (open or closed).
+        :kwarg limit: limit the result to X rows.
+        :kwarg offset: start the result at row X.
+        :kwarg count: a boolean to return the result of a COUNT query
+            if true, returns the data if false (default).
+
+        """
+        query = session.query(
+            cls
+        )
+
+        if project_name:
+            query = query.filter(
+                cls.project_id == Project.id
+            ) .filter(
+                Project.name == project_name
+            )
+
+        if from_date:
+            query = query.filter(cls.created_on >= from_date)
+
+        if user:
+            query = query.filter(cls.user == user)
+
+        if state:
+            query = query.filter(cls.state == state)
+
+        query = query.order_by(cls.created_on.desc())
+
+        if count:
+            return query.count()
+
+        if offset:
+            query = query.offset(offset)
+        if limit:
+            query = query.limit(limit)
+
+        return query.all()
+
+    @classmethod
+    def get(cls, session, flag_id):
+        query = session.query(
+            cls
+        ).filter(
+            cls.id == flag_id)
+        return query.first()

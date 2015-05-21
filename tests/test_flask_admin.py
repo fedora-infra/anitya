@@ -40,6 +40,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 import anitya
 from anitya.lib import model
 from tests import Modeltests, create_distro, create_project, create_package
+from tests import create_flagged_project
 
 
 class FlaskAdminTest(Modeltests):
@@ -406,6 +407,176 @@ class FlaskAdminTest(Modeltests):
             self.assertEqual(output.status_code, 200)
             self.assertTrue('<h1>Logs</h1>' in output.data)
             self.assertTrue('added the distro named: Debian' in output.data)
+
+            # the Debian log shouldn't show up if the "from date" is tomorrow
+            tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+            output = c.get('/logs?from_date=%s' % tomorrow)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Logs</h1>' in output.data)
+            self.assertFalse('added the distro named: Debian' in output.data)
+
+    def test_browse_flags(self):
+        """ Test the browse_flags function. """
+
+        create_flagged_project(self.session)
+
+        output = self.app.get('/flags', follow_redirects=True)
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(
+            '<li class="errors">Login required</li>' in output.data)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/flags', follow_redirects=True)
+            self.assertEqual(output.status_code, 401)
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/flags')
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Flags</h1>' in output.data)
+            self.assertTrue('geany' in output.data)
+
+            output = c.get('/flags?page=abc&limit=def&from_date=ghi')
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Flags</h1>' in output.data)
+            self.assertTrue('geany' in output.data)
+
+            output = c.get('/flags?from_date=%s' % datetime.date.today())
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Flags</h1>' in output.data)
+            self.assertTrue('geany' in output.data)
+
+            # geany shouldn't show up if the "from date" is tomorrow
+            tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+            output = c.get('/flags?from_date=%s' % tomorrow)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Flags</h1>' in output.data)
+            self.assertFalse('geany' in output.data)
+
+            output = c.get('/flags?from_date=%s&project=geany' % datetime.date.today())
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Flags</h1>' in output.data)
+            self.assertTrue('geany' in output.data)
+
+    def test_flag_project(self):
+        """ Test setting the flag state of a project. """
+
+        flag = create_flagged_project(self.session)
+
+        project = model.Project.by_name(self.session, 'geany')[0]
+        self.assertEqual(len(project.flags), 1)
+        self.assertEqual(project.flags[0].state, 'open')
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'some_invalid_openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.post('/flags/{0}/set/closed'.format(flag.id),
+                           follow_redirects=True)
+
+            # Non-admin ID will complain, insufficient creds
+            self.assertEqual(output.status_code, 401)
+
+        # Nothing should have changed.
+        project = model.Project.by_name(self.session, 'geany')[0]
+        self.assertEqual(len(project.flags), 1)
+        self.assertEqual(project.flags[0].state, 'open')
+
+        self.assertEqual(flag.state, 'open')
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.post('/flags/{0}/set/closed'.format(flag.id),
+                           follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+
+            # Now the flag state should *not* have toggled because while we did
+            # provide a valid admin openid, we did not provide a CSRF token.
+            project = model.Project.by_name(self.session, 'geany')[0]
+            self.assertEqual(len(project.flags), 1)
+            self.assertEqual(project.flags[0].state, 'open')
+
+            # Go ahead and get the csrf token from the page and try again.
+            data = {}
+
+            csrf_token = output.data.split(
+                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+
+            data['csrf_token'] = csrf_token
+
+            output = c.post('/flags/{0}/set/closed'.format(flag.id),
+                            data=data,
+                            follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+
+        # Now the flag state should have toggled.
+        project = model.Project.by_name(self.session, 'geany')[0]
+        self.assertEqual(len(project.flags), 1)
+        self.assertEqual(project.flags[0].state, 'closed')
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.post('/flags/{0}/set/open'.format(flag.id),
+                           follow_redirects=True)
+
+            # Grab the CSRF token again so we can toggle the flag again
+            data = {}
+
+            csrf_token = output.data.split(
+                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+
+            data['csrf_token'] = csrf_token
+
+            output = c.post('/flags/{0}/set/open'.format(flag.id),
+                            data=data,
+                            follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+
+        # Make sure we can toggle the flag again.
+        project = model.Project.by_name(self.session, 'geany')[0]
+        self.assertEqual(len(project.flags), 1)
+        self.assertEqual(project.flags[0].state, 'open')
+
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.post('/flags/{0}/set/nonsense'.format(flag.id),
+                           follow_redirects=True)
+            self.assertEqual(output.status_code, 422)
+
+        # Make sure that passing garbage doesn't change anything.
+        project = model.Project.by_name(self.session, 'geany')[0]
+        self.assertEqual(len(project.flags), 1)
+        self.assertEqual(project.flags[0].state, 'open')
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FlaskAdminTest)

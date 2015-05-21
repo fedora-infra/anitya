@@ -430,7 +430,42 @@ def edit_project(project_id):
         current='projects',
         form=form,
         project=project,
-        plugins=plugins,
+    )
+
+
+@APP.route('/project/<project_id>/flag', methods=['GET', 'POST'])
+@login_required
+def flag_project(project_id):
+
+    project = anitya.lib.model.Project.get(SESSION, project_id)
+    if not project:
+        flask.abort(404)
+
+    form = anitya.forms.FlagProjectForm(
+        obj=project)
+
+    if form.validate_on_submit():
+        try:
+            anitya.lib.flag_project(
+                SESSION,
+                project=project,
+                reason=form.reason.data,
+                user_mail=flask.g.auth.email,
+            )
+            flask.flash('Project flagged for admin review')
+        except anitya.lib.exceptions.AnityaException as err:
+            flask.flash(str(err), 'errors')
+
+        return flask.redirect(
+            flask.url_for('project', project_id=project.id)
+        )
+
+    return flask.render_template(
+        'project_flag.html',
+        context='Flag',
+        current='projects',
+        form=form,
+        project=project,
     )
 
 
@@ -462,7 +497,7 @@ def map_project(project_id):
         except anitya.lib.exceptions.AnityaInvalidMappingException as err:
             err.link = flask.url_for('project', project_id=err.project_id)
             flask.flash(err.message, 'error')
-        except  anitya.lib.exceptions.AnityaException as err:
+        except anitya.lib.exceptions.AnityaException as err:
             flask.flash(str(err), 'error')
 
         return flask.redirect(
