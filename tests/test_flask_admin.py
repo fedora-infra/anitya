@@ -454,7 +454,7 @@ class FlaskAdminTest(Modeltests):
             output = c.get('/flags?from_date=%s' % datetime.date.tomorrow())
             self.assertEqual(output.status_code, 200)
             self.assertTrue('<h1>Flags</h1>' in output.data)
-            self.assertTrue('geany' not in output.data)
+            self.assertFalse('geany' in output.data)
 
             output = c.get('/flags?from_date=%s&project=geany' % datetime.date.today())
             self.assertEqual(output.status_code, 200)
