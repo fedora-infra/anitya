@@ -128,7 +128,7 @@
         <td>
             {{ flag.created_on.strftime('%Y-%m-%d %H:%M:%S') }}
         </td>
-        <td> {{ flag.project.name }} </td>
+        <td> <a href="{{ url_for('project', project_id=flag.project.id) }}">{{ flag.project.name }}</a> </td>
         <td> {{ flag.reason }} </td>
         <td> {{ flag.user }} </td>
     </tr>
