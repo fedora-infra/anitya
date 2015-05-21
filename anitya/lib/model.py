@@ -611,7 +611,7 @@ class ProjectFlag(BASE):
     def all(cls, session, page=None, count=False):
         query = session.query(
             ProjectFlag
-        ).order_by(created_on)
+        ).order_by(ProjectFlag.created_on)
 
         return query.all()
     
