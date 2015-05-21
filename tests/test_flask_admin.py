@@ -450,6 +450,12 @@ class FlaskAdminTest(Modeltests):
             self.assertTrue('<h1>Flags</h1>' in output.data)
             self.assertTrue('geany' in output.data)
 
+            # geany shouldn't show up if the "from date" is tomorrow
+            output = c.get('/flags?from_date=%s' % datetime.date.tomorrow())
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Flags</h1>' in output.data)
+            self.assertTrue('geany' not in output.data)
+
             output = c.get('/flags?from_date=%s&project=geany' % datetime.date.today())
             self.assertEqual(output.status_code, 200)
             self.assertTrue('<h1>Flags</h1>' in output.data)
