@@ -101,7 +101,7 @@
 
 
 <table id="flag_list">
-<tr><th></th><th>State</th><th>Created</th><th>Project</th><th>Reason</th><th>User</th></tr>
+<tr><th></th><th>State</th><th>Created</th><th>Project</th><th>User</th><th>Reason</th></tr>
 {% for flag in flags %}
     <tr>
         <td>
@@ -129,8 +129,8 @@
             {{ flag.created_on.strftime('%Y-%m-%d %H:%M:%S') }}
         </td>
         <td> <a href="{{ url_for('project', project_id=flag.project.id) }}">{{ flag.project.name }}</a> </td>
-        <td> {{ flag.reason }} </td>
         <td> {{ flag.user }} </td>
+        <td> {{ flag.reason }} </td>
     </tr>
 {% endfor %}
 </table>
