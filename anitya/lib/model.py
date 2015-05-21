@@ -589,13 +589,6 @@ class ProjectFlag(BASE):
 
     project = sa.orm.relation('Project', backref='flags')
 
-    def __init__(self, user, project, reason):
-        ''' Constructor.
-        '''
-        self.user = user
-        self.project = project
-        self.reason = reason
-
     def __repr__(self):
         return '<ProjectFlag(%s, %s, %s)>' % (self.project.name, self.user,
                                               self.state)
