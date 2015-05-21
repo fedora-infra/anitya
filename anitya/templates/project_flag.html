@@ -27,11 +27,7 @@
     <span class="glyphicon glyphicon-plus"></span>
     Submit
   </button>
-  {%- if context == 'Add' -%}
-  <a href="{{ url_for('projects') }}">
-  {%- elif context == 'Edit' -%}
   <a href="{{ url_for('project', project_id=project.id) }}">
-  {%- endif -%}
     <button type="button" class="btn btn-danger">
       <span class="glyphicon glyphicon-ban-circle"></span>
       Cancel
