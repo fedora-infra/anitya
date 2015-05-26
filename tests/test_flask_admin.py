@@ -63,7 +63,9 @@ class FlaskAdminTest(Modeltests):
         output = self.app.get('/distro/add', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<li class="errors">Login required</li>' in output.data)
+            '<ul id="flashes" class="list-group">'
+            '<li class="list-group-item list-group-item-warning">'
+            'Login required</li></ul>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -119,7 +121,8 @@ class FlaskAdminTest(Modeltests):
                 '/distro/add', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                'class="error">Could not add this distro, already exists?</'
+                'class="list-group-item list-group-item-danger">'
+                'Could not add this distro, already exists?</'
                 in output.data)
             self.assertTrue(
                 '<h1>Distributions participating</h1>' in output.data)
@@ -133,7 +136,9 @@ class FlaskAdminTest(Modeltests):
         output = self.app.get('/distro/Debian/edit', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<li class="errors">Login required</li>' in output.data)
+            '<ul id="flashes" class="list-group">'
+            '<li class="list-group-item list-group-item-warning">'
+            'Login required</li></ul>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -197,7 +202,9 @@ class FlaskAdminTest(Modeltests):
         output = self.app.get('/project/1/delete', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<li class="errors">Login required</li>' in output.data)
+            '<ul id="flashes" class="list-group">'
+            '<li class="list-group-item list-group-item-warning">'
+            'Login required</li></ul>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -267,7 +274,8 @@ class FlaskAdminTest(Modeltests):
             self.assertTrue(
                 '<h1>Projects monitored</h1>' in output.data)
             self.assertTrue(
-                '<li class="message">Project geany has been removed</li>'
+                '<li class="list-group-item list-group-item-default">'
+                'Project geany has been removed</li>'
                 in output.data)
             self.assertEqual(output.data.count('<a href="/project/1'), 0)
             self.assertEqual(output.data.count('<a href="/project/2'), 1)
@@ -283,7 +291,9 @@ class FlaskAdminTest(Modeltests):
             '/project/1/delete/Fedora/geany', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<li class="errors">Login required</li>' in output.data)
+            '<ul id="flashes" class="list-group">'
+            '<li class="list-group-item list-group-item-warning">'
+            'Login required</li></ul>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -362,7 +372,8 @@ class FlaskAdminTest(Modeltests):
                 follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                'class="message">Mapping for geany has been removed</li>'
+                'class="list-group-item list-group-item-default">'
+                'Mapping for geany has been removed</li>'
                 in output.data)
             self.assertTrue('<h1>Project: geany</h1>' in output.data)
             self.assertFalse('<td>Fedora</td>' in output.data)
@@ -374,7 +385,9 @@ class FlaskAdminTest(Modeltests):
         output = self.app.get('/logs', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<li class="errors">Login required</li>' in output.data)
+            '<ul id="flashes" class="list-group">'
+            '<li class="list-group-item list-group-item-warning">'
+            'Login required</li></ul>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -423,7 +436,9 @@ class FlaskAdminTest(Modeltests):
         output = self.app.get('/flags', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<li class="errors">Login required</li>' in output.data)
+            '<ul id="flashes" class="list-group">'
+            '<li class="list-group-item list-group-item-warning">'
+            'Login required</li></ul>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
