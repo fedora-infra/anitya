@@ -561,9 +561,6 @@ class FlaskAdminTest(Modeltests):
             # Grab the CSRF token again so we can toggle the flag again
             data = {}
 
-            csrf_token = output.data.split(
-                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
-
             data['csrf_token'] = csrf_token
 
             output = c.post('/flags/{0}/set/open'.format(flag.id),
