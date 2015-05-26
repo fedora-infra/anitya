@@ -558,10 +558,13 @@ class FlaskAdminTest(Modeltests):
             output = c.post('/flags/{0}/set/open'.format(flag.id),
                            follow_redirects=True)
 
-            # Grab the CSRF token again so we can toggle the flag again
-            data = {}
+            # Get a new CSRF Token
+            output = c.get('/distro/add')
+            csrf_token = output.data.split(
+                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
 
-            data['csrf_token'] = csrf_token
+            # Grab the CSRF token again so we can toggle the flag again
+            data = {'csrf_token': csrf_token}
 
             output = c.post('/flags/{0}/set/open'.format(flag.id),
                             data=data,
