@@ -92,4 +92,69 @@ interactions:
       vary: [Accept-Encoding]
       x-frame-options: [DENY]
     status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+    method: GET
+    uri: https://packagist.org/packages/fake/fake.json
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6tWKi5JLCktVrJSSi0qyi9S0lHKTS0uTkxPBYoEJCZnA1kKefklCmn5pXkpSrUA
+        6q44XDAAAAA=
+    headers:
+      cache-control: [no-cache]
+      connection: [keep-alive]
+      content-encoding: [gzip]
+      content-type: [application/json]
+      date: ['Thu, 28 May 2015 19:46:49 GMT']
+      server: [nginx]
+      strict-transport-security: [max-age=31104000]
+      vary: [Accept-Encoding]
+      x-frame-options: [DENY]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+    method: GET
+    uri: https://packagist.org/packages/phpunit/php-timer.json
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA91XW0/bMBT+KyivI6mvuUmbNraHPSLRPVE0ObZDLXKb41AV1P++41Aqihik04Y2
+        okRN6uNzPp/jz/58G3RCXolLHeS3QSNq+A26ZTc0xi1m8BI6U2sbHAdK99Kazpm2AZNvzlTGrY9k
+        Jfr+qGztEdiZ5hIMfQewIAiTEGUhTucoznmak/gdQjlCYFIL0zh4tO2D/HwXt9eF6J0RTbC5OA6u
+        oRWCgcUtBL8Oa2gDJH8K5pVer1qrPIARsg0g5rKtdTcmI1g61/X5YraYXRq3HIpItvVitoNYaHtZ
+        i6Z5kKTFDIa2RQ0OHmDe/f29aW0tKnOjFVhkd1cIltCzMlI3PYQ+D07OvoQ0/FyJAb4Blhjcst3P
+        1dl9ro5OtkjAhYbEVuC4Lz7ugIb3SCOlwcS2lR9dpYUas9y3g5Vj8d268y0wWjAbrPdzeA6iu+5W
+        l9rqxjsOEsakiBOUFkrwAmksFcVYUZQKyjDSLEVKkpQGG5hkpncPsNyY7gksojM+zK4mVndt/1Jp
+        wFUhqmoxmwznN0cBKV2Kfqhh5H5E26xWprDCrvfowUOE4Z6jLCcs53RHDyh3W7VQIKjKSLBadH5a
+        nH49hTl2AV6t/jEYO5YNOAqhPrznEY0gh9CIIxTx/4cnd3B/QZGxMfJrxlulB87iNFOMclaQjGtN
+        VSrhnZWMSKrLIs5kIXEiX4kek+Hs0+OAblPpQUOUhojMUZIzknN2AD1MI6tB6bATbumJ49fQFynD
+        XpUy486yWq2i7WYLq/Oj/cNPffYcL9gb50UpEFUJV0Wii4QSVXDC41InJewccYxxLKTO0KvxYiKc
+        x7yY3G0qL0iIUYjxHOOccRBWf5sX9B/kBX2OF/RN84LjhOusKCgvZSYloyhLqFYpFVTFhFMsqUzj
+        LH0lXkyGs8+LA7pN5wWcNgidj4cMuJ/kRWkqPUr+UUvNve5fzD5t9ZZfi0d5NXn/IFECkuspmTeK
+        UuNa0Hyjpj7oJLFV0apdNV4Hjkcg1zoBmjxmWQZVhjNU27hlBd5jkmVJAtoZtD98EkYTBIhK4Y8i
+        Qc42m5/V/DtD5A0AAA==
+    headers:
+      cache-control: ['public, s-maxage=3600']
+      connection: [keep-alive]
+      content-encoding: [gzip]
+      content-type: [application/json]
+      date: ['Thu, 28 May 2015 19:46:50 GMT']
+      server: [nginx]
+      strict-transport-security: [max-age=31104000]
+      vary: [Accept-Encoding]
+      x-frame-options: [DENY]
+    status: {code: 200, message: OK}
 version: 1

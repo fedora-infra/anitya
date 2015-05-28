@@ -6,46 +6,123 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.3.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
     method: GET
     uri: http://ftp.debian.org/debian/pool/main/g/guake/
   response:
     body:
       string: !!binary |
-        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
+        H4sIAAAAAAAAA9WcYW+iSBjH3++nmOPFvbkIzAygsuqlV3vZ5rpts+3lcrlcGhRUUhWDdLe7n/4G
+        UIswMw6EPGeTTXZ3nkGfnzPPw/8P6OCn8d3l49/3V+jT4+cbdP/nbzfXl0jrGMZf9NIwxo/jPEB1
+        gn4P197SMK5utdGHwSJZLUcf0GAReD77Gw2SMFkGo+u1H7yiaIYMP5iE3trYRNHSWHnh2pgb8xfv
+        ORgY+Ux2rLE7eDCJ/O/pa2Kl49m07A29SfYy6T/j0SBZoK/eMpyvh1oSbbTRIFzN0TaeDjUjnEbr
+        rTFZeutnfR7ONOQtk6H2z/Xl3b9snpEs0qNHAw8t4mA21H69HN5+vBuOtdGtt2Lv5/HnfGZzLrTR
+        jbdN0Cryw1kY+MLJD/nkh/BH4QUNlncx/2m03G48BmCxtBZxcVY+xT+F6E2PCO8vvlzdPo6vv+Sc
+        fvoSb2nxPmJtdO/FwTpB4zAOpkkUf9+lmx/783qy3Xzc/xftkonD+SLRRgh1UB6qkfI0Wm3iYLsN
+        /GLi7EPhppztgCdTt3TSoTr7zGf6/Ic24g4XEy9lSkxsdjDukB7Clmt1ERJMpLr9R22kl/XzOvq2
+        bsCznVZYttM2OLBO4DievJXvWDrbXSWat4AiU9c1iZjJMSGZ4lWw5DLtA4pMfZdaYibbAmQKac/h
+        Ie3HW9l5sEQef+Ptx1WI+sgkUiIHspaeZ3EQTLZ+R1hU1Rlq60aofN26/welaEtWJigyYpdSCSMF
+        ZFyFmy0PbT+uWG09+ar1gYn4TfEt0g5VD5BqE30L4s2Uh1UIKe8/U9LtHcjeuKV9kwe1H2+HCHKl
+        mFiOuet0CLTC1KQTNpa1esTeVk+8uCxsi4FTWGa3Q820wVOxfLJoA/nUFIumUjZzGxy0SlCOR1I8
+        YiNMXCzuGZYO1QlpVblTFeWuxoF1qHMUFSl3qq7cC0yyfk6glDsVKXeqrtwVmTDgfktTX8wETHlA
+        kYlKHRaG6uZU4EaoshtRrCbQncdzI1TZjeREDjKpi3sSIsj+IHcj/Bnvr2NI3Qh3wvtj5LkRquxG
+        VHsiZP/guxFaw42cY6cXuBFax40cuByZIITl4rkRquxGzrGi0sxfRUiv75SJ57CousNS1BlNmBpb
+        EZHDouoOi2E5jCxdKpnDAru8ZHXwLxOcir/qSbkck5Ox2WaHWAjbroUlNh/Dkm02U8eqNvdqVIGO
+        bURm+EnLF3ibbkeWktgZV4JyPNoxbbYzEWZ4/TNwxln6x854N9QGB5wzZknznfFRoBWmHtS9hSx1
+        njM+CigyEde2xUxdwP3Gd8ZHAUUm6lqmZJ0AGyDXGRfHlYnwuRDJfSR/hvJetCR7EbS+pD6SO0GZ
+        UbqSkIw8H1kcf3/VxveRxxEVqm56Z9yW9XpIKoGPLIXa2X9QDiVNnuu6jgKKTJZU8DapqcaSUORQ
+        rFoOJbsHlOp4sdK1qQOyVLbOTEVRyb4WuDjBkyoesz/I7Lm2eBs6Okx57dIvytzDUBscRIcppyzp
+        p8VLzDtdcYJqbKysJJfjCQW7tcoI+GVVCpzCMvsZluma4s5OTZgl67JVwaKy4gTlbHbWCWn61J3k
+        foMN5Lp26RfL6jDUBgdUWWVJ89xjKdAKE9CTabvUq1ebSgFFpp6LxU9fgDOVpV8poMxkyZhgTk2H
+        1MuOuBRQYyLUtZ0zWafqGep4XLmaJPqcAD1fnGcuc8SiGe1QAvZzmSMWTGin3iBXsuqIj8cVq424
+        RHwdA7aD8BxxOdLOXoTsIVxHXAm9vxrj3iuphNqpK5jnV/PkOU6/FGhnrWAs8S716v3VUkCRqS9n
+        atAtmtmsrshmdevYLDW5SylUWRGZzaoEFdhIdu/YEi8ZnM0iVZtFlG3WSQ4MdLMxS5pvs0hNm3WS
+        iQB9HWGXOs9mkZo2K2WiUkEBzVQ9QZGaNitnktw2IEBfYTqkXrVZpKbNSplsF4svRMMy8VQ6qWez
+        FHYe1AmXCMQ5qSfOSS+9YovFz/3ArhFfnJO64jzfeURi8EE7hECck9ri/Mw6n0Cck9rinOS3F2UX
+        ZKBMLxGJc1JTnJ9eqyZGqqmQFXwVq1vnq1hqgoJaR1iKvwhh7H4AY+D5fso3uth400WAHoL4axAj
+        L0GzZLNXplE8R/dRnKCeyTLeHcBeI/vljYGR/5rHfzaN5K4NRAAA
     headers:
       connection: [Keep-Alive]
       content-encoding: [gzip]
-      content-length: ['1595']
+      content-length: ['1635']
       content-type: [text/html;charset=UTF-8]
-      date: ['Sat, 11 Apr 2015 19:46:13 GMT']
+      date: ['Thu, 28 May 2015 20:03:05 GMT']
+      keep-alive: ['timeout=5, max=100']
+      server: [Apache]
+      vary: [Accept-Encoding]
+      x-clacks-overhead: [GNU Terry Pratchett]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+    method: GET
+    uri: http://ftp.debian.org/debian/pool/main/f/foo/
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /debian/pool/main/f/foo/ was not found on this server.</p>
+
+        <hr>
+
+        <address>Apache Server at ftp.debian.org Port 80</address>
+
+        </body></html>
+
+'}
+    headers:
+      connection: [Keep-Alive]
+      content-length: ['285']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Thu, 28 May 2015 20:03:05 GMT']
+      keep-alive: ['timeout=5, max=100']
+      server: [Apache]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+    method: GET
+    uri: http://ftp.debian.org/debian/pool/main/libg/libgnupg-interface-perl/
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA82YXW+bMBSG7/crzrjYHZiPkDQpYeqSTovWplGbaZqmqXLAAasEkHG7tr9+BhKN
+        rA04FRK7yYd4fTjPsV8fy8776dVk+WNxDl+Wlxew+PbpYjYBRUXouzVBaLqclg8szYTPNMYRQudz
+        xX3nhHwTue/ACQn2xTc4nPKIuLPYJ4+QrAH5ZEVxjNIkidAG0xhFdBUUH/F9Gqg05oStsUfUlLDI
+        QeVwERBtIzqrxH/KX2S8PagYW6SGV0Xs/CdzHR7CA45oEI8VnqSK69BNABnzxgqiXhJnaBXh+E4L
+        6FoBHPGx8nM2ufoldIiH+WjXwRAysh4rHyfj+enVeKq4c7whDsKvay6F5kxxL3DGYZP4dE2Jf1B8
+        U4pv6HMlIBJ5V/P3kihLsQDoibRCVlWVEr8JEXt7hIuz6/P5cjq7Ljn9PMTftA7UXXEXmJGYw5Qy
+        4vGEPW0zLod/iFdZerr7C9t8GA1CrrgAKpSPjsjaSzYpI1lG/Gruoi6vZn1gWdzqWs9ULa1k0jhm
+        WvCsuMeoq5j/cJm6oat6TzWHYPRHuglwQGhr1tejC3Af38XJ77gN+sxrZs68NkhNzeiQ9BZHUT57
+        TbQ7XRvE0NePJ25vcWuJyENqYVeVteD6UC3YwTRH1uAwuH3SIbitGke4+oW6fuaNvABmH4zhyDhc
+        AFszu1rrBU+Dq7eaNkjNTkmlXF3RtUEMg16Xi1va1ba0q2XB+/2OptrW91vvYy35S3U9fU8V25pu
+        5PSiBv9foy556i2907RB2l2jzilkLF3VtUH8ppXdlqVtXdbS+8pGcEs1RKPWR3odeFe7t23u990G
+        S79Q19PbxflsAPpwZNk1ln7DTt4ifYOlTZkuLUfaXZfOKaQsbcp2aTli6A86tLT02duWP3tLg+9N
+        teRtAdpejjjY9/MKuGcp9kICN4Q9EAaYw5qnOwcmLIBFwjic6CLj7QARo7iqcVB5J/QH7WjG/lMS
+        AAA=
+    headers:
+      connection: [Keep-Alive]
+      content-encoding: [gzip]
+      content-length: ['743']
+      content-type: [text/html;charset=UTF-8]
+      date: ['Thu, 28 May 2015 20:03:05 GMT']
       keep-alive: ['timeout=5, max=100']
       server: [Apache]
       vary: [Accept-Encoding]

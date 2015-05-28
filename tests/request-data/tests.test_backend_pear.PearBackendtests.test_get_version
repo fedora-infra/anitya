@@ -6,83 +6,102 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.3.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
     method: GET
-    uri: http://pear.php.net/package/PHP-UML/download/All
+    uri: https://pear.php.net/rest/r/php-uml/allreleases.xml
   response:
-    body: {string: !!python/unicode "<!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\"\
-        >\n<head >\n <title>Error 404</title>\n <link rel=\"shortcut icon\" href=\"\
-        /gifs/favicon.ico\" />\n <link rel=\"stylesheet\" type=\"text/css\" href=\"\
-        /css/reset-fonts.css\" />\n <link rel=\"stylesheet\" type=\"text/css\" href=\"\
-        /css/style.css\" />\n <!--[if IE 7]><link rel=\"stylesheet\" type=\"text/css\"\
-        \ href=\"/css/IE7styles.css\" /><![endif]-->\n <!--[if IE 6]><link rel=\"\
-        stylesheet\" type=\"text/css\" href=\"/css/IE6styles.css\" /><![endif]-->\n\
-        \ <link rel=\"stylesheet\" type=\"text/css\" href=\"/css/print.css\" media=\"\
-        print\" />\n <link rel=\"alternate\" type=\"application/rss+xml\" title=\"\
-        RSS feed\" href=\"http://pear.php.net/feeds/latest.rss\" />\n <script type=\"\
-        text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"\
-        ></script>\n <script type=\"text/javascript\" src=\"/javascript/jquery-dtpicker/jquery.dtpicker.min.js\"\
-        ></script>\n <link rel=\"stylesheet\" type=\"text/css\" href=\"/javascript/jquery-dtpicker/jquery.dtpicker.css\"\
-        \ />\n <!-- compliance patch for microsoft browsers -->\n<!--[if lt IE 8]>\n\
-        \ <script type=\"text/javascript\" src=\"/javascript/IE8.js\"></script>\n\
-        <![endif]-->\n <link rel=\"search\" type=\"application/opensearchdescription+xml\"\
-        \ title=\"PEAR Search Plugin\" href=\"http://pear.php.net/osd.xml\" />\n</head>\n\
-        \n<body>\n<div>\n<a id=\"TOP\"></a>\n</div>\n\n<div id=\"doc3\">\n<!-- START\
-        \ HEADER -->\n <div id=\"user\">\n  <ul>\n   <li><a href=\"/account-request.php\"\
-        >Register</a></li>\n   <li class=\"last\"><a href=\"/login.php?redirect=/package/PHP-UML/download/All\"\
-        >Login</a></li>\n  </ul>\n </div>\n\n <div id=\"search\">\n  <form method=\"\
-        get\" action=\"/search.php\">\n   <p style=\"margin: 0px;\">\n    <span class=\"\
-        accesskey\">S</span>earch for\n    <input type=\"text\" name=\"q\" value=\"\
-        \" size=\"20\" accesskey=\"s\" />\n    in the\n    <select name=\"in\">\n\
-        \        <option value=\"packages\">Packages</option>\n        <option value=\"\
-        site\">This site (using Yahoo!)</option>\n        <option value=\"users\"\
-        >Developers</option>\n        <option value=\"pear-dev\">Developer mailing\
-        \ list</option>\n        <option value=\"pear-general\">General mailing list</option>\n\
-        \        <option value=\"pear-cvs\">SVN commits mailing list</option>\n  \
-        \  </select>\n    <input type=\"image\" src=\"/gifs/small_submit_white.gif\"\
-        \ alt=\"search\" style=\"vertical-align: middle;\" />\n   </p>\n  </form>\n\
-        \ </div>\n\n  <div id=\"header\">\n   <a href=\"/\"><img src=\"/gifs/pearsmall.gif\"\
-        \ style=\"border: 0;\" width=\"104\" height=\"50\" alt=\"PEAR\"  /></a><br\
-        \ />\n  </div>\n\n<div id=\"menubar\">\n\n<ul id=\"menu\">\n <li class=\"\
-        menu-item\"><a href=\"/index.php\">Main</a></li>\n <li class=\"menu-item\"\
-        ><a href=\"/support/\">Support</a></li>\n <li class=\"menu-item\"><a href=\"\
-        /manual/\">Documentation</a></li>\n <li class=\"menu-item current\"><a href=\"\
-        /packages.php\">Packages</a></li>\n <li class=\"menu-item\"><a href=\"/pepr/\"\
-        >Package Proposals</a></li>\n <li class=\"menu-item\"><a href=\"/accounts.php\"\
-        >Developers</a></li>\n <li class=\"menu-item menu-item-last\"><a href=\"/bugs/\"\
-        >Bugs</a></li>\n</ul>\n\n</div>\n\n\n<ul id=\"submenu\">\n <li class=\"menu-item\
-        \ current\"><a href=\"/packages.php\">List Packages</a></li>\n <li class=\"\
-        menu-item\"><a href=\"/search.php\">Search Packages</a></li>\n <li class=\"\
-        menu-item\"><a href=\"/package-stats.php\">Statistics</a></li>\n <li class=\"\
-        menu-item menu-item-last\"><a href=\"/channels/\">Channels</a></li>\n</ul>\n\
-        \n<!-- END HEADER -->\n<!-- START MIDDLE -->\n\n<!-- START MAIN CONTENT -->\n\
-        \n  <div id=\"body\">\n\n\n<h1>Error 404 - document not found</h1>\n\n<p>The\
-        \ requested document <i>/package/PHP-UML/download/All</i> was not\nfound on\
-        \ this server.</p>\n\n    Searching the current list of packages for\n   \
-        \ <i>All</i> included the\n    following results:\n\n    <ul>\n          \
-        \  <li>\n            <a href=\"/package/PEAR_RemoteInstaller\">PEAR_RemoteInstaller</a><br\
-        \ />\n            <i>PEAR Remote installation plugin through FTP, SFTP, and\
-        \ FTPS</i><br /><br />\n        </li>\n            <li>\n            <a href=\"\
-        /package/PHP_FunctionCallTracer\">PHP_FunctionCallTracer</a><br />\n     \
-        \       <i>Function Call Tracer</i><br /><br />\n        </li>\n        </ul>\n\
-        \n    \n<p>If you think that this error message is caused by an error in the\n\
-        configuration of the server, please contact\n<a  href=\"&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x70;&#101;&#x61;&#114;&#x2d;&#119;&#x65;&#98;&#x6d;&#97;&#x73;&#116;&#x65;&#114;&#x40;&#108;&#x69;&#115;&#x74;&#115;&#x2e;&#112;&#x68;&#112;&#x2e;&#110;&#x65;&#116;\"\
-        >&#x70;&#101;&#x61;&#114;&#x2d;&#119;&#x65;&#98;&#x6d;&#97;&#x73;&#116;&#x65;&#114;&#x40;&#108;&#x69;&#115;&#x74;&#115;&#x2e;&#112;&#x68;&#112;&#x2e;&#110;&#x65;&#116;</a>.\n\
-        \n\n  </div>\n\n<!-- END MAIN CONTENT -->\n<!-- END MIDDLE -->\n\n<!-- START\
-        \ FOOTER -->\n<div id=\"footer\">\n  <div id=\"foot-bar\"><a href=\"/about/privacy.php\"\
-        >PRIVACY POLICY</a>&nbsp;|&nbsp;<a href=\"/about/credits.php\">CREDITS</a></div>\n\
-        \  <div id=\"foot-copy\">\n    <a href=\"/copyright.php\">Copyright &copy;\
-        \ 2001-2015 The PHP Group</a>    All rights reserved.\n  </div>\n\n  <div\
-        \ id=\"foot-source\">\n    Bandwidth and hardware provided by:\n    <a href=\"\
-        http://www.eukhost.com/\">eUKhost</a>\n  </div>\n</div>\n\n<!-- Onload focus\
-        \ to pear -->\n<!-- END FOOTER -->\n </div>\n</body>\n</html>\n"}
+    body: {string: !!python/unicode "<!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n<head
+        >\n <title>Error 404</title>\n <link rel=\"shortcut icon\" href=\"/gifs/favicon.ico\"
+        />\n <link rel=\"stylesheet\" type=\"text/css\" href=\"/css/reset-fonts.css\"
+        />\n <link rel=\"stylesheet\" type=\"text/css\" href=\"/css/style.css\" />\n
+        <!--[if IE 7]><link rel=\"stylesheet\" type=\"text/css\" href=\"/css/IE7styles.css\"
+        /><![endif]-->\n <!--[if IE 6]><link rel=\"stylesheet\" type=\"text/css\"
+        href=\"/css/IE6styles.css\" /><![endif]-->\n <link rel=\"stylesheet\" type=\"text/css\"
+        href=\"/css/print.css\" media=\"print\" />\n <link rel=\"alternate\" type=\"application/rss+xml\"
+        title=\"RSS feed\" href=\"http://pear.php.net/feeds/latest.rss\" />\n <script
+        type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></script>\n
+        <script type=\"text/javascript\" src=\"/javascript/jquery-dtpicker/jquery.dtpicker.min.js\"></script>\n
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"/javascript/jquery-dtpicker/jquery.dtpicker.css\"
+        />\n <!-- compliance patch for microsoft browsers -->\n<!--[if lt IE 8]>\n
+        <script type=\"text/javascript\" src=\"/javascript/IE8.js\"></script>\n<![endif]-->\n
+        <link rel=\"search\" type=\"application/opensearchdescription+xml\" title=\"PEAR
+        Search Plugin\" href=\"http://pear.php.net/osd.xml\" />\n</head>\n\n<body>\n<div>\n<a
+        id=\"TOP\"></a>\n</div>\n\n<div id=\"doc3\">\n<!-- START HEADER -->\n <div
+        id=\"user\">\n  <ul>\n   <li><a href=\"/account-request.php\">Register</a></li>\n
+        \  <li class=\"last\"><a href=\"/login.php?redirect=/error/404.php\">Login</a></li>\n
+        \ </ul>\n </div>\n\n <div id=\"search\">\n  <form method=\"get\" action=\"/search.php\">\n
+        \  <p style=\"margin: 0px;\">\n    <span class=\"accesskey\">S</span>earch
+        for\n    <input type=\"text\" name=\"q\" value=\"\" size=\"20\" accesskey=\"s\"
+        />\n    in the\n    <select name=\"in\">\n        <option value=\"packages\">Packages</option>\n
+        \       <option value=\"site\">This site (using Yahoo!)</option>\n        <option
+        value=\"users\">Developers</option>\n        <option value=\"pear-dev\">Developer
+        mailing list</option>\n        <option value=\"pear-general\">General mailing
+        list</option>\n        <option value=\"pear-cvs\">SVN commits mailing list</option>\n
+        \   </select>\n    <input type=\"image\" src=\"/gifs/small_submit_white.gif\"
+        alt=\"search\" style=\"vertical-align: middle;\" />\n   </p>\n  </form>\n
+        </div>\n\n  <div id=\"header\">\n   <a href=\"/\"><img src=\"/gifs/pearsmall.gif\"
+        style=\"border: 0;\" width=\"104\" height=\"50\" alt=\"PEAR\"  /></a><br />\n
+        \ </div>\n\n<div id=\"menubar\">\n\n<ul id=\"menu\">\n <li class=\"menu-item
+        current\"><a href=\"/index.php\">Main</a></li>\n <li class=\"menu-item\"><a
+        href=\"/support/\">Support</a></li>\n <li class=\"menu-item\"><a href=\"/manual/\">Documentation</a></li>\n
+        <li class=\"menu-item\"><a href=\"/packages.php\">Packages</a></li>\n <li
+        class=\"menu-item\"><a href=\"/pepr/\">Package Proposals</a></li>\n <li class=\"menu-item\"><a
+        href=\"/accounts.php\">Developers</a></li>\n <li class=\"menu-item menu-item-last\"><a
+        href=\"/bugs/\">Bugs</a></li>\n</ul>\n\n</div>\n\n\n<ul id=\"submenu\">\n
+        <li class=\"menu-item current\"><a href=\"/index.php\">Home</a></li>\n <li
+        class=\"menu-item\"><a href=\"/news/\">News</a></li>\n <li class=\"menu-item\"><a
+        href=\"/qa/\">Quality Assurance</a></li>\n <li class=\"menu-item\"><a href=\"/group/\">The
+        PEAR Group</a></li>\n <li class=\"menu-item menu-item-last\"><a href=\"/mirrors.php\">Mirrors</a></li>\n</ul>\n\n<!--
+        END HEADER -->\n<!-- START MIDDLE -->\n\n<!-- START MAIN CONTENT -->\n\n  <div
+        id=\"body\">\n\n\n<h1>Error 404 - document not found</h1>\n\n<p>The requested
+        document <i>/rest/r/php-uml/allreleases.xml</i> was not\nfound on this server.</p>\n\n\n<p>If
+        you think that this error message is caused by an error in the\nconfiguration
+        of the server, please contact\n<a  href=\"&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x70;&#101;&#x61;&#114;&#x2d;&#119;&#x65;&#98;&#x6d;&#97;&#x73;&#116;&#x65;&#114;&#x40;&#108;&#x69;&#115;&#x74;&#115;&#x2e;&#112;&#x68;&#112;&#x2e;&#110;&#x65;&#116;\">&#x70;&#101;&#x61;&#114;&#x2d;&#119;&#x65;&#98;&#x6d;&#97;&#x73;&#116;&#x65;&#114;&#x40;&#108;&#x69;&#115;&#x74;&#115;&#x2e;&#112;&#x68;&#112;&#x2e;&#110;&#x65;&#116;</a>.\n\n\n
+        \ </div>\n\n<!-- END MAIN CONTENT -->\n<!-- END MIDDLE -->\n\n<!-- START FOOTER
+        -->\n<div id=\"footer\">\n  <div id=\"foot-bar\"><a href=\"/about/privacy.php\">PRIVACY
+        POLICY</a>&nbsp;|&nbsp;<a href=\"/about/credits.php\">CREDITS</a></div>\n
+        \ <div id=\"foot-copy\">\n    <a href=\"/copyright.php\">Copyright &copy;
+        2001-2015 The PHP Group</a>    All rights reserved.\n  </div>\n\n  <div id=\"foot-source\">\n
+        \   Bandwidth and hardware provided by:\n    <a href=\"http://www.eukhost.com/\">eUKhost</a>\n
+        \ </div>\n</div>\n\n<!-- Onload focus to pear -->\n<!-- END FOOTER -->\n </div>\n</body>\n</html>\n"}
     headers:
       connection: [close]
-      content-length: ['5059']
+      content-length: ['4575']
       content-type: [text/html; charset=UTF-8]
-      date: ['Sat, 11 Apr 2015 20:57:06 GMT']
+      date: ['Thu, 28 May 2015 20:41:14 GMT']
       server: [Apache/2.2.3 (CentOS)]
       x-powered-by: [PHP/5.3.6]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+    method: GET
+    uri: https://pear.php.net/rest/r/php_uml/allreleases.xml
+  response:
+    body: {string: !!python/unicode "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<a
+        xmlns=\"http://pear.php.net/dtd/rest.allreleases\"\n    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+        xmlns:xlink=\"http://www.w3.org/1999/xlink\"     xsi:schemaLocation=\"http://pear.php.net/dtd/rest.allreleases\n
+        \   http://pear.php.net/dtd/rest.allreleases.xsd\">\n <p>PHP_UML</p>\n <c>pear.php.net</c>\n
+        <r><v>1.6.2</v><s>stable</s></r>\n <r><v>1.6.1</v><s>stable</s></r>\n <r><v>1.6.0</v><s>stable</s></r>\n
+        <r><v>1.5.5</v><s>stable</s></r>\n <r><v>1.5.4</v><s>stable</s></r>\n <r><v>1.5.3</v><s>stable</s></r>\n
+        <r><v>1.5.2</v><s>stable</s></r>\n <r><v>1.5.1</v><s>stable</s></r>\n <r><v>1.5.0</v><s>stable</s></r>\n
+        <r><v>1.0.1</v><s>stable</s></r>\n <r><v>1.0.0</v><s>stable</s></r>\n <r><v>0.5.3</v><s>beta</s></r>\n
+        <r><v>0.5.2</v><s>alpha</s></r>\n <r><v>0.5.1</v><s>alpha</s></r>\n <r><v>0.5.0</v><s>beta</s></r>\n
+        <r><v>0.4.4</v><s>beta</s></r>\n <r><v>0.4.2</v><s>beta</s></r>\n</a>"}
+    headers:
+      accept-ranges: [bytes]
+      connection: [close]
+      content-length: ['918']
+      content-type: [text/xml]
+      date: ['Thu, 28 May 2015 20:41:14 GMT']
+      etag: ['"1cd096c-396-1d0ab1c0"']
+      last-modified: ['Sun, 15 Feb 2015 19:02:39 GMT']
+      server: [Apache/2.2.3 (CentOS)]
     status: {code: 200, message: OK}
 - request:
     body: null
@@ -91,491 +110,70 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.3.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
     method: GET
-    uri: http://pear.php.net/package/PHP_UML/download/All
+    uri: https://pear.php.net/rest/r/foo/allreleases.xml
   response:
-    body: {string: !!python/unicode "<!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\"\
-        >\n<head >\n<!--\r\n<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\
-        \r\n    xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\r\n    xmlns:trackback=\"\
-        http://madskills.com/public/xml/rss/module/trackback/\">\r\n    <rdf:Description\r\
-        \n        rdf:about=\"http://pear.php.net/package/PHP_UML\"\r\n        dc:identifier=\"\
-        http://pear.php.net/package/PHP_UML\"\r\n        dc:title=\"Package :: PHP_UML\"\
-        \r\n        trackback:ping=\"http://pear.php.net/trackback/trackback.php?id=PHP_UML\"\
-        \ />\r\n</rdf:RDF>\r\n--> <link rel=\"meta\" title=\"DOAP\" type=\"application/rdf+xml\"\
-        \ href=\"/package/PHP_UML/doap\"/> <title>PHP_UML</title>\n <link rel=\"shortcut\
-        \ icon\" href=\"/gifs/favicon.ico\" />\n <link rel=\"stylesheet\" type=\"\
-        text/css\" href=\"/css/reset-fonts.css\" />\n <link rel=\"stylesheet\" type=\"\
-        text/css\" href=\"/css/style.css\" />\n <!--[if IE 7]><link rel=\"stylesheet\"\
-        \ type=\"text/css\" href=\"/css/IE7styles.css\" /><![endif]-->\n <!--[if IE\
-        \ 6]><link rel=\"stylesheet\" type=\"text/css\" href=\"/css/IE6styles.css\"\
-        \ /><![endif]-->\n <link rel=\"stylesheet\" type=\"text/css\" href=\"/css/print.css\"\
-        \ media=\"print\" />\n <link rel=\"alternate\" type=\"application/rss+xml\"\
-        \ title=\"RSS feed\" href=\"http://pear.php.net/feeds/latest.rss\" />\n <script\
-        \ type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"\
-        ></script>\n <script type=\"text/javascript\" src=\"/javascript/jquery-dtpicker/jquery.dtpicker.min.js\"\
-        ></script>\n <link rel=\"stylesheet\" type=\"text/css\" href=\"/javascript/jquery-dtpicker/jquery.dtpicker.css\"\
-        \ />\n <!-- compliance patch for microsoft browsers -->\n<!--[if lt IE 8]>\n\
-        \ <script type=\"text/javascript\" src=\"/javascript/IE8.js\"></script>\n\
-        <![endif]-->\n <link rel=\"search\" type=\"application/opensearchdescription+xml\"\
-        \ title=\"PEAR Search Plugin\" href=\"http://pear.php.net/osd.xml\" />\n</head>\n\
-        \n<body>\n<div>\n<a id=\"TOP\"></a>\n</div>\n\n<div id=\"doc3\">\n<!-- START\
-        \ HEADER -->\n <div id=\"user\">\n  <ul>\n   <li><a href=\"/account-request.php\"\
-        >Register</a></li>\n   <li class=\"last\"><a href=\"/login.php?redirect=/package/PHP_UML/download/All\"\
-        >Login</a></li>\n  </ul>\n </div>\n\n <div id=\"search\">\n  <form method=\"\
-        get\" action=\"/search.php\">\n   <p style=\"margin: 0px;\">\n    <span class=\"\
-        accesskey\">S</span>earch for\n    <input type=\"text\" name=\"q\" value=\"\
-        \" size=\"20\" accesskey=\"s\" />\n    in the\n    <select name=\"in\">\n\
-        \        <option value=\"packages\">Packages</option>\n        <option value=\"\
-        site\">This site (using Yahoo!)</option>\n        <option value=\"users\"\
-        >Developers</option>\n        <option value=\"pear-dev\">Developer mailing\
-        \ list</option>\n        <option value=\"pear-general\">General mailing list</option>\n\
-        \        <option value=\"pear-cvs\">SVN commits mailing list</option>\n  \
-        \  </select>\n    <input type=\"image\" src=\"/gifs/small_submit_white.gif\"\
-        \ alt=\"search\" style=\"vertical-align: middle;\" />\n   </p>\n  </form>\n\
-        \ </div>\n\n  <div id=\"header\">\n   <a href=\"/\"><img src=\"/gifs/pearsmall.gif\"\
-        \ style=\"border: 0;\" width=\"104\" height=\"50\" alt=\"PEAR\"  /></a><br\
-        \ />\n  </div>\n\n<div id=\"menubar\">\n\n<ul id=\"menu\">\n <li class=\"\
-        menu-item\"><a href=\"/index.php\">Main</a></li>\n <li class=\"menu-item\"\
-        ><a href=\"/support/\">Support</a></li>\n <li class=\"menu-item\"><a href=\"\
-        /manual/\">Documentation</a></li>\n <li class=\"menu-item current\"><a href=\"\
-        /packages.php\">Packages</a></li>\n <li class=\"menu-item\"><a href=\"/pepr/\"\
-        >Package Proposals</a></li>\n <li class=\"menu-item\"><a href=\"/accounts.php\"\
-        >Developers</a></li>\n <li class=\"menu-item menu-item-last\"><a href=\"/bugs/\"\
-        >Bugs</a></li>\n</ul>\n\n</div>\n\n\n<ul id=\"submenu\">\n <li class=\"menu-item\
-        \ current\"><a href=\"/packages.php\">List Packages</a></li>\n <li class=\"\
-        menu-item\"><a href=\"/search.php\">Search Packages</a></li>\n <li class=\"\
-        menu-item\"><a href=\"/package-stats.php\">Statistics</a></li>\n <li class=\"\
-        menu-item menu-item-last\"><a href=\"/channels/\">Channels</a></li>\n</ul>\n\
-        \n<!-- END HEADER -->\n<!-- START MIDDLE -->\n\n<!-- START MAIN CONTENT -->\n\
-        \n  <div id=\"body\">\n\n<a href=\"/packages.php\">Top Level</a>  :: <a class=\"\
-        category\" href=\"/packages.php?catpid=25&amp;catname=PHP\">PHP</a><h1>Package\
-        \ Information: PHP_UML</h1>\n<div id=\"nav\">\n<a href=\"/package/PHP_UML/\"\
-        \ title=\"Main view\">Main</a><a href=\"/package/PHP_UML/download\"  class=\"\
-        current\"  title=\"Download releases of this package\">Download</a><a href=\"\
-        /package/PHP_UML/docs\" title=\"Read the available documentation\">Documentation</a><a\
-        \ href=\"/package/PHP_UML/bugs\" title=\"View/Report Bugs\">Bugs</a><a href=\"\
-        /package/PHP_UML/trackbacks\" title=\"Show Related Sites\">Trackbacks</a></div>\n\
-        <p><a href=\"/package/PHP_UML/download/All\">Show All Changelogs</a></p>\r\
-        \n    <table id=\"download-releases\">\r\n     <tr>\r\n      <th>&raquo; Version</th>\r\
-        \n      <th>&raquo; Information</th></tr>\n <tr class=\"featured-release\"\
-        >\n            <td class=\"textcell\">\r\n             <strong>1.6.2</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-1.6.2</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-1.6.2</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-1.6.2.tgz\">1.6.2</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2015-02-15\
-        \ 19:02 UTC<br /><strong>Release state:</strong> <span class=\"stable\">stable</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* fixed bug in the folder\
-        \ tree traversal<br />\n* removed a useless html header in 'htmlnew' export\
-        \ causing a bug with recent xsltproc impl<br /><br /><strong>Dependencies:</strong><ul><li>PHP\
-        \ Version: PHP 5 or newer</li><li>PEAR Package: PEAR Installer 1.4.0 or newer</li><li>PEAR\
-        \ Package: <a href=\"/package/Console_CommandLine/\">Console_CommandLine</a></li><li>PHP\
-        \ Extension: SPL</li><li>PHP Extension: XSL</li></ul></td>\n </tr>\n <tr class=\"\
-        featured-release\">\n            <td class=\"textcell\">\r\n             <strong>1.6.1</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-1.6.1</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-1.6.1</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-1.6.1.tgz\">1.6.1</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2012-05-12\
-        \ 20:03 UTC<br /><strong>Release state:</strong> <span class=\"stable\">stable</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* fixed API declaration fatal\
-        \ error (PHP_UML_Input_PHP_ParserImpl::__construct())<br />\n* added missing\
-        \ space in function parameters generated by HtmlNew<br /><br /><strong>Dependencies:</strong><ul><li>PHP\
-        \ Version: PHP 5 or newer</li><li>PEAR Package: PEAR Installer 1.4.0 or newer</li><li>PEAR\
-        \ Package: <a href=\"/package/Console_CommandLine/\">Console_CommandLine</a></li><li>PHP\
-        \ Extension: SPL</li><li>PHP Extension: XSL</li></ul></td>\n </tr>\n <tr class=\"\
-        featured-release\">\n            <td class=\"textcell\">\r\n             <strong>1.6.0</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-1.6.0</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-1.6.0</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-1.6.0.tgz\">1.6.0</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2011-09-24\
-        \ 20:09 UTC<br /><strong>Release state:</strong> <span class=\"stable\">stable</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* API refactoring (introduction\
-        \ of Importer and Exporter classes)<br />\n* XMI is now a &quot;full&quot;\
-        \ input format, just like PHP<br />\n* various bugfixes (namespaces in PHP\
-        \ class generation, for eg)<br /><br /><strong>Dependencies:</strong><ul><li>PHP\
-        \ Version: PHP 5 or newer</li><li>PEAR Package: PEAR Installer 1.4.0 or newer</li><li>PEAR\
-        \ Package: <a href=\"/package/Console_CommandLine/\">Console_CommandLine</a></li><li>PHP\
-        \ Extension: SPL</li><li>PHP Extension: XSL</li></ul></td>\n </tr>\n <tr class=\"\
-        featured-release\">\n            <td class=\"textcell\">\r\n             <strong>1.5.5</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-1.5.5</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-1.5.5</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-1.5.5.tgz\">1.5.5</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2011-02-25\
-        \ 23:00 UTC<br /><strong>Release state:</strong> <span class=\"stable\">stable</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* Bugfix (install script)<br\
-        \ /><br /><strong>Dependencies:</strong><ul><li>PHP Version: PHP 5 or newer</li><li>PEAR\
-        \ Package: PEAR Installer 1.4.0 or newer</li><li>PEAR Package: <a href=\"\
-        /package/Console_CommandLine/\">Console_CommandLine</a></li><li>PHP Extension:\
-        \ SPL</li><li>PHP Extension: XSL</li></ul></td>\n </tr>\n <tr class=\"featured-release\"\
-        >\n            <td class=\"textcell\">\r\n             <strong>1.5.4</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-1.5.4</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-1.5.4</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-1.5.4.tgz\">1.5.4</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2011-02-25\
-        \ 22:30 UTC<br /><strong>Release state:</strong> <span class=\"stable\">stable</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* Bugfix (install script)<br\
-        \ /><br /><strong>Dependencies:</strong><ul><li>PHP Version: PHP 5 or newer</li><li>PEAR\
-        \ Package: PEAR Installer 1.4.0 or newer</li><li>PEAR Package: <a href=\"\
-        /package/Console_CommandLine/\">Console_CommandLine</a></li><li>PHP Extension:\
-        \ SPL</li><li>PHP Extension: XSL</li></ul></td>\n </tr>\n <tr class=\"featured-release\"\
-        >\n            <td class=\"textcell\">\r\n             <strong>1.5.3</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-1.5.3</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-1.5.3</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-1.5.3.tgz\">1.5.3</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2010-10-13\
-        \ 21:13 UTC<br /><strong>Release state:</strong> <span class=\"stable\">stable</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* Fixed 3 bugs (with the\
-        \ instruction &quot;use&quot; in particular)<br /><br /><strong>Dependencies:</strong><ul><li>PHP\
-        \ Version: PHP 5 or newer</li><li>PEAR Package: PEAR Installer 1.4.0 or newer</li><li>PEAR\
-        \ Package: <a href=\"/package/Console_CommandLine/\">Console_CommandLine</a></li><li>PHP\
-        \ Extension: SPL</li><li>PHP Extension: XSL</li></ul></td>\n </tr>\n <tr class=\"\
-        featured-release\">\n            <td class=\"textcell\">\r\n             <strong>1.5.2</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-1.5.2</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-1.5.2</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-1.5.2.tgz\">1.5.2</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2010-03-19\
-        \ 22:26 UTC<br /><strong>Release state:</strong> <span class=\"stable\">stable</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* Bug fix release that prevents\
-        \ crashes when parsing incorrect PHP class names<br /><br /><strong>Dependencies:</strong><ul><li>PHP\
-        \ Version: PHP 5 or newer</li><li>PEAR Package: PEAR Installer 1.4.0 or newer</li><li>PEAR\
-        \ Package: <a href=\"/package/Console_CommandLine/\">Console_CommandLine</a></li><li>PHP\
-        \ Extension: SPL</li><li>PHP Extension: XSL</li></ul></td>\n </tr>\n <tr class=\"\
-        featured-release\">\n            <td class=\"textcell\">\r\n             <strong>1.5.1</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-1.5.1</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-1.5.1</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-1.5.1.tgz\">1.5.1</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2010-01-10\
-        \ 19:53 UTC<br /><strong>Release state:</strong> <span class=\"stable\">stable</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* Bug fix release about anonymous\
-        \ functions / closures<br />\n* Fixed a bug in package.xml<br /><br /><strong>Dependencies:</strong><ul><li>PHP\
-        \ Version: PHP 5 or newer</li><li>PEAR Package: PEAR Installer 1.4.0 or newer</li><li>PEAR\
-        \ Package: <a href=\"/package/Console_CommandLine/\">Console_CommandLine</a></li><li>PHP\
-        \ Extension: SPL</li><li>PHP Extension: XSL</li></ul></td>\n </tr>\n <tr class=\"\
-        featured-release\">\n            <td class=\"textcell\">\r\n             <strong>1.5.0</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-1.5.0</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-1.5.0</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-1.5.0.tgz\">1.5.0</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2009-12-15\
-        \ 01:59 UTC<br /><strong>Release state:</strong> <span class=\"stable\">stable</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* Added a new exportation\
-        \ format (&quot;htmlnew&quot;) for a better browsing experience.<br />\n*\
-        \ PHP_UML can now parse procedural code (functions and constantes). The &quot;htmlnew&quot;\
-        \ format benefits from this new capability, which makes PHP_UML closer to\
-        \ a tool like PHPDocumentor<br />\n* Fixed a bug with quotes<br />\n* Major\
-        \ refactoring of the API. PHP_UML is now structured in 3 main packages: &quot;Input&quot;\
-        \ contains the classes that are used to build an UML model (Parser for ex),\
-        \ &quot;Output&quot; contain the classes that can serialize/export an UML\
-        \ model into something else, and &quot;Metamdodel&quot; contains all the metaclasses\
-        \ that the model is made of.<br /><br /><strong>Dependencies:</strong><ul><li>PHP\
-        \ Version: PHP 5 or newer</li><li>PEAR Package: PEAR Installer 1.4.0 or newer</li><li>PEAR\
-        \ Package: <a href=\"/package/Console_CommandLine/\">Console_CommandLine</a></li><li>PHP\
-        \ Extension: SPL</li></ul></td>\n </tr>\n <tr class=\"featured-release\">\n\
-        \            <td class=\"textcell\">\r\n             <strong>1.0.1</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-1.0.1</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-1.0.1</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-1.0.1.tgz\">1.0.1</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2009-08-27\
-        \ 18:07 UTC<br /><strong>Release state:</strong> <span class=\"stable\">stable</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* bug fixes (curlies inside\
-        \ string constants, setMatchPatterns and setIgnorePatterns)<br /><br /><strong>Dependencies:</strong><ul><li>PHP\
-        \ Version: PHP 5 or newer</li><li>PEAR Package: PEAR Installer 1.4.0 or newer</li><li>PEAR\
-        \ Package: <a href=\"/package/Console_CommandLine/\">Console_CommandLine</a></li><li>PHP\
-        \ Extension: SPL</li></ul></td>\n </tr>\n <tr class=\"featured-release\">\n\
-        \            <td class=\"textcell\">\r\n             <strong>1.0.0</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-1.0.0</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-1.0.0</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-1.0.0.tgz\">1.0.0</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2009-07-22\
-        \ 23:30 UTC<br /><strong>Release state:</strong> <span class=\"stable\">stable</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* setIgnorePatterns() now\
-        \ accepts pathnames, not only simple filenames<br />\n* API elements (classes,\
-        \ functions, properties) whose docblocks contain @internal are skipped, unless\
-        \ otherwise stated (thanks to Karsten Dambekalns)<br />\n* When the mode &quot;onlyAPI&quot;\
-        \ is on (by default, it is off), only the elements whose docblocks contain\
-        \ @api are included in the final API (thanks to Karsten Dambekalns)<br />\n\
-        * Console_CommandLine is now a required dependency<br /><br /><strong>Dependencies:</strong><ul><li>PHP\
-        \ Version: PHP 5 or newer</li><li>PEAR Package: PEAR Installer 1.4.0 or newer</li><li>PEAR\
-        \ Package: <a href=\"/package/Console_CommandLine/\">Console_CommandLine</a></li><li>PHP\
-        \ Extension: SPL</li></ul></td>\n </tr>\n <tr class=\"featured-release\">\n\
-        \            <td class=\"textcell\">\r\n             <strong>0.5.3</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-0.5.3</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-0.5.3</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-0.5.3.tgz\">0.5.3</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2009-06-11\
-        \ 19:15 UTC<br /><strong>Release state:</strong> <span class=\"beta\">beta</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* Fixes 2 strict warnings\
-        \ (static call to non-static method, assign by reference)<br /><br /><strong>Dependencies:</strong><ul><li>PHP\
-        \ Version: PHP 5 or newer</li><li>PEAR Package: PEAR Installer 1.4.0 or newer</li><li>PHP\
-        \ Extension: SPL</li><li>PEAR Package: <a href=\"/package/Console_CommandLine/\"\
-        >Console_CommandLine</a> (optional)</li></ul></td>\n </tr>\n <tr class=\"\
-        featured-release\">\n            <td class=\"textcell\">\r\n             <strong>0.5.2</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-0.5.2</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-0.5.2</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-0.5.2.tgz\">0.5.2</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2009-01-31\
-        \ 11:25 UTC<br /><strong>Release state:</strong> <span class=\"alpha\">alpha</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* Can now convert UML/XMI\
-        \ data written in version 1.4 to version 2.1 (ad hoc conversion). This allows\
-        \ the PHP code generation to work directly on a XMI file in version 1.x<br\
-        \ /><br /><strong>Dependencies:</strong><ul><li>PHP Version: PHP 5 or newer</li><li>PEAR\
-        \ Package: PEAR Installer 1.4.0 or newer</li><li>PHP Extension: SPL</li><li>PEAR\
-        \ Package: <a href=\"/package/Console_CommandLine/\">Console_CommandLine</a>\
-        \ (optional)</li></ul></td>\n </tr>\n <tr class=\"featured-release\">\n  \
-        \          <td class=\"textcell\">\r\n             <strong>0.5.1</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-0.5.1</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-0.5.1</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-0.5.1.tgz\">0.5.1</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2009-01-08\
-        \ 18:30 UTC<br /><strong>Release state:</strong> <span class=\"alpha\">alpha</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* Brand new parser, faster\
-        \ and more reliable<br />\n* Console command line<br />\n* Two additional\
-        \ exportation formats available:<br />\n   - HTML API documentation (like\
-        \ Javadoc)<br />\n   - PHP code skeletons<br />\n* Full namespace support\
-        \ (the &quot;namespace&quot; and &quot;use&quot; instructions). Works only\
-        \ from PHP 5.3<br />\n* Namespace comments support<br />\n* acceptedExtension\
-        \ and ignoredDirectories properties deprecated, in favour of setMatchPatterns()\
-        \ and setIgnorePatterns() (accept wildcards)<br /><br /><strong>Dependencies:</strong><ul><li>PHP\
-        \ Version: PHP 5 or newer</li><li>PEAR Package: PEAR Installer 1.4.0 or newer</li><li>PHP\
-        \ Extension: SPL</li><li>PEAR Package: <a href=\"/package/Console_CommandLine/\"\
-        >Console_CommandLine</a> (optional)</li></ul></td>\n </tr>\n <tr class=\"\
-        featured-release\">\n            <td class=\"textcell\">\r\n             <strong>0.5.0</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-0.5.0</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-0.5.0</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-0.5.0.tgz\">0.5.0</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2009-01-04\
-        \ 17:09 UTC<br /><strong>Release state:</strong> <span class=\"beta\">beta</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />* Brand new parser, faster\
-        \ and more reliable<br />\n* Console command line<br />\n* Two additional\
-        \ exportation formats available:<br />\n   - HTML API documentation (like\
-        \ Javadoc)<br />\n   - PHP code skeletons<br />\n* Full namespace support\
-        \ (the &quot;namespace&quot; and &quot;use&quot; instructions). Works only\
-        \ from PHP 5.3<br />\n* Namespace comments support<br />\n* acceptedExtension\
-        \ and ignoredDirectories properties deprecated, in favour of setMatchPatterns()\
-        \ and setIgnorePatterns() (accept wildcards)<br /><br /><strong>Dependencies:</strong><ul><li>PHP\
-        \ Version: PHP 5 or newer</li><li>PEAR Package: PEAR Installer 1.4.0 or newer</li><li>PHP\
-        \ Extension: SPL</li><li>PEAR Package: <a href=\"/package/Console_CommandLine/\"\
-        >Console_CommandLine</a> (optional)</li></ul></td>\n </tr>\n <tr class=\"\
-        featured-release\">\n            <td class=\"textcell\">\r\n             <strong>0.4.4</strong>\r\
-        \n            </td>\r\n            <td>\r\n                <div class=\"package-download-action\"\
-        >\r\n                    <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-0.4.4</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-0.4.4</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-0.4.4.tgz\">0.4.4</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2008-06-12\
-        \ 18:29 UTC<br /><strong>Release state:</strong> <span class=\"beta\">beta</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />Initial release<br /><br\
-        \ /><strong>Dependencies:</strong><ul><li>PHP Version: PHP 5 or newer</li><li>PEAR\
-        \ Package: PEAR Installer 1.4.0 or newer</li><li>PHP Extension: SPL</li></ul></td>\n\
-        \ </tr>\n <tr class=\"featured-release\">\n            <td class=\"textcell\"\
-        >\r\n             <strong>0.4.2</strong>\r\n            </td>\r\n        \
-        \    <td>\r\n                <div class=\"package-download-action\">\r\n \
-        \                   <h4>Easy Install</h4>\r\n                    <p class=\"\
-        action-hint\">Not sure? Get <a href=\"/manual/en/installation.php\">more info</a>.</p>\r\
-        \n                    <p class=\"action\"><kbd>pear install PHP_UML-0.4.2</kbd></p>\r\
-        \n\r\n                                            <h4>Pyrus Install</h4>\r\
-        \n                        <p>Try <a href=\"http://pear2.php.net/\">PEAR2</a>'s\
-        \ installer, Pyrus.</p>\r\n                        <p class=\"action\"><kbd>php\
-        \ pyrus.phar install pear/PHP_UML-0.4.2</kbd></p>\r\n                    \r\
-        \n\r\n                </div>\r\n\r\n                <div class=\"package-download-action\
-        \ download\">\r\n                    <h4>Download</h4>\r\n               \
-        \     <p class=\"action-hint\">For manual installation only</p>\r\n      \
-        \              <p class=\"action\">\r\n                        <a href=\"\
-        http://download.pear.php.net/package/PHP_UML-0.4.2.tgz\">0.4.2</a>       \
-        \             </p>\r\n                </div>\r\n                <br style=\"\
-        clear: both;\" />\r\n            <strong>Release date:</strong> 2008-05-22\
-        \ 18:21 UTC<br /><strong>Release state:</strong> <span class=\"beta\">beta</span><br\
-        \ /><br /><strong>Changelog:</strong><br /><br />Initial release<br /><br\
-        \ /><strong>Dependencies:</strong><ul><li>PHP Version: PHP 5 or newer</li><li>PEAR\
-        \ Package: PEAR Installer 1.4.0 or newer</li><li>PHP Extension: SPL</li></ul></td>\n\
-        \ </tr>\n</table>\n\n  </div>\n\n<!-- END MAIN CONTENT -->\n<!-- END MIDDLE\
-        \ -->\n\n<!-- START FOOTER -->\n<div id=\"footer\">\n  <div id=\"foot-bar\"\
-        ><a href=\"/about/privacy.php\">PRIVACY POLICY</a>&nbsp;|&nbsp;<a href=\"\
-        /about/credits.php\">CREDITS</a></div>\n  <div id=\"foot-copy\">\n    <a href=\"\
-        /copyright.php\">Copyright &copy; 2001-2015 The PHP Group</a>    All rights\
-        \ reserved.\n  </div>\n\n  <div id=\"foot-source\">\n    Bandwidth and hardware\
-        \ provided by:\n    <a href=\"http://www.eukhost.com/\">eUKhost</a>\n  </div>\n\
-        </div>\n\n<!-- Onload focus to pear -->\n<!-- END FOOTER -->\n </div>\n</body>\n\
-        </html>\n"}
+    body: {string: !!python/unicode "<!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n<head
+        >\n <title>Error 404</title>\n <link rel=\"shortcut icon\" href=\"/gifs/favicon.ico\"
+        />\n <link rel=\"stylesheet\" type=\"text/css\" href=\"/css/reset-fonts.css\"
+        />\n <link rel=\"stylesheet\" type=\"text/css\" href=\"/css/style.css\" />\n
+        <!--[if IE 7]><link rel=\"stylesheet\" type=\"text/css\" href=\"/css/IE7styles.css\"
+        /><![endif]-->\n <!--[if IE 6]><link rel=\"stylesheet\" type=\"text/css\"
+        href=\"/css/IE6styles.css\" /><![endif]-->\n <link rel=\"stylesheet\" type=\"text/css\"
+        href=\"/css/print.css\" media=\"print\" />\n <link rel=\"alternate\" type=\"application/rss+xml\"
+        title=\"RSS feed\" href=\"http://pear.php.net/feeds/latest.rss\" />\n <script
+        type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></script>\n
+        <script type=\"text/javascript\" src=\"/javascript/jquery-dtpicker/jquery.dtpicker.min.js\"></script>\n
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"/javascript/jquery-dtpicker/jquery.dtpicker.css\"
+        />\n <!-- compliance patch for microsoft browsers -->\n<!--[if lt IE 8]>\n
+        <script type=\"text/javascript\" src=\"/javascript/IE8.js\"></script>\n<![endif]-->\n
+        <link rel=\"search\" type=\"application/opensearchdescription+xml\" title=\"PEAR
+        Search Plugin\" href=\"http://pear.php.net/osd.xml\" />\n</head>\n\n<body>\n<div>\n<a
+        id=\"TOP\"></a>\n</div>\n\n<div id=\"doc3\">\n<!-- START HEADER -->\n <div
+        id=\"user\">\n  <ul>\n   <li><a href=\"/account-request.php\">Register</a></li>\n
+        \  <li class=\"last\"><a href=\"/login.php?redirect=/error/404.php\">Login</a></li>\n
+        \ </ul>\n </div>\n\n <div id=\"search\">\n  <form method=\"get\" action=\"/search.php\">\n
+        \  <p style=\"margin: 0px;\">\n    <span class=\"accesskey\">S</span>earch
+        for\n    <input type=\"text\" name=\"q\" value=\"\" size=\"20\" accesskey=\"s\"
+        />\n    in the\n    <select name=\"in\">\n        <option value=\"packages\">Packages</option>\n
+        \       <option value=\"site\">This site (using Yahoo!)</option>\n        <option
+        value=\"users\">Developers</option>\n        <option value=\"pear-dev\">Developer
+        mailing list</option>\n        <option value=\"pear-general\">General mailing
+        list</option>\n        <option value=\"pear-cvs\">SVN commits mailing list</option>\n
+        \   </select>\n    <input type=\"image\" src=\"/gifs/small_submit_white.gif\"
+        alt=\"search\" style=\"vertical-align: middle;\" />\n   </p>\n  </form>\n
+        </div>\n\n  <div id=\"header\">\n   <a href=\"/\"><img src=\"/gifs/pearsmall.gif\"
+        style=\"border: 0;\" width=\"104\" height=\"50\" alt=\"PEAR\"  /></a><br />\n
+        \ </div>\n\n<div id=\"menubar\">\n\n<ul id=\"menu\">\n <li class=\"menu-item
+        current\"><a href=\"/index.php\">Main</a></li>\n <li class=\"menu-item\"><a
+        href=\"/support/\">Support</a></li>\n <li class=\"menu-item\"><a href=\"/manual/\">Documentation</a></li>\n
+        <li class=\"menu-item\"><a href=\"/packages.php\">Packages</a></li>\n <li
+        class=\"menu-item\"><a href=\"/pepr/\">Package Proposals</a></li>\n <li class=\"menu-item\"><a
+        href=\"/accounts.php\">Developers</a></li>\n <li class=\"menu-item menu-item-last\"><a
+        href=\"/bugs/\">Bugs</a></li>\n</ul>\n\n</div>\n\n\n<ul id=\"submenu\">\n
+        <li class=\"menu-item current\"><a href=\"/index.php\">Home</a></li>\n <li
+        class=\"menu-item\"><a href=\"/news/\">News</a></li>\n <li class=\"menu-item\"><a
+        href=\"/qa/\">Quality Assurance</a></li>\n <li class=\"menu-item\"><a href=\"/group/\">The
+        PEAR Group</a></li>\n <li class=\"menu-item menu-item-last\"><a href=\"/mirrors.php\">Mirrors</a></li>\n</ul>\n\n<!--
+        END HEADER -->\n<!-- START MIDDLE -->\n\n<!-- START MAIN CONTENT -->\n\n  <div
+        id=\"body\">\n\n\n<h1>Error 404 - document not found</h1>\n\n<p>The requested
+        document <i>/rest/r/foo/allreleases.xml</i> was not\nfound on this server.</p>\n\n\n<p>If
+        you think that this error message is caused by an error in the\nconfiguration
+        of the server, please contact\n<a  href=\"&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x70;&#101;&#x61;&#114;&#x2d;&#119;&#x65;&#98;&#x6d;&#97;&#x73;&#116;&#x65;&#114;&#x40;&#108;&#x69;&#115;&#x74;&#115;&#x2e;&#112;&#x68;&#112;&#x2e;&#110;&#x65;&#116;\">&#x70;&#101;&#x61;&#114;&#x2d;&#119;&#x65;&#98;&#x6d;&#97;&#x73;&#116;&#x65;&#114;&#x40;&#108;&#x69;&#115;&#x74;&#115;&#x2e;&#112;&#x68;&#112;&#x2e;&#110;&#x65;&#116;</a>.\n\n\n
+        \ </div>\n\n<!-- END MAIN CONTENT -->\n<!-- END MIDDLE -->\n\n<!-- START FOOTER
+        -->\n<div id=\"footer\">\n  <div id=\"foot-bar\"><a href=\"/about/privacy.php\">PRIVACY
+        POLICY</a>&nbsp;|&nbsp;<a href=\"/about/credits.php\">CREDITS</a></div>\n
+        \ <div id=\"foot-copy\">\n    <a href=\"/copyright.php\">Copyright &copy;
+        2001-2015 The PHP Group</a>    All rights reserved.\n  </div>\n\n  <div id=\"foot-source\">\n
+        \   Bandwidth and hardware provided by:\n    <a href=\"http://www.eukhost.com/\">eUKhost</a>\n
+        \ </div>\n</div>\n\n<!-- Onload focus to pear -->\n<!-- END FOOTER -->\n </div>\n</body>\n</html>\n"}
     headers:
       connection: [close]
+      content-length: ['4571']
       content-type: [text/html; charset=UTF-8]
-      date: ['Sat, 11 Apr 2015 20:57:07 GMT']
+      date: ['Thu, 28 May 2015 20:41:15 GMT']
       server: [Apache/2.2.3 (CentOS)]
-      transfer-encoding: [chunked]
       x-powered-by: [PHP/5.3.6]
-    status: {code: 200, message: OK}
+    status: {code: 404, message: Not Found}
 version: 1
