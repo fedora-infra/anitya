@@ -241,7 +241,7 @@ a backend for the project hosting. More information below.</p>"""
         self.assertEqual(output.status_code, 200)
 
         expected = '<li class="list-group-item list-group-item-default">' \
-            'Only one result matching with an '\
+            'Only one result matching with an ' \
             'exact match, redirecting</li>'
         self.assertTrue(expected in output.data)
 
