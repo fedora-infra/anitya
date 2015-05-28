@@ -136,7 +136,6 @@ def delete_distro(distro_name):
         form=form)
 
 
-
 @APP.route('/project/<project_id>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_project(project_id):
@@ -234,7 +233,6 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
         project=project,
         package=package,
         form=form)
-
 
 
 @APP.route(

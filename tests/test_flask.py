@@ -240,7 +240,8 @@ a backend for the project hosting. More information below.</p>"""
             '/projects/search/geany*', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
 
-        expected = '<li class="message">Only one result matching with an '\
+        expected = '<li class="list-group-item list-group-item-default">' \
+            'Only one result matching with an ' \
             'exact match, redirecting</li>'
         self.assertTrue(expected in output.data)
 
@@ -249,7 +250,9 @@ a backend for the project hosting. More information below.</p>"""
         output = self.app.get('/project/new', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<li class="errors">Login required</li>' in output.data)
+            '<ul id="flashes" class="list-group">'
+            '<li class="list-group-item list-group-item-warning">'
+            'Login required</li></ul>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -287,7 +290,8 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/new', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<li class="message">Project created</li>' in output.data)
+                '<li class="list-group-item list-group-item-default">'
+                'Project created</li>' in output.data)
             self.assertTrue(
                 '<h1>Project: repo_manager</h1>' in output.data)
 
@@ -295,11 +299,13 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/new', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertFalse(
-                '<li class="message">Project created</li>' in output.data)
+                '<li class="list-group-item list-group-item-default">'
+                'Project created</li>' in output.data)
             self.assertFalse(
                 '<h1>Project: repo_manager</h1>' in output.data)
             self.assertTrue(
-                '="message">Could not add this project, already exists?</'
+                '<li class="list-group-item list-group-item-default">'
+                'Could not add this project, already exists?</li>'
                 in output.data)
             self.assertTrue('<h1>Add project</h1>' in output.data)
 
@@ -315,7 +321,9 @@ a backend for the project hosting. More information below.</p>"""
         output = self.app.get('/project/1/edit', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<li class="errors">Login required</li>' in output.data)
+            '<ul id="flashes" class="list-group">'
+            '<li class="list-group-item list-group-item-warning">'
+            'Login required</li></ul>' in output.data)
 
         projects = model.Project.all(self.session)
         self.assertEqual(len(projects), 3)
@@ -366,7 +374,8 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/1/edit', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<li class="message">Project edited</li>' in output.data)
+                '<li class="list-group-item list-group-item-default">'
+                'Project edited</li>' in output.data)
             self.assertTrue(
                 '<h1>Project: repo_manager</h1>' in output.data)
 
@@ -382,7 +391,8 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/1/edit', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<li class="errors">Could not edit this project. Is there '
+                '<li class="list-group-item list-group-item-warning">'
+                'Could not edit this project. Is there '
                 'already a project with these name and homepage?</li>'
                 in output.data)
             self.assertTrue(
@@ -405,7 +415,9 @@ a backend for the project hosting. More information below.</p>"""
         output = self.app.get('/project/1/map', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<li class="errors">Login required</li>' in output.data)
+            '<ul id="flashes" class="list-group">'
+            '<li class="list-group-item list-group-item-warning">'
+            'Login required</li></ul>' in output.data)
 
         projects = model.Project.all(self.session)
         self.assertEqual(len(projects), 3)
@@ -460,7 +472,8 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/1/map', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<li class="message">Mapping added</li>' in output.data)
+                '<li class="list-group-item list-group-item-default">'
+                'Mapping added</li>' in output.data)
             self.assertTrue(
                 '<h1>Project: geany</h1>' in output.data)
 
@@ -475,7 +488,8 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/1/map', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<li class="error">Could not edit the mapping of geany on '
+                '<li class="list-group-item list-group-item-danger">'
+                'Could not edit the mapping of geany on '
                 'CentOS, there is already a package geany on CentOS '
                 'as part of the project <a href="/project/1/">geany'
                 '</a>.</li>'
@@ -557,7 +571,8 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/1/map/1', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<li class="message">Mapping edited</li>' in output.data)
+                '<li class="list-group-item list-group-item-default">'
+                'Mapping edited</li>' in output.data)
             self.assertTrue(
                 '<h1>Project: geany</h1>' in output.data)
 
@@ -572,7 +587,8 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/1/map/1', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<li class="error">Could not edit the mapping of geany2 on '
+                '<li class="list-group-item list-group-item-danger">'
+                'Could not edit the mapping of geany2 on '
                 'CentOS, there is already a package geany2 on CentOS '
                 'as part of the project <a href="/project/1/">geany'
                 '</a>.</li>'
