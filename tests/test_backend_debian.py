@@ -20,13 +20,9 @@
 #
 
 '''
-anitya tests for the custom backend.
+anitya tests for the debian backend.
 '''
 
-__requires__ = ['SQLAlchemy >= 0.7']
-import pkg_resources
-
-import json
 import unittest
 import sys
 import os
@@ -86,7 +82,7 @@ class DebianBackendtests(Modeltests):
         """ Test the get_version function of the debian backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '0.5.2.orig'
+        exp = '0.7.2.orig'
         obs = backend.DebianBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -100,7 +96,7 @@ class DebianBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '0.50.orig'
+        exp = '0.52.orig'
         obs = backend.DebianBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -109,8 +105,9 @@ class DebianBackendtests(Modeltests):
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = [
-            '0.4.2.orig', '0.4.3.orig', '0.4.4.orig', '0.5.0.orig',
-            '0.5.2.orig'
+            u'0.4.2.orig', u'0.4.3.orig', u'0.4.4.orig',
+            u'0.5.0.orig',
+            u'0.7.0.orig', u'0.7.2.orig',
         ]
         obs = backend.DebianBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -125,7 +122,7 @@ class DebianBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = ['0.42.orig', '0.45.orig', '0.50.orig']
+        exp = [u'0.42.orig', u'0.45.orig', u'0.50.orig', u'0.52.orig']
         obs = backend.DebianBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
