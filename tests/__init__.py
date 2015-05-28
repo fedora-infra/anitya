@@ -76,6 +76,7 @@ def skip_jenkins(function):
 
 class Modeltests(unittest.TestCase):
     """ Model tests. """
+    maxDiff = None
 
     def __init__(self, method_name='runTest'):
         """ Constructor. """
