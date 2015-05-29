@@ -70,7 +70,7 @@ class RubygemsBackendtests(Modeltests):
 
 
     def test_get_version(self):
-        """ Test the get_version function of the custom backend. """
+        """ Test the get_version function of the rubygems backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = '1.4.3.0001'
@@ -87,7 +87,7 @@ class RubygemsBackendtests(Modeltests):
 
 
     def test_get_versions(self):
-        """ Test the get_versions function of the custom backend. """
+        """ Test the get_versions function of the rubygems backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = ['1.4.3.0001']
