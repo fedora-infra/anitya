@@ -23,10 +23,6 @@
 anitya tests for the custom backend.
 '''
 
-__requires__ = ['SQLAlchemy >= 0.7']
-import pkg_resources
-
-import json
 import unittest
 import sys
 import os
@@ -88,7 +84,7 @@ class GithubBackendtests(Modeltests):
         """ Test the get_version function of the github backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '0.13.1'
+        exp = '0.13.3'
         obs = backend.GithubBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -102,7 +98,7 @@ class GithubBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '1.24.3'
+        exp = '1.25.1'
         obs = backend.GithubBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -111,8 +107,9 @@ class GithubBackendtests(Modeltests):
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = [
-            'v0.9', 'v0.9.1', 'v0.9.2',
-            'v0.9.3', '0.10', '0.11', '0.11.1', '0.12', '0.13', '0.13.1',
+            u'v0.9.2', u'v0.9.3',
+            u'0.10', u'0.11', u'0.11.1', u'0.12',
+            u'0.13', u'0.13.1', u'0.13.2', u'0.13.3',
         ]
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -128,8 +125,9 @@ class GithubBackendtests(Modeltests):
         pid = 3
         project = model.Project.get(self.session, pid)
         exp = [
-            '1.23', '1.23.991', '1.23.992', '1.23.993', '1.23.994',
-            '1.23.995', '1.24', '1.24.1', '1.24.2', '1.24.3'
+            u'1.23.992', u'1.23.993', u'1.23.994', u'1.23.995',
+            u'1.24', u'1.24.1', u'1.24.2', u'1.24.3',
+            u'1.25', u'1.25.1',
         ]
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)

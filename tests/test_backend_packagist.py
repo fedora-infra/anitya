@@ -20,13 +20,9 @@
 #
 
 '''
-anitya tests for the pypi backend.
+anitya tests for the packagist backend.
 '''
 
-__requires__ = ['SQLAlchemy >= 0.7']
-import pkg_resources
-
-import json
 import unittest
 import sys
 import os
@@ -83,11 +79,11 @@ class PackagistBackendtests(Modeltests):
         self.session.add(project)
         self.session.commit()
 
-    def test_pypi_get_version(self):
-        """ Test the get_version function of the pypi backend. """
+    def test_packagist_get_version(self):
+        """ Test the get_version function of the packagist backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '2.0.15'
+        exp = '2.0.17'
         obs = backend.PackagistBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -105,22 +101,24 @@ class PackagistBackendtests(Modeltests):
         obs = backend.PackagistBackend.get_version(project)
         self.assertEqual(obs, exp)
 
-    def test_pypi_get_versions(self):
-        """ Test the get_versions function of the pypi backend. """
+    def test_packagist_get_versions(self):
+        """ Test the get_versions function of the packagist backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = [
-            '1.2.0', '1.2.1', '1.2.10', '1.2.11', '1.2.12', '1.2.13',
-            '1.2.14', '1.2.15', '1.2.16', '1.2.17', '1.2.18', '1.2.2', '1.2.3',
-            '1.2.6', '1.2.7', '1.2.8', '1.2.9', '1.2.x-dev', '2.0.0',
-            '2.0.1', '2.0.10', '2.0.11', '2.0.12', '2.0.13', '2.0.14',
-            '2.0.15',
-            '2.0.2', '2.0.3', '2.0.4', '2.0.5',
-            '2.0.6', '2.0.7', '2.0.8', '2.0.9',
-            'dev-feature/three-shades-of-green', 'dev-master',
+            u'1.2.0', u'1.2.1', u'1.2.10', u'1.2.11', u'1.2.12', u'1.2.13',
+            u'1.2.14', u'1.2.15', u'1.2.16', u'1.2.17', u'1.2.18', u'1.2.2',
+            u'1.2.3', u'1.2.6', u'1.2.7', u'1.2.8', u'1.2.9', u'1.2.x-dev',
+            u'2.0.0', u'2.0.1', u'2.0.10', u'2.0.11', u'2.0.12', u'2.0.13',
+            u'2.0.14', u'2.0.15', u'2.0.16', u'2.0.17',
+            u'2.0.2', u'2.0.3', u'2.0.4', u'2.0.5',
+            u'2.0.6', u'2.0.7', u'2.0.8', u'2.0.9',
+            u'2.0.x-dev',
+            u'dev-feature/path-coverage',
+            u'dev-master',
         ]
         obs = backend.PackagistBackend.get_versions(project)
-        self.assertEqual(obs, exp)
+        self.assertListEqual(obs, exp)
 
         pid = 2
         project = model.Project.get(self.session, pid)

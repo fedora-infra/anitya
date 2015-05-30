@@ -23,10 +23,6 @@
 anitya tests for the custom backend.
 '''
 
-__requires__ = ['SQLAlchemy >= 0.7']
-import pkg_resources
-
-import json
 import unittest
 import sys
 import os
@@ -85,7 +81,7 @@ class SourceforgeBackendtests(Modeltests):
         """ Test the get_version function of the sourceforge backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '3.10.3'
+        exp = '3.11.0.1'
         obs = backend.SourceforgeBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -110,10 +106,10 @@ class SourceforgeBackendtests(Modeltests):
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = [
-            '3.9.0',
-            '3.9.0.1', '3.9.0.2', '3.9.0.3', '3.9.0.4', '3.9.0.5', '3.9.0.6',
-            '3.10.0', '3.10.0.1', '3.10.0.2', '3.10.1', '3.10.1.1', '3.10.2',
-            '3.10.3',
+            u'3.9.0.3', u'3.9.0.4', u'3.9.0.5', u'3.9.0.6',
+            u'3.10.0', u'3.10.0.1', u'3.10.0.2',
+            u'3.10.1', u'3.10.1.1', u'3.10.2', u'3.10.3',
+            u'3.11.0', u'3.11.0.1',
         ]
         obs = backend.SourceforgeBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)

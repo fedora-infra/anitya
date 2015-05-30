@@ -64,8 +64,11 @@ def skip_jenkins(function):
     @wraps(function)
     def decorated_function(*args, **kwargs):
         """ Decorated function, actually does the work. """
-        if os.environ.get('BUILD_ID'):
-            raise unittest.SkipTest('Skip backend test on jenkins')
+        ## We used to skip all these tests in jenkins, but now with vcrpy, we
+        ## don't need to.  We can replay the recorded request/response pairs
+        ## for each test from disk.
+        #if os.environ.get('BUILD_ID'):
+        #    raise unittest.SkipTest('Skip backend test on jenkins')
         return function(*args, **kwargs)
 
     return decorated_function
@@ -73,6 +76,7 @@ def skip_jenkins(function):
 
 class Modeltests(unittest.TestCase):
     """ Model tests. """
+    maxDiff = None
 
     def __init__(self, method_name='runTest'):
         """ Constructor. """

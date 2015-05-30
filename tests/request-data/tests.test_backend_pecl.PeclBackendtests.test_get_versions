@@ -6,27 +6,31 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.3.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
     method: GET
-    uri: http://pecl.php.net/package/inotify/download
+    uri: https://pecl.php.net/rest/r/inotify/allreleases.xml
   response:
-    body:
-      string: !!binary |
-        H4sIAAAAAAAAA22PvY7CMBCE+zzFkp4sPx1aXECCQIK7FKagNPGCIxzbCoZT3p4ktFfOzLeaWZrk
-        v1t5KQvYy9MRyvPmeNhCOkU8FHKHmMv8myyyGWLxk4qETGysIMNK9yLW0bJYzuZw8m/WUHLbKMcu
-        2o7wGyaEI0xXr7vhfi7+YXs3oSCkYdC+ejW9DUY9oRlRUmBavq1TE2N4rhADVzYLJmSOIwZVPdSd
-        sXY+1rcOtf9z1iudCsMtEyqREYZhyDihLxteSD6BR7tv/QAAAA==
+    body: {string: !!python/unicode "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<a
+        xmlns=\"http://pear.php.net/dtd/rest.allreleases\"\n    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+        xmlns:xlink=\"http://www.w3.org/1999/xlink\"     xsi:schemaLocation=\"http://pear.php.net/dtd/rest.allreleases\n
+        \   http://pear.php.net/dtd/rest.allreleases.xsd\">\n <p>inotify</p>\n <c>pecl.php.net</c>\n
+        <r><v>0.1.6</v><s>stable</s></r>\n <r><v>0.1.5</v><s>beta</s></r>\n <r><v>0.1.4</v><s>beta</s></r>\n
+        <r><v>0.1.3</v><s>beta</s></r>\n <r><v>0.1.2</v><s>beta</s></r>\n</a>"}
     headers:
+      accept-ranges: [bytes]
       connection: [Keep-Alive]
-      content-encoding: [gzip]
-      content-length: ['208']
-      content-type: [text/html; charset=iso-8859-1]
-      date: ['Sat, 11 Apr 2015 19:47:01 GMT']
+      content-length: ['512']
+      content-type: [application/xml]
+      date: ['Thu, 28 May 2015 19:29:09 GMT']
+      etag: ['"240e33-200-51330e134b12e"']
       keep-alive: ['timeout=5, max=100']
-      location: ['https://pecl.php.net/package/inotify/download']
+      last-modified: ['Wed, 08 Apr 2015 06:45:41 GMT']
       server: [Apache]
-      vary: [Accept-Encoding]
-    status: {code: 301, message: Moved Permanently}
+      strict-transport-security: [max-age=31536000]
+      x-content-type-options: [nosniff]
+      x-frame-options: [sameorigin]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
 - request:
     body: null
     headers:
@@ -34,69 +38,56 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.3.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
     method: GET
-    uri: https://pecl.php.net/package/inotify/download
+    uri: https://pecl.php.net/rest/r/foo/allreleases.xml
   response:
     body:
       string: !!binary |
-        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
-        dt9YxoOOWnJJV/9/g/l/B/NPIf8ATFZ9LMIiAAA=
+        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
+        Kv+V+TeZ26L1Ew8AAA==
     headers:
       cache-control: ['no-store, no-cache, must-revalidate, post-check=0, pre-check=0']
       connection: [Keep-Alive]
       content-encoding: [gzip]
-      content-length: ['2309']
+      content-length: ['1552']
       content-type: [text/html; charset=ISO-8859-1]
-      date: ['Sat, 11 Apr 2015 19:47:01 GMT']
+      date: ['Thu, 28 May 2015 19:29:09 GMT']
       expires: ['Thu, 19 Nov 1981 08:52:00 GMT']
       keep-alive: ['timeout=5, max=100']
       pragma: [no-cache]
       server: [Apache]
-      set-cookie: [PHPSESSID=3fi33r19mcgmof6id43mn9urf3; path=/]
+      set-cookie: [PHPSESSID=niqb87d29glb8nrp6r0ccmh127; path=/]
       strict-transport-security: [max-age=31536000]
       vary: [Accept-Encoding]
       x-content-type-options: [nosniff]
       x-frame-options: [sameorigin]
       x-xss-protection: [1; mode=block]
-    status: {code: 200, message: OK}
+    status: {code: 404, message: Not Found}
 version: 1

@@ -20,13 +20,9 @@
 #
 
 '''
-anitya tests for the custom backend.
+anitya tests for the folder backend.
 '''
 
-__requires__ = ['SQLAlchemy >= 0.7']
-import pkg_resources
-
-import json
 import unittest
 import sys
 import os
@@ -44,7 +40,7 @@ BACKEND = 'folder'
 
 
 class FolderBackendtests(Modeltests):
-    """ custom backend tests. """
+    """ folder backend tests. """
 
     @skip_jenkins
     def setUp(self):
@@ -82,8 +78,8 @@ class FolderBackendtests(Modeltests):
         self.session.add(project)
         self.session.commit()
 
-    def test_custom_get_version(self):
-        """ Test the get_version function of the custom backend. """
+    def test_folder_get_version(self):
+        """ Test the get_version function of the folder backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = '0.8.10'
@@ -100,17 +96,18 @@ class FolderBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '4.4.1'
+        exp = '4.4.2'
         obs = backend.FolderBackend.get_version(project)
         self.assertEqual(obs, exp)
 
-    def test_custom_get_versions(self):
-        """ Test the get_versions function of the custom backend. """
+    def test_folder_get_versions(self):
+        """ Test the get_versions function of the folder backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = [
-            '0.7.1', '0.7.2', '0.8.0', '0.8.1', '0.8.2', '0.8.3', '0.8.4',
-            '0.8.5', '0.8.6', '0.8.7', '0.8.8', '0.8.9', '0.8.10'
+            u'0.7.1', u'0.7.2', u'0.8.0', u'0.8.1', u'0.8.2', u'0.8.3',
+            u'0.8.4', u'0.8.5', u'0.8.6', u'0.8.7', u'0.8.8', u'0.8.9',
+            u'0.8.10'
         ]
         obs = backend.FolderBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -126,8 +123,8 @@ class FolderBackendtests(Modeltests):
         pid = 3
         project = model.Project.get(self.session, pid)
         exp = [
-            '3.1.1', '4.0', '4.0.1', '4.0.2', '4.0.3', '4.1', '4.2', '4.3',
-            '4.4.0', '4.4.1'
+            u'3.1.1', u'4.0', u'4.0.1', u'4.0.2', u'4.0.3', u'4.1', u'4.2',
+            u'4.3', u'4.4.0', u'4.4.1', u'4.4.2',
         ]
         obs = backend.FolderBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)

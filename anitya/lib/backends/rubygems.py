@@ -69,4 +69,8 @@ class RubygemsBackend(BaseBackend):
         except Exception:  # pragma: no cover
             raise AnityaPluginException('No JSON returned by %s' % url)
 
+        if data['version'] == 'unknown':
+            raise AnityaPluginException(
+                'Project or version unknown at %s' % url)
+
         return [data['version']]

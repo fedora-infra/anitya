@@ -6,32 +6,25 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.3.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
     method: GET
-    uri: http://rubygems.org/api/v1/gems/bio.json
+    uri: http://rubygems.org/api/v1/versions/bio/latest.json
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAA41SzU7DMAx+lSgnEKPL1pV2O/IIXBGq8uN2ZmlcJSlomvbuuGyCcePm2N9P/CUn
-        GfQAcicNklxIR5/Bk3ZJ7pqtqsqF/ICYkAIjVsWmKAul1IqB13Z7QyjL1RMTRq9zR3FgRpzMkbF6
-        ynuKLCmfkV64J8ZI72AzzzB0dDPAJLTwaKKOR8Eqgq81Q+KgM9ok7vjsqT+KB/HTpiCSRQgW7gtW
-        9GghJGC717eFHCBrp7OWu9N5IdOeC7muy01VucbUnercplLWdUrV26apt0qtnTGuKm3dbXXZVKZ0
-        latrWHd6pWswpmvY5LpAO0VkwX3O4265nNftYUgFxX45F8tLqFz+A/j4m2/BDDbZ0wCj7uEvmTVn
-        o28TBn3iAS+AMHk/v6CdBgiZ86JwOxg0egx96zHl236iKVpoLbmr0UXHTH2bo7YHiH/kYYTgOGyc
-        Ez5JBx/gaZwdL4HHKWScf9Tr2/n8BT8aTMZeAgAA
+        H4sIAAAAAAAAA6tWKkstKs7Mz1OyUjLUM9Ez1jMwMDBUqgUAGa837BgAAAA=
     headers:
       cache-control: ['max-age=0, private, must-revalidate']
       connection: [keep-alive]
       content-encoding: [gzip]
       content-type: [application/json; charset=utf-8]
-      date: ['Sat, 11 Apr 2015 19:47:03 GMT']
+      date: ['Thu, 28 May 2015 19:29:11 GMT']
       server: [nginx]
       status: [200 OK]
-      transfer-encoding: [chunked]
       x-content-type-options: [nosniff]
       x-frame-options: [SAMEORIGIN]
-      x-request-id: [ecec73ac-c1e8-4b2a-a831-bc618b6701d7]
-      x-runtime: ['0.013243']
+      x-request-id: [fadba8f8-62f3-4bc1-9620-8242633c2598]
+      x-runtime: ['0.006423']
       x-ua-compatible: ['IE=Edge,chrome=1']
       x-xss-protection: [1; mode=block]
     status: {code: 200, message: OK}
@@ -42,26 +35,26 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.3.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
     method: GET
-    uri: http://rubygems.org/api/v1/gems/biofoobar.json
+    uri: http://rubygems.org/api/v1/versions/biofoobar/latest.json
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAAwvJyCxWKCpNqkxPzVVIzi/NSVHIyy9RSEpVSMsvzUvRAwC66GUeIAAAAA==
+        H4sIAAAAAAAAA6tWKkstKs7Mz1OyUirNy87LL89TqgUAKuW6yhUAAAA=
     headers:
-      cache-control: [no-cache]
+      cache-control: ['max-age=0, private, must-revalidate']
       connection: [keep-alive]
       content-encoding: [gzip]
       content-type: [application/json; charset=utf-8]
-      date: ['Sat, 11 Apr 2015 19:47:03 GMT']
+      date: ['Thu, 28 May 2015 19:29:11 GMT']
       server: [nginx]
-      status: [404 Not Found]
-      transfer-encoding: [chunked]
+      status: [200 OK]
       x-content-type-options: [nosniff]
       x-frame-options: [SAMEORIGIN]
-      x-request-id: [dd8398ce-2071-4690-9136-9293a0cca430]
-      x-runtime: ['0.004449']
+      x-request-id: [0b068b09-7b37-4a6e-b855-96e59b8f2bcd]
+      x-runtime: ['0.005007']
+      x-ua-compatible: ['IE=Edge,chrome=1']
       x-xss-protection: [1; mode=block]
-    status: {code: 404, message: Not Found}
+    status: {code: 200, message: OK}
 version: 1
