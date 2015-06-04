@@ -49,7 +49,7 @@ class Pluginstests(Modeltests):
             'CPAN (perl)', 'Debian project', 'Drupal6', 'Drupal7', 'Freshmeat',
             'GNOME', 'GNU project', 'GitHub', 'Google code', 'Hackage',
             'Launchpad', 'Maven Central', 'PEAR', 'PECL', 'Packagist', 'PyPI',
-            'Rubygems', 'Sourceforge', 'custom', 'folder', 'npmjs', 'Stackage'
+            'Rubygems', 'Sourceforge', 'Stackage', 'custom', 'folder', 'npmjs',
         ]
 
         self.assertEqual(sorted(plgns), exp)
@@ -62,7 +62,7 @@ class Pluginstests(Modeltests):
             'CPAN (perl)', 'Debian project', 'Drupal6', 'Drupal7', 'Freshmeat',
             'GNOME', 'GNU project', 'GitHub', 'Google code', 'Hackage',
             'Launchpad', 'Maven Central', 'PEAR', 'PECL', 'Packagist', 'PyPI',
-            'Rubygems', 'Sourceforge', 'custom', 'folder', 'npmjs', 'Stackage'
+            'Rubygems', 'Sourceforge', 'Stackage', 'custom', 'folder', 'npmjs',
         ]
 
         self.assertEqual(sorted(plgns), exp)
