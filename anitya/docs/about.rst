@@ -53,6 +53,8 @@ The backends available are:
   `rubygems.org <http://rubygems.org/>`_
 * ``sourceforge.py`` for projects hosted on
   `sourceforge.net <http://sourceforge.net/>`_
+* ``stackage.py`` for projects hosted on
+  `www.stackage.org <https://www.stackage.org/>`_
 
 If your project cannot be used with any of these backend you can always try
 the ``custom`` backend.
