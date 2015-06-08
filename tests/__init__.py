@@ -91,8 +91,8 @@ class Modeltests(unittest.TestCase):
             if os.path.exists(dbfile):
                 os.unlink(dbfile)
         self.session = anitya.lib.init(DB_PATH, create=True, debug=False)
-        anitya.LOG.handlers = []
-        anitya.LOG.setLevel(logging.CRITICAL)
+        #anitya.LOG.handlers = []
+        #anitya.LOG.setLevel(logging.CRITICAL)
 
         anitya.lib.plugins.load_plugins(self.session)
         self.vcr = vcr.use_cassette('tests/request-data/' + self.id())
