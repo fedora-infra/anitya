@@ -74,7 +74,7 @@ class HackageBackendtests(Modeltests):
 
 
     def test_get_version(self):
-        """ Test the get_version function of the custom backend. """
+        """ Test the get_version function of the Stackage backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = '1.19'
@@ -91,7 +91,7 @@ class HackageBackendtests(Modeltests):
 
 
     def test_get_versions(self):
-        """ Test the get_versions function of the custom backend. """
+        """ Test the get_versions function of the Stackage backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = ['1.19']
