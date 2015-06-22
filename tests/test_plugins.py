@@ -44,12 +44,13 @@ class Pluginstests(Modeltests):
     def test_load_plugins(self):
         """ Test the plugins.load_plugins function. """
         plgns = [plg.name for plg in plugins.load_plugins(self.session)]
-        self.assertEqual(len(plgns), 22)
+        self.assertEqual(len(plgns), 23)
         exp = [
             'CPAN (perl)', 'Debian project', 'Drupal6', 'Drupal7', 'Freshmeat',
             'GNOME', 'GNU project', 'GitHub', 'Google code', 'Hackage',
             'Launchpad', 'Maven Central', 'PEAR', 'PECL', 'Packagist', 'PyPI',
             'Rubygems', 'Sourceforge', 'Stackage', 'custom', 'folder', 'npmjs',
+            'pagure',
         ]
 
         self.assertEqual(sorted(plgns), exp)
@@ -57,12 +58,13 @@ class Pluginstests(Modeltests):
     def test_plugins_get_plugin_names(self):
         """ Test the plugins.get_plugin_names function. """
         plgns = plugins.get_plugin_names()
-        self.assertEqual(len(plgns), 22)
+        self.assertEqual(len(plgns), 23)
         exp = [
             'CPAN (perl)', 'Debian project', 'Drupal6', 'Drupal7', 'Freshmeat',
             'GNOME', 'GNU project', 'GitHub', 'Google code', 'Hackage',
             'Launchpad', 'Maven Central', 'PEAR', 'PECL', 'Packagist', 'PyPI',
             'Rubygems', 'Sourceforge', 'Stackage', 'custom', 'folder', 'npmjs',
+            'pagure',
         ]
 
         self.assertEqual(sorted(plgns), exp)
