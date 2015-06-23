@@ -74,35 +74,35 @@ class HackageBackendtests(Modeltests):
 
 
     def test_get_version(self):
-        """ Test the get_version function of the custom backend. """
+        """ Test the get_version function of the Stackage backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = '1.19'
-        obs = backend.HackageBackend.get_version(project)
+        obs = backend.StackageBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = model.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
-            backend.HackageBackend.get_version,
+            backend.StackageBackend.get_version,
             project
         )
 
 
     def test_get_versions(self):
-        """ Test the get_versions function of the custom backend. """
+        """ Test the get_versions function of the Stackage backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = ['1.19']
-        obs = backend.HackageBackend.get_ordered_versions(project)
+        obs = backend.StackageBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = model.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
-            backend.HackageBackend.get_version,
+            backend.StackageBackend.get_version,
             project
         )
 
