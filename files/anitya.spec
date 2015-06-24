@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.5.0
+Version:        0.6.0
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -110,6 +110,17 @@ install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.i
 
 
 %changelog
+* Wed Jun 24 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.6.0-1
+- Update to 0.6.0
+- Update to the latest bootstrap fedora (Ralph Bean)
+- Feature/prettier flash system (David Gay)
+- Fix README (Ralph Bean)
+- Add a system to flag projects to the anitya admins (David Gay)
+- Adjust the rubygems backend to use versions API (Vít Ondruch)
+- Fix the unit-tests suite
+- Add a haskell Stackage backend (Jens Petersen)
+- Add a pagure backend
+
 * Tue May 05 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.5.0-1
 - Update to 0.5.0
 - Adjust the default regex to ignore .asc in filename
