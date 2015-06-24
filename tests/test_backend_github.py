@@ -73,7 +73,6 @@ class GithubBackendtests(Modeltests):
         project = model.Project(
             name='pkgdb2',
             homepage='https://github.com/fedora-infra/pkgdb2',
-            version_url='fedora-infra/pkgdb2',
             backend=BACKEND,
         )
         self.session.add(project)
