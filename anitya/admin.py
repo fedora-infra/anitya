@@ -10,7 +10,7 @@ import anitya
 import anitya.forms
 import anitya.lib.model
 
-from anitya.app import APP, SESSION, login_required, is_admin
+from anitya.app import LOG, APP, SESSION, login_required, is_admin
 
 
 @APP.route('/distro/add', methods=['GET', 'POST'])
@@ -355,8 +355,7 @@ def browse_logs():
             count=True
         )
     except Exception, err:
-        import logging
-        logging.exception(err)
+        LOG.exception(err)
         flask.flash(err, 'errors')
 
     total_page = int(ceil(cnt_logs / float(limit)))
@@ -438,8 +437,7 @@ def browse_flags():
             count=True
         )
     except Exception, err:
-        import logging
-        logging.exception(err)
+        LOG.exception(err)
         flask.flash(err, 'errors')
 
     total_page = int(ceil(cnt_flags / float(limit)))
