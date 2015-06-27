@@ -11,16 +11,17 @@ import anitya.app
 import anitya.lib.exceptions
 import anitya.lib.model
 
+LOG = logging.getLogger('anitya')
 
 def update_project(project):
     """ Check for updates on the specified project. """
-    print(project.name)
+    LOG.info(project.name)
     session = anitya.lib.init(anitya.app.APP.config['DB_URL'])
     project = anitya.lib.model.Project.by_id(session, project.id)
     try:
         anitya.check_release(project, session),
     except anitya.lib.exceptions.AnityaException as err:
-        print(err)
+        LOG.info(err)
     finally:
         session.get_bind().dispose()
         session.remove()
@@ -31,7 +32,6 @@ def main(debug):
     version.
     '''
     session = anitya.app.SESSION
-    LOG = logging.getLogger('anitya')
     LOG.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter(
