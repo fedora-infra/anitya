@@ -20,9 +20,10 @@
             </button>
         </a>
         <a href="{{ url_for('flag_project', project_id=project.id) }}">
-          <button type="submit" class="btn btn-warning btn-sm pull-right inline"
-                id="flag_btn">
-            <span class="glyphicon glyphicon-flag"></span>
+          <button title="Ask for an admin intervention (delete version/project, fix mapping...)."
+                 type="submit" class="btn btn-warning btn-sm pull-right inline"
+                 id="flag_btn">
+          <span class="glyphicon glyphicon-flag"></span>
             Flag
           </button>
         </a>
