@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.6.0
+Version:        0.6.1
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -110,6 +110,14 @@ install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.i
 
 
 %changelog
+* Mon Jul 06 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.6.1-1
+- Update to 0.6.1
+- Adjust the GitHub backend to work when the user only provided a homepage
+  (pointing to github.com)
+- Make the cron script multi-threaded (makes it go from ~100 minutes to ~15)
+- Fix the flags page to work when the flag does not link to a project (for
+  example when you deleted the project flagged when processing the flag)
+
 * Wed Jun 24 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.6.0-1
 - Update to 0.6.0
 - Update to the latest bootstrap fedora (Ralph Bean)
