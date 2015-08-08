@@ -275,7 +275,8 @@ def get_versions_by_regex(url, regex, project, insecure=False):
     except Exception, err:
         anitya.LOG.debug('%s ERROR: %s' % (project.name, err.message))
         raise AnityaPluginException(
-            'Could not call : "%s" of "%s"' % (url, project.name))
+            'Could not call : "%s" of "%s", with error: %s' % (
+                url, project.name, err.message))
 
     if not isinstance(req, basestring):
         req = req.text
