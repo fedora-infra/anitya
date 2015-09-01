@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.6.1
+Version:        0.6.2
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -110,6 +110,13 @@ install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.i
 
 
 %changelog
+* Tue Sep 01 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.6.2-1
+- Update to 0.6.2
+- Add tooltip for 'Flag' and restrict 'Flags' to admins (Ariel O. Barria)
+- Stackage: change regexp to track LTS Haskell (Jens Petersen)
+- Return the actually error message to the UI when retrieving a new version
+- Fix OpenID login for fedora/google/yahoo (Patrick Uiterwijk)
+
 * Mon Jul 06 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.6.1-1
 - Update to 0.6.1
 - Adjust the GitHub backend to work when the user only provided a homepage
