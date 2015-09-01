@@ -192,8 +192,8 @@ def login():
         next=OID.get_next_url(), error=OID.fetch_error())
 
 
-@APP.route('/login/fedora/')
-@APP.route('/login/fedora')
+@APP.route('/login/fedora/', methods=('GET', 'POST'))
+@APP.route('/login/fedora', methods=('GET', 'POST'))
 @OID.loginhandler
 def fedora_login():
     ''' Handles login against the Fedora OpenID server. '''
@@ -214,8 +214,8 @@ def fedora_login():
         ask_for_optional=['fullname'])
 
 
-@APP.route('/login/google/')
-@APP.route('/login/google')
+@APP.route('/login/google/', methods=('GET', 'POST'))
+@APP.route('/login/google', methods=('GET', 'POST'))
 @OID.loginhandler
 def google_login():
     ''' Handles login via the Google OpenID. '''
@@ -235,8 +235,8 @@ def google_login():
         ask_for=['email', 'fullname'])
 
 
-@APP.route('/login/yahoo/')
-@APP.route('/login/yahoo')
+@APP.route('/login/yahoo/', methods=('GET', 'POST'))
+@APP.route('/login/yahoo', methods=('GET', 'POST'))
 @OID.loginhandler
 def yahoo_login():
     ''' Handles login via the Yahoo OpenID. '''
