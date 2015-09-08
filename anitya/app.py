@@ -29,7 +29,7 @@ import anitya.lib.plugins
 import anitya.mail_logging
 
 
-__version__ = '0.6.2'
+__version__ = '0.6.3'
 
 # Create the application.
 APP = flask.Flask(__name__)

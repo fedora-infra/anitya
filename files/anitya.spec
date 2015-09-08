@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.6.2
+Version:        0.6.3
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -110,6 +110,10 @@ install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.i
 
 
 %changelog
+* Tue Sep 08 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.6.3-1
+- Update to 0.6.3
+- Fix the stackage backend by not hard-coding the GHC version
+
 * Tue Sep 01 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.6.2-1
 - Update to 0.6.2
 - Add tooltip for 'Flag' and restrict 'Flags' to admins (Ariel O. Barria)
