@@ -171,7 +171,7 @@ def api_projects():
         jsonout.status_code = 400
         return jsonout
 
-    if homepage:
+    if homepage is not None:
         project_objs = anitya.lib.model.Project.by_homepage(SESSION, homepage)
     elif pattern:
         if '*' not in pattern:
