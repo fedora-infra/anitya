@@ -72,6 +72,11 @@
                     {{ project.homepage }}
                   </a>
                 </td>
+                <td>
+                  {% if project.latest_version %}
+                    {{ project.latest_version }}
+                  {% endif %}
+                </td>
               </tr>
             {% endfor %}
             </table>
