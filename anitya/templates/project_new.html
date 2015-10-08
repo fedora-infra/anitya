@@ -29,15 +29,19 @@
             <tr id="version_url_row">
               {{ render_field_in_row(form.version_url) }}
             </tr>
+            <tr id="examples_row">
+              <td><label>Examples:</label></td>
+              <td id="example_urls"></td>
+            </tr>
             <tr id="regex_row">
               {{ render_field_in_row(form.regex) }}
             </tr>
+            <tr id="default_regex_row">
+              <td><label>Default regex:</lable></td>
+              <td id="regex_example_txt"></td>
+            </tr>
             <tr id="insecure_row">
               {{ render_field_in_row(form.insecure) }}
-            </tr>
-            <tr id="examples_row">
-              <th>Examples:</th>
-              <td id="example_txt"></td>
             </tr>
 
             {%- if context == 'Add' -%}
@@ -89,22 +93,33 @@
 <script type="text/javascript">
 
     var examples = {};
-    var more_info = {};
+    var test_regex_link = {};
     {% for plugin in plugins -%}
-    {%- autoescape false -%}
-    examples["{{ plugin.name }}"]="{{ plugin.examples | format_examples }}";
-    more_info["{{ plugin.name }}"]="{{ plugin.more_info }}";
-    {%- endautoescape -%}
+      {%- autoescape false -%}
+        examples["{{ plugin.name }}"]="{{ plugin.examples | format_examples }}";
+        console.log(examples);
+        test_regex_link["{{ plugin.name }}"]="{{ plugin.test_regex_link}}";
+
+        {% if plugin.default_regex %}
+          var _default_regex = '{{ plugin.default_regex }}';
+        {% endif %}
+      {%- endautoescape -%}
     {%- endfor %}
 
   function show_hide(){
     $('#regex_row').hide();
+    $('#default_regex_row').hide();
     $('#version_url_row').hide();
     $('#insecure_row').hide();
     $('#regex').attr('placeholder', '');
 
     $("label[for='version_url']").text('Version URL');
     var str = $( '#backend option:selected' ).text();
+
+    if (str != 'Sourceforge') {
+      $('#sourceforge_version_url_instr').hide();
+    }
+
     if (str == 'folder'){
       $('#version_url_row').show();
     };
@@ -119,21 +134,31 @@
     if (str == 'Sourceforge'){
         $("label[for='version_url']").text('Sourceforge name');
         $('#version_url').after(
-        "<p>Use this field if the name used on the rss page of the project "
+        "<p id='sourceforge_version_url_instr'>Use this field if the name used on the rss page of the project "
         + "differs from the name of the project. </p>" );
         $('#version_url_row').show();
     };
     if (str == 'custom'){
-      $('#regex_row').show();
       $('#version_url_row').show();
       $('#insecure_row').show();
       $('#regex').attr('placeholder', 'Leave empty for default regex');
+
+      if ($('#name').val()){
+        $('#regex_row').show();
+        $('#default_regex_row').show();
+      }
     };
 
-    $('#example_txt').html(examples[str]);
+    $('#example_urls').html(examples[str]);
 
-    if (more_info[str]){
-      $('#example_txt').append('<br />' + more_info[str]);
+    if (test_regex_link[str]){
+      $('#regex_example_txt').html('<div id="default_regex_txt">' + _default_regex + '</div>');
+      var project_name = $('#name').val();
+
+      $('#default_regex_txt').text(_default_regex.replace('<project name>', project_name));
+      if ($('#test_regex')[0] === undefined) {
+        $('#regex_example_txt').append('<span id="test_regex"> ' + test_regex_link[str] + '</span>');
+      }
     }
 
   };
@@ -178,6 +203,7 @@
     $('#name').focusout(function(){
         var _name = $('#name').val().trim();
         if (_name) {
+          show_hide();
           var _url = "{{ url_for('api_projects') }}?pattern=" + _name;
           show_similar_projects(_url, 'name');
         } else {

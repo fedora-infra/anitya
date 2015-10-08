@@ -333,7 +333,6 @@ def new_project():
 
     plugins = anitya.lib.plugins.load_plugins(SESSION)
     plg_names = [plugin.name for plugin in plugins]
-
     form = anitya.forms.ProjectForm(backends=plg_names)
 
     if flask.request.method == 'GET':

@@ -46,3 +46,11 @@ textarea#reason {
 table input[type="text"] {
     width: 300px;
 }
+
+#default_regex_txt {
+  background-color: #eee;
+}
+
+label {
+  white-space: nowrap;
+}
