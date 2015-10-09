@@ -94,14 +94,14 @@
 
     var examples = {};
     var more_info = {};
+    var default_regex = {};
+
     {% for plugin in plugins -%}
       {%- autoescape false -%}
+
         examples["{{ plugin.name }}"]="{{ plugin.examples | format_examples }}";
         more_info["{{ plugin.name }}"]="{{ plugin.more_info}}";
-
-        {% if plugin.default_regex %}
-          var _default_regex = '{{ plugin.default_regex }}';
-        {% endif %}
+        default_regex["{{ plugin.name }}"]="{{ plugin.default_regex }}";
 
       {%- endautoescape -%}
     {%- endfor %}
@@ -149,13 +149,15 @@
 
     $('#example_urls').html(examples[str]);
 
-    var temp = _default_regex;
-    temp = temp.replace('<project name>', $('#name').val());
-    $('#regex_example_txt').html('<div id="default_regex_txt">' + temp + '</div>');
-
-    if (more_info[str]){
+    if (more_info[str] != 'None') {
       $('#example_urls').append('<br> <span id="more-info"> ' + more_info[str] + '</span>');
     }
+
+    var temp = default_regex[str];
+    if ($('#name').val()) {
+      temp = temp.replace('{project name}', $('#name').val());
+    }
+    $('#regex_example_txt').html('<div id="default_regex_txt">' + temp + '</div>');
   };
 
   function show_similar_projects(_url, type) {
@@ -197,8 +199,8 @@
 
     $('#name').focusout(function(){
         var _name = $('#name').val().trim();
+        show_hide();
         if (_name) {
-          show_hide();
           var _url = "{{ url_for('api_projects') }}?pattern=" + _name;
           show_similar_projects(_url, 'name');
         } else {
