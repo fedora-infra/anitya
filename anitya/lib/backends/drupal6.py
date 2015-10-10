@@ -27,7 +27,7 @@ class Drupal6Backend(BaseBackend):
         'https://www.drupal.org/project/pathauto',
         'https://www.drupal.org/project/wysiwyg',
     ]
-    more_info = '<br>If the project exists for Drupal 6 and 7 and is '\
+    more_info = '<br />If the project exists for Drupal 6 and 7 and is '\
         'monitored for both, you can prefix the name with `Drupal6:`, '\
         'for example: `Drupal6: cck`.'
 
