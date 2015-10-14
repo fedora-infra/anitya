@@ -687,7 +687,7 @@ class Run(BASE):
 
     status = sa.Column(sa.String(20), primary_key=True)
     created_on = sa.Column(
-        sa.DateTime, default=datetime.datetime.utcnow, primary_key=True)
+        sa.DateTime, default=sa.func.now(), primary_key=True)
 
     @classmethod
     def last_entry(cls, session):
