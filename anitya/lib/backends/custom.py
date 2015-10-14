@@ -28,8 +28,9 @@ class CustomBackend(BaseBackend):
         'http://subsurface.hohndel.org/downloads/',
         'http://www.geany.org/Download/Releases',
     ]
-    more_info = '<br /> More information in the '\
+    more_info = 'More information in the '\
         '<a href=\'/about#test-your-regex\'>about#test-your-regex</a>'
+    default_regex = REGEX % {'name': '{project name}'}
 
     @classmethod
     def get_version(cls, project):

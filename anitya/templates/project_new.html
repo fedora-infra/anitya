@@ -32,12 +32,16 @@
             <tr id="regex_row">
               {{ render_field_in_row(form.regex) }}
             </tr>
-            <tr id="insecure_row">
-              {{ render_field_in_row(form.insecure) }}
+            <tr id="default_regex_row">
+              <td><label>Default regex:</lable></td>
+              <td id="regex_example_txt"></td>
             </tr>
             <tr id="examples_row">
-              <th>Examples:</th>
-              <td id="example_txt"></td>
+              <td><label>Examples:</label></td>
+              <td id="example_urls"></td>
+            </tr>
+            <tr id="insecure_row">
+              {{ render_field_in_row(form.insecure) }}
             </tr>
 
             {%- if context == 'Add' -%}
@@ -90,21 +94,33 @@
 
     var examples = {};
     var more_info = {};
+    var default_regex = {};
+
     {% for plugin in plugins -%}
-    {%- autoescape false -%}
-    examples["{{ plugin.name }}"]="{{ plugin.examples | format_examples }}";
-    more_info["{{ plugin.name }}"]="{{ plugin.more_info }}";
-    {%- endautoescape -%}
+      {%- autoescape false -%}
+
+        examples["{{ plugin.name }}"]="{{ plugin.examples | format_examples }}";
+        more_info["{{ plugin.name }}"]="{{ plugin.more_info}}";
+        default_regex["{{ plugin.name }}"]="{{ plugin.default_regex }}";
+
+      {%- endautoescape -%}
     {%- endfor %}
 
   function show_hide(){
+
+    if ($('#version_url').parent().find('p')) {
+      $('#version_url').parent().find('p').remove()
+    }
+
     $('#regex_row').hide();
+    $('#default_regex_row').hide();
     $('#version_url_row').hide();
     $('#insecure_row').hide();
     $('#regex').attr('placeholder', '');
 
     $("label[for='version_url']").text('Version URL');
     var str = $( '#backend option:selected' ).text();
+
     if (str == 'folder'){
       $('#version_url_row').show();
     };
@@ -124,18 +140,24 @@
         $('#version_url_row').show();
     };
     if (str == 'custom'){
-      $('#regex_row').show();
       $('#version_url_row').show();
       $('#insecure_row').show();
+      $('#regex_row').show();
+      $('#default_regex_row').show();
       $('#regex').attr('placeholder', 'Leave empty for default regex');
     };
 
-    $('#example_txt').html(examples[str]);
+    $('#example_urls').html(examples[str]);
 
-    if (more_info[str]){
-      $('#example_txt').append('<br />' + more_info[str]);
+    if (more_info[str] != 'None') {
+      $('#example_urls').append('<br /> <br /> <span id="more-info"> ' + more_info[str] + '</span>');
     }
 
+    var temp = default_regex[str];
+    if ($('#name').val()) {
+      temp = temp.replace('{project name}', $('#name').val());
+    }
+    $('#regex_example_txt').html('<div id="default_regex_txt">' + temp + '</div>');
   };
 
   function show_similar_projects(_url, type) {
@@ -177,6 +199,7 @@
 
     $('#name').focusout(function(){
         var _name = $('#name').val().trim();
+        show_hide();
         if (_name) {
           var _url = "{{ url_for('api_projects') }}?pattern=" + _name;
           show_similar_projects(_url, 'name');

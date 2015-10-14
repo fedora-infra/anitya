@@ -126,6 +126,8 @@ class BaseBackend(object):
 
     name = None
     examples = None
+    default_regex = None
+    more_info = None
 
     @classmethod
     def expand_subdirs(self, url, glob_char="*"):
