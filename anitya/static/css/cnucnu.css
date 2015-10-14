@@ -54,3 +54,7 @@ table input[type="text"] {
 label {
   white-space: nowrap;
 }
+
+.ui-front {
+    z-index: 10000!important;
+}

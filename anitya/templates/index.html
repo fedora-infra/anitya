@@ -43,22 +43,5 @@
 {% endblock %}
 
 {% block jscript %}
-<script type="text/javascript">
-  $(function() {
-    $('#searchbox').autocomplete({
-        source: function( request, response ) {
-            $.getJSON(
-              "{{ url_for('api_projects_names') }}", {
-                pattern: request.term + '*'
-              },
-              function( data ) {
-                response( data.projects );
-              }
-            );
-        },
-        minLength: 3,
-        delay: 600,
-    });
-  });
-</script>
+
 {% endblock %}
