@@ -58,3 +58,7 @@ label {
 .ui-front {
     z-index: 10000!important;
 }
+
+.nav form {
+  padding-top: 0.4em;
+}
