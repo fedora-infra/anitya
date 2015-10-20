@@ -29,10 +29,10 @@
       Your project of interest might be there, or not. To check it
       <a href="{{ url_for('projects') }}">browse the list of all projects</a>
       or simply search for them!</p>
-      <form action="{{ url_for('projects_search') }}" role="form">
+      <form action="{{ url_for('projects_search') }}" role="form" class="form-inline">
         <div class="form-group">
-          <input id="searchbox" type="text" name="pattern" placeholder="Project name" class="SearchBox"/>
-          <button type="submit" class="btn btn-default">Search</button>
+          <input id="searchbox" type="text" name="pattern" placeholder="Project name" class="form-control input-sm"/>
+          <button type="submit" class="btn btn-sm btn-default">Search</button>
           <p><small>You may use * to search for pattern (ie: py*).</small></p>
         </div><!-- /.form-group -->
       </form>
