@@ -39,7 +39,8 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="{{url_for('index')}}">
-            release-monitoring.org</a>
+            release-monitoring.org
+          </a>
         </div>
 
         <div class="navbar-collapse collapse">
@@ -159,6 +160,14 @@
                 </ul>
             </li>
             {%- endif -%}
+            <li>
+              <form action="{{ url_for('projects_search') }}" role="form">
+                <div class="form-group">
+                  <input id="searchbox" type="text" name="pattern" placeholder="Project name" class="SearchBox"/>
+                  <button type="submit" class="btn btn-default">Search</button>
+                </div><!-- /.form-group -->
+              </form>
+            </li>
 
           </ul>
 
@@ -214,6 +223,25 @@
     <script type="text/javascript"
         src="{{ url_for('static', filename='bootstrap-datetimepicker.js') }}">
     </script>
+    <script type="text/javascript">
+      $(function() {
+        $('#searchbox').autocomplete({
+          source: function( request, response ) {
+            $.getJSON(
+              "{{ url_for('api_projects_names') }}", {
+                pattern: request.term + '*'
+              },
+              function( data ) {
+                response( data.projects );
+              }
+            );
+          },
+          minLength: 3,
+          delay: 600,
+        });
+      });
+    </script>
     {% block jscript %}{% endblock %}
   </body>
 </html>
+
