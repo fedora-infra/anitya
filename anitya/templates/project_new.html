@@ -125,19 +125,23 @@
       $('#version_url_row').show();
     };
     if (str == 'GitHub'){
-        $("label[for='version_url']").text('GitHub owner/project');
-        $('#version_url_row').show();
+      $("label[for='version_url']").text('GitHub owner/project');
+      $('#version_url_row').show();
+    };
+    if (str == 'BitBucket'){
+      $("label[for='version_url']").text('BitBucket owner/project');
+      $('#version_url_row').show();
     };
     if (str == 'Packagist'){
-        $("label[for='version_url']").text('Packagist owner/group');
-        $('#version_url_row').show();
+      $("label[for='version_url']").text('Packagist owner/group');
+      $('#version_url_row').show();
     };
     if (str == 'Sourceforge'){
-        $("label[for='version_url']").text('Sourceforge name');
-        $('#version_url').after(
-        "<p>Use this field if the name used on the rss page of the project "
-        + "differs from the name of the project. </p>" );
-        $('#version_url_row').show();
+      $("label[for='version_url']").text('Sourceforge name');
+      $('#version_url').after(
+      "<p>Use this field if the name used on the rss page of the project "
+      + "differs from the name of the project. </p>" );
+      $('#version_url_row').show();
     };
     if (str == 'custom'){
       $('#version_url_row').show();
