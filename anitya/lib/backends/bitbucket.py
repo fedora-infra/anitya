@@ -15,7 +15,7 @@ from anitya.lib.exceptions import AnityaPluginException
 REGEX = b'class="name">([^<]*[^tip])</td'
 
 
-class BitBucket(BaseBackend):
+class BitBucketBackend(BaseBackend):
     ''' The custom class for projects hosted on bitbucket.org
 
     This backend allows to specify a version_url and a regex that will
