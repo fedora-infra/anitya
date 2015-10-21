@@ -51,11 +51,11 @@
 
   <div class="col-sm-8">
     <form action="{{url_for('projects_updated', status=status) }}"
-          role="form" action="GET">
+          role="form" action="GET" class="form-inline">
       <div class="form-group">
-        <input type="text" name="name" placeholder="Project name" class="SearchBox"/>
-        <input type="text" name="log" placeholder="Project log" class="SearchBox"/>
-        <button type="submit" class="btn btn-default">
+        <input type="text" name="name" placeholder="Project name" class="form-control input-sm"/>
+        <input type="text" name="log" placeholder="Project log" class="form-control input-sm"/>
+        <button type="submit" class="btn btn-sm btn-default">
           Search
         </button>
       </div>
