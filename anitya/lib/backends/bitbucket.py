@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2015 - Copyright Vivek Anand
 
  Authors:
-   Pierre-Yves Chibon <pingou@pingoured.fr>
+   Vivek Anand <vivekanand1101@gmail.com>
 
 """
 
