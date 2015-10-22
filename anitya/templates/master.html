@@ -77,6 +77,11 @@
                     <a href="{{url_for('projects_updated')}}">Updated</a>
                   </li>
                   <li>
+                    <a href="{{url_for('projects_updated', status='odd')}}">
+                      Odd version found
+                    </a>
+                  </li>
+                  <li>
                     <a href="{{url_for('projects_updated', status='new')}}">
                       Not updated
                     </a>
