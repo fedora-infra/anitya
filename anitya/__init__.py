@@ -55,6 +55,8 @@ def check_release(project, session):
 
     try:
         up_version = backend.get_version(project)
+        if project.version_prefix:
+            up_version = up_version.replace(project.version_prefix, '')
     except anitya.lib.exceptions.AnityaPluginException as err:
         LOG.exception("AnityaError catched:")
         project.logs = err.message
