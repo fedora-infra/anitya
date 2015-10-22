@@ -105,6 +105,16 @@ The regular expression ``version.is ([\d\.]*)\.`` can then be provided to
 anitya and used to find the new releases.
 
 
+Version prefix
+--------------
+
+The version prefix can be used to retrieve the exact version number when the
+upstream maintainer prefixes its versions.
+
+For example, if the project's version are: ``foo-1.2``, you can set the
+version prefix to ``foo-`` to tell Anitya how to get the version ``1.2``.
+
+
 Dénouement
 ----------
 
