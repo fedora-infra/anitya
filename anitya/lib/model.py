@@ -451,7 +451,15 @@ class Project(BASE):
             query = query.filter(
                 Project.logs != None,
                 Project.logs != 'Version retrieved correctly',
+                ~Project.logs.ilike('Something strange occured%'),
             )
+        elif status == 'odd':
+            query = query.filter(
+                Project.logs != None,
+                Project.logs != 'Version retrieved correctly',
+                Project.logs.ilike('Something strange occured%'),
+            )
+
         elif status == 'new':
             query = query.filter(
                 Project.logs == None,
@@ -614,7 +622,7 @@ class ProjectFlag(BASE):
         ).order_by(ProjectFlag.created_on)
 
         return query.all()
-    
+
     @classmethod
     def search(cls, session, project_name=None, from_date=None, user=None,
                state=None, limit=None, offset=None, count=False):
