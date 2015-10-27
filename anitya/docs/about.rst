@@ -114,6 +114,17 @@ upstream maintainer prefixes its versions.
 For example, if the project's version are: ``foo-1.2``, you can set the
 version prefix to ``foo-`` to tell Anitya how to get the version ``1.2``.
 
+More concrete examples:
+  * `junit <https://github.com/junit-team/junit/tags>`_ tags are of the form:
+    ``r<version>``, to retrieve the version, one can set the version prefix
+    to ``r``.
+  * `carbon-c-relay <https://github.com/grobian/carbon-c-relay/tags>`_ tags
+    are of the form ``v<version>``, for this project, the version prefix
+    can be set to ``v``.
+  * `fdupes <https://github.com/adrianlopezroche/fdupes/tags>`_ tags are of
+    the form ``fdupes-<version>``, for this project, the version prefix can
+    be set to ``fdupes-``.
+
 
 Dénouement
 ----------
