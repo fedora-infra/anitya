@@ -96,6 +96,7 @@ class AnityaLibtests(Modeltests):
             homepage='http://www.geany.org',
             backend='PyPI',
             version_url=None,
+            version_prefix=None,
             regex=None,
             insecure=False,
             user_mail='noreply@fedoraproject.org')
@@ -116,6 +117,7 @@ class AnityaLibtests(Modeltests):
             homepage='http://www.geany.org',
             backend=project_objs[2].backend,
             version_url=project_objs[2].version_url,
+            version_prefix=None,
             regex=project_objs[2].regex,
             insecure=False,
             user_mail='noreply@fedoraproject.org',
