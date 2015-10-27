@@ -113,8 +113,8 @@ def create_project(
 
 
 def edit_project(
-        session, project, name, homepage, backend, version_url, regex,
-        insecure, user_mail):
+        session, project, name, homepage, backend, version_url,
+        version_prefix, regex, insecure, user_mail):
     """ Edit a project in the database.
 
     """
@@ -136,6 +136,12 @@ def edit_project(
         project.version_url = version_url.strip() if version_url else None
         if old != project.version_url:
             changes['version_url'] = {'old': old, 'new': project.version_url}
+    if  version_prefix != project.version_prefix:
+        old = project.version_prefix
+        project.version_prefix = version_prefix.strip() if version_prefix else None
+        if old != project.version_prefix:
+            changes['version_prefix'] = {
+                'old': old, 'new': project.version_prefix}
     if regex != project.regex:
         old = project.regex
         project.regex = regex.strip() if regex else None

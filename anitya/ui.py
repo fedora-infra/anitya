@@ -410,6 +410,7 @@ def edit_project(project_id):
                 homepage=form.homepage.data.strip(),
                 backend=form.backend.data.strip(),
                 version_url=form.version_url.data.strip(),
+                version_prefix=form.version_prefix.data.strip(),
                 regex=form.regex.data.strip(),
                 insecure=form.insecure.data,
                 user_mail=flask.g.auth.email,
