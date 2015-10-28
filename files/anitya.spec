@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.6.3
+Version:        0.7.0
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -110,6 +110,22 @@ install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.i
 
 
 %changelog
+* Wed Oct 28 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.7.0-1
+- Update to 0.7.0
+- Adjust the API to return nothing if the provided homepage is empty (Vivek
+  Anand)
+- Add the latest version of the project in the search page (Vivek Anand)
+- Improve the edit endpoint to allow showing the examples and extra infos
+- Display the regex used in the custom backend when adding/editing a project
+  (Vivek Anand)
+- Order the list of backends alphabetically (Farhaanbuksh)
+- Add a search box to the main menu
+- Make the search box better looking (Ralph Bean)
+- Add a BitBuckend backend (Vivek Anand)
+- Add the possibility to separate odd updates from failed updates
+- Add the possibility to specify a prefix to the versions found
+- Record and show the status of the cron job checking new releases
+
 * Tue Sep 08 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.6.3-1
 - Update to 0.6.3
 - Fix the stackage backend by not hard-coding the GHC version
