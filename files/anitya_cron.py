@@ -32,6 +32,9 @@ def main(debug):
     version.
     '''
     session = anitya.app.SESSION
+    run = anitya.lib.model.Run(status='started')
+    session.add(run)
+    session.commit()
     LOG.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter(
@@ -53,6 +56,10 @@ def main(debug):
     projects = anitya.lib.model.Project.all(session)
     p = multiprocessing.Pool(anitya.app.APP.config.get('CRON_POOL', 10))
     p.map(update_project, projects)
+
+    run = anitya.lib.model.Run(status='ended')
+    session.add(run)
+    session.commit()
 
 
 if __name__ == '__main__':

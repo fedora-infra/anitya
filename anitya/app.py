@@ -161,9 +161,15 @@ def inject_variable():
     justedit = flask.session.get('justedit', False)
     if justedit:  # pragma: no cover
         flask.session['justedit'] = None
-    return dict(version=__version__,
-                is_admin=is_admin(),
-                justedit=justedit)
+
+    cron_status = anitya.lib.get_last_cron(SESSION)
+
+    return dict(
+        version=__version__,
+        is_admin=is_admin(),
+        justedit=justedit,
+        cron_status=cron_status,
+    )
 
 
 @APP.route('/login/', methods=('GET', 'POST'))

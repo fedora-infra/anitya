@@ -210,6 +210,10 @@
         <a href="https://github.com/fedora-infra/anitya/issues">issue tracker</a>
         .
         ©2013-2014 Red Hat, Inc., <a href="http://pingoured.fr">pingou</a>.
+        {% if cron_status %}
+        Last check {{ cron_status.status }} at {{
+            cron_status.created_on.strftime('%Y-%m-%d %H:%M:%S') }}
+        {% endif %}
         </p>
       </div>
     </div>

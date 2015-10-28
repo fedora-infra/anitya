@@ -341,3 +341,9 @@ def set_flag_state(session, flag, state, user_mail):
     )
     session.commit()
     return flag
+
+
+def get_last_cron(session):
+    """ Retrieve the last log entry about the cron
+    """
+    return anitya.lib.model.Run.last_entry(session)

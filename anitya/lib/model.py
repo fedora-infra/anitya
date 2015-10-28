@@ -680,3 +680,22 @@ class ProjectFlag(BASE):
         ).filter(
             cls.id == flag_id)
         return query.first()
+
+
+class Run(BASE):
+    __tablename__ = 'runs'
+
+    status = sa.Column(sa.String(20), primary_key=True)
+    created_on = sa.Column(
+        sa.DateTime, default=datetime.datetime.utcnow, primary_key=True)
+
+    @classmethod
+    def last_entry(cls, session):
+        ''' Return the last log about the cron run. '''
+
+        query = session.query(
+            cls
+        ).order_by(
+            cls.created_on.desc()
+        )
+        return query.first()
