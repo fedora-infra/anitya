@@ -302,6 +302,7 @@ def flag_project(session, project, reason, user_mail):
             agent=user_mail,
             project=project.name,
             reason=reason,
+            packages=[pkg.__json__() for pkg in project.packages],
         )
     )
     session.commit()
