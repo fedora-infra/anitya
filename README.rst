@@ -24,6 +24,9 @@ Notifications service).
 Hacking
 -------
 
+virtualenv
+``````````
+
 Here are some preliminary instructions about how to stand up your own instance
 of anitya. We'll use a virtualenv and a sqlite database and we'll install
 our dependencies from the Python Package Index (PyPI).  None of these are best
@@ -53,3 +56,22 @@ running::
     (anitya-env)$ python runserver.py
 
 Open your browser and visit http://localhost:5000 to check it out.
+
+
+docker
+``````
+
+You can use dockerfile provided in root of this repository. Build it::
+
+    $ cd anitya/
+    $ docker build --tag=anitya .
+
+And run::
+
+    $ docker run --net=host anitya
+
+``--net=host`` will use network stack from your host system. Application will
+be then available on localhost at http://localhost:5000.
+
+If you inspect the dockerfile you can see that installation method is almost
+identical to the described in section virtualenv_.
