@@ -351,8 +351,9 @@ def new_project():
                 name=form.name.data.strip(),
                 homepage=form.homepage.data.strip(),
                 backend=form.backend.data.strip(),
-                version_url=form.version_url.data.strip(),
-                regex=form.regex.data.strip(),
+                version_url=form.version_url.data.strip() or None,
+                version_prefix=form.version_prefix.data.strip() or None,
+                regex=form.regex.data.strip() or None,
                 user_mail=flask.g.auth.email,
             )
             SESSION.commit()
