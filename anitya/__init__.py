@@ -38,7 +38,7 @@ def order_versions(vlist):
     return sorted(vlist, cmp=anitya.lib.backends.upstream_cmp)
 
 
-def check_release(project, session):
+def check_release(project, session, test=False):
     ''' Check if the provided project has a new release available or not.
 
     :arg package: a Package object has defined in anitya.lib.model.Project
@@ -63,6 +63,9 @@ def check_release(project, session):
         session.add(project)
         session.commit()
         raise
+
+    if test:
+        return up_version
 
     p_version = project.latest_version or ''
 
