@@ -395,6 +395,7 @@ def api_get_version():
     '''
 
     project_id = flask.request.form.get('id', None)
+    test = flask.request.form.get('test', False)
     httpcode = 200
 
     if not project_id:
@@ -413,8 +414,11 @@ def api_get_version():
             httpcode = 404
         else:
             try:
-                anitya.check_release(project, SESSION)
-                output = project.__json__(detailed=True)
+                version = anitya.check_release(project, SESSION, test=test)
+                if version:
+                    output = {'version': version}
+                else:
+                    output = project.__json__(detailed=True)
             except anitya.lib.exceptions.AnityaException as err:
                 output = {'output': 'notok', 'error': [str(err)]}
                 httpcode = 400
