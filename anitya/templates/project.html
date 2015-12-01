@@ -59,9 +59,16 @@
             <div class="col-md-4">
               {% if g.auth.logged_in and (not project.versions or is_admin
                 or justedit) %}
+              <button type="submit" class="btn btn-success btn-sm pull-right" id="testcheck">
+                <span class="glyphicon glyphicon-refresh"></span>
+                Test check
+              </button>
+              <img src="{{url_for('static', filename='img/spinner.gif')}}"
+                id="testcheck-spinner" class="pull-right"
+                style="display: none; padding-top: 12px; padding-right: 25px;"/>
               <button type="submit" class="btn btn-success btn-sm pull-right" id="checknow">
                 <span class="glyphicon glyphicon-refresh"></span>
-                Check now
+                Full check
               </button>
               <img src="{{url_for('static', filename='img/spinner.gif')}}"
                 id="checknow-spinner" class="pull-right"
@@ -197,30 +204,41 @@
 
 {% block jscript %}
 <script>
-  function checkrelease(){
-    $("#checknow").hide(); $("#checknow-spinner").show();
+  function checkrelease(test=false){
+    var btn = '#checknow';
+    if (test) {
+      btn = '#testcheck';
+    }
+    $(btn).hide(); $(btn + "-spinner").show();
     var _id = "{{ project.id }}";
     var _url = "{{ url_for('api_get_version') }}";
+    data = {id: _id};
+    if (test) {
+        data.test = test;
+    }
     $.ajax({
         url: _url ,
         type: 'POST',
-        data: {id: _id},
+        data: data,
         dataType: 'json',
         success: function(res) {
-          if (res.version){
-            output = res.version;
+          if (test) {
+              alert('Version found: ' + res.version);
           } else {
-            output = res.error;
+            if (res.version) {
+              output = res.version;
+            } else {
+              output = res.error;
+            }
+            $('#version_info').html("Latest versions: " + output);
           }
-          $('#version_info').html(
-              "Latest versions: " + output);
-          $("#checknow").show(); $("#checknow-spinner").hide();
+          $(btn).show(); $(btn + "-spinner").hide();
         },
         error: function(res) {
-            $("#checknow").show(); $("#checknow-spinner").hide();
-            alert(
-                'Unable to retrieve the latest version from upstream!\n'
-                + 'ERROR: ' + res.responseJSON.error );
+          $(btn).show(); $(btn + "-spinner").hide();
+          alert(
+              'Unable to retrieve the latest version from upstream!\n'
+              + 'ERROR: ' + res.responseJSON.error );
         }
     });
   };
@@ -242,6 +260,11 @@
 
   $('#checknow').click(function(){
     checkrelease();
+    return false;
+  });
+
+  $('#testcheck').click(function(){
+    checkrelease(test=true);
     return false;
   });
 </script>
