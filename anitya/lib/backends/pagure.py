@@ -65,4 +65,4 @@ class PagureBackend(BaseBackend):
         except Exception:  # pragma: no cover
             raise AnityaPluginException('No JSON returned by %s' % url)
 
-        return data['tags']
+        return data.get('tags')
