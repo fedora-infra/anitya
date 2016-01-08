@@ -204,7 +204,11 @@
 
 {% block jscript %}
 <script>
-  function checkrelease(test=false){
+  function checkrelease(test){
+    if(!test) {
+        // This might be null. Let's default to false.
+        test = false;
+    };
     var btn = '#checknow';
     if (test) {
       btn = '#testcheck';
