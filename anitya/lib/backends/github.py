@@ -1,18 +1,33 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2016 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
+   Chaoyi Zha <cydrobolt@fedoraproject.org>
 
 """
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
+import re
 
 
 REGEX = b'class="tag-name">([^<]*)</span'
+url_template = 'https://github.com/{}/tags'
+
+def get_url_from_regex_match(regex_match):
+    repo_owner = regex_match.group(1)
+    repo_name = regex_match.group(2)
+
+    url = url_template.format(
+        "{}/{}".format(
+            repo_owner, repo_name
+        )
+    )
+
+    return url
 
 
 class GithubBackend(BaseBackend):
@@ -27,20 +42,6 @@ class GithubBackend(BaseBackend):
         'https://github.com/fedora-infra/fedocal',
         'https://github.com/fedora-infra/pkgdb2',
     ]
-
-    def get_url_from_regex_match(cls, regex_match):
-        url_template = 'https://github.com/{}/tags'
-
-        repo_owner = regex_match.group(1)
-        repo_name = regex_match.group(2)
-
-        url = url_template.format(
-            "{}/{}".format(
-                repo_owner, repo_name
-            )
-        )
-
-        return url
 
     @classmethod
     def get_version(cls, project):
@@ -82,7 +83,7 @@ class GithubBackend(BaseBackend):
             if matched_url_regex:
                 # matches github repo url
                 # e.g https://github.com/fedora-infra/anitya
-                url = cls.get_url_from_regex_match(matched_url_regex)
+                url = get_url_from_regex_match(matched_url_regex)
             else:
                 # does not match github repo url,
                 # assume repoowner/reponame format
@@ -91,7 +92,7 @@ class GithubBackend(BaseBackend):
 
         elif homepage_gh_regex_match:
             # homepage matches github repo regex
-            url = cls.get_url_from_regex_match(homepage_gh_regex_match)
+            url = get_url_from_regex_match(homepage_gh_regex_match)
 
         else:
             raise AnityaPluginException(
