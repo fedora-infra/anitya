@@ -73,6 +73,7 @@ class GithubBackendtests(Modeltests):
         self.session.commit()
 
         # project homepage on GitHub but not project root
+        # should correctly match only needed segment
         project = model.Project(
             name='pkgdb2',
             homepage='https://github.com/fedora-infra/pkgdb2/issues',
