@@ -36,7 +36,9 @@ class PagureBackend(BaseBackend):
             when the version cannot be retrieved correctly
 
         '''
-        return cls.get_ordered_versions(project)[-1]
+        versions = cls.get_ordered_versions(project)
+        if versions:
+            return versions[-1]
 
     @classmethod
     def get_versions(cls, project):
@@ -65,4 +67,4 @@ class PagureBackend(BaseBackend):
         except Exception:  # pragma: no cover
             raise AnityaPluginException('No JSON returned by %s' % url)
 
-        return data['tags']
+        return data.get('tags', [])
