@@ -52,6 +52,8 @@ class GithubBackendtests(Modeltests):
 
     def create_project(self):
         """ Create some basic projects to work with. """
+
+        # regular GitHub project homepage with version_url
         project = model.Project(
             name='fedocal',
             homepage='https://github.com/fedora-infra/fedocal',
@@ -61,18 +63,20 @@ class GithubBackendtests(Modeltests):
         self.session.add(project)
         self.session.commit()
 
+        # project homepage with trailing slash
         project = model.Project(
             name='foobar',
-            homepage='http://github.com/foo/bar',
-            version_url='foobar/bar',
+            homepage='http://github.com/foo/bar/',
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
+        # project homepage on GitHub but not project root
+        # should correctly match only needed segment
         project = model.Project(
             name='pkgdb2',
-            homepage='https://github.com/fedora-infra/pkgdb2',
+            homepage='https://github.com/fedora-infra/pkgdb2/issues',
             backend=BACKEND,
         )
         self.session.add(project)

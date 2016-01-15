@@ -1,18 +1,33 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2016 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
+   Chaoyi Zha <cydrobolt@fedoraproject.org>
 
 """
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
+import re
 
 
 REGEX = b'class="tag-name">([^<]*)</span'
+url_template = 'https://github.com/{}/tags'
+
+def get_url_from_regex_match(regex_match):
+    repo_owner = regex_match.group(1)
+    repo_name = regex_match.group(2)
+
+    url = url_template.format(
+        "{}/{}".format(
+            repo_owner, repo_name
+        )
+    )
+
+    return url
 
 
 class GithubBackend(BaseBackend):
@@ -59,15 +74,26 @@ class GithubBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
+        github_repo_regex = 'http[s]?:\/\/github\.com\/([^\/]+)\/([^\/]+)[\/]?'
+
+        homepage_gh_regex_match = re.match(github_repo_regex, project.homepage)
+
         if project.version_url:
-            url_template = 'https://github.com/%(version_url)s/tags'
-            version_url = project.version_url.replace('https://github.com/', '')
-            url = url_template % {'version_url': version_url}
-        elif project.homepage.startswith('https://github.com'):
-            url = project.homepage
-            if url.endswith('/'):
-                url = project.homepage[:1]
-            url += '/tags'
+            matched_url_regex = re.match(github_repo_regex, project.version_url)
+            if matched_url_regex:
+                # matches github repo url
+                # e.g https://github.com/fedora-infra/anitya
+                url = get_url_from_regex_match(matched_url_regex)
+            else:
+                # does not match github repo url,
+                # assume repoowner/reponame format
+                # e.g fedora-infra/anitya
+                url = url_template.format(project.version_url)
+
+        elif homepage_gh_regex_match:
+            # homepage matches github repo regex
+            url = get_url_from_regex_match(homepage_gh_regex_match)
+
         else:
             raise AnityaPluginException(
                 'Project %s was incorrectly set-up' % project.name)
