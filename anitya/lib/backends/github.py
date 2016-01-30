@@ -66,7 +66,7 @@ class GithubBackend(BaseBackend):
         elif project.homepage.startswith('https://github.com'):
             url = project.homepage
             if url.endswith('/'):
-                url = project.homepage[:1]
+                url = project.homepage[:-1]
             url += '/tags'
         else:
             raise AnityaPluginException(
