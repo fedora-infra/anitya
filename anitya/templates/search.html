@@ -88,7 +88,7 @@
     <blockquote>
         Oups this is embarrassing, it seems that no projects are being
         monitored currently.
-        <p><a href="{{ url_for('new_project') }}?name={{ pattern }}">Click Here</a> to add this project instead. </p>
+        <p><a href="{{ url_for('new_project', name=pattern) }}"">Click Here</a> to add this project instead. </p>
     </blockquote>
     {% endif %}
     </div>
