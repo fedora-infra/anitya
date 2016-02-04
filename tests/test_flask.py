@@ -204,6 +204,7 @@ a backend for the project hosting. More information below.</p>"""
     <blockquote>
         Oups this is embarrassing, it seems that no projects are being
         monitored currently.
+        <p><a href="/project/new?name=gua">Click Here</a> to add this project instead. </p>
     </blockquote>"""
         self.assertTrue(expected in output.data)
         self.assertTrue(
