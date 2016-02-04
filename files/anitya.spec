@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.7.0
+Version:        0.8.0
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -110,6 +110,20 @@ install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.i
 
 
 %changelog
+* Thu Feb 04 2016 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.8.0-1
+- Update to 0.8.0
+- Include a dockerfile in the sources and adjust the README on how to use it
+  (Tomas Tomecek)
+- Include the project when sending a fedmsg notification about a flag
+- Add the possibility to set the version_prefix when creating a project
+- Add a test button to test a regex/backend without registering the version in
+  the DB (useful for debugging)
+- Fix the pagure backend when the JSON returned does not contain tags
+- Javascript fix: default attributes don't exist in JS (Patrick Uiterwijk)
+- Fix the github backend when the homepage ends with a slash (Chaoyi Zha)
+- Improved UI for projects not found by proposing to add said project
+  (Prashant-Surya)
+
 * Wed Oct 28 2015 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.7.0-1
 - Update to 0.7.0
 - Adjust the API to return nothing if the provided homepage is empty (Vivek
