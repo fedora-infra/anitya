@@ -146,6 +146,10 @@
       + "differs from the name of the project. </p>" );
       $('#version_url_row').show();
     };
+    if (str == 'Maven Central'){
+      $("label[for='version_url']").text('Maven groupId:artifactId');
+      $('#version_url_row').show();
+    };
     if (str == 'custom'){
       $('#version_url_row').show();
       $('#insecure_row').show();

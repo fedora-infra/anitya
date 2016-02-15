@@ -50,65 +50,68 @@ class MavenBackendTest(Modeltests):
         super(MavenBackendTest, self).setUp()
 
         create_distro(self.session)
-        self.create_project()
 
-    def create_project(self):
-        """ Create some basic projects to work with. """
-        project = model.Project(
-            name='org.codehaus.plexus:plexus-maven-plugin',
-            homepage='http://repo1.maven.org/maven2/'\
-                     'org/codehaus/plexus/plexus-maven-plugin/',
-            backend=BACKEND,
-        )
-        self.session.add(project)
-        self.session.commit()
-
-        project = model.Project(
-            name='foo',
-            homepage='http://repo1.maven.org/maven2/non/exis/tent',
-            backend=BACKEND,
-        )
-        self.session.add(project)
-        self.session.commit()
-
-
-    def test_maven_get_version(self):
-        """ Test the get_version function of the custom backend. """
-        pid = 1
-        project = model.Project.get(self.session, pid)
+    def assert_plexus_version(self, **kwargs):
+        project = model.Project(backend=BACKEND, **kwargs)
         exp = '1.3.8'
         obs = MavenBackend.get_version(project)
         self.assertEqual(obs, exp)
 
-        pid = 2
-        project = model.Project.get(self.session, pid)
+    def assert_invalid(self, **kwargs):
+        project = model.Project(backend=BACKEND, **kwargs)
         self.assertRaises(
             AnityaPluginException,
             MavenBackend.get_version,
             project
         )
 
+    def test_maven_nonexistent(self):
+        self.assert_invalid(
+            name='foo',
+            homepage='http://example.com',
+        )
+
+    def test_maven_coordinates_in_version_url(self):
+        self.assert_plexus_version(
+            name='plexus-maven-plugin',
+            version_url='org.codehaus.plexus:plexus-maven-plugin',
+            homepage='http://plexus.codehaus.org/',
+        )
+
+    def test_maven_coordinates_in_name(self):
+        self.assert_plexus_version(
+            name='org.codehaus.plexus:plexus-maven-plugin',
+            homepage='http://plexus.codehaus.org/',
+        )
+
+    def test_maven_bad_coordinates(self):
+        self.assert_invalid(
+            name='plexus-maven-plugin',
+            homepage='http://plexus.codehaus.org/',
+            version_url='plexus-maven-plugin',
+        )
+
+    def test_maven_get_version_by_url(self):
+        self.assert_plexus_version(
+            name='plexus-maven-plugin',
+            homepage='http://repo1.maven.org/maven2/'\
+                     'org/codehaus/plexus/plexus-maven-plugin/',
+        )
 
     def test_maven_get_versions(self):
-        """ Test the get_versions function of the custom backend. """
-        pid = 1
-        project = model.Project.get(self.session, pid)
+        project = model.Project(
+            backend=BACKEND,
+            name='plexus-maven-plugin',
+            version_url='org.codehaus.plexus:plexus-maven-plugin',
+            homepage='http://plexus.codehaus.org/',
+        )
         exp = ['1.1-alpha-7', '1.1', '1.1.1', '1.1.2', '1.1.3', '1.2', '1.3',
                '1.3.1', '1.3.2', '1.3.3', '1.3.4', '1.3.5', '1.3.6', '1.3.7',
                '1.3.8']
         obs = MavenBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
-        pid = 2
-        project = model.Project.get(self.session, pid)
-        self.assertRaises(
-            AnityaPluginException,
-            MavenBackend.get_version,
-            project
-        )
-
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(MavenBackendTest)
     unittest.TextTestRunner(verbosity=2).run(SUITE)
-
