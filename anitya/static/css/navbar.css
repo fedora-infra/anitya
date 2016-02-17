@@ -6,3 +6,7 @@ body {
 .navbar {
   margin-bottom: 20px;
 }
+
+ul#flashes {
+	margin-top: 20px;
+}
