@@ -36,7 +36,7 @@
               {{ render_field_in_row(form.regex) }}
             </tr>
             <tr id="default_regex_row">
-              <td><label>Default regex:</lable></td>
+              <td><label>Default regex:</label></td>
               <td id="regex_example_txt"></td>
             </tr>
             <tr id="examples_row">
@@ -144,6 +144,10 @@
       $('#version_url').after(
       "<p>Use this field if the name used on the rss page of the project "
       + "differs from the name of the project. </p>" );
+      $('#version_url_row').show();
+    };
+    if (str == 'Maven Central'){
+      $("label[for='version_url']").text('Maven groupId:artifactId');
       $('#version_url_row').show();
     };
     if (str == 'custom'){

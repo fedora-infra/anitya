@@ -8,8 +8,13 @@
 
 """
 
+import re
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
+from anitya.lib.exceptions import AnityaPluginException
+
+
+REGEX = r'\<a[^>]+\>(\d[^</]*)'
 
 
 class MavenBackend(BaseBackend):
@@ -53,9 +58,15 @@ class MavenBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url = 'http://repo1.maven.org/maven2/{path}'\
-              .format(path=project.name.replace('.', '/').replace(':', '/'))
+        if re.match(r'https?://repo\d+.maven.org/', project.homepage):
+            url = project.homepage
+        else:
+            coordinates = project.version_url or project.name
+            if ':' not in coordinates:
+                raise AnityaPluginException(
+                    "Aritfact needs to be in format groupId:artifactId")
+            url = 'http://repo1.maven.org/maven2/{path}'\
+                  .format(path=coordinates.replace('.', '/')
+                          .replace(':', '/'))
 
-        regex = r'\<a[^>]+\>(\d[^</]*)'
-
-        return get_versions_by_regex(url, regex, project)
+        return get_versions_by_regex(url, REGEX, project)
