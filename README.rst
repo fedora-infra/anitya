@@ -24,6 +24,11 @@ Notifications service).
 Hacking
 -------
 
+Anitya is built using `python2.x`. The following steps all are setup using
+virtualenv having `python2.x`.
+
+Note: The project will not work with `python3` (yet.)
+
 virtualenv
 ``````````
 
