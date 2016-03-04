@@ -99,7 +99,7 @@
 {% for log in logs %}
     <tr>
         <td>
-            {{ log.created_on.strftime('%Y-%m-%d %H:%M:%S') }}
+            {{ log.created_on.strftime('%Y-%m-%d %H:%M:%S') }} (UTC) 
         </td>
         <td>
         {{ log.description }}
