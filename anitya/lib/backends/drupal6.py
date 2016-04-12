@@ -12,7 +12,7 @@ from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 
 
-REGEX = b'(?s)Recommended releases.*?>6.x-([^<]*)'
+REGEX = b'<version>6\.x-([^<]+)</version>'
 
 
 class Drupal6Backend(BaseBackend):
@@ -66,7 +66,7 @@ class Drupal6Backend(BaseBackend):
         if name.lower().strip().startswith('drupal6:'):
             name = name[len('drupal6:'):].strip()
 
-        url_template = 'https://www.drupal.org/project/%(name)s'
+        url_template = 'https://updates.drupal.org/release-history/%(name)s/6.x'
 
         url = url_template % {'name': name}
         regex = REGEX % {'name': name}
