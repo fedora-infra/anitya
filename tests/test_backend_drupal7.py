@@ -107,7 +107,7 @@ class Drupal7Backendtests(Modeltests):
         """ Test the get_versions function of the debian backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = ['2.2']
+        exp = ['2.x-dev', '2.0', '2.1', '2.2']
         obs = backend.Drupal7Backend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
@@ -121,7 +121,7 @@ class Drupal7Backendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = ['3.0-rc5']
+        exp = ['3.x-dev', '3.0-rc1', '3.0-rc2', '3.0-rc3', '3.0-rc4', '3.0-rc5']
         obs = backend.Drupal7Backend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 

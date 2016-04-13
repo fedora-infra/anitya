@@ -99,7 +99,7 @@ class Drupal6Backendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '1.9'
+        exp = '3.0-alpha4'
         obs = backend.Drupal6Backend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -107,7 +107,7 @@ class Drupal6Backendtests(Modeltests):
         """ Test the get_versions function of the debian backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = ['2.4']
+        exp = ['2.x-dev', '2.0-alpha1', '2.0', '2.1', '2.2', '2.3', '2.4']
         obs = backend.Drupal6Backend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
@@ -121,7 +121,9 @@ class Drupal6Backendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = ['1.9']
+        exp = ['1.x-dev', '1.0-beta', '1.0', '1.1', '1.2', '1.3', '1.4',
+               '1.5', '1.6', '1.7', '1.8', '1.9', '3.x-dev', '3.0-alpha1',
+               '3.0-alpha2', '3.0-alpha3', '3.0-alpha4']
         obs = backend.Drupal6Backend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
