@@ -286,30 +286,33 @@ def get_versions_by_regex(url, regex, project, insecure=False):
     return get_versions_by_regex_for_text(req, url, regex, project)
 
 
-def get_versions_by_regex_for_text(text, url, regex, project):
+def get_versions_by_regex_for_text(text, url, regexs, project):
     ''' For the provided text, return all the version retrieved via the
     specified regular expression.
 
     '''
+    if not isinstance(regexs, list):
+        regexs = [regexs]
 
-    try:
-        upstream_versions = list(set(re.findall(regex, text)))
-    except sre_constants.error:  # pragma: no cover
-        raise AnityaPluginException(
-            "%s: invalid regular expression" % project.name)
-
-    for index, version in enumerate(upstream_versions):
-        if type(version) == tuple:
-            version = ".".join([v for v in version if not v == ""])
-            upstream_versions[index] = version
-        if " " in version:
+    for regex in regexs:
+        try:
+            upstream_versions = list(set(re.findall(regex, text)))
+        except sre_constants.error:  # pragma: no cover
             raise AnityaPluginException(
-                "%s: invalid upstream version:>%s< - %s - %s " % (
-                    project.name, version, url, regex))
-    if len(upstream_versions) == 0:
-        raise AnityaPluginException(
-            "%(name)s: no upstream version found. - %(url)s -  "
-            "%(regex)s" % {
-                'name': project.name, 'url': url, 'regex': regex})
+                "%s: invalid regular expression" % project.name)
 
-    return upstream_versions
+        for index, version in enumerate(upstream_versions):
+            if type(version) == tuple:
+                version = ".".join([v for v in version if not v == ""])
+                upstream_versions[index] = version
+            if " " in version:
+                raise AnityaPluginException(
+                    "%s: invalid upstream version:>%s< - %s - %s " % (
+                        project.name, version, url, regex))
+        if len(upstream_versions) == 0:
+            raise AnityaPluginException(
+                "%(name)s: no upstream version found. - %(url)s -  "
+                "%(regex)s" % {
+                    'name': project.name, 'url': url, 'regex': regex})
+
+        return upstream_versions
