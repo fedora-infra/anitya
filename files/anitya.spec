@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.8.0
+Version:        0.9.0
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -110,6 +110,16 @@ install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.i
 
 
 %changelog
+* Fri Apr 15 2016 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.9.0-1
+- Update to 0.9.0
+- Do not trigger the keyboard shortcut when in the search box (Prashant-Surya)
+- Improved UI for flash messages being shown (sudheesh001)
+- Add a maven-central backend (Michael Simacek)
+- Indicate that anitya is py2 only (sudheesh001)
+- Appended UTC as timezone (Jinank Jain)
+- Update the drupal backends to use updates.drupal.org as source of info (Dave
+  Olsthoorn)
+
 * Thu Feb 04 2016 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.8.0-1
 - Update to 0.8.0
 - Include a dockerfile in the sources and adjust the README on how to use it
