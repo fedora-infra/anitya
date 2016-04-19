@@ -131,6 +131,11 @@ class GithubBackendtests(Modeltests):
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
+    def test_plexus_utils(self):
+        """ Regression test for issue #286 """
+        project = model.Project(version_url='codehaus-plexus/plexus-archiver')
+        version = backend.GithubBackend().get_version(project)
+        self.assertEqual(u'plexus-archiver-3.1.1', version)
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(GithubBackendtests)
