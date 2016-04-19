@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.9.0
+Version:        0.9.1
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -110,6 +110,10 @@ install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.i
 
 
 %changelog
+* Tue Apr 19 2016 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.9.1-1
+- Update to 0.9.1
+- Fix the stackage backend
+
 * Fri Apr 15 2016 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.9.0-1
 - Update to 0.9.0
 - Do not trigger the keyboard shortcut when in the search box (Prashant-Surya)
