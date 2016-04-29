@@ -112,13 +112,20 @@ def after_openid_login(resp):
     login was successful on the OpenID server.
     '''
     default = flask.url_for('index')
+    blacklist = APP.config['BLACKLISTED_USERS']
     if resp.identity_url:
+        next_url = flask.request.args.get('next', default)
         openid_url = resp.identity_url
+        if openid_url in blacklist or resp.email in blacklist:
+            flask.flash(
+                'We are very sorry but your account has been blocked from '
+                'logging in to this service.', 'error')
+            return flask.redirect(next_url)
+
         flask.session['openid'] = openid_url
         flask.session['fullname'] = resp.fullname
         flask.session['nickname'] = resp.nickname or resp.fullname
         flask.session['email'] = resp.email
-        next_url = flask.request.args.get('next', default)
         return flask.redirect(next_url)
     else:
         return flask.redirect(default)
