@@ -53,7 +53,7 @@ class AnityaLibtests(Modeltests):
             homepage='http://www.geany.org/',
             version_url='http://www.geany.org/Download/Releases',
             regex='DEFAULT',
-            user_mail='noreply@fedoraproject.org',
+            user_id='noreply@fedoraproject.org',
         )
 
         project_objs = anitya.lib.model.Project.all(self.session)
@@ -69,7 +69,7 @@ class AnityaLibtests(Modeltests):
             homepage='http://www.geany.org/',
             version_url='http://www.geany.org/Download/Releases',
             regex='DEFAULT',
-            user_mail='noreply@fedoraproject.org',
+            user_id='noreply@fedoraproject.org',
         )
 
         project_objs = anitya.lib.model.Project.all(self.session)
@@ -99,7 +99,7 @@ class AnityaLibtests(Modeltests):
             version_prefix=None,
             regex=None,
             insecure=False,
-            user_mail='noreply@fedoraproject.org')
+            user_id='noreply@fedoraproject.org')
 
         project_objs = anitya.lib.model.Project.all(self.session)
         self.assertEqual(len(project_objs), 3)
@@ -120,7 +120,7 @@ class AnityaLibtests(Modeltests):
             version_prefix=None,
             regex=project_objs[2].regex,
             insecure=False,
-            user_mail='noreply@fedoraproject.org',
+            user_id='noreply@fedoraproject.org',
         )
 
     def test_map_project(self):
@@ -138,7 +138,7 @@ class AnityaLibtests(Modeltests):
             project=project_obj,
             package_name='geany',
             distribution='CentOS',
-            user_mail='noreply@fedoraproject.org',
+            user_id='noreply@fedoraproject.org',
             old_package_name=None,
         )
         self.session.commit()
@@ -155,7 +155,7 @@ class AnityaLibtests(Modeltests):
             project=project_obj,
             package_name='geany2',
             distribution='CentOS',
-            user_mail='noreply@fedoraproject.org',
+            user_id='noreply@fedoraproject.org',
             old_package_name=None,
         )
         self.session.commit()
@@ -174,7 +174,7 @@ class AnityaLibtests(Modeltests):
             project=project_obj,
             package_name='geany3',
             distribution='Fedora',
-            user_mail='noreply@fedoraproject.org',
+            user_id='noreply@fedoraproject.org',
             old_package_name='geany',
             old_distro_name='CentOS',
         )
@@ -201,7 +201,7 @@ class AnityaLibtests(Modeltests):
             project=project_obj,
             package_name='geany2',
             distribution='CentOS',
-            user_mail='noreply@fedoraproject.org',
+            user_id='noreply@fedoraproject.org',
         )
 
 
