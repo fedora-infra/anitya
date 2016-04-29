@@ -452,6 +452,7 @@ def flag_project(project_id):
                 SESSION,
                 project=project,
                 reason=form.reason.data,
+                user_email=flask.g.auth.email,
                 user_id=flask.g.auth.openid,
             )
             flask.flash('Project flagged for admin review')
