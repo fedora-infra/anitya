@@ -275,13 +275,13 @@ def map_project(
     return pkg
 
 
-def flag_project(session, project, reason, user_id):
+def flag_project(session, project, reason, user_email, user_id):
     """ Flag a project in the database.
 
     """
 
     flag = anitya.lib.model.ProjectFlag(
-        user=user_id,
+        user=user_email,
         project=project,
         reason=reason)
 
