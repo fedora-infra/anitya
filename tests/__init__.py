@@ -197,7 +197,9 @@ def create_flagged_project(session):
         session,
         project,
         "This is a duplicate.",
-        "dgay@redhat.com")
+        "dgay@redhat.com",
+        "user_openid_id",
+    )
 
     session.add(flag)
 
