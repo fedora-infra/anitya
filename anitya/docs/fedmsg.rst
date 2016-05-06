@@ -15,7 +15,7 @@ it is as simple as:
 
 On Fedora ::
 
-  yum install fedmsg
+  dnf install fedmsg
 
 On Debian ::
 
