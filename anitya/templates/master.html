@@ -211,7 +211,7 @@
         .
         ©2013-2014 Red Hat, Inc., <a href="http://pingoured.fr">pingou</a>.
         {% if cron_status %}
-        Last check {{ cron_status.status }} at {{
+        Last check {{ cron_status.status }} at (UTC) {{
             cron_status.created_on.strftime('%Y-%m-%d %H:%M:%S') }}
         {% endif %}
         </p>
