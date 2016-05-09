@@ -62,3 +62,7 @@ label {
 .nav form {
   padding-top: 0.2em;
 }
+
+.logs-table-seperator {
+  margin-top: 15px;
+}
