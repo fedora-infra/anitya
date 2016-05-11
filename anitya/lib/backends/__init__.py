@@ -25,6 +25,11 @@ REGEX = b'%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
     '(?:minsrc|src|source|asc))?\.(?:tar|t[bglx]z|tbz2|zip)'
 
 
+# Use a common http session, so we don't have to go re-establishing https
+# connections over and over and over again.
+http_session = requests.session()
+
+
 def upstream_cmp(v1, v2):
     """ Compare two upstream versions
 
@@ -210,6 +215,26 @@ class BaseBackend(object):
         pass
 
     @classmethod
+    def check_feed(self):
+        ''' Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not all backends may support this.  It can be used to look for updates
+        much more quickly than scanning all known projects.
+
+        :return: a list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+        :return type: list
+        :raise AnityaPluginException: a
+            :class:`anitya.lib.exceptions.AnityaPluginException` exception
+            when the version cannot be retrieved correctly
+        :raise NotImplementedError:
+            :class:`NotImplementedError` exception when the backend does not
+            support batch updates.
+        '''
+        raise NotImplementedError()
+
+    @classmethod
     def get_ordered_versions(self, project):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, ordered from the oldest to the newest.
@@ -263,7 +288,7 @@ class BaseBackend(object):
                 'From': from_email,
             }
 
-            return requests.get(url, headers=headers, verify=not insecure)
+            return http_session.get(url, headers=headers, verify=not insecure)
 
 
 def get_versions_by_regex(url, regex, project, insecure=False):

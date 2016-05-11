@@ -133,6 +133,19 @@ class PypiBackendtests(Modeltests):
         obs = backend.PypiBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
+    def test_pypi_check_feed(self):
+        """ Test the check_feed method of the pypi backend. """
+        generator = backend.PypiBackend.check_feed()
+        items = list(generator)
+
+        self.assertEqual(items[0], (
+            'mkbrutus', 'https://pypi.python.org/pypi/mkbrutus',
+            'PyPI', '1.0.2a1'))
+        self.assertEqual(items[1], (
+            'ansible-lint', 'https://pypi.python.org/pypi/ansible-lint',
+            'PyPI', '3.0.0rc6'))
+        # etc...
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(PypiBackendtests)

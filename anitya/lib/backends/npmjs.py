@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2014-2016 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
+   Ralph Bean <rbean@redhat.com>
 
 """
-
 
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
@@ -92,3 +92,28 @@ class NpmjsBackend(BaseBackend):
             raise AnityaPluginException('No versions found at %s' % url)
 
         return data['versions'].keys()
+
+    @classmethod
+    def check_feed(cls):
+        ''' Return a generator over the latest 40 uploads to npmjs.org
+
+        by querying an weird JSON endpoint.
+        '''
+
+        url = 'https://registry.npmjs.org/-/all/static/today.json'
+
+        try:
+            response = cls.call_url(url)
+        except Exception:  # pragma: no cover
+            raise AnityaPluginException('Could not contact %s' % url)
+
+        try:
+            data = response.json()
+        except Exception:  # pragma: no cover
+            raise AnityaPluginException('No JSON returned by %s' % url)
+
+        for item in data[:40]:
+            for version in item.get('versions', []):
+                name = item['name']
+                homepage = 'http://npmjs.org/package/%s' % name
+                yield name, homepage, cls.name, version

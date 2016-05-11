@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2014-2016 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
+   Ralph Bean <rbean@redhat.com>
 
 """
 
+import xml2dict
 
-from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
+from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 
 
@@ -92,3 +94,30 @@ class PeclBackend(BaseBackend):
                 'No versions found for %s' % project.name.lower())
 
         return versions
+
+    @classmethod
+    def check_feed(cls):
+        ''' Return a generator over the latest 10 uploads to PECL
+
+        by querying an RSS feed.
+        '''
+
+        url = 'https://pecl.php.net/feeds/latest.rss'
+
+        try:
+            response = cls.call_url(url)
+        except Exception:  # pragma: no cover
+            raise AnityaPluginException('Could not contact %s' % url)
+
+        try:
+            parser = xml2dict.XML2Dict()
+            data = parser.fromstring(response.text)
+        except Exception:  # pragma: no cover
+            raise AnityaPluginException('No XML returned by %s' % url)
+
+        items = data['RDF']['item']
+        for entry in items:
+            title = entry['title']['value']
+            name, version = title.rsplit(None, 1)
+            homepage = 'http://pecl.php.net/package/%s' % name
+            yield name, homepage, cls.name, version

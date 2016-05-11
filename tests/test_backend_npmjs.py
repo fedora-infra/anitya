@@ -148,6 +148,19 @@ class NpmjsBackendtests(Modeltests):
         obs = backend.NpmjsBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
+    def test_npmjs_check_feed(self):
+        """ Test the check_feed method of the npmjs backend. """
+        generator = backend.NpmjsBackend.check_feed()
+        items = list(generator)
+
+        self.assertEqual(items[0], (
+            '0-_-0', 'http://npmjs.org/package/0-_-0', 'npmjs', '1.0.0'))
+        self.assertEqual(items[1], (
+            '111-react-simpleform',
+            'http://npmjs.org/package/111-react-simpleform',
+            'npmjs', '1.2.0'))
+        # etc...
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(NpmjsBackendtests)

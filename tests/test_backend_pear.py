@@ -109,6 +109,19 @@ class PearBackendtests(Modeltests):
             project
         )
 
+    def test_pear_check_feed(self):
+        """ Test the check_feed method of the pear backend. """
+        generator = backend.PearBackend.check_feed()
+        items = list(generator)
+
+        self.assertEqual(items[0], (
+            'File_Therion', 'http://pear.php.net/package/File_Therion',
+            'PEAR', '0.1.0'))
+        self.assertEqual(items[1], (
+            'Net_URL2', 'http://pear.php.net/package/Net_URL2',
+            'PEAR', '2.1.2'))
+        # etc...
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(PearBackendtests)
