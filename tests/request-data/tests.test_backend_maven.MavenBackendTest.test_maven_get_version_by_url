@@ -1,0 +1,49 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.9.1 at upstream-monitoring.org]
+    method: GET
+    uri: http://repo1.maven.org/maven2/org/codehaus/plexus/plexus-maven-plugin/
+  response:
+    body: {string: !!python/unicode "<html>\r\n<head><title>Index of /maven2/org/codehaus/plexus/plexus-maven-plugin/</title></head>\r\n<body
+        bgcolor=\"white\">\r\n<h1>Index of /maven2/org/codehaus/plexus/plexus-maven-plugin/</h1><hr><pre><a
+        href=\"../\">../</a>\r\n<a href=\"1.1/\">1.1/</a>                                               21-Apr-2010
+        08:41                   -\r\n<a href=\"1.1-alpha-7/\">1.1-alpha-7/</a>                                       21-Apr-2010
+        08:41                   -\r\n<a href=\"1.1.1/\">1.1.1/</a>                                             21-Apr-2010
+        08:41                   -\r\n<a href=\"1.1.2/\">1.1.2/</a>                                             21-Apr-2010
+        08:41                   -\r\n<a href=\"1.1.3/\">1.1.3/</a>                                             21-Apr-2010
+        08:41                   -\r\n<a href=\"1.2/\">1.2/</a>                                               21-Apr-2010
+        08:41                   -\r\n<a href=\"1.3/\">1.3/</a>                                               21-Apr-2010
+        08:41                   -\r\n<a href=\"1.3.1/\">1.3.1/</a>                                             21-Apr-2010
+        08:41                   -\r\n<a href=\"1.3.2/\">1.3.2/</a>                                             21-Apr-2010
+        08:41                   -\r\n<a href=\"1.3.3/\">1.3.3/</a>                                             21-Apr-2010
+        08:41                   -\r\n<a href=\"1.3.4/\">1.3.4/</a>                                             21-Apr-2010
+        08:41                   -\r\n<a href=\"1.3.5/\">1.3.5/</a>                                             21-Apr-2010
+        08:41                   -\r\n<a href=\"1.3.6/\">1.3.6/</a>                                             21-Apr-2010
+        08:41                   -\r\n<a href=\"1.3.7/\">1.3.7/</a>                                             21-Apr-2010
+        08:41                   -\r\n<a href=\"1.3.8/\">1.3.8/</a>                                             21-Apr-2010
+        08:41                   -\r\n<a href=\"maven-metadata.xml\">maven-metadata.xml</a>
+        \                                21-Apr-2010 08:41                 779\r\n<a
+        href=\"maven-metadata.xml.md5\">maven-metadata.xml.md5</a>                             21-Apr-2010
+        08:41                  32\r\n<a href=\"maven-metadata.xml.sha1\">maven-metadata.xml.sha1</a>
+        \                           21-Apr-2010 08:41                  40\r\n</pre><hr></body>\r\n</html>\r\n"}
+    headers:
+      accept-ranges: [bytes]
+      age: ['1']
+      connection: [keep-alive]
+      content-length: ['2288']
+      content-type: [text/html]
+      date: ['Wed, 11 May 2016 00:23:26 GMT']
+      fastly-debug-digest: [039d54c402b77fbf12eb1d8049063ff7f90b548e4431affe6a15db1ea7c23950]
+      via: [1.1 varnish, 1.1 varnish]
+      x-cache: ['HIT, HIT']
+      x-cache-hits: ['1, 1']
+      x-served-by: ['cache-iad2131-IAD, cache-lax1427-LAX']
+      x-timer: ['S1462926206.003065,VS0,VE0']
+    status: {code: 200, message: OK}
+version: 1
