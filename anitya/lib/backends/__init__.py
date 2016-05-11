@@ -25,6 +25,11 @@ REGEX = b'%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
     '(?:minsrc|src|source|asc))?\.(?:tar|t[bglx]z|tbz2|zip)'
 
 
+# Use a common http session, so we don't have to go re-establishing https
+# connections over and over and over again.
+http_session = requests.session()
+
+
 def upstream_cmp(v1, v2):
     """ Compare two upstream versions
 
@@ -263,7 +268,7 @@ class BaseBackend(object):
                 'From': from_email,
             }
 
-            return requests.get(url, headers=headers, verify=not insecure)
+            return http_session.get(url, headers=headers, verify=not insecure)
 
 
 def get_versions_by_regex(url, regex, project, insecure=False):
