@@ -416,13 +416,13 @@ class FlaskAdminTest(Modeltests):
             self.assertTrue('<h1>Logs</h1>' in output.data)
             self.assertTrue('added the distro named: Debian' in output.data)
 
-            output = c.get('/logs?from_date=%s' % datetime.date.today())
+            output = c.get('/logs?from_date=%s' % datetime.datetime.utcnow().date())
             self.assertEqual(output.status_code, 200)
             self.assertTrue('<h1>Logs</h1>' in output.data)
             self.assertTrue('added the distro named: Debian' in output.data)
 
             # the Debian log shouldn't show up if the "from date" is tomorrow
-            tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+            tomorrow = datetime.datetime.utcnow().date() + datetime.timedelta(days=1)
             output = c.get('/logs?from_date=%s' % tomorrow)
             self.assertEqual(output.status_code, 200)
             self.assertTrue('<h1>Logs</h1>' in output.data)
@@ -467,19 +467,19 @@ class FlaskAdminTest(Modeltests):
             self.assertTrue('<h1>Flags</h1>' in output.data)
             self.assertTrue('geany' in output.data)
 
-            output = c.get('/flags?from_date=%s' % datetime.date.today())
+            output = c.get('/flags?from_date=%s' % datetime.datetime.utcnow().date())
             self.assertEqual(output.status_code, 200)
             self.assertTrue('<h1>Flags</h1>' in output.data)
             self.assertTrue('geany' in output.data)
 
             # geany shouldn't show up if the "from date" is tomorrow
-            tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+            tomorrow = datetime.datetime.utcnow().date() + datetime.timedelta(days=1)
             output = c.get('/flags?from_date=%s' % tomorrow)
             self.assertEqual(output.status_code, 200)
             self.assertTrue('<h1>Flags</h1>' in output.data)
             self.assertFalse('geany' in output.data)
 
-            output = c.get('/flags?from_date=%s&project=geany' % datetime.date.today())
+            output = c.get('/flags?from_date=%s&project=geany' % datetime.datetime.utcnow().date())
             self.assertEqual(output.status_code, 200)
             self.assertTrue('<h1>Flags</h1>' in output.data)
             self.assertTrue('geany' in output.data)

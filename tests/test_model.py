@@ -79,7 +79,7 @@ class Modeltests(Modeltests):
         logs = model.Log.search(self.session, count=True)
         self.assertEqual(logs, 3)
 
-        from_date = datetime.date.today() - datetime.timedelta(days=1)
+        from_date = datetime.datetime.utcnow().date() - datetime.timedelta(days=1)
         logs = model.Log.search(
             self.session, from_date=from_date, offset=1, limit=1)
         self.assertEqual(len(logs), 1)
