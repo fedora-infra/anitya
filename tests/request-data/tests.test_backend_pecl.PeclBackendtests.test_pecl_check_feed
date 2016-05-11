@@ -1,0 +1,71 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Cookie: [PHPSESSID=niqb87d29glb8nrp6r0ccmh127]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.9.1 at upstream-monitoring.org]
+    method: GET
+    uri: https://pecl.php.net/feeds/latest.rss
+  response:
+    body:
+      string: !!binary |
+        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
+        30Jvzj+2/wd5dVfqLhkAAA==
+    headers:
+      cache-control: ['no-store, no-cache, must-revalidate, post-check=0, pre-check=0']
+      connection: [Keep-Alive]
+      content-encoding: [gzip]
+      content-length: ['2125']
+      content-type: [text/xml; charset=utf-8]
+      date: ['Wed, 11 May 2016 03:36:54 GMT']
+      expires: ['Thu, 19 Nov 1981 08:52:00 GMT']
+      keep-alive: ['timeout=5, max=100']
+      pragma: [no-cache]
+      server: [Apache]
+      strict-transport-security: [max-age=31536000]
+      vary: [Accept-Encoding]
+      x-content-type-options: [nosniff]
+      x-frame-options: [sameorigin]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1

@@ -1,0 +1,412 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.9.1 at upstream-monitoring.org]
+    method: GET
+    uri: http://search.cpan.org/uploads.rdf
+  response:
+    body: {string: !!python/unicode "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<rdf:RDF\n
+        xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n xmlns=\"http://purl.org/rss/1.0/\"\n
+        xmlns:admin=\"http://webns.net/mvcb/\"\n xmlns:content=\"http://purl.org/rss/1.0/modules/content/\"\n
+        xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n xmlns:syn=\"http://purl.org/rss/1.0/modules/syndication/\"\n
+        xmlns:taxo=\"http://purl.org/rss/1.0/modules/taxonomy/\"\n>\n\n<channel rdf:about=\"http://search.cpan.org/\">\n<title>search.cpan.org</title>\n<link>http://search.cpan.org/</link>\n<description>The
+        CPAN search site</description>\n<dc:date>2016-05-11T03:36+00:00</dc:date>\n<syn:updateBase>1901-01-01T00:00+00:00</syn:updateBase>\n<syn:updateFrequency>1</syn:updateFrequency>\n<syn:updatePeriod>hourly</syn:updatePeriod>\n<items>\n
+        <rdf:Seq>\n  <rdf:li rdf:resource=\"http://search.cpan.org/~plicease/Dist-Zilla-PluginBundle-Author-Plicease-2.06/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~plicease/Dist-Zilla-Plugin-Author-Plicease-2.06/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~rsavage/GraphViz2-Marpa-2.08/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~jandrew/Spreadsheet-XLSX-Reader-LibXML-v0.42.2/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~rsavage/String-Dirify-1.03/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~canid/Yote-Server-1.04/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~canid/Yote-1.38/\" />\n
+        \ <rdf:li rdf:resource=\"http://search.cpan.org/~qrry/Sentry-Raven-1.04/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~shlomif/WWW-LinkChecker-Internal-v0.4.0/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mik/CryptX-0.034/\" />\n
+        \ <rdf:li rdf:resource=\"http://search.cpan.org/~jandrew/Spreadsheet-Reader-ExcelXML-v0.2.0/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mongodb/MongoDB-v1.4.0/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~srezic/CPAN-Plugin-Sysdeps-0.06/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~drolsky/MooseX-Getopt-0.70/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~canid/Lock-Server-1.64/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~jhthorsen/Mojolicious-Plugin-AssetPack-1.09/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~drolsky/Test-Class-Moose-0.72-TRIAL/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~canid/Lock-Server-1.63/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~aspose/AsposePdfCloud-PdfApi-1.00/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mlawren/OptArgs2-0.0.1_2/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~weters/Text-CSV-Easy-0.54/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~corion/HTML-Selector-XPath-0.19/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~pevans/Tickit-0.56/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~salva/Net-SSH2-0.59_19/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~pevans/Tickit-Widgets-0.23/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~perlancar/Rinci-1.1.80/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~perlancar/Perinci-Sub-Util-PropertyModule-0.45/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~perlancar/Perinci-Sub-PropertyUtil-0.11/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~perlancar/Perinci-Sub-Normalize-0.17/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~perlancar/Perinci-Sub-FeatureUtil-0.04/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~perlancar/Perinci-Sub-DepUtil-0.04/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~plicease/Test-Alien-0.07/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mche/Mojolicious-Plugin-RoutesAuthDBI-0.441/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mche/Mojolicious-Plugin-RoutesAuthDBI-0.440/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~zdm/Pcore-Nginx-v0.9.1/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~zdm/Pcore-v0.23.6/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~hmbrand/Config-Perl-V-0.26/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~exodist/Test2-Tools-EventDumper-0.000007/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~zdm/Pcore-API-Whois-v0.1.1/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~exodist/Test2-Suite-0.000030/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~exodist/Test2-AsyncSubtest-0.000015/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~exodist/Test-Simple-1.302015/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~zdm/Pcore-API-Whois-v0.1.0/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mdom/dategrep-0.55/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~perljedi/Test-Mock-Wrapper-0.18/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~gonzus/URI-XSEscape-0.000007/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~wangq/App-Fasops-0.3.13/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mche/DBIx-POS-Template-0.0001/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~wangq/AlignDB-IntSpan-1.0.7/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~nics/Catmandu-1.01/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mrf/Dredd-Hooks-0.05/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~fglock/Perlito5-9.021/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~manwar/Date-Utils-0.17/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~taniguchi/Number-Phone-JP-0.20160502/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~reneeb/Module-OTRS-CoreList-0.12/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~melmothx/Text-Amuse-Compile-0.57/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mik/Crypt-SRP-0.016/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mche/DBIx-POS-Template-0.00006/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mche/DBIx-POS-Template-0.00005/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~edf/Geo-Address-Formatter-1.56/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~bkb/Test-CGI-External-0.16/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~shantanu/Dist-Zilla-PluginBundle-SHANTANU-0.42/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~shantanu/Printer-ESCPOS-0.025/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~cfaber/Config-Simple-Conf-1.8/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mithaldu/Acme-MITHALDU-XSGrabBag-1.161310/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~rsavage/WWW-Scraper-Wikipedia-ISO3166-1.04/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~starlight/TAP-Formatter-Bamboo-0.04_02/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~rsavage/WWW-Scraper-Wikipedia-ISO3166-1.03/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~diederich/IPC-Transit-1.161300/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~bingos/ExtUtils-MakeMaker-7.17_02/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~vyf/Ouroboros-0.08/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~choroba/Syntax-Construct-0.23/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~choroba/Syntax-Construct-0.22/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~architek/WWW-FBX-0.11/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~cymon/Dancer2-Plugin-Multilang-1.1.2/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~enell/POD2-ES-5.22.0.2/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mhx/IPC-SysV-2.07/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~jhthorsen/Mojolicious-Plugin-AssetPack-1.08/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mik/CryptX-0.033/\" />\n
+        \ <rdf:li rdf:resource=\"http://search.cpan.org/~mob/Forks-Super-0.82/\" />\n
+        \ <rdf:li rdf:resource=\"http://search.cpan.org/~drolsky/Test-Class-Moose-0.71/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~bingos/ExtUtils-MakeMaker-7.17_01/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~ddumont/Config-Model-Systemd-0.005/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~drolsky/Test-Class-Moose-0.70/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~plicease/Alien-CMake-0.08/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~tosh/Capstone-0.5/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~plicease/PkgConfig-0.12026/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~gmax/MySQL-Sandbox-3.1.06/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~mlawren/OptArgs2-0.0.1_1/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~rkelsch/Graphics-Framebuffer-5.78/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~oalders/HTTP-BrowserDetect-3.13/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~melmothx/Text-Amuse-Compile-0.56/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~sjdy/Mojo-IRC-Server-Chinese-1.7.8/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~melmothx/Text-Amuse-0.61/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~vroom/WebService-Ooyala-0.03/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~tpoder/Net-NfDump-1.20/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~lucas/Dancer2-Plugin-Pg-0.05/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~bingos/Module-CoreList-5.20160507/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~bingos/CPAN-Perl-Releases-2.76/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~rjbs/perl-5.25.0/\" />\n
+        \ <rdf:li rdf:resource=\"http://search.cpan.org/~rjbs/perl-5.24.0/\" />\n
+        \ <rdf:li rdf:resource=\"http://search.cpan.org/~perlancar/Devel-DieHandler-DumpINC-0.002/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~perlancar/Devel-DieHandler-DumpINC-0.001/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~manwar/Task-Calendar-0.17/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~starlight/TAP-Formatter-Bamboo-0.04_01/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~salva/Net-SSH2-0.59_18/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~rurban/B-C-1.54_03/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~perlancar/Perinci-CmdLine-Lite-1.54/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~perlancar/Complete-File-0.40/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~srezic/CPAN-Plugin-Sysdeps-0.05/\"
+        />\n  <rdf:li rdf:resource=\"http://search.cpan.org/~chromatic/Mojolicious-Plugin-UnicodeNormalize-1.20160509/\"
+        />\n </rdf:Seq>\n</items>\n<image rdf:resource=\"http://search.cpan.org/s/img/cpanrdf.jpg\"
+        />\n</channel>\n<image rdf:about=\"http://search.cpan.org/s/img/cpanrdf.jpg\">\n<title>search.cpan.org</title>\n<url>http://search.cpan.org/s/img/cpanrdf.jpg</url>\n<link>http://search.cpan.org</link>\n</image>\n<item
+        rdf:about=\"http://search.cpan.org/~plicease/Dist-Zilla-PluginBundle-Author-Plicease-2.06/\">\n<title>Dist-Zilla-PluginBundle-Author-Plicease-2.06</title>\n<link>http://search.cpan.org/~plicease/Dist-Zilla-PluginBundle-Author-Plicease-2.06/</link>\n<description>Dist::Zilla
+        plugin bundle used by Plicease</description>\n<dc:creator>&#x27E6;Graham Ollis&#x27E7;</dc:creator>\n<dc:date>2016-05-11T01:26+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~plicease/Dist-Zilla-Plugin-Author-Plicease-2.06/\">\n<title>Dist-Zilla-Plugin-Author-Plicease-2.06</title>\n<link>http://search.cpan.org/~plicease/Dist-Zilla-Plugin-Author-Plicease-2.06/</link>\n<description>Dist::Zilla
+        plugins used by Plicease</description>\n<dc:creator>&#x27E6;Graham Ollis&#x27E7;</dc:creator>\n<dc:date>2016-05-11T01:25+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~rsavage/GraphViz2-Marpa-2.08/\">\n<title>GraphViz2-Marpa-2.08</title>\n<link>http://search.cpan.org/~rsavage/GraphViz2-Marpa-2.08/</link>\n<description>A
+        Marpa-based parser for Graphviz dot files</description>\n<dc:creator>Ron Savage</dc:creator>\n<dc:date>2016-05-11T01:07+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~jandrew/Spreadsheet-XLSX-Reader-LibXML-v0.42.2/\">\n<title>Spreadsheet-XLSX-Reader-LibXML-v0.42.2</title>\n<link>http://search.cpan.org/~jandrew/Spreadsheet-XLSX-Reader-LibXML-v0.42.2/</link>\n<description>Read
+        xlsx spreadsheet files with LibXML</description>\n<dc:creator>Jed Lund</dc:creator>\n<dc:date>2016-05-11T00:24+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~rsavage/String-Dirify-1.03/\">\n<title>String-Dirify-1.03</title>\n<link>http://search.cpan.org/~rsavage/String-Dirify-1.03/</link>\n<description>Convert
+        a string into a directory name</description>\n<dc:creator>Ron Savage</dc:creator>\n<dc:date>2016-05-10T23:42+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~canid/Yote-Server-1.04/\">\n<title>Yote-Server-1.04</title>\n<link>http://search.cpan.org/~canid/Yote-Server-1.04/</link>\n<description>Serve
+        up marshaled perl objects in javascript</description>\n<dc:creator>Eric Wolf</dc:creator>\n<dc:date>2016-05-10T23:16+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~canid/Yote-1.38/\">\n<title>Yote-1.38</title>\n<link>http://search.cpan.org/~canid/Yote-1.38/</link>\n<description>Persistant
+        Perl container objects in a directed graph of lazilly loaded nodes.</description>\n<dc:creator>Eric
+        Wolf</dc:creator>\n<dc:date>2016-05-10T23:16+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~qrry/Sentry-Raven-1.04/\">\n<title>Sentry-Raven-1.04</title>\n<link>http://search.cpan.org/~qrry/Sentry-Raven-1.04/</link>\n<description>A
+        perl sentry client</description>\n<dc:creator>Matt Harrington</dc:creator>\n<dc:date>2016-05-10T22:57+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~shlomif/WWW-LinkChecker-Internal-v0.4.0/\">\n<title>WWW-LinkChecker-Internal-v0.4.0</title>\n<link>http://search.cpan.org/~shlomif/WWW-LinkChecker-Internal-v0.4.0/</link>\n<description>Check
+        a web site for broken internal links.</description>\n<dc:creator>Shlomi Fish</dc:creator>\n<dc:date>2016-05-10T22:46+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mik/CryptX-0.034/\">\n<title>CryptX-0.034</title>\n<link>http://search.cpan.org/~mik/CryptX-0.034/</link>\n<description>Crypto
+        toolkit</description>\n<dc:creator>Karel Miko</dc:creator>\n<dc:date>2016-05-10T22:31+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~jandrew/Spreadsheet-Reader-ExcelXML-v0.2.0/\">\n<title>Spreadsheet-Reader-ExcelXML-v0.2.0</title>\n<link>http://search.cpan.org/~jandrew/Spreadsheet-Reader-ExcelXML-v0.2.0/</link>\n<description>Read
+        xlsx/xlsm/xml extention Excel files</description>\n<dc:creator>Jed Lund</dc:creator>\n<dc:date>2016-05-10T22:24+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mongodb/MongoDB-v1.4.0/\">\n<title>MongoDB-v1.4.0</title>\n<link>http://search.cpan.org/~mongodb/MongoDB-v1.4.0/</link>\n<description>Official
+        MongoDB Driver for Perl</description>\n<dc:creator>MongoDB Inc</dc:creator>\n<dc:date>2016-05-10T21:02+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~srezic/CPAN-Plugin-Sysdeps-0.06/\">\n<title>CPAN-Plugin-Sysdeps-0.06</title>\n<link>http://search.cpan.org/~srezic/CPAN-Plugin-Sysdeps-0.06/</link>\n<description>CPAN.pm
+        plugin for installing external dependencies</description>\n<dc:creator>Slaven
+        Rezi&#x107;</dc:creator>\n<dc:date>2016-05-10T20:48+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~drolsky/MooseX-Getopt-0.70/\">\n<title>MooseX-Getopt-0.70</title>\n<link>http://search.cpan.org/~drolsky/MooseX-Getopt-0.70/</link>\n<description>A
+        Moose role for processing command line options</description>\n<dc:creator>Dave
+        Rolsky</dc:creator>\n<dc:date>2016-05-10T20:34+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~canid/Lock-Server-1.64/\">\n<title>Lock-Server-1.64</title>\n<link>http://search.cpan.org/~canid/Lock-Server-1.64/</link>\n<description>Light-weight
+        socket based resource locking manager.</description>\n<dc:creator>Eric Wolf</dc:creator>\n<dc:date>2016-05-10T20:15+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~jhthorsen/Mojolicious-Plugin-AssetPack-1.09/\">\n<title>Mojolicious-Plugin-AssetPack-1.09</title>\n<link>http://search.cpan.org/~jhthorsen/Mojolicious-Plugin-AssetPack-1.09/</link>\n<description>Compress
+        and convert css, less, sass, javascript and coffeescript files</description>\n<dc:creator>Jan
+        Henning Thorsen</dc:creator>\n<dc:date>2016-05-10T19:36+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~drolsky/Test-Class-Moose-0.72-TRIAL/\">\n<title>Test-Class-Moose-0.72-TRIAL</title>\n<link>http://search.cpan.org/~drolsky/Test-Class-Moose-0.72-TRIAL/</link>\n<description>Serious
+        testing for serious Perl</description>\n<dc:creator>Dave Rolsky</dc:creator>\n<dc:date>2016-05-10T19:27+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~canid/Lock-Server-1.63/\">\n<title>Lock-Server-1.63</title>\n<link>http://search.cpan.org/~canid/Lock-Server-1.63/</link>\n<description>Light-weight
+        socket based resource locking manager.</description>\n<dc:creator>Eric Wolf</dc:creator>\n<dc:date>2016-05-10T18:59+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~aspose/AsposePdfCloud-PdfApi-1.00/\">\n<title>AsposePdfCloud-PdfApi-1.00</title>\n<link>http://search.cpan.org/~aspose/AsposePdfCloud-PdfApi-1.00/</link>\n<description>Aspose.Pdf
+        Cloud SDK for Perl</description>\n<dc:creator>Aspose Total</dc:creator>\n<dc:date>2016-05-10T18:29+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mlawren/OptArgs2-0.0.1_2/\">\n<title>OptArgs2-0.0.1_2</title>\n<link>http://search.cpan.org/~mlawren/OptArgs2-0.0.1_2/</link>\n<description>command-line
+        argument and option processor</description>\n<dc:creator>Mark Lawrence</dc:creator>\n<dc:date>2016-05-10T17:46+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~weters/Text-CSV-Easy-0.54/\">\n<title>Text-CSV-Easy-0.54</title>\n<link>http://search.cpan.org/~weters/Text-CSV-Easy-0.54/</link>\n<description>Easy
+        CSV parsing and building</description>\n<dc:creator>Thomas Peters</dc:creator>\n<dc:date>2016-05-10T17:44+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~corion/HTML-Selector-XPath-0.19/\">\n<title>HTML-Selector-XPath-0.19</title>\n<link>http://search.cpan.org/~corion/HTML-Selector-XPath-0.19/</link>\n<description>CSS
+        Selector to XPath compiler</description>\n<dc:creator>Max Maischein</dc:creator>\n<dc:date>2016-05-10T17:29+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~pevans/Tickit-0.56/\">\n<title>Tickit-0.56</title>\n<link>http://search.cpan.org/~pevans/Tickit-0.56/</link>\n<description>Terminal
+        Interface Construction KIT</description>\n<dc:creator>Paul Evans</dc:creator>\n<dc:date>2016-05-10T17:13+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~salva/Net-SSH2-0.59_19/\">\n<title>Net-SSH2-0.59_19</title>\n<link>http://search.cpan.org/~salva/Net-SSH2-0.59_19/</link>\n<description>Support
+        for the SSH 2 protocol via libssh2.</description>\n<dc:creator>Salvador Fandi&#xF1;o
+        Garc&#xED;a</dc:creator>\n<dc:date>2016-05-10T17:02+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~pevans/Tickit-Widgets-0.23/\">\n<title>Tickit-Widgets-0.23</title>\n<link>http://search.cpan.org/~pevans/Tickit-Widgets-0.23/</link>\n<description>a
+        collection of Tickit::Widget implementations</description>\n<dc:creator>Paul
+        Evans</dc:creator>\n<dc:date>2016-05-10T16:54+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~perlancar/Rinci-1.1.80/\">\n<title>Rinci-1.1.80</title>\n<link>http://search.cpan.org/~perlancar/Rinci-1.1.80/</link>\n<description>Language-neutral
+        metadata for your code</description>\n<dc:creator>perlancar</dc:creator>\n<dc:date>2016-05-10T16:39+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~perlancar/Perinci-Sub-Util-PropertyModule-0.45/\">\n<title>Perinci-Sub-Util-PropertyModule-0.45</title>\n<link>http://search.cpan.org/~perlancar/Perinci-Sub-Util-PropertyModule-0.45/</link>\n<description>Given
+        a Rinci function metadata, find what property modules are required</description>\n<dc:creator>perlancar</dc:creator>\n<dc:date>2016-05-10T16:38+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~perlancar/Perinci-Sub-PropertyUtil-0.11/\">\n<title>Perinci-Sub-PropertyUtil-0.11</title>\n<link>http://search.cpan.org/~perlancar/Perinci-Sub-PropertyUtil-0.11/</link>\n<description>Utility
+        routines for Perinci::Sub::Property::* modules</description>\n<dc:creator>perlancar</dc:creator>\n<dc:date>2016-05-10T16:38+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~perlancar/Perinci-Sub-Normalize-0.17/\">\n<title>Perinci-Sub-Normalize-0.17</title>\n<link>http://search.cpan.org/~perlancar/Perinci-Sub-Normalize-0.17/</link>\n<description>Normalize
+        Rinci function metadata</description>\n<dc:creator>perlancar</dc:creator>\n<dc:date>2016-05-10T16:37+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~perlancar/Perinci-Sub-FeatureUtil-0.04/\">\n<title>Perinci-Sub-FeatureUtil-0.04</title>\n<link>http://search.cpan.org/~perlancar/Perinci-Sub-FeatureUtil-0.04/</link>\n<description>Utility
+        routines for Perinci::Sub::Feature::* modules</description>\n<dc:creator>perlancar</dc:creator>\n<dc:date>2016-05-10T16:37+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~perlancar/Perinci-Sub-DepUtil-0.04/\">\n<title>Perinci-Sub-DepUtil-0.04</title>\n<link>http://search.cpan.org/~perlancar/Perinci-Sub-DepUtil-0.04/</link>\n<description>Utility
+        routines for Perinci::Sub::Dep::* modules</description>\n<dc:creator>perlancar</dc:creator>\n<dc:date>2016-05-10T16:37+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~plicease/Test-Alien-0.07/\">\n<title>Test-Alien-0.07</title>\n<link>http://search.cpan.org/~plicease/Test-Alien-0.07/</link>\n<description>Testing
+        tools for Alien modules</description>\n<dc:creator>&#x27E6;Graham Ollis&#x27E7;</dc:creator>\n<dc:date>2016-05-10T15:34+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mche/Mojolicious-Plugin-RoutesAuthDBI-0.441/\">\n<title>Mojolicious-Plugin-RoutesAuthDBI-0.441</title>\n<link>http://search.cpan.org/~mche/Mojolicious-Plugin-RoutesAuthDBI-0.441/</link>\n<description>from
+        DBI sql-tables does generate routes, make authentication and make restrict
+        access (authorization) to request. Plugin makes an auth operations throught
+        the plugin L&#x3C;Mojolicious::Plugin::Authentica</description>\n<dc:creator>&#x41C;&#x438;&#x445;&#x430;&#x438;&#x43B;
+        &#x427;&#x435;</dc:creator>\n<dc:date>2016-05-10T14:40+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mche/Mojolicious-Plugin-RoutesAuthDBI-0.440/\">\n<title>Mojolicious-Plugin-RoutesAuthDBI-0.440</title>\n<link>http://search.cpan.org/~mche/Mojolicious-Plugin-RoutesAuthDBI-0.440/</link>\n<description>from
+        DBI sql-tables does generate routes, make authentication and make restrict
+        access (authorization) to request. Plugin makes an auth operations throught
+        the plugin L&#x3C;Mojolicious::Plugin::Authentica</description>\n<dc:creator>&#x41C;&#x438;&#x445;&#x430;&#x438;&#x43B;
+        &#x427;&#x435;</dc:creator>\n<dc:date>2016-05-10T14:23+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~zdm/Pcore-Nginx-v0.9.1/\">\n<title>Pcore-Nginx-v0.9.1</title>\n<link>http://search.cpan.org/~zdm/Pcore-Nginx-v0.9.1/</link>\n<description>Pcore
+        nginx application</description>\n<dc:creator>Dmytro Zagashev</dc:creator>\n<dc:date>2016-05-10T14:21+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~zdm/Pcore-v0.23.6/\">\n<title>Pcore-v0.23.6</title>\n<link>http://search.cpan.org/~zdm/Pcore-v0.23.6/</link>\n<description>perl
+        applications development environment</description>\n<dc:creator>Dmytro Zagashev</dc:creator>\n<dc:date>2016-05-10T14:19+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~hmbrand/Config-Perl-V-0.26/\">\n<title>Config-Perl-V-0.26</title>\n<link>http://search.cpan.org/~hmbrand/Config-Perl-V-0.26/</link>\n<description>Structured
+        data retrieval of perl -V output</description>\n<dc:creator>H.Merijn Brand</dc:creator>\n<dc:date>2016-05-10T14:18+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~exodist/Test2-Tools-EventDumper-0.000007/\">\n<title>Test2-Tools-EventDumper-0.000007</title>\n<link>http://search.cpan.org/~exodist/Test2-Tools-EventDumper-0.000007/</link>\n<description>Tool
+        for dumping Test2::Event structures.</description>\n<dc:creator>Chad Granum</dc:creator>\n<dc:date>2016-05-10T14:18+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~zdm/Pcore-API-Whois-v0.1.1/\">\n<title>Pcore-API-Whois-v0.1.1</title>\n<link>http://search.cpan.org/~zdm/Pcore-API-Whois-v0.1.1/</link>\n<description></description>\n<dc:creator>Dmytro
+        Zagashev</dc:creator>\n<dc:date>2016-05-10T14:17+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~exodist/Test2-Suite-0.000030/\">\n<title>Test2-Suite-0.000030</title>\n<link>http://search.cpan.org/~exodist/Test2-Suite-0.000030/</link>\n<description>Distribution
+        with a rich set of tools built upon the Test2 framework.</description>\n<dc:creator>Chad
+        Granum</dc:creator>\n<dc:date>2016-05-10T14:16+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~exodist/Test2-AsyncSubtest-0.000015/\">\n<title>Test2-AsyncSubtest-0.000015</title>\n<link>http://search.cpan.org/~exodist/Test2-AsyncSubtest-0.000015/</link>\n<description>Object
+        representing an async subtest.</description>\n<dc:creator>Chad Granum</dc:creator>\n<dc:date>2016-05-10T14:16+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~exodist/Test-Simple-1.302015/\">\n<title>Test-Simple-1.302015</title>\n<link>http://search.cpan.org/~exodist/Test-Simple-1.302015/</link>\n<description>Basic
+        utilities for writing tests.</description>\n<dc:creator>Chad Granum</dc:creator>\n<dc:date>2016-05-10T14:16+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~zdm/Pcore-API-Whois-v0.1.0/\">\n<title>Pcore-API-Whois-v0.1.0</title>\n<link>http://search.cpan.org/~zdm/Pcore-API-Whois-v0.1.0/</link>\n<description></description>\n<dc:creator>Dmytro
+        Zagashev</dc:creator>\n<dc:date>2016-05-10T13:59+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mdom/dategrep-0.55/\">\n<title>dategrep-0.55</title>\n<link>http://search.cpan.org/~mdom/dategrep-0.55/</link>\n<description>grep
+        for dates</description>\n<dc:creator>Mario Domg&#xF6;rgen</dc:creator>\n<dc:date>2016-05-10T13:56+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~perljedi/Test-Mock-Wrapper-0.18/\">\n<title>Test-Mock-Wrapper-0.18</title>\n<link>http://search.cpan.org/~perljedi/Test-Mock-Wrapper-0.18/</link>\n<description>Flexible
+        and prowerful class and object mocking library for perl</description>\n<dc:creator>Dave
+        Mueller</dc:creator>\n<dc:date>2016-05-10T13:18+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~gonzus/URI-XSEscape-0.000007/\">\n<title>URI-XSEscape-0.000007</title>\n<link>http://search.cpan.org/~gonzus/URI-XSEscape-0.000007/</link>\n<description>Fast
+        XS URI-escaping library, replacing URI::Escape.</description>\n<dc:creator>Gonzalo
+        Diethelm</dc:creator>\n<dc:date>2016-05-10T13:09+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~wangq/App-Fasops-0.3.13/\">\n<title>App-Fasops-0.3.13</title>\n<link>http://search.cpan.org/~wangq/App-Fasops-0.3.13/</link>\n<description>operating
+        blocked fasta files</description>\n<dc:creator>Qiang Wang</dc:creator>\n<dc:date>2016-05-10T13:01+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mche/DBIx-POS-Template-0.0001/\">\n<title>DBIx-POS-Template-0.0001</title>\n<link>http://search.cpan.org/~mche/DBIx-POS-Template-0.0001/</link>\n<description>is
+        a fork of L&#x3C;DBIx::POS&#x3E;. Define a dictionary of SQL statements in
+        a POD dialect (POS) plus expand template sql with embedded Perl using L&#x3C;Text::Template&#x3E;.</description>\n<dc:creator>&#x41C;&#x438;&#x445;&#x430;&#x438;&#x43B;
+        &#x427;&#x435;</dc:creator>\n<dc:date>2016-05-10T11:48+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~wangq/AlignDB-IntSpan-1.0.7/\">\n<title>AlignDB-IntSpan-1.0.7</title>\n<link>http://search.cpan.org/~wangq/AlignDB-IntSpan-1.0.7/</link>\n<description>Handling
+        of sets containing integer spans.</description>\n<dc:creator>Qiang Wang</dc:creator>\n<dc:date>2016-05-10T11:15+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~nics/Catmandu-1.01/\">\n<title>Catmandu-1.01</title>\n<link>http://search.cpan.org/~nics/Catmandu-1.01/</link>\n<description>a
+        data toolkit</description>\n<dc:creator>Nicolas Steenlant</dc:creator>\n<dc:date>2016-05-10T11:08+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mrf/Dredd-Hooks-0.05/\">\n<title>Dredd-Hooks-0.05</title>\n<link>http://search.cpan.org/~mrf/Dredd-Hooks-0.05/</link>\n<description>Handler
+        for running Hook files for Dredd</description>\n<dc:creator>Mike Francis</dc:creator>\n<dc:date>2016-05-10T11:07+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~fglock/Perlito5-9.021/\">\n<title>Perlito5-9.021</title>\n<link>http://search.cpan.org/~fglock/Perlito5-9.021/</link>\n<description>a
+        Perl5 compiler </description>\n<dc:creator>Fl&#xE1;vio Soibelmann Glock</dc:creator>\n<dc:date>2016-05-10T10:29+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~manwar/Date-Utils-0.17/\">\n<title>Date-Utils-0.17</title>\n<link>http://search.cpan.org/~manwar/Date-Utils-0.17/</link>\n<description>Common
+        date functions as Moo Role.</description>\n<dc:creator>Mohammad S Anwar</dc:creator>\n<dc:date>2016-05-10T09:54+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~taniguchi/Number-Phone-JP-0.20160502/\">\n<title>Number-Phone-JP-0.20160502</title>\n<link>http://search.cpan.org/~taniguchi/Number-Phone-JP-0.20160502/</link>\n<description>Validate
+        Japanese phone numbers</description>\n<dc:creator>Koichi Taniguchi</dc:creator>\n<dc:date>2016-05-10T09:30+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~reneeb/Module-OTRS-CoreList-0.12/\">\n<title>Module-OTRS-CoreList-0.12</title>\n<link>http://search.cpan.org/~reneeb/Module-OTRS-CoreList-0.12/</link>\n<description>what
+        modules shipped with versions of OTRS (&#x3E;= 2.3.x)</description>\n<dc:creator>Ren&#xE9;e
+        B&#xE4;cker</dc:creator>\n<dc:date>2016-05-10T09:13+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~melmothx/Text-Amuse-Compile-0.57/\">\n<title>Text-Amuse-Compile-0.57</title>\n<link>http://search.cpan.org/~melmothx/Text-Amuse-Compile-0.57/</link>\n<description>Compiler
+        for Text::Amuse</description>\n<dc:creator>Marco Pessotto</dc:creator>\n<dc:date>2016-05-10T07:50+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mik/Crypt-SRP-0.016/\">\n<title>Crypt-SRP-0.016</title>\n<link>http://search.cpan.org/~mik/Crypt-SRP-0.016/</link>\n<description>Secure
+        Remote Protocol</description>\n<dc:creator>Karel Miko</dc:creator>\n<dc:date>2016-05-10T07:47+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mche/DBIx-POS-Template-0.00006/\">\n<title>DBIx-POS-Template-0.00006</title>\n<link>http://search.cpan.org/~mche/DBIx-POS-Template-0.00006/</link>\n<description>is
+        a fork of L&#x3C;DBIx::POS&#x3E;. Define a dictionary of SQL statements in
+        a POD dialect (POS) plus expand template sql with embedded Perl using L&#x3C;Text::Template&#x3E;.</description>\n<dc:creator>&#x41C;&#x438;&#x445;&#x430;&#x438;&#x43B;
+        &#x427;&#x435;</dc:creator>\n<dc:date>2016-05-10T07:46+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mche/DBIx-POS-Template-0.00005/\">\n<title>DBIx-POS-Template-0.00005</title>\n<link>http://search.cpan.org/~mche/DBIx-POS-Template-0.00005/</link>\n<description>is
+        a fork of L&#x3C;DBIx::POS&#x3E;. Define a dictionary of SQL statements in
+        a POD dialect (POS) plus expand template sql with embedded Perl by L&#x3C;Text::Template&#x3E;.</description>\n<dc:creator>&#x41C;&#x438;&#x445;&#x430;&#x438;&#x43B;
+        &#x427;&#x435;</dc:creator>\n<dc:date>2016-05-10T07:28+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~edf/Geo-Address-Formatter-1.56/\">\n<title>Geo-Address-Formatter-1.56</title>\n<link>http://search.cpan.org/~edf/Geo-Address-Formatter-1.56/</link>\n<description>take
+        structured address data and format it according to the various global/country
+        rules</description>\n<dc:creator>Ed Freyfogle</dc:creator>\n<dc:date>2016-05-10T07:22+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~bkb/Test-CGI-External-0.16/\">\n<title>Test-CGI-External-0.16</title>\n<link>http://search.cpan.org/~bkb/Test-CGI-External-0.16/</link>\n<description>run
+        tests on an external CGI program</description>\n<dc:creator>Ben Bullock</dc:creator>\n<dc:date>2016-05-10T05:59+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~shantanu/Dist-Zilla-PluginBundle-SHANTANU-0.42/\">\n<title>Dist-Zilla-PluginBundle-SHANTANU-0.42</title>\n<link>http://search.cpan.org/~shantanu/Dist-Zilla-PluginBundle-SHANTANU-0.42/</link>\n<description>Dist
+        Zilla Plugin Bundle the way I like to use it</description>\n<dc:creator>Shantanu
+        Bhadoria</dc:creator>\n<dc:date>2016-05-10T04:38+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~shantanu/Printer-ESCPOS-0.025/\">\n<title>Printer-ESCPOS-0.025</title>\n<link>http://search.cpan.org/~shantanu/Printer-ESCPOS-0.025/</link>\n<description>Interface
+        for all thermal, dot-matrix and other receipt printers that support ESC-POS
+        specification.</description>\n<dc:creator>Shantanu Bhadoria</dc:creator>\n<dc:date>2016-05-10T04:27+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~cfaber/Config-Simple-Conf-1.8/\">\n<title>Config-Simple-Conf-1.8</title>\n<link>http://search.cpan.org/~cfaber/Config-Simple-Conf-1.8/</link>\n<description>A
+        fast and lightweight configuration file handler </description>\n<dc:creator>Colin
+        Faber</dc:creator>\n<dc:date>2016-05-10T04:24+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mithaldu/Acme-MITHALDU-XSGrabBag-1.161310/\">\n<title>Acme-MITHALDU-XSGrabBag-1.161310</title>\n<link>http://search.cpan.org/~mithaldu/Acme-MITHALDU-XSGrabBag-1.161310/</link>\n<description>a
+        bunch of XS math functions i&#x27;m not sure where to shove yet</description>\n<dc:creator>Christian
+        Walde</dc:creator>\n<dc:date>2016-05-10T02:37+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~rsavage/WWW-Scraper-Wikipedia-ISO3166-1.04/\">\n<title>WWW-Scraper-Wikipedia-ISO3166-1.04</title>\n<link>http://search.cpan.org/~rsavage/WWW-Scraper-Wikipedia-ISO3166-1.04/</link>\n<description>Gently
+        scrape Wikipedia for ISO3166-2 data </description>\n<dc:creator>Ron Savage</dc:creator>\n<dc:date>2016-05-10T00:36+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~starlight/TAP-Formatter-Bamboo-0.04_02/\">\n<title>TAP-Formatter-Bamboo-0.04_02</title>\n<link>http://search.cpan.org/~starlight/TAP-Formatter-Bamboo-0.04_02/</link>\n<description>Harness
+        output delegate for Atlassian&#x27;s Bamboo CI server</description>\n<dc:creator>Bart&#x142;omiej
+        Fulanty</dc:creator>\n<dc:date>2016-05-10T00:17+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~rsavage/WWW-Scraper-Wikipedia-ISO3166-1.03/\">\n<title>WWW-Scraper-Wikipedia-ISO3166-1.03</title>\n<link>http://search.cpan.org/~rsavage/WWW-Scraper-Wikipedia-ISO3166-1.03/</link>\n<description>Gently
+        scrape Wikipedia for ISO3166-2 data </description>\n<dc:creator>Ron Savage</dc:creator>\n<dc:date>2016-05-10T00:09+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~diederich/IPC-Transit-1.161300/\">\n<title>IPC-Transit-1.161300</title>\n<link>http://search.cpan.org/~diederich/IPC-Transit-1.161300/</link>\n<description>A
+        framework for high performance message passing</description>\n<dc:creator>Dana
+        M. Diederich</dc:creator>\n<dc:date>2016-05-09T23:19+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~bingos/ExtUtils-MakeMaker-7.17_02/\">\n<title>ExtUtils-MakeMaker-7.17_02</title>\n<link>http://search.cpan.org/~bingos/ExtUtils-MakeMaker-7.17_02/</link>\n<description>Create
+        a module Makefile</description>\n<dc:creator>Chris Williams</dc:creator>\n<dc:date>2016-05-09T23:07+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~vyf/Ouroboros-0.08/\">\n<title>Ouroboros-0.08</title>\n<link>http://search.cpan.org/~vyf/Ouroboros-0.08/</link>\n<description>Perl
+        XS macros re-exported as C functions</description>\n<dc:creator>Vickenty Fesunov</dc:creator>\n<dc:date>2016-05-09T23:02+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~choroba/Syntax-Construct-0.23/\">\n<title>Syntax-Construct-0.23</title>\n<link>http://search.cpan.org/~choroba/Syntax-Construct-0.23/</link>\n<description>Identify
+        which non-feature constructs are used in the code.</description>\n<dc:creator>E.
+        Choroba</dc:creator>\n<dc:date>2016-05-09T23:00+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~choroba/Syntax-Construct-0.22/\">\n<title>Syntax-Construct-0.22</title>\n<link>http://search.cpan.org/~choroba/Syntax-Construct-0.22/</link>\n<description>Identify
+        which non-feature constructs are used in the code.</description>\n<dc:creator>E.
+        Choroba</dc:creator>\n<dc:date>2016-05-09T22:51+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~architek/WWW-FBX-0.11/\">\n<title>WWW-FBX-0.11</title>\n<link>http://search.cpan.org/~architek/WWW-FBX-0.11/</link>\n<description>A
+        perl interface to the Freebox v6 Rest API</description>\n<dc:creator>Laurent
+        Kislaire</dc:creator>\n<dc:date>2016-05-09T22:28+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~cymon/Dancer2-Plugin-Multilang-1.1.2/\">\n<title>Dancer2-Plugin-Multilang-1.1.2</title>\n<link>http://search.cpan.org/~cymon/Dancer2-Plugin-Multilang-1.1.2/</link>\n<description>Dancer2
+        Plugin to create multilanguage sites</description>\n<dc:creator>Simone Far&#xE9;</dc:creator>\n<dc:date>2016-05-09T21:43+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~enell/POD2-ES-5.22.0.2/\">\n<title>POD2-ES-5.22.0.2</title>\n<link>http://search.cpan.org/~enell/POD2-ES-5.22.0.2/</link>\n<description>Documentaci&#xF3;n
+        de Perl en espa&#xF1;ol</description>\n<dc:creator>Enrique Nell</dc:creator>\n<dc:date>2016-05-09T21:12+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mhx/IPC-SysV-2.07/\">\n<title>IPC-SysV-2.07</title>\n<link>http://search.cpan.org/~mhx/IPC-SysV-2.07/</link>\n<description>System
+        V IPC constants and system calls</description>\n<dc:creator>Marcus Holland-Moritz</dc:creator>\n<dc:date>2016-05-09T20:44+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~jhthorsen/Mojolicious-Plugin-AssetPack-1.08/\">\n<title>Mojolicious-Plugin-AssetPack-1.08</title>\n<link>http://search.cpan.org/~jhthorsen/Mojolicious-Plugin-AssetPack-1.08/</link>\n<description>Compress
+        and convert css, less, sass, javascript and coffeescript files</description>\n<dc:creator>Jan
+        Henning Thorsen</dc:creator>\n<dc:date>2016-05-09T20:24+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mik/CryptX-0.033/\">\n<title>CryptX-0.033</title>\n<link>http://search.cpan.org/~mik/CryptX-0.033/</link>\n<description>Crypto
+        toolkit</description>\n<dc:creator>Karel Miko</dc:creator>\n<dc:date>2016-05-09T20:20+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mob/Forks-Super-0.82/\">\n<title>Forks-Super-0.82</title>\n<link>http://search.cpan.org/~mob/Forks-Super-0.82/</link>\n<description>extensions
+        and convenience methods to manage background processes</description>\n<dc:creator>Marty
+        O&#x27;Brien</dc:creator>\n<dc:date>2016-05-09T20:11+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~drolsky/Test-Class-Moose-0.71/\">\n<title>Test-Class-Moose-0.71</title>\n<link>http://search.cpan.org/~drolsky/Test-Class-Moose-0.71/</link>\n<description>Serious
+        testing for serious Perl</description>\n<dc:creator>Dave Rolsky</dc:creator>\n<dc:date>2016-05-09T19:18+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~bingos/ExtUtils-MakeMaker-7.17_01/\">\n<title>ExtUtils-MakeMaker-7.17_01</title>\n<link>http://search.cpan.org/~bingos/ExtUtils-MakeMaker-7.17_01/</link>\n<description>Create
+        a module Makefile</description>\n<dc:creator>Chris Williams</dc:creator>\n<dc:date>2016-05-09T19:14+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~ddumont/Config-Model-Systemd-0.005/\">\n<title>Config-Model-Systemd-0.005</title>\n<link>http://search.cpan.org/~ddumont/Config-Model-Systemd-0.005/</link>\n<description>Edit
+        and validate Systemd configuration files</description>\n<dc:creator>Dominique
+        Dumont</dc:creator>\n<dc:date>2016-05-09T18:48+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~drolsky/Test-Class-Moose-0.70/\">\n<title>Test-Class-Moose-0.70</title>\n<link>http://search.cpan.org/~drolsky/Test-Class-Moose-0.70/</link>\n<description>Serious
+        testing for serious Perl</description>\n<dc:creator>Dave Rolsky</dc:creator>\n<dc:date>2016-05-09T18:42+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~plicease/Alien-CMake-0.08/\">\n<title>Alien-CMake-0.08</title>\n<link>http://search.cpan.org/~plicease/Alien-CMake-0.08/</link>\n<description>Build
+        and make available CMake library - L&#x3C;http://cmake.org/&#x3E;</description>\n<dc:creator>&#x27E6;Graham
+        Ollis&#x27E7;</dc:creator>\n<dc:date>2016-05-09T17:54+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~tosh/Capstone-0.5/\">\n<title>Capstone-0.5</title>\n<link>http://search.cpan.org/~tosh/Capstone-0.5/</link>\n<description>Perl
+        extension for capstone-engine</description>\n<dc:creator>Simon Duret</dc:creator>\n<dc:date>2016-05-09T17:02+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~plicease/PkgConfig-0.12026/\">\n<title>PkgConfig-0.12026</title>\n<link>http://search.cpan.org/~plicease/PkgConfig-0.12026/</link>\n<description>Pure-Perl
+        Core-Only replacement for pkg-config</description>\n<dc:creator>&#x27E6;Graham
+        Ollis&#x27E7;</dc:creator>\n<dc:date>2016-05-09T16:57+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~gmax/MySQL-Sandbox-3.1.06/\">\n<title>MySQL-Sandbox-3.1.06</title>\n<link>http://search.cpan.org/~gmax/MySQL-Sandbox-3.1.06/</link>\n<description>Quickly
+        installs one or more MySQL servers in the same host, either standalone or
+        in groups</description>\n<dc:creator>Giuseppe Maxia</dc:creator>\n<dc:date>2016-05-09T16:55+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~mlawren/OptArgs2-0.0.1_1/\">\n<title>OptArgs2-0.0.1_1</title>\n<link>http://search.cpan.org/~mlawren/OptArgs2-0.0.1_1/</link>\n<description>command-line
+        argument and option processor</description>\n<dc:creator>Mark Lawrence</dc:creator>\n<dc:date>2016-05-09T15:40+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~rkelsch/Graphics-Framebuffer-5.78/\">\n<title>Graphics-Framebuffer-5.78</title>\n<link>http://search.cpan.org/~rkelsch/Graphics-Framebuffer-5.78/</link>\n<description>A
+        Simple Framebuffer Graphics Library</description>\n<dc:creator>Richard Kelsch</dc:creator>\n<dc:date>2016-05-09T15:19+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~oalders/HTTP-BrowserDetect-3.13/\">\n<title>HTTP-BrowserDetect-3.13</title>\n<link>http://search.cpan.org/~oalders/HTTP-BrowserDetect-3.13/</link>\n<description>Determine
+        Web browser, version, and platform from an HTTP user agent string</description>\n<dc:creator>Olaf
+        Alders</dc:creator>\n<dc:date>2016-05-09T15:19+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~melmothx/Text-Amuse-Compile-0.56/\">\n<title>Text-Amuse-Compile-0.56</title>\n<link>http://search.cpan.org/~melmothx/Text-Amuse-Compile-0.56/</link>\n<description>Compiler
+        for Text::Amuse</description>\n<dc:creator>Marco Pessotto</dc:creator>\n<dc:date>2016-05-09T15:02+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~sjdy/Mojo-IRC-Server-Chinese-1.7.8/\">\n<title>Mojo-IRC-Server-Chinese-1.7.8</title>\n<link>http://search.cpan.org/~sjdy/Mojo-IRC-Server-Chinese-1.7.8/</link>\n<description>A
+        Chinese IRC server base on Mojolicious</description>\n<dc:creator>sjdy521</dc:creator>\n<dc:date>2016-05-09T14:36+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~melmothx/Text-Amuse-0.61/\">\n<title>Text-Amuse-0.61</title>\n<link>http://search.cpan.org/~melmothx/Text-Amuse-0.61/</link>\n<description>Generate
+        HTML and LaTeX documents from Emacs Muse markup.</description>\n<dc:creator>Marco
+        Pessotto</dc:creator>\n<dc:date>2016-05-09T14:18+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~vroom/WebService-Ooyala-0.03/\">\n<title>WebService-Ooyala-0.03</title>\n<link>http://search.cpan.org/~vroom/WebService-Ooyala-0.03/</link>\n<description>Perl
+        interface to Ooyala&#x27;s API, currently only read</description>\n<dc:creator>Tim
+        Vroom</dc:creator>\n<dc:date>2016-05-09T14:11+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~tpoder/Net-NfDump-1.20/\">\n<title>Net-NfDump-1.20</title>\n<link>http://search.cpan.org/~tpoder/Net-NfDump-1.20/</link>\n<description>Perl
+        API for manipulating with nfdump files based on libnf.net library </description>\n<dc:creator>Tomas
+        Podermanski</dc:creator>\n<dc:date>2016-05-09T13:55+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~lucas/Dancer2-Plugin-Pg-0.05/\">\n<title>Dancer2-Plugin-Pg-0.05</title>\n<link>http://search.cpan.org/~lucas/Dancer2-Plugin-Pg-0.05/</link>\n<description>PostgreSQL
+        connection for Dancer2</description>\n<dc:creator>Lucas Tiago de Moraes</dc:creator>\n<dc:date>2016-05-09T12:57+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~bingos/Module-CoreList-5.20160507/\">\n<title>Module-CoreList-5.20160507</title>\n<link>http://search.cpan.org/~bingos/Module-CoreList-5.20160507/</link>\n<description>what
+        modules shipped with versions of perl</description>\n<dc:creator>Chris Williams</dc:creator>\n<dc:date>2016-05-09T12:21+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~bingos/CPAN-Perl-Releases-2.76/\">\n<title>CPAN-Perl-Releases-2.76</title>\n<link>http://search.cpan.org/~bingos/CPAN-Perl-Releases-2.76/</link>\n<description>Mapping
+        Perl releases on CPAN to the location of the tarballs</description>\n<dc:creator>Chris
+        Williams</dc:creator>\n<dc:date>2016-05-09T12:20+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~rjbs/perl-5.25.0/\">\n<title>perl-5.25.0</title>\n<link>http://search.cpan.org/~rjbs/perl-5.25.0/</link>\n<description>The
+        Perl 5 language interpreter</description>\n<dc:creator>Ricardo SIGNES</dc:creator>\n<dc:date>2016-05-09T12:03+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~rjbs/perl-5.24.0/\">\n<title>perl-5.24.0</title>\n<link>http://search.cpan.org/~rjbs/perl-5.24.0/</link>\n<description>The
+        Perl 5 language interpreter</description>\n<dc:creator>Ricardo SIGNES</dc:creator>\n<dc:date>2016-05-09T11:35+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~perlancar/Devel-DieHandler-DumpINC-0.002/\">\n<title>Devel-DieHandler-DumpINC-0.002</title>\n<link>http://search.cpan.org/~perlancar/Devel-DieHandler-DumpINC-0.002/</link>\n<description>Dump
+        content of %INC when program dies</description>\n<dc:creator>perlancar</dc:creator>\n<dc:date>2016-05-09T11:31+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~perlancar/Devel-DieHandler-DumpINC-0.001/\">\n<title>Devel-DieHandler-DumpINC-0.001</title>\n<link>http://search.cpan.org/~perlancar/Devel-DieHandler-DumpINC-0.001/</link>\n<description>Dump
+        content of %INC when program dies</description>\n<dc:creator>perlancar</dc:creator>\n<dc:date>2016-05-09T11:30+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~manwar/Task-Calendar-0.17/\">\n<title>Task-Calendar-0.17</title>\n<link>http://search.cpan.org/~manwar/Task-Calendar-0.17/</link>\n<description>Bundles
+        Calendar::* packages.</description>\n<dc:creator>Mohammad S Anwar</dc:creator>\n<dc:date>2016-05-09T11:28+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~starlight/TAP-Formatter-Bamboo-0.04_01/\">\n<title>TAP-Formatter-Bamboo-0.04_01</title>\n<link>http://search.cpan.org/~starlight/TAP-Formatter-Bamboo-0.04_01/</link>\n<description>Harness
+        output delegate for Atlassian&#x27;s Bamboo CI server </description>\n<dc:creator>Bart&#x142;omiej
+        Fulanty</dc:creator>\n<dc:date>2016-05-09T11:00+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~salva/Net-SSH2-0.59_18/\">\n<title>Net-SSH2-0.59_18</title>\n<link>http://search.cpan.org/~salva/Net-SSH2-0.59_18/</link>\n<description>Support
+        for the SSH 2 protocol via libssh2.</description>\n<dc:creator>Salvador Fandi&#xF1;o
+        Garc&#xED;a</dc:creator>\n<dc:date>2016-05-09T11:00+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~rurban/B-C-1.54_03/\">\n<title>B-C-1.54_03</title>\n<link>http://search.cpan.org/~rurban/B-C-1.54_03/</link>\n<description>Perl
+        compiler</description>\n<dc:creator>Reini Urban</dc:creator>\n<dc:date>2016-05-09T08:49+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~perlancar/Perinci-CmdLine-Lite-1.54/\">\n<title>Perinci-CmdLine-Lite-1.54</title>\n<link>http://search.cpan.org/~perlancar/Perinci-CmdLine-Lite-1.54/</link>\n<description>A
+        lightweight Rinci/Riap-based command-line application framework</description>\n<dc:creator>perlancar</dc:creator>\n<dc:date>2016-05-09T07:50+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~perlancar/Complete-File-0.40/\">\n<title>Complete-File-0.40</title>\n<link>http://search.cpan.org/~perlancar/Complete-File-0.40/</link>\n<description>Completion
+        routines related to files</description>\n<dc:creator>perlancar</dc:creator>\n<dc:date>2016-05-09T07:50+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~srezic/CPAN-Plugin-Sysdeps-0.05/\">\n<title>CPAN-Plugin-Sysdeps-0.05</title>\n<link>http://search.cpan.org/~srezic/CPAN-Plugin-Sysdeps-0.05/</link>\n<description>CPAN.pm
+        plugin for installing external dependencies</description>\n<dc:creator>Slaven
+        Rezi&#x107;</dc:creator>\n<dc:date>2016-05-09T07:13+00:00</dc:date>\n</item>\n<item
+        rdf:about=\"http://search.cpan.org/~chromatic/Mojolicious-Plugin-UnicodeNormalize-1.20160509/\">\n<title>Mojolicious-Plugin-UnicodeNormalize-1.20160509</title>\n<link>http://search.cpan.org/~chromatic/Mojolicious-Plugin-UnicodeNormalize-1.20160509/</link>\n<description>normalize
+        incoming Unicode parameters</description>\n<dc:creator>chromatic</dc:creator>\n<dc:date>2016-05-09T05:43+00:00</dc:date>\n</item>\n</rdf:RDF>"}
+    headers:
+      accept-ranges: [bytes]
+      cache-control: [max-age=86400]
+      content-length: ['49238']
+      content-type: [application/rdf+xml]
+      date: ['Wed, 11 May 2016 04:09:11 GMT']
+      etag: ['"102af8f-c056-53288c0ce3f81"']
+      expires: ['Thu, 12 May 2016 04:09:11 GMT']
+      last-modified: ['Wed, 11 May 2016 03:36:55 GMT']
+      server: [Apache/2.2.15 (Red Hat)]
+      x-proxy: [proxy1]
+    status: {code: 200, message: OK}
+version: 1
