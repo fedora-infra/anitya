@@ -106,6 +106,21 @@ class CpanBackendtests(Modeltests):
             project
         )
 
+    def test_cpan_check_feed(self):
+        """ Test the check_feed method of the cpan backend. """
+        generator = backend.CpanBackend.check_feed()
+        items = list(generator)
+
+        self.assertEqual(items[0], (
+            'Dist-Zilla-PluginBundle-Author-Plicease',
+            'http://search.cpan.org/dist/Dist-Zilla-PluginBundle-Author-Plicease/',
+            'CPAN (perl)', '2.06'))
+        self.assertEqual(items[1], (
+            'Dist-Zilla-Plugin-Author-Plicease',
+            'http://search.cpan.org/dist/Dist-Zilla-Plugin-Author-Plicease/',
+            'CPAN (perl)', '2.06'))
+        # etc...
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(CpanBackendtests)

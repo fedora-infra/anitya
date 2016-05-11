@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2014-2016 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
+   Ralph Bean <rbean@redhat.com>
 
 """
 
@@ -16,8 +17,7 @@ class RubygemsBackend(BaseBackend):
     ''' The custom class for projects hosted on rubygems.org.
 
     This backend allows to specify a version_url and a regex that will
-    be used to retrieve the version information.
-    '''
+    be used to retrieve the version information. '''
 
     name = 'Rubygems'
     examples = [
@@ -74,3 +74,27 @@ class RubygemsBackend(BaseBackend):
                 'Project or version unknown at %s' % url)
 
         return [data['version']]
+
+    @classmethod
+    def check_feed(cls):
+        ''' Return a generator over the latest 50 uploads to rubygems.org
+
+        by querying the JSON API.
+        '''
+
+        url = 'https://rubygems.org/api/v1/activity/just_updated.json'
+
+        try:
+            response = cls.call_url(url)
+        except Exception:  # pragma: no cover
+            raise AnityaPluginException('Could not contact %s' % url)
+
+        try:
+            data = response.json()
+        except Exception:  # pragma: no cover
+            raise AnityaPluginException('No XML returned by %s' % url)
+
+        for item in data:
+            name, version = item['name'], item['version']
+            homepage = 'http://rubygems.org/gems/%s' % name
+            yield name, homepage, cls.name, version

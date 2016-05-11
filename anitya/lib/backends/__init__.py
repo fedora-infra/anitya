@@ -215,6 +215,26 @@ class BaseBackend(object):
         pass
 
     @classmethod
+    def check_feed(self):
+        ''' Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not all backends may support this.  It can be used to look for updates
+        much more quickly than scanning all known projects.
+
+        :return: a list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+        :return type: list
+        :raise AnityaPluginException: a
+            :class:`anitya.lib.exceptions.AnityaPluginException` exception
+            when the version cannot be retrieved correctly
+        :raise NotImplementedError:
+            :class:`NotImplementedError` exception when the backend does not
+            support batch updates.
+        '''
+        raise NotImplementedError()
+
+    @classmethod
     def get_ordered_versions(self, project):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, ordered from the oldest to the newest.

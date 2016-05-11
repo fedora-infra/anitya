@@ -102,6 +102,19 @@ class RubygemsBackendtests(Modeltests):
             project
         )
 
+    def test_rubygems_check_feed(self):
+        """ Test the check_feed method of the rubygems backend. """
+        generator = backend.RubygemsBackend.check_feed()
+        items = list(generator)
+
+        self.assertEqual(items[0], (
+            'culqi', 'http://rubygems.org/gems/culqi',
+            'Rubygems', '1.1.4'))
+        self.assertEqual(items[1], (
+            'rspec-instafail', 'http://rubygems.org/gems/rspec-instafail',
+            'Rubygems', '0.5.0'))
+        # etc...
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(RubygemsBackendtests)

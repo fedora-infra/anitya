@@ -106,6 +106,18 @@ class PeclBackendtests(Modeltests):
             project
         )
 
+    def test_pecl_check_feed(self):
+        """ Test the check_feed method of the pecl backend. """
+        generator = backend.PeclBackend.check_feed()
+        items = list(generator)
+
+        self.assertEqual(items[0], (
+            'rrd', 'http://pecl.php.net/package/rrd', 'PECL', '2.0.1'))
+        self.assertEqual(items[1], (
+            'libsodium', 'http://pecl.php.net/package/libsodium',
+            'PECL', '1.0.6'))
+        # etc...
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(PeclBackendtests)

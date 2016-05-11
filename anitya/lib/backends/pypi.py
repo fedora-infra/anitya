@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2014-2016 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
+   Ralph Bean <rbean@redhat.com>
 
 """
 
+import xml2dict
 
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
@@ -76,3 +78,30 @@ class PypiBackend(BaseBackend):
             raise AnityaPluginException('No JSON returned by %s' % url)
 
         return data['releases'].keys()
+
+    @classmethod
+    def check_feed(cls):
+        ''' Return a generator over the latest 40 uploads to PyPI
+
+        by querying an RSS feed.
+        '''
+
+        url = 'https://pypi.python.org/pypi?%3Aaction=rss'
+
+        try:
+            response = cls.call_url(url)
+        except Exception:  # pragma: no cover
+            raise AnityaPluginException('Could not contact %s' % url)
+
+        try:
+            parser = xml2dict.XML2Dict()
+            data = parser.fromstring(response.text)
+        except Exception:  # pragma: no cover
+            raise AnityaPluginException('No XML returned by %s' % url)
+
+        items = data['rss']['channel']['item']
+        for entry in items:
+            title = entry['title']['value']
+            name, version = title.rsplit(None, 1)
+            homepage = 'https://pypi.python.org/pypi/%s' % name
+            yield name, homepage, cls.name, version

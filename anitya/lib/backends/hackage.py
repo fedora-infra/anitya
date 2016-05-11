@@ -13,7 +13,7 @@ from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
 
 
 class HackageBackend(BaseBackend):
-    ''' The custom class for projects hosted on Google code.
+    ''' The custom class for projects hosted on hackage.
 
     This backend allows to specify a version_url and a regex that will
     be used to retrieve the version information.
@@ -62,3 +62,12 @@ class HackageBackend(BaseBackend):
         regex = REGEX % {'name': project.name}
 
         return get_versions_by_regex(url, regex, project)
+
+    @classmethod
+    def check_feed(cls):
+        ## See http://hackage.haskell.org/api#recentPackages
+        ## It should be possible to query this, but I can't figure out how to
+        ## get it to give me non-html.
+        # url = 'http://hackage.haskell.org/packages/recent/revisions'
+        raise NotImplementedError()
+
