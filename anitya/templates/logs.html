@@ -94,11 +94,10 @@
 
 </div>
 
-
-<table>
+<table class="table table-striped logs-table-seperator">
 {% for log in logs %}
     <tr>
-        <td>
+        <td width="240px">
             {{ log.created_on.strftime('%Y-%m-%d %H:%M:%S') }} (UTC) 
         </td>
         <td>
