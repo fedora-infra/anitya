@@ -18,7 +18,7 @@ def get_extended_pattern(pattern):
     '''
 
     if not pattern.startswith('*') and not pattern.endswith('*'):
-        pattern += '*'
+        pattern = '*' + pattern + '*'
     elif not pattern.startswith('*') and pattern.endswith('*'):
         pattern = '*' + pattern
     elif pattern.startswith('*') and not pattern.endswith('*'):
