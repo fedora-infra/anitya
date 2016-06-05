@@ -32,7 +32,7 @@ def add_distro():
             distro=distro,
             topic='distro.add',
             message=dict(
-                agent=flask.g.auth.email,
+                agent=flask.g.auth.openid,
                 distro=distro.name,
             )
         )
@@ -76,7 +76,7 @@ def edit_distro(distro_name):
                 distro=distro,
                 topic='distro.edit',
                 message=dict(
-                    agent=flask.g.auth.email,
+                    agent=flask.g.auth.openid,
                     old=distro.name,
                     new=name,
                 )
@@ -119,7 +119,7 @@ def delete_distro(distro_name):
             distro=distro,
             topic='distro.remove',
             message=dict(
-                agent=flask.g.auth.email,
+                agent=flask.g.auth.openid,
                 distro=distro.name,
             )
         )
@@ -159,7 +159,7 @@ def delete_project(project_id):
                 project=project,
                 topic='project.remove',
                 message=dict(
-                    agent=flask.g.auth.email,
+                    agent=flask.g.auth.openid,
                     project=project.name,
                 )
             )
@@ -214,7 +214,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
                 project=project,
                 topic='project.map.remove',
                 message=dict(
-                    agent=flask.g.auth.email,
+                    agent=flask.g.auth.openid,
                     project=project.name,
                     distro=distro.name,
                 )
@@ -269,7 +269,7 @@ def delete_project_version(project_id, version):
                 project=project,
                 topic='project.version.remove',
                 message=dict(
-                    agent=flask.g.auth.email,
+                    agent=flask.g.auth.openid,
                     project=project.name,
                     version=version,
                 )
@@ -302,7 +302,7 @@ def browse_logs():
     if is_admin():
         user = flask.request.args.get('user', None)
     else:
-        user = flask.g.auth.email
+        user = flask.g.auth.openid
 
     from_date = flask.request.args.get('from_date', None)
     project = flask.request.args.get('project', None)
@@ -483,7 +483,7 @@ def set_flag_state(flag_id, state):
                 SESSION,
                 flag=flag,
                 state=state,
-                user_mail=flask.g.auth.email,
+                user_id=flask.g.auth.openid,
             )
             flask.flash('Flag {0} set to {1}'.format(flag.id, state))
         except anitya.lib.exceptions.AnityaException as err:

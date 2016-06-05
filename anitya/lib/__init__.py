@@ -76,7 +76,7 @@ def init(db_url, alembic_ini=None, debug=False, create=False):
 
 
 def create_project(
-        session, name, homepage, user_mail, backend='custom',
+        session, name, homepage, user_id, backend='custom',
         version_url=None, version_prefix=None, regex=None):
     """ Create the project in the database.
 
@@ -105,7 +105,7 @@ def create_project(
         project=project,
         topic='project.add',
         message=dict(
-            agent=user_mail,
+            agent=user_id,
             project=project.name,
         )
     )
@@ -115,7 +115,7 @@ def create_project(
 
 def edit_project(
         session, project, name, homepage, backend, version_url,
-        version_prefix, regex, insecure, user_mail):
+        version_prefix, regex, insecure, user_id):
     """ Edit a project in the database.
 
     """
@@ -160,7 +160,7 @@ def edit_project(
                 project=project,
                 topic='project.edit',
                 message=dict(
-                    agent=user_mail,
+                    agent=user_id,
                     project=project.name,
                     fields=changes.keys(),  # be backward compat
                     changes=changes,
@@ -177,7 +177,7 @@ def edit_project(
 
 
 def map_project(
-        session, project, package_name, distribution, user_mail,
+        session, project, package_name, distribution, user_id,
         old_package_name=None, old_distro_name=None):
     """ Map a project to a distribution.
 
@@ -194,7 +194,7 @@ def map_project(
             distro=distro_obj,
             topic='distro.add',
             message=dict(
-                agent=user_mail,
+                agent=user_id,
                 distro=distro_obj.name,
             )
         )
@@ -255,7 +255,7 @@ def map_project(
             'admin.' % (package_name, distribution))
 
     message = dict(
-        agent=user_mail,
+        agent=user_id,
         project=project.name,
         distro=distro_obj.name,
         new=package_name,
@@ -275,13 +275,13 @@ def map_project(
     return pkg
 
 
-def flag_project(session, project, reason, user_mail):
+def flag_project(session, project, reason, user_email, user_id):
     """ Flag a project in the database.
 
     """
 
     flag = anitya.lib.model.ProjectFlag(
-        user=user_mail,
+        user=user_email,
         project=project,
         reason=reason)
 
@@ -300,7 +300,7 @@ def flag_project(session, project, reason, user_mail):
         project=project,
         topic='project.flag',
         message=dict(
-            agent=user_mail,
+            agent=user_id,
             project=project.name,
             reason=reason,
             packages=[pkg.__json__() for pkg in project.packages],
@@ -310,7 +310,7 @@ def flag_project(session, project, reason, user_mail):
     return flag
 
 
-def set_flag_state(session, flag, state, user_mail):
+def set_flag_state(session, flag, state, user_id):
     """ Change the state of a ProjectFlag in the database.
 
     """
@@ -336,7 +336,7 @@ def set_flag_state(session, flag, state, user_mail):
         session,
         topic='project.flag.set',
         message=dict(
-            agent=user_mail,
+            agent=user_id,
             flag=flag.id,
             state=state,
         )

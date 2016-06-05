@@ -141,7 +141,7 @@ def create_project(session):
         homepage='http://www.geany.org/',
         version_url='http://www.geany.org/Download/Releases',
         regex='DEFAULT',
-        user_mail='noreply@fedoraproject.org',
+        user_id='noreply@fedoraproject.org',
     )
 
     anitya.lib.create_project(
@@ -150,14 +150,14 @@ def create_project(session):
         homepage='http://subsurface.hohndel.org/',
         version_url='http://subsurface.hohndel.org/downloads/',
         regex='DEFAULT',
-        user_mail='noreply@fedoraproject.org',
+        user_id='noreply@fedoraproject.org',
     )
 
     anitya.lib.create_project(
         session,
         name='R2spec',
         homepage='https://fedorahosted.org/r2spec/',
-        user_mail='noreply@fedoraproject.org',
+        user_id='noreply@fedoraproject.org',
     )
 
 
@@ -188,7 +188,7 @@ def create_flagged_project(session):
         homepage='http://www.geany.org/',
         version_url='http://www.geany.org/Download/Releases',
         regex='DEFAULT',
-        user_mail='noreply@fedoraproject.org',
+        user_id='noreply@fedoraproject.org',
     )
 
     session.add(project)
@@ -197,7 +197,9 @@ def create_flagged_project(session):
         session,
         project,
         "This is a duplicate.",
-        "dgay@redhat.com")
+        "dgay@redhat.com",
+        "user_openid_id",
+    )
 
     session.add(flag)
 
