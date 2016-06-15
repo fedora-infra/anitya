@@ -83,7 +83,7 @@ class GithubBackendtests(Modeltests):
         """ Test the get_version function of the github backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '0.13.3'
+        exp = '0.14'
         obs = backend.GithubBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -97,7 +97,7 @@ class GithubBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '1.25.1'
+        exp = '2.3'
         obs = backend.GithubBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -106,9 +106,10 @@ class GithubBackendtests(Modeltests):
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = [
-            u'v0.9.2', u'v0.9.3',
+            u'v0.9.3',
             u'0.10', u'0.11', u'0.11.1', u'0.12',
             u'0.13', u'0.13.1', u'0.13.2', u'0.13.3',
+            u'0.14',
         ]
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -124,18 +125,21 @@ class GithubBackendtests(Modeltests):
         pid = 3
         project = model.Project.get(self.session, pid)
         exp = [
-            u'1.23.992', u'1.23.993', u'1.23.994', u'1.23.995',
-            u'1.24', u'1.24.1', u'1.24.2', u'1.24.3',
-            u'1.25', u'1.25.1',
+            u'1.33.0', u'1.33.2', u'1.33.3',
+            u'2.0', u'2.0.1', u'2.0.2', u'2.0.3', u'2.1', u'2.2', u'2.3'
         ]
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
     def test_plexus_utils(self):
         """ Regression test for issue #286 """
-        project = model.Project(version_url='codehaus-plexus/plexus-archiver')
+        project = model.Project(
+            version_url='codehaus-plexus/plexus-archiver',
+            version_prefix='plexus-archiver-',
+        )
         version = backend.GithubBackend().get_version(project)
-        self.assertEqual(u'plexus-archiver-3.1.1', version)
+        self.assertEqual(u'3.3', version)
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(GithubBackendtests)
