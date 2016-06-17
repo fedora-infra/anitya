@@ -62,7 +62,7 @@ class XML2Dict(object):
             if not isinstance(old, list):
                 node_tree.pop(tag)
                 # multi times, so change old dict to a list
-                node_tree[tag] = [old
+                node_tree[tag] = [old]
             node_tree[tag].append(tree)  # add the new one
 
         return node_tree
