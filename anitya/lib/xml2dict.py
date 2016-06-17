@@ -4,12 +4,9 @@ Released under the GPLv2 at https://code.google.com/archive/p/xml2dict/
 
 Adjusted by Pierre-Yves Chibon <pingou@pingoured.fr>
 """
-try:
-    import xml.etree.ElementTree as ET
-except:
-    import cElementTree as ET # for 2.4
 
 import re
+import xml.etree.ElementTree as ET
 
 
 class object_dict(dict):
@@ -53,23 +50,25 @@ class XML2Dict(object):
         # Save attrs and text, hope there will not be a child with same name
         if node.text:
             node_tree.value = node.text
-        for (k,v) in node.attrib.items():
-            k,v = self._namespace_split(k, object_dict({'value':v}))
+        for (k, v) in node.attrib.items():
+            k, v = self._namespace_split(k, object_dict({'value': v}))
             node_tree[k] = v
-        #Save childrens
+        # Save childrens
         for child in node.getchildren():
-            tag, tree = self._namespace_split(child.tag, self._parse_node(child))
-            if  tag not in node_tree: # the first time, so store it in dict
+            tag, tree = self._namespace_split(
+                child.tag, self._parse_node(child))
+            # the first time, so store it in dict
+            if tag not in node_tree:
                 node_tree[tag] = tree
                 continue
             old = node_tree[tag]
             if not isinstance(old, list):
                 node_tree.pop(tag)
-                node_tree[tag] = [old] # multi times, so change old dict to a list
-            node_tree[tag].append(tree) # add the new one
+                # multi times, so change old dict to a list
+                node_tree[tag] = [old
+            node_tree[tag].append(tree)  # add the new one
 
-        return  node_tree
-
+        return node_tree
 
     def _namespace_split(self, tag, value):
         """
@@ -79,7 +78,6 @@ class XML2Dict(object):
         """
         result = re.compile("\{(.*)\}(.*)").search(tag)
         if result:
-            #print tag
             value.namespace, tag = result.groups()
         return (tag, value)
 
@@ -91,5 +89,6 @@ class XML2Dict(object):
     def fromstring(self, s):
         """parse a string"""
         t = ET.fromstring(s)
-        root_tag, root_tree = self._namespace_split(t.tag, self._parse_node(t))
+        root_tag, root_tree = self._namespace_split(
+            t.tag, self._parse_node(t))
         return object_dict({root_tag: root_tree})
