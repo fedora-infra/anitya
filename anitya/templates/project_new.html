@@ -18,22 +18,22 @@
         <span class="list-group-item">
           <table class="table table-condensed">
             <tr>
-              {{ render_field_in_row(form.name) }}
+              {{ render_field_in_row(form.name, tabindex=1) }}
             </tr>
             <tr>
-              {{ render_field_in_row(form.homepage, type="url") }}
+              {{ render_field_in_row(form.homepage, type="url", tabindex=2) }}
             </tr>
             <tr>
-              {{ render_field_in_row(form.backend) }}
+              {{ render_field_in_row(form.backend, tabindex=3) }}
             </tr>
             <tr id="version_url_row">
-              {{ render_field_in_row(form.version_url) }}
+              {{ render_field_in_row(form.version_url, tabindex=4) }}
             </tr>
             <tr id="version_prefix_row">
-              {{ render_field_in_row(form.version_prefix) }}
+              {{ render_field_in_row(form.version_prefix, tabindex=5) }}
             </tr>
             <tr id="regex_row">
-              {{ render_field_in_row(form.regex) }}
+              {{ render_field_in_row(form.regex, tabindex=6) }}
             </tr>
             <tr id="default_regex_row">
               <td><label>Default regex:</label></td>
@@ -44,16 +44,16 @@
               <td id="example_urls"></td>
             </tr>
             <tr id="insecure_row">
-              {{ render_field_in_row(form.insecure) }}
+              {{ render_field_in_row(form.insecure, tabindex=7) }}
             </tr>
 
             {%- if context == 'Add' -%}
             <tr>
-              {{ render_field_in_row(form.distro) }}
+              {{ render_field_in_row(form.distro, tabindex=8) }}
               <td></td>
             </tr>
             <tr>
-              {{ render_field_in_row(form.package_name) }}
+              {{ render_field_in_row(form.package_name, tabindex=9) }}
               <td></td>
             </tr>
             {%- endif -%}
@@ -62,7 +62,7 @@
       </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-success">
+  <button type="submit" class="btn btn-success" tabindex=10>
     <span class="glyphicon glyphicon-plus"></span>
     Submit
   </button>
@@ -71,7 +71,7 @@
   {%- elif context == 'Edit' -%}
   <a href="{{ url_for('project', project_id=project.id) }}">
   {%- endif -%}
-    <button type="button" class="btn btn-danger">
+    <button type="button" class="btn btn-danger" tabindex=11>
       <span class="glyphicon glyphicon-ban-circle"></span>
       Cancel
     </button>

@@ -14,7 +14,7 @@
           <div class="list-group-item-text">
         <a href="{{ url_for('edit_project', project_id=project.id) }}">
             <button type="submit" class="btn btn-info btn-sm pull-right inline"
-                id="edit_btn">
+                id="edit_btn" tabindex=1>
               <span class="glyphicon glyphicon-edit"></span>
               Edit
             </button>
@@ -22,7 +22,7 @@
         <a href="{{ url_for('flag_project', project_id=project.id) }}">
           <button title="Ask for an admin intervention (delete version/project, fix mapping...)."
                  type="submit" class="btn btn-warning btn-sm pull-right inline"
-                 id="flag_btn">
+                 id="flag_btn" tabindex=2>
           <span class="glyphicon glyphicon-flag"></span>
             Flag
           </button>
@@ -59,14 +59,16 @@
             <div class="col-md-4">
               {% if g.auth.logged_in and (not project.versions or is_admin
                 or justedit) %}
-              <button type="submit" class="btn btn-success btn-sm pull-right" id="testcheck">
+              <button type="submit" class="btn btn-success btn-sm pull-right"
+                  id="testcheck" tabindex=3>
                 <span class="glyphicon glyphicon-refresh"></span>
                 Test check
               </button>
               <img src="{{url_for('static', filename='img/spinner.gif')}}"
                 id="testcheck-spinner" class="pull-right"
                 style="display: none; padding-top: 12px; padding-right: 25px;"/>
-              <button type="submit" class="btn btn-success btn-sm pull-right" id="checknow">
+              <button type="submit" class="btn btn-success btn-sm pull-right"
+                  id="checknow" tabindex=4>
                 <span class="glyphicon glyphicon-refresh"></span>
                 Full check
               </button>
@@ -152,7 +154,8 @@
                               project_id=project.id,
                               distro_name=package.distro,
                               pkg_name=package.package_name) }}">
-                      <button type="submit" class="btn btn-warning btn-sm pull-right">
+                      <button type="submit" class="btn btn-warning btn-sm pull-right"
+                          tabindex=7>
                         <span class="glyphicon glyphicon-remove"></span>
                         Delete
                       </button>
@@ -170,7 +173,7 @@
         <div class="list-group-item">
           <div class="list-group-item-text">
             <p><a href="{{ url_for('map_project', project_id=project.id) }}">
-            <button type="submit" class="btn btn-info btn-sm pull-right">
+            <button type="submit" class="btn btn-info btn-sm pull-right" tabindex=6>
               <span class="glyphicon glyphicon-map-marker"></span>
               Add new distribution mapping
             </button>
