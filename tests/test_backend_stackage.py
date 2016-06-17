@@ -77,7 +77,7 @@ class HackageBackendtests(Modeltests):
         """ Test the get_version function of the Stackage backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '1.19.3'
+        exp = '1.20.1'
         obs = backend.StackageBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -94,7 +94,7 @@ class HackageBackendtests(Modeltests):
         """ Test the get_versions function of the Stackage backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = ['1.19.3']
+        exp = ['1.20.1']
         obs = backend.StackageBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
