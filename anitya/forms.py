@@ -9,7 +9,8 @@ from wtforms import BooleanField
 
 class ProjectForm(wtf.Form):
     name = TextField('Project name', [validators.Required()])
-    homepage = TextField('Homepage', [validators.Required()])
+    homepage = TextField(
+        'Homepage', [validators.Required(), validators.URL()])
     backend = SelectField(
         'Backend',
         [validators.Required()],

@@ -275,6 +275,7 @@ a backend for the project hosting. More information below.</p>"""
                 'backend': 'PyPI',
             }
 
+            # Missing CSRF
             output = c.post(
                 '/project/new', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
@@ -287,6 +288,7 @@ a backend for the project hosting. More information below.</p>"""
 
             data['csrf_token'] = csrf_token
 
+            # Valid input
             output = c.post(
                 '/project/new', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
@@ -296,6 +298,7 @@ a backend for the project hosting. More information below.</p>"""
             self.assertTrue(
                 '<h1>Project: repo_manager</h1>' in output.data)
 
+            # Project already exists
             output = c.post(
                 '/project/new', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
@@ -310,6 +313,19 @@ a backend for the project hosting. More information below.</p>"""
                 in output.data)
             self.assertTrue('<h1>Add project</h1>' in output.data)
 
+            # Invalid homepage
+            data = {
+                'name': 'fedocal',
+                'homepage': 'pypi/fedocal',
+                'backend': 'PyPI',
+                'csrf_token': csrf_token,
+            }
+            output = c.post(
+                '/project/new', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue('<h1>Add project</h1>' in output.data)
+            self.assertTrue(
+                '<td><label for="regex">Regex</label></td>' in output.data)
 
         projects = model.Project.all(self.session, count=True)
         self.assertEqual(projects, 1)
