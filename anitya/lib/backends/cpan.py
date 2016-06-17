@@ -9,7 +9,7 @@
 
 """
 
-import xml2dict
+import anitya.lib.xml2dict as xml2dict
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
 from anitya.lib.exceptions import AnityaPluginException
