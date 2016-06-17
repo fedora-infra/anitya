@@ -12,4 +12,3 @@ sqlalchemy
 # https://github.com/ironfroggy/straight.plugin/issues/17#issuecomment-41466275
 straight.plugin==1.4.0-post-1
 wtforms
-xml2dict
