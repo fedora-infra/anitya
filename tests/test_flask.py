@@ -269,6 +269,16 @@ a backend for the project hosting. More information below.</p>"""
             self.assertTrue(
                 '<td><label for="regex">Regex</label></td>' in output.data)
 
+            false_data = {
+                'name': 'repo_manager',
+                'homepage': 'testurlrepo_manager',
+                'backend': 'PyPI',
+            }
+
+            output = c.post(
+                '/project/new', data=false_data, follow_redirects=True)
+            self.assertFalse('<h1>Project: repo_manager</h1>' in output.data)
+
             data = {
                 'name': 'repo_manager',
                 'homepage': 'https://pypi.python.org/pypi/repo_manager',
