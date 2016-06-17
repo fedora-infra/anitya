@@ -16,19 +16,19 @@
         <span class="list-group-item">
           <table class="table table-condensed">
             <tr>
-              {{ render_field_in_row(form.reason) }}
+              {{ render_field_in_row(form.reason, tabindex=1) }}
             </tr>
           </table>
         </span>
       </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-success" id="submit_btn">
+  <button type="submit" class="btn btn-success" id="submit_btn" tabindex=2>
     <span class="glyphicon glyphicon-plus"></span>
     Submit
   </button>
   <a href="{{ url_for('project', project_id=project.id) }}">
-    <button type="button" class="btn btn-danger">
+    <button type="button" class="btn btn-danger" tabindex=3>
       <span class="glyphicon glyphicon-ban-circle"></span>
       Cancel
     </button>

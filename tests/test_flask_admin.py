@@ -88,9 +88,9 @@ class FlaskAdminTest(Modeltests):
             self.assertEqual(output.status_code, 200)
 
             self.assertTrue('<h1>Add a new disribution</h1>' in output.data)
-            self.assertTrue(
-                '<td><input id="name" name="name" type="text" value=""></td>'
-                in output.data)
+            self.assertIn(
+                '<td><input id="name" name="name" tabindex="1" type="text"'
+                ' value=""></td>', output.data)
 
             data = {
                 'name': 'Debian',
@@ -100,9 +100,9 @@ class FlaskAdminTest(Modeltests):
                 '/distro/add', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue('<h1>Add a new disribution</h1>' in output.data)
-            self.assertTrue(
-                '<input id="name" name="name" type="text" value="Debian"></'
-                in output.data)
+            self.assertIn(
+                '<td><input id="name" name="name" tabindex="1" type="text"'
+                ' value="Debian"></td>', output.data)
 
             csrf_token = output.data.split(
                 'name="csrf_token" type="hidden" value="')[1].split('">')[0]
@@ -164,9 +164,9 @@ class FlaskAdminTest(Modeltests):
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
                 '<h1>Edit disribution: Debian</h1>' in output.data)
-            self.assertTrue(
-                '<input id="name" name="name" type="text" value="Debian"></'
-                in output.data)
+            self.assertIn(
+                '<td><input id="name" name="name" tabindex="1" type="text" '
+                'value="Debian"></td>', output.data)
 
             data = {
                 'name': 'debian',
@@ -177,9 +177,9 @@ class FlaskAdminTest(Modeltests):
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
                 '<h1>Edit disribution: Debian</h1>' in output.data)
-            self.assertTrue(
-                '<input id="name" name="name" type="text" value="debian"></'
-                in output.data)
+            self.assertIn(
+                '<td><input id="name" name="name" tabindex="1" type="text"'
+                ' value="debian"></td>', output.data)
 
             csrf_token = output.data.split(
                 'name="csrf_token" type="hidden" value="')[1].split('">')[0]
