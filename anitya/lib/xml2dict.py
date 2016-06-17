@@ -42,9 +42,6 @@ class object_dict(dict):
 
 class XML2Dict(object):
 
-    def __init__(self):
-        pass
-
     def _parse_node(self, node):
         node_tree = object_dict()
         # Save attrs and text, hope there will not be a child with same name
