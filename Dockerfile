@@ -1,6 +1,6 @@
 FROM fedora
 # cffi>=1.1.0->cryptography->fedmsg->-r
-RUN dnf install -y gcc python-devel libffi-devel openssl-devel git gcc-c++
+RUN dnf install -y gcc python-devel libffi-devel openssl-devel git gcc-c++ redhat-rpm-config
 
 RUN git clone https://github.com/fedora-infra/anitya.git /src
 WORKDIR /src
