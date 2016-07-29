@@ -1,13 +1,14 @@
 FROM fedora
 # cffi>=1.1.0->cryptography->fedmsg->-r
-RUN dnf install -y gcc python-devel libffi-devel openssl-devel git gcc-c++ redhat-rpm-config
+RUN dnf install -y gcc python-devel libffi-devel openssl-devel gcc-c++ redhat-rpm-config && \
+    dnf autoremove -y && \
+    dnf clean all -y
 
-RUN git clone https://github.com/fedora-infra/anitya.git /src
+COPY ./ /src
 WORKDIR /src
 
-# in Fedora we have ancient cffi atm
-# RUN dnf install -y python-cffi
 RUN pip install --user -r requirements.txt
 RUN python createdb.py
 EXPOSE 5000
-CMD ./runserver.py
+ENTRYPOINT python runserver.py --host '0.0.0.0'
+

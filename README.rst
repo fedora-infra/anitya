@@ -63,20 +63,14 @@ running::
 Open your browser and visit http://localhost:5000 to check it out.
 
 
-docker
+Docker
 ``````
 
-You can use dockerfile provided in root of this repository. Build it::
+To build the Docker image::
 
     $ cd anitya/
     $ docker build --tag=anitya .
 
-And run::
+To run the container::
 
-    $ docker run --net=host anitya
-
-``--net=host`` will use network stack from your host system. Application will
-be then available on localhost at http://localhost:5000.
-
-If you inspect the dockerfile you can see that installation method is almost
-identical to the described in section virtualenv_.
+    $ docker run -d -p 5000:5000 anitya

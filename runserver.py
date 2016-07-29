@@ -27,6 +27,10 @@ parser.add_argument(
 parser.add_argument(
     '--port', '-p', default=5000,
     help='Port for the flask application.')
+parser.add_argument(
+    '--host', default='127.0.0.1',
+    help='IP address for the flask application to bind to.'
+)
 
 args = parser.parse_args()
 
@@ -47,4 +51,4 @@ if args.config:
 
 from anitya.app import APP
 APP.debug = True
-APP.run(port=int(args.port))
+APP.run(port=int(args.port), host=args.host)
