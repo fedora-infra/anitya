@@ -50,5 +50,5 @@ if args.config:
 
 
 from anitya.app import APP
+APP.debug = True
 APP.run(port=int(args.port), host=args.host)
-
