@@ -4,11 +4,13 @@
 Provide utility function to convert rst in docstring of functions into html
 '''
 
+from __future__ import absolute_import
 import textwrap
 
 import docutils
 import docutils.examples
 import markupsafe
+import six
 
 
 def modify_rst(rst):
@@ -57,7 +59,7 @@ def modify_html(html):
 def load_doc(endpoint):
     """ Utility to load an RST file and turn it into fancy HTML. """
 
-    rst = unicode(textwrap.dedent(endpoint.__doc__))
+    rst = six.text_type(textwrap.dedent(endpoint.__doc__))
 
     rst = modify_rst(rst)
 

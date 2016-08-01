@@ -9,6 +9,8 @@
 """
 
 
+from __future__ import absolute_import
+from __future__ import print_function
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 
@@ -59,7 +61,7 @@ class PagureBackend(BaseBackend):
         try:
             req = cls.call_url(url)
         except Exception as err:  # pragma: no cover
-            print err
+            print(err)
             raise AnityaPluginException('Could not contact %s' % url)
 
         try:

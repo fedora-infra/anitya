@@ -23,6 +23,7 @@
 anitya tests for the anitya.lib module.
 '''
 
+from __future__ import absolute_import
 __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
 

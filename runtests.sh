@@ -1,4 +1,4 @@
 #!/bin/bash
 
-PYTHONPATH=anitya ./nosetests \
+./nosetests \
 --with-coverage --cover-erase --cover-package=anitya $*

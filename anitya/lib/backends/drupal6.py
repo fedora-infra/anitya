@@ -8,11 +8,12 @@
 
 """
 
+from __future__ import absolute_import
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 
 
-REGEX = b'<version>6\.x-([^<]+)</version>'
+REGEX = '<version>6\.x-([^<]+)</version>'
 
 
 class Drupal6Backend(BaseBackend):
@@ -74,7 +75,7 @@ class Drupal6Backend(BaseBackend):
 
         try:
             versions = get_versions_by_regex(url, regex, project)
-        except AnityaPluginException, err:
+        except AnityaPluginException as err:
             if not '-' in project.name:
                 raise err
             name = project.name.replace("-", "_")

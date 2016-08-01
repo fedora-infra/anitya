@@ -7,13 +7,14 @@ check if the user is an admin and other utility functions.
 """
 
 
+from __future__ import absolute_import
 import codecs
 import functools
 import logging
 import logging.handlers
 import os
 import sys
-import urlparse
+import six.moves.urllib.parse as urlparse
 
 import docutils
 import docutils.examples
@@ -27,6 +28,7 @@ import anitya.forms
 import anitya.lib
 import anitya.lib.plugins
 import anitya.mail_logging
+from six.moves import map
 
 
 __version__ = '0.9.1'
@@ -299,7 +301,7 @@ def modify_rst(rst):
     try:
         # The rst features we need were introduced in this version
         minimum = [0, 9]
-        version = map(int, docutils.__version__.split('.'))
+        version = list(map(int, docutils.__version__.split('.')))
 
         # If we're at or later than that version, no need to downgrade
         if version >= minimum:
@@ -360,6 +362,6 @@ def load_docs(request):
 
 
 # Finalize the import of other controllers
-import api
-import ui
-import admin
+from . import api
+from . import ui
+from . import admin

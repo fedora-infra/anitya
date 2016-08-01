@@ -8,11 +8,12 @@
 
 """
 
+from __future__ import absolute_import
 import anitya
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 
 
-REGEX = b'href="([0-9][0-9.]*)/"'
+REGEX = 'href="([0-9][0-9.]*)/"'
 
 
 def use_gnome_cache_json(project):

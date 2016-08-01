@@ -10,6 +10,7 @@ anitya mapping of python classes to Database Tables.
 """
 
 
+from __future__ import absolute_import
 __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
 

@@ -23,6 +23,8 @@
 Anitya tests.
 '''
 
+from __future__ import absolute_import
+from __future__ import print_function
 import logging
 import unittest
 import sys
@@ -49,7 +51,7 @@ if os.environ.get('BUILD_ID'):
         req = requests.get('%s/new' % FAITOUT_URL)
         if req.status_code == 200:
             DB_PATH = req.text
-            print 'Using faitout at: %s' % DB_PATH
+            print('Using faitout at: %s' % DB_PATH)
     except:
         pass
 
@@ -115,7 +117,7 @@ class Modeltests(unittest.TestCase):
             db_name = DB_PATH.rsplit('/', 1)[1]
             req = requests.get(
                 '%s/clean/%s' % (FAITOUT_URL, db_name))
-            print req.text
+            print(req.text)
 
 
 def create_distro(session):

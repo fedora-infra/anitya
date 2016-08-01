@@ -8,11 +8,12 @@
 
 """
 
+from __future__ import absolute_import
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 
 
-REGEX = b'class="name">([^<]*[^tip])</td'
+REGEX = 'class="name">([^<]*[^tip])</td'
 
 
 class BitBucketBackend(BaseBackend):

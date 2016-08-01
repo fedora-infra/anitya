@@ -9,6 +9,7 @@
 """
 
 
+from __future__ import absolute_import
 from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
 
 

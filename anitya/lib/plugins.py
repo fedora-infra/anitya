@@ -9,6 +9,7 @@
 Module handling the load/call of the plugins of anitya
 """
 
+from __future__ import absolute_import
 from sqlalchemy.exc import SQLAlchemyError
 
 from straight.plugin import load
@@ -29,7 +30,7 @@ def load_plugins(session):
         session.add(bcke)
         try:
             session.commit()
-        except SQLAlchemyError, err:  # pragma: no cover
+        except SQLAlchemyError as err:  # pragma: no cover
             # We cannot test this as it would come from a defective DB
             session.rollback()
     return plugins

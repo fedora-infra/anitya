@@ -23,6 +23,7 @@
 anitya tests for the folder backend.
 '''
 
+from __future__ import absolute_import
 import unittest
 import sys
 import os

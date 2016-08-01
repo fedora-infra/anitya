@@ -8,10 +8,11 @@
 
 """
 
+from __future__ import absolute_import
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 
 
-REGEX = b'<a href="/projects/[^/]*/releases/[0-9]*">([^<]*)</a>'
+REGEX = '<a href="/projects/[^/]*/releases/[0-9]*">([^<]*)</a>'
 
 
 class FreshmeatBackend(BaseBackend):

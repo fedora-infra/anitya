@@ -7,7 +7,9 @@ flask
 flask-openid
 flask-wtf
 markupsafe
-python-openid
+# TODO: Make next 2 lines conditional on python version
+# python-openid
+python3-openid
 sqlalchemy
 # https://github.com/ironfroggy/straight.plugin/issues/17#issuecomment-41466275
 straight.plugin==1.4.0-post-1

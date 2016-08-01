@@ -10,6 +10,7 @@ anitya internal library.
 """
 
 
+from __future__ import absolute_import
 __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
 
@@ -162,7 +163,7 @@ def edit_project(
                 message=dict(
                     agent=user_id,
                     project=project.name,
-                    fields=changes.keys(),  # be backward compat
+                    fields=list(changes.keys()),  # be backward compat
                     changes=changes,
                 )
             )
@@ -201,7 +202,7 @@ def map_project(
         session.add(distro_obj)
         try:
             session.flush()
-        except SQLAlchemyError, err:  # pragma: no cover
+        except SQLAlchemyError as err:  # pragma: no cover
             # We cannot test this situation
             session.rollback()
             raise anitya.lib.exceptions.AnityaException(

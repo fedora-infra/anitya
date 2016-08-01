@@ -2,6 +2,7 @@
 
 """ Forms used in anitya. """
 
+from __future__ import absolute_import
 from flask.ext import wtf
 from wtforms import TextField, TextAreaField, validators, SelectField
 from wtforms import BooleanField

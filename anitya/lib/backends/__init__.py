@@ -8,21 +8,23 @@
 
 """
 
+from __future__ import absolute_import
 import fnmatch
 import re
 import socket
 # sre_constants contains re exceptions
 import sre_constants
-import urllib2
+import six.moves.urllib.request as urllib2
 
 import requests
 import anitya
 import anitya.app
 from anitya.lib.exceptions import AnityaPluginException
+import six
 
 
-REGEX = b'%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
-    '(?:minsrc|src|source|asc))?\.(?:tar|t[bglx]z|tbz2|zip)'
+REGEX = '%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
+        '(?:minsrc|src|source|asc))?\.(?:tar|t[bglx]z|tbz2|zip)'
 
 
 # Use a common http session, so we don't have to go re-establishing https
@@ -66,13 +68,17 @@ def upstream_cmp(v1, v2):
 
     if rc1 and rc2:
         # both are rc, higher rc is newer
-        diff = cmp(rc1.lower(), rc2.lower())
-        if diff != 0:
-            # rc > pre > beta > alpha
-            return diff
+        rc1_text = rc1.lower()
+        rc2_text = rc2.lower()
+        # rc > pre > beta > alpha
+        if rc1_text < rc2_text:
+            return -1
+        if rc1_text > rc2_text:
+            return 1
         if rcn1 and rcn2:
             # both have rc number
-            return cmp(int(rcn1), int(rcn2))
+            diff = int(rcn1) - int(rcn2)
+            return diff
         if rcn1:
             # only first has rc number, then it is newer
             return 1
@@ -299,13 +305,13 @@ def get_versions_by_regex(url, regex, project, insecure=False):
 
     try:
         req = BaseBackend.call_url(url, insecure=insecure)
-    except Exception, err:
-        anitya.LOG.debug('%s ERROR: %s' % (project.name, err.message))
+    except Exception as err:
+        anitya.LOG.debug('%s ERROR: %s' % (project.name, str(err)))
         raise AnityaPluginException(
             'Could not call : "%s" of "%s", with error: %s' % (
-                url, project.name, err.message))
+                url, project.name, str(err)))
 
-    if not isinstance(req, basestring):
+    if not isinstance(req, six.string_types):
         req = req.text
 
     return get_versions_by_regex_for_text(req, url, regex, project)

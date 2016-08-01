@@ -23,6 +23,7 @@
 anitya tests for the flask application.
 '''
 
+from __future__ import absolute_import
 __requires__ = ['SQLAlchemy >= 0.8']
 import pkg_resources
 
@@ -63,9 +64,9 @@ class FlaskAdminTest(Modeltests):
         output = self.app.get('/distro/add', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<ul id="flashes" class="list-group">'
-            '<li class="list-group-item list-group-item-warning">'
-            'Login required</li></ul>' in output.data)
+            b'<ul id="flashes" class="list-group">'
+            b'<li class="list-group-item list-group-item-warning">'
+            b'Login required</li></ul>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -87,10 +88,10 @@ class FlaskAdminTest(Modeltests):
             output = c.get('/distro/add')
             self.assertEqual(output.status_code, 200)
 
-            self.assertTrue('<h1>Add a new disribution</h1>' in output.data)
+            self.assertTrue(b'<h1>Add a new disribution</h1>' in output.data)
             self.assertIn(
-                '<td><input id="name" name="name" tabindex="1" type="text"'
-                ' value=""></td>', output.data)
+                b'<td><input id="name" name="name" tabindex="1" type="text"'
+                b' value=""></td>', output.data)
 
             data = {
                 'name': 'Debian',
@@ -99,13 +100,13 @@ class FlaskAdminTest(Modeltests):
             output = c.post(
                 '/distro/add', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Add a new disribution</h1>' in output.data)
+            self.assertTrue(b'<h1>Add a new disribution</h1>' in output.data)
             self.assertIn(
-                '<td><input id="name" name="name" tabindex="1" type="text"'
-                ' value="Debian"></td>', output.data)
+                b'<td><input id="name" name="name" tabindex="1" type="text"'
+                b' value="Debian"></td>', output.data)
 
             csrf_token = output.data.split(
-                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
 
             data['csrf_token'] = csrf_token
 
@@ -113,21 +114,21 @@ class FlaskAdminTest(Modeltests):
                 '/distro/add', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<h1>Distributions participating</h1>' in output.data)
+                b'<h1>Distributions participating</h1>' in output.data)
             self.assertTrue(
-                '<a href="/distro/Debian/edit">' in output.data)
+                b'<a href="/distro/Debian/edit">' in output.data)
 
             output = c.post(
                 '/distro/add', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                'class="list-group-item list-group-item-danger">'
-                'Could not add this distro, already exists?</'
+                b'class="list-group-item list-group-item-danger">'
+                b'Could not add this distro, already exists?</'
                 in output.data)
             self.assertTrue(
-                '<h1>Distributions participating</h1>' in output.data)
+                b'<h1>Distributions participating</h1>' in output.data)
             self.assertTrue(
-                '<a href="/distro/Debian/edit">' in output.data)
+                b'<a href="/distro/Debian/edit">' in output.data)
 
     def test_edit_distro(self):
         """ Test the edit_distro function. """
@@ -136,9 +137,9 @@ class FlaskAdminTest(Modeltests):
         output = self.app.get('/distro/Debian/edit', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<ul id="flashes" class="list-group">'
-            '<li class="list-group-item list-group-item-warning">'
-            'Login required</li></ul>' in output.data)
+            b'<ul id="flashes" class="list-group">'
+            b'<li class="list-group-item list-group-item-warning">'
+            b'Login required</li></ul>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -163,10 +164,10 @@ class FlaskAdminTest(Modeltests):
             output = c.get('/distro/Debian/edit', follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<h1>Edit disribution: Debian</h1>' in output.data)
+                b'<h1>Edit disribution: Debian</h1>' in output.data)
             self.assertIn(
-                '<td><input id="name" name="name" tabindex="1" type="text" '
-                'value="Debian"></td>', output.data)
+                b'<td><input id="name" name="name" tabindex="1" type="text" '
+                b'value="Debian"></td>', output.data)
 
             data = {
                 'name': 'debian',
@@ -176,13 +177,13 @@ class FlaskAdminTest(Modeltests):
                 '/distro/Debian/edit', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<h1>Edit disribution: Debian</h1>' in output.data)
+                b'<h1>Edit disribution: Debian</h1>' in output.data)
             self.assertIn(
-                '<td><input id="name" name="name" tabindex="1" type="text"'
-                ' value="debian"></td>', output.data)
+                b'<td><input id="name" name="name" tabindex="1" type="text"'
+                b' value="debian"></td>', output.data)
 
             csrf_token = output.data.split(
-                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
 
             data['csrf_token'] = csrf_token
 
@@ -190,9 +191,9 @@ class FlaskAdminTest(Modeltests):
                 '/distro/Debian/edit', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<h1>Distributions participating</h1>' in output.data)
+                b'<h1>Distributions participating</h1>' in output.data)
             self.assertTrue(
-                '<a href="/distro/debian/edit">' in output.data)
+                b'<a href="/distro/debian/edit">' in output.data)
 
     def test_delete_project(self):
         """ Test the delete_project function. """
@@ -202,9 +203,9 @@ class FlaskAdminTest(Modeltests):
         output = self.app.get('/project/1/delete', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<ul id="flashes" class="list-group">'
-            '<li class="list-group-item list-group-item-warning">'
-            'Login required</li></ul>' in output.data)
+            b'<ul id="flashes" class="list-group">'
+            b'<li class="list-group-item list-group-item-warning">'
+            b'Login required</li></ul>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -221,10 +222,10 @@ class FlaskAdminTest(Modeltests):
 
         output = c.get('/projects/')
         self.assertEqual(output.status_code, 200)
-        self.assertTrue('<h1>Projects monitored</h1>' in output.data)
-        self.assertEqual(output.data.count('<a href="/project/1'), 1)
-        self.assertEqual(output.data.count('<a href="/project/2'), 1)
-        self.assertEqual(output.data.count('<a href="/project/3'), 1)
+        self.assertTrue(b'<h1>Projects monitored</h1>' in output.data)
+        self.assertEqual(output.data.count(b'<a href="/project/1'), 1)
+        self.assertEqual(output.data.count(b'<a href="/project/2'), 1)
+        self.assertEqual(output.data.count(b'<a href="/project/3'), 1)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -236,9 +237,9 @@ class FlaskAdminTest(Modeltests):
             output = c.get('/project/1/delete', follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<h1>Delete project geany?</h1>' in output.data)
+                b'<h1>Delete project geany?</h1>' in output.data)
             self.assertTrue(
-                '<button type="submit" name="confirm" value="Yes"'
+                b'<button type="submit" name="confirm" value="Yes"'
                 in output.data)
 
             data = {
@@ -249,13 +250,13 @@ class FlaskAdminTest(Modeltests):
                 '/project/1/delete', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<h1>Delete project geany?</h1>' in output.data)
+                b'<h1>Delete project geany?</h1>' in output.data)
             self.assertTrue(
-                '<button type="submit" name="confirm" value="Yes"'
+                b'<button type="submit" name="confirm" value="Yes"'
                 in output.data)
 
             csrf_token = output.data.split(
-                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
 
             data['csrf_token'] = csrf_token
             del(data['confirm'])
@@ -264,7 +265,7 @@ class FlaskAdminTest(Modeltests):
                 '/project/1/delete', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<h1>Project: geany</h1>' in output.data)
+                b'<h1>Project: geany</h1>' in output.data)
 
             data['confirm'] = True
 
@@ -272,14 +273,14 @@ class FlaskAdminTest(Modeltests):
                 '/project/1/delete', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<h1>Projects monitored</h1>' in output.data)
+                b'<h1>Projects monitored</h1>' in output.data)
             self.assertTrue(
-                '<li class="list-group-item list-group-item-default">'
-                'Project geany has been removed</li>'
+                b'<li class="list-group-item list-group-item-default">'
+                b'Project geany has been removed</li>'
                 in output.data)
-            self.assertEqual(output.data.count('<a href="/project/1'), 0)
-            self.assertEqual(output.data.count('<a href="/project/2'), 1)
-            self.assertEqual(output.data.count('<a href="/project/3'), 1)
+            self.assertEqual(output.data.count(b'<a href="/project/1'), 0)
+            self.assertEqual(output.data.count(b'<a href="/project/2'), 1)
+            self.assertEqual(output.data.count(b'<a href="/project/3'), 1)
 
     def test_delete_project_mapping(self):
         """ Test the delete_project_mapping function. """
@@ -291,9 +292,9 @@ class FlaskAdminTest(Modeltests):
             '/project/1/delete/Fedora/geany', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<ul id="flashes" class="list-group">'
-            '<li class="list-group-item list-group-item-warning">'
-            'Login required</li></ul>' in output.data)
+            b'<ul id="flashes" class="list-group">'
+            b'<li class="list-group-item list-group-item-warning">'
+            b'Login required</li></ul>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -320,8 +321,8 @@ class FlaskAdminTest(Modeltests):
 
         output = c.get('/project/1/')
         self.assertEqual(output.status_code, 200)
-        self.assertTrue('<h1>Project: geany</h1>' in output.data)
-        self.assertTrue('<td>Fedora</td>' in output.data)
+        self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
+        self.assertTrue(b'<td>Fedora</td>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -333,9 +334,9 @@ class FlaskAdminTest(Modeltests):
             output = c.get('/project/1/delete/Fedora/geany', follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<h1>Project: geany - Delete package</h1>' in output.data)
+                b'<h1>Project: geany - Delete package</h1>' in output.data)
             self.assertTrue(
-                '<button type="submit" name="confirm" value="Yes"'
+                b'<button type="submit" name="confirm" value="Yes"'
                 in output.data)
 
             data = {
@@ -347,13 +348,13 @@ class FlaskAdminTest(Modeltests):
                 follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<h1>Project: geany - Delete package</h1>' in output.data)
+                b'<h1>Project: geany - Delete package</h1>' in output.data)
             self.assertTrue(
-                '<button type="submit" name="confirm" value="Yes"'
+                b'<button type="submit" name="confirm" value="Yes"'
                 in output.data)
 
             csrf_token = output.data.split(
-                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
 
             data['csrf_token'] = csrf_token
             del(data['confirm'])
@@ -362,8 +363,8 @@ class FlaskAdminTest(Modeltests):
                 '/project/1/delete/Fedora/geany', data=data,
                 follow_redirects=True)
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Project: geany</h1>' in output.data)
-            self.assertTrue('<td>Fedora</td>' in output.data)
+            self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
+            self.assertTrue(b'<td>Fedora</td>' in output.data)
 
             data['confirm'] = True
 
@@ -372,11 +373,11 @@ class FlaskAdminTest(Modeltests):
                 follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                'class="list-group-item list-group-item-default">'
-                'Mapping for geany has been removed</li>'
+                b'class="list-group-item list-group-item-default">'
+                b'Mapping for geany has been removed</li>'
                 in output.data)
-            self.assertTrue('<h1>Project: geany</h1>' in output.data)
-            self.assertFalse('<td>Fedora</td>' in output.data)
+            self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
+            self.assertFalse(b'<td>Fedora</td>' in output.data)
 
     def test_browse_logs(self):
         """ Test the browse_logs function. """
@@ -385,9 +386,9 @@ class FlaskAdminTest(Modeltests):
         output = self.app.get('/logs', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<ul id="flashes" class="list-group">'
-            '<li class="list-group-item list-group-item-warning">'
-            'Login required</li></ul>' in output.data)
+            b'<ul id="flashes" class="list-group">'
+            b'<li class="list-group-item list-group-item-warning">'
+            b'Login required</li></ul>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -408,25 +409,25 @@ class FlaskAdminTest(Modeltests):
 
             output = c.get('/logs')
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Logs</h1>' in output.data)
-            self.assertTrue('added the distro named: Debian' in output.data)
+            self.assertTrue(b'<h1>Logs</h1>' in output.data)
+            self.assertTrue(b'added the distro named: Debian' in output.data)
 
             output = c.get('/logs?page=abc&limit=def&from_date=ghi')
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Logs</h1>' in output.data)
-            self.assertTrue('added the distro named: Debian' in output.data)
+            self.assertTrue(b'<h1>Logs</h1>' in output.data)
+            self.assertTrue(b'added the distro named: Debian' in output.data)
 
             output = c.get('/logs?from_date=%s' % datetime.datetime.utcnow().date())
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Logs</h1>' in output.data)
-            self.assertTrue('added the distro named: Debian' in output.data)
+            self.assertTrue(b'<h1>Logs</h1>' in output.data)
+            self.assertTrue(b'added the distro named: Debian' in output.data)
 
             # the Debian log shouldn't show up if the "from date" is tomorrow
             tomorrow = datetime.datetime.utcnow().date() + datetime.timedelta(days=1)
             output = c.get('/logs?from_date=%s' % tomorrow)
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Logs</h1>' in output.data)
-            self.assertFalse('added the distro named: Debian' in output.data)
+            self.assertTrue(b'<h1>Logs</h1>' in output.data)
+            self.assertFalse(b'added the distro named: Debian' in output.data)
 
     def test_browse_flags(self):
         """ Test the browse_flags function. """
@@ -436,9 +437,9 @@ class FlaskAdminTest(Modeltests):
         output = self.app.get('/flags', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<ul id="flashes" class="list-group">'
-            '<li class="list-group-item list-group-item-warning">'
-            'Login required</li></ul>' in output.data)
+            b'<ul id="flashes" class="list-group">'
+            b'<li class="list-group-item list-group-item-warning">'
+            b'Login required</li></ul>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -459,30 +460,30 @@ class FlaskAdminTest(Modeltests):
 
             output = c.get('/flags')
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Flags</h1>' in output.data)
-            self.assertTrue('geany' in output.data)
+            self.assertTrue(b'<h1>Flags</h1>' in output.data)
+            self.assertTrue(b'geany' in output.data)
 
             output = c.get('/flags?page=abc&limit=def&from_date=ghi')
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Flags</h1>' in output.data)
-            self.assertTrue('geany' in output.data)
+            self.assertTrue(b'<h1>Flags</h1>' in output.data)
+            self.assertTrue(b'geany' in output.data)
 
             output = c.get('/flags?from_date=%s' % datetime.datetime.utcnow().date())
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Flags</h1>' in output.data)
-            self.assertTrue('geany' in output.data)
+            self.assertTrue(b'<h1>Flags</h1>' in output.data)
+            self.assertTrue(b'geany' in output.data)
 
             # geany shouldn't show up if the "from date" is tomorrow
             tomorrow = datetime.datetime.utcnow().date() + datetime.timedelta(days=1)
             output = c.get('/flags?from_date=%s' % tomorrow)
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Flags</h1>' in output.data)
-            self.assertFalse('geany' in output.data)
+            self.assertTrue(b'<h1>Flags</h1>' in output.data)
+            self.assertFalse(b'geany' in output.data)
 
             output = c.get('/flags?from_date=%s&project=geany' % datetime.datetime.utcnow().date())
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Flags</h1>' in output.data)
-            self.assertTrue('geany' in output.data)
+            self.assertTrue(b'<h1>Flags</h1>' in output.data)
+            self.assertTrue(b'geany' in output.data)
 
     def test_flag_project(self):
         """ Test setting the flag state of a project. """
@@ -534,7 +535,7 @@ class FlaskAdminTest(Modeltests):
             data = {}
 
             csrf_token = output.data.split(
-                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
 
             data['csrf_token'] = csrf_token
 
@@ -561,7 +562,7 @@ class FlaskAdminTest(Modeltests):
             # Get a new CSRF Token
             output = c.get('/distro/add')
             csrf_token = output.data.split(
-                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
 
             # Grab the CSRF token again so we can toggle the flag again
             data = {'csrf_token': csrf_token}

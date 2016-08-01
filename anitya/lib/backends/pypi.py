@@ -9,6 +9,7 @@
 
 """
 
+from __future__ import absolute_import
 import anitya.lib.xml2dict as xml2dict
 
 from anitya.lib.backends import BaseBackend
@@ -77,7 +78,7 @@ class PypiBackend(BaseBackend):
         except Exception:  # pragma: no cover
             raise AnityaPluginException('No JSON returned by %s' % url)
 
-        return data['releases'].keys()
+        return list(data['releases'].keys())
 
     @classmethod
     def check_feed(cls):
