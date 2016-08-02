@@ -23,7 +23,6 @@
 anitya tests of the model.
 '''
 
-from __future__ import absolute_import
 __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
 
