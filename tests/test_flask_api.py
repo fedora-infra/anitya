@@ -23,7 +23,6 @@
 anitya tests for the flask API.
 '''
 
-from six.moves import range
 __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
 
