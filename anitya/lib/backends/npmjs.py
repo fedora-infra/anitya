@@ -9,7 +9,6 @@
 
 """
 
-from __future__ import absolute_import
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 

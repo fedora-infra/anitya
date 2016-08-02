@@ -4,7 +4,6 @@
 Provide utility function to convert rst in docstring of functions into html
 '''
 
-from __future__ import absolute_import
 import textwrap
 
 import docutils

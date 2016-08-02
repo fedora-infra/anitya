@@ -9,7 +9,6 @@
 anitya default configuration.
 """
 
-from __future__ import absolute_import
 from datetime import timedelta
 
 # Set the time after which the session expires

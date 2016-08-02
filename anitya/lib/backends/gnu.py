@@ -8,7 +8,6 @@
 
 """
 
-from __future__ import absolute_import
 from anitya.lib.backends import (
     BaseBackend, REGEX, get_versions_by_regex_for_text)
 from anitya.lib.exceptions import AnityaPluginException

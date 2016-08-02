@@ -5,7 +5,6 @@ Released under the GPLv2 at https://code.google.com/archive/p/xml2dict/
 Adjusted by Pierre-Yves Chibon <pingou@pingoured.fr>
 """
 
-from __future__ import absolute_import
 import re
 import xml.etree.ElementTree as ET
 

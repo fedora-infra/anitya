@@ -1,0 +1,500 @@
+diff --git a/anitya/__init__.py b/anitya/__init__.py
+index b166dd9..782c3e3 100644
+--- a/anitya/__init__.py
++++ b/anitya/__init__.py
+@@ -1,6 +1,5 @@
+ # -*- coding: utf-8 -*-
+ 
+-from __future__ import absolute_import
+ import logging
+ import warnings
+ 
+diff --git a/anitya/admin.py b/anitya/admin.py
+index 1828bc3..3da6893 100644
+--- a/anitya/admin.py
++++ b/anitya/admin.py
+@@ -1,6 +1,5 @@
+ # -*- coding: utf-8 -*-
+ 
+-from __future__ import absolute_import
+ from dateutil import parser
+ from math import ceil
+ 
+diff --git a/anitya/api.py b/anitya/api.py
+index 012dfc4..c23249b 100644
+--- a/anitya/api.py
++++ b/anitya/api.py
+@@ -1,6 +1,5 @@
+ # -*- coding: utf-8 -*-
+ 
+-from __future__ import absolute_import
+ import flask
+ 
+ import anitya
+diff --git a/anitya/app.py b/anitya/app.py
+index 2611722..d4de26b 100644
+--- a/anitya/app.py
++++ b/anitya/app.py
+@@ -7,7 +7,6 @@ check if the user is an admin and other utility functions.
+ """
+ 
+ 
+-from __future__ import absolute_import
+ import codecs
+ import functools
+ import logging
+diff --git a/anitya/default_config.py b/anitya/default_config.py
+index 7b15656..154bc23 100644
+--- a/anitya/default_config.py
++++ b/anitya/default_config.py
+@@ -9,7 +9,6 @@
+ anitya default configuration.
+ """
+ 
+-from __future__ import absolute_import
+ from datetime import timedelta
+ 
+ # Set the time after which the session expires
+diff --git a/anitya/doc_utils.py b/anitya/doc_utils.py
+index 9380b51..98a2924 100644
+--- a/anitya/doc_utils.py
++++ b/anitya/doc_utils.py
+@@ -4,7 +4,6 @@
+ Provide utility function to convert rst in docstring of functions into html
+ '''
+ 
+-from __future__ import absolute_import
+ import textwrap
+ 
+ import docutils
+diff --git a/anitya/forms.py b/anitya/forms.py
+index 927d55d..b6c1c3d 100644
+--- a/anitya/forms.py
++++ b/anitya/forms.py
+@@ -2,7 +2,6 @@
+ 
+ """ Forms used in anitya. """
+ 
+-from __future__ import absolute_import
+ from flask.ext import wtf
+ from wtforms import TextField, TextAreaField, validators, SelectField
+ from wtforms import BooleanField
+diff --git a/anitya/lib/__init__.py b/anitya/lib/__init__.py
+index a1c00f3..cd5d8cd 100644
+--- a/anitya/lib/__init__.py
++++ b/anitya/lib/__init__.py
+@@ -10,7 +10,6 @@ anitya internal library.
+ """
+ 
+ 
+-from __future__ import absolute_import
+ __requires__ = ['SQLAlchemy >= 0.7']
+ import pkg_resources
+ 
+diff --git a/anitya/lib/backends/__init__.py b/anitya/lib/backends/__init__.py
+index 43d49cc..e99e025 100644
+--- a/anitya/lib/backends/__init__.py
++++ b/anitya/lib/backends/__init__.py
+@@ -8,7 +8,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ import fnmatch
+ import re
+ import socket
+diff --git a/anitya/lib/backends/bitbucket.py b/anitya/lib/backends/bitbucket.py
+index c01e958..6e47dca 100644
+--- a/anitya/lib/backends/bitbucket.py
++++ b/anitya/lib/backends/bitbucket.py
+@@ -8,7 +8,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex
+ from anitya.lib.exceptions import AnityaPluginException
+ 
+diff --git a/anitya/lib/backends/cpan.py b/anitya/lib/backends/cpan.py
+index d697175..9e4df40 100644
+--- a/anitya/lib/backends/cpan.py
++++ b/anitya/lib/backends/cpan.py
+@@ -9,7 +9,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ import anitya.lib.xml2dict as xml2dict
+ 
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
+diff --git a/anitya/lib/backends/custom.py b/anitya/lib/backends/custom.py
+index 5298de2..a5e1a91 100644
+--- a/anitya/lib/backends/custom.py
++++ b/anitya/lib/backends/custom.py
+@@ -8,7 +8,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
+ 
+ 
+diff --git a/anitya/lib/backends/debian.py b/anitya/lib/backends/debian.py
+index f72ebda..d30dc3f 100644
+--- a/anitya/lib/backends/debian.py
++++ b/anitya/lib/backends/debian.py
+@@ -8,7 +8,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
+ 
+ 
+diff --git a/anitya/lib/backends/drupal6.py b/anitya/lib/backends/drupal6.py
+index 07ae594..f2bc4ba 100644
+--- a/anitya/lib/backends/drupal6.py
++++ b/anitya/lib/backends/drupal6.py
+@@ -8,7 +8,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex
+ from anitya.lib.exceptions import AnityaPluginException
+ 
+diff --git a/anitya/lib/backends/drupal7.py b/anitya/lib/backends/drupal7.py
+index 30c8213..8ff6acc 100644
+--- a/anitya/lib/backends/drupal7.py
++++ b/anitya/lib/backends/drupal7.py
+@@ -8,7 +8,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex
+ from anitya.lib.exceptions import AnityaPluginException
+ 
+diff --git a/anitya/lib/backends/folder.py b/anitya/lib/backends/folder.py
+index fc83838..d3dc21c 100644
+--- a/anitya/lib/backends/folder.py
++++ b/anitya/lib/backends/folder.py
+@@ -8,7 +8,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import (
+     BaseBackend, get_versions_by_regex_for_text, REGEX)
+ from anitya.lib.exceptions import AnityaPluginException
+diff --git a/anitya/lib/backends/freshmeat.py b/anitya/lib/backends/freshmeat.py
+index c14f09f..5cc36f5 100644
+--- a/anitya/lib/backends/freshmeat.py
++++ b/anitya/lib/backends/freshmeat.py
+@@ -8,7 +8,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex
+ 
+ 
+diff --git a/anitya/lib/backends/github.py b/anitya/lib/backends/github.py
+index c176247..92dcabd 100644
+--- a/anitya/lib/backends/github.py
++++ b/anitya/lib/backends/github.py
+@@ -8,7 +8,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex
+ from anitya.lib.exceptions import AnityaPluginException
+ 
+diff --git a/anitya/lib/backends/gnome.py b/anitya/lib/backends/gnome.py
+index 8f73b8b..9262ae2 100644
+--- a/anitya/lib/backends/gnome.py
++++ b/anitya/lib/backends/gnome.py
+@@ -8,7 +8,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ import anitya
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex
+ 
+diff --git a/anitya/lib/backends/gnu.py b/anitya/lib/backends/gnu.py
+index 58c3089..badef4c 100644
+--- a/anitya/lib/backends/gnu.py
++++ b/anitya/lib/backends/gnu.py
+@@ -8,7 +8,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import (
+     BaseBackend, REGEX, get_versions_by_regex_for_text)
+ from anitya.lib.exceptions import AnityaPluginException
+diff --git a/anitya/lib/backends/google.py b/anitya/lib/backends/google.py
+index fcb7989..844c981 100644
+--- a/anitya/lib/backends/google.py
++++ b/anitya/lib/backends/google.py
+@@ -9,7 +9,6 @@
+ """
+ 
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
+ 
+ 
+diff --git a/anitya/lib/backends/hackage.py b/anitya/lib/backends/hackage.py
+index 5805337..e0f0748 100644
+--- a/anitya/lib/backends/hackage.py
++++ b/anitya/lib/backends/hackage.py
+@@ -9,7 +9,6 @@
+ """
+ 
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
+ 
+ 
+diff --git a/anitya/lib/backends/launchpad.py b/anitya/lib/backends/launchpad.py
+index 398690e..36c38fd 100644
+--- a/anitya/lib/backends/launchpad.py
++++ b/anitya/lib/backends/launchpad.py
+@@ -9,7 +9,6 @@
+ """
+ 
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
+ 
+ 
+diff --git a/anitya/lib/backends/maven.py b/anitya/lib/backends/maven.py
+index 2989c4b..c3728a0 100644
+--- a/anitya/lib/backends/maven.py
++++ b/anitya/lib/backends/maven.py
+@@ -8,7 +8,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ import re
+ 
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex
+diff --git a/anitya/lib/backends/npmjs.py b/anitya/lib/backends/npmjs.py
+index 2a19655..77022b7 100644
+--- a/anitya/lib/backends/npmjs.py
++++ b/anitya/lib/backends/npmjs.py
+@@ -9,7 +9,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend
+ from anitya.lib.exceptions import AnityaPluginException
+ 
+diff --git a/anitya/lib/backends/packagist.py b/anitya/lib/backends/packagist.py
+index ee65993..60be967 100644
+--- a/anitya/lib/backends/packagist.py
++++ b/anitya/lib/backends/packagist.py
+@@ -9,7 +9,6 @@
+ """
+ 
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend
+ from anitya.lib.exceptions import AnityaPluginException
+ 
+diff --git a/anitya/lib/backends/pagure.py b/anitya/lib/backends/pagure.py
+index c7a27e0..0af0643 100644
+--- a/anitya/lib/backends/pagure.py
++++ b/anitya/lib/backends/pagure.py
+@@ -9,7 +9,6 @@
+ """
+ 
+ 
+-from __future__ import absolute_import
+ from __future__ import print_function
+ from anitya.lib.backends import BaseBackend
+ from anitya.lib.exceptions import AnityaPluginException
+diff --git a/anitya/lib/backends/pear.py b/anitya/lib/backends/pear.py
+index 131fe27..a31f146 100644
+--- a/anitya/lib/backends/pear.py
++++ b/anitya/lib/backends/pear.py
+@@ -9,7 +9,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ import anitya.lib.xml2dict as xml2dict
+ 
+ from anitya.lib.backends import BaseBackend
+diff --git a/anitya/lib/backends/pecl.py b/anitya/lib/backends/pecl.py
+index f5a9aff..ea9e1ec 100644
+--- a/anitya/lib/backends/pecl.py
++++ b/anitya/lib/backends/pecl.py
+@@ -9,7 +9,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ import anitya.lib.xml2dict as xml2dict
+ 
+ from anitya.lib.backends import BaseBackend
+diff --git a/anitya/lib/backends/pypi.py b/anitya/lib/backends/pypi.py
+index 76a407e..1043191 100644
+--- a/anitya/lib/backends/pypi.py
++++ b/anitya/lib/backends/pypi.py
+@@ -9,7 +9,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ import anitya.lib.xml2dict as xml2dict
+ 
+ from anitya.lib.backends import BaseBackend
+diff --git a/anitya/lib/backends/rubygems.py b/anitya/lib/backends/rubygems.py
+index 28beb5d..aa580f9 100644
+--- a/anitya/lib/backends/rubygems.py
++++ b/anitya/lib/backends/rubygems.py
+@@ -9,7 +9,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend
+ from anitya.lib.exceptions import AnityaPluginException
+ 
+diff --git a/anitya/lib/backends/sourceforge.py b/anitya/lib/backends/sourceforge.py
+index 41f61a0..115d4ab 100644
+--- a/anitya/lib/backends/sourceforge.py
++++ b/anitya/lib/backends/sourceforge.py
+@@ -8,7 +8,6 @@
+ 
+ """
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
+ 
+ 
+diff --git a/anitya/lib/backends/stackage.py b/anitya/lib/backends/stackage.py
+index 0da6e5d..e415ed4 100644
+--- a/anitya/lib/backends/stackage.py
++++ b/anitya/lib/backends/stackage.py
+@@ -7,7 +7,6 @@
+ """
+ 
+ 
+-from __future__ import absolute_import
+ from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
+ 
+ 
+diff --git a/anitya/lib/model.py b/anitya/lib/model.py
+index 9e68fc1..1c26422 100644
+--- a/anitya/lib/model.py
++++ b/anitya/lib/model.py
+@@ -10,7 +10,6 @@ anitya mapping of python classes to Database Tables.
+ """
+ 
+ 
+-from __future__ import absolute_import
+ __requires__ = ['SQLAlchemy >= 0.7']
+ import pkg_resources
+ 
+diff --git a/anitya/lib/plugins.py b/anitya/lib/plugins.py
+index 7f664d9..35beec6 100644
+--- a/anitya/lib/plugins.py
++++ b/anitya/lib/plugins.py
+@@ -9,7 +9,6 @@
+ Module handling the load/call of the plugins of anitya
+ """
+ 
+-from __future__ import absolute_import
+ from sqlalchemy.exc import SQLAlchemyError
+ 
+ from straight.plugin import load
+diff --git a/anitya/lib/xml2dict.py b/anitya/lib/xml2dict.py
+index d0403e4..2a6d9d5 100644
+--- a/anitya/lib/xml2dict.py
++++ b/anitya/lib/xml2dict.py
+@@ -5,7 +5,6 @@ Released under the GPLv2 at https://code.google.com/archive/p/xml2dict/
+ Adjusted by Pierre-Yves Chibon <pingou@pingoured.fr>
+ """
+ 
+-from __future__ import absolute_import
+ import re
+ import xml.etree.ElementTree as ET
+ 
+diff --git a/anitya/mail_logging.py b/anitya/mail_logging.py
+index 57b9072..1cbaefe 100644
+--- a/anitya/mail_logging.py
++++ b/anitya/mail_logging.py
+@@ -22,7 +22,6 @@
+ '''
+ Mail handler for logging.
+ '''
+-from __future__ import absolute_import
+ import logging
+ import logging.handlers
+ 
+diff --git a/anitya/ui.py b/anitya/ui.py
+index 216238c..a187d1b 100644
+--- a/anitya/ui.py
++++ b/anitya/ui.py
+@@ -1,6 +1,5 @@
+ # -*- coding: utf-8 -*-
+ 
+-from __future__ import absolute_import
+ from math import ceil
+ 
+ import flask
+diff --git a/tests/test_backend_bitbucket.py b/tests/test_backend_bitbucket.py
+index 8355b31..f9b8c5f 100644
+--- a/tests/test_backend_bitbucket.py
++++ b/tests/test_backend_bitbucket.py
+@@ -23,7 +23,6 @@
+ anitya tests for the bitbucket backend.
+ '''
+ 
+-from __future__ import absolute_import
+ import unittest
+ import sys
+ import os
+diff --git a/tests/test_flask.py b/tests/test_flask.py
+index 07646ae..a90d856 100644
+--- a/tests/test_flask.py
++++ b/tests/test_flask.py
+@@ -23,7 +23,6 @@
+ anitya tests for the flask application.
+ '''
+ 
+-from __future__ import absolute_import
+ __requires__ = ['SQLAlchemy >= 0.8']
+ import pkg_resources
+ 
+diff --git a/tests/test_flask_admin.py b/tests/test_flask_admin.py
+index 2f6d8c4..5adb9d4 100644
+--- a/tests/test_flask_admin.py
++++ b/tests/test_flask_admin.py
+@@ -23,7 +23,6 @@
+ anitya tests for the flask application.
+ '''
+ 
+-from __future__ import absolute_import
+ __requires__ = ['SQLAlchemy >= 0.8']
+ import pkg_resources
+ 
+diff --git a/tests/test_flask_api.py b/tests/test_flask_api.py
+index 95bba9e..0e7fee0 100644
+--- a/tests/test_flask_api.py
++++ b/tests/test_flask_api.py
+@@ -23,7 +23,6 @@
+ anitya tests for the flask API.
+ '''
+ 
+-from __future__ import absolute_import
+ from six.moves import range
+ __requires__ = ['SQLAlchemy >= 0.7']
+ import pkg_resources

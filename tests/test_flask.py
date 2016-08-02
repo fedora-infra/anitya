@@ -23,7 +23,6 @@
 anitya tests for the flask application.
 '''
 
-from __future__ import absolute_import
 __requires__ = ['SQLAlchemy >= 0.8']
 import pkg_resources
 

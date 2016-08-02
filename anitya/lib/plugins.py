@@ -9,7 +9,6 @@
 Module handling the load/call of the plugins of anitya
 """
 
-from __future__ import absolute_import
 from sqlalchemy.exc import SQLAlchemyError
 
 from straight.plugin import load

@@ -7,7 +7,6 @@ check if the user is an admin and other utility functions.
 """
 
 
-from __future__ import absolute_import
 import codecs
 import functools
 import logging
