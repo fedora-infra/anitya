@@ -4,7 +4,6 @@ dist/
 doc/_build/
 *egg-info/
 *.cfg
-*.wsgi
 *.sqlite
 *~
 *.swp
@@ -17,4 +16,6 @@ cnucnu/
 *.egg
 anitya-env
 .tox
-
+.idea/
+.vagrant/
+anitya.db
