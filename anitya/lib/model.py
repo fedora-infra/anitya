@@ -19,6 +19,8 @@ import time
 
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm.exc import NoResultFound
 
 import anitya
 
@@ -136,6 +138,34 @@ class Backend(BASE):
     __tablename__ = 'backends'
 
     name = sa.Column(sa.String(200), primary_key=True)
+    ecosystem = relationship("Ecosystem", uselist=False, back_populates="backend")
+    projects = relationship("Project", back_populates="backend_orm_ref")
+
+    @classmethod
+    def all(cls, session):
+        query = session.query(cls).order_by(cls.name)
+        return query.all()
+
+    @classmethod
+    def by_name(cls, session, name):
+        return session.query(cls).filter_by(name=name).first()
+
+    get = by_name
+
+
+class Ecosystem(BASE):
+    __tablename__ = 'ecosystems'
+
+    name = sa.Column(sa.String(200), primary_key=True)
+    backend_name = sa.Column(
+        sa.String(200),
+        sa.ForeignKey(
+            "backends.name",
+            ondelete="cascade",
+            onupdate="cascade"),
+        unique=True
+    )
+    backend = relationship("Backend", back_populates="ecosystem")
 
     @classmethod
     def all(cls, session):
@@ -292,6 +322,8 @@ class Project(BASE):
     name = sa.Column(sa.String(200), nullable=False, index=True)
     homepage = sa.Column(sa.String(200), nullable=False)
 
+    # TODO: rename backend/backend_orm_ref as backend_name/backend
+    #       as is done in the Ecosystem table
     backend = sa.Column(
         sa.String(200),
         sa.ForeignKey(
@@ -300,6 +332,7 @@ class Project(BASE):
             onupdate="cascade"),
         default='custom',
     )
+    backend_orm_ref = relationship("Backend", back_populates="projects")
     version_url = sa.Column(sa.String(200), nullable=True)
     regex = sa.Column(sa.String(200), nullable=True)
     version_prefix = sa.Column(sa.String(200), nullable=True)
@@ -383,6 +416,18 @@ class Project(BASE):
         return session.query(cls)\
             .filter_by(name=name)\
             .filter_by(homepage=homepage).first()
+
+    @classmethod
+    def by_name_and_ecosystem(cls, session, name, ecosystem):
+        try:
+            return (session.query(cls)
+                    .filter_by(name=name)
+                    .join(Project.backend_orm_ref)
+                    .join(Backend.ecosystem)
+                    .filter(Ecosystem.name==ecosystem).one())
+        except NoResultFound:
+            return None
+
 
     @classmethod
     def all(cls, session, page=None, count=False):

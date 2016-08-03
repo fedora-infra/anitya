@@ -161,6 +161,44 @@ def create_project(session):
         user_id='noreply@fedoraproject.org',
     )
 
+def create_ecosystem_projects(session):
+    """ Create some fake projects from particular upstream ecosystems
+
+    Each project name is used in two different ecosystems
+    """
+    anitya.lib.create_project(
+        session,
+        name='pypi_and_npm',
+        homepage='https://example.com/not-a-real-pypi-project',
+        backend='PyPI',
+        user_id='noreply@fedoraproject.org'
+    )
+
+    anitya.lib.create_project(
+        session,
+        name='pypi_and_npm',
+        homepage='https://example.com/not-a-real-npmjs-project',
+        backend='npmjs',
+        user_id='noreply@fedoraproject.org'
+    )
+
+    anitya.lib.create_project(
+        session,
+        name='rubygems_and_maven',
+        homepage='https://example.com/not-a-real-rubygems-project',
+        backend='Rubygems',
+        user_id='noreply@fedoraproject.org'
+    )
+
+
+    anitya.lib.create_project(
+        session,
+        name='rubygems_and_maven',
+        homepage='https://example.com/not-a-real-maven-project',
+        backend='Maven Central',
+        user_id='noreply@fedoraproject.org'
+    )
+
 
 def create_package(session):
     """ Create some basic packages to work with. """

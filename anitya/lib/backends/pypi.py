@@ -19,6 +19,7 @@ class PypiBackend(BaseBackend):
     ''' The PyPI class for project hosted on PyPI. '''
 
     name = 'PyPI'
+    ecosystem_name = "pypi"
     examples = [
         'https://pypi.python.org/pypi/arrow',
         'https://pypi.python.org/pypi/fedmsg',

@@ -21,6 +21,7 @@ class MavenBackend(BaseBackend):
     ''' Backend for projects hosted on Maven Central '''
 
     name = 'Maven Central'
+    ecosystem_name = "maven"
     examples = [
         'http://repo1.maven.org/maven2/plexus/plexus-compiler/',
         'http://repo1.maven.org/maven2/com/google/inject/guice/',

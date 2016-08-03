@@ -23,14 +23,20 @@ def load_plugins(session):
     backends = [bcke.name for bcke in model.Backend.all(session)]
 
     plugins = get_plugins()
-    plg_names = [plugin.name for plugin in plugins]
-    for backend in set(backends).symmetric_difference(set(plg_names)):
+    plugin_names = [plugin.name for plugin in plugins]
+    plugins_by_name = dict(zip(plugin_names, plugins))
+    for backend in set(backends).symmetric_difference(set(plugin_names)):
         bcke = model.Backend(name=backend)
         session.add(bcke)
+        ecosystem_name = plugins_by_name[backend].ecosystem_name
+        if ecosystem_name is not None:
+            ecosystem = model.Ecosystem(name=ecosystem_name, backend=bcke)
+            session.add(ecosystem)
         try:
             session.commit()
         except SQLAlchemyError as err:  # pragma: no cover
             # We cannot test this as it would come from a defective DB
+            print(err)
             session.rollback()
     return plugins
 

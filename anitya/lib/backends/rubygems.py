@@ -20,6 +20,7 @@ class RubygemsBackend(BaseBackend):
     be used to retrieve the version information. '''
 
     name = 'Rubygems'
+    ecosystem_name = "rubygems"
     examples = [
         'http://rubygems.org/gems/aa',
         'http://rubygems.org/gems/bio',

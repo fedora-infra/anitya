@@ -37,45 +37,50 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 import anitya.lib.plugins as plugins
 from tests import Modeltests
 
+EXPECTED_PLUGINS = [
+    'BitBucket', 'CPAN (perl)', 'Debian project', 'Drupal6',
+    'Drupal7', 'Freshmeat',
+    'GNOME', 'GNU project', 'GitHub', 'Google code', 'Hackage',
+    'Launchpad', 'Maven Central', 'PEAR', 'PECL', 'Packagist', 'PyPI',
+    'Rubygems', 'Sourceforge', 'Stackage', 'custom', 'folder', 'npmjs',
+    'pagure',
+]
+
+EXPECTED_ECOSYSTEMS = {
+    "Rubygems": "rubygems",
+    "PyPI": "pypi",
+    "npmjs": "npm",
+    "Maven Central": "maven",
+}
+
 
 class Pluginstests(Modeltests):
     """ Plugins tests. """
 
     def test_load_plugins(self):
         """ Test the plugins.load_plugins function. """
-        plgns = [plg.name for plg in plugins.load_plugins(self.session)]
-        self.assertEqual(len(plgns), 24)
-        exp = [
-            'BitBucket', 'CPAN (perl)', 'Debian project', 'Drupal6',
-            'Drupal7', 'Freshmeat',
-            'GNOME', 'GNU project', 'GitHub', 'Google code', 'Hackage',
-            'Launchpad', 'Maven Central', 'PEAR', 'PECL', 'Packagist', 'PyPI',
-            'Rubygems', 'Sourceforge', 'Stackage', 'custom', 'folder', 'npmjs',
-            'pagure',
-        ]
+        plgns = plugins.load_plugins(self.session)
+        self.assertEqual(len(plgns), len(EXPECTED_PLUGINS))
+        plugin_names = [plugin.name for plugin in plgns]
+        plugin_names.sort()
+        self.assertEqual(plugin_names, EXPECTED_PLUGINS)
 
-        self.assertEqual(sorted(plgns), exp)
+        ecosystems = dict((plugin.name, plugin.ecosystem_name)
+                              for plugin in plgns
+                                  if plugin.ecosystem_name is not None)
+        self.assertEqual(ecosystems, EXPECTED_ECOSYSTEMS)
 
     def test_plugins_get_plugin_names(self):
         """ Test the plugins.get_plugin_names function. """
-        plgns = plugins.get_plugin_names()
-        self.assertEqual(len(plgns), 24)
-        exp = [
-            'BitBucket', 'CPAN (perl)', 'Debian project', 'Drupal6',
-            'Drupal7', 'Freshmeat',
-            'GNOME', 'GNU project', 'GitHub', 'Google code', 'Hackage',
-            'Launchpad', 'Maven Central', 'PEAR', 'PECL', 'Packagist', 'PyPI',
-            'Rubygems', 'Sourceforge', 'Stackage', 'custom', 'folder', 'npmjs',
-            'pagure',
-        ]
-
-        self.assertEqual(sorted(plgns), exp)
+        plugin_names = plugins.get_plugin_names()
+        self.assertEqual(len(plugin_names), len(EXPECTED_PLUGINS))
+        self.assertEqual(sorted(plugin_names), EXPECTED_PLUGINS)
 
     def test_plugins_get_plugin(self):
         """ Test the plugins.get_plugin function. """
-        plgns = plugins.get_plugin('PyPI')
+        plugin = plugins.get_plugin('PyPI')
         self.assertEqual(
-            str(plgns), "<class 'anitya.lib.backends.pypi.PypiBackend'>")
+            str(plugin), "<class 'anitya.lib.backends.pypi.PypiBackend'>")
 
 
 if __name__ == '__main__':
