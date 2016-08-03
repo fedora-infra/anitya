@@ -34,48 +34,75 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(
     os.path.abspath(__file__)), '..'))
 
-import anitya.lib.plugins as plugins
+from anitya.lib import plugins
+from anitya.lib import model
 from tests import Modeltests
+
+EXPECTED_BACKENDS = [
+    'BitBucket', 'CPAN (perl)', 'Debian project', 'Drupal6',
+    'Drupal7', 'Freshmeat',
+    'GNOME', 'GNU project', 'GitHub', 'Google code', 'Hackage',
+    'Launchpad', 'Maven Central', 'PEAR', 'PECL', 'Packagist', 'PyPI',
+    'Rubygems', 'Sourceforge', 'Stackage', 'custom', 'folder', 'npmjs',
+    'pagure',
+]
+
+EXPECTED_ECOSYSTEMS = {
+    "rubygems": "Rubygems",
+    "pypi": "PyPI",
+    "npm": "npmjs",
+    "maven": "Maven Central",
+}
 
 
 class Pluginstests(Modeltests):
     """ Plugins tests. """
 
+    def _check_db_contents(self, expected_backends, expected_ecosystems):
+        backends = model.Backend.all(self.session)
+        backend_names_from_db = sorted(backend.name for backend in backends)
+        self.assertEqual(backend_names_from_db, expected_backends)
+        ecosystems = model.Ecosystem.all(self.session)
+        ecosystems_from_db = dict((eco.name, eco.default_backend.name)
+                                  for eco in ecosystems)
+        self.assertEqual(ecosystems_from_db, expected_ecosystems)
+
+
+    def test_load_all_plugins(self):
+        """ Test the plugins.load_all_plugins function. """
+        all_plugins = plugins.load_all_plugins(self.session)
+        backend_plugins = all_plugins["backends"]
+        self.assertEqual(len(backend_plugins), len(EXPECTED_BACKENDS))
+        backend_names = sorted(plugin.name for plugin in backend_plugins)
+        self.assertEqual(backend_names, EXPECTED_BACKENDS)
+
+        ecosystem_plugins = all_plugins["ecosystems"]
+        ecosystems = dict((plugin.name, plugin.default_backend)
+                              for plugin in ecosystem_plugins)
+        self.assertEqual(ecosystems, EXPECTED_ECOSYSTEMS)
+
+        self._check_db_contents(EXPECTED_BACKENDS, EXPECTED_ECOSYSTEMS)
+
     def test_load_plugins(self):
         """ Test the plugins.load_plugins function. """
-        plgns = [plg.name for plg in plugins.load_plugins(self.session)]
-        self.assertEqual(len(plgns), 24)
-        exp = [
-            'BitBucket', 'CPAN (perl)', 'Debian project', 'Drupal6',
-            'Drupal7', 'Freshmeat',
-            'GNOME', 'GNU project', 'GitHub', 'Google code', 'Hackage',
-            'Launchpad', 'Maven Central', 'PEAR', 'PECL', 'Packagist', 'PyPI',
-            'Rubygems', 'Sourceforge', 'Stackage', 'custom', 'folder', 'npmjs',
-            'pagure',
-        ]
+        backend_plugins = plugins.load_plugins(self.session)
+        self.assertEqual(len(backend_plugins), len(EXPECTED_BACKENDS))
+        backend_names = sorted(plugin.name for plugin in backend_plugins)
+        self.assertEqual(backend_names, EXPECTED_BACKENDS)
 
-        self.assertEqual(sorted(plgns), exp)
+        self._check_db_contents(EXPECTED_BACKENDS, EXPECTED_ECOSYSTEMS)
 
     def test_plugins_get_plugin_names(self):
         """ Test the plugins.get_plugin_names function. """
-        plgns = plugins.get_plugin_names()
-        self.assertEqual(len(plgns), 24)
-        exp = [
-            'BitBucket', 'CPAN (perl)', 'Debian project', 'Drupal6',
-            'Drupal7', 'Freshmeat',
-            'GNOME', 'GNU project', 'GitHub', 'Google code', 'Hackage',
-            'Launchpad', 'Maven Central', 'PEAR', 'PECL', 'Packagist', 'PyPI',
-            'Rubygems', 'Sourceforge', 'Stackage', 'custom', 'folder', 'npmjs',
-            'pagure',
-        ]
-
-        self.assertEqual(sorted(plgns), exp)
+        plugin_names = plugins.get_plugin_names()
+        self.assertEqual(len(plugin_names), len(EXPECTED_BACKENDS))
+        self.assertEqual(sorted(plugin_names), EXPECTED_BACKENDS)
 
     def test_plugins_get_plugin(self):
         """ Test the plugins.get_plugin function. """
-        plgns = plugins.get_plugin('PyPI')
+        plugin = plugins.get_plugin('PyPI')
         self.assertEqual(
-            str(plgns), "<class 'anitya.lib.backends.pypi.PypiBackend'>")
+            str(plugin), "<class 'anitya.lib.backends.pypi.PypiBackend'>")
 
 
 if __name__ == '__main__':

@@ -37,7 +37,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(
 import anitya
 import anitya.lib.model as model
 from anitya.lib.backends import REGEX
-from tests import Modeltests, create_distro, create_project, create_package
+from tests import (Modeltests, create_distro, create_project,
+                   create_package, create_ecosystem_projects)
 
 # Py3 compatibility: UTF-8 decoding and JSON decoding may be separate steps
 def _read_json(output):
@@ -406,6 +407,51 @@ class AnityaWebAPItests(Modeltests):
 
         self.assertEqual(data, exp)
 
+    def test_api_get_project_by_ecosystem(self):
+        """ Test the api_get_project_ecosystem function of the API. """
+        create_distro(self.session)
+        output = self.app.get('/api/by_ecosystem/pypi/pypi_and_npm')
+        self.assertEqual(output.status_code, 404)
+        data = _read_json(output)
+
+        exp = {
+            "error": 'No project "pypi_and_npm" found in ecosystem "pypi"',
+            "output": "notok"
+        }
+        self.assertEqual(data, exp)
+
+        create_ecosystem_projects(self.session)
+
+        output = self.app.get('/api/by_ecosystem/pypi/not-a-project')
+        self.assertEqual(output.status_code, 404)
+        data = _read_json(output)
+
+        exp = {
+            "error": 'No project "not-a-project" found in ecosystem "pypi"',
+            "output": "notok"
+        }
+        self.assertEqual(data, exp)
+
+        output = self.app.get('/api/by_ecosystem/pypi/pypi_and_npm')
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        del(data['created_on'])
+        del(data['updated_on'])
+
+        exp = {
+            "id": 1,
+            "backend": "PyPI",
+            "homepage": "https://example.com/not-a-real-pypi-project",
+            "name": "pypi_and_npm",
+            "regex": None,
+            "version": None,
+            "version_url": None,
+            "versions": [],
+            "packages": [],
+        }
+
+        self.assertEqual(data, exp)
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(AnityaWebAPItests)
