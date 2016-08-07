@@ -24,10 +24,10 @@ Notifications service).
 Hacking
 -------
 
-Anitya is built using `python2.x`. The following steps all are setup using
-virtualenv having `python2.x`.
-
-Note: The project will not work with `python3` (yet.)
+Anitya deployment is currently only supported on Python 2.x, but local
+development can use either Python 2.x or 3.x. The following steps should
+all work regardless of which runtime you have your virtual environment
+configured to use.
 
 virtualenv
 ``````````
@@ -46,9 +46,34 @@ First, set up a virtualenv::
 Issuing that last command should change your prompt to indicate that you are
 operating in an active virtualenv.
 
+Access to the system site packages is needed for access to the RPM bindings,
+as those aren't available through PyPI, only as RPMs for the system Python
+runtime.
+
 Next, install your dependencies::
 
     (anitya-env)$ pip install -r requirements.txt
+
+
+Running the test suite
+``````````````````````
+
+The tests can be run with a coverage data report via::
+
+    (anitya-env)$ ./runtests.sh
+
+If this is the first time you've run the tests, you'll also want to do::
+
+    (anitya-env)$ pip install -r test_requirements.txt
+
+Regardless of which Python version you have configured in your local venv,
+the tests can be run under both Python 2 & 3 via:
+
+    (anitya-env)$ tox
+
+
+Running a local instance
+````````````````````````
 
 Create the database, by default it will be a sqlite database located at
 ``/var/tmp/anitya-dev.sqlite``::

@@ -61,7 +61,7 @@ class FlaskTest(Modeltests):
         output = self.app.get('/')
         self.assertEqual(output.status_code, 200)
 
-        expected = """
+        expected = b"""
       <h2><span class="glyphicon glyphicon-bullhorn"></span> Announce</h2>
       <p>We monitor upstream releases and broadcast them on
       <a href="http://fedmsg.com">fedmsg</a>, the FEDerated MeSsaGe bus. </p>
@@ -71,7 +71,7 @@ class FlaskTest(Modeltests):
 
         self.assertTrue(expected in output.data)
 
-        expected = """
+        expected = b"""
       <h2><span class="glyphicon glyphicon-search"></span> Search</h2>
       <p>Currently 0 projects are being monitored by Anitya.
       Your project of interest might be there, or not. To check it
@@ -85,7 +85,7 @@ class FlaskTest(Modeltests):
         output = self.app.get('/about')
         self.assertEqual(output.status_code, 200)
 
-        expected = """
+        expected = b"""
 <h1 class="title">Anitya</h1>
 <p>Anitya is a project version monitoring system.</p>
 <p>Every-day Anitya checks if there is a new version available and broadcast the
@@ -106,7 +106,7 @@ a backend for the project hosting. More information below.</p>"""
         output = self.app.get('/project/1/')
         self.assertEqual(output.status_code, 200)
 
-        expected = """
+        expected = b"""
             <p><a property="doap:homepage" href="http://www.geany.org/"
                target="_blank">http://www.geany.org/
              </a><p>"""
@@ -124,29 +124,29 @@ a backend for the project hosting. More information below.</p>"""
         output = self.app.get('/projects/')
         self.assertEqual(output.status_code, 200)
 
-        expected = """
+        expected = b"""
                 <a href="http://www.geany.org/" target="_blank">
                   http://www.geany.org/
                 </a>"""
         self.assertTrue(expected in output.data)
 
-        expected = """
+        expected = b"""
                 <a href="https://fedorahosted.org/r2spec/" target="_blank">
                   https://fedorahosted.org/r2spec/
                 </a>"""
         self.assertTrue(expected in output.data)
 
-        expected = """
+        expected = b"""
                 <a href="http://subsurface.hohndel.org/" target="_blank">
                   http://subsurface.hohndel.org/
                 </a>"""
         self.assertTrue(expected in output.data)
 
-        self.assertEqual(output.data.count('<a href="/project/'), 3)
+        self.assertEqual(output.data.count(b'<a href="/project/'), 3)
 
         output = self.app.get('/projects/?page=ab')
         self.assertEqual(output.status_code, 200)
-        self.assertEqual(output.data.count('<a href="/project/'), 3)
+        self.assertEqual(output.data.count(b'<a href="/project/'), 3)
 
     def test_distros(self):
         """ Test the distros function. """
@@ -156,7 +156,7 @@ a backend for the project hosting. More information below.</p>"""
         output = self.app.get('/distros/')
         self.assertEqual(output.status_code, 200)
 
-        expected = "Here is the list of all the distributions"
+        expected = b"Here is the list of all the distributions"
         self.assertTrue(expected in output.data)
 
         output = self.app.get('/distros/?page=ab')
@@ -171,26 +171,26 @@ a backend for the project hosting. More information below.</p>"""
         output = self.app.get('/distro/Fedora/')
         self.assertEqual(output.status_code, 200)
 
-        expected = """
+        expected = b"""
   <blockquote>
       Oups this is embarrassing, it seems that no projects are being
       monitored currently.
   </blockquote>"""
         self.assertTrue(expected in output.data)
         self.assertTrue(
-            'form action="/distro/Fedora/search/" role="form" '
-            'class="form-inline">' in output.data)
+            b'form action="/distro/Fedora/search/" role="form" '
+            b'class="form-inline">' in output.data)
         self.assertTrue(
-            '<h1>Projects of Fedora monitored</h1>' in output.data)
+            b'<h1>Projects of Fedora monitored</h1>' in output.data)
 
         output = self.app.get('/distro/Fedora/?page=ab')
         self.assertEqual(output.status_code, 200)
         self.assertTrue(expected in output.data)
         self.assertTrue(
-            'form action="/distro/Fedora/search/" role="form" '
-            'class="form-inline">' in output.data)
+            b'form action="/distro/Fedora/search/" role="form" '
+            b'class="form-inline">' in output.data)
         self.assertTrue(
-            '<h1>Projects of Fedora monitored</h1>' in output.data)
+            b'<h1>Projects of Fedora monitored</h1>' in output.data)
 
     def test_distro_projects_search(self):
         """ Test the distro_projects_search function. """
@@ -200,7 +200,7 @@ a backend for the project hosting. More information below.</p>"""
         output = self.app.get('/distro/Fedora/search/gua')
         self.assertEqual(output.status_code, 200)
 
-        expected = """
+        expected = b"""
     <blockquote>
         Oups this is embarrassing, it seems that no projects are being
         monitored currently.
@@ -208,10 +208,10 @@ a backend for the project hosting. More information below.</p>"""
     </blockquote>"""
         self.assertTrue(expected in output.data)
         self.assertTrue(
-            'form action="/distro/Fedora/search/" role="form">'
+            b'form action="/distro/Fedora/search/" role="form">'
             in output.data)
         self.assertTrue(
-            '<h1>Search projects in Fedora</h1>' in output.data)
+            b'<h1>Search projects in Fedora</h1>' in output.data)
 
     def test_projects_search(self):
         """ Test the projects_search function. """
@@ -220,30 +220,30 @@ a backend for the project hosting. More information below.</p>"""
 
         output = self.app.get('/projects/search/g')
         self.assertEqual(output.status_code, 200)
-        self.assertEqual(output.data.count('<a href="/project/'), 1)
+        self.assertEqual(output.data.count(b'<a href="/project/'), 1)
 
         output = self.app.get('/projects/search/g*')
         self.assertEqual(output.status_code, 200)
-        expected = """
+        expected = b"""
                   <a href="http://www.geany.org/" target="_blank">
                     http://www.geany.org/
                   </a>"""
         self.assertTrue(expected in output.data)
 
-        self.assertEqual(output.data.count('<a href="/project/'), 1)
+        self.assertEqual(output.data.count(b'<a href="/project/'), 1)
 
         output = self.app.get('/projects/search/?page=ab')
         self.assertEqual(output.status_code, 200)
         self.assertTrue(expected in output.data)
-        self.assertEqual(output.data.count('<a href="/project/'), 3)
+        self.assertEqual(output.data.count(b'<a href="/project/'), 3)
 
         output = self.app.get(
             '/projects/search/geany*', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
 
-        expected = '<li class="list-group-item list-group-item-default">' \
-            'Only one result matching with an ' \
-            'exact match, redirecting</li>'
+        expected = b'<li class="list-group-item list-group-item-default">' \
+            b'Only one result matching with an ' \
+            b'exact match, redirecting</li>'
         self.assertTrue(expected in output.data)
 
     def test_new_project(self):
@@ -251,9 +251,9 @@ a backend for the project hosting. More information below.</p>"""
         output = self.app.get('/project/new', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<ul id="flashes" class="list-group">'
-            '<li class="list-group-item list-group-item-warning">'
-            'Login required</li></ul>' in output.data)
+            b'<ul id="flashes" class="list-group">'
+            b'<li class="list-group-item list-group-item-warning">'
+            b'Login required</li></ul>' in output.data)
 
         with anitya.app.APP.test_client() as c:
             with c.session_transaction() as sess:
@@ -265,9 +265,9 @@ a backend for the project hosting. More information below.</p>"""
             output = c.get('/project/new', follow_redirects=True)
             self.assertEqual(output.status_code, 200)
 
-            self.assertTrue('<h1>Add project</h1>' in output.data)
+            self.assertTrue(b'<h1>Add project</h1>' in output.data)
             self.assertTrue(
-                '<td><label for="regex">Regex</label></td>' in output.data)
+                b'<td><label for="regex">Regex</label></td>' in output.data)
 
             data = {
                 'name': 'repo_manager',
@@ -279,12 +279,12 @@ a backend for the project hosting. More information below.</p>"""
             output = c.post(
                 '/project/new', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Add project</h1>' in output.data)
+            self.assertTrue(b'<h1>Add project</h1>' in output.data)
             self.assertTrue(
-                '<td><label for="regex">Regex</label></td>' in output.data)
+                b'<td><label for="regex">Regex</label></td>' in output.data)
 
             csrf_token = output.data.split(
-                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
 
             data['csrf_token'] = csrf_token
 
@@ -293,25 +293,25 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/new', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<li class="list-group-item list-group-item-default">'
-                'Project created</li>' in output.data)
+                b'<li class="list-group-item list-group-item-default">'
+                b'Project created</li>' in output.data)
             self.assertTrue(
-                '<h1>Project: repo_manager</h1>' in output.data)
+                b'<h1>Project: repo_manager</h1>' in output.data)
 
             # Project already exists
             output = c.post(
                 '/project/new', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertFalse(
-                '<li class="list-group-item list-group-item-default">'
-                'Project created</li>' in output.data)
+                b'<li class="list-group-item list-group-item-default">'
+                b'Project created</li>' in output.data)
             self.assertFalse(
-                '<h1>Project: repo_manager</h1>' in output.data)
+                b'<h1>Project: repo_manager</h1>' in output.data)
             self.assertTrue(
-                '<li class="list-group-item list-group-item-default">'
-                'Could not add this project, already exists?</li>'
+                b'<li class="list-group-item list-group-item-default">'
+                b'Could not add this project, already exists?</li>'
                 in output.data)
-            self.assertTrue('<h1>Add project</h1>' in output.data)
+            self.assertTrue(b'<h1>Add project</h1>' in output.data)
 
             # Invalid homepage
             data = {
@@ -323,9 +323,9 @@ a backend for the project hosting. More information below.</p>"""
             output = c.post(
                 '/project/new', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Add project</h1>' in output.data)
+            self.assertTrue(b'<h1>Add project</h1>' in output.data)
             self.assertTrue(
-                '<td><label for="regex">Regex</label></td>' in output.data)
+                b'<td><label for="regex">Regex</label></td>' in output.data)
 
         projects = model.Project.all(self.session, count=True)
         self.assertEqual(projects, 1)
@@ -338,9 +338,9 @@ a backend for the project hosting. More information below.</p>"""
         output = self.app.get('/project/1/edit', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<ul id="flashes" class="list-group">'
-            '<li class="list-group-item list-group-item-warning">'
-            'Login required</li></ul>' in output.data)
+            b'<ul id="flashes" class="list-group">'
+            b'<li class="list-group-item list-group-item-warning">'
+            b'Login required</li></ul>' in output.data)
 
         projects = model.Project.all(self.session)
         self.assertEqual(len(projects), 3)
@@ -364,9 +364,9 @@ a backend for the project hosting. More information below.</p>"""
             output = c.get('/project/1/edit', follow_redirects=True)
             self.assertEqual(output.status_code, 200)
 
-            self.assertTrue('<h1>Edit project</h1>' in output.data)
+            self.assertTrue(b'<h1>Edit project</h1>' in output.data)
             self.assertTrue(
-                '<td><label for="regex">Regex</label></td>' in output.data)
+                b'<td><label for="regex">Regex</label></td>' in output.data)
 
             data = {
                 'name': 'repo_manager',
@@ -377,13 +377,13 @@ a backend for the project hosting. More information below.</p>"""
             output = c.post(
                 '/project/1/edit', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Edit project</h1>' in output.data)
+            self.assertTrue(b'<h1>Edit project</h1>' in output.data)
             self.assertTrue(
-                '<td><label for="regex">Regex</label></td>' in output.data)
+                b'<td><label for="regex">Regex</label></td>' in output.data)
 
             # This should works just fine
             csrf_token = output.data.split(
-                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
 
             data['csrf_token'] = csrf_token
 
@@ -391,10 +391,10 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/1/edit', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<li class="list-group-item list-group-item-default">'
-                'Project edited</li>' in output.data)
+                b'<li class="list-group-item list-group-item-default">'
+                b'Project edited</li>' in output.data)
             self.assertTrue(
-                '<h1>Project: repo_manager</h1>' in output.data)
+                b'<h1>Project: repo_manager</h1>' in output.data)
 
             # This should fail, the R2spec project already exists
             data = {
@@ -408,12 +408,12 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/1/edit', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<li class="list-group-item list-group-item-warning">'
-                'Could not edit this project. Is there '
-                'already a project with these name and homepage?</li>'
+                b'<li class="list-group-item list-group-item-warning">'
+                b'Could not edit this project. Is there '
+                b'already a project with these name and homepage?</li>'
                 in output.data)
             self.assertTrue(
-                '<h1>Project: repo_manager</h1>' in output.data)
+                b'<h1>Project: repo_manager</h1>' in output.data)
 
         projects = model.Project.all(self.session)
         self.assertEqual(len(projects), 3)
@@ -432,9 +432,9 @@ a backend for the project hosting. More information below.</p>"""
         output = self.app.get('/project/1/map', follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(
-            '<ul id="flashes" class="list-group">'
-            '<li class="list-group-item list-group-item-warning">'
-            'Login required</li></ul>' in output.data)
+            b'<ul id="flashes" class="list-group">'
+            b'<li class="list-group-item list-group-item-warning">'
+            b'Login required</li></ul>' in output.data)
 
         projects = model.Project.all(self.session)
         self.assertEqual(len(projects), 3)
@@ -461,9 +461,9 @@ a backend for the project hosting. More information below.</p>"""
             output = c.get('/project/1/map', follow_redirects=True)
             self.assertEqual(output.status_code, 200)
 
-            self.assertTrue('<h1>Project: geany</h1>' in output.data)
+            self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
             self.assertTrue(
-                '<td><label for="distro">Distribution</label></td>'
+                b'<td><label for="distro">Distribution</label></td>'
                 in output.data)
 
             data = {
@@ -474,14 +474,14 @@ a backend for the project hosting. More information below.</p>"""
             output = c.post(
                 '/project/1/map', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Project: geany</h1>' in output.data)
+            self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
             self.assertTrue(
-                '<td><label for="distro">Distribution</label></td>'
+                b'<td><label for="distro">Distribution</label></td>'
                 in output.data)
 
             # This should works just fine
             csrf_token = output.data.split(
-                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
 
             data['csrf_token'] = csrf_token
 
@@ -489,10 +489,10 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/1/map', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<li class="list-group-item list-group-item-default">'
-                'Mapping added</li>' in output.data)
+                b'<li class="list-group-item list-group-item-default">'
+                b'Mapping added</li>' in output.data)
             self.assertTrue(
-                '<h1>Project: geany</h1>' in output.data)
+                b'<h1>Project: geany</h1>' in output.data)
 
             # This should fail, the mapping already exists
             data = {
@@ -505,14 +505,14 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/1/map', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<li class="list-group-item list-group-item-danger">'
-                'Could not edit the mapping of geany on '
-                'CentOS, there is already a package geany on CentOS '
-                'as part of the project <a href="/project/1/">geany'
-                '</a>.</li>'
+                b'<li class="list-group-item list-group-item-danger">'
+                b'Could not edit the mapping of geany on '
+                b'CentOS, there is already a package geany on CentOS '
+                b'as part of the project <a href="/project/1/">geany'
+                b'</a>.</li>'
                 in output.data)
             self.assertTrue(
-                '<h1>Project: geany</h1>' in output.data)
+                b'<h1>Project: geany</h1>' in output.data)
 
         projects = model.Project.all(self.session)
         self.assertEqual(len(projects), 3)
@@ -560,9 +560,9 @@ a backend for the project hosting. More information below.</p>"""
             output = c.get('/project/1/map/1', follow_redirects=True)
             self.assertEqual(output.status_code, 200)
 
-            self.assertTrue('<h1>Project: geany</h1>' in output.data)
+            self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
             self.assertTrue(
-                '<td><label for="distro">Distribution</label></td>'
+                b'<td><label for="distro">Distribution</label></td>'
                 in output.data)
 
             data = {
@@ -573,14 +573,14 @@ a backend for the project hosting. More information below.</p>"""
             output = c.post(
                 '/project/1/map/1', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
-            self.assertTrue('<h1>Project: geany</h1>' in output.data)
+            self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
             self.assertTrue(
-                '<td><label for="distro">Distribution</label></td>'
+                b'<td><label for="distro">Distribution</label></td>'
                 in output.data)
 
             # This should works just fine
             csrf_token = output.data.split(
-                'name="csrf_token" type="hidden" value="')[1].split('">')[0]
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
 
             data['csrf_token'] = csrf_token
 
@@ -588,10 +588,10 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/1/map/1', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<li class="list-group-item list-group-item-default">'
-                'Mapping edited</li>' in output.data)
+                b'<li class="list-group-item list-group-item-default">'
+                b'Mapping edited</li>' in output.data)
             self.assertTrue(
-                '<h1>Project: geany</h1>' in output.data)
+                b'<h1>Project: geany</h1>' in output.data)
 
             # This should fail, the mapping already exists
             data = {
@@ -604,14 +604,14 @@ a backend for the project hosting. More information below.</p>"""
                 '/project/1/map/1', data=data, follow_redirects=True)
             self.assertEqual(output.status_code, 200)
             self.assertTrue(
-                '<li class="list-group-item list-group-item-danger">'
-                'Could not edit the mapping of geany2 on '
-                'CentOS, there is already a package geany2 on CentOS '
-                'as part of the project <a href="/project/1/">geany'
-                '</a>.</li>'
+                b'<li class="list-group-item list-group-item-danger">'
+                b'Could not edit the mapping of geany2 on '
+                b'CentOS, there is already a package geany2 on CentOS '
+                b'as part of the project <a href="/project/1/">geany'
+                b'</a>.</li>'
                 in output.data)
             self.assertTrue(
-                '<h1>Project: geany</h1>' in output.data)
+                b'<h1>Project: geany</h1>' in output.data)
 
         projects = model.Project.all(self.session)
         self.assertEqual(len(projects), 3)

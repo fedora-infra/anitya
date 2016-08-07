@@ -11,8 +11,9 @@
 from anitya.lib.backends import (
     BaseBackend, get_versions_by_regex_for_text, REGEX)
 from anitya.lib.exceptions import AnityaPluginException
+import six
 
-DEFAULT_REGEX = b'href="([0-9][0-9.]*)/"'
+DEFAULT_REGEX = 'href="([0-9][0-9.]*)/"'
 
 
 class FolderBackend(BaseBackend):
@@ -68,7 +69,7 @@ class FolderBackend(BaseBackend):
                 'Could not call : "%s" of "%s"' % (url, project.name))
 
         versions = None
-        if not isinstance(req, basestring):
+        if not isinstance(req, six.string_types):
             req = req.text
 
         try:

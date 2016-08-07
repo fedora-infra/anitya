@@ -39,6 +39,10 @@ import anitya.lib.model as model
 from anitya.lib.backends import REGEX
 from tests import Modeltests, create_distro, create_project, create_package
 
+# Py3 compatibility: UTF-8 decoding and JSON decoding may be separate steps
+def _read_json(output):
+    return json.loads(output.get_data(as_text=True))
+
 
 class AnityaWebAPItests(Modeltests):
     """ Flask API tests. """
@@ -58,7 +62,7 @@ class AnityaWebAPItests(Modeltests):
 
         output = self.app.get('/api/projects')
         self.assertEqual(output.status_code, 200)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         exp = {"projects": [], "total": 0}
         self.assertEqual(data, exp)
@@ -67,7 +71,7 @@ class AnityaWebAPItests(Modeltests):
 
         output = self.app.get('/api/projects/')
         self.assertEqual(output.status_code, 200)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         for key in range(len(data['projects'])):
             del(data['projects'][key]['created_on'])
@@ -113,7 +117,7 @@ class AnityaWebAPItests(Modeltests):
 
         output = self.app.get('/api/projects/?pattern=ge')
         self.assertEqual(output.status_code, 200)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         for key in range(len(data['projects'])):
             del(data['projects'][key]['created_on'])
@@ -139,7 +143,7 @@ class AnityaWebAPItests(Modeltests):
 
         output = self.app.get('/api/projects/?homepage=http://www.geany.org/')
         self.assertEqual(output.status_code, 200)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         for key in range(len(data['projects'])):
             del(data['projects'][key]['created_on'])
@@ -172,7 +176,7 @@ class AnityaWebAPItests(Modeltests):
         output = self.app.get('/api/packages/wiki/')
         self.assertEqual(output.status_code, 200)
 
-        self.assertEqual(output.data, '')
+        self.assertEqual(output.data, b'')
 
         create_project(self.session)
         create_package(self.session)
@@ -180,8 +184,8 @@ class AnityaWebAPItests(Modeltests):
         output = self.app.get('/api/packages/wiki/')
         self.assertEqual(output.status_code, 200)
 
-        exp = "* geany DEFAULT http://www.geany.org/Download/Releases\n"\
-            "* subsurface DEFAULT http://subsurface.hohndel.org/downloads/"
+        exp = b"* geany DEFAULT http://www.geany.org/Download/Releases\n"\
+            b"* subsurface DEFAULT http://subsurface.hohndel.org/downloads/"
         self.assertEqual(output.data, exp)
 
     def test_api_projects_names(self):
@@ -189,7 +193,7 @@ class AnityaWebAPItests(Modeltests):
         create_distro(self.session)
         output = self.app.get('/api/projects/names')
         self.assertEqual(output.status_code, 200)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         exp = {"projects": [], "total": 0}
         self.assertEqual(data, exp)
@@ -199,7 +203,7 @@ class AnityaWebAPItests(Modeltests):
 
         output = self.app.get('/api/projects/names/')
         self.assertEqual(output.status_code, 200)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         exp = {
             "projects": [
@@ -213,7 +217,7 @@ class AnityaWebAPItests(Modeltests):
 
         output = self.app.get('/api/projects/names/?pattern=ge')
         self.assertEqual(output.status_code, 200)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         exp = {
             "projects": [
@@ -229,7 +233,7 @@ class AnityaWebAPItests(Modeltests):
 
         output = self.app.post('/api/version/get')
         self.assertEqual(output.status_code, 400)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         exp = {"error": ["No project id specified"], "output": "notok"}
         self.assertEqual(data, exp)
@@ -240,7 +244,7 @@ class AnityaWebAPItests(Modeltests):
         data = {'id': 10}
         output = self.app.post('/api/version/get', data=data)
         self.assertEqual(output.status_code, 404)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         exp = {"error": "No such project", "output": "notok"}
         self.assertEqual(data, exp)
@@ -254,7 +258,7 @@ class AnityaWebAPItests(Modeltests):
         data = {'id': 1}
         output = self.app.post('/api/version/get', data=data)
         self.assertEqual(output.status_code, 400)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         exp = {
             "error": [
@@ -278,7 +282,7 @@ class AnityaWebAPItests(Modeltests):
         data = {'id': 1}
         output = self.app.post('/api/version/get', data=data)
         self.assertEqual(output.status_code, 200)
-        data = json.loads(output.data)
+        data = _read_json(output)
         del(data['created_on'])
         del(data['updated_on'])
 
@@ -312,7 +316,7 @@ class AnityaWebAPItests(Modeltests):
 
         output = self.app.get('/api/project/10')
         self.assertEqual(output.status_code, 404)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         exp = {"error": "no such project", "output": "notok"}
         self.assertEqual(data, exp)
@@ -325,7 +329,7 @@ class AnityaWebAPItests(Modeltests):
 
         output = self.app.get('/api/project/1')
         self.assertEqual(output.status_code, 200)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         del(data['created_on'])
         del(data['updated_on'])
@@ -354,7 +358,7 @@ class AnityaWebAPItests(Modeltests):
         create_distro(self.session)
         output = self.app.get('/api/project/Fedora/geany')
         self.assertEqual(output.status_code, 404)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         exp = {
             "error": "No package \"geany\" found in distro \"Fedora\"",
@@ -367,7 +371,7 @@ class AnityaWebAPItests(Modeltests):
 
         output = self.app.get('/api/project/Fedora/gnome-terminal/')
         self.assertEqual(output.status_code, 404)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         exp = {
             "error": "No package \"gnome-terminal\" found in distro "
@@ -378,7 +382,7 @@ class AnityaWebAPItests(Modeltests):
 
         output = self.app.get('/api/project/Fedora/geany/')
         self.assertEqual(output.status_code, 200)
-        data = json.loads(output.data)
+        data = _read_json(output)
 
         del(data['created_on'])
         del(data['updated_on'])

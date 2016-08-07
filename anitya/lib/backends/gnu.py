@@ -13,7 +13,7 @@ from anitya.lib.backends import (
 from anitya.lib.exceptions import AnityaPluginException
 
 
-DEFAULT_REGEX = b'href="([0-9][0-9.]*)/"'
+DEFAULT_REGEX = 'href="([0-9][0-9.]*)/"'
 
 
 class GnuBackend(BaseBackend):

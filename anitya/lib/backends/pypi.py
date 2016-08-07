@@ -77,7 +77,7 @@ class PypiBackend(BaseBackend):
         except Exception:  # pragma: no cover
             raise AnityaPluginException('No JSON returned by %s' % url)
 
-        return data['releases'].keys()
+        return list(data['releases'].keys())
 
     @classmethod
     def check_feed(cls):

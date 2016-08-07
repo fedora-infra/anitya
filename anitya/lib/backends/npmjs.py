@@ -91,7 +91,7 @@ class NpmjsBackend(BaseBackend):
         if 'error' in data or 'versions' not in data:
             raise AnityaPluginException('No versions found at %s' % url)
 
-        return data['versions'].keys()
+        return list(data['versions'].keys())
 
     @classmethod
     def check_feed(cls):

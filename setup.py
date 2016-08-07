@@ -9,8 +9,18 @@ __requires__ = ['SQLAlchemy >= 0.7', 'jinja2 >= 2.4']
 import pkg_resources
 
 from setuptools import setup
-from anitya.app import __version__
+import re
 
+def get_project_version():
+    """Read the declared version of the project from the source code"""
+    version_file = "anitya/app.py"
+    with open(version_file, "rb") as f:
+        version_pattern = b"^__version__ = '(.+)'$"
+        match = re.search(version_pattern, f.read(), re.MULTILINE)
+    if match is None:
+        err_msg = "No line matching  %r found in %r"
+        raise ValueError(err_msg % (version_pattern, version_file))
+    return match.groups()[0].decode("utf-8")
 
 def get_requirements(requirements_file='requirements.txt'):
     """Get the contents of a file listing the requirements.
@@ -33,7 +43,7 @@ def get_requirements(requirements_file='requirements.txt'):
 setup(
     name='anitya',
     description='anitya is a project to monitor upstream releases in a distro.',
-    version=__version__,
+    version=get_project_version(),
     author='Pierre-Yves Chibon',
     author_email='pingou@pingoured.fr',
     maintainer='Pierre-Yves Chibon',

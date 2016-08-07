@@ -354,7 +354,7 @@ def browse_logs():
             user=user or None,
             count=True
         )
-    except Exception, err:
+    except Exception as err:
         LOG.exception(err)
         flask.flash(err, 'errors')
 
@@ -436,7 +436,7 @@ def browse_flags():
             user=user or None,
             count=True
         )
-    except Exception, err:
+    except Exception as err:
         LOG.exception(err)
         flask.flash(err, 'errors')
 

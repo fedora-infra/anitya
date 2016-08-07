@@ -16,3 +16,5 @@ cnucnu/
 *.swo
 *.egg
 anitya-env
+.tox
+

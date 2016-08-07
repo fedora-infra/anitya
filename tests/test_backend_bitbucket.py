@@ -80,7 +80,7 @@ class BitBucketBackendtests(Modeltests):
 
 
     def test_get_version(self):
-        """ Test the get_version function of the github backend. """
+        """ Test the get_version function of the BitBucket backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = 'rel_1_0_8'
@@ -102,7 +102,7 @@ class BitBucketBackendtests(Modeltests):
         self.assertEqual(obs, exp)
 
     def test_get_versions(self):
-        """ Test the get_versions function of the github backend. """
+        """ Test the get_versions function of the BitBucket backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = [

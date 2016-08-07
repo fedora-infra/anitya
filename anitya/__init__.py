@@ -5,6 +5,14 @@ import warnings
 
 import anitya.lib.plugins
 import anitya.lib.exceptions
+# Feature check: version comparisons were historically done with cmp
+# For Python 3, we need to switch to using a key function instead
+try:
+    cmp
+except NameError:
+    from functools import cmp_to_key as _convert_cmp_to_key
+else:
+    _convert_cmp_to_key = None
 
 
 __api_version__ = '1.0'
@@ -26,16 +34,26 @@ def fedmsg_publish(*args, **kwargs):  # pragma: no cover
     try:
         import fedmsg
         fedmsg.publish(*args, **kwargs)
-    except Exception, err:
+    except Exception as err:
         warnings.warn(str(err))
 
 
-def order_versions(vlist):
-    ''' For a provided list of versions, return the list ordered from the
-    oldest to the newest version.
-    '''
-    import anitya.lib.backends  # Avoid circular import
-    return sorted(vlist, cmp=anitya.lib.backends.upstream_cmp)
+# Ordering is handled differently based on Python version
+if _convert_cmp_to_key is None:
+    def order_versions(vlist):
+        ''' For a provided list of versions, return the list ordered from the
+        oldest to the newest version.
+        '''
+        import anitya.lib.backends  # Avoid circular import
+        return sorted(vlist, cmp=anitya.lib.backends.upstream_cmp)
+else:
+    def order_versions(vlist):
+        ''' For a provided list of versions, return the list ordered from the
+        oldest to the newest version.
+        '''
+        import anitya.lib.backends  # Avoid circular import
+        sort_key = _convert_cmp_to_key(anitya.lib.backends.upstream_cmp)
+        return sorted(vlist, key=sort_key)
 
 
 def check_release(project, session, test=False):
@@ -57,7 +75,7 @@ def check_release(project, session, test=False):
         up_version = backend.get_version(project)
     except anitya.lib.exceptions.AnityaPluginException as err:
         LOG.exception("AnityaError catched:")
-        project.logs = err.message
+        project.logs = str(err)
         session.add(project)
         session.commit()
         raise
