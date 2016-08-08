@@ -135,6 +135,7 @@ class BaseBackend(object):
     ''' The base class that all the different backend should extend. '''
 
     name = None
+    ecosystem_name = None
     examples = None
     default_regex = None
     more_info = None

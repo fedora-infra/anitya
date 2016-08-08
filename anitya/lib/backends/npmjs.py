@@ -21,6 +21,7 @@ class NpmjsBackend(BaseBackend):
     '''
 
     name = 'npmjs'
+    ecosystem_name = "npm"
     examples = [
         'https://www.npmjs.org/package/request',
         'https://www.npmjs.org/package/colors',
