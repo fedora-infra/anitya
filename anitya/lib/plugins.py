@@ -52,8 +52,8 @@ def load_plugins(session):
                                     for plugin in plugins
                                         if plugin.ecosystem_name is not None)
     for eco_name in set(ecosystems).symmetric_difference(set(backends_by_ecosystem)):
-        backend_name = backends_by_ecosystem[eco_name]
-        bcke = model.Backend(name=backend_name)
+        backend = backends_by_ecosystem[eco_name]
+        bcke = model.Backend.by_name(session, backend)
         log.info("Registering ecosystem %r for backend %r", eco_name, backend)
         ecosystem = model.Ecosystem(name=eco_name, backend=bcke)
         session.add(ecosystem)

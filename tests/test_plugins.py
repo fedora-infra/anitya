@@ -34,7 +34,8 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(
     os.path.abspath(__file__)), '..'))
 
-import anitya.lib.plugins as plugins
+from anitya.lib import plugins
+from anitya.lib import model
 from tests import Modeltests
 
 EXPECTED_PLUGINS = [
@@ -57,18 +58,43 @@ EXPECTED_ECOSYSTEMS = {
 class Pluginstests(Modeltests):
     """ Plugins tests. """
 
+    def _check_db_contents(self, expected_plugins, expected_ecosystems):
+        backends = list(model.Backend.all(self.session))
+        backend_names_from_db = sorted(backend.name for backend in backends)
+        self.assertEqual(backend_names_from_db, expected_plugins)
+        ecosystems_from_db = dict((backend.name, backend.ecosystem.name)
+                              for backend in backends
+                                  if backend.ecosystem is not None)
+        self.assertEqual(ecosystems_from_db, expected_ecosystems)
+
+
     def test_load_plugins(self):
         """ Test the plugins.load_plugins function. """
         plgns = plugins.load_plugins(self.session)
         self.assertEqual(len(plgns), len(EXPECTED_PLUGINS))
-        plugin_names = [plugin.name for plugin in plgns]
-        plugin_names.sort()
+        plugin_names = sorted(plugin.name for plugin in plgns)
         self.assertEqual(plugin_names, EXPECTED_PLUGINS)
 
         ecosystems = dict((plugin.name, plugin.ecosystem_name)
                               for plugin in plgns
                                   if plugin.ecosystem_name is not None)
         self.assertEqual(ecosystems, EXPECTED_ECOSYSTEMS)
+
+        self._check_db_contents(EXPECTED_PLUGINS, EXPECTED_ECOSYSTEMS)
+
+
+    def test_reload_plugins_with_new_ecosystems(self):
+        """ Test rerunning the plugins.load_plugins function. """
+        plgns = plugins.load_plugins(self.session)
+        self._check_db_contents(EXPECTED_PLUGINS, EXPECTED_ECOSYSTEMS)
+
+        from anitya.lib.backends import custom
+        custom.CustomBackend.ecosystem_name = "custom-ecosystem"
+        modified_ecosystems = EXPECTED_ECOSYSTEMS.copy()
+        modified_ecosystems["custom"] = "custom-ecosystem"
+        plgns = plugins.load_plugins(self.session)
+        self._check_db_contents(EXPECTED_PLUGINS, modified_ecosystems)
+
 
     def test_plugins_get_plugin_names(self):
         """ Test the plugins.get_plugin_names function. """
