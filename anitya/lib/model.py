@@ -175,7 +175,10 @@ class Ecosystem(BASE):
 
     @classmethod
     def by_name(cls, session, name):
-        return session.query(cls).filter_by(name=name).first()
+        try:
+            return session.query(cls).filter_by(name=name).one()
+        except NoResultFound:
+            return None
 
     get = by_name
 
@@ -434,7 +437,6 @@ class Project(BASE):
                     .filter(Ecosystem.name==ecosystem).one())
         except NoResultFound:
             return None
-
 
     @classmethod
     def all(cls, session, page=None, count=False):
