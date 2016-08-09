@@ -339,7 +339,8 @@ class Project(BASE):
         sa.String(200),
         sa.ForeignKey("ecosystems.name",
             ondelete="set null",
-            onupdate="cascade"),
+            onupdate="cascade",
+            name="FK_ECOSYSTEM_FOR_PROJECT"),
         nullable=True
     )
     ecosystem = relationship("Ecosystem", back_populates="projects")
@@ -359,7 +360,8 @@ class Project(BASE):
 
     __table_args__ = (
         sa.UniqueConstraint('name', 'homepage'),
-        sa.UniqueConstraint('name', 'ecosystem_name'),
+        sa.UniqueConstraint('name', 'ecosystem_name',
+                            name="UNIQ_PROJECT_NAME_PER_ECOSYSTEM"),
     )
 
     @property
