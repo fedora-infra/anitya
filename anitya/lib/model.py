@@ -19,6 +19,8 @@ import time
 
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm.exc import NoResultFound
 
 import anitya
 
@@ -136,6 +138,8 @@ class Backend(BASE):
     __tablename__ = 'backends'
 
     name = sa.Column(sa.String(200), primary_key=True)
+    default_ecosystem = relationship("Ecosystem", uselist=False,
+                                     back_populates="default_backend")
 
     @classmethod
     def all(cls, session):
@@ -145,6 +149,36 @@ class Backend(BASE):
     @classmethod
     def by_name(cls, session, name):
         return session.query(cls).filter_by(name=name).first()
+
+    get = by_name
+
+
+class Ecosystem(BASE):
+    __tablename__ = 'ecosystems'
+
+    name = sa.Column(sa.String(200), primary_key=True)
+    default_backend_name = sa.Column(
+        sa.String(200),
+        sa.ForeignKey("backends.name",
+            ondelete="cascade",
+            onupdate="cascade"),
+        unique=True
+    )
+    default_backend = relationship("Backend",
+                                   back_populates="default_ecosystem")
+    projects = relationship("Project", back_populates="ecosystem")
+
+    @classmethod
+    def all(cls, session):
+        query = session.query(cls).order_by(cls.name)
+        return query.all()
+
+    @classmethod
+    def by_name(cls, session, name):
+        try:
+            return session.query(cls).filter_by(name=name).one()
+        except NoResultFound:
+            return None
 
     get = by_name
 
@@ -292,6 +326,7 @@ class Project(BASE):
     name = sa.Column(sa.String(200), nullable=False, index=True)
     homepage = sa.Column(sa.String(200), nullable=False)
 
+    # TODO: Define ORM forward/backward references for backend as for ecosystem
     backend = sa.Column(
         sa.String(200),
         sa.ForeignKey(
@@ -300,6 +335,15 @@ class Project(BASE):
             onupdate="cascade"),
         default='custom',
     )
+    ecosystem_name = sa.Column(
+        sa.String(200),
+        sa.ForeignKey("ecosystems.name",
+            ondelete="set null",
+            onupdate="cascade",
+            name="FK_ECOSYSTEM_FOR_PROJECT"),
+        nullable=True
+    )
+    ecosystem = relationship("Ecosystem", back_populates="projects")
     version_url = sa.Column(sa.String(200), nullable=True)
     regex = sa.Column(sa.String(200), nullable=True)
     version_prefix = sa.Column(sa.String(200), nullable=True)
@@ -316,6 +360,8 @@ class Project(BASE):
 
     __table_args__ = (
         sa.UniqueConstraint('name', 'homepage'),
+        sa.UniqueConstraint('name', 'ecosystem_name',
+                            name="UNIQ_PROJECT_NAME_PER_ECOSYSTEM"),
     )
 
     @property
@@ -383,6 +429,16 @@ class Project(BASE):
         return session.query(cls)\
             .filter_by(name=name)\
             .filter_by(homepage=homepage).first()
+
+    @classmethod
+    def by_name_and_ecosystem(cls, session, name, ecosystem):
+        try:
+            return (session.query(cls)
+                    .filter_by(name=name)
+                    .join(Project.ecosystem)
+                    .filter(Ecosystem.name==ecosystem).one())
+        except NoResultFound:
+            return None
 
     @classmethod
     def all(cls, session, page=None, count=False):

@@ -167,6 +167,25 @@ class Modeltests(Modeltests):
         backend = model.Backend.by_name(self.session, 'pypi')
         self.assertEqual(backend, None)
 
+    def test_ecosystem_by_name(self):
+        """ Test the Ecosystem.by_name function. """
+        import anitya.lib.plugins as plugins
+        plugins.load_plugins(self.session)
+        ecosystem = model.Ecosystem.by_name(self.session, 'pypi')
+        self.assertEqual(ecosystem.name, 'pypi')
+
+        ecosystem = model.Ecosystem.by_name(self.session, 'PyPI')
+        self.assertEqual(ecosystem, None)
+
+    def test_ecosystem_backend_links(self):
+        """ Test the Ecosystem.by_name function. """
+        import anitya.lib.plugins as plugins
+        plugins.load_plugins(self.session)
+        ecosystems = model.Ecosystem.all(self.session)
+        for ecosystem in ecosystems:
+            self.assertEqual(ecosystem.default_backend.default_ecosystem.name,
+                             ecosystem.name)
+
     def test_project_get_or_create(self):
         """ Test the Project.get_or_create function. """
         project = model.Project.get_or_create(

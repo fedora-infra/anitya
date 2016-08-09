@@ -81,10 +81,15 @@ def create_project(
     """ Create the project in the database.
 
     """
+    # Set the ecosystem if there's one associated with the given backend
+    backend_ref = anitya.lib.model.Backend.by_name(session, name=backend)
+    ecosystem_ref = backend_ref.default_ecosystem
+
     project = anitya.lib.model.Project(
         name=name,
         homepage=homepage,
         backend=backend,
+        ecosystem=ecosystem_ref,
         version_url=version_url,
         regex=regex,
         version_prefix=version_prefix,

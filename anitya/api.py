@@ -550,3 +550,66 @@ def api_get_project_distro(distro, package_name):
     jsonout = flask.jsonify(output)
     jsonout.status_code = httpcode
     return jsonout
+
+@APP.route('/api/by_ecosystem/<ecosystem>/<project_name>/', methods=['GET'])
+@APP.route('/api/by_ecosystem/<ecosystem>/<project_name>', methods=['GET'])
+def api_get_project_ecosystem(ecosystem, project_name):
+    '''
+    Retrieve a project from a given ecosystem
+    -------------------------------
+    Retrieves a project in an ecosystem via the name of the ecosystem
+    and the name of the project as registered with Anitya.
+
+    ::
+
+        /api/by_ecosystem/<ecosystem>/<project_name>
+
+    Accepts GET queries only.
+
+    :arg ecosystem: the name of the ecosystem (case insensitive).
+    :arg project_name: the name of the project in Anitya.
+
+    Sample response:
+
+    ::
+
+      {
+        "backend": "pypi",
+        "created_on": 1409917222.0,
+        "homepage": "https://pypi.python.org/pypi/six",
+        "id": 2,
+        "name": "six",
+        "packages": [
+          {
+            "distro": "Fedora",
+            "package_name": "python-six"
+          }
+        ],
+        "regex": null,
+        "updated_on": 1414400794.0,
+        "version": "1.10.0",
+        "version_url": null,
+        "versions": [
+          "1.10.0"
+        ]
+      }
+
+    '''
+
+    project = anitya.lib.model.Project.by_name_and_ecosystem(
+        SESSION, project_name, ecosystem)
+
+    if not project:
+        output = {
+            'output': 'notok',
+            'error': 'No project "%s" found in ecosystem "%s"' % (
+                project_name, ecosystem)}
+        httpcode = 404
+
+    else:
+        output = project.__json__(detailed=True)
+        httpcode = 200
+
+    jsonout = flask.jsonify(output)
+    jsonout.status_code = httpcode
+    return jsonout
