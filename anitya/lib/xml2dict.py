@@ -5,7 +5,6 @@ Released under the GPLv2 at https://code.google.com/archive/p/xml2dict/
 Adjusted by Pierre-Yves Chibon <pingou@pingoured.fr>
 """
 
-import codecs
 import re
 import xml.etree.ElementTree as ET
 
@@ -83,7 +82,7 @@ class XML2Dict(object):
 
     def parse(self, file):
         """parse a xml file to a dict"""
-        f = codecs.open(file, 'r', encoding='utf=8')
+        f = open(file, 'rb')
         return self.fromstring(f.read())
 
     def fromstring(self, s):
