@@ -355,6 +355,7 @@ def new_project():
                 version_prefix=form.version_prefix.data.strip() or None,
                 regex=form.regex.data.strip() or None,
                 user_id=flask.g.auth.openid,
+                check_release=form.check_release.data,
             )
             SESSION.commit()
 
@@ -415,6 +416,7 @@ def edit_project(project_id):
                 regex=form.regex.data.strip(),
                 insecure=form.insecure.data,
                 user_id=flask.g.auth.openid,
+                check_release=form.check_release.data,
             )
             flask.flash('Project edited')
             flask.session['justedit'] = True
