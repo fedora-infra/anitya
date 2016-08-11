@@ -9,6 +9,8 @@ import codecs
 import re
 import xml.etree.ElementTree as ET
 
+import six
+
 
 class object_dict(dict):
     """object view of dict, you can
@@ -86,6 +88,8 @@ class XML2Dict(object):
 
     def fromstring(self, s):
         """parse a string"""
+        if isinstance(s, six.text_type):
+            s = s.encode('utf-8')
         t = ET.fromstring(s)
         root_tag, root_tree = self._namespace_split(
             t.tag, self._parse_node(t))
