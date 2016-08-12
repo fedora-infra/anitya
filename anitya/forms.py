@@ -24,6 +24,7 @@ class ProjectForm(wtf.Form):
 
     distro = TextField('Distro (optional)', [validators.optional()])
     package_name = TextField('Package (optional)', [validators.optional()])
+    check_release = BooleanField('Check latest release on submit', [validators.optional()])
 
     def __init__(self, *args, **kwargs):
         """ Calls the default constructor with the normal argument but

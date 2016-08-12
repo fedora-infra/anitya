@@ -1,6 +1,6 @@
 FROM fedora
 # cffi>=1.1.0->cryptography->fedmsg->-r
-RUN dnf install -y gcc python-devel libffi-devel openssl-devel gcc-c++ redhat-rpm-config && \
+RUN dnf install -y gcc python-devel libffi-devel openssl-devel gcc-c++ redhat-rpm-config rpm-python && \
     dnf autoremove -y && \
     dnf clean all -y
 

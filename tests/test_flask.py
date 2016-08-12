@@ -32,6 +32,7 @@ import sys
 import os
 
 import flask
+import mock
 
 sys.path.insert(0, os.path.join(os.path.dirname(
     os.path.abspath(__file__)), '..'))
@@ -330,7 +331,46 @@ a backend for the project hosting. More information below.</p>"""
         projects = model.Project.all(self.session, count=True)
         self.assertEqual(projects, 1)
 
-    def test_edit_project(self):
+    @mock.patch('anitya.check_release')
+    def test_new_project_with_check_release(self, patched):
+        output = self.app.get('/project/new', follow_redirects=True)
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+            output = c.get('/project/new', follow_redirects=True)
+
+            # check_release off
+            data = {
+                'name': 'repo_manager',
+                'homepage': 'https://pypi.python.org/pypi/repo_manager',
+                'backend': 'PyPI',
+                'csrf_token': output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0],
+            }
+            output = c.post(
+                '/project/new', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                b'<li class="list-group-item list-group-item-default">'
+                b'Project created</li>' in output.data)
+            patched.assert_not_called()
+
+            # check_release_on
+            data['name'] += 'xxx'
+            data['check_release'] = 'on'
+            output = c.post(
+                '/project/new', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                b'<li class="list-group-item list-group-item-default">'
+                b'Project created</li>' in output.data)
+            patched.assert_called_once_with(mock.ANY, mock.ANY)
+
+    @mock.patch('anitya.check_release')
+    def test_edit_project(self, patched):
         """ Test the edit_project function. """
         create_distro(self.session)
         create_project(self.session)
@@ -414,6 +454,25 @@ a backend for the project hosting. More information below.</p>"""
                 in output.data)
             self.assertTrue(
                 b'<h1>Project: repo_manager</h1>' in output.data)
+
+            # check_release off
+            output = c.post(
+                '/project/3/edit', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                b'<li class="list-group-item list-group-item-default">'
+                b'Project edited</li>' in output.data)
+            patched.assert_not_called()
+
+            # check_release on
+            data['check_release'] = 'on'
+            output = c.post(
+                '/project/3/edit', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                b'<li class="list-group-item list-group-item-default">'
+                b'Project edited</li>' in output.data)
+            patched.assert_called_once_with(mock.ANY, mock.ANY)
 
         projects = model.Project.all(self.session)
         self.assertEqual(len(projects), 3)
