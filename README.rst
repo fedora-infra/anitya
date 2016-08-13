@@ -21,7 +21,7 @@ Notifications service).
 
 :Github page: https://github.com/fedora-infra/anitya
 
-Hacking
+Development
 -------
 
 Anitya deployment is currently only supported on Python 2.x, but local
@@ -29,11 +29,23 @@ development can use either Python 2.x or 3.x. The following steps should
 all work regardless of which runtime you have your virtual environment
 configured to use.
 
+Vagrant
+```````
+
+To run Anitya in a Vagrant guest, simply run::
+
+    $ sudo vagrant up
+
+You may then access Anitya on your host at::
+
+    http://127.0.0.1:8080
+
+
 virtualenv
 ``````````
 
 Here are some preliminary instructions about how to stand up your own instance
-of anitya. We'll use a virtualenv and a sqlite database and we'll install
+of Anitya. We'll use a virtualenv and a sqlite database and we'll install
 our dependencies from the Python Package Index (PyPI).  None of these are best
 practices for a production instance, but they will do for development.
 
@@ -90,12 +102,29 @@ Open your browser and visit http://localhost:5000 to check it out.
 
 Docker
 ``````
-
 To build the Docker image::
 
     $ cd anitya/
-    $ docker build --tag=anitya .
+    $ docker build -t anitya .
 
-To run the container::
+To run the container with a disposable SQLite database::
 
-    $ docker run -d -p 5000:5000 anitya
+    $ docker run -e DB_URL='sqlite:////opt/anitya/anitya.db' -d -p 80:80 anitya
+
+
+Deployment
+-------
+
+Docker
+``````
+To build the Docker image::
+
+    $ cd anitya/
+    $ docker build -t anitya .
+
+To run the container, execute the command below. Be sure to replace the value of DB_URL with the URL to connect to
+your production database. Also ensure to replace SECRET_KEY with a random string (preferably hex values) that is the
+same on every deployment of Anitya, as this is used for session management::
+
+    $ docker run -e DB_URL='db_type://user:password@server.domain.local:3306/database_name' \
+                 -e SECRET_KEY='123456789abcdef123456789' -d -p 80:80 anitya
