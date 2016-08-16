@@ -87,6 +87,22 @@ Create the database, by default it will be a sqlite database located at
 
     (anitya-env)$ python createdb.py
 
+Replace httplib2's own ca cert file (to adjust as needed)::
+
+    (anitya-env)$ cp /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem ~/.virtualenvs/anitya-env/lib/python3.5/site-packages/httplib2/cacerts.txt
+
+Configure the project to authenticate against iddev.fedorainfraclouid.org::
+
+    oidc-register --debug https://iddev.fedorainfracloud.org/ http://localhost:5000
+
+With that, try running the app with::
+
+    $ python populate.py  # To create the db
+    $ python runserver.py -c config  # To run the dev server with our local conf
+
+And then navigate to http://localhost:5000/
+
+
 If all goes well, you can start a development instance of the server by
 running::
 

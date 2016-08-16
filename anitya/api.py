@@ -22,6 +22,8 @@ This module provides Anitya's HTTP API.
 
 import flask
 
+from flask.ext.oidc import OpenIDConnect
+
 import anitya
 import anitya.lib.plugins
 import anitya.lib.model
@@ -57,6 +59,41 @@ def insert_div(content):
     output = output.replace('h1', 'h3')
 
     return output
+
+# Write APIs are restricted to authenticated users via OpenIDConnect
+# OIDC config is hardcoded for now
+import os.path
+APP.config['OIDC_CLIENT_SECRETS'] = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    'client_secrets.json')
+# This settings means that the application needs to be run behind http*s* for
+# the cookie to be saved. For development you will likely need to make it
+# `False`
+APP.config['OIDC_ID_TOKEN_COOKIE_SECURE'] = False
+APP.config['OIDC_REQUIRE_VERIFIED_EMAIL'] = False
+APP.config['OIDC_OPENID_REALM'] = 'http://localhost:5000/oidc_callback'
+APP.config['OIDC_SCOPES'] = ['openid', 'email', 'profile', 'fedora']
+OIDC = OpenIDConnect(APP, credentials_store=flask.session )
+
+def authenticated():
+    """ Utility function checking if the current auth is set or not."""
+    return hasattr(flask.g, 'auth') \
+        and flask.g.auth is not None \
+        and flask.g.auth.logged_in
+
+def auth_required(function):
+    """ Flask decorator to restrict access to authenticated users. """
+
+    @functools.wraps(function)
+    def authenticated_api(*args, **kwargs):
+        if not authenticated():
+            flask.flash('Login required', 'errors')
+            return flask.redirect(flask.url_for(
+                'login', next=flask.request.url))
+
+        return function(*args, **kwargs)
+
+    return decorated_function
 
 
 @APP.route('/api/')

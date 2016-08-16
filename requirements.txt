@@ -5,6 +5,7 @@ docutils
 fedmsg
 flask
 flask-openid
+flask-oidc>=1.0.3
 flask-wtf
 markupsafe
 python-openid; python_version < '3.0'
