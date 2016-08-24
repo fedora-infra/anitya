@@ -20,8 +20,7 @@ $script = <<SCRIPT
 SCRIPT
 
 Vagrant.configure("2") do |config|
-  # Set this to box-cutter/fedora 24 when released: https://github.com/boxcutter/fedora/pull/20
-  config.vm.box = "box-cutter/fedora23"
+  config.vm.box = "boxcutter/fedora24"
   config.vm.synced_folder "./", "/opt/anitya/src"
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.provision "shell", inline: $script
