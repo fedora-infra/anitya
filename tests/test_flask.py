@@ -109,7 +109,7 @@ a backend for the project hosting. More information below.</p>"""
 
         expected = b"""
             <p><a property="doap:homepage" href="http://www.geany.org/"
-               target="_blank">http://www.geany.org/
+               target="_blank" rel="noopener noreferrer">http://www.geany.org/
              </a><p>"""
 
         self.assertTrue(expected in output.data)
@@ -126,19 +126,19 @@ a backend for the project hosting. More information below.</p>"""
         self.assertEqual(output.status_code, 200)
 
         expected = b"""
-                <a href="http://www.geany.org/" target="_blank">
+                <a href="http://www.geany.org/" target="_blank" rel="noopener noreferrer">
                   http://www.geany.org/
                 </a>"""
         self.assertTrue(expected in output.data)
 
         expected = b"""
-                <a href="https://fedorahosted.org/r2spec/" target="_blank">
+                <a href="https://fedorahosted.org/r2spec/" target="_blank" rel="noopener noreferrer">
                   https://fedorahosted.org/r2spec/
                 </a>"""
         self.assertTrue(expected in output.data)
 
         expected = b"""
-                <a href="http://subsurface.hohndel.org/" target="_blank">
+                <a href="http://subsurface.hohndel.org/" target="_blank" rel="noopener noreferrer">
                   http://subsurface.hohndel.org/
                 </a>"""
         self.assertTrue(expected in output.data)
@@ -226,7 +226,7 @@ a backend for the project hosting. More information below.</p>"""
         output = self.app.get('/projects/search/g*')
         self.assertEqual(output.status_code, 200)
         expected = b"""
-                  <a href="http://www.geany.org/" target="_blank">
+                  <a href="http://www.geany.org/" target="_blank" rel="noopener noreferrer">
                     http://www.geany.org/
                   </a>"""
         self.assertTrue(expected in output.data)
