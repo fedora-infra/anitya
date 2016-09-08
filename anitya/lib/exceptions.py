@@ -22,7 +22,7 @@ class AnityaPluginException(AnityaException):
     pass
 
 
-class AnityaInvalidMappingException(Exception):
+class AnityaInvalidMappingException(AnityaException):
     ''' Specific exception class for invalid mapping. '''
 
     def __init__(self, pkgname, distro, found_pkgname,
