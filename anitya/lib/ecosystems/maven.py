@@ -9,6 +9,7 @@
 """
 from . import BaseEcosystem
 
+
 class MavenEcosystem(BaseEcosystem):
     ''' The Maven ecosystem class'''
 

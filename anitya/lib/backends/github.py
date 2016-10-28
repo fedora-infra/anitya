@@ -61,7 +61,8 @@ class GithubBackend(BaseBackend):
         '''
         if project.version_url:
             url_template = 'https://github.com/%(version_url)s/tags'
-            version_url = project.version_url.replace('https://github.com/', '')
+            version_url = project.version_url.replace(
+                'https://github.com/', '')
             url = url_template % {'version_url': version_url}
         elif project.homepage.startswith('https://github.com'):
             url = project.homepage

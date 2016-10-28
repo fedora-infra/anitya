@@ -90,6 +90,5 @@ class CpanBackend(BaseBackend):
         for entry in items:
             title = entry['title']['value']
             name, version = title.rsplit('-', 1)
-            #homepage = entry['link']['value'].rsplit('-', 1)[0] + '/'
             homepage = 'http://search.cpan.org/dist/%s/' % name
             yield name, homepage, cls.name, version

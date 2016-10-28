@@ -36,7 +36,7 @@ def use_gnome_regex(project):
     '''
     output = []
     url = 'https://download.gnome.org/sources/%(name)s/' % {
-                'name': project.name}
+        'name': project.name}
     output = get_versions_by_regex(url, REGEX, project)
     return output
 

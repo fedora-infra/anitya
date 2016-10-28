@@ -9,6 +9,7 @@
 """
 from . import BaseEcosystem
 
+
 class RubygemsEcosystem(BaseEcosystem):
     ''' The rubygems ecosystem class'''
 

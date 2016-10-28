@@ -1,7 +1,7 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2014-2016 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
@@ -38,14 +38,14 @@ class AnityaInvalidMappingException(AnityaException):
     @property
     def message(self):
         return 'Could not edit the mapping of {pkgname} on ' \
-                '{distro}, there is already a package {found_pkgname} on ' \
-                '{found_distro} as part of the project <a href="{link}">' \
-                '{project_name}</a>.'.format(
-            pkgname=self.pkgname,
-            distro=self.distro,
-            found_pkgname=self.found_pkgname,
-            found_distro=self.found_distro,
-            project_id=self.project_id,
-            project_name=self.project_name,
-            link= self.link,
-        )
+            '{distro}, there is already a package {found_pkgname} on ' \
+            '{found_distro} as part of the project <a href="{link}">' \
+            '{project_name}</a>.'.format(
+                pkgname=self.pkgname,
+                distro=self.distro,
+                found_pkgname=self.found_pkgname,
+                found_distro=self.found_distro,
+                project_id=self.project_id,
+                project_name=self.project_name,
+                link=self.link,
+            )

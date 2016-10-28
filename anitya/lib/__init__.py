@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2014-2016 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
@@ -141,14 +141,15 @@ def edit_project(
         old = project.backend
         project.backend = backend
         changes['backend'] = {'old': old, 'new': project.backend}
-    if  version_url != project.version_url:
+    if version_url != project.version_url:
         old = project.version_url
         project.version_url = version_url.strip() if version_url else None
         if old != project.version_url:
             changes['version_url'] = {'old': old, 'new': project.version_url}
-    if  version_prefix != project.version_prefix:
+    if version_prefix != project.version_prefix:
         old = project.version_prefix
-        project.version_prefix = version_prefix.strip() if version_prefix else None
+        project.version_prefix = version_prefix.strip() \
+            if version_prefix else None
         if old != project.version_prefix:
             changes['version_prefix'] = {
                 'old': old, 'new': project.version_prefix}
@@ -229,8 +230,8 @@ def map_project(
         session, package_name, distro)
     if other_pkg and other_pkg.project:
         raise anitya.lib.exceptions.AnityaInvalidMappingException(
-                pkgname, distro, package_name, distribution,
-                other_pkg.project.id, other_pkg.project.name)
+            pkgname, distro, package_name, distribution,
+            other_pkg.project.id, other_pkg.project.name)
 
     edited = None
     if not pkg:

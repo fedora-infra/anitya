@@ -21,14 +21,14 @@ def insert_div(content):
     output = []
     for row in content:
         if row.startswith('<h1 class="title">'):
-          title = row.split('"title">')[1].split('</h1>')[0]
-          link = '<a name="%(title)s" class="glyphicon glyphicon-link btn-xs" '\
-              'title="Permalink to this headline" href="#%(title)s"></a>' % (
-                  {
-                      'title': title.replace(' ', '_'),
-                  }
-              )
-          row = str(row).replace('</h1>', link + '</h1>')
+            title = row.split('"title">')[1].split('</h1>')[0]
+            link = '<a name="%(title)s" class="glyphicon glyphicon-link btn-xs" '\
+                'title="Permalink to this headline" href="#%(title)s"></a>' % (
+                    {
+                        'title': title.replace(' ', '_'),
+                    }
+                )
+            row = str(row).replace('</h1>', link + '</h1>')
         if row.startswith('<div class="document" id='):
             continue
         output.append(row)
@@ -217,7 +217,6 @@ def api_packages_wiki_list():
       * 2ping None http://www.finnie.org/software/2ping
       * 3proxy None http://www.3proxy.ru/download/
     '''
-
 
     project_objs = anitya.lib.model.Project.all(SESSION)
 

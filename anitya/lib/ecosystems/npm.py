@@ -9,6 +9,7 @@
 """
 from . import BaseEcosystem
 
+
 class NpmEcosystem(BaseEcosystem):
     ''' The npm ecosystem class'''
 

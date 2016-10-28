@@ -548,7 +548,7 @@ def edit_project_mapping(project_id, pkg_id):
         except anitya.lib.exceptions.AnityaInvalidMappingException as err:
             err.link = flask.url_for('project', project_id=err.project_id)
             flask.flash(err.message, 'error')
-        except  anitya.lib.exceptions.AnityaException as err:
+        except anitya.lib.exceptions.AnityaException as err:
             flask.flash(str(err), 'error')
 
         return flask.redirect(
