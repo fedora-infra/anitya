@@ -83,7 +83,7 @@ class BitBucketBackendtests(Modeltests):
         """ Test the get_version function of the BitBucket backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = 'rel_1_0_8'
+        exp = 'rel_1_1_3'
         obs = backend.BitBucketBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -97,7 +97,7 @@ class BitBucketBackendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '3.8.0'
+        exp = 'v5.2.0'
         obs = backend.BitBucketBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -137,7 +137,11 @@ class BitBucketBackendtests(Modeltests):
             'rel_0_9_9', 'rel_0_9_10', 'rel_1_0_0', 'rel_1_0_0b1',
             'rel_1_0_0b2', 'rel_1_0_0_b3', 'rel_1_0_0b4', 'rel_1_0_0b5',
             'rel_1_0_1', 'rel_1_0_2', 'rel_1_0_3', 'rel_1_0_4',
-            'rel_1_0_5', 'rel_1_0_6', 'rel_1_0_7', 'rel_1_0_8'
+            'rel_1_0_5', 'rel_1_0_6', 'rel_1_0_7', 'rel_1_0_8',
+            'rel_1_0_9', 'rel_1_0_10', 'rel_1_0_11', 'rel_1_0_12',
+            'rel_1_0_13', 'rel_1_0_14', 'rel_1_0_15', 'rel_1_1_0',
+            'rel_1_1_0b1', 'rel_1_1_0b2', 'rel_1_1_0b3', 'rel_1_1_1',
+            'rel_1_1_2', 'rel_1_1_3'
         ]
         obs = backend.BitBucketBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -165,7 +169,8 @@ class BitBucketBackendtests(Modeltests):
             'cherrypy-3.2.0', 'cherrypy-3.2.1', 'cherrypy-3.2.2rc1',
             'cherrypy-3.2.2', 'rdelon-experimental', 'trunk', '3.2.3',
             '3.2.4', '3.2.5', '3.2.6', '3.3.0', '3.4.0', '3.5.0',
-            '3.6.0', '3.7.0', '3.8.0'
+            '3.6.0', '3.7.0', '3.8.0', '3.8.1', '3.8.2', '4.0.0', '5.0.0',
+            '5.0.1', '5.1.0', 'v5.2.0'
         ]
         obs = backend.BitBucketBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
