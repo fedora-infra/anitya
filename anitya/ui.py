@@ -485,7 +485,8 @@ def map_project(project_id):
     form = anitya.forms.MappingForm()
 
     if flask.request.method == 'GET':
-        form.package_name.data = flask.request.args.get('package_name', '')
+        form.package_name.data = flask.request.args.get(
+            'package_name', project.name)
         form.distro.data = flask.request.args.get('distro', '')
 
     if form.validate_on_submit():
