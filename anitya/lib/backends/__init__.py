@@ -330,8 +330,7 @@ def get_versions_by_regex_for_text(text, url, regex, project):
 
     for index, version in enumerate(upstream_versions):
         # Strip the version_prefix early
-        if project.version_prefix:
-            version = version.replace(project.version_prefix, '', 1)
+        version = version.lstrip(project.version_prefix)
         upstream_versions[index] = version
 
         # If the version retrieved is a tuple, re-constitute it
