@@ -440,7 +440,7 @@ class Project(BASE):
         try:
             query = session.query(
                 cls
-            ).filter_by(
+            ).filter(
                 cls.name == name
             ).join(
                 Project.ecosystem
