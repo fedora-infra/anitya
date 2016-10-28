@@ -529,6 +529,7 @@ def api_get_project_distro(distro, package_name):
       }
 
     '''
+    package_name = package_name.rstrip('/')
 
     package = anitya.lib.model.Packages.by_package_name_distro(
         SESSION, package_name, distro)
