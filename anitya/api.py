@@ -163,6 +163,7 @@ def api_projects():
 
     pattern = flask.request.args.get('pattern', None)
     homepage = flask.request.args.get('homepage', None)
+    distro = flask.request.args.get('distro', None)
 
     if pattern and homepage:
         err = 'pattern and homepage are mutually exclusive.  Specify only one.'
@@ -173,11 +174,11 @@ def api_projects():
 
     if homepage is not None:
         project_objs = anitya.lib.model.Project.by_homepage(SESSION, homepage)
-    elif pattern:
-        if '*' not in pattern:
+    elif pattern or distro:
+        if pattern and '*' not in pattern:
             pattern += '*'
         project_objs = anitya.lib.model.Project.search(
-            SESSION, pattern=pattern)
+            SESSION, pattern=pattern, distro=distro)
     else:
         project_objs = anitya.lib.model.Project.all(SESSION)
 
