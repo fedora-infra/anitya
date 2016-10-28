@@ -486,8 +486,8 @@ def api_get_project(project_id):
     return jsonout
 
 
-@APP.route('/api/project/<distro>/<package_name>/', methods=['GET'])
-@APP.route('/api/project/<distro>/<package_name>', methods=['GET'])
+@APP.route('/api/project/<distro>/<path:package_name>/', methods=['GET'])
+@APP.route('/api/project/<distro>/<path:package_name>', methods=['GET'])
 def api_get_project_distro(distro, package_name):
     '''
     Retrieve a package for a distro
@@ -551,6 +551,7 @@ def api_get_project_distro(distro, package_name):
     jsonout = flask.jsonify(output)
     jsonout.status_code = httpcode
     return jsonout
+
 
 @APP.route('/api/by_ecosystem/<ecosystem>/<project_name>/', methods=['GET'])
 @APP.route('/api/by_ecosystem/<ecosystem>/<project_name>', methods=['GET'])
