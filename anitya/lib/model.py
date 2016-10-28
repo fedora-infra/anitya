@@ -559,22 +559,22 @@ class Project(BASE):
     def search(cls, session, pattern, distro=None, page=None, count=False):
         ''' Search the projects by their name or package name '''
 
-        pattern = pattern.replace('_', '\_')
-        if '*' in pattern:
-            pattern = pattern.replace('*', '%')
-
         query1 = session.query(
             cls
         )
 
-        if '%' in pattern:
-            query1 = query1.filter(
-                Project.name.ilike(pattern)
-            )
-        else:
-            query1 = query1.filter(
-                Project.name == pattern
-            )
+        if pattern:
+            pattern = pattern.replace('_', '\_')
+            if '*' in pattern:
+                pattern = pattern.replace('*', '%')
+            if '%' in pattern:
+                query1 = query1.filter(
+                    Project.name.ilike(pattern)
+                )
+            else:
+                query1 = query1.filter(
+                    Project.name == pattern
+                )
 
         query2 = session.query(
             cls
@@ -582,14 +582,15 @@ class Project(BASE):
             Project.id == Packages.project_id
         )
 
-        if '%' in pattern:
-            query2 = query2.filter(
-                Packages.package_name.ilike(pattern)
-            )
-        else:
-            query2 = query2.filter(
-                Packages.package_name == pattern
-            )
+        if pattern:
+            if '%' in pattern:
+                query2 = query2.filter(
+                    Packages.package_name.ilike(pattern)
+                )
+            else:
+                query2 = query2.filter(
+                    Packages.package_name == pattern
+                )
 
         if distro is not None:
             query1 = query1.filter(
