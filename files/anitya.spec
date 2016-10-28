@@ -2,7 +2,7 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.9.1
+Version:        0.10
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
@@ -110,6 +110,41 @@ install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.i
 
 
 %changelog
+* Fri Oct 28 2016 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.10-1
+- Update 0.10
+- Add a blacklist user feature preventing blacklisted users from logging in
+- replaced yum by dnf in fedmsg in the doc (Jean-Baptiste)
+- Specified (UTC) timezone in the footer. (Sourav Badami)
+- Added backend column in search results. (Sourav Badami)
+- Added border to the columns in the log view. (Sourav Badami)
+- Fix tests (Ralph Bean)
+- Use a common http session to make things a little faster. (Ralph Bean)
+- Add support to backend for repo feeds (Ralph Bean)
+- Add a --check-feed argument to the cronjob (Ralph Bean)
+- Replace the version prefix only once (Chaitanya Kukde)
+- Improved search results by adding substring search. (Sourav Badami)
+- Port from user's email to user's OpenID identifier
+- Keep the user's email when they flag a project (so admins know who did what)
+- Remove the version_prefix much earlier in the process so we can do version
+  comparison without them
+- Enforce that the homepage be an URL
+- Fix the stackage regex for the change on the stackage website
+- Add tabindex to our page/forms
+- Improve the Dockerfile (PrahlM93)
+- Start py3 compatibility (Nick Coghlan)
+- Add upstream ecosystems to model (ick Coghlan)
+- Improve reading the XML files (Slavek Kabrda)
+- Allow checking for release when project is created/edited (Slavek Kabrda)
+- Specify rel="noopener noreferrer" to link including target='_blank'
+- Let AnityaInvalidMappingException inherit from AnityaException
+- Fix the bitbucket backend as they have changed their behaviour
+- When mapping a project make the package name be the project name to start with
+- Implement filtering /api/projects for a certain distro
+- Allow api_get_project_distro to receive package name with a '/'
+- Use lstrip() instead of replace() to remove the version prefix
+- Update footer and link to the API documentation
+- project wide pep8 clean up
+
 * Tue Apr 19 2016 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.9.1-1
 - Update to 0.9.1
 - Fix the stackage backend
