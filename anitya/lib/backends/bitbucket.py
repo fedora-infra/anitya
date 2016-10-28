@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2015 - Copyright Vivek Anand
+ (c) 2015-2016 - Copyright Vivek Anand
 
  Authors:
    Vivek Anand <vivekanand1101@gmail.com>
@@ -60,8 +60,10 @@ class BitBucketBackend(BaseBackend):
 
         '''
         if project.version_url:
-            url_template = 'https://bitbucket.org/%(version_url)s/downloads?tab=tags'
-            version_url = project.version_url.replace('https://bitbucket.org/', '')
+            url_template = 'https://bitbucket.org/%(version_url)s/'\
+                'downloads?tab=tags'
+            version_url = project.version_url.replace(
+                'https://bitbucket.org/', '')
             url = url_template % {'version_url': version_url}
         elif project.homepage.startswith('https://bitbucket.org'):
             url = project.homepage

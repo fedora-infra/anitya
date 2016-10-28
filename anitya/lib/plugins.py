@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2014-2016 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
@@ -20,6 +20,7 @@ from anitya.lib.backends import BaseBackend
 from anitya.lib.ecosystems import BaseEcosystem
 
 log = logging.getLogger(__name__)
+
 
 class _PluginManager(object):
     """Manage a particular set of Anitya plugins"""
@@ -47,6 +48,7 @@ class _PluginManager(object):
 BACKEND_PLUGINS = _PluginManager('anitya.lib.backends', BaseBackend)
 ECOSYSTEM_PLUGINS = _PluginManager('anitya.lib.ecosystems', BaseEcosystem)
 
+
 def _load_backend_plugins(session):
     """Load any new backend plugins into the DB"""
     backends = [bcke.name for bcke in model.Backend.all(session)]
@@ -65,6 +67,7 @@ def _load_backend_plugins(session):
             session.rollback()
     return plugins
 
+
 def _load_ecosystem_plugins(session):
     """Load any new ecosystem plugins into the DB"""
     ecosystems = [ecosystem.name for ecosystem in model.Ecosystem.all(session)]
@@ -72,7 +75,9 @@ def _load_ecosystem_plugins(session):
     # Add any new Ecosystem definitions
     backends_by_ecosystem = dict((plugin.name, plugin.default_backend)
                                  for plugin in plugins)
-    for eco_name in set(ecosystems).symmetric_difference(set(backends_by_ecosystem)):
+    eco_names = set(ecosystems).symmetric_difference(
+        set(backends_by_ecosystem))
+    for eco_name in eco_names:
         backend = backends_by_ecosystem[eco_name]
         bcke = model.Backend.by_name(session, backend)
         log.info("Registering ecosystem %r with default backend %r",
@@ -87,6 +92,7 @@ def _load_ecosystem_plugins(session):
             session.rollback()
     return plugins
 
+
 def load_all_plugins(session):
     ''' Load all the plugins and insert them in the database if they are
     not already present. '''
@@ -99,6 +105,8 @@ def load_all_plugins(session):
 get_plugin_names = BACKEND_PLUGINS.get_plugin_names
 get_plugins = BACKEND_PLUGINS.get_plugins
 get_plugin = BACKEND_PLUGINS.get_plugin
+
+
 def load_plugins(session):
     ''' Calls load_all_plugins, but only returns the backends plugin list '''
     return load_all_plugins(session)["backends"]

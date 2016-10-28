@@ -65,9 +65,8 @@ class HackageBackend(BaseBackend):
 
     @classmethod
     def check_feed(cls):
-        ## See http://hackage.haskell.org/api#recentPackages
-        ## It should be possible to query this, but I can't figure out how to
-        ## get it to give me non-html.
+        # See http://hackage.haskell.org/api#recentPackages
+        # It should be possible to query this, but I can't figure out how to
+        # get it to give me non-html.
         # url = 'http://hackage.haskell.org/packages/recent/revisions'
         raise NotImplementedError()
-

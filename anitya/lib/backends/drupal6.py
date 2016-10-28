@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2014-2016 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
@@ -66,7 +66,8 @@ class Drupal6Backend(BaseBackend):
         if name.lower().strip().startswith('drupal6:'):
             name = name[len('drupal6:'):].strip()
 
-        url_template = 'https://updates.drupal.org/release-history/%(name)s/6.x'
+        url_template = 'https://updates.drupal.org/release-history/'\
+            '%(name)s/6.x'
 
         url = url_template % {'name': name}
         regex = REGEX % {'name': name}
@@ -75,7 +76,7 @@ class Drupal6Backend(BaseBackend):
         try:
             versions = get_versions_by_regex(url, regex, project)
         except AnityaPluginException as err:
-            if not '-' in project.name:
+            if '-' not in project.name:
                 raise err
             name = project.name.replace("-", "_")
             url = url_template % {'name': name}

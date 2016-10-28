@@ -9,6 +9,7 @@
 """
 from . import BaseEcosystem
 
+
 class PypiEcosystem(BaseEcosystem):
     ''' The PyPI ecosystem class'''
 
