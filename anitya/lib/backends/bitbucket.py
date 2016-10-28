@@ -60,14 +60,14 @@ class BitBucketBackend(BaseBackend):
 
         '''
         if project.version_url:
-            url_template = 'https://bitbucket.org/%(version_url)s/downloads'
+            url_template = 'https://bitbucket.org/%(version_url)s/downloads?tab=tags'
             version_url = project.version_url.replace('https://bitbucket.org/', '')
             url = url_template % {'version_url': version_url}
         elif project.homepage.startswith('https://bitbucket.org'):
             url = project.homepage
             if url.endswith('/'):
                 url = project.homepage[:1]
-            url += '/downloads'
+            url += '/downloads?tab=tags'
         else:
             raise AnityaPluginException(
                 'Project %s was incorrectly set-up' % project.name)
