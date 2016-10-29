@@ -74,7 +74,12 @@ class ContextInjector(logging.Filter):
         if not isinstance(current_process, str):
             record.pid = current_process.pid
             record.proc_name = current_process.name
-            record.command_line = " ".join(current_process.cmdline)
+            # Be compatible with python-psutil 1.0 and 2.0, 3.0
+            cmd_line = current_process.cmdline
+            if callable(cmd_line):
+                cmd_line = cmd_line()
+            record.command_line = " ".join(cmd_line)
+
         record.callstack = self.format_callstack()
         return True
 
