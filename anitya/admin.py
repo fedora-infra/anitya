@@ -299,10 +299,11 @@ def delete_project_version(project_id, version):
 @login_required
 def browse_logs():
 
+    email = None
     if is_admin():
         user = flask.request.args.get('user', None)
     else:
-        user = flask.g.auth.openid
+        user = [flask.g.auth.openid, flask.g.auth.email]
 
     from_date = flask.request.args.get('from_date', None)
     project = flask.request.args.get('project', None)

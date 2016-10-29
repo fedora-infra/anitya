@@ -119,7 +119,10 @@ class Log(BASE):
             query = query.filter(cls.created_on >= from_date)
 
         if user:
-            query = query.filter(cls.user == user)
+            if isinstance(user, (list, tuple)):
+                query = query.filter(cls.user.in_(user))
+            else:
+                query = query.filter(cls.user == user)
 
         query = query.order_by(cls.created_on.desc())
 
