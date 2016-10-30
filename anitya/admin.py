@@ -299,7 +299,6 @@ def delete_project_version(project_id, version):
 @login_required
 def browse_logs():
 
-    email = None
     if is_admin():
         user = flask.request.args.get('user', None)
     else:
