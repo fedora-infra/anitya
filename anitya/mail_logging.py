@@ -30,17 +30,19 @@ import os
 import socket
 import traceback
 
+import flask
+
 psutil = None
 try:
     import psutil
-except (OSError, ImportError):
+except (OSError, ImportError):  # pragma: no cover
     # We run into issues when trying to import psutil from inside mod_wsgi on
     # rhel7.  If we hit that here, then just fail quietly.
     # https://github.com/jmflinuxtx/kerneltest-harness/pull/17#issuecomment-48007837
     pass
 
 
-class ContextInjector(logging.Filter):
+class ContextInjector(logging.Filter):  # pragma: no cover
     """ Logging filter that adds context to log records.
 
     Filters are typically used to "filter" log records.  They declare a filter
@@ -65,6 +67,7 @@ class ContextInjector(logging.Filter):
     """
 
     def filter(self, record):
+        """ Set up additional information on the record object. """
         current_process = ContextInjector.get_current_process()
         current_hostname = socket.gethostname()
 
@@ -73,14 +76,50 @@ class ContextInjector(logging.Filter):
         record.pid = '-'
         if not isinstance(current_process, str):
             record.pid = current_process.pid
-            record.proc_name = current_process.name
-            record.command_line = " ".join(current_process.cmdline)
+            # Be compatible with python-psutil 1.0 and 2.0, 3.0
+            proc_name = current_process.name
+            if callable(proc_name):
+                proc_name = proc_name()
+            record.proc_name = proc_name
+            # Be compatible with python-psutil 1.0 and 2.0, 3.0
+            cmd_line = current_process.cmdline
+            if callable(cmd_line):
+                cmd_line = cmd_line()
+            record.command_line = " ".join(cmd_line)
+
         record.callstack = self.format_callstack()
+
+        record.url = '-'
+        record.args = '-'
+        record.form = '-'
+        record.username = '-'
+        try:
+            record.url = flask.request.url
+        except RuntimeError:
+            pass
+        try:
+            record.args = flask.request.args
+        except RuntimeError:
+            pass
+        try:
+            record.form = dict(flask.request.form)
+            if 'csrf_token' in record.form:
+                record.form['csrf_token'] = 'Was present, is cleaned up'
+        except RuntimeError:
+            pass
+        try:
+            record.username = "%s -- %s" % (
+                flask.g.auth.openid, flask.g.auth.email)
+        except:
+            pass
+
         return True
 
     @staticmethod
     def format_callstack():
-        for i, frame in enumerate(f[0] for f in inspect.stack()):
+        """ Format the callstack to find out the stack trace. """
+        ind = 0
+        for ind, frame in enumerate(f[0] for f in inspect.stack()):
             if '__name__' not in frame.f_globals:
                 continue
             modname = frame.f_globals['__name__'].split('.')[0]
@@ -88,14 +127,16 @@ class ContextInjector(logging.Filter):
                 break
 
         def _format_frame(frame):
+            """ Format the frame. """
             return '  File "%s", line %i in %s\n    %s' % (frame)
 
         stack = traceback.extract_stack()
-        stack = stack[:-i]
+        stack = stack[:-ind]
         return "\n".join([_format_frame(frame) for frame in stack])
 
     @staticmethod
     def get_current_process():
+        """ Return the current process (PID). """
         mypid = os.getpid()
 
         if not psutil:
@@ -121,6 +162,13 @@ Location:           %(pathname)s:%(lineno)d
 Module:             %(module)s
 Function:           %(funcName)s
 Time:               %(asctime)s
+
+
+URL:    %(url)s
+args:   %(args)s
+form:   %(form)s
+user:   %(username)s
+
 
 Message:
 --------
