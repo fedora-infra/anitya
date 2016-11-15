@@ -293,7 +293,8 @@ class BaseBackend(object):
                 'From': from_email,
             }
 
-            return http_session.get(url, headers=headers, verify=not insecure)
+            return http_session.get(url, headers=headers, timeout=60,
+                                    verify=not insecure)
 
 
 def get_versions_by_regex(url, regex, project, insecure=False):
