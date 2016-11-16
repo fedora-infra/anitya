@@ -1,0 +1,103 @@
+---
+
+- name: Install helpful development packages
+  dnf: name={{ item }} state=present
+  with_items:
+    - git
+    - python-sphinx
+    - python-virtualenvwrapper
+    - vim-enhanced
+
+- name: Install anitya system dependencies
+  dnf: name={{ item }} state=present
+  with_items:
+    - fedmsg
+    - gcc
+    - libffi-devel
+    - openssl-devel
+    - python2-devel
+    - python3-devel
+    - python-bunch
+    - python-dateutil
+    - python-docutils
+    - python-flask
+    - python-flask-openid
+    - python-flask-wtf
+    - python-markupsafe
+    - python-openid
+    - python-setuptools
+    - python-straight-plugin
+    - python-sqlalchemy
+    - python-wtforms
+    - redhat-rpm-config
+    - rpm-python
+
+# Add various helpful configuration files
+- name: Install a custom bashrc
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  copy: src=bashrc dest=/home/{{ ansible_env.SUDO_USER }}/.bashrc
+
+- name: Install the message of the day
+  copy: src=motd dest=/etc/motd
+
+
+- name: Create Anitya virtualenv
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+      source ~/.bashrc && mkvirtualenv anitya -a ~/devel/ &&
+      virtualenv --system-site-packages ~/.virtualenvs/anitya/
+  args:
+    creates: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya
+
+- name: Install Anitya requirements into the virtualenv
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  pip:
+    requirements: "requirements.txt"
+    virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
+    virtualenv_python: python2
+  args:
+    chdir: /home/{{ ansible_env.SUDO_USER }}/devel
+
+- name: Install Anitya test requirements into the virtualenv
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  pip:
+    requirements: "test_requirements.txt"
+    virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
+    virtualenv_python: python2
+  args:
+    chdir: /home/{{ ansible_env.SUDO_USER }}/devel
+
+- name: Install Anitya into the virtualenv
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  pip:
+    name: "file:///home/{{ ansible_env.SUDO_USER }}/devel"
+    extra_args: "-e"
+    virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
+    virtualenv_python: python2
+
+- name: Create the Anitya SQLite database
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  command: .virtualenvs/anitya/bin/python devel/createdb.py
+  args:
+    creates: /var/tmp/anitya-dev.sqlite
+    chdir: "/home/{{ ansible_env.SUDO_USER }}/"
+
+- name: Stamp the database with its current migration
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+      ~/.virtualenvs/anitya/bin/alembic stamp
+      $(~/.virtualenvs/anitya/bin/alembic heads | awk '{ print $1 }')
+  args:
+    chdir: "/home/{{ ansible_env.SUDO_USER }}/devel/"
+
+- name: Create user systemd directory
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  file:
+    path: /home/{{ ansible_env.SUDO_USER }}/.config/systemd/user/
+    state: directory
+
+- name: Install the Anitya systemd service file
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  copy:
+    src: anitya.service
+    dest: /home/{{ ansible_env.SUDO_USER }}/.config/systemd/user/anitya.service
