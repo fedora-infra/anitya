@@ -1,0 +1,11 @@
+[Unit]
+Description=Anitya: a release monitoring project
+After=network.target
+Documentation=https://github.com/fedora-infra/anitya/
+
+[Service]
+ExecStart=/home/vagrant/.virtualenvs/anitya/bin/python %h/devel/runserver.py --host 0.0.0.0 --port 5000
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

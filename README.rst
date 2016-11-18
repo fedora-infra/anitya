@@ -34,11 +34,15 @@ Vagrant
 
 To run Anitya in a Vagrant guest, simply run::
 
-    $ sudo vagrant up
+    $ sudo dnf install vagrant vagrant-libvirt vagrant-sshfs ansible
+    $ cp Vagrantfile.example Vagrantfile
+    $ vagrant up
+    $ vagrant ssh
+    $ systemctl --user start anitya.service
 
 You may then access Anitya on your host at::
 
-    http://127.0.0.1:8080
+    http://127.0.0.1:5000
 
 
 virtualenv

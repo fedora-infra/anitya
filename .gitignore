@@ -3,6 +3,7 @@ build/
 dist/
 doc/_build/
 *egg-info/
+*eggs/
 *.cfg
 *.sqlite
 *~
@@ -11,11 +12,11 @@ doc/_build/
 start-pkgdb
 .coverage
 cnucnu/
-*.swp
-*.swo
 *.egg
 anitya-env
 .tox
 .idea/
 .vagrant/
+*.retry
+Vagrantfile
 anitya.db
