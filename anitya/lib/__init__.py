@@ -9,12 +9,11 @@
 anitya internal library.
 """
 
-
-__requires__ = ['SQLAlchemy >= 0.7']
-import pkg_resources
-
 import logging
 import sys
+
+__requires__ = ['SQLAlchemy >= 0.7']  # NOQA
+import pkg_resources  # NOQA
 
 import sqlalchemy as sa
 from sqlalchemy import create_engine

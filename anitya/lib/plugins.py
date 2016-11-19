@@ -45,6 +45,7 @@ class _PluginManager(object):
             if plugin.name.lower() == plugin_name.lower():
                 return plugin
 
+
 BACKEND_PLUGINS = _PluginManager('anitya.lib.backends', BaseBackend)
 ECOSYSTEM_PLUGINS = _PluginManager('anitya.lib.ecosystems', BaseEcosystem)
 
@@ -100,6 +101,7 @@ def load_all_plugins(session):
     plugins["backends"] = _load_backend_plugins(session)
     plugins["ecosystems"] = _load_ecosystem_plugins(session)
     return plugins
+
 
 # Preserve module level API for accessing the backend plugin list
 get_plugin_names = BACKEND_PLUGINS.get_plugin_names

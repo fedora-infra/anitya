@@ -60,7 +60,7 @@ class PagureBackend(BaseBackend):
         try:
             req = cls.call_url(url)
         except Exception as err:  # pragma: no cover
-            raise AnityaPluginException('Could not contact %s' % url)
+            raise AnityaPluginException('Could not contact %s: %s' % (url, str(err)))
 
         try:
             data = req.json()
