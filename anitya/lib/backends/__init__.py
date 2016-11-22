@@ -336,7 +336,8 @@ def get_versions_by_regex_for_text(text, url, regex, project):
             version = ".".join([v for v in version if not v == ""])
 
         # Strip the version_prefix early
-        if version.startswith(project.version_prefix):
+        if project.version_prefix is not None and \
+                version.startswith(project.version_prefix):
             version = version[len(project.version_prefix):]
         upstream_versions[index] = version
 
