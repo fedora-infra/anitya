@@ -3,7 +3,14 @@
 
 import sys
 import logging
-import multiprocessing
+# We need to use multiprocessing.dummy, since we use the Pool to run
+# update_project. This in turn uses anitya.lib.backends.BaseBackend.call_url,
+# which utilizes a global requests session. Requests session is not usable
+# with multiprocessing, since it would need to share the SSL connection between
+# processes (see https://stackoverflow.com/q/3724900#3724938).
+# multiprocessing.dummy.Pool is in fact a Thread pool, which works ok
+# with a global shared requests session.
+import multiprocessing.dummy as multiprocessing
 
 import anitya
 import anitya.app
