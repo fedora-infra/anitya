@@ -1,6 +1,7 @@
-vcrpy
-nose
 coverage
+flake8
+nose
+vcrpy
 
 # required by vcs looks like
 mock

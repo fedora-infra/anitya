@@ -211,11 +211,6 @@ def login():
 @OID.loginhandler
 def fedora_login():
     ''' Handles login against the Fedora OpenID server. '''
-    next_url = flask.url_for('index')
-    if 'next' in flask.request.args:
-        if is_safe_url(flask.request.args['next']):
-            next_url = flask.request.args['next']
-
     error = OID.fetch_error()
     if error:
         flask.flash('Error during login: %s' % error, 'errors')
@@ -233,11 +228,6 @@ def fedora_login():
 @OID.loginhandler
 def google_login():
     ''' Handles login via the Google OpenID. '''
-    next_url = flask.url_for('index')
-    if 'next' in flask.request.args:
-        if is_safe_url(flask.request.args['next']):
-            next_url = flask.request.args['next']
-
     error = OID.fetch_error()
     if error:
         flask.flash('Error during login: %s' % error, 'errors')
@@ -254,11 +244,6 @@ def google_login():
 @OID.loginhandler
 def yahoo_login():
     ''' Handles login via the Yahoo OpenID. '''
-    next_url = flask.url_for('index')
-    if 'next' in flask.request.args:
-        if is_safe_url(flask.request.args['next']):
-            next_url = flask.request.args['next']
-
     error = OID.fetch_error()
     if error:
         flask.flash('Error during login: %s' % error, 'errors')
@@ -348,6 +333,7 @@ def preload_docs(endpoint):
     api_docs = markupsafe.Markup(api_docs)
     return api_docs
 
+
 htmldocs = dict.fromkeys(['about', 'fedmsg'])
 for key in htmldocs:
     htmldocs[key] = preload_docs(key)
@@ -361,6 +347,6 @@ def load_docs(request):
 
 
 # Finalize the import of other controllers
-from . import api
-from . import ui
-from . import admin
+from . import api  # NOQA
+from . import ui  # NOQA
+from . import admin  # NOQA

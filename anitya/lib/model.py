@@ -9,13 +9,12 @@
 anitya mapping of python classes to Database Tables.
 """
 
-
-__requires__ = ['SQLAlchemy >= 0.7']
-import pkg_resources
-
 import datetime
 import logging
 import time
+
+__requires__ = ['SQLAlchemy >= 0.7']  # NOQA
+import pkg_resources  # NOQA
 
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declarative_base

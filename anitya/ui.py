@@ -252,7 +252,7 @@ def projects_search(pattern=None):
             SESSION, pattern=get_extended_pattern(pattern), count=True)
     else:
         projects_count = anitya.lib.model.Project.search(
-            SESSION, pattern=pattern, distro=distroname, count=True)
+            SESSION, pattern=pattern, count=True)
 
     if projects_count == 1 and projects[0].name == pattern.replace('*', ''):
         flask.flash(
