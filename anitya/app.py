@@ -30,7 +30,7 @@ import anitya.mail_logging
 from six.moves import map
 
 
-__version__ = '0.10'
+__version__ = '0.10.1'
 
 # Create the application.
 APP = flask.Flask(__name__)
