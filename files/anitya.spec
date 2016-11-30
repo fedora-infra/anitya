@@ -2,13 +2,13 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.10
+Version:        0.10.1
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
 License:        GPLv2+
-URL:            http://fedorahosted.org/anitya/
-Source0:        https://fedorahosted.org/releases/a/n/anitya/%{name}-%{version}.tar.gz
+URL:            https://github.com/fedora-infra/anitya/
+Source0:        %{url}/archive/%{version}/anitya-%{version}.tar.gz
 
 BuildArch:      noarch
 
@@ -55,7 +55,7 @@ We monitor upstream releases and broadcast them on fedmsg, the FEDerated MeSsaGe
 (fedmsg) bus.
 
 %prep
-%setup -q
+%autosetup -n anitya-%{version}
 
 %build
 %{__python} setup.py build
@@ -98,7 +98,8 @@ install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.i
 #./runtests.sh
 
 %files
-%doc README.rst LICENSE
+%license LICENSE
+%doc README.rst CHANGELOG.rst
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/anitya.conf
 %config(noreplace) %{_sysconfdir}/anitya/anitya.cfg
 %config(noreplace) %{_sysconfdir}/anitya/alembic.ini
@@ -110,6 +111,12 @@ install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.i
 
 
 %changelog
+
+* Tue Nov 29 2016 Jeremy Cline <jeremy@jcline.org> - 0.10.1-1
+- Update to 0.10.1
+- Start using the license macro
+- Update the source URL from Trac to GitHub
+
 * Fri Oct 28 2016 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.10-1
 - Update 0.10
 - Add a blacklist user feature preventing blacklisted users from logging in
