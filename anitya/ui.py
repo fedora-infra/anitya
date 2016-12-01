@@ -328,7 +328,13 @@ def distro_projects_search(distroname, pattern=None):
 @APP.route('/project/new', methods=['GET', 'POST'])
 @login_required
 def new_project():
+    """
+    View for creating a new project.
 
+    This function accepts GET and POST requests. POST requests can result in
+    a HTTP 400 for invalid forms, a HTTP 409 if the request conflicts with an
+    existing project, or a HTTP 302 redirect to the new project.
+    """
     plugins = anitya.lib.plugins.load_plugins(SESSION)
     plg_names = [plugin.name for plugin in plugins]
     form = anitya.forms.ProjectForm(backends=plg_names)
@@ -340,8 +346,14 @@ def new_project():
 
         form.distro.data = flask.request.args.get('distro', '')
         form.package_name.data = flask.request.args.get('package_name', '')
-
-    if form.validate_on_submit():
+        return flask.render_template(
+            'project_new.html',
+            context='Add',
+            current='Add projects',
+            form=form,
+            plugins=plugins,
+        )
+    elif form.validate_on_submit():
         project = None
         try:
             project = anitya.lib.create_project(
@@ -371,6 +383,13 @@ def new_project():
             flask.flash('Project created')
         except anitya.lib.exceptions.AnityaException as err:
             flask.flash(err)
+            return flask.render_template(
+                'project_new.html',
+                context='Add',
+                current='Add projects',
+                form=form,
+                plugins=plugins
+            ), 409
 
         if project:
             return flask.redirect(
@@ -382,8 +401,8 @@ def new_project():
         context='Add',
         current='Add projects',
         form=form,
-        plugins=plugins,
-    )
+        plugins=plugins
+    ), 400
 
 
 @APP.route('/project/<project_id>/edit', methods=['GET', 'POST'])
