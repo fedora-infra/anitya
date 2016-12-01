@@ -23,23 +23,210 @@
 anitya tests for the flask application.
 '''
 
-__requires__ = ['SQLAlchemy >= 0.8']
-import pkg_resources
+__requires__ = ['SQLAlchemy >= 0.8']  # NOQA
+import pkg_resources  # NOQA
 
-import json
 import unittest
 import sys
 import os
 
-import flask
 import mock
 
 sys.path.insert(0, os.path.join(os.path.dirname(
     os.path.abspath(__file__)), '..'))
 
-import anitya
-from anitya.lib import model
-from tests import Modeltests, create_distro, create_project
+import anitya  # NOQA
+from anitya.lib import model  # NOQA
+from tests import Modeltests, create_distro, create_project  # NOQA
+
+
+class NewProjectTests(Modeltests):
+    """Tests for the ``/project/new`` endpoint"""
+
+    def setUp(self):
+        """Set up the Flask testing environnment"""
+        super(NewProjectTests, self).setUp()
+
+        anitya.app.APP.config['TESTING'] = True
+        anitya.SESSION = self.session
+        anitya.ui.SESSION = self.session
+        anitya.app.SESSION = self.session
+        anitya.admin.SESSION = self.session
+        anitya.api.SESSION = self.session
+        self.app = anitya.app.APP.test_client()
+
+    def test_new_project_unauthenticated(self):
+        """Assert that authentication is required to create a project"""
+        output = self.app.get('/project/new', follow_redirects=True)
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(
+            b'<ul id="flashes" class="list-group">'
+            b'<li class="list-group-item list-group-item-warning">'
+            b'Login required</li></ul>' in output.data)
+
+    def test_new_project(self):
+        """Assert an authenticated user can create a new project"""
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/project/new', follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+
+            self.assertTrue(b'<h1>Add project</h1>' in output.data)
+            self.assertTrue(
+                b'<td><label for="regex">Regex</label></td>' in output.data)
+
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {
+                'csrf_token': csrf_token,
+                'name': 'repo_manager',
+                'homepage': 'https://pypi.python.org/pypi/repo_manager',
+                'backend': 'PyPI',
+            }
+            output = c.post(
+                '/project/new', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                b'<li class="list-group-item list-group-item-default">'
+                b'Project created</li>' in output.data)
+            self.assertTrue(
+                b'<h1>Project: repo_manager</h1>' in output.data)
+        projects = model.Project.all(self.session, count=True)
+        self.assertEqual(projects, 1)
+
+    def test_new_project_no_csrf(self):
+        """Assert a missing CSRF token results in an HTTP 400"""
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/project/new', follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            data = {
+                'name': 'repo_manager',
+                'homepage': 'https://pypi.python.org/pypi/repo_manager',
+                'backend': 'PyPI',
+            }
+            output = c.post(
+                '/project/new', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 400)
+            self.assertTrue(b'<h1>Add project</h1>' in output.data)
+            self.assertTrue(
+                b'<td><label for="regex">Regex</label></td>' in output.data)
+        projects = model.Project.all(self.session, count=True)
+        self.assertEqual(projects, 0)
+
+    def test_new_project_duplicate(self):
+        """Assert duplicate projects result in a HTTP 409"""
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/project/new', follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {
+                'csrf_token': csrf_token,
+                'name': 'requests',
+                'homepage': 'https://pypi.python.org/pypi/requests',
+                'backend': 'PyPI',
+            }
+            output = c.post(
+                '/project/new', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+
+            # Now try to recreate the same project we did above
+            output = c.post(
+                '/project/new', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 409)
+            self.assertFalse(
+                b'<li class="list-group-item list-group-item-default">'
+                b'Project created</li>' in output.data)
+            self.assertFalse(
+                b'<h1>Project: repo_manager</h1>' in output.data)
+            self.assertTrue(
+                b'<li class="list-group-item list-group-item-default">'
+                b'Could not add this project, already exists?</li>'
+                in output.data)
+            self.assertTrue(b'<h1>Add project</h1>' in output.data)
+        projects = model.Project.all(self.session, count=True)
+        self.assertEqual(projects, 1)
+
+    def test_new_project_invalid_homepage(self):
+        """Assert a HTTP 400 results in projects with invalid homepages"""
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+
+            output = c.get('/project/new', follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {
+                'name': 'fedocal',
+                'homepage': 'pypi/fedocal',
+                'backend': 'PyPI',
+                'csrf_token': csrf_token,
+            }
+            output = c.post(
+                '/project/new', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 400)
+            self.assertTrue(b'<h1>Add project</h1>' in output.data)
+            self.assertTrue(
+                b'<td><label for="regex">Regex</label></td>' in output.data)
+
+    @mock.patch('anitya.check_release')
+    def test_new_project_with_check_release(self, patched):
+        output = self.app.get('/project/new', follow_redirects=True)
+        with anitya.app.APP.test_client() as c:
+            with c.session_transaction() as sess:
+                sess['openid'] = 'openid_url'
+                sess['fullname'] = 'Pierre-Yves C.'
+                sess['nickname'] = 'pingou'
+                sess['email'] = 'pingou@pingoured.fr'
+            output = c.get('/project/new', follow_redirects=True)
+
+            # check_release off
+            data = {
+                'name': 'repo_manager',
+                'homepage': 'https://pypi.python.org/pypi/repo_manager',
+                'backend': 'PyPI',
+                'csrf_token': output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0],
+            }
+            output = c.post(
+                '/project/new', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                b'<li class="list-group-item list-group-item-default">'
+                b'Project created</li>' in output.data)
+            patched.assert_not_called()
+
+            # check_release_on
+            data['name'] += 'xxx'
+            data['check_release'] = 'on'
+            output = c.post(
+                '/project/new', data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(
+                b'<li class="list-group-item list-group-item-default">'
+                b'Project created</li>' in output.data)
+            patched.assert_called_once_with(mock.ANY, mock.ANY)
 
 
 class FlaskTest(Modeltests):
@@ -246,128 +433,6 @@ a backend for the project hosting. More information below.</p>"""
             b'Only one result matching with an ' \
             b'exact match, redirecting</li>'
         self.assertTrue(expected in output.data)
-
-    def test_new_project(self):
-        """ Test the new_project function. """
-        output = self.app.get('/project/new', follow_redirects=True)
-        self.assertEqual(output.status_code, 200)
-        self.assertTrue(
-            b'<ul id="flashes" class="list-group">'
-            b'<li class="list-group-item list-group-item-warning">'
-            b'Login required</li></ul>' in output.data)
-
-        with anitya.app.APP.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.get('/project/new', follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-
-            self.assertTrue(b'<h1>Add project</h1>' in output.data)
-            self.assertTrue(
-                b'<td><label for="regex">Regex</label></td>' in output.data)
-
-            data = {
-                'name': 'repo_manager',
-                'homepage': 'https://pypi.python.org/pypi/repo_manager',
-                'backend': 'PyPI',
-            }
-
-            # Missing CSRF
-            output = c.post(
-                '/project/new', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Add project</h1>' in output.data)
-            self.assertTrue(
-                b'<td><label for="regex">Regex</label></td>' in output.data)
-
-            csrf_token = output.data.split(
-                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
-
-            data['csrf_token'] = csrf_token
-
-            # Valid input
-            output = c.post(
-                '/project/new', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Project created</li>' in output.data)
-            self.assertTrue(
-                b'<h1>Project: repo_manager</h1>' in output.data)
-
-            # Project already exists
-            output = c.post(
-                '/project/new', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertFalse(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Project created</li>' in output.data)
-            self.assertFalse(
-                b'<h1>Project: repo_manager</h1>' in output.data)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Could not add this project, already exists?</li>'
-                in output.data)
-            self.assertTrue(b'<h1>Add project</h1>' in output.data)
-
-            # Invalid homepage
-            data = {
-                'name': 'fedocal',
-                'homepage': 'pypi/fedocal',
-                'backend': 'PyPI',
-                'csrf_token': csrf_token,
-            }
-            output = c.post(
-                '/project/new', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Add project</h1>' in output.data)
-            self.assertTrue(
-                b'<td><label for="regex">Regex</label></td>' in output.data)
-
-        projects = model.Project.all(self.session, count=True)
-        self.assertEqual(projects, 1)
-
-    @mock.patch('anitya.check_release')
-    def test_new_project_with_check_release(self, patched):
-        output = self.app.get('/project/new', follow_redirects=True)
-        with anitya.app.APP.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-            output = c.get('/project/new', follow_redirects=True)
-
-            # check_release off
-            data = {
-                'name': 'repo_manager',
-                'homepage': 'https://pypi.python.org/pypi/repo_manager',
-                'backend': 'PyPI',
-                'csrf_token': output.data.split(
-                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0],
-            }
-            output = c.post(
-                '/project/new', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Project created</li>' in output.data)
-            patched.assert_not_called()
-
-            # check_release_on
-            data['name'] += 'xxx'
-            data['check_release'] = 'on'
-            output = c.post(
-                '/project/new', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Project created</li>' in output.data)
-            patched.assert_called_once_with(mock.ANY, mock.ANY)
 
     @mock.patch('anitya.check_release')
     def test_edit_project(self, patched):
@@ -687,5 +752,4 @@ a backend for the project hosting. More information below.</p>"""
 
 
 if __name__ == '__main__':
-    SUITE = unittest.TestLoader().loadTestsFromTestCase(FlaskTest)
-    unittest.TextTestRunner(verbosity=2).run(SUITE)
+    unittest.main()
