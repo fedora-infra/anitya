@@ -1,6 +1,14 @@
 Changes
 =======
 
+dev (master)
+------------
+
+* Return 4XX codes in error cases for /projects/new rather than 200 (Issue #246)
+
+* [insert summary of change here]
+
+
 0.10.1 (Nov. 29, 2016)
 ----------------------
 
