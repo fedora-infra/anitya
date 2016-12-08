@@ -293,8 +293,26 @@ class BaseBackend(object):
                 'From': from_email,
             }
 
-            return http_session.get(url, headers=headers, timeout=60,
-                                    verify=not insecure)
+            # Works around https://github.com/kennethreitz/requests/issues/2863
+            # Currently, requests does not start new TCP connections based on
+            # TLS settings. This means that if a connection is ever started to
+            # a host with `verify=False`, further requests to that
+            # (scheme, host, port) combination will also be insecure, even if
+            # `verify=True` is passed to requests.
+            #
+            # This starts a new session which is immediately discarded when the
+            # request is insecure. We don't get to pool connections for these
+            # requests, but it stops us from making insecure requests by
+            # accident. This can be removed in requests-3.0.
+            if insecure:
+                with requests.Session() as r_session:
+                    resp = r_session.get(
+                        url, headers=headers, timeout=60, verify=False)
+            else:
+                resp = http_session.get(
+                    url, headers=headers, timeout=60, verify=True)
+
+            return resp
 
 
 def get_versions_by_regex(url, regex, project, insecure=False):

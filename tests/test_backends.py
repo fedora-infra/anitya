@@ -30,6 +30,37 @@ import mock
 
 from anitya.lib import backends
 from anitya.lib.exceptions import AnityaPluginException
+import anitya
+
+
+class BaseBackendTests(unittest.TestCase):
+
+    def setUp(self):
+        self.backend = backends.BaseBackend()
+        self.headers = {
+            'User-Agent': 'Anitya {0} at upstream-monitoring.org'.format(
+                anitya.app.__version__),
+            'From': anitya.app.APP.config.get('ADMIN_EMAIL'),
+        }
+
+    @mock.patch('anitya.lib.backends.http_session')
+    def test_call_http_url(self, mock_http_session):
+        """Assert HTTP urls are handled by requests"""
+        url = 'http://www.example.com/'
+        self.backend.call_url(url)
+
+        mock_http_session.get.assert_called_once_with(
+            url, headers=self.headers, timeout=60, verify=True)
+
+    @mock.patch('anitya.lib.backends.requests.Session')
+    def test_call_insecure_http_url(self, mock_session):
+        """Assert HTTP urls are handled by requests"""
+        url = 'https://www.example.com/'
+        self.backend.call_url(url, insecure=True)
+
+        insecure_session = mock_session.return_value.__enter__.return_value
+        insecure_session.get.assert_called_once_with(
+            url, headers=self.headers, timeout=60, verify=False)
 
 
 class GetVersionsByRegexTextTests(unittest.TestCase):
