@@ -27,13 +27,15 @@ import unittest
 import sys
 import os
 
+import mock
+
 sys.path.insert(0, os.path.join(os.path.dirname(
     os.path.abspath(__file__)), '..'))
 
-import anitya.lib.backends.folder as backend
-import anitya.lib.model as model
-from anitya.lib.exceptions import AnityaPluginException
-from tests import Modeltests, create_distro, skip_jenkins
+import anitya.lib.backends.folder as backend  # NOQA
+import anitya.lib.model as model  # NOQA
+from anitya.lib.exceptions import AnityaPluginException  # NOQA
+from tests import Modeltests, create_distro, skip_jenkins  # NOQA
 
 
 BACKEND = 'folder'
@@ -65,6 +67,7 @@ class FolderBackendtests(Modeltests):
             name='fake',
             homepage='https://pypi.python.org/pypi/repo_manager_fake',
             backend=BACKEND,
+            insecure=True,
         )
         self.session.add(project)
         self.session.commit()
@@ -99,6 +102,20 @@ class FolderBackendtests(Modeltests):
         exp = '4.4.2'
         obs = backend.FolderBackend.get_version(project)
         self.assertEqual(obs, exp)
+
+    def test_folder_get_versions_insecure(self):
+        """Assert projects with insecure=True get the URL insecurely"""
+        pid = 2
+        project = model.Project.get(self.session, pid)
+
+        with mock.patch('anitya.lib.backends.BaseBackend.call_url') as m_call:
+            m_call.side_effect = backend.BaseBackend.call_url
+            self.assertRaises(
+                AnityaPluginException,
+                backend.FolderBackend.get_versions,
+                project
+            )
+            m_call.assert_called_with(project.version_url, insecure=True)
 
     def test_folder_get_versions(self):
         """ Test the get_versions function of the folder backend. """
