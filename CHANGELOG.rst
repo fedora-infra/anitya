@@ -6,6 +6,12 @@ dev (master)
 
 * Return 4XX codes in error cases for /projects/new rather than 200 (Issue #246)
 
+* Allow projecst using the "folder" backend to make insecure HTTPS requests
+  (Issue #386)
+
+* Fix an issue where turning the insecure flag on and then off for a project
+  resulted in insecure requests until the server was restarted (Issue #394)
+
 * [insert summary of change here]
 
 
