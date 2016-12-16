@@ -369,6 +369,10 @@ class Project(BASE):
                             name="UNIQ_PROJECT_NAME_PER_ECOSYSTEM"),
     )
 
+    def validate_name(self):
+        plugins = anitya.lib.plugins.load_plugins()
+        plg_names = [plugin.name for plugin in plugins]
+
     @property
     def versions(self):
         ''' Return list of all versions stored, sorted from newest to oldest.

@@ -20,16 +20,16 @@
 This module provides Anitya's HTTP API.
 """
 
+from gettext import gettext as _
+
+from flask_restful import Resource, reqparse
 import flask
-
-from flask.ext.oidc import OpenIDConnect
-
-import anitya
-import anitya.lib.plugins
-import anitya.lib.model
 
 from anitya.app import APP, SESSION
 from anitya.doc_utils import load_doc
+import anitya
+import anitya.lib.plugins
+import anitya.lib.model
 
 
 @APP.template_filter('InsertDiv')
@@ -60,40 +60,60 @@ def insert_div(content):
 
     return output
 
-# Write APIs are restricted to authenticated users via OpenIDConnect
-# OIDC config is hardcoded for now
-import os.path
-APP.config['OIDC_CLIENT_SECRETS'] = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    'client_secrets.json')
-# This settings means that the application needs to be run behind http*s* for
-# the cookie to be saved. For development you will likely need to make it
-# `False`
-APP.config['OIDC_ID_TOKEN_COOKIE_SECURE'] = False
-APP.config['OIDC_REQUIRE_VERIFIED_EMAIL'] = False
-APP.config['OIDC_OPENID_REALM'] = 'http://localhost:5000/oidc_callback'
-APP.config['OIDC_SCOPES'] = ['openid', 'email', 'profile', 'fedora']
-OIDC = OpenIDConnect(APP, credentials_store=flask.session )
 
-def authenticated():
-    """ Utility function checking if the current auth is set or not."""
-    return hasattr(flask.g, 'auth') \
-        and flask.g.auth is not None \
-        and flask.g.auth.logged_in
+class ProjectsResource(Resource):
+    """
+    The ``api/v2/projects/`` API endpoint.
+    """
 
-def auth_required(function):
-    """ Flask decorator to restrict access to authenticated users. """
+    @APP.oidc.accept_token(require_token=False)
+    def get(self):
+        """Lists all projects"""
+        # TODO paginate
+        project_objs = anitya.lib.model.Project.all(SESSION)
+        projects = [project.__json__() for project in project_objs]
+        return projects
 
-    @functools.wraps(function)
-    def authenticated_api(*args, **kwargs):
-        if not authenticated():
-            flask.flash('Login required', 'errors')
-            return flask.redirect(flask.url_for(
-                'login', next=flask.request.url))
+    @APP.oidc.accept_token(require_token=True)
+    def post(self):
+        """Create a new project"""
+        name_help = _('The project name')
+        homepage_help = _('The project homepage URL')
+        backend_help = _('The project backend (github, folder, etc.)')
+        version_url_help = _('The URL to fetch when determining the project '
+                             'version (defaults to null)')
+        version_prefix_help = _('The project version prefix, if any. For '
+                                'example, some projects prefix with "v"')
+        regex_help = _('The regex to use when searching the version_url page')
+        insecure_help = _('When retrieving the versions via HTTPS, do not '
+                          'validate the certificate (defaults to false)')
+        check_release_help = _('Check the release immediately after creating '
+                               'the project.')
 
-        return function(*args, **kwargs)
+        parser = reqparse.RequestParser(trim=True, bundle_errors=True)
+        parser.add_argument('name', type=str, help=name_help, required=True)
+        parser.add_argument(
+            'homepage', type=str, help=homepage_help, required=True)
+        parser.add_argument(
+            'backend', type=str, help=backend_help, required=True)
+        parser.add_argument(
+            'version_url', type=str, help=version_url_help, default=None)
+        parser.add_argument(
+            'version_prefix', type=str, help=version_prefix_help, default=None)
+        parser.add_argument('regex', type=str, help=regex_help, default=None)
+        parser.add_argument(
+            'insecure', type=bool, help=insecure_help, default=False)
+        parser.add_argument(
+            'check_release', type=bool, help=check_release_help)
+        args = parser.parse_args(strict=True)
 
-    return decorated_function
+        # TODO conficts etc
+        anitya.lib.create_project(
+            SESSION, user_id=APP.oidc.user_getfield('user_id'), **args)
+        SESSION.commit()
+
+
+APP.api.add_resource(ProjectsResource, '/api/v2/projects/')
 
 
 @APP.route('/api/')

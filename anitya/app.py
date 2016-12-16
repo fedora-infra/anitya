@@ -19,6 +19,8 @@ import os
 import flask
 from bunch import Bunch
 from flask_openid import OpenID
+from flask_oidc import OpenIDConnect
+from flask_restful import Api
 
 import anitya.lib
 import anitya.mail_logging
@@ -33,8 +35,11 @@ APP.config.from_object('anitya.default_config')
 if 'ANITYA_WEB_CONFIG' in os.environ:  # pragma: no cover
     APP.config.from_envvar('ANITYA_WEB_CONFIG')
 
-# Set up OpenID
+# Set up OpenID and OpenIDConnect
 APP.oid = OpenID(APP)
+APP.oidc = OpenIDConnect(APP, credentials_store=flask.session)
+
+APP.api = Api(APP)
 
 # Set up the logging
 logging_config = {
