@@ -1,15 +1,22 @@
 # -*- coding: utf-8 -*-
 
 from math import ceil
+import codecs
+import os
 
+import docutils
+import docutils.examples
 import flask
+import six.moves.urllib.parse as urlparse
+import jinja2
+import markupsafe
 
 import anitya
 import anitya.lib
 import anitya.lib.exceptions
 import anitya.lib.model
 
-from anitya.app import APP, SESSION, login_required, load_docs
+from anitya.app import APP, SESSION, login_required
 
 
 def get_extended_pattern(pattern):
@@ -22,6 +29,84 @@ def get_extended_pattern(pattern):
     if not pattern.endswith('*'):
         pattern += '*'
     return pattern
+
+
+def is_safe_url(target):
+    """ Checks that the target url is safe and sending to the current
+    website not some other malicious one.
+    """
+    ref_url = urlparse.urlparse(flask.request.host_url)
+    test_url = urlparse.urlparse(
+        urlparse.urljoin(flask.request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+        ref_url.netloc == test_url.netloc
+
+
+def modify_rst(rst):
+    ''' Downgrade some of our rst directives if docutils is too old. '''
+
+    try:
+        # The rst features we need were introduced in this version
+        minimum = [0, 9]
+        version = list(map(int, docutils.__version__.split('.')))
+
+        # If we're at or later than that version, no need to downgrade
+        if version >= minimum:
+            return rst
+    except Exception:
+        # If there was some error parsing or comparing versions, run the
+        # substitutions just to be safe.
+        pass
+
+    # Otherwise, make code-blocks into just literal blocks.
+    substitutions = {
+        '.. code-block:: javascript': '::',
+    }
+    for old, new in substitutions.items():
+        rst = rst.replace(old, new)
+
+    return rst
+
+
+def modify_html(html):
+    ''' Perform style substitutions where docutils doesn't do what we want.
+    '''
+
+    substitutions = {
+        '<tt class="docutils literal">': '<code>',
+        '</tt>': '</code>',
+    }
+    for old, new in substitutions.items():
+        html = html.replace(old, new)
+
+    return html
+
+
+def preload_docs(endpoint):
+    ''' Utility to load an RST file and turn it into fancy HTML. '''
+
+    here = os.path.dirname(os.path.abspath(__file__))
+    fname = os.path.join(here, 'docs', endpoint + '.rst')
+    with codecs.open(fname, 'r', 'utf-8') as f:
+        rst = f.read()
+
+    rst = modify_rst(rst)
+    api_docs = docutils.examples.html_body(rst)
+    api_docs = modify_html(api_docs)
+    api_docs = markupsafe.Markup(api_docs)
+    return api_docs
+
+
+htmldocs = dict.fromkeys(['about', 'fedmsg'])
+for key in htmldocs:
+    htmldocs[key] = preload_docs(key)
+
+
+def load_docs(request):
+    URL = request.url_root
+    docs = htmldocs[request.endpoint]
+    docs = jinja2.Template(docs).render(URL=URL)
+    return markupsafe.Markup(docs)
 
 
 @APP.route('/')
@@ -50,6 +135,94 @@ def fedmsg():
         current='fedmsg',
         docs=load_docs(flask.request),
     )
+
+
+@APP.route('/login/', methods=('GET', 'POST'))
+@APP.route('/login', methods=('GET', 'POST'))
+@APP.oid.loginhandler
+def login():
+    ''' Handle the login when no OpenID server have been selected in the
+    list.
+    '''
+    next_url = flask.url_for('index')
+    if 'next' in flask.request.args:
+        if is_safe_url(flask.request.args['next']):
+            next_url = flask.request.args['next']
+
+    APP.oid.store_factory = lambda: None
+    if flask.g.auth.logged_in:
+        return flask.redirect(next_url)
+
+    openid_server = flask.request.form.get('openid', None)
+    if openid_server:
+        return APP.oid.try_login(
+            openid_server, ask_for=['email', 'fullname', 'nickname'])
+
+    return flask.render_template(
+        'login.html',
+        next=APP.oid.get_next_url(), error=APP.oid.fetch_error())
+
+
+@APP.route('/login/fedora/', methods=('GET', 'POST'))
+@APP.route('/login/fedora', methods=('GET', 'POST'))
+@APP.oid.loginhandler
+def fedora_login():
+    ''' Handles login against the Fedora OpenID server. '''
+    error = APP.oid.fetch_error()
+    if error:
+        flask.flash('Error during login: %s' % error, 'errors')
+        return flask.redirect(flask.url_for('index'))
+
+    APP.oid.store_factory = lambda: None
+    return APP.oid.try_login(
+        APP.config['ANITYA_WEB_FEDORA_OPENID'],
+        ask_for=['email', 'nickname'],
+        ask_for_optional=['fullname'])
+
+
+@APP.route('/login/google/', methods=('GET', 'POST'))
+@APP.route('/login/google', methods=('GET', 'POST'))
+@APP.oid.loginhandler
+def google_login():
+    ''' Handles login via the Google OpenID. '''
+    error = APP.oid.fetch_error()
+    if error:
+        flask.flash('Error during login: %s' % error, 'errors')
+        return flask.redirect(flask.url_for('index'))
+
+    APP.oid.store_factory = lambda: None
+    return APP.oid.try_login(
+        "https://www.google.com/accounts/o8/id",
+        ask_for=['email', 'fullname'])
+
+
+@APP.route('/login/yahoo/', methods=('GET', 'POST'))
+@APP.route('/login/yahoo', methods=('GET', 'POST'))
+@APP.oid.loginhandler
+def yahoo_login():
+    ''' Handles login via the Yahoo OpenID. '''
+    error = APP.oid.fetch_error()
+    if error:
+        flask.flash('Error during login: %s' % error, 'errors')
+        return flask.redirect(flask.url_for('index'))
+
+    APP.oid.store_factory = lambda: None
+    return APP.oid.try_login(
+        "https://me.yahoo.com/",
+        ask_for=['email', 'fullname'])
+
+
+@APP.route('/logout/')
+@APP.route('/logout')
+def logout():
+    ''' Logout the user. '''
+    flask.session.pop('openid')
+    next_url = flask.url_for('index')
+    if 'next' in flask.request.args:
+        if is_safe_url(flask.request.args['next']):
+            next_url = flask.request.args['next']
+
+    return flask.redirect(next_url)
 
 
 @APP.route('/project/<int:project_id>')
