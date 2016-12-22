@@ -10,12 +10,11 @@ User-facing Flask routes should be placed in the ``anitya.ui`` module and API
 routes should be placed in ``anitya.api``.
 """
 
-
 import functools
 import logging
+import logging.config
 import logging.handlers
 import os
-import sys
 
 import flask
 from bunch import Bunch
@@ -38,21 +37,45 @@ if 'ANITYA_WEB_CONFIG' in os.environ:  # pragma: no cover
 APP.oid = OpenID(APP)
 
 # Set up the logging
-if not APP.debug:
-    APP.logger.addHandler(anitya.mail_logging.get_mail_handler(
-        smtp_server=APP.config.get('SMTP_SERVER', '127.0.0.1'),
-        mail_admin=APP.config.get('MAIL_ADMIN', 'admin@fedoraproject.org')
+logging_config = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '[%(name)s %(levelname)s] %(message)s',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+            'stream': 'ext://sys.stdout',
+        }
+    },
+    'loggers': {
+        'anitya': {
+            'level': APP.config['ANITYA_LOG_LEVEL'],
+            'propagate': False,
+            'handlers': ['console'],
+        },
+    },
+    # The root logger configuration; this is a catch-all configuration
+    # that applies to all log messages not handled by a different logger
+    'root': {
+        'level': APP.config['ANITYA_LOG_LEVEL'],
+        'handlers': ['console'],
+    },
+}
+
+logging.config.dictConfig(logging_config)
+if APP.config['EMAIL_ERRORS']:
+    # If email logging is configured, set up the anitya logger with an email
+    # handler for any ERROR-level logs.
+    _anitya_log = logging.getLogger('anitya')
+    _anitya_log.addHandler(anitya.mail_logging.get_mail_handler(
+        smtp_server=APP.config.get('SMTP_SERVER'),
+        mail_admin=APP.config.get('ADMIN_EMAIL')
     ))
-
-# Log to stderr as well
-STDERR_LOG = logging.StreamHandler(sys.stderr)
-STDERR_LOG.setLevel(logging.INFO)
-APP.logger.addHandler(STDERR_LOG)
-ANITYALOG = logging.getLogger('anitya')
-ANITYALOG.addHandler(STDERR_LOG)
-
-LOG = APP.logger
-
 
 SESSION = anitya.lib.init(
     APP.config['DB_URL'], debug=False, create=False)

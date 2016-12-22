@@ -9,6 +9,7 @@
 """
 
 import fnmatch
+import logging
 import re
 import socket
 # sre_constants contains re exceptions
@@ -24,6 +25,8 @@ import six
 
 REGEX = '%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
         '(?:minsrc|src|source|asc))?\.(?:tar|t[bglx]z|tbz2|zip)'
+
+_log = logging.getLogger(__name__)
 
 
 # Use a common http session, so we don't have to go re-establishing https
@@ -324,7 +327,7 @@ def get_versions_by_regex(url, regex, project, insecure=False):
     try:
         req = BaseBackend.call_url(url, insecure=insecure)
     except Exception as err:
-        anitya.LOG.debug('%s ERROR: %s' % (project.name, str(err)))
+        _log.debug('%s ERROR: %s' % (project.name, str(err)))
         raise AnityaPluginException(
             'Could not call : "%s" of "%s", with error: %s' % (
                 url, project.name, str(err)))
