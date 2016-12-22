@@ -26,7 +26,8 @@ import anitya
 
 BASE = declarative_base()
 
-log = logging.getLogger(__name__)
+
+_log = logging.getLogger(__name__)
 
 
 def _paginate_query(query, page):

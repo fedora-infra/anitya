@@ -19,7 +19,7 @@ import anitya.lib.model as model
 from anitya.lib.backends import BaseBackend
 from anitya.lib.ecosystems import BaseEcosystem
 
-log = logging.getLogger(__name__)
+_log = logging.getLogger(__name__)
 
 
 class _PluginManager(object):
@@ -57,7 +57,7 @@ def _load_backend_plugins(session):
     # Add any new Backend definitions
     plugin_names = [plugin.name for plugin in plugins]
     for backend in set(backends).symmetric_difference(set(plugin_names)):
-        log.info("Registering backend %r", backend)
+        _log.info("Registering backend %r", backend)
         bcke = model.Backend(name=backend)
         session.add(bcke)
         try:
@@ -81,8 +81,8 @@ def _load_ecosystem_plugins(session):
     for eco_name in eco_names:
         backend = backends_by_ecosystem[eco_name]
         bcke = model.Backend.by_name(session, backend)
-        log.info("Registering ecosystem %r with default backend %r",
-                 eco_name, backend)
+        _log.info("Registering ecosystem %r with default backend %r",
+                  eco_name, backend)
         ecosystem = model.Ecosystem(name=eco_name, default_backend=bcke)
         session.add(ecosystem)
         try:
