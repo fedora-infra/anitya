@@ -74,31 +74,34 @@ Next, install your dependencies::
 Running the test suite
 ``````````````````````
 Regardless of which Python version you have configured in your local venv,
-the tests can be run under both Python 2 & 3 via:
+the tests can be run under both Python 2 & 3 on Fedora via:
 
-    (anitya-env)$ tox
+    (anitya-env)$ tox -e py27,py35
+
+Note that even if you have Python 2.6 installed, the tests will fail
+without the Python RPM bindings installed (as they are in CentOS/RHEL 6).
 
 
 Running a local instance
 ````````````````````````
 
-Create the database, by default it will be a sqlite database located at
-``/var/tmp/anitya-dev.sqlite``::
+Replace httplib2's own ca cert file (adjust as needed for Python version)::
 
-    (anitya-env)$ python createdb.py
-
-Replace httplib2's own ca cert file (to adjust as needed)::
-
-    (anitya-env)$ cp /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem ~/.virtualenvs/anitya-env/lib/python3.5/site-packages/httplib2/cacerts.txt
+    (anitya-env) $ ln -s /etc/pki/tls/certs/ca-bundle.crt \
+                         ~/.virtualenvs/anitya-env/lib/python3.5/site-packages/httplib2/cacerts.txt
 
 Configure the project to authenticate against iddev.fedorainfraclouid.org::
 
     oidc-register --debug https://iddev.fedorainfracloud.org/ http://localhost:5000
 
+Create the database, by default it will be a sqlite database located at
+``/var/tmp/anitya-dev.sqlite``::
+
+    (anitya-env) $ python createdb.py
+
 With that, try running the app with::
 
-    $ python populate.py  # To create the db
-    $ python runserver.py -c config  # To run the dev server with our local conf
+    (anitya-env) $ python runserver.py -c config
 
 And then navigate to http://localhost:5000/
 
