@@ -45,7 +45,7 @@ class _APItestsMixin(object):
 
         anitya.app.APP.config['TESTING'] = True
         anitya.app.SESSION = self.session
-        anitya.api.SESSION = self.session
+        anitya.api_v2.SESSION = self.session
         self.app = anitya.app.APP.test_client()
 
 
