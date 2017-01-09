@@ -53,7 +53,8 @@ class AnonymousAccessTests(_APItestsMixin, Modeltests):
     """Test access to APIs that don't require authentication"""
 
     def test_list_projects(self):
-        output = self.app.get('/api/v2/projects/')
+        api_endpoint = '/api/v2/projects/'
+        output = self.app.get(api_endpoint)
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
@@ -61,49 +62,46 @@ class AnonymousAccessTests(_APItestsMixin, Modeltests):
 
         create_project(self.session)
 
-        output = self.app.get('/api/projects/')
+        output = self.app.get(api_endpoint)
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        for key in range(len(data['projects'])):
-            del(data['projects'][key]['created_on'])
-            del(data['projects'][key]['updated_on'])
+        for item in data:
+            del item['created_on']
+            del item['updated_on']
 
-        exp = {
-            "projects": [
-                {
-                    "id": 1,
-                    "backend": "custom",
-                    "homepage": "http://www.geany.org/",
-                    "name": "geany",
-                    "regex": "DEFAULT",
-                    "version": None,
-                    "version_url": "http://www.geany.org/Download/Releases",
-                    "versions": []
-                },
-                {
-                    "id": 3,
-                    "backend": "custom",
-                    "homepage": "https://fedorahosted.org/r2spec/",
-                    "name": "R2spec",
-                    "regex": None,
-                    "version": None,
-                    "version_url": None,
-                    "versions": []
-                },
-                {
-                    "id": 2,
-                    "backend": "custom",
-                    "homepage": "http://subsurface.hohndel.org/",
-                    "name": "subsurface",
-                    "regex": "DEFAULT",
-                    "version": None,
-                    "version_url": "http://subsurface.hohndel.org/downloads/",
-                    "versions": []
-                }
-            ],
-            "total": 3
-        }
+        exp = [
+            {
+                "id": 1,
+                "backend": "custom",
+                "homepage": "http://www.geany.org/",
+                "name": "geany",
+                "regex": "DEFAULT",
+                "version": None,
+                "version_url": "http://www.geany.org/Download/Releases",
+                "versions": []
+            },
+            {
+                "id": 3,
+                "backend": "custom",
+                "homepage": "https://fedorahosted.org/r2spec/",
+                "name": "R2spec",
+                "regex": None,
+                "version": None,
+                "version_url": None,
+                "versions": []
+            },
+            {
+                "id": 2,
+                "backend": "custom",
+                "homepage": "http://subsurface.hohndel.org/",
+                "name": "subsurface",
+                "regex": "DEFAULT",
+                "version": None,
+                "version_url": "http://subsurface.hohndel.org/downloads/",
+                "versions": []
+            }
+        ]
 
         self.assertEqual(data, exp)
 
