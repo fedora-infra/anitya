@@ -7,7 +7,7 @@ the default configuration, loading and configuring Flask extensions, and
 configuring logging.
 
 User-facing Flask routes should be placed in the ``anitya.ui`` module and API
-routes should be placed in ``anitya.api``.
+routes should be placed in ``anitya.api_v2``.
 """
 
 import functools
@@ -18,11 +18,10 @@ import os
 
 import flask
 from bunch import Bunch
-from flask_openid import OpenID
-from flask_oidc import OpenIDConnect
 from flask_restful import Api
 
 import anitya.lib
+import anitya.authentication
 import anitya.mail_logging
 
 
@@ -34,12 +33,6 @@ APP = flask.Flask(__name__)
 APP.config.from_object('anitya.default_config')
 if 'ANITYA_WEB_CONFIG' in os.environ:  # pragma: no cover
     APP.config.from_envvar('ANITYA_WEB_CONFIG')
-
-# Set up OpenID and OpenIDConnect
-APP.oid = OpenID(APP)
-APP.oidc = OpenIDConnect(APP, credentials_store=flask.session)
-
-APP.api = Api(APP)
 
 # Set up the logging
 logging_config = {
@@ -81,6 +74,12 @@ if APP.config['EMAIL_ERRORS']:
         smtp_server=APP.config.get('SMTP_SERVER'),
         mail_admin=APP.config.get('ADMIN_EMAIL')
     ))
+
+# Set up OpenID and OpenIDConnect
+anitya.authentication.configure_openid(APP)
+
+# Set up the Flask Restful API endpoints
+APP.api = Api(APP)
 
 SESSION = anitya.lib.init(
     APP.config['DB_URL'], debug=False, create=False)

@@ -7,13 +7,14 @@ from flask_restful import Resource, reqparse
 from anitya.app import APP, SESSION
 import anitya
 import anitya.lib.model
+import anitya.authentication
 
 class ProjectsResource(Resource):
     """
     The ``api/v2/projects/`` API endpoint.
     """
 
-    @APP.oidc.accept_token(require_token=False)
+    @anitya.authentication.parse_api_token
     def get(self):
         """Lists all projects"""
         # TODO paginate
@@ -21,7 +22,7 @@ class ProjectsResource(Resource):
         projects = [project.__json__() for project in project_objs]
         return projects
 
-    @APP.oidc.accept_token(require_token=True)
+    @anitya.authentication.require_api_token
     def post(self):
         """Create a new project"""
         name_help = _('The project name')

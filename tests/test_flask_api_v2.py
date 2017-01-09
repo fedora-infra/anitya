@@ -27,7 +27,10 @@ __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
 
 import json
-import unittest
+import os
+
+import mock
+import unittest2 as unittest # Ensure we always have TestCase.addCleanup
 
 import anitya
 from tests import (Modeltests, create_project)
@@ -40,12 +43,12 @@ class _APItestsMixin(object):
     """Helper mixin to set up API testing environment"""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
         super(_APItestsMixin, self).setUp()
 
         anitya.app.APP.config['TESTING'] = True
         anitya.app.SESSION = self.session
         anitya.api_v2.SESSION = self.session
+        self.oidc = anitya.app.APP.oidc
         self.app = anitya.app.APP.test_client()
 
 
@@ -108,30 +111,64 @@ class AnonymousAccessTests(_APItestsMixin, Modeltests):
 class AuthenticationRequiredTests(_APItestsMixin, Modeltests):
     """Test anonymous access is blocked to APIs requiring authentication"""
 
-    def test_project_monitoring_request(self):
-        output = self.app.post('/api/v2/projects/')
-        self.assertEqual(output.status_code, 401)
+    def _check_authentication_failure_response(self, output):
         data = _read_json(output)
         # Temporary workaround for rendering-to-str on the server
         data = json.loads(data)
-        exp = {
-            "error_description": "Token required but invalid",
-            "error": "invalid_token",
-        }
+        # Check we get the expected error details
+        if self.oidc is None:
+            exp = {
+                'error': 'oidc_not_configured',
+                'error_description': 'OpenID Connect is not configured on the server'
+            }
+        else:
+            exp = {
+                "error_description": "Token required but invalid",
+                "error": "invalid_token",
+            }
         self.assertEqual(data, exp)
+
+
+    def test_project_monitoring_request(self):
+        self.maxDiff = None
+        output = self.app.post('/api/v2/projects/')
+        self.assertEqual(output.status_code, 401)
+        self._check_authentication_failure_response(output)
 
 
 class _AuthenticatedAPItestsMixin(_APItestsMixin):
     """Common test definitions for tests of authenticated access"""
-    pass
+
+    def test_invalid_project_monitoring_request(self):
+        output = self.app.post('/api/v2/projects/')
+        self.assertEqual(output.status_code, 400)
+        # Error details should report the missing required fields
+        data = _read_json(output)
+        error_details = data["message"]
+        self.assertIn("backend", error_details)
+        self.assertIn("homepage", error_details)
+        self.assertIn("name", error_details)
+
 
 class MockAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
     """Test authenticated behaviour with authentication checks mocked out"""
-    pass
+    def setUp(self):
+        super(MockAuthenticationTests, self).setUp()
+        # Replace anitya.authentication._validate_api_token
+        def _bypass_token_validation(validated, raw_api, *args, **kwds):
+            return raw_api(*args, **kwds)
+        mock_auth = mock.patch('anitya.authentication._validate_api_token',
+                               _bypass_token_validation)
+        mock_auth.start()
+        self.addCleanup(mock_auth.stop)
 
 class LiveAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
     """Test authenticated behaviour with live FAS credentials"""
-    pass
+    def setUp(self):
+        super(LiveAuthenticationTests, self).setUp()
+
+        if self.oidc is None:
+            self.skipTest("OpenID Connect is not configured")
 
 if __name__ == '__main__':
     unittest.main()

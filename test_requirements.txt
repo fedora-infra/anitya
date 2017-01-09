@@ -2,6 +2,7 @@ coverage
 flake8
 nose
 vcrpy
+unittest2
 
 # required by vcs looks like
 mock
