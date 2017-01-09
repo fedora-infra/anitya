@@ -205,5 +205,6 @@ def inject_variable():
 
 # Finalize the import of other controllers
 from . import api  # NOQA
+from . import api_v2  # NOQA
 from . import ui  # NOQA
 from . import admin  # NOQA

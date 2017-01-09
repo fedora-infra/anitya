@@ -111,12 +111,16 @@ class AuthenticationRequiredTests(_APItestsMixin, Modeltests):
     """Test anonymous access is blocked to APIs requiring authentication"""
 
     def test_project_monitoring_request(self):
-        return
-
         output = self.app.post('/api/v2/projects/')
-        self.assertEqual(output.status_code, 503)
+        self.assertEqual(output.status_code, 401)
         data = _read_json(output)
-        self.assertEqual(data, {})
+        # Temporary workaround for rendering-to-str on the server
+        data = json.loads(data)
+        exp = {
+            "error_description": "Token required but invalid",
+            "error": "invalid_token",
+        }
+        self.assertEqual(data, exp)
 
 
 class _AuthenticatedAPItestsMixin(_APItestsMixin):
