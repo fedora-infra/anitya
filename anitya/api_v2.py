@@ -9,6 +9,7 @@ import anitya
 import anitya.lib.model
 import anitya.authentication
 
+
 class ProjectsResource(Resource):
     """
     The ``api/v2/projects/`` API endpoint.
@@ -22,7 +23,7 @@ class ProjectsResource(Resource):
         projects = [project.__json__() for project in project_objs]
         return projects
 
-    @anitya.authentication.require_api_token
+    @anitya.authentication.require_api_token("upstream")
     def post(self):
         """Create a new project"""
         name_help = _('The project name')
@@ -62,4 +63,3 @@ class ProjectsResource(Resource):
 
 
 APP.api.add_resource(ProjectsResource, '/api/v2/projects/')
-

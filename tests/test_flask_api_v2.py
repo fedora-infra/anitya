@@ -27,7 +27,9 @@ __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
 
 import json
-import os
+import os.path
+
+import requests_oauthlib
 
 import mock
 import unittest2 as unittest # Ensure we always have TestCase.addCleanup
@@ -139,8 +141,11 @@ class AuthenticationRequiredTests(_APItestsMixin, Modeltests):
 class _AuthenticatedAPItestsMixin(_APItestsMixin):
     """Common test definitions for tests of authenticated access"""
 
+    def _post_app_url(self, post_url):
+        return self.app.post(post_url)
+
     def test_invalid_project_monitoring_request(self):
-        output = self.app.post('/api/v2/projects/')
+        output = self._post_app_url('/api/v2/projects/')
         self.assertEqual(output.status_code, 400)
         # Error details should report the missing required fields
         data = _read_json(output)
@@ -162,13 +167,46 @@ class MockAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
         mock_auth.start()
         self.addCleanup(mock_auth.stop)
 
+
+_this_dir = os.path.dirname(__file__)
+CREDENTIALS_FILE = os.path.join(_this_dir, "oidc_credentials.json")
+
+
 class LiveAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
     """Test authenticated behaviour with live FAS credentials"""
+
     def setUp(self):
         super(LiveAuthenticationTests, self).setUp()
-
         if self.oidc is None:
             self.skipTest("OpenID Connect is not configured")
+        if not os.path.exists(CREDENTIALS_FILE):
+            self.skipTest("No saved OIDC credentials available")
+        self.access_token = self._refresh_access_token()
+
+    def _post_app_url(self, post_url):
+        query_string = "access_token={0}".format(self.access_token)
+        return self.app.post(post_url, query_string=query_string)
+
+    def _refresh_access_token(self):
+        with open(CREDENTIALS_FILE) as f:
+            oidc_credentials = json.load(f)
+        client_details = oidc_credentials["client_details"]
+        client_id = client_details["client_id"]
+        client_secret = client_details["client_secret"]
+        refresh_uri = client_details["token_uri"]
+
+        token = oidc_credentials["client_token"]
+        token["expire_in"] = -1
+        oauth = requests_oauthlib.OAuth2Session(client_id, token=token)
+        token = oauth.refresh_token(refresh_uri,
+                                    client_id=client_id,
+                                    client_secret=client_secret)
+        oidc_credentials["client_token"] = token
+
+        with open(CREDENTIALS_FILE, "w") as f:
+            json.dump(oidc_credentials, f)
+        return token["access_token"]
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -88,11 +88,17 @@ Running a local instance
 Replace httplib2's own ca cert file (adjust as needed for Python version)::
 
     (anitya-env) $ ln -s /etc/pki/tls/certs/ca-bundle.crt \
-                         ~/.virtualenvs/anitya-env/lib/python3.5/site-packages/httplib2/cacerts.txt
+                   ~/.virtualenvs/anitya-env/lib/python3.5/site-packages/httplib2/cacerts.txt
 
 Configure the project to authenticate against iddev.fedorainfraclouid.org::
 
-    oidc-register --debug https://iddev.fedorainfracloud.org/ http://localhost:5000
+    (anitya-env) $ oidc-register \
+                   --token-introspection-uri=https://iddev.fedorainfracloud.org/openidc/TokenInfo \
+                   https://iddev.fedorainfracloud.org/ http://localhost:5000
+
+Cache a local OIDC credentials file for automated integration testing::
+
+    (anitya-env) $ python request_oidc_credentials.py
 
 Create the database, by default it will be a sqlite database located at
 ``/var/tmp/anitya-dev.sqlite``::
