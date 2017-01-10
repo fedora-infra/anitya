@@ -17,6 +17,9 @@ dev (master)
   can fail if existing data has duplicate projects since there is a new
   constraint that a project name is unique within an ecosystem (Issue #402).
 
+* Fix the regular expression used with the Debian backend to strip the "orig"
+  being incorrectly included in the version (Issue #398)
+
 * [insert summary of change here]
 
 

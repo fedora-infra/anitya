@@ -8,7 +8,16 @@
 
 """
 
-from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
+from anitya.lib.backends import BaseBackend, get_versions_by_regex
+
+
+# Debian packagers upload the original source tarball in the format
+# <name>_<version>.orig.<compression format>. So, for example,
+# reprepro_4.13.1.orig.tar.gz.
+DEBIAN_REGEX = (
+    '%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'
+    '(?:minsrc|src|source|asc))?\.(?:orig\.)?(?:tar|t[bglx]z|tbz2|zip)'
+)
 
 
 class DebianBackend(BaseBackend):
@@ -64,6 +73,6 @@ class DebianBackend(BaseBackend):
             short = project.name[0]
 
         url = url_template % {'short': short, 'name': project.name}
-        regex = REGEX % {'name': project.name}
+        regex = DEBIAN_REGEX % {'name': project.name}
 
         return get_versions_by_regex(url, regex, project)
