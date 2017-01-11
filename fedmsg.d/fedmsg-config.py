@@ -25,5 +25,5 @@ config = dict(
     zmq_strict=False,
 
     sign_messages=False,
-    validate_messages=False,
+    validate_signatures=False,
 )
