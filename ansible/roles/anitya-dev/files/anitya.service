@@ -4,7 +4,10 @@ After=network.target
 Documentation=https://github.com/fedora-infra/anitya/
 
 [Service]
-ExecStart=/home/vagrant/.virtualenvs/anitya/bin/python %h/devel/runserver.py --host 0.0.0.0 --port 5000
+Environment="FLASK_APP=/home/vagrant/devel/anitya/app.py"
+Environment="FLASK_DEBUG=1"
+Environment="ANITYA_WEB_CONFIG=/home/vagrant/flask_config.py"
+ExecStart=/home/vagrant/.virtualenvs/anitya/bin/flask run --host 0.0.0.0 --port 5000
 Type=simple
 
 [Install]
