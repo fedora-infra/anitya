@@ -1,0 +1,60 @@
+---
+- name: Install database packages
+  dnf:
+      name: "{{ item }}"
+      state: present
+  with_items:
+      - postgresql-server
+      - postgresql-devel
+      - postgresql
+
+- name: Initialize PostgreSQL
+  command: postgresql-setup initdb
+  args:
+      creates: /var/lib/pgsql/data/pg_hba.conf
+
+- replace:
+    dest: /var/lib/pgsql/data/pg_hba.conf
+    regexp: "host    all             all             127.0.0.1/32            ident"
+    replace: "host    all             all             127.0.0.1/32            trust"
+
+- replace:
+    dest: /var/lib/pgsql/data/pg_hba.conf
+    regexp: "host    all             all             ::1/128                 ident"
+    replace: "host    all             all             ::1/128                 trust"
+
+- service:
+    name: postgresql
+    state: started
+    enabled: yes
+
+- name: Create a database for Anitya
+  shell: runuser -l postgres -c 'createdb anitya' && touch /home/vagrant/.db-created
+  args:
+      creates: /home/vagrant/.db-created
+
+- name: Retrieve database dump
+  get_url:
+      url: https://infrastructure.fedoraproject.org/infra/db-dumps/anitya.dump.xz
+      dest: /tmp/anitya.dump.xz
+
+- shell: xzcat /tmp/anitya.dump.xz | runuser -l postgres -c 'psql anitya' && touch /home/vagrant/.db-imported
+  args:
+      creates: /home/vagrant/.db-imported
+
+- name: Create /home/vagrant/alembic.ini
+  copy: src=/home/vagrant/devel/alembic.ini dest=/home/vagrant/alembic.ini remote_src=True
+
+
+- name: Switch the database connection to postgres
+  replace:
+    dest: /home/vagrant/alembic.ini
+    regexp: "^sqlalchemy.url = sqlite.*$"
+    replace: "sqlalchemy.url = postgresql://postgres:anypasswordworkslocally@localhost/anitya"
+
+- name: Apply database migrations
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  command: ~/.virtualenvs/anitya/bin/alembic upgrade head
+  args:
+      chdir: /home/vagrant/devel
+

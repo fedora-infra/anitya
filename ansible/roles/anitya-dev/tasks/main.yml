@@ -25,6 +25,7 @@
     - python-flask-wtf
     - python-markupsafe
     - python-openid
+    - python-psycopg2
     - python-setuptools
     - python-straight-plugin
     - python-sqlalchemy
@@ -40,6 +41,9 @@
 - name: Install the message of the day
   copy: src=motd dest=/etc/motd
 
+- name: Install Anitya flask configuration
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  copy: src=config.py dest=/home/{{ ansible_env.SUDO_USER }}/flask_config.py
 
 - name: Create Anitya virtualenv
   become_user: "{{ ansible_env.SUDO_USER }}"
@@ -75,21 +79,6 @@
     virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
     virtualenv_python: python2
 
-- name: Create the Anitya SQLite database
-  become_user: "{{ ansible_env.SUDO_USER }}"
-  command: .virtualenvs/anitya/bin/python devel/createdb.py
-  args:
-    creates: /var/tmp/anitya-dev.sqlite
-    chdir: "/home/{{ ansible_env.SUDO_USER }}/"
-
-- name: Stamp the database with its current migration
-  become_user: "{{ ansible_env.SUDO_USER }}"
-  shell: >
-      ~/.virtualenvs/anitya/bin/alembic stamp
-      $(~/.virtualenvs/anitya/bin/alembic heads | awk '{ print $1 }')
-  args:
-    chdir: "/home/{{ ansible_env.SUDO_USER }}/devel/"
-
 - name: Create user systemd directory
   become_user: "{{ ansible_env.SUDO_USER }}"
   file:
@@ -101,3 +90,5 @@
   copy:
     src: anitya.service
     dest: /home/{{ ansible_env.SUDO_USER }}/.config/systemd/user/anitya.service
+
+- include: db.yml
