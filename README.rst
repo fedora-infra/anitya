@@ -116,6 +116,29 @@ To run the container with a disposable SQLite database::
     $ docker run -e DB_URL='sqlite:////opt/anitya/anitya.db' -d -p 80:80 anitya
 
 
+Listening for local event announcements
+---------------------------------------
+
+To listen for local event announcements over the Federated Message Bus,
+first start a local relay in the background::
+
+    $ fedmsg-relay --config-filename fedmsg.d/fedmsg-config.py &
+
+And then display the received messages in the local console::
+
+    $ fedmsg-tail --config fedmsg.d/fedmsg-config.py --no-validate --really-pretty
+
+These commands will pick up the local config automatically if you're in
+the Anitya checkout directory, but being explicit ensures they don't silently
+default to using the global configuration.
+
+To display the messages, we turn off signature validation (since the local
+server will be emitting unsigned messages) and pretty-print the received JSON.
+
+Refer to the `fedmsg consumer API <http://www.fedmsg.com/en/latest/consuming/>`_
+for more details on receiving event messages programmatically.
+
+
 Deployment
 -------
 
