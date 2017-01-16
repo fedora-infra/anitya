@@ -1,0 +1,39 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.10.1 at upstream-monitoring.org]
+    method: GET
+    uri: http://ftp.debian.org/debian/pool/main/libg/libgnupg-interface-perl/
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA8WYXW+bMBSG7/crzrjYHdiYjy4pYeqSTovWplGbaZqmqXLAAasEkHG7tr9+JiQa
+        XZuEREjc5EO8Pnmf43N8FHvvR1fD2c/pOXydXV7A9Pvni/EQNB2hH9YQodFsVD2wDAJfeEoThM4n
+        mv/Oi+Uy8d+BFzMaqnfwJJcJ88dpyB4hWwAK2ZzTFOVZlqAl5SlK+DxavaT3eaTzVDKxoAHTcyYS
+        D1XLVUC0jujNs/Cp/CHz+KBq7coana9ilx+F78kYHmjCo3SgySzXfI8vIyhEMNAQD7K0QPOEpndG
+        xBca0EQOtF/j4dVvpUMyLlf7HoVYsMVA+zQcTE6vBiPNn9Al8xB9W3OpNGeaf0ELCcss5AvOwq3i
+        m0p8w59rAZHyXfcfZEmRUwVgK1uxqKsqSbgPkQYvCKdn1+eT2Wh8XXGGZYh/trbkXfOnVLBUwogL
+        FshMPK0dV8s/pPMiP918hbUfwaNYaj6ADtWjA1wH2TIXrChYWPeu8vKm6y1lcYsN29FNo2IyJBVG
+        9Kz5h6jrmP9xEWyauol14oLZ65snAFuEjkG+HZyA+/Quzf6kbdAXwX7mImiDlHRKekuTpNy9fbQb
+        XRvEcGIfTtxecRuZ8tGosOvKVsBdt6OtdrBu1Zv0cSf5a/VuelvHPR2bJb3KwfaWtjql393SG00b
+        pMQwOyRt0tJ1XRvER1V2Wy3t4KYt/VK5F9zSTRsI7uNd4F2d3g7RnQNa+pV6N71bbrs6yhS9bW+n
+        N7ul39PSa00bpMQ4Yma1RtqopWu6hsRWH+Pte+v0uiN2D6ps97DKVtOaWEBI39zR1wR3Sr+3st0m
+        ld2ElBhOh6QNK9ttWtlrYmvnqXVMZbc2rEjjYUWaDytHx7ZOTgD3+pbTdFg1/MeM1hcEHg3DMgP+
+        WU6DmMENEw9MAJWwkPmmAzMRwTQTEj5i5Xi9QMVYXVd4qLoX+QsB6Ia/VxEAAA==
+    headers:
+      connection: [Keep-Alive]
+      content-encoding: [gzip]
+      content-length: ['730']
+      content-type: [text/html;charset=UTF-8]
+      date: ['Wed, 11 Jan 2017 21:14:14 GMT']
+      keep-alive: ['timeout=5, max=100']
+      server: [Apache]
+      vary: [Accept-Encoding]
+      x-clacks-overhead: [GNU Terry Pratchett]
+    status: {code: 200, message: OK}
+version: 1
