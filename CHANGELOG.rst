@@ -12,6 +12,11 @@ dev (master)
 * Fix an issue where turning the insecure flag on and then off for a project
   resulted in insecure requests until the server was restarted (Issue #394)
 
+* Add a data migration to set the ecosystem of existing projects if the backend
+  they use is the default backend for an ecosystem. Note that this migration
+  can fail if existing data has duplicate projects since there is a new
+  constraint that a project name is unique within an ecosystem (Issue #402).
+
 * [insert summary of change here]
 
 
