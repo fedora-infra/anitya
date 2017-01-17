@@ -43,8 +43,14 @@
       creates: /home/vagrant/.db-imported
 
 - name: Create /home/vagrant/alembic.ini
+  become_user: "{{ ansible_env.SUDO_USER }}"
   copy: src=/home/vagrant/devel/alembic.ini dest=/home/vagrant/alembic.ini remote_src=True
 
+- name: Create /home/vagrant/alembic.ini
+  replace:
+    dest: /home/vagrant/alembic.ini
+    regexp: "^script_location = alembic*$"
+    replace: "script_location = devel/alembic"
 
 - name: Switch the database connection to postgres
   replace:
@@ -56,5 +62,5 @@
   become_user: "{{ ansible_env.SUDO_USER }}"
   command: ~/.virtualenvs/anitya/bin/alembic upgrade head
   args:
-      chdir: /home/vagrant/devel
+      chdir: /home/vagrant/
 
