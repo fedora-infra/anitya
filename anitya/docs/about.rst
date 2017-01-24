@@ -22,6 +22,7 @@ project.
 The backends available are:
 
 * ``cpan.py`` for perl projects hosted on `CPAN <http://www.cpan.org/>`_
+* ``crates.py`` for crates hosted on `crates.io <https://crates.io/>`_
 * ``debian.py`` for projects hosted on the
   `Debian ftp <http://ftp.debian.org/debian/pool/main/>`_
 * ``drupal6.py`` for Drupal6 modules hosted on
