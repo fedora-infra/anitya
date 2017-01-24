@@ -20,16 +20,83 @@ class CratesBackend(BaseBackend):
 
     @classmethod
     def _get_versions(cls, project):
-        url = 'https://crates.io/api/v1/crates/%s/versions' % project.name
+        '''
+        Example of output:
+        [
+          {
+            "crate": "itoa",
+            "created_at": "2016-06-25T22:11:59Z",
+            "dl_path": "/api/v1/crates/itoa/0.1.1/download",
+            "downloads": 288856,
+            "features": {},
+            "id": 29172,
+            "links": {
+              "authors": "/api/v1/crates/itoa/0.1.1/authors",
+              "dependencies": "/api/v1/crates/itoa/0.1.1/dependencies",
+              "version_downloads": "/api/v1/crates/itoa/0.1.1/downloads"
+            },
+            "num": "0.1.1",
+            "updated_at": "2016-06-25T22:11:59Z",
+            "yanked": false
+          }
+        ]
+
+        Schema is following:
+        {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "title": "crates.io versions",
+          "description": "https://crates.io/api/v1/crates/$name/versions",
+          "type": "array",
+          "definitions": {
+            "version": {
+              "type": "object",
+              "properties": {
+                "crate":      { "type": "string" },
+                "created_at": { "type": "string", "format": "date-time" },
+                "dl_path":    { "type": "string" },
+                "downloads":  { "type": "integer" },
+                "features": {
+                  "type": "object",
+                  # FIXME: 0+ elements
+                  # str: list(str)
+                },
+                "id":         { "type": "integer" },
+                "links": {
+                  "type": "object",
+                  "properties": {
+                    "authors":           { "type": "string" },
+                    "dependencies":      { "type": "string" },
+                    "version_downloads": { "type": "string" }
+                  }
+                  "required": ["authors", "dependencies", "version_downloads"]
+                },
+                "num":        { "type": "string" },
+                "updated_at": { "type": "string", "format": "date-time" },
+                "yanked":     { "type": "boolean" },
+              },
+              "required": ["crate", "created_at", "dl_path", "downloads", "features", "id", "links", "num", "updated_at", "yanked"]
+            }
+          },
+          "items": {
+            "anyOf": [
+              { "$ref": "#/definitions/version" }
+            ]
+          },
+        }
+
+        :rtype: list
+        '''
+        url = 'https://crates.io/api/v1/crates/{}/versions'.format(project.name)
         try:
             req = cls.call_url(url)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException('Could not contact %r' % url)
+        except requests.RequestException as e:  # pragma: no cover
+            raise AnityaPluginException('Could not contact {url}: '
+                                        '{reason!r}'.format(url=url, reason=e))
 
         try:
             data = req.json()
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException('No JSON returned by %r' % url)
+        except ValueError as e:  # pragma: no cover
+            raise AnityaPluginException('Failed to decode JSON: {!r}'.format(e))
 
         return data['versions']
 
@@ -44,4 +111,4 @@ class CratesBackend(BaseBackend):
     @classmethod
     def get_ordered_versions(cls, project):
         # crates API returns already ordered versions
-        return self.get_versions()
+        return self.get_versions(project)
