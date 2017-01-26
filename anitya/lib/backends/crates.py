@@ -17,67 +17,69 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
-A backend for the Rust community’s crate host, `crates.io <https://crates.io/`_.
+A backend for the Rust community’s crate host, `crates.io <https://crates.io/>`_.
 
 Crates.io provides an API to determine a package's version, so this backend
 makes use of that API rather than using regular expressions like some other
 backends. The API is very simple. An HTTP GET request to
 ``https://crates.io/api/v1/crates/{name}/versions`` returns a JSON response
 using the schema::
-    {
-      "$schema": "http://json-schema.org/draft-04/schema#",
-      "title": "crates.io versions",
-      "description": "https://crates.io/api/v1/crates/$name/versions",
-      "type": "array",
-      "definitions": {
-        "version": {
-          "type": "object",
-          "properties": {
-            "crate":      { "type": "string" },
-            "created_at": { "type": "string", "format": "date-time" },
-            "dl_path":    { "type": "string" },
-            "downloads":  { "type": "integer" },
-            "features": {
-              "type": "object",
-              # FIXME: 0+ elements
-              # str: list(str)
-            },
-            "id":         { "type": "integer" },
-            "links": {
-              "type": "object",
-              "properties": {
-                "authors":           { "type": "string" },
-                "dependencies":      { "type": "string" },
-                "version_downloads": { "type": "string" }
-              }
-              "required": ["authors", "dependencies", "version_downloads"]
-            },
-            "num":        { "type": "string" },
-            "updated_at": { "type": "string", "format": "date-time" },
-            "yanked":     { "type": "boolean" },
+
+  {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "crates.io versions",
+    "description": "https://crates.io/api/v1/crates/$name/versions",
+    "type": "array",
+    "definitions": {
+      "version": {
+        "type": "object",
+        "properties": {
+          "crate":      { "type": "string" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "dl_path":    { "type": "string" },
+          "downloads":  { "type": "integer" },
+          "features": {
+            "type": "object",
+            # FIXME: 0+ elements
+            # str: list(str)
           },
-          "required": [
-            "crate",
-            "created_at",
-            "dl_path",
-            "downloads",
-            "features",
-            "id",
-            "links",
-            "num",
-            "updated_at",
-            "yanked"
+          "id":         { "type": "integer" },
+          "links": {
+            "type": "object",
+            "properties": {
+              "authors":           { "type": "string" },
+              "dependencies":      { "type": "string" },
+              "version_downloads": { "type": "string" }
+            }
+            "required": ["authors", "dependencies", "version_downloads"]
+          },
+          "num":        { "type": "string" },
+          "updated_at": { "type": "string", "format": "date-time" },
+          "yanked":     { "type": "boolean" },
+        },
+        "required": [
+          "crate",
+          "created_at",
+          "dl_path",
+          "downloads",
+          "features",
+          "id",
+          "links",
+          "num",
+          "updated_at",
+          "yanked"
         ]
-        }
-      },
-      "items": {
-        "anyOf": [
-          { "$ref": "#/definitions/version" }
-        ]
-      },
+      }
+    },
+    "items": {
+      "anyOf": [
+        { "$ref": "#/definitions/version" }
+      ]
     }
+  }
 
 For example, ``https://crates.io/api/v1/crates/itoa/versions`` results in::
+
     {
         "versions": [
             {
