@@ -39,7 +39,7 @@ from anitya.lib import model
 from tests import Modeltests
 
 EXPECTED_BACKENDS = [
-    'BitBucket', 'CPAN (perl)', 'Debian project', 'Drupal6',
+    'BitBucket', 'CPAN (perl)', 'crates.io', 'Debian project', 'Drupal6',
     'Drupal7', 'Freshmeat',
     'GNOME', 'GNU project', 'GitHub', 'Google code', 'Hackage',
     'Launchpad', 'Maven Central', 'PEAR', 'PECL', 'Packagist', 'PyPI',
@@ -52,6 +52,7 @@ EXPECTED_ECOSYSTEMS = {
     "pypi": "PyPI",
     "npm": "npmjs",
     "maven": "Maven Central",
+    "crates.io": "crates.io",
 }
 
 
@@ -61,7 +62,7 @@ class Pluginstests(Modeltests):
     def _check_db_contents(self, expected_backends, expected_ecosystems):
         backends = model.Backend.all(self.session)
         backend_names_from_db = sorted(backend.name for backend in backends)
-        self.assertEqual(backend_names_from_db, expected_backends)
+        self.assertEqual(sorted(backend_names_from_db), sorted(expected_backends))
         ecosystems = model.Ecosystem.all(self.session)
         ecosystems_from_db = dict((eco.name, eco.default_backend.name)
                                   for eco in ecosystems)
@@ -74,7 +75,7 @@ class Pluginstests(Modeltests):
         backend_plugins = all_plugins["backends"]
         self.assertEqual(len(backend_plugins), len(EXPECTED_BACKENDS))
         backend_names = sorted(plugin.name for plugin in backend_plugins)
-        self.assertEqual(backend_names, EXPECTED_BACKENDS)
+        self.assertEqual(sorted(backend_names), sorted(EXPECTED_BACKENDS))
 
         ecosystem_plugins = all_plugins["ecosystems"]
         ecosystems = dict((plugin.name, plugin.default_backend)
@@ -88,7 +89,7 @@ class Pluginstests(Modeltests):
         backend_plugins = plugins.load_plugins(self.session)
         self.assertEqual(len(backend_plugins), len(EXPECTED_BACKENDS))
         backend_names = sorted(plugin.name for plugin in backend_plugins)
-        self.assertEqual(backend_names, EXPECTED_BACKENDS)
+        self.assertEqual(sorted(backend_names), sorted(EXPECTED_BACKENDS))
 
         self._check_db_contents(EXPECTED_BACKENDS, EXPECTED_ECOSYSTEMS)
 
@@ -96,7 +97,7 @@ class Pluginstests(Modeltests):
         """ Test the plugins.get_plugin_names function. """
         plugin_names = plugins.get_plugin_names()
         self.assertEqual(len(plugin_names), len(EXPECTED_BACKENDS))
-        self.assertEqual(sorted(plugin_names), EXPECTED_BACKENDS)
+        self.assertEqual(sorted(plugin_names), sorted(EXPECTED_BACKENDS))
 
     def test_plugins_get_plugin(self):
         """ Test the plugins.get_plugin function. """

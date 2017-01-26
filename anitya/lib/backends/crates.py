@@ -98,7 +98,7 @@ For example, ``https://crates.io/api/v1/crates/itoa/versions`` results in::
             }
     }
 """
-from __future__ import absolute_import, unicode_literals
+import requests
 
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
@@ -148,13 +148,12 @@ class CratesBackend(BaseBackend):
         url = 'https://crates.io/api/v1/crates/{}/versions'.format(project.name)
         try:
             req = cls.call_url(url)
-        except requests.RequestException as e:  # pragma: no cover
+            req.raise_for_status()
+            data = req.json()
+        except requests.RequestException as e:
             raise AnityaPluginException('Could not contact {url}: '
                                         '{reason!r}'.format(url=url, reason=e))
-
-        try:
-            data = req.json()
-        except ValueError as e:  # pragma: no cover
+        except ValueError as e:
             raise AnityaPluginException('Failed to decode JSON: {!r}'.format(e))
 
         return data['versions']
@@ -175,7 +174,7 @@ class CratesBackend(BaseBackend):
             AnityaPluginException: If the URL was unreachable or the response
                 was in an unexpected format.
         """
-        return self._get_versions(project)[0]['num']
+        return cls._get_versions(project)[0]['num']
 
     @classmethod
     def get_versions(cls, project):
@@ -193,7 +192,7 @@ class CratesBackend(BaseBackend):
             AnityaPluginException: If the URL was unreachable or the response
                 was in an unexpected format.
         """
-        return [v['num'] for v in self._get_versions(project)]
+        return [v['num'] for v in cls._get_versions(project)]
 
     @classmethod
     def get_ordered_versions(cls, project):
@@ -212,4 +211,4 @@ class CratesBackend(BaseBackend):
                 was in an unexpected format.
         """
         # crates API returns already ordered versions
-        return self.get_versions(project)
+        return cls.get_versions(project)
