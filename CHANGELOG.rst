@@ -20,6 +20,8 @@ dev (master)
 * Fix the regular expression used with the Debian backend to strip the "orig"
   being incorrectly included in the version (Issue #398)
 
+* Added a new backend and ecosystem for https://crates.io (Issue #414)
+
 * [insert summary of change here]
 
 
