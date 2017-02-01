@@ -17,19 +17,6 @@
     - openssl-devel
     - python2-devel
     - python3-devel
-    - python-bunch
-    - python-dateutil
-    - python-docutils
-    - python-flask
-    - python-flask-openid
-    - python-flask-wtf
-    - python-markupsafe
-    - python-openid
-    - python-psycopg2
-    - python-setuptools
-    - python-straight-plugin
-    - python-sqlalchemy
-    - python-wtforms
     - redhat-rpm-config
     - rpm-python
 
@@ -45,6 +32,7 @@
   become_user: "{{ ansible_env.SUDO_USER }}"
   copy: src=config.py dest=/home/{{ ansible_env.SUDO_USER }}/flask_config.py
 
+# We need to use the system-site-packages for now because we use the rpm module
 - name: Create Anitya virtualenv
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
@@ -57,6 +45,15 @@
   become_user: "{{ ansible_env.SUDO_USER }}"
   pip:
     requirements: "requirements.txt"
+    virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
+    virtualenv_python: python2
+  args:
+    chdir: /home/{{ ansible_env.SUDO_USER }}/devel
+
+- name: Install PostgreSQL driver in the virtualenv
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  pip:
+    name: "psycopg2"
     virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
     virtualenv_python: python2
   args:
@@ -90,5 +87,9 @@
   copy:
     src: anitya.service
     dest: /home/{{ ansible_env.SUDO_USER }}/.config/systemd/user/anitya.service
+
+- name: Reload the systemd daemon
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  command: systemctl --user daemon-reload
 
 - include: db.yml
