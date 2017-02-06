@@ -10,8 +10,6 @@ import flask
 from flask.ext.openid import OpenID
 from flask_oidc import OpenIDConnect
 
-import mock
-
 APP = None
 
 
@@ -50,6 +48,7 @@ def parse_api_token(f):
     # OIDC is not configured, so just allow anonymous access
     return f
 
+
 #############################################################
 # Decorator factory for APIs that *require* a valid API token
 #############################################################
@@ -58,11 +57,13 @@ _DEFINED_SCOPES = {
     "downstream": "Register downstreams & upstream/downstream mappings"
 }
 
+
 def require_api_token(*scopes):
     """Require a valid OIDC token for access to the API endpoint"""
     if not scopes:
         # Project policy requirement - no unscoped access allowed
-        raise RuntimeError("Authenticated APIs must specify at least one scope")
+        msg = "Authenticated APIs must specify at least one scope"
+        raise RuntimeError(msg)
 
     for scope in scopes:
         # Project policy requirement - nominal scopes must be listed above
@@ -72,13 +73,13 @@ def require_api_token(*scopes):
 
     if APP.oidc is not None:
         # OIDC is configured, check supplied token has relevant permissions
-        validator = APP.oidc.accept_token(require_token=True,
-            )#                                  scopes_required=scopes)
-            # TODO: Proper scope registration and validation doesn't work
-            #       when mixing a live credentials store (FAS) with offline
-            #       app execution on local host (the scopes aren't registered,
-            #       so you can't include them in an authorization request).
-            #       Until that is resolved, we can't enforce scope limitations.
+        validator = APP.oidc.accept_token(require_token=True)
+        #                                 scopes_required=scopes)
+        # TODO: Proper scope registration and validation doesn't work
+        #       when mixing a live credentials store (FAS) with offline
+        #       app execution on local host (the scopes aren't registered,
+        #       so you can't include them in an authorization request).
+        #       Until that is resolved, we can't enforce scope limitations.
     else:
         # OIDC is not configured, so disallow APIs that require authentication
         def validator(f):
@@ -88,7 +89,8 @@ def require_api_token(*scopes):
     def _make_validated_wrapper(f):
         @wraps(f)
         def _authenticated_api_access(api_resource, *args, **kwds):
-            return _validate_api_token(validator(f), f, api_resource, *args, **kwds)
+            return _validate_api_token(validator(f), f, api_resource,
+                                       *args, **kwds)
         return _authenticated_api_access
 
     return _make_validated_wrapper
@@ -100,6 +102,7 @@ def _report_oidc_not_configured(*args, **kwds):
         'error_description': 'OpenID Connect is not configured on the server'
     })
     return (error_details, 401, {'WWW-Authenticate': 'Bearer'})
+
 
 def _validate_api_token(validated_api, raw_api, *args, **kwds):
     """Hook to allow token validation to be overridden for testing purposes"""
