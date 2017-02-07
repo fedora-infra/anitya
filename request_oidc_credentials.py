@@ -52,6 +52,7 @@ def receive_oauth_callback(timeout):
     callback_path = oauthd.oauth_callbacks.pop()
     parsed_response = urlparse(callback_path)
     query_details = parse_qs(parsed_response.query)
+    print(query_details)
     return query_details["code"][0], query_details["state"][0]
 
 
@@ -63,12 +64,7 @@ def main():
     redirect_uri = client_details["redirect_uris"][0]
     auth_uri = client_details["auth_uri"]
     token_uri = client_details["token_uri"]
-    # TODO: Proper scope registration and validation doesn't work
-    #       when mixing a live credentials store (FAS) with offline
-    #       app execution on local host (the scopes aren't registered,
-    #       so you can't include them in an authorization request).
-    #       Until that is resolved, we can't enforce scope limitations.
-    scopes = ("openid",) # ("upstream",)
+    scopes = ("https://release-monitoring.org/oidc/upstream",)
     oauth = OAuth2Session(client_id, redirect_uri=redirect_uri, scope=scopes)
     authorization_url, state = oauth.authorization_url(auth_uri)
     wait_msg = "Waiting {0} seconds for browser-based authentication..."

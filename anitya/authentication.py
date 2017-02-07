@@ -57,6 +57,8 @@ _DEFINED_SCOPES = {
     "downstream": "Register downstreams & upstream/downstream mappings"
 }
 
+_BASE_SCOPE_URL = "https://release-monitoring.org/oidc/"
+
 
 def require_api_token(*scopes):
     """Require a valid OIDC token for access to the API endpoint"""
@@ -65,21 +67,18 @@ def require_api_token(*scopes):
         msg = "Authenticated APIs must specify at least one scope"
         raise RuntimeError(msg)
 
+    url_scopes = []
     for scope in scopes:
         # Project policy requirement - nominal scopes must be listed above
         if scope not in _DEFINED_SCOPES:
             msg = "Unknown authentication scope: {0}"
             raise RuntimeError(msg.format(scope))
+        url_scopes.append(_BASE_SCOPE_URL + scope)
 
     if APP.oidc is not None:
         # OIDC is configured, check supplied token has relevant permissions
-        validator = APP.oidc.accept_token(require_token=True)
-        #                                 scopes_required=scopes)
-        # TODO: Proper scope registration and validation doesn't work
-        #       when mixing a live credentials store (FAS) with offline
-        #       app execution on local host (the scopes aren't registered,
-        #       so you can't include them in an authorization request).
-        #       Until that is resolved, we can't enforce scope limitations.
+        validator = APP.oidc.accept_token(require_token=True,
+                                          scopes_required=url_scopes)
     else:
         # OIDC is not configured, so disallow APIs that require authentication
         def validator(f):
