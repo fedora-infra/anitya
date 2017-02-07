@@ -2,13 +2,14 @@
 %distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:           anitya
-Version:        0.10.1
+Version:        0.11.0
 Release:        1%{?dist}
 Summary:        Monitor upstream releases and announce them on fedmsg
 
 License:        GPLv2+
 URL:            https://github.com/fedora-infra/anitya/
 Source0:        %{url}/archive/%{version}/anitya-%{version}.tar.gz
+Patch0:         0001-Remove-conditional-requires.patch
 
 BuildArch:      noarch
 
@@ -55,7 +56,7 @@ We monitor upstream releases and broadcast them on fedmsg, the FEDerated MeSsaGe
 (fedmsg) bus.
 
 %prep
-%autosetup -n anitya-%{version}
+%autosetup -p1 -n anitya-%{version}
 
 %build
 %{__python} setup.py build
@@ -111,6 +112,8 @@ install -m 644 files/alembic.ini $RPM_BUILD_ROOT/%{_sysconfdir}/anitya/alembic.i
 
 
 %changelog
+* Tue Feb 07 2017 Jeremy Cline <jeremy@jcline.org> - 0.11.0-1
+- Update to 0.11.0
 
 * Tue Nov 29 2016 Jeremy Cline <jeremy@jcline.org> - 0.10.1-1
 - Update to 0.10.1
