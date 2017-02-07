@@ -68,6 +68,10 @@
   args:
     chdir: /home/{{ ansible_env.SUDO_USER }}/devel
 
+- name: Install Tox
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  pip: name=tox virtualenv=/home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
+
 - name: Install Anitya into the virtualenv
   become_user: "{{ ansible_env.SUDO_USER }}"
   pip:

@@ -73,15 +73,6 @@ Next, install your dependencies::
 
 Running the test suite
 ``````````````````````
-
-The tests can be run with a coverage data report via::
-
-    (anitya-env)$ ./runtests.sh
-
-If this is the first time you've run the tests, you'll also want to do::
-
-    (anitya-env)$ pip install -r test_requirements.txt
-
 Regardless of which Python version you have configured in your local venv,
 the tests can be run under both Python 2 & 3 via:
 
