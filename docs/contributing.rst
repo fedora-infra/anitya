@@ -31,8 +31,21 @@ you during the code review process.
 You can run the unit tests by running ``python setup.py test`` in the root of the
 repository.
 
+Documentation
+^^^^^^^^^^^^^
+Anitya uses `sphinx <http://www.sphinx-doc.org/>`_ to create its documentation.
+New packages, modules, classes, methods, functions, and attributes all should be
+documented using `"Google style" <http://www.sphinx-doc.org/en/latest/ext/example_google.html>`_
+docstrings. For historical reasons you may encounter plain reStructuredText-style
+docstrings. Please consider converting them and opening a pull request!
 
-Development environment
+Python API documentation is automatically generated from the code using Sphinx's
+`autodoc <http://www.sphinx-doc.org/en/stable/tutorial.html#autodoc>`_ extension.
+HTTP REST API documentation is automatically generated from the code using the
+`httpdomain <http://pythonhosted.org/sphinxcontrib-httpdomain/>`_ extension.
+
+
+Development Environment
 -----------------------
 
 The development environment is set up using `Ansible <https://www.ansible.com/>`_. You can use
