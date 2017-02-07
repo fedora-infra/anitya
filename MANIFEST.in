@@ -1,4 +1,4 @@
-include LICENSE README.rst requirements.txt
+include LICENSE README.rst CHANGELOG.rst requirements.txt
 include runtests.sh createdb.py nosetests migrate_wiki.py
 recursive-include anitya *
 recursive-include fedmsg.d *
