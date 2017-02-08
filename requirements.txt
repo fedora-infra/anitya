@@ -5,9 +5,8 @@ docutils
 fedmsg
 flask
 flask-openid
-#flask-oidc
 # Need the fix for https://github.com/puiterwijk/flask-oidc/issues/12
-git+https://github.com/puiterwijk/flask-oidc.git@899dc993c0471f10aad5286ea3ad1bd8649c5ebb
+git+https://github.com/puiterwijk/flask-oidc.git@899dc993c0471f10aad5286ea3ad1bd8649c5ebb #flask-oidc
 flask-restful
 flask-wtf
 markupsafe
