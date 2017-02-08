@@ -62,4 +62,7 @@ OIDC_CLIENT_SECRETS = os.path.join(
 OIDC_ID_TOKEN_COOKIE_SECURE = True
 OIDC_REQUIRE_VERIFIED_EMAIL = True
 OIDC_OPENID_REALM = 'http://localhost:5000/oidc_callback'
-OIDC_SCOPES = ['openid', 'email', 'profile', 'fedora']
+OIDC_SCOPES = [
+    'https://release-monitoring.org/oidc/upstream',
+    'https://release-monitoring.org/oidc/downstream',
+]
