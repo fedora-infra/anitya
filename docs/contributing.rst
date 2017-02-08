@@ -22,14 +22,15 @@ good to go!
 
 Unit tests
 ^^^^^^^^^^
+The test suites can be run using `tox <http://tox.readthedocs.io/>`_ by simply running
+``tox`` from the repository root. These tests include unit tests, a linter to ensure
+Python code style is correct, and checks the documentation for Sphinx warnings or
+errors.
 
-All unit tests must pass. All new code should have 100% test coverage.
+All tests must pass. All new code should have 100% test coverage.
 Any bugfix should be accompanied by one or more unit tests to demonstrate the fix.
 If you are unsure how to write unit tests for your code, we will be happy to help
 you during the code review process.
-
-You can run the unit tests by running ``python setup.py test`` in the root of the
-repository.
 
 Documentation
 ^^^^^^^^^^^^^
