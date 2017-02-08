@@ -1,0 +1,29 @@
+From 7ae76062210efb763c34d8ca869c5843b9f62c01 Mon Sep 17 00:00:00 2001
+From: Jeremy Cline <jeremy@jcline.org>
+Date: Tue, 7 Feb 2017 17:02:52 -0500
+Subject: [PATCH] Remove conditional requires
+
+EPEL 7 can't build these so we need to remove them
+
+Signed-off-by: Jeremy Cline <jeremy@jcline.org>
+---
+ requirements.txt | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/requirements.txt b/requirements.txt
+index abd0f47..3b17da6 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -7,8 +7,7 @@ flask
+ flask-openid
+ flask-wtf
+ markupsafe
+-python-openid; python_version < '3.0'
+-python3-openid; python_version >= '3.0'
++python-openid
+ sqlalchemy
+ # https://github.com/ironfroggy/straight.plugin/issues/17#issuecomment-41466275
+ straight.plugin==1.4.0-post-1
+-- 
+2.9.3
+
