@@ -20,8 +20,6 @@
 This module provides Anitya's HTTP API.
 """
 
-from gettext import gettext as _
-
 import flask
 
 from anitya.app import APP, SESSION
