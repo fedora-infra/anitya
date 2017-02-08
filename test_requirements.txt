@@ -6,3 +6,7 @@ vcrpy
 # required by vcs looks like
 mock
 contextlib2
+
+# Required to test building the docs
+sphinx
+sphinxcontrib-httpdomain
