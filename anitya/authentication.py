@@ -52,12 +52,19 @@ def parse_api_token(f):
 #############################################################
 # Decorator factory for APIs that *require* a valid API token
 #############################################################
+_BASE_SCOPE_URL = "https://release-monitoring.org/oidc/"
+
+# Note: the scopes listed in _DEFINED_SCOPES must match those listed in
+# https://fedoraproject.org/wiki/Infrastructure/Authentication#release-monitoring.org
+#
+# To add new entries this list:
+# * request changes as per https://fedoraproject.org/wiki/Infrastructure/Authentication#Registering_new_scopes
+# * amend _DEFINED_SCOPES below
+# * amend anitya.default_config.OIDC_SCOPES
 _DEFINED_SCOPES = {
     "upstream": "Register upstream projects for monitoring",
     "downstream": "Register downstreams & upstream/downstream mappings"
 }
-
-_BASE_SCOPE_URL = "https://release-monitoring.org/oidc/"
 
 
 def require_api_token(*scopes):
