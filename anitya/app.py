@@ -18,7 +18,7 @@ import os
 
 import flask
 from bunch import Bunch
-from flask.ext.openid import OpenID
+from flask_openid import OpenID
 
 import anitya.lib
 import anitya.mail_logging

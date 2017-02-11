@@ -2,12 +2,13 @@
 
 """ Forms used in anitya. """
 
-from flask.ext import wtf
 from wtforms import TextField, TextAreaField, validators, SelectField
 from wtforms import BooleanField
 
+from anitya.compat import FlaskForm
 
-class ProjectForm(wtf.Form):
+
+class ProjectForm(FlaskForm):
     name = TextField('Project name', [validators.Required()])
     homepage = TextField(
         'Homepage', [validators.Required(), validators.URL()])
@@ -39,11 +40,11 @@ class ProjectForm(wtf.Form):
             ]
 
 
-class FlagProjectForm(wtf.Form):
+class FlagProjectForm(FlaskForm):
     reason = TextAreaField('Reason for flagging', [validators.Required()])
 
 
-class MappingForm(wtf.Form):
+class MappingForm(FlaskForm):
     distro = TextField('Distribution', [validators.Required()])
     package_name = TextField('Package name', [validators.Required()])
 
@@ -60,9 +61,9 @@ class MappingForm(wtf.Form):
             self.regex.data = package.regex
 
 
-class ConfirmationForm(wtf.Form):
+class ConfirmationForm(FlaskForm):
     pass
 
 
-class DistroForm(wtf.Form):
+class DistroForm(FlaskForm):
     name = TextField('Distribution name', [validators.Required()])
