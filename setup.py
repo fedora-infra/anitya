@@ -8,7 +8,7 @@ Setup script
 __requires__ = ['SQLAlchemy >= 0.7', 'jinja2 >= 2.4']
 import pkg_resources
 
-from setuptools import setup
+from setuptools import setup, find_packages
 import re
 
 def get_project_version():
@@ -51,8 +51,9 @@ setup(
     license='GPLv2+',
     download_url='https://fedorahosted.org/releases/a/n/anitya/',
     url='https://fedorahosted.org/anitya/',
-    packages=['anitya'],
+    packages=find_packages(exclude=['anitya.tests', 'anitya.tests.*']),
     include_package_data=True,
     scripts=['files/anitya_cron.py'],
     install_requires=get_requirements(),
+    test_suite='anitya.tests'
 )
