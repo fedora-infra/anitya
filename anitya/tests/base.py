@@ -23,7 +23,6 @@ Base class for Anitya tests.
 from __future__ import print_function
 
 from functools import wraps
-import logging
 import unittest
 import os
 
@@ -46,10 +45,6 @@ if os.environ.get('BUILD_ID'):
             print('Using faitout at: %s' % DB_PATH)
     except:
         pass
-
-
-_log = logging.getLogger('anitya')
-_log.handlers = []
 
 
 def skip_jenkins(function):
