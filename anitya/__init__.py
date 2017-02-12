@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import warnings
 
 import anitya.lib.plugins
 import anitya.lib.exceptions
@@ -35,7 +34,7 @@ def fedmsg_publish(*args, **kwargs):  # pragma: no cover
         import fedmsg
         fedmsg.publish(*args, **kwargs)
     except Exception as err:
-        warnings.warn(str(err))
+        _log.error(str(err))
 
 
 # Ordering is handled differently based on Python version
