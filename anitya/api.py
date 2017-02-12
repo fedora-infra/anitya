@@ -1,4 +1,24 @@
 # -*- coding: utf-8 -*-
+#
+# This file is part of the Anitya project.
+# Copyright (C) 2017  Red Hat, Inc.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+"""
+This module provides Anitya's HTTP API.
+"""
 
 import flask
 
@@ -68,8 +88,6 @@ def api():
 @APP.route('/api/version')
 def api_version():
     '''
-    API Version
-    -----------
     Display the api version information.
 
     ::
@@ -94,11 +112,9 @@ def api_version():
 @APP.route('/api/projects')
 def api_projects():
     '''
-    List all projects
-    -----------------
-    Lists all the projects registered in anitya.
+    Lists all the projects registered in Anitya.
 
-    ::
+    This API accepts GET query strings::
 
         /api/projects
 
@@ -121,9 +137,7 @@ def api_projects():
     cannot be combined.  You can query for packages by a pattern **or** you can
     query by their upstream homepage, but not both.
 
-    Sample response:
-
-    ::
+    Sample response::
 
       {
         "projects": [
@@ -198,8 +212,8 @@ def api_projects():
 @APP.route('/api/packages/wiki')
 def api_packages_wiki_list():
     '''
-    List all packages in mediawiki format
-    -------------------------------------
+    List all packages in mediawiki format.
+
     Lists all the packages registered in anitya using the format of the
     old wiki page. If a project is present multiple times on different
     distribution, it will be shown multiple times.
@@ -210,9 +224,7 @@ def api_packages_wiki_list():
 
     Accepts GET queries only.
 
-    Sample response:
-
-    ::
+    Sample response::
 
       * 2ping None http://www.finnie.org/software/2ping
       * 3proxy None http://www.3proxy.ru/download/
@@ -239,11 +251,9 @@ def api_packages_wiki_list():
 @APP.route('/api/projects/names')
 def api_projects_names():
     '''
-    List all projects names
-    ------------------------
     Lists the names of all the projects registered in anitya.
 
-    ::
+    This accepts the ``pattern`` query string::
 
         /api/projects/names
 
@@ -255,9 +265,7 @@ def api_projects_names():
 
     :kwarg pattern: pattern to use to restrict the list of names returned.
 
-    Sample response:
-
-    ::
+    Sample response::
 
       {
         "projects": [
@@ -296,8 +304,6 @@ def api_projects_names():
 @APP.route('/api/distro/names')
 def api_distro_names():
     '''
-    List all distribution names
-    ---------------------------
     Lists the names of all the distributions registered in anitya.
 
     ::
@@ -354,8 +360,6 @@ def api_distro_names():
 @APP.route('/api/version/get', methods=['POST'])
 def api_get_version():
     '''
-    Retrieve version
-    ----------------
     Forces anitya to retrieve the latest version available from a project
     upstream.
 
@@ -432,8 +436,6 @@ def api_get_version():
 @APP.route('/api/project/<int:project_id>', methods=['GET'])
 def api_get_project(project_id):
     '''
-    Retrieve a specific project
-    ----------------------------
     Retrieves a specific project using its identifier in anitya.
 
     ::
@@ -489,8 +491,6 @@ def api_get_project(project_id):
 @APP.route('/api/project/<distro>/<path:package_name>', methods=['GET'])
 def api_get_project_distro(distro, package_name):
     '''
-    Retrieve a package for a distro
-    -------------------------------
     Retrieves a project in a distribution via the name of the distribution
     and the name of the package in said distribution.
 
@@ -557,8 +557,6 @@ def api_get_project_distro(distro, package_name):
 @APP.route('/api/by_ecosystem/<ecosystem>/<project_name>', methods=['GET'])
 def api_get_project_ecosystem(ecosystem, project_name):
     '''
-    Retrieve a project from a given ecosystem
-    -------------------------------
     Retrieves a project in an ecosystem via the name of the ecosystem
     and the name of the project as registered with Anitya.
 
