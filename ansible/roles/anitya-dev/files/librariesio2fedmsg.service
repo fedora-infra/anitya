@@ -1,0 +1,12 @@
+[Unit]
+Description=librariesio2fedmsg turns SSE messages from libraries.io to fedmsg
+After=network.target
+Documentation=https://github.com/fedora-infra/sse2fedmsg/
+
+[Service]
+ExecStart=/home/vagrant/.virtualenvs/anitya/bin/sse2fedmsg librariesio http://firehose.libraries.io/events
+Type=simple
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

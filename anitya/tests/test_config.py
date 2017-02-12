@@ -50,6 +50,8 @@ social_auth_login_url = "/login/"
 social_auth_login_redirect_url = "/"
 social_auth_login_error_url = "/login-error/"
 
+create_librariesio_projects = true
+
 [anitya_log_config]
     version = 1
     disable_existing_loggers = true
@@ -163,6 +165,7 @@ class LoadTests(unittest.TestCase):
             'SOCIAL_AUTH_LOGIN_URL': '/login/',
             'SOCIAL_AUTH_LOGIN_REDIRECT_URL': '/',
             'SOCIAL_AUTH_LOGIN_ERROR_URL': '/login-error/',
+            'CREATE_LIBRARIESIO_PROJECTS': True,
         }
         config = anitya_config.load()
         self.assertEqual(sorted(expected_config.keys()), sorted(config.keys()))

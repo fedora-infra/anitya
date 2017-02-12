@@ -2,7 +2,8 @@ alembic
 blinker
 bunch
 python-dateutil
-fedmsg
+dateutils
+fedmsg[commands,consumers]
 flask-openid
 # Need the fixes for https://github.com/puiterwijk/flask-oidc/issues/12
 #                and https://github.com/puiterwijk/flask-oidc/issues/24
