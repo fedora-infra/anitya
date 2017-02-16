@@ -22,7 +22,6 @@
 '''
 anitya tests for the anitya.lib module.
 '''
-
 __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
 
@@ -105,6 +104,19 @@ class AnityaLibtests(Modeltests):
         self.assertEqual(len(project_objs), 3)
         self.assertEqual(project_objs[0].name, 'geany')
         self.assertEqual(project_objs[0].homepage, 'http://www.geany.org')
+        self.assertEqual(project_objs[0].backend, 'PyPI')
+
+    def test_edit_project_creating_duplicate(self):
+        """
+        Assert that attempting to edit a project and creating a duplicate fails
+        """
+        create_distro(self.session)
+        create_project(self.session)
+
+        project_objs = anitya.lib.model.Project.all(self.session)
+        self.assertEqual(len(project_objs), 3)
+        self.assertEqual(project_objs[0].name, 'geany')
+        self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
         self.assertEqual(project_objs[1].name, 'R2spec')
         self.assertEqual(project_objs[2].name, 'subsurface')
 
@@ -114,7 +126,7 @@ class AnityaLibtests(Modeltests):
             self.session,
             project=project_objs[2],
             name='geany',
-            homepage='http://www.geany.org',
+            homepage='http://www.geany.org/',
             backend=project_objs[2].backend,
             version_url=project_objs[2].version_url,
             version_prefix=None,
