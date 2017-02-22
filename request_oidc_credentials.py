@@ -20,7 +20,10 @@ from requests_oauthlib import OAuth2Session
 AUTH_TIMEOUT = 300
 _this_dir = os.path.dirname(__file__)
 SECRETS_FILE = os.path.join(_this_dir, "client_secrets.json")
-CREDENTIALS_FILE = os.path.join(_this_dir, "tests", "oidc_credentials.json")
+CREDENTIALS_FILE = os.path.join(_this_dir,
+                                "anitya",
+                                "tests",
+                                "oidc_credentials.json")
 
 
 class OAuthCallbackHandler(BaseHTTPRequestHandler):

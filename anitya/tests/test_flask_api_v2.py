@@ -35,7 +35,7 @@ import mock
 import unittest2 as unittest # Ensure we always have TestCase.addCleanup
 
 import anitya
-from tests import (Modeltests, create_project)
+from .base import (Modeltests, create_project)
 
 # Py3 compatibility: UTF-8 decoding and JSON decoding may be separate steps
 def _read_json(output):
