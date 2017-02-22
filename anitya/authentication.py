@@ -7,7 +7,7 @@ from functools import wraps
 import json
 
 import flask
-from flask.ext.openid import OpenID
+from flask_openid import OpenID
 from flask_oidc import OpenIDConnect
 
 APP = None
