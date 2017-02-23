@@ -1,4 +1,4 @@
 #!/bin/bash
 
-./nosetests \
+nosetests \
 --with-coverage --cover-erase --cover-package=anitya $*

@@ -141,10 +141,12 @@ class AuthenticationRequiredTests(_APItestsMixin, Modeltests):
 class _AuthenticatedAPItestsMixin(_APItestsMixin):
     """Common test definitions for tests of authenticated access"""
 
-    def _post_app_url(self, post_url):
-        return self.app.post(post_url)
+    def _post_app_url(self, post_url, **kwds):
+        return self.app.post(post_url, **kwds)
 
     def test_invalid_project_monitoring_request(self):
+        # Check we get a 400 error reporting what we did wrong
+        # rather than an authentication error
         output = self._post_app_url('/api/v2/projects/')
         self.assertEqual(output.status_code, 400)
         # Error details should report the missing required fields
@@ -153,6 +155,18 @@ class _AuthenticatedAPItestsMixin(_APItestsMixin):
         self.assertIn("backend", error_details)
         self.assertIn("homepage", error_details)
         self.assertIn("name", error_details)
+
+    def test_valid_project_monitoring_request(self):
+        request_data = {
+            "backend": "PyPI",
+            "homepage": "http://python-requests.org",
+            "name": "requests",
+        }
+        output = self._post_app_url('/api/v2/projects/', data=request_data)
+        self.assertEqual(output.status_code, 200)
+        # Error details should report the missing required fields
+        data = _read_json(output)
+        print(data)
 
 
 class MockAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
@@ -166,6 +180,21 @@ class MockAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
                                _bypass_token_validation)
         mock_auth.start()
         self.addCleanup(mock_auth.stop)
+
+        # Replace anitya.app.APP.oidc.user_getfield
+        mock_user_data = {
+            "user_id": 'noreply@fedoraproject.org',
+        }
+        class MockOIDC:
+            def user_getfield(self, fieldname):
+                try:
+                    return mock_user_data[fieldname]
+                except KeyError:
+                    msg = "No mock user data for field {}"
+                    raise ValueError(msg.format(fieldname))
+        mock_oidc = mock.patch('anitya.app.APP.oidc', MockOIDC())
+        mock_oidc.start()
+        self.addCleanup(mock_oidc.stop)
 
 
 _this_dir = os.path.dirname(__file__)
@@ -183,9 +212,9 @@ class LiveAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
             self.skipTest("No saved OIDC credentials available")
         self.access_token = self._refresh_access_token()
 
-    def _post_app_url(self, post_url):
+    def _post_app_url(self, post_url, **kwds):
         query_string = "access_token={0}".format(self.access_token)
-        return self.app.post(post_url, query_string=query_string)
+        return self.app.post(post_url, query_string=query_string, **kwds)
 
     def _refresh_access_token(self):
         with open(CREDENTIALS_FILE) as f:
