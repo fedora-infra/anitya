@@ -29,6 +29,7 @@ import pkg_resources
 import json
 import os.path
 
+import oauthlib.oauth2
 import requests_oauthlib
 
 import mock
@@ -163,10 +164,10 @@ class _AuthenticatedAPItestsMixin(_APItestsMixin):
             "name": "requests",
         }
         output = self._post_app_url('/api/v2/projects/', data=request_data)
-        self.assertEqual(output.status_code, 200)
         # Error details should report the missing required fields
         data = _read_json(output)
         print(data)
+        self.assertEqual(output.status_code, 200)
 
 
 class MockAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
@@ -227,12 +228,18 @@ class LiveAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
         token = oidc_credentials["client_token"]
         token["expire_in"] = -1
         oauth = requests_oauthlib.OAuth2Session(client_id, token=token)
-        token = oauth.refresh_token(refresh_uri,
-                                    client_id=client_id,
-                                    client_secret=client_secret)
+        try:
+            token = oauth.refresh_token(refresh_uri,
+                                        client_id=client_id,
+                                        client_secret=client_secret)
+        except oauthlib.oauth2.InvalidGrantError:
+            msg = ("Token refresh failed, "
+                   "try running './request_oidc_credentials.py' again")
+            raise RuntimeError(msg)
         oidc_credentials["client_token"] = token
 
         with open(CREDENTIALS_FILE, "w") as f:
+            refresh_token_id = token["refresh_token"][:]
             json.dump(oidc_credentials, f)
         return token["access_token"]
 

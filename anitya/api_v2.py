@@ -9,6 +9,8 @@ import anitya
 import anitya.lib.model
 import anitya.authentication
 
+_BASE_ARG_PARSER = reqparse.RequestParser(trim=True, bundle_errors=True)
+_BASE_ARG_PARSER.add_argument('access_token', type=str)
 
 class ProjectsResource(Resource):
     """
@@ -39,7 +41,7 @@ class ProjectsResource(Resource):
         check_release_help = _('Check the release immediately after creating '
                                'the project.')
 
-        parser = reqparse.RequestParser(trim=True, bundle_errors=True)
+        parser = _BASE_ARG_PARSER.copy()
         parser.add_argument('name', type=str, help=name_help, required=True)
         parser.add_argument(
             'homepage', type=str, help=homepage_help, required=True)
