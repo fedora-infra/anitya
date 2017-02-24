@@ -62,7 +62,7 @@ class ProjectsResource(Resource):
         # TODO conficts etc
         anitya.lib.create_project(
             SESSION,
-            user_id=APP.oidc.user_getfield('user_id', access_token),
+            user_id=APP.oidc.user_getfield('email', access_token),
             **args
         )
         SESSION.commit()

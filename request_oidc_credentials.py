@@ -67,7 +67,12 @@ def main():
     redirect_uri = client_details["redirect_uris"][0]
     auth_uri = client_details["auth_uri"]
     token_uri = client_details["token_uri"]
-    scopes = ("https://release-monitoring.org/oidc/upstream",)
+    scopes = (
+        # Access user email address for audit trail logging
+        "openid", "email",
+        # Submit new project monitoring requests
+        "https://release-monitoring.org/oidc/upstream",
+    )
     oauth = OAuth2Session(client_id, redirect_uri=redirect_uri, scope=scopes)
     authorization_url, state = oauth.authorization_url(auth_uri)
     wait_msg = "Waiting {0} seconds for browser-based authentication..."
