@@ -205,19 +205,25 @@ CREDENTIALS_FILE = os.path.join(_this_dir, "oidc_credentials.json")
 class LiveAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
     """Test authenticated behaviour with live FAS credentials"""
 
+    @classmethod
+    def setUpClass(cls):
+        if not os.path.exists(CREDENTIALS_FILE):
+            raise unittest.SkipTest("No saved OIDC credentials available")
+        cls.access_token = cls._refresh_access_token()
+
     def setUp(self):
         super(LiveAuthenticationTests, self).setUp()
         if self.oidc is None:
             self.skipTest("OpenID Connect is not configured")
-        if not os.path.exists(CREDENTIALS_FILE):
-            self.skipTest("No saved OIDC credentials available")
-        self.access_token = self._refresh_access_token()
 
     def _post_app_url(self, post_url, **kwds):
+        # Note: we currently assume all test cases can be completed
+        # without needing to refresh the access token a second time
         query_string = "access_token={0}".format(self.access_token)
         return self.app.post(post_url, query_string=query_string, **kwds)
 
-    def _refresh_access_token(self):
+    @classmethod
+    def _refresh_access_token(cls):
         with open(CREDENTIALS_FILE) as f:
             oidc_credentials = json.load(f)
         client_details = oidc_credentials["client_details"]
