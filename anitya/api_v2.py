@@ -57,10 +57,14 @@ class ProjectsResource(Resource):
         parser.add_argument(
             'check_release', type=bool, help=check_release_help)
         args = parser.parse_args(strict=True)
+        access_token = args.pop('access_token')
 
         # TODO conficts etc
         anitya.lib.create_project(
-            SESSION, user_id=APP.oidc.user_getfield('user_id'), **args)
+            SESSION,
+            user_id=APP.oidc.user_getfield('user_id', access_token),
+            **args
+        )
         SESSION.commit()
 
 
