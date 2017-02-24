@@ -1,0 +1,30 @@
+interactions:
+- request:
+    body: token=8f0e31e7-2f82-4fd1-9287-2916c01c0f32_x4zSXN2dI-5BwSI19BK9lA24GyEWG62h&client_secret=xKz1P6DbhjGjw1VMPPKyNuGjVvK1viSk&client_id=D-05cd2329-1d6e-448b-8880-1a8576caaf4b&token_type_hint=Bearer
+    headers:
+      accept-encoding: ['gzip, deflate']
+      content-type: [application/x-www-form-urlencoded]
+      user-agent: [Python-httplib2/0.9.2 (gzip)]
+    method: POST
+    uri: https://iddev.fedorainfracloud.org/openidc/TokenInfo
+  response:
+    body: {string: '{"username": "ncoghlan", "token_type": "Bearer", "iss": "https://iddev.fedorainfracloud.org/openidc/",
+        "exp": "1487936918", "client_id": "D-05cd2329-1d6e-448b-8880-1a8576caaf4b",
+        "iat": "1487851687", "active": true, "scope": "https://release-monitoring.org/oidc/upstream",
+        "aud": "D-05cd2329-1d6e-448b-8880-1a8576caaf4b", "sub": "ncoghlan"}'}
+    headers:
+      AppServer: [iddev.fedorainfracloud.org]
+      AppTime: [D=12275]
+      Cache-Control: ['no-cache, no-store, must-revalidate, private']
+      Content-Length: ['340']
+      Content-Security-Policy: [frame-options 'deny']
+      Content-Type: [application/json]
+      Date: ['Fri, 24 Feb 2017 10:48:39 GMT']
+      Pragma: [no-cache]
+      Server: [Apache/2.4.6 (Red Hat Enterprise Linux) OpenSSL/1.0.1e-fips mod_auth_gssapi/1.4.0
+          mod_wsgi/3.4 Python/2.7.5]
+      Set-Cookie: ['_ipsilon_session_id=6847368024a4e198320eadfe7f31685b1d9cf0e3;
+          expires=Fri, 24 Feb 2017 11:48:39 GMT; httponly; Path=/; secure']
+      X-Frame-Options: [deny]
+    status: {code: 200, message: OK}
+version: 1
