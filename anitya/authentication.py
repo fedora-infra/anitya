@@ -127,6 +127,8 @@ def require_api_token(*scopes):
 
 
 def _report_oidc_not_configured(*args, **kwds):
+    # TODO: Avoid double-rendering to JSON when used with Flask-RESTful
+    #       https://github.com/release-monitoring/anitya/issues/443
     error_details = json.dumps({
         'error': 'oidc_not_configured',
         'error_description': 'OpenID Connect is not configured on the server'
