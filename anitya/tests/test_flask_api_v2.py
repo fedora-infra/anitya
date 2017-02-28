@@ -146,7 +146,7 @@ class _AuthenticatedAPItestsMixin(_APItestsMixin):
     """Common test definitions for tests of authenticated access"""
 
     def _post_app_url(self, post_url, **kwds):
-        return self.app.post(post_url, **kwds)
+        raise NotImplementedError("Subclass must define how to post a URL")
 
     def test_invalid_project_monitoring_request(self):
         # Check we get a 400 error reporting what we did wrong
@@ -175,6 +175,7 @@ class _AuthenticatedAPItestsMixin(_APItestsMixin):
 
 class MockAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
     """Test authenticated behaviour with authentication checks mocked out"""
+
     def setUp(self):
         super(MockAuthenticationTests, self).setUp()
         # Replace anitya.authentication._validate_api_token
@@ -187,10 +188,15 @@ class MockAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
 
         # Replace anitya.app.APP.oidc.user_getfield
         mock_user_data = {
-            "user_id": 'noreply@fedoraproject.org',
+            "email": 'noreply@fedoraproject.org',
         }
+
+        test_case = self
         class MockOIDC:
-            def user_getfield(self, fieldname):
+            # In the live API, `access_token` is optional, but here we expect
+            # to receive it
+            def user_getfield(self, fieldname, access_token):
+                test_case._check_access_token(access_token)
                 try:
                     return mock_user_data[fieldname]
                 except KeyError:
@@ -199,6 +205,15 @@ class MockAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
         mock_oidc = mock.patch('anitya.app.APP.oidc', MockOIDC())
         mock_oidc.start()
         self.addCleanup(mock_oidc.stop)
+
+    DUMMY_ACCESS_TOKEN = "THISISMYTOKEN"
+
+    def _check_access_token(self, access_token):
+        self.assertEqual(access_token, self.DUMMY_ACCESS_TOKEN)
+
+    def _post_app_url(self, post_url, **kwds):
+        query_string = "access_token={0}".format(self.DUMMY_ACCESS_TOKEN)
+        return self.app.post(post_url, query_string=query_string, **kwds)
 
 
 _this_dir = os.path.dirname(__file__)
