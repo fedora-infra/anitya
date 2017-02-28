@@ -20,7 +20,8 @@ class ProjectsResource(Resource):
     @anitya.authentication.parse_api_token
     def get(self):
         """Lists all projects"""
-        # TODO paginate
+        # TODO: Support response pagination
+        #       https://github.com/release-monitoring/anitya/issues/440
         project_objs = anitya.lib.model.Project.all(SESSION)
         projects = [project.__json__() for project in project_objs]
         return projects
@@ -59,7 +60,9 @@ class ProjectsResource(Resource):
         args = parser.parse_args(strict=True)
         access_token = args.pop('access_token')
 
-        # TODO conficts etc
+        # TODO: Report proper 400 errors rather than 500 errors for duplicate
+        #       registration and other errors not checked by the arg parser
+        #       https://github.com/release-monitoring/anitya/issues/441
         anitya.lib.create_project(
             SESSION,
             user_id=APP.oidc.user_getfield('email', access_token),
