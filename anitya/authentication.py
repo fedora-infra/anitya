@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
-
+#
+# This file is part of the Anitya project.
+# Copyright (C) 2017  Red Hat, Inc.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 Helper module for configuring OpenID Connect based authentication
 """
@@ -16,6 +32,7 @@ APP = None
 ####################################
 # Set up core OpenID Connect support
 ####################################
+
 def configure_openid(app):
     """Set up OpenID, OpenIDConnect, and the module's Flask app reference"""
     global APP
@@ -31,28 +48,30 @@ def configure_openid(app):
 
 
 def register_oidc_client(code, state):
+    """Accept OpenIDConnect callback from authentication server"""
+    # TODO: Actually handle online token generation properly
+    #       https://github.com/release-monitoring/anitya/issues/442
     token_data = {}
     result = flask.jsonify(token_data)
     result.status_code = 200
     return result
 
 
-##################################################################
-# Decorator for APIs that parse API tokens, but don't require them
-##################################################################
+##################################################
+# Helpers for declaring OIDC enabled API endpoints
+##################################################
+
 def parse_api_token(f):
-    """Make OIDC token information available, but allow anonymous access"""
+    """Decorator for APIs that parse API tokens, but don't require them
+
+    Makes OIDC token information available, but allows anonymous access
+    """
     if APP.oidc is not None:
         return APP.oidc.accept_token(require_token=False)(f)
 
     # OIDC is not configured, so just allow anonymous access
     return f
 
-
-#############################################################
-# Decorator factory for APIs that *require* a valid API token
-#############################################################
-_BASE_SCOPE_URL = "https://release-monitoring.org/oidc/"
 
 # Note: the scopes listed in _DEFINED_SCOPES must match those listed in
 # https://fedoraproject.org/wiki/Infrastructure/Authentication#release-monitoring.org
@@ -61,6 +80,8 @@ _BASE_SCOPE_URL = "https://release-monitoring.org/oidc/"
 # * request changes as per https://fedoraproject.org/wiki/Infrastructure/Authentication#Registering_new_scopes
 # * amend _DEFINED_SCOPES below
 # * amend anitya.default_config.OIDC_SCOPES
+_BASE_SCOPE_URL = "https://release-monitoring.org/oidc/"
+
 _DEFINED_SCOPES = {
     "upstream": "Register upstream projects for monitoring",
     "downstream": "Register downstreams & upstream/downstream mappings"
@@ -68,7 +89,10 @@ _DEFINED_SCOPES = {
 
 
 def require_api_token(*scopes):
-    """Require a valid OIDC token for access to the API endpoint"""
+    """Decorator factory for APIs that *require* a valid OIDC API token
+
+    Anonymous access attempts will be automatically declined.
+    """
     if not scopes:
         # Project policy requirement - no unscoped access allowed
         msg = "Authenticated APIs must specify at least one scope"
