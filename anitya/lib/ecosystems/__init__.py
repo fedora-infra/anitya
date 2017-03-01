@@ -21,8 +21,11 @@ class BaseEcosystem(object):
         default_version_scheme (str): The default version scheme to use for
             projects in this ecosystem if a they don't explicitly define one to
             use.
+        aliases (list): A list of alternate names for this ecosystem. These
+            should be lowercase.
     '''
 
     name = None
     default_backend = None
     default_version_scheme = None
+    aliases = []
