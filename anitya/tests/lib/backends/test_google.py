@@ -22,6 +22,7 @@
 '''
 anitya tests for the custom backend.
 '''
+from __future__ import unicode_literals
 
 __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
@@ -55,6 +56,7 @@ class GoogleBackendtests(Modeltests):
             name='arduino',
             homepage='https://code.google.com/p/arduino/',
             backend=BACKEND,
+            version_scheme=model.GENERIC_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -63,6 +65,7 @@ class GoogleBackendtests(Modeltests):
             name='foo',
             homepage='https://code.google.com/p/foo',
             backend=BACKEND,
+            version_scheme=model.GENERIC_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -72,7 +75,7 @@ class GoogleBackendtests(Modeltests):
         """ Test the get_version function of the custom backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '0023'
+        exp = '1.0.5'
         obs = backend.GoogleBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -90,8 +93,9 @@ class GoogleBackendtests(Modeltests):
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = [
-            '1.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '0017',
-            '0018', '0019', '0020', '0021', '0022', '0023']
+            '0017', '0018', '0019', '0020', '0021', '0022', '0023',
+            '1.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5'
+        ]
         obs = backend.GoogleBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 

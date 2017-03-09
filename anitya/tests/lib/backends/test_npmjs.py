@@ -51,6 +51,7 @@ class NpmjsBackendtests(Modeltests):
             name='request',
             homepage='https://www.npmjs.org/package/request',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -59,6 +60,7 @@ class NpmjsBackendtests(Modeltests):
             name='foobarasd',
             homepage='https://www.npmjs.org/package/foobarasd',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -67,6 +69,7 @@ class NpmjsBackendtests(Modeltests):
             name='colors',
             homepage='https://www.npmjs.org/package/colors',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -136,7 +139,7 @@ class NpmjsBackendtests(Modeltests):
         project = model.Project.get(self.session, pid)
         exp = [
             u'0.3.0', u'0.5.0', u'0.5.1',
-            u'0.6.0', u'0.6.0-1', u'0.6.1', u'0.6.2',
+            u'0.6.0', u'0.6.0.post1', u'0.6.1', u'0.6.2',
             u'1.0.0', u'1.0.1', u'1.0.2', u'1.0.3',
             u'1.1.0',
         ]

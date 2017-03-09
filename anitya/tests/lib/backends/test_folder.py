@@ -54,6 +54,7 @@ class FolderBackendtests(Modeltests):
             homepage='https://www.gnu.org/software/gnash/',
             version_url='http://ftp.gnu.org/pub/gnu/gnash/',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -63,6 +64,7 @@ class FolderBackendtests(Modeltests):
             homepage='https://pypi.python.org/pypi/repo_manager_fake',
             backend=BACKEND,
             insecure=True,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -72,6 +74,7 @@ class FolderBackendtests(Modeltests):
             homepage='http://subsurface.hohndel.org/',
             version_url='http://subsurface.hohndel.org/downloads/',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()

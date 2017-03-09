@@ -28,14 +28,17 @@
             <tr>
               {{ render_field_in_row(form.backend, tabindex=3) }}
             </tr>
+            <tr>
+              {{ render_field_in_row(form.version_scheme, tabindex=4) }}
+            </tr>
             <tr id="version_url_row">
-              {{ render_field_in_row(form.version_url, tabindex=4) }}
+              {{ render_field_in_row(form.version_url, tabindex=5) }}
             </tr>
             <tr id="version_prefix_row">
-              {{ render_field_in_row(form.version_prefix, tabindex=5) }}
+              {{ render_field_in_row(form.version_prefix, tabindex=6) }}
             </tr>
             <tr id="regex_row">
-              {{ render_field_in_row(form.regex, tabindex=6) }}
+              {{ render_field_in_row(form.regex, tabindex=7) }}
             </tr>
             <tr id="default_regex_row">
               <td><label>Default regex:</label></td>
@@ -46,19 +49,19 @@
               <td id="example_urls"></td>
             </tr>
             <tr id="insecure_row">
-              {{ render_field_in_row(form.insecure, tabindex=7) }}
+              {{ render_field_in_row(form.insecure, tabindex=8) }}
             </tr>
             <tr id="check_release_row">
-              {{ render_field_in_row(form.check_release, tabindex=8) }}
+              {{ render_field_in_row(form.check_release, tabindex=9) }}
             </tr>
 
             {%- if context == 'Add' -%}
             <tr>
-              {{ render_field_in_row(form.distro, tabindex=9) }}
+              {{ render_field_in_row(form.distro, tabindex=10) }}
               <td></td>
             </tr>
             <tr>
-              {{ render_field_in_row(form.package_name, tabindex=10) }}
+              {{ render_field_in_row(form.package_name, tabindex=11) }}
               <td></td>
             </tr>
             {%- endif -%}

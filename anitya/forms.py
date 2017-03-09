@@ -6,6 +6,7 @@ from wtforms import TextField, TextAreaField, validators, SelectField
 from wtforms import BooleanField
 
 from anitya.compat import FlaskForm
+from anitya.lib.model import version_classes
 
 
 class ProjectForm(FlaskForm):
@@ -16,6 +17,11 @@ class ProjectForm(FlaskForm):
         'Backend',
         [validators.Required()],
         choices=[(item, item) for item in []]
+    )
+    version_scheme = SelectField(
+        'Version Scheme',
+        [validators.Required()],
+        choices=[(item, item) for item in version_classes]
     )
     version_url = TextField('Version URL', [validators.optional()])
     version_prefix = TextField('Version prefix', [validators.optional()])

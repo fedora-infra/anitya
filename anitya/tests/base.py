@@ -129,6 +129,7 @@ def create_project(session):
         version_url='http://www.geany.org/Download/Releases',
         regex='DEFAULT',
         user_id='noreply@fedoraproject.org',
+        version_scheme=anitya.lib.model.PEP440_VERSION,
     )
 
     anitya.lib.create_project(
@@ -138,6 +139,7 @@ def create_project(session):
         version_url='http://subsurface.hohndel.org/downloads/',
         regex='DEFAULT',
         user_id='noreply@fedoraproject.org',
+        version_scheme=anitya.lib.model.PEP440_VERSION,
     )
 
     anitya.lib.create_project(
@@ -145,6 +147,7 @@ def create_project(session):
         name='R2spec',
         homepage='https://fedorahosted.org/r2spec/',
         user_id='noreply@fedoraproject.org',
+        version_scheme=anitya.lib.model.PEP440_VERSION,
     )
 
 
@@ -158,7 +161,8 @@ def create_ecosystem_projects(session):
         name='pypi_and_npm',
         homepage='https://example.com/not-a-real-pypi-project',
         backend='PyPI',
-        user_id='noreply@fedoraproject.org'
+        user_id='noreply@fedoraproject.org',
+        version_scheme=anitya.lib.model.PEP440_VERSION,
     )
 
     anitya.lib.create_project(
@@ -166,7 +170,8 @@ def create_ecosystem_projects(session):
         name='pypi_and_npm',
         homepage='https://example.com/not-a-real-npmjs-project',
         backend='npmjs',
-        user_id='noreply@fedoraproject.org'
+        user_id='noreply@fedoraproject.org',
+        version_scheme=anitya.lib.model.PEP440_VERSION,
     )
 
     anitya.lib.create_project(
@@ -174,7 +179,8 @@ def create_ecosystem_projects(session):
         name='rubygems_and_maven',
         homepage='https://example.com/not-a-real-rubygems-project',
         backend='Rubygems',
-        user_id='noreply@fedoraproject.org'
+        user_id='noreply@fedoraproject.org',
+        version_scheme=anitya.lib.model.PEP440_VERSION,
     )
 
     anitya.lib.create_project(
@@ -182,7 +188,8 @@ def create_ecosystem_projects(session):
         name='rubygems_and_maven',
         homepage='https://example.com/not-a-real-maven-project',
         backend='Maven Central',
-        user_id='noreply@fedoraproject.org'
+        user_id='noreply@fedoraproject.org',
+        version_scheme=anitya.lib.model.PEP440_VERSION,
     )
 
 
@@ -214,6 +221,7 @@ def create_flagged_project(session):
         version_url='http://www.geany.org/Download/Releases',
         regex='DEFAULT',
         user_id='noreply@fedoraproject.org',
+        version_scheme=anitya.lib.model.PEP440_VERSION,
     )
 
     session.add(project)

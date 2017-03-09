@@ -80,6 +80,7 @@ class NewProjectTests(Modeltests):
             data = {
                 'csrf_token': csrf_token,
                 'name': 'repo_manager',
+                'version_scheme': 'PEP-440',
                 'homepage': 'https://pypi.python.org/pypi/repo_manager',
                 'backend': 'PyPI',
             }
@@ -135,6 +136,7 @@ class NewProjectTests(Modeltests):
             data = {
                 'csrf_token': csrf_token,
                 'name': 'requests',
+                'version_scheme': 'PEP-440',
                 'homepage': 'https://pypi.python.org/pypi/requests',
                 'backend': 'PyPI',
             }
@@ -201,6 +203,7 @@ class NewProjectTests(Modeltests):
                 'name': 'repo_manager',
                 'homepage': 'https://pypi.python.org/pypi/repo_manager',
                 'backend': 'PyPI',
+                'version_scheme': 'PEP-440',
                 'csrf_token': output.data.split(
                     b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0],
             }

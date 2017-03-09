@@ -51,6 +51,7 @@ class SourceforgeBackendtests(Modeltests):
             name='filezilla',
             homepage='http://sourceforge.net/projects/filezilla/',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -59,6 +60,7 @@ class SourceforgeBackendtests(Modeltests):
             name='foobar',
             homepage='http://sourceforge.net/projects/foobar',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -67,6 +69,7 @@ class SourceforgeBackendtests(Modeltests):
             name='file-folder-ren',
             homepage='http://sourceforge.net/projects/file-folder-ren/',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()

@@ -52,6 +52,7 @@ class GithubBackendtests(Modeltests):
             homepage='https://github.com/fedora-infra/fedocal',
             version_url='fedora-infra/fedocal',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -61,6 +62,7 @@ class GithubBackendtests(Modeltests):
             homepage='http://github.com/foo/bar',
             version_url='foobar/bar',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -69,6 +71,7 @@ class GithubBackendtests(Modeltests):
             name='pkgdb2',
             homepage='https://github.com/fedora-infra/pkgdb2',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -101,7 +104,7 @@ class GithubBackendtests(Modeltests):
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = [
-            u'v0.9.3',
+            u'0.9.3',
             u'0.10', u'0.11', u'0.11.1', u'0.12',
             u'0.13', u'0.13.1', u'0.13.2', u'0.13.3',
             u'0.14',
@@ -131,6 +134,7 @@ class GithubBackendtests(Modeltests):
         project = model.Project(
             version_url='codehaus-plexus/plexus-archiver',
             version_prefix='plexus-archiver-',
+            version_scheme=model.PEP440_VERSION,
         )
         version = backend.GithubBackend().get_version(project)
         self.assertEqual(u'3.3', version)

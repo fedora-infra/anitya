@@ -68,7 +68,7 @@ class RubygemsBackendtests(Modeltests):
         """ Test the get_version function of the rubygems backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = '1.4.3.0001'
+        exp = '1.4.3.1'
         obs = backend.RubygemsBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -85,7 +85,7 @@ class RubygemsBackendtests(Modeltests):
         """ Test the get_versions function of the rubygems backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = ['1.4.3.0001']
+        exp = ['1.4.3.1']
         obs = backend.RubygemsBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 

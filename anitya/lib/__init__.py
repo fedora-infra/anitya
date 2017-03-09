@@ -74,10 +74,12 @@ def init(db_url, alembic_ini=None, debug=False, create=False):
 def create_project(
         session, name, homepage, user_id, backend='custom',
         version_url=None, version_prefix=None, regex=None,
-        check_release=False):
+        check_release=False, version_scheme=None):
     """ Create the project in the database.
 
     """
+    if version_scheme is None:
+        version_scheme = anitya.lib.model.PEP440_VERSION
     # Set the ecosystem if there's one associated with the given backend
     backend_ref = anitya.lib.model.Backend.by_name(session, name=backend)
     ecosystem_ref = backend_ref.default_ecosystem
@@ -90,6 +92,7 @@ def create_project(
         version_url=version_url,
         regex=regex,
         version_prefix=version_prefix,
+        version_scheme=version_scheme,
     )
 
     session.add(project)
@@ -119,7 +122,8 @@ def create_project(
 
 def edit_project(
         session, project, name, homepage, backend, version_url,
-        version_prefix, regex, insecure, user_id, check_release=False):
+        version_prefix, regex, insecure, user_id, check_release=False,
+        version_scheme=None):
     """ Edit a project in the database.
 
     """
@@ -157,6 +161,10 @@ def edit_project(
         old = project.insecure
         project.insecure = insecure
         changes['insecure'] = {'old': old, 'new': project.insecure}
+    if version_scheme and version_scheme != project.version_scheme:
+        old = project.version_scheme
+        project.version_scheme = version_scheme
+        changes['version_scheme'] = {'old': old, 'new': project.version_scheme}
 
     try:
         if changes:

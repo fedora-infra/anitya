@@ -22,6 +22,7 @@
 '''
 anitya tests for the custom backend.
 '''
+from __future__ import unicode_literals
 
 __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
@@ -55,6 +56,7 @@ class Drupal7Backendtests(Modeltests):
             name='wysiwyg',
             homepage='https://www.drupal.org/project/wysiwyg',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -63,6 +65,7 @@ class Drupal7Backendtests(Modeltests):
             name='foo',
             homepage='http://pecl.php.net/package/foo',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -71,6 +74,7 @@ class Drupal7Backendtests(Modeltests):
             name='admin_menu',
             homepage='https://www.drupal.org/project/admin_menu',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -94,7 +98,7 @@ class Drupal7Backendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '3.0-rc5'
+        exp = '3.0rc5'
         obs = backend.Drupal7Backend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -116,7 +120,7 @@ class Drupal7Backendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = ['3.x-dev', '3.0-rc1', '3.0-rc2', '3.0-rc3', '3.0-rc4', '3.0-rc5']
+        exp = ['3.x-dev', '3.0rc1', '3.0rc2', '3.0rc3', '3.0rc4', '3.0rc5']
         obs = backend.Drupal7Backend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
