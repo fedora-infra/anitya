@@ -22,6 +22,7 @@
 '''
 anitya tests for the custom backend.
 '''
+from __future__ import unicode_literals
 
 __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
@@ -55,6 +56,7 @@ class Drupal6Backendtests(Modeltests):
             name='wysiwyg',
             homepage='https://www.drupal.org/project/wysiwyg',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -63,6 +65,7 @@ class Drupal6Backendtests(Modeltests):
             name='foo',
             homepage='http://pecl.php.net/package/foo',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -71,6 +74,7 @@ class Drupal6Backendtests(Modeltests):
             name='admin_menu',
             homepage='https://www.drupal.org/project/admin_menu',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -94,7 +98,7 @@ class Drupal6Backendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = '3.0-alpha4'
+        exp = '3.0a4'
         obs = backend.Drupal6Backend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -102,7 +106,7 @@ class Drupal6Backendtests(Modeltests):
         """ Test the get_versions function of the debian backend. """
         pid = 1
         project = model.Project.get(self.session, pid)
-        exp = ['2.x-dev', '2.0-alpha1', '2.0', '2.1', '2.2', '2.3', '2.4']
+        exp = ['2.x-dev', '2.0a1', '2.0', '2.1', '2.2', '2.3', '2.4']
         obs = backend.Drupal6Backend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
@@ -116,9 +120,9 @@ class Drupal6Backendtests(Modeltests):
 
         pid = 3
         project = model.Project.get(self.session, pid)
-        exp = ['1.x-dev', '1.0-beta', '1.0', '1.1', '1.2', '1.3', '1.4',
-               '1.5', '1.6', '1.7', '1.8', '1.9', '3.x-dev', '3.0-alpha1',
-               '3.0-alpha2', '3.0-alpha3', '3.0-alpha4']
+        exp = ['1.x-dev', '3.x-dev', '1.0b0', '1.0', '1.1', '1.2', '1.3', '1.4',
+               '1.5', '1.6', '1.7', '1.8', '1.9', '3.0a1',
+               '3.0a2', '3.0a3', '3.0a4']
         obs = backend.Drupal6Backend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 

@@ -55,6 +55,7 @@ class CpanBackendtests(Modeltests):
             name='SOAP',
             homepage='http://search.cpan.org/dist/SOAP/',
             backend=BACKEND,
+            version_scheme=model.SEMANTIC_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -63,6 +64,7 @@ class CpanBackendtests(Modeltests):
             name='foo',
             homepage='http://search.cpan.org/dist/foo/',
             backend=BACKEND,
+            version_scheme=model.SEMANTIC_VERSION,
         )
         self.session.add(project)
         self.session.commit()

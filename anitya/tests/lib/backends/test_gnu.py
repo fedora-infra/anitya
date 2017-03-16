@@ -22,6 +22,7 @@
 '''
 anitya tests for the custom backend.
 '''
+from __future__ import absolute_import, unicode_literals
 
 __requires__ = ['SQLAlchemy >= 0.7']
 import pkg_resources
@@ -56,6 +57,7 @@ class GnuBackendtests(Modeltests):
             homepage='https://www.gnu.org/software/gnash/',
             version_url='http://ftp.gnu.org/pub/gnu/gnash/',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -64,6 +66,7 @@ class GnuBackendtests(Modeltests):
             name='fake',
             homepage='https://pypi.python.org/pypi/repo_manager_fake',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -73,6 +76,7 @@ class GnuBackendtests(Modeltests):
             homepage='http://subsurface.hohndel.org/',
             version_url='http://subsurface.hohndel.org/downloads/',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()

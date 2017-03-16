@@ -17,10 +17,12 @@ import sre_constants
 import six.moves.urllib.request as urllib2
 
 import requests
+import six
+
+from anitya.lib import model
+from anitya.lib.exceptions import AnityaPluginException
 import anitya
 import anitya.app
-from anitya.lib.exceptions import AnityaPluginException
-import six
 
 
 REGEX = '%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
@@ -32,106 +34,6 @@ _log = logging.getLogger(__name__)
 # Use a common http session, so we don't have to go re-establishing https
 # connections over and over and over again.
 http_session = requests.session()
-
-
-def upstream_cmp(v1, v2):
-    """ Compare two upstream versions
-
-    Code from Till Maas as part of
-    `cnucnu <https://fedorapeople.org/cgit/till/public_git/cnucnu.git/>`_
-
-    :Parameters:
-        v1 : str
-            Upstream version string 1
-        v2 : str
-            Upstream version string 2
-
-    :return:
-        - -1 - second version newer
-        - 0  - both are the same
-        - 1  - first version newer
-
-    :rtype: int
-
-    """
-
-    # Strip leading 'v' characters; turn v1.0 into 1.0.
-    # https://github.com/fedora-infra/anitya/issues/110
-    v1 = v1.lstrip('v')
-    v2 = v2.lstrip('v')
-
-    v1, rc1, rcn1 = split_rc(v1)
-    v2, rc2, rcn2 = split_rc(v2)
-
-    diff = rpm_cmp(v1, v2)
-    if diff != 0:
-        # base versions are different, ignore rc-status
-        return diff
-
-    if rc1 and rc2:
-        # both are rc, higher rc is newer
-        rc1_text = rc1.lower()
-        rc2_text = rc2.lower()
-        # rc > pre > beta > alpha
-        if rc1_text < rc2_text:
-            return -1
-        if rc1_text > rc2_text:
-            return 1
-        if rcn1 and rcn2:
-            # both have rc number
-            diff = int(rcn1) - int(rcn2)
-            return diff
-        if rcn1:
-            # only first has rc number, then it is newer
-            return 1
-        if rcn2:
-            # only second has rc number, then it is newer
-            return -1
-        # both rc numbers are missing or same
-        return 0
-
-    if rc1:
-        # only first is rc, then second is newer
-        return -1
-    if rc2:
-        # only second is rc, then first is newer
-        return 1
-
-    # neither is a rc
-    return 0
-
-
-def split_rc(version):
-    """ Split (upstream) version into version and release candidate string +
-    release candidate number if possible
-
-    Code from Till Maas as part of
-    `cnucnu <https://fedorapeople.org/cgit/till/public_git/cnucnu.git/>`_
-
-    """
-    rc_upstream_regex = re.compile(
-        "(.*?)\.?(-?(rc|pre|beta|alpha|dev)([0-9]*))", re.I)
-    match = rc_upstream_regex.match(version)
-    if not match:
-        return (version, "", "")
-
-    rc_str = match.group(3)
-    if rc_str:
-        v = match.group(1)
-        rc_num = match.group(4)
-        return (v, rc_str, rc_num)
-    else:
-        # if version contains a dash, but no release candidate string is found,
-        # v != version, therefore use version here
-        # Example version: 1.8.23-20100128-r1100
-        # Then: v=1.8.23, but rc_str=""
-        return (version, "", "")
-
-
-def rpm_cmp(v1, v2):
-    import rpm
-    diff = rpm.labelCompare((None, v1, None), (None, v2, None))
-    return diff
 
 
 class BaseBackend(object):
@@ -182,8 +84,14 @@ class BaseBackend(object):
                     subdirs.append(subdir)
             if not subdirs:
                 return url
-            list.sort(subdirs, cmp=upstream_cmp)
-            latest = subdirs[-1]
+
+            # Make use of the PEP-440 version parser and sorting to select the latest
+            # directory. When we track all versions instead of just the latest, we can
+            # iterate over all subdirs and look for new versions.
+            versions = []
+            for subdir in subdirs:
+                versions.append(model.Pep440Version(version=subdir))
+            latest = max(versions).version
 
             url = "%s%s/%s" % (url_prefix, latest, url_suffix)
             return self.expand_subdirs(url, glob_char)
@@ -256,8 +164,8 @@ class BaseBackend(object):
             when the versions cannot be retrieved correctly
 
         '''
-        vlist = self.get_versions(project)
-        return anitya.order_versions(vlist)
+        vlist = sorted([project.version_class(version=v) for v in self.get_versions(project)])
+        return [six.text_type(v) for v in vlist]
 
     @classmethod
     def call_url(self, url, insecure=False):

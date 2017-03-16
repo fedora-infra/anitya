@@ -51,6 +51,7 @@ class GnomeBackendtests(Modeltests):
             name='evolution-data-server',
             homepage='https://git.gnome.org/browse/evolution-data-server/',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -59,6 +60,7 @@ class GnomeBackendtests(Modeltests):
             name='fake',
             homepage='https://pypi.python.org/pypi/repo_manager_fake',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -67,6 +69,7 @@ class GnomeBackendtests(Modeltests):
             name='gnome-control-center',
             homepage='https://git.gnome.org/browse/gnome-control-center/',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()

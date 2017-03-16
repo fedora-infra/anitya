@@ -47,11 +47,13 @@ class CratesBackendTests(Modeltests):
             name='itoa',
             homepage='https://crates.io/crates/itoa',
             backend='crates.io',
+            version_scheme=model.SEMANTIC_VERSION,
         )
         project2 = model.Project(
             name='pleasedontmakethisprojectitllbreakmytests',
             homepage='https://crates.io/crates/somenonsensehomepage',
             backend='crates.io',
+            version_scheme=model.SEMANTIC_VERSION,
         )
         self.session.add(project1)
         self.session.add(project2)

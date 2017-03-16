@@ -52,6 +52,7 @@ class CustomBackendtests(Modeltests):
             version_url='http://www.geany.org/Download/Releases',
             regex='DEFAULT',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -61,6 +62,7 @@ class CustomBackendtests(Modeltests):
             homepage='https://pypi.python.org/pypi/repo_manager_fake',
             regex='DEFAULT',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()
@@ -71,6 +73,7 @@ class CustomBackendtests(Modeltests):
             version_url='http://subsurface.hohndel.org/downloads/',
             regex='DEFAULT',
             backend=BACKEND,
+            version_scheme=model.PEP440_VERSION,
         )
         self.session.add(project)
         self.session.commit()

@@ -22,6 +22,7 @@
 '''
 anitya tests for the Maven backend.
 '''
+from __future__ import unicode_literals
 
 __requires__ = ['SQLAlchemy >= 0.7']
 
@@ -48,12 +49,16 @@ class MavenBackendTest(Modeltests):
 
     def assert_plexus_version(self, **kwargs):
         project = model.Project(backend=BACKEND, **kwargs)
+        self.session.add(project)
+        self.session.flush()
         exp = '1.3.8'
         obs = MavenBackend.get_version(project)
         self.assertEqual(obs, exp)
 
     def assert_invalid(self, **kwargs):
         project = model.Project(backend=BACKEND, **kwargs)
+        self.session.add(project)
+        self.session.flush()
         self.assertRaises(
             AnityaPluginException,
             MavenBackend.get_version,
@@ -64,6 +69,7 @@ class MavenBackendTest(Modeltests):
         self.assert_invalid(
             name='foo',
             homepage='http://example.com',
+            version_scheme=model.PEP440_VERSION,
         )
 
     def test_maven_coordinates_in_version_url(self):
@@ -71,12 +77,14 @@ class MavenBackendTest(Modeltests):
             name='plexus-maven-plugin',
             version_url='org.codehaus.plexus:plexus-maven-plugin',
             homepage='http://plexus.codehaus.org/',
+            version_scheme=model.PEP440_VERSION,
         )
 
     def test_maven_coordinates_in_name(self):
         self.assert_plexus_version(
             name='org.codehaus.plexus:plexus-maven-plugin',
             homepage='http://plexus.codehaus.org/',
+            version_scheme=model.PEP440_VERSION,
         )
 
     def test_maven_bad_coordinates(self):
@@ -84,6 +92,7 @@ class MavenBackendTest(Modeltests):
             name='plexus-maven-plugin',
             homepage='http://plexus.codehaus.org/',
             version_url='plexus-maven-plugin',
+            version_scheme=model.PEP440_VERSION,
         )
 
     def test_maven_get_version_by_url(self):
@@ -91,6 +100,7 @@ class MavenBackendTest(Modeltests):
             name='plexus-maven-plugin',
             homepage='http://repo1.maven.org/maven2/'\
                      'org/codehaus/plexus/plexus-maven-plugin/',
+            version_scheme=model.PEP440_VERSION,
         )
 
     def test_maven_get_versions(self):
@@ -99,8 +109,9 @@ class MavenBackendTest(Modeltests):
             name='plexus-maven-plugin',
             version_url='org.codehaus.plexus:plexus-maven-plugin',
             homepage='http://plexus.codehaus.org/',
+            version_scheme=model.PEP440_VERSION,
         )
-        exp = ['1.1-alpha-7', '1.1', '1.1.1', '1.1.2', '1.1.3', '1.2', '1.3',
+        exp = ['1.1a7', '1.1', '1.1.1', '1.1.2', '1.1.3', '1.2', '1.3',
                '1.3.1', '1.3.2', '1.3.3', '1.3.4', '1.3.5', '1.3.6', '1.3.7',
                '1.3.8']
         obs = MavenBackend.get_ordered_versions(project)
