@@ -9,9 +9,14 @@
 """
 
 import re
+import subprocess
+import json
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
+from anitya.lib.model import Project
+from anitya.lib import init
+from anitya.app import APP
 
 
 REGEX = r'\<a[^>]+\>(\d[^</]*)'
@@ -70,3 +75,37 @@ class MavenBackend(BaseBackend):
                           .replace(':', '/'))
 
         return get_versions_by_regex(url, REGEX, project)
+
+    @classmethod
+    def check_feed(cls):
+        ''' Return a generator over the latest 40 packages to Maven central index
+
+        by calling maven-index-checker application
+        '''
+        maven_url = 'http://repo2.maven.org/maven2'
+        jar_path = '/src/maven-release-checker-1.0-SNAPSHOT-jar-with-dependencies.jar'
+        # session for checking whether there is already created package
+        session = init(APP.config['DB_URL'], create=True, debug=False)
+
+        try:
+            data = subprocess.check_output(["java", "-jar", jar_path], universal_newlines=True)
+        except Exception:
+            raise AnityaPluginException('Could not start %s' % maven_url)
+
+        data = json.loads(data)
+        for item in data[:40]:
+            item = json.loads(item)
+            maven_coordinates = '{group_id}:{artifact_id}'.\
+                format(group_id=item['groupId'], artifact_id=item['artifactId'])
+            # maven_coordinates are stored in db as version_url
+            retrieved_projects = Project.by_version_url(session, maven_coordinates)
+            if len(retrieved_projects) != 0:
+                # If there is project created it can have different name than maven_coordinates
+                name = retrieved_projects[0].name
+                homepage = retrieved_projects[0].homepage
+            else:
+                name = maven_coordinates
+                homepage = '{maven_url}/{artifact}'.\
+                    format(maven_url=maven_url, artifact=name.replace('.', '/').replace(':', '/'))
+            version = item['version']
+            yield name, homepage, cls.name, version
