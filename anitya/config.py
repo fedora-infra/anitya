@@ -23,7 +23,7 @@ from datetime import timedelta
 import logging
 import os
 
-import yaml
+import pytoml
 
 
 _log = logging.getLogger(__name__)
@@ -94,25 +94,24 @@ def load():
 
     If the ``ANITYA_WEB_CONFIG`` environment variable is set to a filesystem
     path, the configuration will be loaded from that location. Otherwise, the
-    path defaults to ``/etc/anitya/anitya.yaml``.
+    path defaults to ``/etc/anitya/anitya.toml``.
     """
     config = DEFAULTS.copy()
 
     if 'ANITYA_WEB_CONFIG' in os.environ:
         config_path = os.environ['ANITYA_WEB_CONFIG']
     else:
-        config_path = '/etc/anitya/anitya.yaml'
+        config_path = '/etc/anitya/anitya.toml'
 
     if os.path.exists(config_path):
         _log.info('Loading Anitya configuration from {}'.format(config_path))
         with open(config_path) as fd:
-            file_config = yaml.safe_load(fd.read())
-            if isinstance(file_config, dict):
+            try:
+                file_config = pytoml.loads(fd.read())
                 for key in file_config:
                     config[key.upper()] = file_config[key]
-            elif file_config is not None:
-                _log.warning('Config file is not an associative array. Falling'
-                             ' back to default config.')
+            except pytoml.core.TomlError as e:
+                _log.error('Failed to parse {}: {}'.format(config_path, str(e)))
     else:
         _log.info('The Anitya configuration file, {}, does not exist.'.format(config_path))
 
