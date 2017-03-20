@@ -264,22 +264,22 @@ class FlaskTest(Modeltests):
         self.assertTrue(expected in output.data)
 
     def test_about(self):
-        """ Test the about function. """
+        """Assert the legacy about endpoint redirects to documentation"""
         output = self.app.get('/about')
-        self.assertEqual(output.status_code, 200)
+        self.assertEqual(output.status_code, 302)
+        self.assertEqual(
+            output.headers['Location'],
+            'http://localhost/static/docs/index.html'
+        )
 
-        expected = b"""
-<h1 class="title">Anitya</h1>
-<p>Anitya is a project version monitoring system.</p>
-<p>Every-day Anitya checks if there is a new version available and broadcast the
-new versions found via a message bus: <a class="reference external" href="http://fedmsg.com/">fedmsg</a>
-(<a class="reference external" href="fedmsg">More information on fedmsg for anitya</a>).</p>
-<p>Anyone with an OpenID account can register a new application on Anitya. To
-do so, all you need is the project name and its home page, the combination
-of both must be unique. In order to retrieve the new version, you can specify
-a backend for the project hosting. More information below.</p>"""
-
-        self.assertTrue(expected in output.data)
+    def test_fedmsg(self):
+        """Assert the legacy fedmsg endpoint redirects to documentation"""
+        output = self.app.get('/fedmsg')
+        self.assertEqual(output.status_code, 302)
+        self.assertEqual(
+            output.headers['Location'],
+            'http://localhost/static/docs/user-guide.html'
+        )
 
     def test_project(self):
         """ Test the project function. """

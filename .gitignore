@@ -20,3 +20,4 @@ anitya-env
 *.retry
 Vagrantfile
 anitya.db
+anitya/static/docs/
