@@ -25,8 +25,10 @@ Table of Contents
 .. toctree::
    :maxdepth: 2
 
+   user-guide
    contributing
    reference/index
+   glossary
 
 
 Indices and tables
