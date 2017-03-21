@@ -362,13 +362,60 @@ class Project(BASE):
         return output
 
     @classmethod
-    def get_or_create(cls, session, name, homepage, backend='custom'):
-        project = cls.by_name_and_homepage(session, name, homepage)
+    def _get_or_create(cls, session, name, homepage, ecosystem, backend,
+                       by='name_and_homepage'):
+        if by == 'name_and_homepage':
+            project = cls.by_name_and_homepage(session, name, homepage)
+        elif by == 'name_and_ecosystem':
+            project = cls.by_name_and_ecosystem(session, name, ecosystem)
+        else:
+            raise ValueError("Can't get project by %s" % by)
         if not project:
-            project = cls(name=name, homepage=homepage, backend=backend)
+            # Before creating, make sure the backend already exists
+            backend_obj = Backend.get(session, name=backend)
+            if not backend_obj:
+                # We don't want to automatically create these.  They must have
+                # code associated with them in anitya.lib.backends
+                raise ValueError("No such backend %r" % backend)
+            if ecosystem:
+                # we handle ecosystem same as we handled backend above
+                ecosystem_obj = Ecosystem.get(session, name=ecosystem)
+                if not ecosystem_obj:
+                    raise ValueError("No such ecosystem %r" % ecosystem)
+
+            project = cls(
+                name=name,
+                homepage=homepage,
+                backend=backend,
+                ecosystem_name=ecosystem
+            )
             session.add(project)
             session.flush()
         return project
+
+    @classmethod
+    def get_or_create(cls, session, name, homepage,
+                      ecosystem=None, backend='custom'):
+        return cls._get_or_create(
+            session=session,
+            name=name,
+            homepage=homepage,
+            ecosystem=None,
+            backend=backend,
+            by='name_and_homepage'
+        )
+
+    @classmethod
+    def get_or_create_by_name_and_ecosystem(cls, session, name, homepage,
+                                            ecosystem, backend='custom'):
+        return cls._get_or_create(
+            session=session,
+            name=name,
+            homepage=homepage,
+            ecosystem=ecosystem,
+            backend=backend,
+            by='name_and_ecosystem'
+        )
 
     @classmethod
     def by_name(cls, session, name):

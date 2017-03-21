@@ -34,19 +34,25 @@ def indexed_listings():
             continue
 
 
-def projects_by_feed(session):
+def projects_by_feed(session, by_ecosystem):
     """ Return the list of projects out of sync, found by feed listings.
 
     If a new entry is noticed and we don't have a project for it, add it.
     """
     for name, homepage, backend, version in indexed_listings():
-        project = anitya.lib.model.Project.get_or_create(
-            session, name, homepage, backend)
+        if by_ecosystem:
+            ecosystem = anitya.lib.model.Backend.by_name(session, backend).default_ecosystem
+            if ecosystem is None:
+                continue
+            project = anitya.lib.model.Project.get_or_create_by_name_and_ecosystem(
+                session, name, homepage, ecosystem.name, backend)
+        else:
+            project = anitya.lib.model.Project.get_or_create(
+                session, name, homepage, backend)
         if project.latest_version == version:
             LOG.debug("Project %s is already up to date." % project.name)
         else:
             yield project
-
 
 
 def update_project(project_id):
@@ -62,7 +68,7 @@ def update_project(project_id):
         session.remove()
 
 
-def main(debug, feed):
+def main(debug, feed, by_ecosystem):
     ''' Retrieve all the packages and for each of them update the release
     version.
     '''
@@ -89,7 +95,7 @@ def main(debug, feed):
     LOG.addHandler(fhand)
 
     if feed:
-        projects = list(projects_by_feed(session))
+        projects = list(projects_by_feed(session, by_ecosystem))
         session.commit()
     else:
         projects = anitya.lib.model.Project.all(session)
@@ -109,4 +115,5 @@ def main(debug, feed):
 if __name__ == '__main__':
     debug = '--debug' in sys.argv
     feed = '--check-feed' in sys.argv
-    main(debug=debug, feed=feed)
+    by_ecosystem = '--by-ecosystem' in sys.argv
+    main(debug=debug, feed=feed, by_ecosystem=by_ecosystem)
