@@ -32,6 +32,10 @@ def indexed_listings():
             # Not all backends have the check_feed classmethod implemented,
             # and that's okay...  Just ignore them for now.
             continue
+        except Exception as e:
+            # In case that some backend checking fails
+            LOG.error("Caught exception while checking backend %r: %s - %s",
+                      backend, type(e), e)
 
 
 def projects_by_feed(session):

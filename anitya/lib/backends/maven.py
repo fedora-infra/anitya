@@ -9,14 +9,12 @@
 """
 
 import re
-import subprocess
+from subprocess import check_output, CalledProcessError
 import json
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
-from anitya.lib.model import Project
-from anitya.lib import init
-from anitya.app import APP
+from anitya.lib.model import Project, NoResultFound
 
 
 REGEX = r'\<a[^>]+\>(\d[^</]*)'
@@ -78,31 +76,41 @@ class MavenBackend(BaseBackend):
 
     @classmethod
     def check_feed(cls):
-        ''' Return a generator over the latest 40 packages to Maven central index
+        '''check_feed for Maven backend.
 
-        by calling maven-index-checker application
+        Return a generator over the latest 40 packages to Maven central index by
+        calling maven-index-checker application
+
+        Returns:
+            generator over new packages
         '''
         maven_url = 'http://repo2.maven.org/maven2'
         jar_path = '/src/maven-release-checker-1.0-SNAPSHOT-jar-with-dependencies.jar'
-        # session for checking whether there is already created package
-        session = init(APP.config['DB_URL'], create=True, debug=False)
 
         try:
-            data = subprocess.check_output(["java", "-jar", jar_path], universal_newlines=True)
-        except Exception:
-            raise AnityaPluginException('Could not start %s' % maven_url)
+            data = check_output(["java", "-jar", jar_path], universal_newlines=True)
+        except CalledProcessError:
+            raise AnityaPluginException('%s exited with non zero value' % maven_url)
+        except OSError:
+            # If there is java but no jarfile it returns non zero value
+            raise AnityaPluginException('Java was not found')
 
         data = json.loads(data)
         for item in data[:40]:
             item = json.loads(item)
             maven_coordinates = '{group_id}:{artifact_id}'.\
                 format(group_id=item['groupId'], artifact_id=item['artifactId'])
+
             # maven_coordinates are stored in db as version_url
-            retrieved_projects = Project.by_version_url(session, maven_coordinates)
-            if len(retrieved_projects) != 0:
+            try:
+                projects = Project.query.filter(Project.version_url == maven_coordinates).all()
+            except NoResultFound:
+                projects = None
+
+            if projects is not None:
                 # If there is project created it can have different name than maven_coordinates
-                name = retrieved_projects[0].name
-                homepage = retrieved_projects[0].homepage
+                name = projects[0].name
+                homepage = projects[0].homepage
             else:
                 name = maven_coordinates
                 homepage = '{maven_url}/{artifact}'.\

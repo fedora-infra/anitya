@@ -393,24 +393,6 @@ class Project(BASE):
         return query.first()
 
     @classmethod
-    def by_version_url(cls, session, version_url):
-        '''
-        :param session: session for querying database
-        :param version_url: maven coordinates to match
-        :return: all matched projects
-        '''
-        try:
-            query = session.query(
-                cls
-            ).filter(
-                cls.version_url == version_url
-            )
-            return query.all()
-        except NoResultFound:
-            return None
-
-
-    @classmethod
     def by_name_and_ecosystem(cls, session, name, ecosystem):
         try:
             query = session.query(cls)
