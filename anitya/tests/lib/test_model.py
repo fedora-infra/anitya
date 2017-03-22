@@ -34,6 +34,120 @@ import anitya.lib.model as model
 from anitya.tests.base import Modeltests, create_distro, create_project, create_package
 
 
+class ProjectTests(Modeltests):
+    """Tests for the Project model."""
+
+    def test_init_project(self):
+        """ Test the __init__ function of Project. """
+        create_project(self.session)
+        self.assertEqual(3, model.Project.all(self.session, count=True))
+
+        projects = model.Project.all(self.session)
+        self.assertEqual(projects[0].name, 'geany')
+        self.assertEqual(projects[1].name, 'R2spec')
+        self.assertEqual(projects[2].name, 'subsurface')
+
+    def test_validate_backend(self):
+        project = model.Project(
+            name='test',
+            homepage='http://example.com',
+            backend='custom',
+        )
+        self.session.add(project)
+        self.session.commit()
+        self.assertEqual(1, self.session.query(model.Project).count())
+        self.assertEqual('custom', self.session.query(model.Project).one().backend)
+
+    def test_validate_backend_bad(self):
+        self.assertRaises(
+            ValueError,
+            model.Project,
+            name='test',
+            homepage='http://example.com',
+            backend='Nope',
+        )
+
+    def test_validate_ecosystem_none(self):
+        project = model.Project(
+            name='test',
+            homepage='http://example.com',
+            backend='custom',
+            ecosystem_name=None,
+        )
+        self.session.add(project)
+        self.session.commit()
+        self.assertEqual(1, self.session.query(model.Project).count())
+        self.assertEqual(None, self.session.query(model.Project).one().ecosystem_name)
+
+    def test_validate_ecosystem_good(self):
+        project = model.Project(
+            name='test',
+            homepage='http://example.com',
+            backend='custom',
+            ecosystem_name='pypi',
+        )
+        self.session.add(project)
+        self.session.commit()
+        self.assertEqual(1, self.session.query(model.Project).count())
+        self.assertEqual('pypi', self.session.query(model.Project).one().ecosystem_name)
+
+    def test_validate_ecosystem_bad(self):
+        self.assertRaises(
+            ValueError,
+            model.Project,
+            name='test',
+            homepage='http://example.com',
+            backend='custom',
+            ecosystem_name='Nope',
+        )
+
+    def test_project_all(self):
+        """ Test the Project.all function. """
+        create_project(self.session)
+
+        projects = model.Project.all(self.session, count=True)
+        self.assertEqual(projects, 3)
+
+        projects = model.Project.all(self.session, page=2)
+        self.assertEqual(len(projects), 0)
+
+        projects = model.Project.all(self.session, page='asd')
+        self.assertEqual(len(projects), 3)
+
+    def test_project_search(self):
+        """ Test the Project.search function. """
+        create_project(self.session)
+
+        projects = model.Project.search(self.session, '*', count=True)
+        self.assertEqual(projects, 3)
+
+        projects = model.Project.search(self.session, '*', page=2)
+        self.assertEqual(len(projects), 0)
+
+        projects = model.Project.search(self.session, '*', page='asd')
+        self.assertEqual(len(projects), 3)
+
+    def test_project_get_or_create(self):
+        """ Test the Project.get_or_create function. """
+        project = model.Project.get_or_create(
+            self.session,
+            name='test',
+            homepage='http://test.org',
+            backend='custom')
+        self.assertEqual(project.name, 'test')
+        self.assertEqual(project.homepage, 'http://test.org')
+        self.assertEqual(project.backend, 'custom')
+
+        self.assertRaises(
+            ValueError,
+            model.Project.get_or_create,
+            self.session,
+            name='test_project',
+            homepage='http://project.test.org',
+            backend='foobar'
+        )
+
+
 class Modeltests(Modeltests):
     """ Model tests. """
 
@@ -45,16 +159,6 @@ class Modeltests(Modeltests):
         distros = model.Distro.all(self.session)
         self.assertEqual(distros[0].name, 'Debian')
         self.assertEqual(distros[1].name, 'Fedora')
-
-    def test_init_project(self):
-        """ Test the __init__ function of Project. """
-        create_project(self.session)
-        self.assertEqual(3, model.Project.all(self.session, count=True))
-
-        projects = model.Project.all(self.session)
-        self.assertEqual(projects[0].name, 'geany')
-        self.assertEqual(projects[1].name, 'R2spec')
-        self.assertEqual(projects[2].name, 'subsurface')
 
     def test_log_search(self):
         """ Test the Log.search function. """
@@ -127,81 +231,6 @@ class Modeltests(Modeltests):
         pkg = model.Packages.by_id(self.session, 1)
         self.assertEqual(str(pkg), '<Packages(1, Fedora: geany)>')
 
-    def test_project_all(self):
-        """ Test the Project.all function. """
-        create_project(self.session)
-
-        projects = model.Project.all(self.session, count=True)
-        self.assertEqual(projects, 3)
-
-        projects = model.Project.all(self.session, page=2)
-        self.assertEqual(len(projects), 0)
-
-        projects = model.Project.all(self.session, page='asd')
-        self.assertEqual(len(projects), 3)
-
-    def test_project_search(self):
-        """ Test the Project.search function. """
-        create_project(self.session)
-
-        projects = model.Project.search(self.session, '*', count=True)
-        self.assertEqual(projects, 3)
-
-        projects = model.Project.search(self.session, '*', page=2)
-        self.assertEqual(len(projects), 0)
-
-        projects = model.Project.search(self.session, '*', page='asd')
-        self.assertEqual(len(projects), 3)
-
-    def test_backend_by_name(self):
-        """ Test the Backend.by_name function. """
-        import anitya.lib.plugins as plugins
-        plugins.load_plugins(self.session)
-        backend = model.Backend.by_name(self.session, 'PyPI')
-        self.assertEqual(backend.name, 'PyPI')
-
-        backend = model.Backend.by_name(self.session, 'pypi')
-        self.assertEqual(backend, None)
-
-    def test_ecosystem_by_name(self):
-        """ Test the Ecosystem.by_name function. """
-        import anitya.lib.plugins as plugins
-        plugins.load_plugins(self.session)
-        ecosystem = model.Ecosystem.by_name(self.session, 'pypi')
-        self.assertEqual(ecosystem.name, 'pypi')
-
-        ecosystem = model.Ecosystem.by_name(self.session, 'PyPI')
-        self.assertEqual(ecosystem, None)
-
-    def test_ecosystem_backend_links(self):
-        """ Test the Ecosystem.by_name function. """
-        import anitya.lib.plugins as plugins
-        plugins.load_plugins(self.session)
-        ecosystems = model.Ecosystem.all(self.session)
-        for ecosystem in ecosystems:
-            self.assertEqual(ecosystem.default_backend.default_ecosystem.name,
-                             ecosystem.name)
-
-    def test_project_get_or_create(self):
-        """ Test the Project.get_or_create function. """
-        project = model.Project.get_or_create(
-            self.session,
-            name='test',
-            homepage='http://test.org',
-            backend='custom')
-        self.assertEqual(project.name, 'test')
-        self.assertEqual(project.homepage, 'http://test.org')
-        self.assertEqual(project.backend, 'custom')
-
-        self.assertRaises(
-            ValueError,
-            model.Project.get_or_create,
-            self.session,
-            name='test_project',
-            homepage='http://project.test.org',
-            backend='foobar'
-        )
 
 if __name__ == '__main__':
-    SUITE = unittest.TestLoader().loadTestsFromTestCase(Modeltests)
-    unittest.TextTestRunner(verbosity=2).run(SUITE)
+    unittest.main(verbosity=2)
