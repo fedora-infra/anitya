@@ -9,7 +9,7 @@ Anitya
 Anitya is a release monitoring project.
 
 Its goal is to regularly check if a project has made a new release.
-When Anitya discovers a new release for a project, it publish a ZeroMQ message via
+When Anitya discovers a new release for a project, it publishes a ZeroMQ message via
 `fedmsg <http://fedmsg.com>`_. This makes it easy to integrate with Anitya and perform
 actions when a new release is created for a project. For example, the Fedora project
 runs a service called `the-new-hotness <https://github.com/fedora-infra/the-new-hotness/>`_
@@ -25,8 +25,10 @@ Table of Contents
 .. toctree::
    :maxdepth: 2
 
+   user-guide
+   api
    contributing
-   reference/index
+   glossary
 
 
 Indices and tables

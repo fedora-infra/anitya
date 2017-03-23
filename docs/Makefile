@@ -50,9 +50,14 @@ clean:
 
 .PHONY: html
 html:
+	mkdir -p _static
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
+install: html
+	mkdir -p ../anitya/static/docs/
+	cp -r $(BUILDDIR)/html/* ../anitya/static/docs/
 
 .PHONY: dirhtml
 dirhtml:

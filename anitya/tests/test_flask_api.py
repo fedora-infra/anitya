@@ -54,6 +54,20 @@ class AnityaWebAPItests(Modeltests):
         anitya.api.SESSION = self.session
         self.app = anitya.app.APP.test_client()
 
+    def test_api_docs_no_slash(self):
+        """Assert the legacy /api endpoint redirects to docs."""
+        output = self.app.get('/api')
+        self.assertEqual(302, output.status_code)
+        self.assertEqual(
+            'http://localhost/static/docs/api.html', output.headers['Location'])
+
+    def test_api_docs_with_slash(self):
+        """Assert the legacy /api/ endpoint redirects to docs."""
+        output = self.app.get('/api/')
+        self.assertEqual(302, output.status_code)
+        self.assertEqual(
+            'http://localhost/static/docs/api.html', output.headers['Location'])
+
     def test_api_projects(self):
         """ Test the api_projects function of the API. """
         create_distro(self.session)
