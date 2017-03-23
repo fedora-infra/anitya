@@ -79,14 +79,15 @@ def create_project(
 
     """
     # Set the ecosystem if there's one associated with the given backend
-    backend_ref = anitya.lib.model.Backend.by_name(session, name=backend)
-    ecosystem_ref = backend_ref.default_ecosystem
+    ecosystems = [e for e in anitya.lib.plugins.ECOSYSTEM_PLUGINS.get_plugins()
+                  if e.default_backend == backend]
+    ecosystem_name = ecosystems[0].name if len(ecosystems) == 1 else None
 
     project = anitya.lib.model.Project(
         name=name,
         homepage=homepage,
         backend=backend,
-        ecosystem=ecosystem_ref,
+        ecosystem_name=ecosystem_name,
         version_url=version_url,
         regex=regex,
         version_prefix=version_prefix,

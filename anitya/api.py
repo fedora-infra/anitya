@@ -70,6 +70,7 @@ def api():
     doc_api_get_version = load_doc(api_get_version)
     doc_api_get_project = load_doc(api_get_project)
     doc_api_get_project_distro = load_doc(api_get_project_distro)
+    doc_api_get_project_ecosystem = load_doc(api_get_project_ecosystem)
     return flask.render_template(
         'api.html',
         docs=[
@@ -80,6 +81,7 @@ def api():
             doc_api_get_version,
             doc_api_get_project,
             doc_api_get_project_distro,
+            doc_api_get_project_ecosystem,
         ],
     )
 
