@@ -33,6 +33,18 @@ from anitya.lib.exceptions import AnityaPluginException
 import anitya
 
 
+class TestRpmCmp(unittest.TestCase):
+
+    def test_equal_version(self):
+        self.assertEqual(0, backends.rpm_cmp('1.2.0-1.fc25', '1.2.0-1.fc25'))
+
+    def test_larger_version(self):
+        self.assertEqual(1, backends.rpm_cmp('1.2.0-1.fc25', '1.1.0-3.fc25'))
+
+    def test_smaller_version(self):
+        self.assertEqual(-1, backends.rpm_cmp('1.1.0-3.fc25', '1.2.0-1.fc25'))
+
+
 class BaseBackendTests(unittest.TestCase):
 
     def setUp(self):
