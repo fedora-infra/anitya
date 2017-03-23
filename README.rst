@@ -74,12 +74,9 @@ Next, install your dependencies::
 Running the test suite
 ``````````````````````
 Regardless of which Python version you have configured in your local venv,
-the tests can be run under both Python 2 & 3 on Fedora via:
+the tests can be run under both Python 2 & 3 via:
 
-    (anitya-env)$ tox -e py27,py35
-
-Note that even if you have Python 2.6 installed, the tests will fail
-without the Python RPM bindings installed (as they are in CentOS/RHEL 6).
+    (anitya-env)$ tox
 
 
 Running a local instance
