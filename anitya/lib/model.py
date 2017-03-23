@@ -17,8 +17,8 @@ __requires__ = ['SQLAlchemy >= 0.7']  # NOQA
 import pkg_resources  # NOQA
 
 import sqlalchemy as sa
+from sqlalchemy.orm import validates
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
 from sqlalchemy.orm.exc import NoResultFound
 
 import anitya
@@ -135,56 +135,6 @@ class Log(BASE):
             query = query.limit(limit)
 
         return query.all()
-
-
-class Backend(BASE):
-    __tablename__ = 'backends'
-
-    name = sa.Column(sa.String(200), primary_key=True)
-    default_ecosystem = relationship("Ecosystem", uselist=False,
-                                     back_populates="default_backend")
-
-    @classmethod
-    def all(cls, session):
-        query = session.query(cls).order_by(cls.name)
-        return query.all()
-
-    @classmethod
-    def by_name(cls, session, name):
-        return session.query(cls).filter_by(name=name).first()
-
-    get = by_name
-
-
-class Ecosystem(BASE):
-    __tablename__ = 'ecosystems'
-
-    name = sa.Column(sa.String(200), primary_key=True)
-    default_backend_name = sa.Column(
-        sa.String(200),
-        sa.ForeignKey(
-            "backends.name",
-            ondelete="cascade",
-            onupdate="cascade"),
-        unique=True
-    )
-    default_backend = relationship("Backend",
-                                   back_populates="default_ecosystem")
-    projects = relationship("Project", back_populates="ecosystem")
-
-    @classmethod
-    def all(cls, session):
-        query = session.query(cls).order_by(cls.name)
-        return query.all()
-
-    @classmethod
-    def by_name(cls, session, name):
-        try:
-            return session.query(cls).filter_by(name=name).one()
-        except NoResultFound:
-            return None
-
-    get = by_name
 
 
 class Distro(BASE):
@@ -330,25 +280,8 @@ class Project(BASE):
     name = sa.Column(sa.String(200), nullable=False, index=True)
     homepage = sa.Column(sa.String(200), nullable=False)
 
-    # TODO: Define ORM forward/backward references for backend as for ecosystem
-    backend = sa.Column(
-        sa.String(200),
-        sa.ForeignKey(
-            "backends.name",
-            ondelete="cascade",
-            onupdate="cascade"),
-        default='custom',
-    )
-    ecosystem_name = sa.Column(
-        sa.String(200),
-        sa.ForeignKey(
-            "ecosystems.name",
-            ondelete="set null",
-            onupdate="cascade",
-            name="FK_ECOSYSTEM_FOR_PROJECT"),
-        nullable=True
-    )
-    ecosystem = relationship("Ecosystem", back_populates="projects")
+    backend = sa.Column(sa.String(200), default='custom')
+    ecosystem_name = sa.Column(sa.String(200), nullable=True, index=True)
     version_url = sa.Column(sa.String(200), nullable=True)
     regex = sa.Column(sa.String(200), nullable=True)
     version_prefix = sa.Column(sa.String(200), nullable=True)
@@ -368,6 +301,26 @@ class Project(BASE):
         sa.UniqueConstraint('name', 'ecosystem_name',
                             name="UNIQ_PROJECT_NAME_PER_ECOSYSTEM"),
     )
+
+    @validates('backend')
+    def validate_backend(self, key, value):
+        # At the moment I have to stash this here because there's a circular
+        # import. It can be resolved after the config is decoupled from Flask:
+        # https://github.com/release-monitoring/anitya/pull/450
+        from .plugins import BACKEND_PLUGINS
+        if value not in BACKEND_PLUGINS.get_plugin_names():
+            raise ValueError('Backend "{}" is not supported.'.format(value))
+        return value
+
+    @validates('ecosystem_name')
+    def validate_ecosystem_name(self, key, value):
+        # At the moment I have to stash this here because there's a circular
+        # import. It can be resolved after the config is decoupled from Flask:
+        # https://github.com/release-monitoring/anitya/pull/450
+        from .plugins import ECOSYSTEM_PLUGINS
+        if value and value not in ECOSYSTEM_PLUGINS.get_plugin_names():
+            raise ValueError('Ecosystem "{}" is not supported.'.format(value))
+        return value
 
     @property
     def versions(self):
@@ -401,13 +354,6 @@ class Project(BASE):
     def get_or_create(cls, session, name, homepage, backend='custom'):
         project = cls.by_name_and_homepage(session, name, homepage)
         if not project:
-            # Before creating, make sure the backend already exists
-            backend_obj = Backend.get(session, name=backend)
-            if not backend_obj:
-                # We don't want to automatically create these.  They must have
-                # code associated with them in anitya.lib.backends
-                raise ValueError("No such backend %r" % backend)
-
             project = cls(name=name, homepage=homepage, backend=backend)
             session.add(project)
             session.flush()
@@ -441,15 +387,8 @@ class Project(BASE):
     @classmethod
     def by_name_and_ecosystem(cls, session, name, ecosystem):
         try:
-            query = session.query(
-                cls
-            ).filter(
-                cls.name == name
-            ).join(
-                Project.ecosystem
-            ).filter(
-                Ecosystem.name == ecosystem
-            )
+            query = session.query(cls)
+            query = query.filter(cls.name == name, cls.ecosystem_name == ecosystem)
             return query.one()
         except NoResultFound:
             return None

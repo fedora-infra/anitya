@@ -11,11 +11,8 @@ Module handling the load/call of the plugins of anitya
 
 import logging
 
-from sqlalchemy.exc import SQLAlchemyError
-
 from straight.plugin import load
 
-import anitya.lib.model as model
 from anitya.lib.backends import BaseBackend
 from anitya.lib.ecosystems import BaseEcosystem
 
@@ -52,45 +49,13 @@ ECOSYSTEM_PLUGINS = _PluginManager('anitya.lib.ecosystems', BaseEcosystem)
 
 def _load_backend_plugins(session):
     """Load any new backend plugins into the DB"""
-    backends = [bcke.name for bcke in model.Backend.all(session)]
     plugins = list(BACKEND_PLUGINS.get_plugins())
-    # Add any new Backend definitions
-    plugin_names = [plugin.name for plugin in plugins]
-    for backend in set(backends).symmetric_difference(set(plugin_names)):
-        _log.info("Registering backend %r", backend)
-        bcke = model.Backend(name=backend)
-        session.add(bcke)
-        try:
-            session.commit()
-        except SQLAlchemyError as err:  # pragma: no cover
-            # We cannot test this as it would come from a defective DB
-            print(err)
-            session.rollback()
     return plugins
 
 
 def _load_ecosystem_plugins(session):
     """Load any new ecosystem plugins into the DB"""
-    ecosystems = [ecosystem.name for ecosystem in model.Ecosystem.all(session)]
     plugins = list(ECOSYSTEM_PLUGINS.get_plugins())
-    # Add any new Ecosystem definitions
-    backends_by_ecosystem = dict((plugin.name, plugin.default_backend)
-                                 for plugin in plugins)
-    eco_names = set(ecosystems).symmetric_difference(
-        set(backends_by_ecosystem))
-    for eco_name in eco_names:
-        backend = backends_by_ecosystem[eco_name]
-        bcke = model.Backend.by_name(session, backend)
-        _log.info("Registering ecosystem %r with default backend %r",
-                  eco_name, backend)
-        ecosystem = model.Ecosystem(name=eco_name, default_backend=bcke)
-        session.add(ecosystem)
-        try:
-            session.commit()
-        except SQLAlchemyError as err:  # pragma: no cover
-            # We cannot test this as it would come from a defective DB
-            print(err)
-            session.rollback()
     return plugins
 
 
