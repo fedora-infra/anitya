@@ -23,9 +23,6 @@
 anitya tests for the custom backend.
 '''
 
-__requires__ = ['SQLAlchemy >= 0.7']
-import pkg_resources
-
 import json
 import unittest
 

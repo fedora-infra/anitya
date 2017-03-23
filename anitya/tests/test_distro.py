@@ -23,9 +23,6 @@
 anitya tests for the Distro object.
 '''
 
-__requires__ = ['SQLAlchemy >= 0.7']
-import pkg_resources
-
 import unittest
 import sys
 import os

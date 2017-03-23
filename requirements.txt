@@ -10,10 +10,11 @@ flask-openid
 flask-oidc >= 1.1.1
 flask-restful
 flask-wtf
+jinja2 >= 2.4
 markupsafe
 python-openid; python_version < '3.0'
 python3-openid; python_version >= '3.0'
-sqlalchemy
+sqlalchemy >= 0.9
 # https://github.com/ironfroggy/straight.plugin/issues/17#issuecomment-41466275
 straight.plugin==1.4.0-post-1
 pytoml

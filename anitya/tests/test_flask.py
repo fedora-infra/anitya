@@ -23,9 +23,6 @@
 anitya tests for the flask application.
 '''
 
-__requires__ = ['SQLAlchemy >= 0.8']  # NOQA
-import pkg_resources  # NOQA
-
 import unittest
 
 import mock

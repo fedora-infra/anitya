@@ -11,9 +11,6 @@ anitya internal library.
 
 import logging
 
-__requires__ = ['SQLAlchemy >= 0.7']  # NOQA
-import pkg_resources  # NOQA
-
 import sqlalchemy as sa
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError

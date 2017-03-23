@@ -23,9 +23,6 @@
 Tests for the Flask-RESTful based v2 API
 '''
 
-__requires__ = ['SQLAlchemy >= 0.7']
-import pkg_resources
-
 import json
 import os.path
 
