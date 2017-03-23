@@ -1,6 +1,6 @@
 coverage
 flake8
-nose
+pytest
 vcrpy
 unittest2
 mock
