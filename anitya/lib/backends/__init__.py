@@ -64,7 +64,7 @@ except ImportError:
                 yield (1, int(subfield.group('num')))
 
     def _compare_rpm_field(lhs, rhs):
-        # Short circuit for exact matches (include both being None)
+        # Short circuit for exact matches (including both being None)
         if lhs == rhs:
             return 0
         # Otherwise assume both inputs are strings
@@ -84,7 +84,6 @@ except ImportError:
             return -1 if lhs_sf < rhs_sf else 1
         # No relevant differences found between LHS and RHS
         return 0
-
 
     def _compare_rpm_labels(lhs, rhs):
         lhs_epoch, lhs_version, lhs_release = lhs
