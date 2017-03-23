@@ -48,6 +48,7 @@ class FlaskAdminTest(Modeltests):
         super(FlaskAdminTest, self).setUp()
 
         anitya.app.APP.config['TESTING'] = True
+        anitya.app.APP.config['ANITYA_WEB_ADMINS'] = ['http://pingou.id.fedoraproject.org/']
         anitya.SESSION = self.session
         anitya.ui.SESSION = self.session
         anitya.app.SESSION = self.session
