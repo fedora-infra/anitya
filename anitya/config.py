@@ -80,6 +80,19 @@ DEFAULTS = dict(
     # errors occur.
     EMAIL_ERRORS=False,
     BLACKLISTED_USERS=[],
+    OIDC_CLIENT_SECRETS=os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        'client_secrets.json'
+    ),
+    # Force the application to require HTTPS to save the cookie. This should only
+    # be `False` in a development environment running on the local host!
+    OIDC_ID_TOKEN_COOKIE_SECURE=True,
+    OIDC_REQUIRE_VERIFIED_EMAIL=True,
+    OIDC_OPENID_REALM='http://localhost:5000/oidc_callback',
+    OIDC_SCOPES=[
+        'https://release-monitoring.org/oidc/upstream',
+        'https://release-monitoring.org/oidc/downstream',
+    ],
 )
 
 # Start with a basic logging configuration, which will be replaced by any user-
