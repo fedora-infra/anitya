@@ -77,7 +77,8 @@ def parse_api_token(f):
 # https://fedoraproject.org/wiki/Infrastructure/Authentication#release-monitoring.org
 #
 # To add new entries this list:
-# * request changes as per https://fedoraproject.org/wiki/Infrastructure/Authentication#Registering_new_scopes
+# * request changes as per
+#   https://fedoraproject.org/wiki/Infrastructure/Authentication#Registering_new_scopes
 # * amend _DEFINED_SCOPES below
 # * amend anitya.default_config.OIDC_SCOPES
 _BASE_SCOPE_URL = "https://release-monitoring.org/oidc/"

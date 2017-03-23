@@ -12,6 +12,7 @@ import anitya.authentication
 _BASE_ARG_PARSER = reqparse.RequestParser(trim=True, bundle_errors=True)
 _BASE_ARG_PARSER.add_argument('access_token', type=str)
 
+
 class ProjectsResource(Resource):
     """
     The ``api/v2/projects/`` API endpoint.

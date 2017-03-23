@@ -1,10 +1,9 @@
 #!/usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Helper to request live OIDC access permissions from FAS"""
 import json
 import os.path
 import webbrowser
-from threading import Thread
 try:
     # Default to Python 3
     from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -14,7 +13,6 @@ except ImportError:
     from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
     from urlparse import urlparse, parse_qs
 
-import requests
 from requests_oauthlib import OAuth2Session
 
 AUTH_TIMEOUT = 300
@@ -94,6 +92,7 @@ def main():
     with open(CREDENTIALS_FILE, "w") as f:
         json.dump(oidc_credentials, f)
     print("OIDC client access details saved as " + CREDENTIALS_FILE)
+
 
 if __name__ == "__main__":
     main()
