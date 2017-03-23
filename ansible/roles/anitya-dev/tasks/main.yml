@@ -30,7 +30,7 @@
 
 - name: Install Anitya flask configuration
   become_user: "{{ ansible_env.SUDO_USER }}"
-  copy: src=config.py dest=/home/{{ ansible_env.SUDO_USER }}/flask_config.py
+  copy: src=anitya.toml dest=/home/{{ ansible_env.SUDO_USER }}/anitya.toml
 
 # We need to use the system-site-packages for now because we use the rpm module
 - name: Create Anitya virtualenv
@@ -95,5 +95,13 @@
 - name: Reload the systemd daemon
   become_user: "{{ ansible_env.SUDO_USER }}"
   command: systemctl --user daemon-reload
+
+- name: Build the Anitya documentation
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+      source ~/.virtualenvs/anitya/bin/activate && make install
+  args:
+    chdir: /home/{{ ansible_env.SUDO_USER }}/devel/docs/
+    creates: /home/{{ ansible_env.SUDO_USER }}/devel/anitya/static/docs/objects.inv
 
 - include: db.yml

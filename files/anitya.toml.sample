@@ -1,0 +1,58 @@
+# This is a TOML-format file. For the spec, see https://github.com/toml-lang/toml#spec
+
+# Secret key used to generate the CSRF token in the forms.
+secret_key = "very_secret"
+
+# The lifetime of the session, in seconds.
+permanent_session_lifetime = 3600
+
+# URL to the database
+db_url = "sqlite:////var/tmp/anitya-dev.sqlite"
+
+# List of admins based on their openid
+anitya_web_admins = ["http://pingou.id.fedoraproject.org"]
+
+# A set of booleans to enable or disable OpenID providers
+anitya_web_fedora_openid = "https://id.fedoraproject.org"
+anitya_web_allow_fas_openid = true
+anitya_web_allow_google_openid = true
+anitya_web_allow_yahoo_openid = true
+anitya_web_allow_generic_openid = true
+
+# The email to use in the 'From' header when sending emails.
+admin_email = "admin@fedoraproject.org"
+
+# The SMTP server to send mail through
+smtp_server = "smtp.example.com"
+
+# Whether or not to send emails to MAIL_ADMIN via SMTP_SERVER when HTTP 500
+# errors occur.
+email_errors = false
+
+# List of users that are not allowed to sign in, by OpenID.
+blacklisted_users = ["http://sometroublemaker.id.fedoraproject.org"]
+
+# The logging configuration, in dictConfig format.
+[anitya_log_config]
+    version = 1
+    disable_existing_loggers = true
+
+    [anitya_log_config.formatters]
+        [anitya_log_config.formatters.simple]
+            format = "[%(name)s %(levelname)s] %(message)s"
+
+    [anitya_log_config.handlers]
+        [anitya_log_config.handlers.console]
+            class = "logging.StreamHandler"
+            formatter = "simple"
+            stream = "ext://sys.stdout"
+
+    [anitya_log_config.loggers]
+        [anitya_log_config.loggers.anitya]
+            level = "WARNING"
+            propagate = false
+            handlers = ["console"]
+
+    [anitya_log_config.root]
+        level = "ERROR"
+        handlers = ["console"]

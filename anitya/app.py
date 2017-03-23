@@ -14,12 +14,12 @@ import functools
 import logging
 import logging.config
 import logging.handlers
-import os
 
 import flask
 from bunch import Bunch
 from flask_restful import Api
 
+from anitya.config import config as anitya_config
 import anitya.lib
 import anitya.authentication
 import anitya.mail_logging
@@ -29,43 +29,8 @@ __version__ = '0.11.0'
 
 # Create the application.
 APP = flask.Flask(__name__)
+APP.config.update(anitya_config)
 
-APP.config.from_object('anitya.default_config')
-if 'ANITYA_WEB_CONFIG' in os.environ:  # pragma: no cover
-    APP.config.from_envvar('ANITYA_WEB_CONFIG')
-
-# Set up the logging
-logging_config = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'simple': {
-            'format': '[%(name)s %(levelname)s] %(message)s',
-        },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-            'stream': 'ext://sys.stdout',
-        }
-    },
-    'loggers': {
-        'anitya': {
-            'level': APP.config['ANITYA_LOG_LEVEL'],
-            'propagate': False,
-            'handlers': ['console'],
-        },
-    },
-    # The root logger configuration; this is a catch-all configuration
-    # that applies to all log messages not handled by a different logger
-    'root': {
-        'level': APP.config['ANITYA_LOG_LEVEL'],
-        'handlers': ['console'],
-    },
-}
-
-logging.config.dictConfig(logging_config)
 if APP.config['EMAIL_ERRORS']:
     # If email logging is configured, set up the anitya logger with an email
     # handler for any ERROR-level logs.

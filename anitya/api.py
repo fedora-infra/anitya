@@ -23,67 +23,22 @@ This module provides Anitya's HTTP API.
 import flask
 
 from anitya.app import APP, SESSION
-from anitya.doc_utils import load_doc
 import anitya
 import anitya.lib.plugins
 import anitya.lib.model
 
 
-@APP.template_filter('InsertDiv')
-def insert_div(content):
-    """ Template filter inserting an opening <div> and closing </div>
-    after the first title and then at the end of the content.
-    """
-    # This is quite a hack but simpler solution using .replace() didn't work
-    # for some reasons...
-    content = content.split('\n')
-    output = []
-    for row in content:
-        if row.startswith('<h1 class="title">'):
-            title = row.split('"title">')[1].split('</h1>')[0]
-            link = '<a name="%(title)s" '\
-                'class="glyphicon glyphicon-link btn-xs" '\
-                'title="Permalink to this headline" href="#%(title)s"></a>' % (
-                    {
-                        'title': title.replace(' ', '_'),
-                    }
-                )
-            row = str(row).replace('</h1>', link + '</h1>')
-        if row.startswith('<div class="document" id='):
-            continue
-        output.append(row)
-    output = "\n".join(output)
-    output = output.replace('</div>', '')
-    output = output.replace('h1', 'h3')
-
-    return output
-
-
 @APP.route('/api/')
 @APP.route('/api')
 def api():
-    ''' Display the api information page. '''
-    doc_api_version = load_doc(api_version)
-    doc_api_projects = load_doc(api_projects)
-    doc_api_packages_wiki_list = load_doc(api_packages_wiki_list)
-    doc_api_projects_names = load_doc(api_projects_names)
-    doc_api_get_version = load_doc(api_get_version)
-    doc_api_get_project = load_doc(api_get_project)
-    doc_api_get_project_distro = load_doc(api_get_project_distro)
-    doc_api_get_project_ecosystem = load_doc(api_get_project_ecosystem)
-    return flask.render_template(
-        'api.html',
-        docs=[
-            doc_api_version,
-            doc_api_projects,
-            doc_api_packages_wiki_list,
-            doc_api_projects_names,
-            doc_api_get_version,
-            doc_api_get_project,
-            doc_api_get_project_distro,
-            doc_api_get_project_ecosystem,
-        ],
-    )
+    """
+    Retrieve the HTML information page.
+
+    :deprecated: in Anitya 0.12 in favor of simple Sphinx documentation.
+    :statuscode 302: A redirect to the HTML documentation.
+    """
+    new_url = flask.url_for('static', filename='docs/api.html')
+    return flask.redirect(new_url)
 
 
 @APP.route('/api/version/')
@@ -216,6 +171,9 @@ def api_packages_wiki_list():
     '''
     List all packages in mediawiki format.
 
+    :deprecated: in Anitya 0.12 due to lack of pagination resulting in
+        incredibly poor performance.
+
     Lists all the packages registered in anitya using the format of the
     old wiki page. If a project is present multiple times on different
     distribution, it will be shown multiple times.
@@ -255,28 +213,44 @@ def api_projects_names():
     '''
     Lists the names of all the projects registered in anitya.
 
-    This accepts the ``pattern`` query string::
+    :query str pattern: pattern to use to restrict the list of names returned.
+    :statuscode 200: Returned in all cases.
 
-        /api/projects/names
+    **Example request**:
 
-        /api/projects/names/?pattern=<pattern>
+    .. sourcecode:: http
 
-        /api/projects/names/?pattern=py*
+        GET /api/projects/names?pattern=requests* HTTP/1.1
+        Accept: application/json
+        Accept-Encoding: gzip, deflate
+        Connection: keep-alive
+        Host: release-monitoring.org
+        User-Agent: HTTPie/0.9.4
 
-    Accepts GET queries only.
 
-    :kwarg pattern: pattern to use to restrict the list of names returned.
+    **Example response**:
 
-    Sample response::
+    .. sourcecode:: http
 
-      {
-        "projects": [
-          "2ping",
-          "3proxy",
-        ],
-        "total": 2
-      }
+        HTTP/1.1 200 OK
+        Content-Length: 248
+        Content-Type: application/json
 
+        {
+            "projects": [
+                "requests",
+                "Requests",
+                "requests-aws",
+                "requestsexceptions",
+                "requests-file",
+                "requests-ftp",
+                "requests-mock",
+                "requests-ntlm",
+                "requests-oauthlib",
+                "requests-toolbelt"
+            ],
+            "total": 10
+        }
     '''
 
     pattern = flask.request.args.get('pattern', None)
@@ -308,32 +282,36 @@ def api_distro_names():
     '''
     Lists the names of all the distributions registered in anitya.
 
-    ::
+    :query pattern: pattern to use to restrict the list of distributions returned.
 
-        /api/distro/names
+    **Example request**:
 
-        /api/projects/names/?pattern=<pattern>
+    .. sourcecode:: http
 
-        /api/projects/names/?pattern=f*
+        GET /api/distro/names/?pattern=F* HTTP/1.1
+        Accept: application/json
+        Accept-Encoding: gzip, deflate
+        Connection: keep-alive
+        Host: release-monitoring.org
+        User-Agent: HTTPie/0.9.4
 
-    Accepts GET queries only.
 
-    :kwarg pattern: pattern to use to restrict the list of distro returned.
+    **Example response**:
 
-    Accepts GET queries only.
+    .. sourcecode:: http
 
-    Sample response:
+        HTTP/1.1 200 OK
+        Content-Length: 79
+        Content-Type: application/json
 
-    ::
-
-      {
-        "distro": [
-          "Fedora",
-          "Debian",
-        ],
-        "total": 2
-      }
-
+        {
+            "distro": [
+                "Fedora",
+                "Fedora EPEL",
+                "FZUG"
+            ],
+            "total": 3
+        }
     '''
 
     pattern = flask.request.args.get('pattern', None)
@@ -562,40 +540,52 @@ def api_get_project_ecosystem(ecosystem, project_name):
     Retrieves a project in an ecosystem via the name of the ecosystem
     and the name of the project as registered with Anitya.
 
-    ::
+    :arg str ecosystem: the name of the ecosystem (case insensitive).
+    :arg str project_name: the name of the project in Anitya.
+    :statuscode 200: Returns the JSON representation of the project.
+    :statuscode 404: When either the ecosystem does not exist, or when
+        there is no project with that name within the ecosystem.
 
-        /api/by_ecosystem/<ecosystem>/<project_name>
+    **Example request**:
 
-    Accepts GET queries only.
+    .. sourcecode:: http
 
-    :arg ecosystem: the name of the ecosystem (case insensitive).
-    :arg project_name: the name of the project in Anitya.
+        GET /api/by_ecosystem/pypi/six HTTP/1.1
+        Accept: application/json
+        Accept-Encoding: gzip, deflate
+        Connection: keep-alive
+        Host: release-monitoring.org
+        User-Agent: HTTPie/0.9.4
 
-    Sample response:
 
-    ::
+    **Example response**:
 
-      {
-        "backend": "pypi",
-        "created_on": 1409917222.0,
-        "homepage": "https://pypi.python.org/pypi/six",
-        "id": 2,
-        "name": "six",
-        "packages": [
-          {
-            "distro": "Fedora",
-            "package_name": "python-six"
-          }
-        ],
-        "regex": null,
-        "updated_on": 1414400794.0,
-        "version": "1.10.0",
-        "version_url": null,
-        "versions": [
-          "1.10.0"
-        ]
-      }
+    .. sourcecode:: http
 
+        HTTP/1.1 200 OK
+        Content-Length: 516
+        Content-Type: application/json
+
+        {
+          "backend": "pypi",
+          "created_on": 1409917222.0,
+          "homepage": "https://pypi.python.org/pypi/six",
+          "id": 2,
+          "name": "six",
+          "packages": [
+            {
+              "distro": "Fedora",
+              "package_name": "python-six"
+            }
+          ],
+          "regex": null,
+          "updated_on": 1414400794.0,
+          "version": "1.10.0",
+          "version_url": null,
+          "versions": [
+            "1.10.0"
+          ]
+        }
     '''
 
     project = anitya.lib.model.Project.by_name_and_ecosystem(
