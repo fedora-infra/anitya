@@ -1,7 +1,7 @@
 *.pyc
 build/
 dist/
-doc/_build/
+docs/_build/
 *egg-info/
 *eggs/
 *.cfg
@@ -10,6 +10,7 @@ doc/_build/
 *.swp
 *.swo
 start-pkgdb
+.cache/
 .coverage
 cnucnu/
 *.egg
@@ -20,4 +21,6 @@ anitya-env
 *.retry
 Vagrantfile
 anitya.db
+client_secrets.json
+oidc_credentials.json
 anitya/static/docs/

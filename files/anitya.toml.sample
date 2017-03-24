@@ -32,6 +32,19 @@ email_errors = false
 # List of users that are not allowed to sign in, by OpenID.
 blacklisted_users = ["http://sometroublemaker.id.fedoraproject.org"]
 
+# Location of the client secrets for OpenID Connect
+oidc_client_secrets = "/etc/anitya/client_secrets.json"
+
+# Force the application to require HTTPS to save the cookie. This should only
+# be `False` in a development environment running on the local host!
+oidc_id_token_cookie_secure = true
+oidc_require_verified_email = true
+oidc_openid_realm = "http://localhost:5000/oidc_callback"
+oidc_scopes = [
+    "https://release-monitoring.org/oidc/upstream",
+    "https://release-monitoring.org/oidc/downstream",
+]
+
 # The logging configuration, in dictConfig format.
 [anitya_log_config]
     version = 1

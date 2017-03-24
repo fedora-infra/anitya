@@ -1,10 +1,15 @@
 coverage
 flake8
-nose
+pytest
 vcrpy
+unittest2
+mock
+
+# Authentication integration testing
+requests
+requests-oauthlib
 
 # required by vcs looks like
-mock
 contextlib2
 
 # Required to test building the docs

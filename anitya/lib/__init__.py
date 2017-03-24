@@ -74,7 +74,7 @@ def init(db_url, alembic_ini=None, debug=False, create=False):
 def create_project(
         session, name, homepage, user_id, backend='custom',
         version_url=None, version_prefix=None, regex=None,
-        check_release=False):
+        check_release=False, insecure=False):
     """ Create the project in the database.
 
     """
@@ -91,6 +91,7 @@ def create_project(
         version_url=version_url,
         regex=regex,
         version_prefix=version_prefix,
+        insecure=insecure
     )
 
     session.add(project)

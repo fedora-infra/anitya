@@ -82,10 +82,32 @@ the tests can be run under both Python 2 & 3 via:
 Running a local instance
 ````````````````````````
 
+Replace httplib2's own ca cert file (adjust as needed for Python version)::
+
+    (anitya-env) $ ln -s /etc/pki/tls/certs/ca-bundle.crt \
+                   ~/.virtualenvs/anitya-env/lib/python3.5/site-packages/httplib2/cacerts.txt
+
+Configure the project to authenticate against iddev.fedorainfraclouid.org::
+
+    (anitya-env) $ oidc-register \
+                   --token-introspection-uri=https://iddev.fedorainfracloud.org/openidc/TokenInfo \
+                   https://iddev.fedorainfracloud.org/ http://localhost:5000
+
+Cache a local OIDC credentials file for automated integration testing::
+
+    (anitya-env) $ python request_oidc_credentials.py
+
 Create the database, by default it will be a sqlite database located at
 ``/var/tmp/anitya-dev.sqlite``::
 
-    (anitya-env)$ python createdb.py
+    (anitya-env) $ python createdb.py
+
+With that, try running the app with::
+
+    (anitya-env) $ python runserver.py -c config
+
+And then navigate to http://localhost:5000/
+
 
 If all goes well, you can start a development instance of the server by
 running::

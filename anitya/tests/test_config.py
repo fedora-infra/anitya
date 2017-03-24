@@ -41,6 +41,15 @@ admin_email = "admin@fedoraproject.org"
 smtp_server = "smtp.example.com"
 email_errors = false
 blacklisted_users = ["http://sometroublemaker.id.fedoraproject.org"]
+oidc_client_secrets = "/etc/anitya/client_secrets.json"
+oidc_id_token_cookie_secure = true
+oidc_require_verified_email = true
+oidc_openid_realm = "https://release-monitoring.org/oidc_callback"
+oidc_scopes = [
+    "https://release-monitoring.org/oidc/upstream",
+    "https://release-monitoring.org/oidc/downstream",
+    "https://release-monitoring.org/oidc/upsidedownstream",
+]
 
 [anitya_log_config]
     version = 1
@@ -143,6 +152,15 @@ class LoadTests(unittest.TestCase):
             'SMTP_SERVER': 'smtp.example.com',
             'EMAIL_ERRORS': False,
             'BLACKLISTED_USERS': ['http://sometroublemaker.id.fedoraproject.org'],
+            'OIDC_CLIENT_SECRETS': '/etc/anitya/client_secrets.json',
+            'OIDC_ID_TOKEN_COOKIE_SECURE': True,
+            'OIDC_REQUIRE_VERIFIED_EMAIL': True,
+            'OIDC_OPENID_REALM': 'https://release-monitoring.org/oidc_callback',
+            'OIDC_SCOPES': [
+                'https://release-monitoring.org/oidc/upstream',
+                'https://release-monitoring.org/oidc/downstream',
+                'https://release-monitoring.org/oidc/upsidedownstream',
+            ],
         }
         config = anitya_config.load()
         self.assertEqual(sorted(expected_config.keys()), sorted(config.keys()))

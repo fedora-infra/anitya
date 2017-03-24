@@ -7,7 +7,7 @@ the default configuration, loading and configuring Flask extensions, and
 configuring logging.
 
 User-facing Flask routes should be placed in the ``anitya.ui`` module and API
-routes should be placed in ``anitya.api``.
+routes should be placed in ``anitya.api_v2``.
 """
 
 import functools
@@ -17,10 +17,11 @@ import logging.handlers
 
 import flask
 from bunch import Bunch
-from flask_openid import OpenID
+from flask_restful import Api
 
 from anitya.config import config as anitya_config
 import anitya.lib
+import anitya.authentication
 import anitya.mail_logging
 
 
@@ -30,10 +31,6 @@ __version__ = '0.11.0'
 APP = flask.Flask(__name__)
 APP.config.update(anitya_config)
 
-# Set up OpenID
-APP.oid = OpenID(APP)
-
-# Add a flask-dependent log handler for Anitya-related errors
 if APP.config['EMAIL_ERRORS']:
     # If email logging is configured, set up the anitya logger with an email
     # handler for any ERROR-level logs.
@@ -42,6 +39,12 @@ if APP.config['EMAIL_ERRORS']:
         smtp_server=APP.config.get('SMTP_SERVER'),
         mail_admin=APP.config.get('ADMIN_EMAIL')
     ))
+
+# Set up OpenID and OpenIDConnect
+anitya.authentication.configure_openid(APP)
+
+# Set up the Flask Restful API endpoints
+APP.api = Api(APP)
 
 SESSION = anitya.lib.init(
     APP.config['DB_URL'], debug=False, create=False)
@@ -166,5 +169,6 @@ def inject_variable():
 
 # Finalize the import of other controllers
 from . import api  # NOQA
+from . import api_v2  # NOQA
 from . import ui  # NOQA
 from . import admin  # NOQA

@@ -33,11 +33,24 @@ def get_requirements(requirements_file='requirements.txt'):
     """
 
     lines = open(requirements_file).readlines()
-    return [
-        line.rstrip().split('#')[0]
-        for line in lines
-        if not line.startswith('#')
-    ]
+    dependencies = []
+    for line in lines:
+        maybe_dep = line.strip()
+        if maybe_dep.startswith('#'):
+            # Skip pure comment lines
+            continue
+        if maybe_dep.startswith('git+'):
+            # VCS reference for dev purposes, expect a trailing comment
+            # with the normal requirement
+            __, __, maybe_dep = maybe_dep.rpartition('#')
+        else:
+            # Ignore any trailing comment
+            maybe_dep, __, __ = maybe_dep.partition('#')
+        # Remove any whitespace and assume non-empty results are dependencies
+        maybe_dep = maybe_dep.strip()
+        if maybe_dep:
+            dependencies.append(maybe_dep)
+    return dependencies
 
 
 setup(
