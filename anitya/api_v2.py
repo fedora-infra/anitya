@@ -20,6 +20,50 @@ _BASE_ARG_PARSER = reqparse.RequestParser(trim=True, bundle_errors=True)
 _BASE_ARG_PARSER.add_argument('access_token', type=str)
 
 
+def _page_validator(arg):
+    """
+    Validator for a pagination page number.
+
+    Args:
+        arg (object): The object to validate as an integer greater than or
+            equal to 1.
+
+    Returns:
+        int: The validated argument.
+
+    Raises:
+        ValueError: If the integer is smaller than 1 or it can't be cast to an
+            int.
+    """
+    arg = int(arg)
+    if arg < 1:
+        raise ValueError(_('Value must be greater than or equal to 1.'))
+    return arg
+
+
+def _items_per_page_validator(arg):
+    """
+    Validator for a pagination items_per_page number.
+
+    Args:
+        arg (object): The object to validate as an integer greater than or
+            equal to 1 and less or equal to 250.
+
+    Returns:
+        int: The validated argument.
+
+    Raises:
+        ValueError: If the integer is smaller than 1 or it can't be cast to an
+            int.
+    """
+    arg = int(arg)
+    if arg < 1:
+        raise ValueError(_('Value must be greater than or equal to 1.'))
+    if arg > 250:
+        raise ValueError(_('Value must be less than or equal to 250.'))
+    return arg
+
+
 class ProjectsResource(Resource):
     """
     The ``api/v2/projects/`` API endpoint.
@@ -27,12 +71,75 @@ class ProjectsResource(Resource):
 
     @anitya.authentication.parse_api_token
     def get(self):
-        """Lists all projects"""
-        # TODO: Support response pagination
-        #       https://github.com/release-monitoring/anitya/issues/440
-        project_objs = anitya.lib.model.Project.all(SESSION)
-        projects = [project.__json__() for project in project_objs]
-        return projects
+        """
+        Lists all projects.
+
+        **Example request**:
+
+        .. sourcecode:: http
+
+            GET /api/v2/projects/?items_per_page=1&page=2 HTTP/1.1
+            Accept: application/json
+            Accept-Encoding: gzip, deflate
+            Connection: keep-alive
+            Host: localhost:5000
+            User-Agent: HTTPie/0.9.4
+
+        **Example response**:
+
+        .. sourcecode:: http
+
+            HTTP/1.0 200 OK
+            Content-Length: 676
+            Content-Type: application/json
+            Date: Fri, 24 Mar 2017 18:44:32 GMT
+            Server: Werkzeug/0.12.1 Python/2.7.13
+
+            {
+                "items": [
+                    {
+                        "backend": "Sourceforge",
+                        "created_on": 1412174943.0,
+                        "homepage": "http://sourceforge.net/projects/zero-install",
+                        "id": 1,
+                        "name": "0install",
+                        "regex": "",
+                        "updated_on": 1482495004.0,
+                        "version": "2.12",
+                        "version_url": "zero-install",
+                        "versions": [
+                            "2.12",
+                            "2.11",
+                            "2.10",
+                            "2.9.1",
+                            "2.9",
+                            "2.8",
+                            "2.7"
+                        ]
+                    }
+                ],
+                "items_per_page": 1,
+                "page": 2,
+                "total_items": 13468
+            }
+
+
+        :query int page: The project page number to retrieve (defaults to 1).
+        :query int items_per_page: The number of items per page (defaults to
+                                   25, maximum of 250).
+        :statuscode 200: If all arguments are valid. Note that even if there
+                         are no projects, this will return 200.
+        :statuscode 400: If one or more of the query arguments is invalid.
+        """
+
+        parser = _BASE_ARG_PARSER.copy()
+        parser.add_argument('page', type=_page_validator, location='args')
+        parser.add_argument('items_per_page', type=_items_per_page_validator, location='args')
+        args = parser.parse_args(strict=True)
+        args.pop('access_token')
+        projects_page = anitya.lib.model.Project.query.paginate(
+            order_by=anitya.lib.model.Project.name, **args)
+        return projects_page.as_dict()
 
     @anitya.authentication.require_api_token("upstream")
     def post(self):

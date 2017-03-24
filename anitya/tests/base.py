@@ -27,6 +27,7 @@ import unittest
 import os
 
 import vcr
+import mock
 
 import anitya.lib
 import anitya.lib.model as model
@@ -79,6 +80,10 @@ class Modeltests(unittest.TestCase):
             if os.path.exists(dbfile):
                 os.unlink(dbfile)
         self.session = anitya.lib.init(DB_PATH, create=True, debug=False)
+        mock_query = mock.patch.object(
+            model.BASE, 'query', self.session.query_property(query_cls=model.BaseQuery))
+        mock_query.start()
+        self.addCleanup(mock_query.stop)
 
         anitya.lib.plugins.load_plugins(self.session)
         cwd = os.path.dirname(os.path.realpath(__file__))

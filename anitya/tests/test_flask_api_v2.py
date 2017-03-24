@@ -22,6 +22,7 @@
 '''
 Tests for the Flask-RESTful based v2 API
 '''
+from __future__ import unicode_literals
 
 import json
 import os.path
@@ -61,7 +62,7 @@ class AnonymousAccessTests(_APItestsMixin, Modeltests):
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        self.assertEqual(data, [])
+        self.assertEqual(data, {'page': 1, 'items_per_page': 25, 'total_items': 0, 'items': []})
 
         create_project(self.session)
 
@@ -69,44 +70,126 @@ class AnonymousAccessTests(_APItestsMixin, Modeltests):
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        for item in data:
+        for item in data['items']:
             del item['created_on']
             del item['updated_on']
 
-        exp = [
-            {
-                "id": 1,
-                "backend": "custom",
-                "homepage": "http://www.geany.org/",
-                "name": "geany",
-                "regex": "DEFAULT",
-                "version": None,
-                "version_url": "http://www.geany.org/Download/Releases",
-                "versions": []
-            },
-            {
-                "id": 3,
-                "backend": "custom",
-                "homepage": "https://fedorahosted.org/r2spec/",
-                "name": "R2spec",
-                "regex": None,
-                "version": None,
-                "version_url": None,
-                "versions": []
-            },
-            {
-                "id": 2,
-                "backend": "custom",
-                "homepage": "http://subsurface.hohndel.org/",
-                "name": "subsurface",
-                "regex": "DEFAULT",
-                "version": None,
-                "version_url": "http://subsurface.hohndel.org/downloads/",
-                "versions": []
-            }
-        ]
+        exp = {
+            'page': 1,
+            'items_per_page': 25,
+            'total_items': 3,
+            'items': [
+                {
+                    "id": 3,
+                    "backend": "custom",
+                    "homepage": "https://fedorahosted.org/r2spec/",
+                    "name": "R2spec",
+                    "regex": None,
+                    "version": None,
+                    "version_url": None,
+                    "versions": []
+                },
+                {
+                    "id": 1,
+                    "backend": "custom",
+                    "homepage": "http://www.geany.org/",
+                    "name": "geany",
+                    "regex": "DEFAULT",
+                    "version": None,
+                    "version_url": "http://www.geany.org/Download/Releases",
+                    "versions": []
+                },
+                {
+                    "id": 2,
+                    "backend": "custom",
+                    "homepage": "http://subsurface.hohndel.org/",
+                    "name": "subsurface",
+                    "regex": "DEFAULT",
+                    "version": None,
+                    "version_url": "http://subsurface.hohndel.org/downloads/",
+                    "versions": []
+                }
+            ]
+        }
 
         self.assertEqual(data, exp)
+
+    def test_list_projects_items_per_page(self):
+        api_endpoint = '/api/v2/projects/?items_per_page=1'
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        self.assertEqual(data, {'page': 1, 'items_per_page': 1, 'total_items': 0, 'items': []})
+
+        create_project(self.session)
+
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        for item in data['items']:
+            del item['created_on']
+            del item['updated_on']
+
+        exp = {
+            'page': 1,
+            'items_per_page': 1,
+            'total_items': 3,
+            'items': [
+                {
+                    "id": 3,
+                    "backend": "custom",
+                    "homepage": "https://fedorahosted.org/r2spec/",
+                    "name": "R2spec",
+                    "regex": None,
+                    "version": None,
+                    "version_url": None,
+                    "versions": []
+                },
+            ]
+        }
+
+        self.assertEqual(data, exp)
+
+    def test_list_projects_items_per_page_with_page(self):
+        api_endpoint = '/api/v2/projects/?items_per_page=1&page=2'
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        self.assertEqual(data, {'page': 2, 'items_per_page': 1, 'total_items': 0, 'items': []})
+
+        create_project(self.session)
+
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        for item in data['items']:
+            del item['created_on']
+            del item['updated_on']
+
+        exp = {
+            'page': 2,
+            'items_per_page': 1,
+            'total_items': 3,
+            'items': [
+                {
+                    "id": 1,
+                    "backend": "custom",
+                    "homepage": "http://www.geany.org/",
+                    "name": "geany",
+                    "regex": "DEFAULT",
+                    "version": None,
+                    "version_url": "http://www.geany.org/Download/Releases",
+                    "versions": []
+                },
+            ]
+        }
+
+        self.assertEqual(data, exp)
+
 
 class AuthenticationRequiredTests(_APItestsMixin, Modeltests):
     """Test anonymous access is blocked to APIs requiring authentication"""
