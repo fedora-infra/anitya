@@ -116,11 +116,6 @@ class AuthenticationRequiredTests(_APItestsMixin, Modeltests):
 
     def _check_authentication_failure_response(self, output):
         data = _read_json(output)
-        # Temporary workaround for flask-oidc double rendering the JSON
-        # in authentication failures (it renders to JSON and then Flask-RESTful
-        # renders *that* to JSON, so it decodes as a plain str on the client)
-        # See https://github.com/release-monitoring/anitya/issues/443
-        data = json.loads(data)
         # Check we get the expected error details
         if self.oidc is None:
             exp = {

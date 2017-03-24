@@ -109,8 +109,10 @@ def require_api_token(*scopes):
 
     if APP.oidc is not None:
         # OIDC is configured, check supplied token has relevant permissions
+        # Don't render errors to JSON, as Flask-RESTful will handle that
         validator = APP.oidc.accept_token(require_token=True,
-                                          scopes_required=url_scopes)
+                                          scopes_required=url_scopes,
+                                          render_errors=False)
     else:
         # OIDC is not configured, so disallow APIs that require authentication
         def validator(f):
