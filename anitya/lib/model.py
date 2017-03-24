@@ -20,6 +20,7 @@
 anitya mapping of python classes to Database Tables.
 """
 
+import collections
 import datetime
 import logging
 import time
@@ -28,7 +29,7 @@ import sqlalchemy as sa
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import sessionmaker, scoped_session, query as sa_query
 
 import anitya
 
@@ -70,7 +71,95 @@ def initialize(config):
     return engine
 
 
-BASE = declarative_base()
+_Page = collections.namedtuple(
+    '_Page', ('items', 'page', 'items_per_page', 'total_items'))
+
+
+class Page(_Page):
+    """
+    A sub-class of namedtuple that represents a page.
+
+    Attributes:
+        items (object): The database objects from the query.
+        page (int): The page number used for the query.
+        items_per_page (int): The number of items per page.
+        total_items (int): The total number of items in the database.
+    """
+
+    def as_dict(self):
+        """
+        Return a dictionary representing the page.
+
+        Returns:
+            dict: A dictionary representation of the page and its items, using
+                the ``__json__`` method defined on the item objects.
+        """
+        return {
+            u'items': [item.__json__() for item in self.items],
+            u'page': self.page,
+            u'items_per_page': self.items_per_page,
+            u'total_items': self.total_items,
+        }
+
+
+class BaseQuery(sa_query.Query):
+    """A base Query object that provides queries."""
+
+    def paginate(self, page=None, items_per_page=None, order_by=None):
+        """
+        Retrieve a page of items.
+
+        Args:
+            page (int): the page number to retrieve. This page is 1-indexed and
+                        defaults to 1.
+            items_per_page (int): The number of items per page. This defaults
+                                  to 25.
+            order_by (sa.Column or tuple): One or more criterion by which to order
+                                           the pages.
+
+        Returns:
+            Page: A namedtuple of the items.
+
+        Raises:
+            ValueError: If the page or items_per_page values are less than 1.
+        """
+
+        if page is None:
+            page = 1
+        if items_per_page is None:
+            items_per_page = 25
+
+        if page < 1:
+            raise ValueError('page must be 1 or greater.')
+        if items_per_page < 1:
+            raise ValueError('items_per_page must be 1 or greater.')
+
+        if not isinstance(order_by, tuple):
+            order_by = (order_by,)
+
+        q = self.order_by(*order_by)
+        total_items = q.count()
+        items = q.limit(items_per_page).offset(items_per_page * (page - 1)).all()
+        return Page(
+            items=items, page=page, total_items=total_items, items_per_page=items_per_page)
+
+
+class AnityaBase(object):
+    """
+    Base class for the SQLAlchemy model base class.
+
+    Attributes:
+        query (sqlalchemy.orm.query.Query): a class property which produces a
+            :class:`BaseQuery` object against the class and the current Session
+            when called. Classes that want a customized Query class should
+            sub-class :class:`BaseQuery` and explicitly set the query property
+            on the model.
+    """
+
+    query = Session.query_property(query_cls=BaseQuery)
+
+
+BASE = declarative_base(cls=AnityaBase)
 
 
 _log = logging.getLogger(__name__)
