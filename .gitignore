@@ -10,6 +10,7 @@ doc/_build/
 *.swp
 *.swo
 start-pkgdb
+.cache/
 .coverage
 cnucnu/
 *.egg
