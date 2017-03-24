@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+"""
+This is the version 2 HTTP API.
+
+It uses OpenID Connect for endpoints that require authentication.
+"""
 
 from gettext import gettext as _
 
