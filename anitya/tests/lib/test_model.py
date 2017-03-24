@@ -26,9 +26,34 @@ anitya tests of the model.
 import datetime
 import unittest
 
+import mock
 
 import anitya.lib.model as model
 from anitya.tests.base import Modeltests, create_distro, create_project, create_package
+
+
+class InitalizeTests(unittest.TestCase):
+
+    @mock.patch('anitya.lib.model.sa.create_engine')
+    @mock.patch('anitya.lib.model.Session')
+    def test_initialize(self, mock_session, mock_create_engine):
+        config = {'DB_URL': 'postgresql://postgres:pass@localhost/mydb'}
+        engine = model.initialize(config)
+        mock_create_engine.assert_called_once_with(config['DB_URL'], echo=False)
+        self.assertEqual(engine, mock_create_engine.return_value)
+        mock_session.configure.assert_called_once_with(bind=engine)
+
+    @mock.patch('anitya.lib.model.sa.create_engine')
+    @mock.patch('anitya.lib.model.sa.event.listen')
+    @mock.patch('anitya.lib.model.Session')
+    def test_initalize_sqlite(self, mock_session, mock_listen, mock_create_engine):
+        config = {'DB_URL': 'sqlite://', 'SQL_DEBUG': True}
+        engine = model.initialize(config)
+        mock_create_engine.assert_called_once_with(config['DB_URL'], echo=True)
+        mock_session.configure.assert_called_once_with(bind=engine)
+        self.assertEqual(1, mock_listen.call_count)
+        self.assertEqual(engine, mock_listen.call_args_list[0][0][0])
+        self.assertEqual('connect', mock_listen.call_args_list[0][0][1])
 
 
 class ProjectTests(Modeltests):

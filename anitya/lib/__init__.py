@@ -29,6 +29,9 @@ def init(db_url, alembic_ini=None, debug=False, create=False):
     """ Create the tables in the database using the information from the
     url obtained.
 
+    :deprecated: This function is deprecated as of Anitya 0.12. Use the
+                 scoped session in :mod:`anitya.lib.model`
+
     :arg db_url, URL used to connect to the database. The URL contains
         information with regards to the database engine, the host to
         connect to, the user and password and the database name.

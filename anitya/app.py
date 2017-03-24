@@ -20,6 +20,7 @@ from bunch import Bunch
 from flask_restful import Api
 
 from anitya.config import config as anitya_config
+from anitya.lib.model import Session as SESSION, initialize as initialize_db
 import anitya.lib
 import anitya.authentication
 import anitya.mail_logging
@@ -30,6 +31,8 @@ __version__ = '0.11.0'
 # Create the application.
 APP = flask.Flask(__name__)
 APP.config.update(anitya_config)
+initialize_db(anitya_config)
+
 
 if APP.config['EMAIL_ERRORS']:
     # If email logging is configured, set up the anitya logger with an email
@@ -45,9 +48,6 @@ anitya.authentication.configure_openid(APP)
 
 # Set up the Flask Restful API endpoints
 APP.api = Api(APP)
-
-SESSION = anitya.lib.init(
-    APP.config['DB_URL'], debug=False, create=False)
 
 
 @APP.template_filter('format_examples')

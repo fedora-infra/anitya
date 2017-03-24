@@ -28,8 +28,46 @@ import sqlalchemy as sa
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 import anitya
+
+
+#: This is a configured scoped session. It creates thread-local sessions. This
+#: means that ``Session() is Session()`` is ``True``. This is a convenient way
+#: to avoid passing a session instance around. Consult SQLAlchemy's documentation
+#: for details.
+#:
+#: Before you can use this, you must call :func:`initialize`.
+Session = scoped_session(sessionmaker())
+
+
+def initialize(config):
+    """
+    Initialize the database.
+
+    This creates a database engine from the provided configuration and
+    configures the scoped session to use the engine.
+
+    Args:
+        config (dict): A dictionary that contains the configuration necessary
+            to initialize the database.
+
+    Returns:
+        sqlalchemy.engine: The database engine created from the configuration.
+    """
+    #: The SQLAlchemy database engine. This is constructed using the value of
+    #: ``DB_URL`` in :mod:`anitya.config``.
+    engine = sa.create_engine(config['DB_URL'], echo=config.get('SQL_DEBUG', False))
+    # Source: http://docs.sqlalchemy.org/en/latest/dialects/sqlite.html#foreign-key-support
+    if config['DB_URL'].startswith('sqlite:'):
+        sa.event.listen(
+            engine,
+            'connect',
+            lambda db_con, con_record: db_con.execute('PRAGMA foreign_keys=ON')
+        )
+    Session.configure(bind=engine)
+    return engine
 
 
 BASE = declarative_base()
