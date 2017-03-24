@@ -20,7 +20,6 @@
 Helper module for configuring OpenID Connect based authentication
 """
 from functools import wraps
-import json
 
 import flask
 from flask_openid import OpenID
