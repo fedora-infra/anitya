@@ -4,6 +4,16 @@ Anitya API Documentation
 
 Anitya provides several APIs for users.
 
+.. _http-api-v2:
+
+HTTP API v2
+===========
+
+.. autoflask:: anitya.app:APP
+   :undoc-static:
+   :modules: anitya.api_v2
+   :order: path
+
 
 HTTP API v1
 ===========

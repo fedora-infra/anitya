@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+"""
+This is the version 2 HTTP API.
+
+It uses OpenID Connect for endpoints that require authentication.
+"""
 
 from gettext import gettext as _
 
@@ -29,7 +34,65 @@ class ProjectsResource(Resource):
 
     @anitya.authentication.require_api_token("upstream")
     def post(self):
-        """Create a new project"""
+        """
+        Create a new project.
+
+        **Example Request**:
+
+        .. sourcecode:: http
+
+            POST /api/v2/projects/?access_token=MYAPIACCESSTOKEN HTTP/1.1
+            Accept: application/json
+            Accept-Encoding: gzip, deflate
+            Connection: keep-alive
+            Content-Length: 114
+            Content-Type: application/json
+            Host: localhost:5000
+            User-Agent: HTTPie/0.9.4
+
+            {
+                "backend": "custom",
+                "homepage": "http://example.com/test",
+                "name": "test_project",
+                "version_prefix": "release-"
+            }
+
+
+        **Example Response**:
+
+        .. sourcecode:: http
+
+            HTTP/1.0 201 Created
+            Content-Length: 5
+            Content-Type: application/json
+            Date: Fri, 24 Mar 2017 14:12:19 GMT
+            Server: Werkzeug/0.12.1 Python/2.7.13
+
+            null
+
+        :query string access_token: Your API access token.
+        :reqjson string name: The project name
+        :reqjson string homepage: The project homepage URL
+        :reqjson string backend: The project backend (github, folder, etc.).
+        :reqjson string version_url: The URL to fetch when determining the
+                                     project version (defaults to null).
+        :reqjson string version_prefix: The project version prefix, if any. For
+                                        example, some projects prefix with "v".
+        :reqjson string regex: The regex to use when searching the
+                               ``version_url`` page.
+        :reqjson bool insecure: When retrieving the versions via HTTPS, do not
+                                validate the certificate (defaults to false).
+        :reqjson bool check_release: Check the release immediately after
+                                     creating the project.
+
+        :statuscode 201: When the project was successfully created.
+        :statuscode 400: When required arguments are missing or malformed.
+        :statuscode 401: When your access token is missing or invalid, or when
+                         the server is not configured for OpenID Connect. The
+                         response will include a JSON body describing the exact
+                         problem.
+        :statuscode 409: When the project already exists.
+        """
         name_help = _('The project name')
         homepage_help = _('The project homepage URL')
         backend_help = _('The project backend (github, folder, etc.)')
