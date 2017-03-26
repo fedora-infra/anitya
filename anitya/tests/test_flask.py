@@ -150,7 +150,7 @@ class NewProjectTests(Modeltests):
                 b'<h1>Project: repo_manager</h1>' in output.data)
             self.assertTrue(
                 b'<li class="list-group-item list-group-item-default">'
-                b'Could not add this project, already exists?</li>'
+                b'Unable to create project since it already exists.</li>'
                 in output.data)
             self.assertTrue(b'<h1>Add project</h1>' in output.data)
         projects = model.Project.all(self.session, count=True)

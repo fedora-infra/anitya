@@ -478,7 +478,7 @@ def new_project():
 
             flask.flash('Project created')
         except anitya.lib.exceptions.AnityaException as err:
-            flask.flash(err)
+            flask.flash(str(err))
             return flask.render_template(
                 'project_new.html',
                 context='Add',

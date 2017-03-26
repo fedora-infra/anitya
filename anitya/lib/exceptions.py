@@ -36,6 +36,25 @@ class AnityaPluginException(AnityaException):
     pass
 
 
+class ProjectExists(AnityaException):
+    """
+    Raised when a project already exists in the database.
+
+    This is only raised when a project is part of an ecosystem, since projects
+    outside of an ecosystem have no uniqueness constraints.
+    """
+    def __init__(self, requested_project):
+        self.requested_project = requested_project
+
+    def to_dict(self):
+        return {
+            u'requested_project': self.requested_project.__json__(),
+        }
+
+    def __str__(self):
+        return 'Unable to create project since it already exists.'
+
+
 class AnityaInvalidMappingException(AnityaException):
     ''' Specific exception class for invalid mapping. '''
 
