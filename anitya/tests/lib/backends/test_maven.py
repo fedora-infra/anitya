@@ -23,8 +23,6 @@
 anitya tests for the Maven backend.
 '''
 
-__requires__ = ['SQLAlchemy >= 0.7']
-
 import unittest
 
 from anitya.lib.backends.maven import MavenBackend

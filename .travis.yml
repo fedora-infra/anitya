@@ -2,9 +2,6 @@ sudo: false
 language: python
 install:
   - pip install -U setuptools pip
-  # We need this until the pkg_resources statement in setup.py is pushed into
-  # a downstream patch.
-  - pip install sqlalchemy jinja2
   - pip install tox
 script:
   - tox

@@ -23,9 +23,6 @@
 anitya tests of the plugins.
 '''
 
-__requires__ = ['SQLAlchemy >= 0.7']
-import pkg_resources
-
 import datetime
 import unittest
 

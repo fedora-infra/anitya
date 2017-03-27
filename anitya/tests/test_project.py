@@ -23,9 +23,6 @@
 anitya tests for the Project object.
 '''
 
-__requires__ = ['SQLAlchemy >= 0.7']
-import pkg_resources
-
 import unittest
 
 import anitya.lib.model as model

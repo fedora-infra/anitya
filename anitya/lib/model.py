@@ -24,9 +24,6 @@ import datetime
 import logging
 import time
 
-__requires__ = ['SQLAlchemy >= 0.7']  # NOQA
-import pkg_resources  # NOQA
-
 import sqlalchemy as sa
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.declarative import declarative_base

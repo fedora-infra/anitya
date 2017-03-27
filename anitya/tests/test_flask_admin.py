@@ -23,9 +23,6 @@
 anitya tests for the flask application.
 '''
 
-__requires__ = ['SQLAlchemy >= 0.8']
-import pkg_resources
-
 import datetime
 import json
 import unittest
