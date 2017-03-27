@@ -1,6 +1,7 @@
 coverage
 flake8
 pytest
+pytest-cov
 vcrpy
 unittest2
 mock
