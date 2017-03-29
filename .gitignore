@@ -24,3 +24,5 @@ anitya.db
 client_secrets.json
 oidc_credentials.json
 anitya/static/docs/
+coverage.xml
+htmlcov

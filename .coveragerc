@@ -1,0 +1,14 @@
+[run]
+branch = True
+include =
+    anitya/*
+
+[report]
+fail_under = 83
+precision = 2
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.:
+omit =
+    anitya/tests/*
+
