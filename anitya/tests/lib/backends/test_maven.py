@@ -24,12 +24,13 @@ anitya tests for the Maven backend.
 '''
 
 import unittest
+import os
 
 from anitya.lib.backends.maven import MavenBackend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import Modeltests, create_distro, skip_jenkins
-
+from anitya.app import APP
 
 BACKEND = 'Maven Central'
 
@@ -42,6 +43,9 @@ class MavenBackendTest(Modeltests):
         """ Set up the environnment, ran before every tests. """
         super(MavenBackendTest, self).setUp()
 
+        path = os.path.dirname(os.path.realpath(__file__))
+        APP.config['JAVA_PATH'] = os.path.join(path, '../../test-data/maven_mock.py')
+        APP.config['JAR_NAME'] = 'not-empty'
         create_distro(self.session)
 
     def assert_plexus_version(self, **kwargs):
@@ -103,6 +107,19 @@ class MavenBackendTest(Modeltests):
                '1.3.8']
         obs = MavenBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
+
+    def test_maven_check_feed(self):
+        """ Test the check_feed method of the maven backend. """
+        generator = MavenBackend.check_feed()
+        items = list(generator)
+
+        self.assertEqual(items[0], (
+            'ai.h2o:deepwater-backend-api', 'http://repo2.maven.org/maven2/ai/h2o/deepwater-backend-api/',
+            'Maven Central', '1.0.3'))
+        self.assertEqual(items[1], (
+            'ai.h2o:sparkling-water-core_2.11', 'http://repo2.maven.org/maven2/ai/h2o/sparkling-water-core_2.11/',
+            'Maven Central', '2.0.6'))
+        # etc...
 
 
 if __name__ == '__main__':
