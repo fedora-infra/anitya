@@ -27,3 +27,4 @@ unknown version schemes in a reasonable way.
 from __future__ import unicode_literals
 
 from .base import Version, v_prefix  # noqa: F401
+from .rpm import RpmVersion  # noqa: F401
