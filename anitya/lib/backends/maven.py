@@ -15,7 +15,8 @@ import json
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.lib.model import Project, NoResultFound
-
+from anitya.lib import init
+from anitya.app import APP
 
 REGEX = r'\<a[^>]+\>(\d[^</]*)'
 
@@ -85,30 +86,33 @@ class MavenBackend(BaseBackend):
             generator over new packages
         '''
         maven_url = 'http://repo2.maven.org/maven2'
-        jar_path = '/src/maven-release-checker-1.0-SNAPSHOT-jar-with-dependencies.jar'
+        if APP.config['JAVA_PATH'] is None:
+            raise AnityaPluginException('no java binary specified')
+        if APP.config['JAR_NAME'] is None:
+            raise AnityaPluginException('no maven-release-checker jar file specified')
 
         try:
-            data = check_output(["java", "-jar", jar_path], universal_newlines=True)
+            data = check_output([APP.config['JAVA_PATH'], "-jar",
+                                 APP.config['JAR_NAME']], universal_newlines=True)
         except CalledProcessError:
-            raise AnityaPluginException('%s exited with non zero value' % maven_url)
-        except OSError:
-            # If there is java but no jarfile it returns non zero value
-            raise AnityaPluginException('Java was not found')
+            raise AnityaPluginException('maven-release-checker exited with non zero value')
 
         data = json.loads(data)
+        session = init(APP.config['DB_URL'])
         for item in data[:40]:
             item = json.loads(item)
+            # maven_coordinates are stored in db as version_url
             maven_coordinates = '{group_id}:{artifact_id}'.\
                 format(group_id=item['groupId'], artifact_id=item['artifactId'])
-
-            # maven_coordinates are stored in db as version_url
             try:
-                projects = Project.query.filter(Project.version_url == maven_coordinates).all()
+                projects = session.query(Project).filter(
+                    Project.version_url == maven_coordinates).all()
             except NoResultFound:
                 projects = None
 
             if projects is not None:
-                # If there is project created it can have different name than maven_coordinates
+                # If there is project created it can have
+                # different name than maven_coordinates
                 name = projects[0].name
                 homepage = projects[0].homepage
             else:
