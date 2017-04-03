@@ -7,9 +7,11 @@ It uses OpenID Connect for endpoints that require authentication.
 
 from gettext import gettext as _
 
+from flask import jsonify
 from flask_restful import Resource, reqparse
 
 from anitya.app import APP, SESSION
+from anitya.lib.exceptions import ProjectExists
 import anitya
 import anitya.lib.model
 import anitya.authentication
@@ -62,13 +64,24 @@ class ProjectsResource(Resource):
 
         .. sourcecode:: http
 
-            HTTP/1.0 201 Created
-            Content-Length: 5
+            HTTP/1.0 201 CREATED
+            Content-Length: 276
             Content-Type: application/json
-            Date: Fri, 24 Mar 2017 14:12:19 GMT
+            Date: Sun, 26 Mar 2017 15:56:30 GMT
             Server: Werkzeug/0.12.1 Python/2.7.13
 
-            null
+            {
+                "backend": "PyPI",
+                "created_on": 1490543790.0,
+                "homepage": "http://python-requests.org",
+                "id": 13857,
+                "name": "requests",
+                "regex": null,
+                "updated_on": 1490543790.0,
+                "version": null,
+                "version_url": null,
+                "versions": []
+            }
 
         :query string access_token: Your API access token.
         :reqjson string name: The project name
@@ -124,15 +137,18 @@ class ProjectsResource(Resource):
         args = parser.parse_args(strict=True)
         access_token = args.pop('access_token')
 
-        # TODO: Report proper 400 errors rather than 500 errors for duplicate
-        #       registration and other errors not checked by the arg parser
-        #       https://github.com/release-monitoring/anitya/issues/441
-        anitya.lib.create_project(
-            SESSION,
-            user_id=APP.oidc.user_getfield('email', access_token),
-            **args
-        )
-        SESSION.commit()
+        try:
+            project = anitya.lib.create_project(
+                SESSION,
+                user_id=APP.oidc.user_getfield('email', access_token),
+                **args
+            )
+            SESSION.commit()
+            return project.__json__(), 201
+        except ProjectExists as e:
+            response = jsonify(e.to_dict())
+            response.status_code = 409
+            return response
 
 
 APP.api.add_resource(ProjectsResource, '/api/v2/projects/')

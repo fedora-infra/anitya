@@ -13,7 +13,7 @@ import logging
 
 import sqlalchemy as sa
 from sqlalchemy import create_engine
-from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 
@@ -95,6 +95,9 @@ def create_project(
 
     try:
         session.flush()
+    except IntegrityError:
+        session.rollback()
+        raise anitya.lib.exceptions.ProjectExists(project)
     except SQLAlchemyError as err:
         _log.exception(err)
         session.rollback()

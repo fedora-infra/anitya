@@ -350,8 +350,8 @@ class Project(BASE):
             version_url=self.version_url,
             version=self.latest_version,
             versions=self.versions,
-            created_on=time.mktime(self.created_on.timetuple()),
-            updated_on=time.mktime(self.updated_on.timetuple()),
+            created_on=time.mktime(self.created_on.timetuple()) if self.created_on else None,
+            updated_on=time.mktime(self.updated_on.timetuple()) if self.updated_on else None,
         )
         if detailed:
             output['packages'] = [pkg.__json__() for pkg in self.packages]

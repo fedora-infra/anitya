@@ -152,6 +152,23 @@ class _AuthenticatedAPItestsMixin(_APItestsMixin):
         self.assertIn("homepage", error_details)
         self.assertIn("name", error_details)
 
+    def test_conflicting_project_monitoring_request(self):
+        request_data = {
+            "backend": "PyPI",
+            "homepage": "http://python-requests.org",
+            "name": "requests",
+        }
+        output = self._post_app_url("/api/v2/projects/", data=request_data)
+        self.assertEqual(output.status_code, 201)
+        output = self._post_app_url("/api/v2/projects/", data=request_data)
+        self.assertEqual(output.status_code, 409)
+        # Error details should report conflicting fields.
+        data = _read_json(output)
+        self.assertIn("requested_project", data)
+        self.assertEqual("PyPI", data["requested_project"]["backend"])
+        self.assertEqual("http://python-requests.org", data["requested_project"]["homepage"])
+        self.assertEqual("requests", data["requested_project"]["name"])
+
     def test_valid_project_monitoring_request(self):
         request_data = {
             "backend": "PyPI",
@@ -161,8 +178,13 @@ class _AuthenticatedAPItestsMixin(_APItestsMixin):
         output = self._post_app_url('/api/v2/projects/', data=request_data)
         # Error details should report the missing required fields
         data = _read_json(output)
-        print(data)
-        self.assertEqual(output.status_code, 200)
+        self.assertEqual(output.status_code, 201)
+        self.assertIn("backend", data)
+        self.assertIn("homepage", data)
+        self.assertIn("name", data)
+        self.assertEqual("PyPI", data["backend"])
+        self.assertEqual("http://python-requests.org", data["homepage"])
+        self.assertEqual("requests", data["name"])
 
 
 class MockAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):

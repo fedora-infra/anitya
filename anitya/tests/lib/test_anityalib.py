@@ -24,9 +24,12 @@ anitya tests for the anitya.lib module.
 '''
 import unittest
 
+from sqlalchemy.exc import SQLAlchemyError
+import mock
+
 import anitya.lib
 import anitya.lib.model as model
-from anitya.lib.exceptions import AnityaException
+from anitya.lib.exceptions import AnityaException, ProjectExists
 from anitya.tests.base import Modeltests, create_distro, create_project
 
 
@@ -53,7 +56,7 @@ class AnityaLibtests(Modeltests):
         self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
 
         self.assertRaises(
-            AnityaException,
+            ProjectExists,
             anitya.lib.create_project,
             self.session,
             name='geany',
@@ -67,6 +70,20 @@ class AnityaLibtests(Modeltests):
         self.assertEqual(len(project_objs), 1)
         self.assertEqual(project_objs[0].name, 'geany')
         self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
+
+    def test_create_project_general_error(self):
+        """Assert general SQLAlchemy exceptions result in AnityaException."""
+        self.session.flush = mock.Mock(side_effect=SQLAlchemyError('boop'))
+        self.assertRaises(
+            AnityaException,
+            anitya.lib.create_project,
+            self.session,
+            name='geany',
+            homepage='http://www.geany.org/',
+            version_url='http://www.geany.org/Download/Releases',
+            regex='DEFAULT',
+            user_id='noreply@fedoraproject.org',
+        )
 
     def test_edit_project(self):
         """ Test the edit_project function of Distro. """
