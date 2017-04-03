@@ -190,6 +190,58 @@ class AnonymousAccessTests(_APItestsMixin, Modeltests):
 
         self.assertEqual(data, exp)
 
+    def test_list_projects_items_per_page_too_big(self):
+        """Assert unreasonably large items per page results in an error."""
+        api_endpoint = '/api/v2/projects/?items_per_page=500'
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 400)
+        data = _read_json(output)
+
+        self.assertEqual(
+            data, {u'message': {u'items_per_page': u'Value must be less than or equal to 250.'}})
+
+    def test_list_projects_items_per_page_negative(self):
+        """Assert a negative value for items_per_page results in an error."""
+        api_endpoint = '/api/v2/projects/?items_per_page=-25'
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 400)
+        data = _read_json(output)
+
+        self.assertEqual(
+            data, {u'message': {u'items_per_page': u'Value must be greater than or equal to 1.'}})
+
+    def test_list_projects_items_per_page_non_integer(self):
+        """Assert a non-integer for items_per_page results in an error."""
+        api_endpoint = '/api/v2/projects/?items_per_page=twenty'
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 400)
+        data = _read_json(output)
+
+        self.assertEqual(
+            data,
+            {u'message': {u'items_per_page': u"invalid literal for int() with base 10: 'twenty'"}}
+        )
+
+    def test_list_projects_page_negative(self):
+        """Assert a negative value for a page results in an error."""
+        api_endpoint = '/api/v2/projects/?page=-25'
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 400)
+        data = _read_json(output)
+
+        self.assertEqual(
+            data, {u'message': {u'page': u'Value must be greater than or equal to 1.'}})
+
+    def test_list_projects_page_non_integer(self):
+        """Assert a non-integer value for a page results in an error."""
+        api_endpoint = '/api/v2/projects/?page=twenty'
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 400)
+        data = _read_json(output)
+
+        self.assertEqual(
+            data, {u'message': {u'page': u"invalid literal for int() with base 10: 'twenty'"}})
+
 
 class AuthenticationRequiredTests(_APItestsMixin, Modeltests):
     """Test anonymous access is blocked to APIs requiring authentication"""
