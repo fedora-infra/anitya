@@ -28,6 +28,7 @@ import unittest
 
 from anitya.lib import plugins
 from anitya.lib import model
+from anitya.lib.versions import Version
 from anitya.tests.base import Modeltests
 
 EXPECTED_BACKENDS = [
@@ -46,6 +47,19 @@ EXPECTED_ECOSYSTEMS = {
     "maven": "Maven Central",
     "crates.io": "crates.io",
 }
+
+
+class VersionPluginsTests(unittest.TestCase):
+    """Tests for the version scheme plugins."""
+
+    def test_version_plugin_names(self):
+        plugin_names = plugins.VERSION_PLUGINS.get_plugin_names()
+        self.assertEqual(['RPM'], plugin_names)
+
+    def test_version_plugin_classes(self):
+        version_plugins = plugins.VERSION_PLUGINS.get_plugins()
+        for plugin in version_plugins:
+            self.assertTrue(issubclass(plugin, Version))
 
 
 class Pluginstests(Modeltests):

@@ -24,6 +24,7 @@ from straight.plugin import load
 
 from anitya.lib.backends import BaseBackend
 from anitya.lib.ecosystems import BaseEcosystem
+from anitya.lib.versions import Version
 
 _log = logging.getLogger(__name__)
 
@@ -54,6 +55,7 @@ class _PluginManager(object):
 
 BACKEND_PLUGINS = _PluginManager('anitya.lib.backends', BaseBackend)
 ECOSYSTEM_PLUGINS = _PluginManager('anitya.lib.ecosystems', BaseEcosystem)
+VERSION_PLUGINS = _PluginManager('anitya.lib.versions', Version)
 
 
 def _load_backend_plugins(session):

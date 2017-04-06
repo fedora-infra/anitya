@@ -4,14 +4,6 @@ import logging
 
 import anitya.lib.plugins
 import anitya.lib.exceptions
-# Feature check: version comparisons were historically done with cmp
-# For Python 3, we need to switch to using a key function instead
-try:
-    cmp
-except NameError:
-    from functools import cmp_to_key as _convert_cmp_to_key
-else:
-    _convert_cmp_to_key = None
 
 
 __api_version__ = '1.0'
@@ -35,24 +27,6 @@ def fedmsg_publish(*args, **kwargs):  # pragma: no cover
         fedmsg.publish(*args, **kwargs)
     except Exception as err:
         _log.error(str(err))
-
-
-# Ordering is handled differently based on Python version
-if _convert_cmp_to_key is None:
-    def order_versions(vlist):
-        ''' For a provided list of versions, return the list ordered from the
-        oldest to the newest version.
-        '''
-        import anitya.lib.backends  # Avoid circular import
-        return sorted(vlist, cmp=anitya.lib.backends.upstream_cmp)
-else:
-    def order_versions(vlist):
-        ''' For a provided list of versions, return the list ordered from the
-        oldest to the newest version.
-        '''
-        import anitya.lib.backends  # Avoid circular import
-        sort_key = _convert_cmp_to_key(anitya.lib.backends.upstream_cmp)
-        return sorted(vlist, key=sort_key)
 
 
 def check_release(project, session, test=False):
@@ -98,7 +72,8 @@ def check_release(project, session, test=False):
 
     odd_change = False
     if up_version and up_version != p_version:
-        max_version = order_versions([up_version, p_version])[-1]
+        version_class = project.get_version_class()
+        max_version = max(up_version, p_version, key=version_class)
         if project.latest_version and max_version != up_version:
             odd_change = True
             project.logs = 'Something strange occured, we found that this '\

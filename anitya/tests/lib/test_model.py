@@ -29,6 +29,7 @@ import unittest
 import mock
 
 import anitya.lib.model as model
+from anitya.lib import versions
 from anitya.tests.base import Modeltests, create_distro, create_project, create_package
 
 
@@ -211,6 +212,28 @@ class ProjectTests(Modeltests):
             backend='custom',
             ecosystem_name='Nope',
         )
+
+    def test_get_version_class(self):
+        project = model.Project(
+            name='test',
+            homepage='http://example.com',
+            backend='custom',
+            ecosystem_name='pypi',
+            version_scheme='RPM',
+        )
+        version_class = project.get_version_class()
+        self.assertEqual(version_class, versions.RpmVersion)
+
+    def test_get_version_class_missing(self):
+        project = model.Project(
+            name='test',
+            homepage='http://example.com',
+            backend='custom',
+            ecosystem_name='pypi',
+            version_scheme='Invalid',
+        )
+        version_class = project.get_version_class()
+        self.assertEqual(version_class, None)
 
     def test_project_all(self):
         """ Test the Project.all function. """

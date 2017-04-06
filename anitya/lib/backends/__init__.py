@@ -30,81 +30,8 @@ import requests
 import anitya
 import anitya.app
 from anitya.lib.exceptions import AnityaPluginException
+from anitya.lib.versions import RpmVersion
 import six
-
-try:
-    from rpm import labelCompare as _compare_rpm_labels
-except ImportError:
-    # Emulate RPM field comparisons as described in
-    # http://stackoverflow.com/questions/3206319/how-do-i-compare-rpm-versions-in-python/3206477#3206477
-    #
-    # * Search each string for alphabetic fields [a-zA-Z]+ and
-    #   numeric fields [0-9]+ separated by junk [^a-zA-Z0-9]*.
-    # * Successive fields in each string are compared to each other.
-    # * Alphabetic sections are compared lexicographically, and the
-    #   numeric sections are compared numerically.
-    # * In the case of a mismatch where one field is numeric and one is
-    #   alphabetic, the numeric field is always considered greater (newer).
-    # * In the case where one string runs out of fields, the other is always
-    #   considered greater (newer).
-
-    import warnings
-    warnings.warn("Failed to import 'rpm', emulating RPM label comparisons")
-
-    try:
-        from itertools import zip_longest
-    except ImportError:
-        from itertools import izip_longest as zip_longest
-
-    _subfield_pattern = re.compile(
-        r'(?P<junk>[^a-zA-Z0-9]*)((?P<text>[a-zA-Z]+)|(?P<num>[0-9]+))'
-    )
-
-    def _iter_rpm_subfields(field):
-        """Yield subfields as 2-tuples that sort in the desired order
-
-        Text subfields are yielded as (0, text_value)
-        Numeric subfields are yielded as (1, int_value)
-        """
-        for subfield in _subfield_pattern.finditer(field):
-            text = subfield.group('text')
-            if text is not None:
-                yield (0, text)
-            else:
-                yield (1, int(subfield.group('num')))
-
-    def _compare_rpm_field(lhs, rhs):
-        # Short circuit for exact matches (including both being None)
-        if lhs == rhs:
-            return 0
-        # Otherwise assume both inputs are strings
-        lhs_subfields = _iter_rpm_subfields(lhs)
-        rhs_subfields = _iter_rpm_subfields(rhs)
-        for lhs_sf, rhs_sf in zip_longest(lhs_subfields, rhs_subfields):
-            if lhs_sf == rhs_sf:
-                # When both subfields are the same, move to next subfield
-                continue
-            if lhs_sf is None:
-                # Fewer subfields in LHS, so it's less than/older than RHS
-                return -1
-            if rhs_sf is None:
-                # More subfields in LHS, so it's greater than/newer than RHS
-                return 1
-            # Found a differing subfield, so it determines the relative order
-            return -1 if lhs_sf < rhs_sf else 1
-        # No relevant differences found between LHS and RHS
-        return 0
-
-    def _compare_rpm_labels(lhs, rhs):
-        lhs_epoch, lhs_version, lhs_release = lhs
-        rhs_epoch, rhs_version, rhs_release = rhs
-        result = _compare_rpm_field(lhs_epoch, rhs_epoch)
-        if result:
-            return result
-        result = _compare_rpm_field(lhs_version, rhs_version)
-        if result:
-            return result
-        return _compare_rpm_field(lhs_release, rhs_release)
 
 
 REGEX = '%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
@@ -118,112 +45,31 @@ _log = logging.getLogger(__name__)
 http_session = requests.session()
 
 
-def upstream_cmp(v1, v2):
-    """ Compare two upstream versions
-
-    Code from Till Maas as part of
-    `cnucnu <https://fedorapeople.org/cgit/till/public_git/cnucnu.git/>`_
-
-    :Parameters:
-        v1 : str
-            Upstream version string 1
-        v2 : str
-            Upstream version string 2
-
-    :return:
-        - -1 - second version newer
-        - 0  - both are the same
-        - 1  - first version newer
-
-    :rtype: int
-
-    """
-
-    # Strip leading 'v' characters; turn v1.0 into 1.0.
-    # https://github.com/fedora-infra/anitya/issues/110
-    v1 = v1.lstrip('v')
-    v2 = v2.lstrip('v')
-
-    v1, rc1, rcn1 = split_rc(v1)
-    v2, rc2, rcn2 = split_rc(v2)
-
-    diff = rpm_cmp(v1, v2)
-    if diff != 0:
-        # base versions are different, ignore rc-status
-        return diff
-
-    if rc1 and rc2:
-        # both are rc, higher rc is newer
-        rc1_text = rc1.lower()
-        rc2_text = rc2.lower()
-        # rc > pre > beta > alpha
-        if rc1_text < rc2_text:
-            return -1
-        if rc1_text > rc2_text:
-            return 1
-        if rcn1 and rcn2:
-            # both have rc number
-            diff = int(rcn1) - int(rcn2)
-            return diff
-        if rcn1:
-            # only first has rc number, then it is newer
-            return 1
-        if rcn2:
-            # only second has rc number, then it is newer
-            return -1
-        # both rc numbers are missing or same
-        return 0
-
-    if rc1:
-        # only first is rc, then second is newer
-        return -1
-    if rc2:
-        # only second is rc, then first is newer
-        return 1
-
-    # neither is a rc
-    return 0
-
-
-def split_rc(version):
-    """ Split (upstream) version into version and release candidate string +
-    release candidate number if possible
-
-    Code from Till Maas as part of
-    `cnucnu <https://fedorapeople.org/cgit/till/public_git/cnucnu.git/>`_
-
-    """
-    rc_upstream_regex = re.compile(
-        "(.*?)\.?(-?(rc|pre|beta|alpha|dev)([0-9]*))", re.I)
-    match = rc_upstream_regex.match(version)
-    if not match:
-        return (version, "", "")
-
-    rc_str = match.group(3)
-    if rc_str:
-        v = match.group(1)
-        rc_num = match.group(4)
-        return (v, rc_str, rc_num)
-    else:
-        # if version contains a dash, but no release candidate string is found,
-        # v != version, therefore use version here
-        # Example version: 1.8.23-20100128-r1100
-        # Then: v=1.8.23, but rc_str=""
-        return (version, "", "")
-
-
-def rpm_cmp(v1, v2):
-    diff = _compare_rpm_labels((None, v1, None), (None, v2, None))
-    return diff
-
-
 class BaseBackend(object):
-    ''' The base class that all the different backend should extend. '''
+    '''
+    The base class that all the different backends should extend.
+
+    Attributes:
+        name (str): The backend name. This is displayed to the user and used in
+            URLs.
+        examples (list): A list of strings that are displayed to the user to
+            indicate example project URLs.
+        default_regex (str): A regular expression to use by default with the
+            backend.
+        more_info (str): A string that provides more detailed information to
+            the user about the backend.
+        default_version_scheme (str): The default version scheme for this
+            backend. This is only used if both the project and the ecosystem
+            the project is a part of do not define a default version scheme.
+            If this is not defined, :data:`anitya.lib.versions.GLOBAL_DEFAULT`
+            is used.
+    '''
 
     name = None
     examples = None
     default_regex = None
     more_info = None
+    default_version_scheme = None
 
     @classmethod
     def expand_subdirs(self, url, glob_char="*"):
@@ -265,8 +111,8 @@ class BaseBackend(object):
                     subdirs.append(subdir)
             if not subdirs:
                 return url
-            list.sort(subdirs, cmp=upstream_cmp)
-            latest = subdirs[-1]
+            sorted_subdirs = sorted([RpmVersion(s) for s in subdirs])
+            latest = sorted_subdirs[-1].version
 
             url = "%s%s/%s" % (url_prefix, latest, url_suffix)
             return self.expand_subdirs(url, glob_char)
@@ -340,7 +186,9 @@ class BaseBackend(object):
 
         '''
         vlist = self.get_versions(project)
-        return anitya.order_versions(vlist)
+        version_class = project.get_version_class()
+        sorted_versions = sorted([version_class(version=v) for v in vlist])
+        return [v.version for v in sorted_versions]
 
     @classmethod
     def call_url(self, url, insecure=False):

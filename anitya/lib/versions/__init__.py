@@ -23,8 +23,27 @@ This package defines a set of version scheme plugins.
 Anitya attempts to determine the newest version for a project. To do this, it
 must be able to both parse and compare all the major version schemes, and handle
 unknown version schemes in a reasonable way.
+
+The general approach is as follows:
+
+1. If a project has its ``version_scheme`` column defined in the database, that
+   version scheme is used.
+
+2. If the project does not have ``version_scheme`` set, but is in an ecosystem
+   with a default version scheme, the ecosystem default is used.
+
+2. If the project is not a part of an ecosystem or if the ecosystem has no
+   default scheme, but the backend it uses has a default version scheme defined,
+   the backend default is used.
+
+4. If all else fails, Anitya uses the value of :data:`GLOBAL_DEFAULT`.
 """
 from __future__ import unicode_literals
 
 from .base import Version, v_prefix  # noqa: F401
 from .rpm import RpmVersion  # noqa: F401
+
+
+#: The default version scheme to use when the project itself, its ecosystem,
+#: and its backend all have no version scheme set.
+GLOBAL_DEFAULT = 'RPM'

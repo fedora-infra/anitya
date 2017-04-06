@@ -31,7 +31,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm import sessionmaker, scoped_session, query as sa_query
 
-import anitya
+from .versions import GLOBAL_DEFAULT as DEFAULT_VERSION_SCHEME
 
 
 #: This is a configured scoped session. It creates thread-local sessions. This
@@ -409,6 +409,35 @@ class Packages(BASE):
 
 
 class Project(BASE):
+    """
+    Models an upstream project and maps it to a database table.
+
+    Attributes:
+        id (sa.Integer): The database primary key.
+        name (sa.String): The upstream project's name.
+        homepage (sa.String): The URL for the project's home page.
+        backend (sa.String): The name of the backend to use when fetching updates;
+            this is a foreign key to a :class:`Backend`.
+        ecosystem_name (sa.String): The name of the ecosystem this project is a part
+            of. This is a foreign key to :class:`Ecosystem` and may be null.
+        version_url (sa.String): The url to use when polling for new versions. This
+            may be ignored if this project is part of an ecosystem with a fixed
+            URL (e.g. Cargo projects are on https://crates.io).
+        regex (sa.String): A Python ``re`` style regular expression that is applied
+            to the HTML from ``version_url`` to find versions.
+        insecure (sa.Boolean): Whether or not to validate the x509 certificate
+            offered by the server at ``version_url``. Defaults to ``False``.
+        latest_version (sa.Boolean): The latest version for the project, as determined
+            by the version sorting algorithm.
+        logs (sa.Text): The result of the last update.
+        updated_on (sa.DateTime): When the project was last updated.
+        created_on (sa.DateTime): When the project was created in Anitya.
+        packages (list): List of :class:`Package` objects which represent the
+            downstream packages for this project.
+        version_scheme (sa.String): The version scheme to use for this project.
+            If this is null, a default will be used. See the :mod:`anitya.lib.versions`
+            documentation for more information.
+    """
     __tablename__ = 'projects'
 
     id = sa.Column(sa.Integer, primary_key=True)
@@ -421,6 +450,7 @@ class Project(BASE):
     regex = sa.Column(sa.String(200), nullable=True)
     version_prefix = sa.Column(sa.String(200), nullable=True)
     insecure = sa.Column(sa.Boolean, nullable=False, default=False)
+    version_scheme = sa.Column(sa.String(50), nullable=True)
 
     latest_version = sa.Column(sa.String(50))
     logs = sa.Column(sa.Text)
@@ -461,8 +491,42 @@ class Project(BASE):
     def versions(self):
         ''' Return list of all versions stored, sorted from newest to oldest.
         '''
-        return list(reversed(anitya.order_versions(
-            [v.version for v in self.versions_obj])))
+        version_class = self.get_version_class()
+        versions = [
+            version_class(version=v_obj.version, prefix=self.version_prefix)
+            for v_obj in self.versions_obj
+        ]
+        sorted_versions = reversed(sorted(versions))
+        return [v.version for v in sorted_versions]
+
+    def get_version_class(self):
+        """
+        Get the class for the version scheme used by this project.
+
+        This will take into account the defaults set in the ecosystem, backend,
+        and globally. The version scheme locations are checked in the following
+        order and the first non-null result is returned:
+
+        1. On the project itself in the ``version_scheme`` column.
+        2. The project's ecosystem default, if the project is part of one.
+        3. The project's backend default, if the backend defines one.
+        4. The global default defined in :data:`anitya.lib.versions.GLOBAL_DEFAULT`
+
+        Returns:
+            anitya.lib.versions.Version: A ``Version`` sub-class.
+        """
+        from .plugins import ECOSYSTEM_PLUGINS, BACKEND_PLUGINS, VERSION_PLUGINS
+        version_scheme = self.version_scheme
+        if not version_scheme and self.ecosystem_name:
+            ecosystem = ECOSYSTEM_PLUGINS.get_plugin(self.ecosystem_name)
+            version_scheme = ecosystem.default_version_scheme
+        if not version_scheme and self.backend:
+            backend = BACKEND_PLUGINS.get_plugin(self.backend)
+            version_scheme = backend.default_version_scheme
+        if not version_scheme:
+            version_scheme = DEFAULT_VERSION_SCHEME
+
+        return VERSION_PLUGINS.get_plugin(version_scheme)
 
     def __repr__(self):
         return '<Project(%s, %s)>' % (self.name, self.homepage)
