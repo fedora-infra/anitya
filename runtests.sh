@@ -1,4 +1,4 @@
 #!/bin/bash
 
-nosetests \
---with-coverage --cover-erase --cover-package=anitya $*
+py.test --cov-config .coveragerc --cov=anitya --cov-report term \
+    --cov-report xml --cov-report html $*
