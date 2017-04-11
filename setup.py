@@ -18,7 +18,7 @@ def get_project_version():
         raise ValueError(err_msg % (version_pattern, version_file))
     return match.groups()[0].decode("utf-8")
 
-def get_requirements(requirements_file='requirements.txt'):
+def get_requirements(requirements_file='requirements/requirements.txt'):
     """Get the contents of a file listing the requirements.
 
     :arg requirements_file: path to a requirements file
