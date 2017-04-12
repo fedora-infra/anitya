@@ -1,6 +1,7 @@
-include LICENSE README.rst CHANGELOG.rst requirements.txt
+include LICENSE README.rst CHANGELOG.rst
 include runtests.sh createdb.py nosetests migrate_wiki.py
 recursive-include fedmsg.d *
 recursive-include files *
+recursive-include requirements *
 recursive-include alembic *
 

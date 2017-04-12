@@ -68,7 +68,7 @@ runtime.
 
 Next, install your dependencies::
 
-    (anitya-env)$ pip install -r requirements.txt
+    (anitya-env)$ pip install -r requirements/requirements.txt
 
 
 Running the test suite
