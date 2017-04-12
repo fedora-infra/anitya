@@ -20,7 +20,6 @@ BuildRequires:  python-flask-openid
 BuildRequires:  python-wtforms
 BuildRequires:  python-openid
 BuildRequires:  python-dateutil
-BuildRequires:  python-markupsafe
 BuildRequires:  python-bunch
 BuildRequires:  python-straight-plugin
 BuildRequires:  python-setuptools
@@ -42,7 +41,6 @@ Requires:  python-flask-openid
 Requires:  python-wtforms
 Requires:  python-openid
 Requires:  python-dateutil
-Requires:  python-markupsafe
 Requires:  python-bunch
 Requires:  python-straight-plugin
 Requires:  python-setuptools
