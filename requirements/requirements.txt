@@ -1,7 +1,6 @@
 alembic
 bunch
 dateutils
-docutils
 fedmsg
 flask
 flask-openid

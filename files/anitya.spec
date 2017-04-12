@@ -19,7 +19,6 @@ BuildRequires:  python-flask-wtf
 BuildRequires:  python-flask-openid
 BuildRequires:  python-wtforms
 BuildRequires:  python-openid
-BuildRequires:  python-docutils
 BuildRequires:  python-dateutil
 BuildRequires:  python-markupsafe
 BuildRequires:  python-bunch
@@ -42,7 +41,6 @@ Requires:  python-flask-wtf
 Requires:  python-flask-openid
 Requires:  python-wtforms
 Requires:  python-openid
-Requires:  python-docutils
 Requires:  python-dateutil
 Requires:  python-markupsafe
 Requires:  python-bunch
