@@ -1,4 +1,5 @@
-[![codecov](https://codecov.io/gh/release-monitoring/anitya/branch/master/graph/badge.svg)](https://codecov.io/gh/release-monitoring/anitya)
+.. image:: https://codecov.io/gh/release-monitoring/anitya/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/release-monitoring/anitya
 
 Anitya
 ======
