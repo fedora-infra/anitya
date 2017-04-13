@@ -9,9 +9,7 @@ RUN dnf update -y libnghttp2 && \
         python-flask-openid \
         python-wtforms \
         python-openid \
-        python-docutils \
         python-dateutil \
-        python-markupsafe \
         python-bunch \
         python-straight-plugin \
         python-setuptools \
