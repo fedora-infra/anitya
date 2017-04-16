@@ -72,7 +72,13 @@ class GnomeBackend(BaseBackend):
             when the version cannot be retrieved correctly
 
         '''
-        return cls.get_ordered_versions(project)[-1]
+        try:
+            # First try to get the version by using the cache.json file and
+            # assume the ordering will always be the right one
+            return use_gnome_cache_json(project)[-1]
+        except Exception as err:
+            # Otherwise we rely on our sorting method
+            return cls.get_ordered_versions(project)[-1]
 
     @classmethod
     def get_versions(cls, project):
