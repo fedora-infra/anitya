@@ -2,7 +2,6 @@ alembic
 bunch
 dateutils
 fedmsg
-flask
 flask-openid
 # Need the fixes for https://github.com/puiterwijk/flask-oidc/issues/12
 #                and https://github.com/puiterwijk/flask-oidc/issues/24
