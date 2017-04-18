@@ -1,0 +1,22 @@
+# Special bundled requirements file for readthedocs.
+# There's a setuptools bug (#196) that makes Anitya unreliable to
+# install with ``python setup.py install`` so this lets pip handle
+# the dependencies before readthedocs installs Anitya.
+alembic
+bunch
+dateutils
+fedmsg
+flask >= 0.10.1
+flask-openid
+flask-oidc >= 1.1.1
+flask-restful
+flask-wtf
+jinja2 >= 2.4
+python-openid; python_version < '3.0'
+python3-openid; python_version >= '3.0'
+sphinx
+sphinxcontrib-httpdomain
+sqlalchemy >= 0.9
+straight.plugin==1.4.0-post-1
+pytoml
+wtforms
