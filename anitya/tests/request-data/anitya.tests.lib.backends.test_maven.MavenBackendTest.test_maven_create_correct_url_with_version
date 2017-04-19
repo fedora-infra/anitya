@@ -1,0 +1,98 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.10.0]
+    method: GET
+    uri: http://repo2.maven.org/maven2/com/zenecture/neuroflow-application_2/12/
+  response:
+    body: {string: !!python/unicode '<html>
+
+        <head><title>404 Not Found</title></head>
+
+        <body bgcolor="white">
+
+        <center><h1>404 Not Found</h1></center>
+
+        <hr><center>nginx</center>
+
+        </body>
+
+        </html>
+
+        <!-- a padding to disable MSIE and Chrome friendly error page -->
+
+        <!-- a padding to disable MSIE and Chrome friendly error page -->
+
+        <!-- a padding to disable MSIE and Chrome friendly error page -->
+
+        <!-- a padding to disable MSIE and Chrome friendly error page -->
+
+        <!-- a padding to disable MSIE and Chrome friendly error page -->
+
+        <!-- a padding to disable MSIE and Chrome friendly error page -->
+
+
+
+
+'}
+    headers:
+      accept-ranges: [bytes]
+      age: ['86919']
+      connection: [keep-alive]
+      content-length: ['554']
+      content-type: [text/html]
+      date: ['Wed, 19 Apr 2017 08:29:30 GMT']
+      etag: ['"1fb066da6a67c7c02962f59b4b8cd1ee"']
+      fastly-debug-digest: [6744757fd533da7ac9f14cee0c6098e9334bc2fae5f18381cf50d0b41282a512]
+      last-modified: ['Wed, 10 Aug 2016 15:08:35 GMT']
+      via: [1.1 varnish, 1.1 varnish]
+      x-amz-error-code: [NoSuchKey]
+      x-amz-error-detail-key: [maven2/com/zenecture/neuroflow-application_2/12/index.html]
+      x-amz-error-message: [The specified key does not exist.]
+      x-cache: ['MISS, HIT']
+      x-cache-hits: ['0, 1']
+      x-served-by: ['cache-iad2132-IAD, cache-mad9431-MAD']
+      x-timer: ['S1492590570.071287,VS0,VE1']
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.10.0]
+    method: GET
+    uri: http://repo2.maven.org/maven2/com/zenecture/neuroflow-application_2.12/
+  response:
+    body: {string: !!python/unicode "<!DOCTYPE html>\n<html>\n\n<head>\n\t<title>Central
+        Repository: com/zenecture/neuroflow-application_2.12</title>\n\t<meta name=\"viewport\"
+        content=\"width=device-width, initial-scale=1.0\">\n\t<style>\nbody {\n\tbackground:
+        #fff;\n}\n\t</style>\n</head>\n\n<body>\n\t<header>\n\t\t<h1>com/zenecture/neuroflow-application_2.12</h1>\n\t</header>\n\t<hr/>\n\t<main>\n\t\t<pre
+        id=\"contents\">\n<a href=\"../\">../</a>\n<a href=\"0.500/\" title=\"0.500/\">0.500/</a>
+        \                                           2017-04-17 21:45         -      \n<a
+        href=\"maven-metadata.xml\" title=\"maven-metadata.xml\">maven-metadata.xml</a>
+        \                               2017-04-17 21:52       346      \n<a href=\"maven-metadata.xml.md5\"
+        title=\"maven-metadata.xml.md5\">maven-metadata.xml.md5</a>                            2017-04-17
+        21:52        32      \n<a href=\"maven-metadata.xml.sha1\" title=\"maven-metadata.xml.sha1\">maven-metadata.xml.sha1</a>
+        \                          2017-04-17 21:52        40      \n\t\t</pre>\n\t</main>\n\t<hr/>\n</body>\n\n</html>"}
+    headers:
+      accept-ranges: [bytes]
+      age: ['98752']
+      connection: [keep-alive]
+      content-length: ['982']
+      content-type: [text/html]
+      date: ['Wed, 19 Apr 2017 08:29:30 GMT']
+      etag: ['"f629fa3a3aa54112a6d4d983da96cd21"']
+      fastly-debug-digest: [31cb9b497e399fa98546d332469d53d486b03cd0d3ea352459162a30a1e246ca]
+      last-modified: ['Mon, 17 Apr 2017 22:06:50 GMT']
+      via: [1.1 varnish, 1.1 varnish]
+      x-cache: ['MISS, HIT']
+      x-cache-hits: ['0, 1']
+      x-served-by: ['cache-iad2150-IAD, cache-mad9431-MAD']
+      x-timer: ['S1492590570.116537,VS0,VE0']
+    status: {code: 200, message: OK}
+version: 1

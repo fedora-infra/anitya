@@ -1,0 +1,47 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.10.0]
+    method: GET
+    uri: http://repo2.maven.org/maven2/com/github/liyiorg/weixin-popular/
+  response:
+    body: {string: !!python/unicode "<!DOCTYPE html>\n<html>\n\n<head>\n\t<title>Central
+        Repository: com/github/liyiorg/weixin-popular</title>\n\t<meta name=\"viewport\"
+        content=\"width=device-width, initial-scale=1.0\">\n\t<style>\nbody {\n\tbackground:
+        #fff;\n}\n\t</style>\n</head>\n\n<body>\n\t<header>\n\t\t<h1>com/github/liyiorg/weixin-popular</h1>\n\t</header>\n\t<hr/>\n\t<main>\n\t\t<pre
+        id=\"contents\">\n<a href=\"../\">../</a>\n<a href=\"2.8.0/\" title=\"2.8.0/\">2.8.0/</a>
+        \                                           2016-05-23 03:01         -      \n<a
+        href=\"2.8.1/\" title=\"2.8.1/\">2.8.1/</a>                                            2016-09-21
+        05:02         -      \n<a href=\"2.8.2/\" title=\"2.8.2/\">2.8.2/</a>                                            2016-10-20
+        04:04         -      \n<a href=\"2.8.3/\" title=\"2.8.3/\">2.8.3/</a>                                            2016-11-10
+        09:47         -      \n<a href=\"2.8.4/\" title=\"2.8.4/\">2.8.4/</a>                                            2016-12-20
+        02:15         -      \n<a href=\"2.8.5/\" title=\"2.8.5/\">2.8.5/</a>                                            2017-01-12
+        10:48         -      \n<a href=\"2.8.6/\" title=\"2.8.6/\">2.8.6/</a>                                            2017-02-14
+        03:08         -      \n<a href=\"2.8.7/\" title=\"2.8.7/\">2.8.7/</a>                                            2017-03-28
+        01:53         -      \n<a href=\"2.8.8/\" title=\"2.8.8/\">2.8.8/</a>                                            2017-04-07
+        02:23         -      \n<a href=\"maven-metadata.xml\" title=\"maven-metadata.xml\">maven-metadata.xml</a>
+        \                               2017-04-07 02:24       587      \n<a href=\"maven-metadata.xml.md5\"
+        title=\"maven-metadata.xml.md5\">maven-metadata.xml.md5</a>                            2017-04-07
+        02:24        32      \n<a href=\"maven-metadata.xml.sha1\" title=\"maven-metadata.xml.sha1\">maven-metadata.xml.sha1</a>
+        \                          2017-04-07 02:24        40      \n\t\t</pre>\n\t</main>\n\t<hr/>\n</body>\n\n</html>"}
+    headers:
+      accept-ranges: [bytes]
+      age: ['751432']
+      connection: [keep-alive]
+      content-length: ['1920']
+      content-type: [text/html]
+      date: ['Wed, 19 Apr 2017 08:32:22 GMT']
+      etag: ['"073266b88ba60bd4af4e0fb2ce9c4764"']
+      fastly-debug-digest: [34832e32e9affebbebfc9b0816b6364fd856973e9a4c85ccf173a9d465382234]
+      last-modified: ['Fri, 07 Apr 2017 04:13:15 GMT']
+      via: [1.1 varnish, 1.1 varnish]
+      x-cache: ['HIT, HIT']
+      x-cache-hits: ['1, 1']
+      x-served-by: ['cache-iad2139-IAD, cache-mad9422-MAD']
+      x-timer: ['S1492590743.914699,VS0,VE0']
+    status: {code: 200, message: OK}
+version: 1
