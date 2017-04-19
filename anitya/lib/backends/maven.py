@@ -12,11 +12,13 @@ import re
 from subprocess import check_output, CalledProcessError
 import json
 import requests
+import itertools
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.lib.model import Project, NoResultFound
-from anitya.app import APP
+from anitya.config import config
+from anitya.lib.backends import http_session
 
 REGEX = r'\<a[^>]+\>(\d[^</]*)'
 
@@ -77,36 +79,29 @@ class MavenBackend(BaseBackend):
         return get_versions_by_regex(url, REGEX, project)
 
     @classmethod
-    def verify_url(cls, group_id, artifact_id):
-        match_decimal = '(?=\d)'
-        match_non_decimal = r'(?=\D)'
+    def create_correct_url(cls, group_id, artifact_id):
+        '''Method tries to create url from given groupId and artifactId             
+        
+        :param group_id: groupId of project
+        :param artifact_id: artifactId of project
+        :return: URL to Maven Central for group_id and artifact_id
+        '''
+        temp_artifact = artifact_id
+        temp_group = group_id
+        for pattern1, pattern2 in itertools.product(['(?=\d)', r'(?=\D)'], repeat=2):
+            temp_artifact = re.sub(r'{}\.{}'.format(pattern1, pattern2), r'/', temp_artifact)
+            temp_group = re.sub(r'{}\.{}'.format(pattern1, pattern2), r'/', temp_group)
 
-        # match name like like artifact_id23.23_1
-        temp_artifact = do_replace(artifact_id, match_decimal, match_decimal)
-        # match name like like artifact_id23.rest_of_artifact_id
-        temp_artifact = do_replace(temp_artifact, match_decimal, match_non_decimal)
-        # match name like like artifact_id.23_1
-        temp_artifact = do_replace(temp_artifact, match_non_decimal, match_decimal)
-        # just replace dots for slashes
-        temp_artifact = do_replace(temp_artifact, match_non_decimal, match_non_decimal)
-
-        # do same thing with group id
-        temp_group = do_replace(group_id, match_decimal, match_non_decimal)
-        temp_group = do_replace(temp_group, match_non_decimal, match_decimal)
-        temp_group = do_replace(temp_group, match_non_decimal, match_non_decimal)
-
-        homepage = do_request(temp_group, temp_artifact)
-        if homepage is not None:
-            return homepage
-        homepage = do_request(temp_group, artifact_id)
-        if homepage is not None:
-            return homepage
-        homepage = do_request(group_id, temp_artifact)
-        if homepage is not None:
-            return homepage
-        homepage = do_request(group_id, artifact_id)
-        if homepage is not None:
-            return homepage
+        for group, artifact in [(temp_group, temp_artifact), (temp_group, artifact_id),
+                                (group_id, temp_artifact), (group_id, artifact_id)]:
+            homepage = '{maven_url}/{group}/{artifact}/'.format(
+                maven_url=MavenBackend.maven_url, group=group, artifact=artifact)
+            try:
+                request = http_session.get(homepage)
+                if request.status_code == 200:
+                    return homepage
+            except requests.RequestException:
+                pass
 
     @classmethod
     def check_feed(cls):
@@ -118,14 +113,15 @@ class MavenBackend(BaseBackend):
         Returns:
             generator over new packages
         '''
-        if APP.config['JAVA_PATH'] is None:
+
+        if config.config['JAVA_PATH'] is None:
             raise AnityaPluginException('no java binary specified')
-        if APP.config['JAR_NAME'] is None:
+        if config.config['JAR_NAME'] is None:
             raise AnityaPluginException('no maven-release-checker jar file specified')
 
         try:
-            data = check_output([APP.config['JAVA_PATH'], "-jar",
-                                 APP.config['JAR_NAME'], "-it"], universal_newlines=True)
+            data = check_output([config.config['JAVA_PATH'], "-jar",
+                                 config.config['JAR_NAME'], "-it"], universal_newlines=True)
         except CalledProcessError:
             raise AnityaPluginException(
                 'maven-release-checker exited with non zero value')
@@ -145,26 +141,8 @@ class MavenBackend(BaseBackend):
                 homepage = projects[0].homepage
             else:
                 name = maven_coordinates
-                homepage = cls.verify_url(item['groupId'], item['artifactId'])
+                homepage = cls.create_correct_url(item['groupId'], item['artifactId'])
                 if homepage is None:
                     continue
             version = item['version']
             yield name, homepage, cls.name, version
-
-
-def do_replace(input_string, first_pattern, second_pattern):
-    return re.sub(r'{first_pattern}\.{second_pattern}'.
-                  format(first_pattern=first_pattern,
-                         second_pattern=second_pattern), r'/', input_string)
-
-
-def do_request(group_id, artifact_id):
-    homepage = '{maven_url}/{group_id}/{artifact_id}/'. \
-        format(maven_url=MavenBackend.maven_url, group_id=group_id, artifact_id=artifact_id)
-    try:
-        request = requests.get(homepage)
-        if request.status_code == 200:
-            return homepage
-    except requests.RequestException:
-        pass
-    return None
