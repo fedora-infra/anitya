@@ -44,7 +44,7 @@
 - name: Install Anitya requirements into the virtualenv
   become_user: "{{ ansible_env.SUDO_USER }}"
   pip:
-    requirements: "requirements.txt"
+    requirements: "requirements/requirements.txt"
     virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
     virtualenv_python: python2
   args:
@@ -62,7 +62,7 @@
 - name: Install Anitya test requirements into the virtualenv
   become_user: "{{ ansible_env.SUDO_USER }}"
   pip:
-    requirements: "test_requirements.txt"
+    requirements: "requirements/test_requirements.txt"
     virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
     virtualenv_python: python2
   args:
