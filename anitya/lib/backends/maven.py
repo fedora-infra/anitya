@@ -80,8 +80,8 @@ class MavenBackend(BaseBackend):
 
     @classmethod
     def create_correct_url(cls, group_id, artifact_id):
-        '''Method tries to create url from given groupId and artifactId             
-        
+        '''Method tries to create url from given groupId and artifactId
+
         :param group_id: groupId of project
         :param artifact_id: artifactId of project
         :return: URL to Maven Central for group_id and artifact_id

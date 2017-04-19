@@ -126,7 +126,7 @@ class MavenBackendTest(Modeltests):
 
     def test_maven_create_correct(self):
         # tests just normal package
-        homepage = 'http://http://repo2.maven.org/maven2/com/github/liyiorg/weixin-popular/'
+        homepage = 'http://repo2.maven.org/maven2/com/github/liyiorg/weixin-popular/'
         group_id = 'com.github.liyiorg'
         artifact_id = 'weixin-popular'
         obs = MavenBackend.create_correct_url(group_id, artifact_id)
