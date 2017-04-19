@@ -44,8 +44,8 @@ class MavenBackendTest(Modeltests):
         super(MavenBackendTest, self).setUp()
 
         path = os.path.dirname(os.path.realpath(__file__))
-        config.config['JAVA_PATH'] = os.path.join(path, '../../test-data/maven_mock.py')
-        config.config['JAR_NAME'] = 'not-empty'
+        config['JAVA_PATH'] = os.path.join(path, '../../test-data/maven_mock.py')
+        config['JAR_NAME'] = 'not-empty'
         create_distro(self.session)
 
     def assert_plexus_version(self, **kwargs):

@@ -114,14 +114,14 @@ class MavenBackend(BaseBackend):
             generator over new packages
         '''
 
-        if config.config['JAVA_PATH'] is None:
+        if config['JAVA_PATH'] is None:
             raise AnityaPluginException('no java binary specified')
-        if config.config['JAR_NAME'] is None:
+        if config['JAR_NAME'] is None:
             raise AnityaPluginException('no maven-release-checker jar file specified')
 
         try:
-            data = check_output([config.config['JAVA_PATH'], "-jar",
-                                 config.config['JAR_NAME'], "-it"], universal_newlines=True)
+            data = check_output([config['JAVA_PATH'], "-jar",
+                                 config['JAR_NAME'], "-it"], universal_newlines=True)
         except CalledProcessError:
             raise AnityaPluginException(
                 'maven-release-checker exited with non zero value')
