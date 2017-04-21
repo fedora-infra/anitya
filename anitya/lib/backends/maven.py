@@ -142,6 +142,7 @@ class MavenBackend(BaseBackend):
             else:
                 name = maven_coordinates
                 homepage = cls.create_correct_url(item['groupId'], item['artifactId'])
+                # skip package for which we can not create valid url
                 if homepage is None:
                     continue
             version = item['version']
