@@ -74,6 +74,15 @@ Next, install your dependencies::
     (anitya-env)$ pip install -r requirements/requirements.txt
 
 
+Running with enabled check-feed for Maven backend
+`````````````````````````````````````````````````
+You have to get tool named `maven-index-checker <https://github.com/pkajaba/maven-index-checker/>`_.
+You can either build jar file for yourself or download pre-prebuilt one. You have to also download java::
+    dnf install java
+
+
+After downloading jar you have to set 'JAVA_PATH' and 'JAR_PATH' variables in config.py.
+
 Running the test suite
 ``````````````````````
 Regardless of which Python version you have configured in your local venv,

@@ -1,0 +1,140 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.10.0]
+    method: GET
+    uri: http://repo2.maven.org/maven2/com/liferay/com/liferay/amazon/rankings/web/
+  response:
+    body: {string: !!python/unicode '<html>
+
+        <head><title>404 Not Found</title></head>
+
+        <body bgcolor="white">
+
+        <center><h1>404 Not Found</h1></center>
+
+        <hr><center>nginx</center>
+
+        </body>
+
+        </html>
+
+        <!-- a padding to disable MSIE and Chrome friendly error page -->
+
+        <!-- a padding to disable MSIE and Chrome friendly error page -->
+
+        <!-- a padding to disable MSIE and Chrome friendly error page -->
+
+        <!-- a padding to disable MSIE and Chrome friendly error page -->
+
+        <!-- a padding to disable MSIE and Chrome friendly error page -->
+
+        <!-- a padding to disable MSIE and Chrome friendly error page -->
+
+
+
+
+'}
+    headers:
+      accept-ranges: [bytes]
+      age: ['0']
+      connection: [keep-alive]
+      content-length: ['554']
+      content-type: [text/html]
+      date: ['Wed, 19 Apr 2017 08:30:56 GMT']
+      etag: ['"1fb066da6a67c7c02962f59b4b8cd1ee"']
+      fastly-debug-digest: [0be19fd3ed827937f6585105f67efb8b69533ed16cef237cddcd4c29bc125838]
+      last-modified: ['Wed, 10 Aug 2016 15:08:35 GMT']
+      via: [1.1 varnish, 1.1 varnish]
+      x-amz-error-code: [NoSuchKey]
+      x-amz-error-detail-key: [maven2/com/liferay/com/liferay/amazon/rankings/web/index.html]
+      x-amz-error-message: [The specified key does not exist.]
+      x-cache: ['MISS, MISS']
+      x-cache-hits: ['0, 0']
+      x-served-by: ['cache-iad2121-IAD, cache-mad9421-MAD']
+      x-timer: ['S1492590657.687326,VS0,VE106']
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.10.0]
+    method: GET
+    uri: http://repo2.maven.org/maven2/com/liferay/com.liferay.amazon.rankings.web/
+  response:
+    body: {string: !!python/unicode '<html>
+
+        <head><title>Index of /maven2/com/liferay/com.liferay.amazon.rankings.web/</title></head>
+
+        <body bgcolor=white>
+
+        <h1>Index of /maven2/com/liferay/com.liferay.amazon.rankings.web/</h1>
+
+        <hr>
+
+        <pre>
+
+        <a href=../>../</a>
+
+        <a href="1.0.6/">1.0.6/</a>                                             2016-09-27
+        14:23                    -
+
+        <a href="1.0.1/">1.0.1/</a>                                             2016-08-11
+        12:24                    -
+
+        <a href="1.0.5/">1.0.5/</a>                                             2016-08-11
+        12:24                    -
+
+        <a href="1.0.2/">1.0.2/</a>                                             2016-08-11
+        12:24                    -
+
+        <a href="1.0.0/">1.0.0/</a>                                             2016-08-11
+        12:24                    -
+
+        <a href="1.0.3/">1.0.3/</a>                                             2016-08-11
+        12:24                    -
+
+        <a href="1.0.4/">1.0.4/</a>                                             2016-08-11
+        12:24                    -
+
+        <a href="maven-metadata.xml.sha1">maven-metadata.xml.sha1</a>                            2016-11-17
+        22:38                   40
+
+        <a href="maven-metadata.xml">maven-metadata.xml</a>                                 2016-11-17
+        22:38                  556
+
+        <a href="maven-metadata.xml.md5">maven-metadata.xml.md5</a>                             2016-11-17
+        22:38                   32
+
+        </pre>
+
+        <hr>
+
+        </body>
+
+        </html>
+
+'}
+    headers:
+      accept-ranges: [bytes]
+      age: ['523673']
+      connection: [keep-alive]
+      content-length: ['1393']
+      content-type: [text/html]
+      date: ['Wed, 19 Apr 2017 08:30:56 GMT']
+      etag: ['"5e80c658ede5c510981c8877c7b58afc"']
+      fastly-debug-digest: [aa7445ac3e14f810ab8eeacff17b930e1bb8684ea4da44d4f710740c11f272fa]
+      last-modified: ['Fri, 18 Nov 2016 05:26:37 GMT']
+      via: [1.1 varnish, 1.1 varnish]
+      x-cache: ['HIT, HIT']
+      x-cache-hits: ['1, 1']
+      x-served-by: ['cache-iad2130-IAD, cache-mad9421-MAD']
+      x-timer: ['S1492590657.874507,VS0,VE11']
+    status: {code: 200, message: OK}
+version: 1

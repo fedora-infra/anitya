@@ -24,12 +24,13 @@ anitya tests for the Maven backend.
 '''
 
 import unittest
+import os
 
 from anitya.lib.backends.maven import MavenBackend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import Modeltests, create_distro, skip_jenkins
-
+from anitya.config import config
 
 BACKEND = 'Maven Central'
 
@@ -42,6 +43,9 @@ class MavenBackendTest(Modeltests):
         """ Set up the environnment, ran before every tests. """
         super(MavenBackendTest, self).setUp()
 
+        path = os.path.dirname(os.path.realpath(__file__))
+        config['JAVA_PATH'] = os.path.join(path, '../../test-data/maven_mock.py')
+        config['JAR_PATH'] = 'not-empty'
         create_distro(self.session)
 
     def assert_plexus_version(self, **kwargs):
@@ -103,6 +107,43 @@ class MavenBackendTest(Modeltests):
                '1.3.8']
         obs = MavenBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
+
+    def test_maven_create_correct_url_with_version(self):
+        # tries to create url where is version inside
+        homepage = 'http://repo2.maven.org/maven2/com/zenecture/neuroflow-application_2.12/'
+        group_id = 'com.zenecture'
+        artifact_id = 'neuroflow-application_2.12'
+        obs = MavenBackend.create_correct_url(group_id, artifact_id)
+        self.assertEqual(obs, homepage)
+
+    def test_maven_create_correct_url_with_dots(self):
+        # tries to create url where are dots inside
+        homepage = 'http://repo2.maven.org/maven2/com/liferay/com.liferay.amazon.rankings.web/'
+        group_id = 'com.liferay'
+        artifact_id = 'com.liferay.amazon.rankings.web'
+        obs = MavenBackend.create_correct_url(group_id, artifact_id)
+        self.assertEqual(obs, homepage)
+
+    def test_maven_create_correct(self):
+        # tests just normal package
+        homepage = 'http://repo2.maven.org/maven2/com/github/liyiorg/weixin-popular/'
+        group_id = 'com.github.liyiorg'
+        artifact_id = 'weixin-popular'
+        obs = MavenBackend.create_correct_url(group_id, artifact_id)
+        self.assertEqual(obs, homepage)
+
+    def test_maven_check_feed(self):
+        """ Test the check_feed method of the maven backend. """
+        generator = MavenBackend.check_feed()
+        items = list(generator)
+
+        self.assertEqual(items[0], (
+            'ai.h2o:deepwater-backend-api', 'http://repo2.maven.org/maven2/ai/h2o/deepwater-backend-api/',
+            'Maven Central', '1.0.3'))
+        self.assertEqual(items[1], (
+            'ai.h2o:sparkling-water-core_2.11', 'http://repo2.maven.org/maven2/ai/h2o/sparkling-water-core_2.11/',
+            'Maven Central', '2.0.6'))
+        # etc...
 
 
 if __name__ == '__main__':
