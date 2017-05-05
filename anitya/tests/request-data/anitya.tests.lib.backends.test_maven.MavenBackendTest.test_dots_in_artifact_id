@@ -1,0 +1,79 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.11.0 at upstream-monitoring.org]
+    method: GET
+    uri: http://repo1.maven.org/maven2/org/apache/felix/org.apache.felix.gogo.shell/
+  response:
+    body: {string: !!python/unicode '<html>
+
+        <head><title>Index of /maven2/org/apache/felix/org.apache.felix.gogo.shell/</title></head>
+
+        <body bgcolor=white>
+
+        <h1>Index of /maven2/org/apache/felix/org.apache.felix.gogo.shell/</h1>
+
+        <hr>
+
+        <pre>
+
+        <a href=../>../</a>
+
+        <a href="0.6.0/">0.6.0/</a>                                             2011-01-07
+        15:05                    -
+
+        <a href="0.10.0/">0.10.0/</a>                                            2011-06-22
+        02:11                    -
+
+        <a href="0.6.1/">0.6.1/</a>                                             2011-01-07
+        15:05                    -
+
+        <a href="1.0.0/">1.0.0/</a>                                             2016-10-17
+        08:57                    -
+
+        <a href="0.12.0/">0.12.0/</a>                                            2015-10-05
+        03:43                    -
+
+        <a href="0.8.0/">0.8.0/</a>                                             2011-01-17
+        18:29                    -
+
+        <a href="maven-metadata.xml.sha1">maven-metadata.xml.sha1</a>                            2016-10-17
+        08:57                   40
+
+        <a href="maven-metadata.xml">maven-metadata.xml</a>                                 2016-10-17
+        08:57                  507
+
+        <a href="maven-metadata.xml.md5">maven-metadata.xml.md5</a>                             2016-10-17
+        08:57                   32
+
+        </pre>
+
+        <hr>
+
+        </body>
+
+        </html>
+
+        '}
+    headers:
+      accept-ranges: [bytes]
+      age: ['135']
+      connection: [keep-alive]
+      content-length: ['1287']
+      content-type: [text/html]
+      date: ['Thu, 04 May 2017 15:03:52 GMT']
+      etag: ['"1b63211a297e194a79b173129888a32d"']
+      fastly-debug-digest: [9fc1dd1aeb4578b98d0d1fbea6f59e98c011c203e5459400902ab3d4a95f49ae]
+      last-modified: ['Mon, 17 Oct 2016 14:09:37 GMT']
+      via: [1.1 varnish, 1.1 varnish]
+      x-cache: ['HIT, HIT']
+      x-cache-hits: ['1, 1']
+      x-served-by: ['cache-iad2124-IAD, cache-ams4135-AMS']
+      x-timer: ['S1493910232.473231,VS0,VE1']
+    status: {code: 200, message: OK}
+version: 1

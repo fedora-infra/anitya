@@ -91,6 +91,17 @@ class MavenBackendTest(Modeltests):
                      'org/codehaus/plexus/plexus-maven-plugin/',
         )
 
+    def test_dots_in_artifact_id(self):
+        project = model.Project(
+            backend=BACKEND,
+            name='felix-gogo-shell',
+            homepage='http://www.apache.org/dist/felix/',
+            version_url='org.apache.felix:org.apache.felix.gogo.shell',
+        )
+        exp = '1.0.0'
+        obs = MavenBackend.get_version(project)
+        self.assertEqual(obs, exp)
+
     def test_maven_get_versions(self):
         project = model.Project(
             backend=BACKEND,
