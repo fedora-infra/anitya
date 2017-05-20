@@ -31,14 +31,16 @@ import oauthlib.oauth2
 import requests_oauthlib
 
 import mock
-import unittest2 as unittest # Ensure we always have TestCase.addCleanup
+import unittest2 as unittest  # Ensure we always have TestCase.addCleanup
 
 import anitya
 from .base import (Modeltests, create_project)
 
+
 # Py3 compatibility: UTF-8 decoding and JSON decoding may be separate steps
 def _read_json(output):
     return json.loads(output.get_data(as_text=True))
+
 
 class _APItestsMixin(object):
     """Helper mixin to set up API testing environment"""
@@ -261,7 +263,6 @@ class AuthenticationRequiredTests(_APItestsMixin, Modeltests):
             }
         self.assertEqual(data, exp)
 
-
     def test_project_monitoring_request(self):
         self.maxDiff = None
         output = self.app.post('/api/v2/projects/')
@@ -327,6 +328,7 @@ class MockAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
 
     def setUp(self):
         super(MockAuthenticationTests, self).setUp()
+
         # Replace anitya.authentication._validate_api_token
         def _bypass_token_validation(validated, raw_api, *args, **kwds):
             return raw_api(*args, **kwds)
@@ -341,6 +343,7 @@ class MockAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
         }
 
         test_case = self
+
         class MockOIDC:
             # In the live API, `access_token` is optional, but here we expect
             # to receive it
@@ -412,7 +415,6 @@ class LiveAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
         oidc_credentials["client_token"] = token
 
         with open(CREDENTIALS_FILE, "w") as f:
-            refresh_token_id = token["refresh_token"][:]
             json.dump(oidc_credentials, f)
         return token["access_token"]
 

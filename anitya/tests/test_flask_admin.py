@@ -24,12 +24,7 @@ anitya tests for the flask application.
 '''
 
 import datetime
-import json
 import unittest
-import sys
-import os
-
-import flask
 
 import anitya
 from anitya.lib import model
@@ -496,7 +491,7 @@ class FlaskAdminTest(Modeltests):
                 sess['email'] = 'pingou@pingoured.fr'
 
             output = c.post('/flags/{0}/set/closed'.format(flag.id),
-                           follow_redirects=True)
+                            follow_redirects=True)
 
             # Non-admin ID will complain, insufficient creds
             self.assertEqual(output.status_code, 401)
@@ -516,7 +511,7 @@ class FlaskAdminTest(Modeltests):
                 sess['email'] = 'pingou@pingoured.fr'
 
             output = c.post('/flags/{0}/set/closed'.format(flag.id),
-                           follow_redirects=True)
+                            follow_redirects=True)
             self.assertEqual(output.status_code, 200)
 
             # Now the flag state should *not* have toggled because while we did
@@ -551,7 +546,7 @@ class FlaskAdminTest(Modeltests):
                 sess['email'] = 'pingou@pingoured.fr'
 
             output = c.post('/flags/{0}/set/open'.format(flag.id),
-                           follow_redirects=True)
+                            follow_redirects=True)
 
             # Get a new CSRF Token
             output = c.get('/distro/add')
@@ -579,7 +574,7 @@ class FlaskAdminTest(Modeltests):
                 sess['email'] = 'pingou@pingoured.fr'
 
             output = c.post('/flags/{0}/set/nonsense'.format(flag.id),
-                           follow_redirects=True)
+                            follow_redirects=True)
             self.assertEqual(output.status_code, 422)
 
         # Make sure that passing garbage doesn't change anything.

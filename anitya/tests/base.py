@@ -32,8 +32,8 @@ import mock
 import anitya.lib
 import anitya.lib.model as model
 
-#DB_PATH = 'sqlite:///:memory:'
-## A file database is required to check the integrity, don't ask
+# DB_PATH = 'sqlite:///:memory:'
+# A file database is required to check the integrity, don't ask
 DB_PATH = 'sqlite:////tmp/anitya_test.sqlite'
 FAITOUT_URL = 'http://faitout.fedorainfracloud.org/'
 
@@ -53,11 +53,6 @@ def skip_jenkins(function):
     @wraps(function)
     def decorated_function(*args, **kwargs):
         """ Decorated function, actually does the work. """
-        ## We used to skip all these tests in jenkins, but now with vcrpy, we
-        ## don't need to.  We can replay the recorded request/response pairs
-        ## for each test from disk.
-        #if os.environ.get('BUILD_ID'):
-        #    raise unittest.SkipTest('Skip backend test on jenkins')
         return function(*args, **kwargs)
 
     return decorated_function

@@ -73,7 +73,6 @@ class BitBucketBackendtests(Modeltests):
         self.session.add(project)
         self.session.commit()
 
-
     def test_get_version(self):
         """ Test the get_version function of the BitBucket backend. """
         pid = 1

@@ -23,11 +23,9 @@
 anitya tests of the plugins.
 '''
 
-import datetime
 import unittest
 
 from anitya.lib import plugins
-from anitya.lib import model
 from anitya.lib.versions import Version
 from anitya.tests.base import Modeltests
 
@@ -75,7 +73,7 @@ class Pluginstests(Modeltests):
 
         ecosystem_plugins = all_plugins["ecosystems"]
         ecosystems = dict((plugin.name, plugin.default_backend)
-                              for plugin in ecosystem_plugins)
+                          for plugin in ecosystem_plugins)
         self.assertEqual(ecosystems, EXPECTED_ECOSYSTEMS)
 
     def test_load_plugins(self):

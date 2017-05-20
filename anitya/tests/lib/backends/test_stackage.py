@@ -23,7 +23,6 @@
 anitya tests for the custom backend.
 '''
 
-import json
 import unittest
 
 import anitya.lib.backends.stackage as backend
@@ -64,7 +63,6 @@ class HackageBackendtests(Modeltests):
         self.session.add(project)
         self.session.commit()
 
-
     def test_get_version(self):
         """ Test the get_version function of the Stackage backend. """
         pid = 1
@@ -80,7 +78,6 @@ class HackageBackendtests(Modeltests):
             backend.StackageBackend.get_version,
             project
         )
-
 
     def test_get_versions(self):
         """ Test the get_versions function of the Stackage backend. """

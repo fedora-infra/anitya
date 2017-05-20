@@ -63,7 +63,6 @@ class RubygemsBackendtests(Modeltests):
         self.session.add(project)
         self.session.commit()
 
-
     def test_get_version(self):
         """ Test the get_version function of the rubygems backend. """
         pid = 1
@@ -79,7 +78,6 @@ class RubygemsBackendtests(Modeltests):
             backend.RubygemsBackend.get_version,
             project
         )
-
 
     def test_get_versions(self):
         """ Test the get_versions function of the rubygems backend. """

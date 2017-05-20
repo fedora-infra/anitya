@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import sys
 import logging
@@ -46,7 +46,6 @@ def projects_by_feed(session):
             LOG.debug("Project %s is already up to date." % project.name)
         else:
             yield project
-
 
 
 def update_project(project_id):

@@ -155,7 +155,6 @@ class GnomeBackendtests(Modeltests):
             u'3.16.1', u'3.16.2', u'3.17.1', u'3.17.2',
         ]
         obs = backend.GnomeBackend.get_ordered_versions(project)
-        #print [str(o) for o in obs]
         self.assertEqual(obs, exp)
 
         pid = 2
@@ -205,7 +204,6 @@ class GnomeBackendtests(Modeltests):
             u'3.16.0', u'3.16.1', u'3.16.2',
         ]
         obs = backend.GnomeBackend.get_ordered_versions(project)
-        #print [str(o) for o in obs]
         self.assertEqual(obs, exp)
 
 

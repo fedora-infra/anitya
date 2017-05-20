@@ -7,6 +7,7 @@ Setup script
 from setuptools import setup, find_packages
 import re
 
+
 def get_project_version():
     """Read the declared version of the project from the source code"""
     version_file = "anitya/app.py"
@@ -17,6 +18,7 @@ def get_project_version():
         err_msg = "No line matching  %r found in %r"
         raise ValueError(err_msg % (version_pattern, version_file))
     return match.groups()[0].decode("utf-8")
+
 
 def get_requirements(requirements_file='requirements/requirements.txt'):
     """Get the contents of a file listing the requirements.
