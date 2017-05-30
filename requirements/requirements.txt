@@ -1,6 +1,6 @@
 alembic
 bunch
-dateutils
+python-dateutil
 fedmsg
 flask-openid
 # Need the fixes for https://github.com/puiterwijk/flask-oidc/issues/12
