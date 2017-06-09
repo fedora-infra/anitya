@@ -73,7 +73,6 @@ class GithubBackendtests(Modeltests):
         self.session.add(project)
         self.session.commit()
 
-
     def test_get_version(self):
         """ Test the get_version function of the github backend. """
         pid = 1

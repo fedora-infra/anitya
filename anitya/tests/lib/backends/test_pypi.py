@@ -23,7 +23,6 @@
 anitya tests for the pypi backend.
 '''
 
-import json
 import unittest
 
 import anitya.lib.backends.pypi as backend

@@ -310,10 +310,11 @@ class FlaskTest(Modeltests):
                 </a>"""
         self.assertTrue(expected in output.data)
 
-        expected = b"""
-                <a href="https://fedorahosted.org/r2spec/" target="_blank" rel="noopener noreferrer">
-                  https://fedorahosted.org/r2spec/
-                </a>"""
+        expected = (
+            b'\n                <a href="https://fedorahosted.org/r2spec/" target="_blank"'
+            b' rel="noopener noreferrer">\n                  '
+            b'https://fedorahosted.org/r2spec/\n                </a>'
+        )
         self.assertTrue(expected in output.data)
 
         expected = b"""

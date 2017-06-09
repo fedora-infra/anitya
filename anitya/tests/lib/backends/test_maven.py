@@ -87,7 +87,7 @@ class MavenBackendTest(Modeltests):
     def test_maven_get_version_by_url(self):
         self.assert_plexus_version(
             name='plexus-maven-plugin',
-            homepage='http://repo1.maven.org/maven2/'\
+            homepage='http://repo1.maven.org/maven2/'
                      'org/codehaus/plexus/plexus-maven-plugin/',
         )
 

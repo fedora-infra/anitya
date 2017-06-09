@@ -25,8 +25,6 @@ anitya tests for the debian backend.
 
 import unittest
 
-import mock
-
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.lib.backends import get_versions_by_regex_for_text
 from anitya.tests.base import Modeltests, create_distro, skip_jenkins
@@ -74,7 +72,6 @@ class DebianBackendtests(Modeltests):
         )
         self.session.add(project)
         self.session.commit()
-
 
     def test_get_version(self):
         """ Test the get_version function of the debian backend. """

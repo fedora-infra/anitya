@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 """ Migrate all the projects present on the wiki into Cnucnu Web """
 
-## Requires:
-## project name -- Fedora package name
+# Requires:
+# project name -- Fedora package name
+#
 # python-bugzilla -- python-bugzilla
 # PyYAML -- PyYAML
 # pycurl -- python-pycurl
@@ -12,12 +13,10 @@
 import os
 import pprint
 
-import cnucnu
 from cnucnu.package_list import PackageList
 import anitya.app
 import anitya.lib
 import anitya.lib.plugins
-from anitya.lib import model
 
 import anitya.lib.backends.sourceforge
 import anitya.lib.backends.gnu
@@ -143,14 +142,6 @@ def migrate_wiki(agent):
             url = CONVERT_URL[url] % (name or pkg.name)
         else:
             url = clean_url(url)
-
-        # Code for this lives here:
-        # http://ambre.pingoured.fr/cgit/cnucnu.git/tree/cnucnu/__init__.py?h=devel#n39
-        #if name:
-        #    name = cnucnu.clear_name(name, url)
-        #    # Only keep the name if it is
-        #    #if pkg.name.lower().startswith(name.lower()):
-        #        #name = None
 
         project = anitya.lib.model.Project.get_or_create(
             SESSION,

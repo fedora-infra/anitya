@@ -25,14 +25,13 @@ anitya tests for the flask API.
 
 import json
 import unittest
-import sys
-import os
 
 import anitya
 import anitya.lib.model as model
 from anitya.lib.backends import REGEX
 from anitya.tests.base import (Modeltests, create_distro, create_project,
                                create_package, create_ecosystem_projects)
+
 
 # Py3 compatibility: UTF-8 decoding and JSON decoding may be separate steps
 def _read_json(output):
@@ -278,9 +277,6 @@ class AnityaWebAPItests(Modeltests):
             "output": "notok"
         }
 
-        # This test will break for every update of geany, so we need to
-        # keep the output easy on hand.
-        #print output.data
         self.assertEqual(data, exp)
 
         # Modify it back:
@@ -312,9 +308,6 @@ class AnityaWebAPItests(Modeltests):
             ],
         }
 
-        # This test will break for every update of geany, so we need to
-        # keep the output easy on hand.
-        #print output.data
         self.assertEqual(data, exp)
 
     def test_api_get_project(self):
@@ -460,6 +453,7 @@ class AnityaWebAPItests(Modeltests):
         }
 
         self.assertEqual(data, exp)
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(AnityaWebAPItests)

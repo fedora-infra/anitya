@@ -3,8 +3,9 @@
 """ The flask application """
 
 import argparse
-import sys
 import os
+
+from anitya.app import APP
 
 
 parser = argparse.ArgumentParser(
@@ -45,6 +46,5 @@ if args.config:
     os.environ['ANITYA_WEB_CONFIG'] = config
 
 
-from anitya.app import APP
 APP.debug = True
 APP.run(port=int(args.port), host=args.host)

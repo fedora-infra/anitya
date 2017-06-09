@@ -23,7 +23,6 @@
 anitya tests for the custom backend.
 '''
 
-import json
 import unittest
 
 import anitya.lib.backends.drupal7 as backend
@@ -71,7 +70,6 @@ class Drupal7Backendtests(Modeltests):
         )
         self.session.add(project)
         self.session.commit()
-
 
     def test_get_version(self):
         """ Test the get_version function of the debian backend. """

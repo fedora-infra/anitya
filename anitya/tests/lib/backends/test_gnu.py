@@ -23,7 +23,6 @@
 anitya tests for the custom backend.
 '''
 
-import json
 import unittest
 
 import anitya.lib.backends.gnu as backend

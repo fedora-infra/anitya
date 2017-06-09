@@ -23,7 +23,6 @@
 anitya tests for the pagure backend.
 '''
 
-import json
 import unittest
 
 import anitya.lib.backends.pagure as backend

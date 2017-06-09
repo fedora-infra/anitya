@@ -23,7 +23,6 @@
 anitya tests for the custom backend.
 '''
 
-import json
 import unittest
 
 import anitya.lib.backends.google as backend
@@ -64,7 +63,6 @@ class GoogleBackendtests(Modeltests):
         self.session.add(project)
         self.session.commit()
 
-
     def test_cpan_get_version(self):
         """ Test the get_version function of the custom backend. """
         pid = 1
@@ -80,7 +78,6 @@ class GoogleBackendtests(Modeltests):
             backend.GoogleBackend.get_version,
             project
         )
-
 
     def test_cpan_get_versions(self):
         """ Test the get_versions function of the custom backend. """

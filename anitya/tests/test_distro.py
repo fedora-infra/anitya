@@ -24,8 +24,6 @@ anitya tests for the Distro object.
 '''
 
 import unittest
-import sys
-import os
 
 import anitya.lib.model as model
 from anitya.tests.base import Modeltests, create_distro
