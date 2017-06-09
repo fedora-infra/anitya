@@ -4,7 +4,7 @@
 # the dependencies before readthedocs installs Anitya.
 alembic
 bunch
-dateutils
+python-dateutil
 fedmsg
 flask >= 0.10.1
 flask-openid
