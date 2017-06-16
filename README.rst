@@ -47,6 +47,11 @@ You may then access Anitya on your host at::
 
     http://127.0.0.1:5000
 
+By default anitya imports the production database so you've got something
+to work off of. If instead you prefer an empty database, add the following
+to the ansible provisioner inside your `Vagrantfile`::
+
+    ansible.extra_vars = { import_production_database: false }
 
 virtualenv
 ``````````
