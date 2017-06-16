@@ -41,6 +41,7 @@
 - shell: xzcat /tmp/anitya.dump.xz | runuser -l postgres -c 'psql anitya' && touch /home/vagrant/.db-imported
   args:
       creates: /home/vagrant/.db-imported
+  when: import_production_database
 
 - name: Create /home/vagrant/alembic.ini
   become_user: "{{ ansible_env.SUDO_USER }}"
@@ -63,4 +64,15 @@
   command: ~/.virtualenvs/anitya/bin/alembic upgrade head
   args:
       chdir: /home/vagrant/
+  when: import_production_database
 
+- name: Create database schema
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+      source ~/.virtualenvs/anitya/bin/activate && python createdb.py && touch ~/.schema-created
+  args:
+    creates: /home/vagrant/.schema-created
+    chdir: /home/vagrant/devel
+  environment:
+    ANITYA_WEB_CONFIG: /home/vagrant/anitya.toml
+  when: not import_production_database
