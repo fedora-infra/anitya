@@ -22,87 +22,112 @@ Base class for Anitya tests.
 """
 from __future__ import print_function
 
-from functools import wraps
 import unittest
 import os
 
+from sqlalchemy import create_engine, event
 import vcr
 import mock
 
-import anitya.lib
-import anitya.lib.model as model
-
-# DB_PATH = 'sqlite:///:memory:'
-# A file database is required to check the integrity, don't ask
-DB_PATH = 'sqlite:////tmp/anitya_test.sqlite'
-FAITOUT_URL = 'http://faitout.fedorainfracloud.org/'
-
-if os.environ.get('BUILD_ID'):
-    try:
-        import requests
-        req = requests.get('%s/new' % FAITOUT_URL)
-        if req.status_code == 200:
-            DB_PATH = req.text
-            print('Using faitout at: %s' % DB_PATH)
-    except:
-        pass
+from anitya import app
+from anitya.lib import model, create_project as lib_create_project, flag_project
 
 
-def skip_jenkins(function):
-    """ Decorator to skip tests if AUTH is set to False """
-    @wraps(function)
-    def decorated_function(*args, **kwargs):
-        """ Decorated function, actually does the work. """
-        return function(*args, **kwargs)
-
-    return decorated_function
+engine = None
 
 
-class Modeltests(unittest.TestCase):
-    """ Model tests. """
-    maxDiff = None
+def _configure_db(db_uri='sqlite://'):
+    """Creates and configures a database engine for the tests to use.
 
-    def __init__(self, method_name='runTest'):
-        """ Constructor. """
-        unittest.TestCase.__init__(self, method_name)
-        self.session = None
+    Args:
+        db_uri (str): The URI to use when creating the engine. This defaults
+            to an in-memory SQLite database.
+    """
+    global engine
+    engine = create_engine(db_uri)
 
-    # pylint: disable=C0103
+    if db_uri.startswith('sqlite://'):
+        # Necessary to get nested transactions working with SQLite. See:
+        # http://docs.sqlalchemy.org/en/latest/dialects/sqlite.html\
+        # #serializable-isolation-savepoints-transactional-ddl
+        @event.listens_for(engine, "connect")
+        def connect_event(dbapi_connection, connection_record):
+            """Stop pysqlite from emitting 'BEGIN'"""
+            # disable pysqlite's emitting of the BEGIN statement entirely.
+            # also stops it from emitting COMMIT before any DDL.
+            dbapi_connection.isolation_level = None
+
+        @event.listens_for(engine, "begin")
+        def begin_event(conn):
+            """Emit our own 'BEGIN' instead of letting pysqlite do it."""
+            conn.execute('BEGIN')
+
+    @event.listens_for(model.Session, 'after_transaction_end')
+    def restart_savepoint(session, transaction):
+        """Allow tests to call rollback on the session."""
+        if transaction.nested and not transaction._parent.nested:
+            session.expire_all()
+            session.begin_nested()
+
+
+class AnityaTestCase(unittest.TestCase):
+    """This is the base test case class for Anitya tests."""
+
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
-        if ':///' in DB_PATH:
-            dbfile = DB_PATH.split(':///')[1]
-            if os.path.exists(dbfile):
-                os.unlink(dbfile)
-        self.session = anitya.lib.init(DB_PATH, create=True, debug=False)
-        mock_query = mock.patch.object(
-            model.BASE, 'query', self.session.query_property(query_cls=model.BaseQuery))
-        mock_query.start()
-        self.addCleanup(mock_query.stop)
+        """Set a basic test environment.
 
-        anitya.lib.plugins.load_plugins(self.session)
+        This simply starts recording a VCR on start-up and stops on tearDown.
+        """
         cwd = os.path.dirname(os.path.realpath(__file__))
-        self.vcr = vcr.use_cassette(os.path.join(cwd, 'request-data/', self.id()))
+        my_vcr = vcr.VCR(
+            cassette_library_dir=os.path.join(cwd, 'request-data/'), record_mode='once')
+        self.vcr = my_vcr.use_cassette(self.id())
         self.vcr.__enter__()
+        self.addCleanup(self.vcr.__exit__, None, None, None)
 
-    # pylint: disable=C0103
+
+class DatabaseTestCase(AnityaTestCase):
+    """The base class for tests that use the database.
+
+    This pattern requires that the database support nested transactions.
+    """
+
+    def setUp(self):
+        super(DatabaseTestCase, self).setUp()
+
+        # We don't want our SQLAlchemy session thrown away post-request because that rolls
+        # back the transaction and no database assertions can be made. This mocks out the
+        # function that disposes of the session at the end of a request.
+        mock_teardowns = mock.patch.object(app.APP, 'teardown_request_funcs', {})
+        mock_teardowns.start()
+        self.addCleanup(mock_teardowns.stop)
+
+        if engine is None:
+            # In the future we could provide a postgres URI to test against various
+            # databases!
+            _configure_db()
+
+        self.connection = engine.connect()
+        model.BASE.metadata.create_all(bind=self.connection)
+        self.transaction = self.connection.begin()
+
+        model.Session.remove()
+        model.Session.configure(bind=self.connection, autoflush=False)
+        self.session = model.Session()
+
+        # Start a transaction after creating the schema, but before anything is
+        # placed into the database. We'll roll back to the start of this
+        # transaction at the end of every test, and code under test will start
+        # nested transactions
+        self.session.begin_nested()
+
     def tearDown(self):
-        """ Remove the test.db database if there is one. """
-        self.vcr.__exit__()
-
-        if '///' in DB_PATH:
-            dbfile = DB_PATH.split('///')[1]
-            if os.path.exists(dbfile):
-                os.unlink(dbfile)
-
-        self.session.rollback()
+        """Roll back all the changes from the test and clean up the session."""
         self.session.close()
-
-        if DB_PATH.startswith('postgres'):
-            db_name = DB_PATH.rsplit('/', 1)[1]
-            req = requests.get(
-                '%s/clean/%s' % (FAITOUT_URL, db_name))
-            print(req.text)
+        self.transaction.rollback()
+        self.connection.close()
+        model.Session.remove()
+        super(DatabaseTestCase, self).tearDown()
 
 
 def create_distro(session):
@@ -122,7 +147,7 @@ def create_distro(session):
 
 def create_project(session):
     """ Create some basic projects to work with. """
-    anitya.lib.create_project(
+    lib_create_project(
         session,
         name='geany',
         homepage='http://www.geany.org/',
@@ -131,7 +156,7 @@ def create_project(session):
         user_id='noreply@fedoraproject.org',
     )
 
-    anitya.lib.create_project(
+    lib_create_project(
         session,
         name='subsurface',
         homepage='http://subsurface.hohndel.org/',
@@ -140,7 +165,7 @@ def create_project(session):
         user_id='noreply@fedoraproject.org',
     )
 
-    anitya.lib.create_project(
+    lib_create_project(
         session,
         name='R2spec',
         homepage='https://fedorahosted.org/r2spec/',
@@ -153,7 +178,7 @@ def create_ecosystem_projects(session):
 
     Each project name is used in two different ecosystems
     """
-    anitya.lib.create_project(
+    lib_create_project(
         session,
         name='pypi_and_npm',
         homepage='https://example.com/not-a-real-pypi-project',
@@ -161,7 +186,7 @@ def create_ecosystem_projects(session):
         user_id='noreply@fedoraproject.org'
     )
 
-    anitya.lib.create_project(
+    lib_create_project(
         session,
         name='pypi_and_npm',
         homepage='https://example.com/not-a-real-npmjs-project',
@@ -169,7 +194,7 @@ def create_ecosystem_projects(session):
         user_id='noreply@fedoraproject.org'
     )
 
-    anitya.lib.create_project(
+    lib_create_project(
         session,
         name='rubygems_and_maven',
         homepage='https://example.com/not-a-real-rubygems-project',
@@ -177,7 +202,7 @@ def create_ecosystem_projects(session):
         user_id='noreply@fedoraproject.org'
     )
 
-    anitya.lib.create_project(
+    lib_create_project(
         session,
         name='rubygems_and_maven',
         homepage='https://example.com/not-a-real-maven-project',
@@ -207,7 +232,7 @@ def create_package(session):
 
 def create_flagged_project(session):
     """ Create and flag a project. Returns the ProjectFlag. """
-    project = anitya.lib.create_project(
+    project = lib_create_project(
         session,
         name='geany',
         homepage='http://www.geany.org/',
@@ -218,7 +243,7 @@ def create_flagged_project(session):
 
     session.add(project)
 
-    flag = anitya.lib.flag_project(
+    flag = flag_project(
         session,
         project,
         "This is a duplicate.",

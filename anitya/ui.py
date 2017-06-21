@@ -537,7 +537,7 @@ def edit_project(project_id):
             flask.flash(str(err), 'errors')
 
         return flask.redirect(
-            flask.url_for('project', project_id=project.id)
+            flask.url_for('project', project_id=project_id)
         )
 
     return flask.render_template(

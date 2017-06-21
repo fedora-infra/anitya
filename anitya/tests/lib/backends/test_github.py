@@ -28,16 +28,15 @@ import unittest
 import anitya.lib.backends.github as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from anitya.tests.base import Modeltests, create_distro, skip_jenkins
+from anitya.tests.base import DatabaseTestCase, create_distro
 
 
 BACKEND = 'GitHub'
 
 
-class GithubBackendtests(Modeltests):
+class GithubBackendtests(DatabaseTestCase):
     """ Github backend tests. """
 
-    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(GithubBackendtests, self).setUp()

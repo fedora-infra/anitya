@@ -28,16 +28,15 @@ import unittest
 import anitya.lib.backends.pagure as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from anitya.tests.base import Modeltests, create_distro, skip_jenkins
+from anitya.tests.base import DatabaseTestCase, create_distro
 
 
 BACKEND = 'pagure'
 
 
-class PagureBackendtests(Modeltests):
+class PagureBackendtests(DatabaseTestCase):
     """ pagure backend tests. """
 
-    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(PagureBackendtests, self).setUp()

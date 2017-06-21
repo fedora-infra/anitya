@@ -30,7 +30,7 @@ import mock
 
 import anitya.lib.model as model
 from anitya.lib import versions
-from anitya.tests.base import Modeltests, create_distro, create_project, create_package
+from anitya.tests.base import DatabaseTestCase, create_distro, create_project, create_package
 
 
 class InitalizeTests(unittest.TestCase):
@@ -57,12 +57,12 @@ class InitalizeTests(unittest.TestCase):
         self.assertEqual('connect', mock_listen.call_args_list[0][0][1])
 
 
-class BaseQueryPaginateTests(Modeltests):
+class BaseQueryPaginateTests(DatabaseTestCase):
     """Tests for the BaseQuery queries."""
 
     def setUp(self):
         super(BaseQueryPaginateTests, self).setUp()
-        self.query = model.BaseQuery(model.Project, session=self.session())
+        self.query = model.BaseQuery(model.Project, session=self.session)
 
     def test_defaults(self):
         """Assert paginate defaults to the first page and 25 items."""
@@ -146,7 +146,7 @@ class BaseQueryPaginateTests(Modeltests):
         self.assertEqual(expected_dict, actual_dict)
 
 
-class ProjectTests(Modeltests):
+class ProjectTests(DatabaseTestCase):
     """Tests for the Project model."""
 
     def test_init_project(self):
@@ -282,7 +282,7 @@ class ProjectTests(Modeltests):
         )
 
 
-class Modeltests(Modeltests):
+class DatabaseTestCase(DatabaseTestCase):
     """ Model tests. """
 
     def test_init_distro(self):

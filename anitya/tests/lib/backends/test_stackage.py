@@ -28,16 +28,15 @@ import unittest
 import anitya.lib.backends.stackage as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from anitya.tests.base import Modeltests, create_distro, skip_jenkins
+from anitya.tests.base import DatabaseTestCase, create_distro
 
 
 BACKEND = 'Stackage'
 
 
-class HackageBackendtests(Modeltests):
+class HackageBackendtests(DatabaseTestCase):
     """ Hackage backend tests. """
 
-    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(HackageBackendtests, self).setUp()

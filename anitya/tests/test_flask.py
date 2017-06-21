@@ -28,11 +28,23 @@ import unittest
 import mock
 
 from anitya.lib import model
-from anitya.tests.base import Modeltests, create_distro, create_project
+from anitya.tests.base import DatabaseTestCase, create_distro, create_project
 import anitya
 
 
-class NewProjectTests(Modeltests):
+class ShutdownSessionTests(unittest.TestCase):
+    """Tests for the :func:`anitya.app.shutdown_session` function."""
+
+    def test_session_removed_post_request(self):
+        """Assert that the session is cleaned up after a request."""
+        session = model.Session()
+        self.assertTrue(session is model.Session())
+        app = anitya.app.APP.test_client()
+        app.get('/about', follow_redirects=False)
+        self.assertFalse(session is model.Session())
+
+
+class NewProjectTests(DatabaseTestCase):
     """Tests for the ``/project/new`` endpoint"""
 
     def setUp(self):
@@ -40,11 +52,6 @@ class NewProjectTests(Modeltests):
         super(NewProjectTests, self).setUp()
 
         anitya.app.APP.config['TESTING'] = True
-        anitya.SESSION = self.session
-        anitya.ui.SESSION = self.session
-        anitya.app.SESSION = self.session
-        anitya.admin.SESSION = self.session
-        anitya.api.SESSION = self.session
         self.app = anitya.app.APP.test_client()
 
     def test_new_project_unauthenticated(self):
@@ -153,7 +160,7 @@ class NewProjectTests(Modeltests):
                 b'Unable to create project since it already exists.</li>'
                 in output.data)
             self.assertTrue(b'<h1>Add project</h1>' in output.data)
-        projects = model.Project.all(self.session, count=True)
+        projects = model.Project.query.count()
         self.assertEqual(projects, 1)
 
     def test_new_project_invalid_homepage(self):
@@ -221,7 +228,7 @@ class NewProjectTests(Modeltests):
             patched.assert_called_once_with(mock.ANY, mock.ANY)
 
 
-class FlaskTest(Modeltests):
+class FlaskTest(DatabaseTestCase):
     """ Flask tests. """
 
     def setUp(self):
@@ -229,11 +236,6 @@ class FlaskTest(Modeltests):
         super(FlaskTest, self).setUp()
 
         anitya.app.APP.config['TESTING'] = True
-        anitya.SESSION = self.session
-        anitya.ui.SESSION = self.session
-        anitya.app.SESSION = self.session
-        anitya.admin.SESSION = self.session
-        anitya.api.SESSION = self.session
         self.app = anitya.app.APP.test_client()
 
     def test_index(self):

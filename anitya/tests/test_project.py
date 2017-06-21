@@ -26,10 +26,10 @@ anitya tests for the Project object.
 import unittest
 
 import anitya.lib.model as model
-from anitya.tests.base import Modeltests, create_project
+from anitya.tests.base import DatabaseTestCase, create_project
 
 
-class Projecttests(Modeltests):
+class Projecttests(DatabaseTestCase):
     """ Project tests. """
 
     def test_project_init(self):

@@ -29,7 +29,7 @@ import unittest
 import anitya
 import anitya.lib.model as model
 from anitya.lib.backends import REGEX
-from anitya.tests.base import (Modeltests, create_distro, create_project,
+from anitya.tests.base import (DatabaseTestCase, create_distro, create_project,
                                create_package, create_ecosystem_projects)
 
 
@@ -38,7 +38,7 @@ def _read_json(output):
     return json.loads(output.get_data(as_text=True))
 
 
-class AnityaWebAPItests(Modeltests):
+class AnityaWebAPItests(DatabaseTestCase):
     """ Flask API tests. """
 
     def setUp(self):
@@ -46,8 +46,6 @@ class AnityaWebAPItests(Modeltests):
         super(AnityaWebAPItests, self).setUp()
 
         anitya.app.APP.config['TESTING'] = True
-        anitya.app.SESSION = self.session
-        anitya.api.SESSION = self.session
         self.app = anitya.app.APP.test_client()
 
     def test_api_docs_no_slash(self):

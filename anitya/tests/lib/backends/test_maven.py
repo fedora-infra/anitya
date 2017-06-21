@@ -28,16 +28,15 @@ import unittest
 from anitya.lib.backends.maven import MavenBackend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from anitya.tests.base import Modeltests, create_distro, skip_jenkins
+from anitya.tests.base import DatabaseTestCase, create_distro
 
 
 BACKEND = 'Maven Central'
 
 
-class MavenBackendTest(Modeltests):
+class MavenBackendTest(DatabaseTestCase):
     """ custom backend tests. """
 
-    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(MavenBackendTest, self).setUp()

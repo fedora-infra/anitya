@@ -27,7 +27,7 @@ import unittest
 
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.lib.backends import get_versions_by_regex_for_text
-from anitya.tests.base import Modeltests, create_distro, skip_jenkins
+from anitya.tests.base import DatabaseTestCase, create_distro
 import anitya.lib.backends.debian as backend
 import anitya.lib.model as model
 
@@ -35,10 +35,9 @@ import anitya.lib.model as model
 BACKEND = 'Debian project'
 
 
-class DebianBackendtests(Modeltests):
+class DebianBackendtests(DatabaseTestCase):
     """ Debian backend tests. """
 
-    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(DebianBackendtests, self).setUp()
