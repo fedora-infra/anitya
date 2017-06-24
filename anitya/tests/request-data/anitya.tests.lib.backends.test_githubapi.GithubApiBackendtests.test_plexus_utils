@@ -1,0 +1,143 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: [application/vnd.github.v3.full+json]
+      Accept-Charset: [utf-8]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      User-Agent: [github3.py/1.0.0a4]
+    method: GET
+    uri: https://api.github.com/repos/codehaus-plexus/plexus-archiver
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA+2bTY+jNhiA/wvXJgPkc4JUbc+99DK99BI5xAl0CEbYZDqL5r/3tYHgkNh82Kv2
+        sNJqdzaxH78YbOzn9ZROfHSCxW63WOz815mTogt2AidL8D8FnaM8jOIrzp2ZcyqSZF9/G5IjjhB8
+        XxVzH0uTjxRqBaWTkHOcArBTBYC8Xd9br73l2ps56IoYyvdFnkDhiLGMBq5bfUj9l3PMouJQUJyH
+        JGU4ZS8hubiF29T/dv11CchzXmM424EPOrgsrklVdcBR9zGwiF2STiBV+6LWY/kTSRLyAaxu9AOa
+        c2+VeRcLUJyep4OgcukSFmHoSri8L94pMWWTQhMVS5f/s4+PHEXhFuX4OCW8uioEx5+Mr9LNcUYE
+        szjQMI8zFpN0Uph3AACS/IzS+DuaDAQABQ4PcFJAoiIA8BUe1EmEqmbpZnl8ReEn76YchxhG4nE/
+        ndpBAJR9Znyw/yH1GL8jMcN7dLzwcXtCCcVfM0dEwqCw+GAGI3TEGHkyPxzx7aY7QQpTC3/683cn
+        YHkBeO24Ff3bHYdP2uDAnu4fhIIxCiDomHf8aYXHOaULf9fDKoRxjw4kR4z0TSLDAr4DltBVLZ8/
+        Swyji5ULESAARoTY6WkBAmBMaYEHPerDOkTwqNuMq7S4HKrJcchoGtZERYLYEaXxOcXYSg/fYKXb
+        zOeHHKVhZAffsEq3+kk8HehsJXTOAdwhIQcrPHgHuwJWujRC1ZuN7W1Fy+mcdQfP8cla6Jx1g7Pc
+        0vMhwuawGxpetAweFStxNyy3rHs8Qem5QGc79BuMv3NgZXFG33sXUcPGYksDNF8x5vGhsDe5tjwe
+        ebV+gfnETpe3uBYuFkf6VdfAjpEWW6JrLpe4b4kyjFyj7oaPRTx/zrtN8P/3r7CGh89Zpdu+G6qX
+        UN2Kjd6v30JN3HJb9bbGyiPUsNzylwyxiM+U0GSGcmzjImqUWx4QrAxfXl7KCCOxO7jg3NLMUJEA
+        We8/bcRdNixYzV0QEzuQEw/7CDuShKCjlb6/wQBc3W4bsVck+XnJYMlsJWABksmXOMGUkdTOHN/S
+        5DZSwuJTHA7Zog0bvnfA8huN0xDPEOwq4KlncRjDOICdMb/bsNDGdnquIsFlgTGpdmgJhiFh5a7k
+        uGKVbrXxPuIsIZ/WZjsJxyeHHMPW7rhHDPaCC89fzz1/vti++Ztg8Ros/b+gTJEd78ps5x4U2755
+        r8F6F6x2vExW0EjCQJHNfLHiGF5EYGAar8cD/ASCR+1Vuvs5Lm4AQGnUAn5rqwc9SqquHibwYHdG
+        5PgYrt138XAEXEJELjiDNVTtuaAXOrE3jiom3U5weQ/E36Hqyt+CrJNWTSEpUrh//mrmfCAG+wNY
+        jkifNWstaPR3cGQ8DET31bzSbLr5J1lO/sYho/Jn7ZxW7855wY/4PW5tAK/Jl4VNtWrr3bS/g3dD
+        nOek1nvVdp9kOK0DaALdVBIAKD5UkQo4AXzVXFZ1kUd8QkXC9tW+BS7rgigTolL2Pz8NZK/w/Gkg
+        fxrIR5v2PzSQsH7lM1xZJQ6Wq43nrQfmK95zQnF6JcmxO6Py+aKbqmhLw7c8k7DZblcwr+pSFAtl
+        ikJUNshP3EWj1653RUdlJaQOmpyQeGCY5CIkmFEaQuLYy0DIUDl70Xn59KwEuc+jrsQam3eQqopV
+        MjQ/RGc+tGtnrN9Fc5ergLjqRMOfcMliCWOaYJAae8w9mucWtPjBaQU1ZXRGQYMyTiZo2LbyCJom
+        RqcQNKyp2QMN0kLiQEOfljPQAA3TBRqySaZAgx2bJNCguCKcnh/oAU9ODfRwp2UFeqDTEwIasFku
+        QAOengbQQI0yABqunEzgb7Jx8l8Dlkgtd7D37wcLFJBHOHkNtKviudexQ+ajuEtvhPkQldoTtLHj
+        1/At6X1NC2ZmXwsW+QEjqa/BT/H5Gpwdla9pYJrF1wANBL6GaujuNWRL2l7Two8w9prmTGS9Bmvo
+        6TVkvaL3595i7u3efD8AA++9PlP04OeFogf/7q2DpSjTUfSbubeEP28LDxR+sPJ6FL063D4731uz
+        R8z31qc6J6+uDV0i6XixNeV23X9dg+95YtefyHWeUqoORTx3682BORtyvWbd2fXFQLkOZ2yrc2wB
+        1Lhz6/CN5NYhIapQ63AMkJIiD6GDagm3eF1766GHhilJEfcAQxRcUxbuCBdwq9VuCc3oBNxSKeBE
+        ZQMBJ8Wi129SwVHy7dYxk9Vbh2Ai3m4oI+12o9iTbi3SVLndSGOF263ieN12q2pHtkmRKFSb9TO9
+        tyZHCLd6vhpwmldDH+zbVIzRtk0JMnZtSrIt06ZsYLRnU5KmWjYl0IJjU7KnGTYlztCvKbkmdk0J
+        HevWlCAzs6bFTvZqWuo0q6ZFTndqSqyZUVNip/s0JdLIpimpZi5NiTUzaX3YCR5Niex6rpEWTck1
+        dWhKcCPijE7JKumW/JmSb2bPNFhzd6aETzFnSpgdb6bET7NmSpyBM1MyDY2ZkmvJlyn5P8KWKRsz
+        cWVKqKEpU3J7PRkcZV2++Vv4FedgtXzmycQ5VW8jXBrXaUpPthAnYndwKLbHk6mC7bNkPfV6HFlP
+        ba0hU9VV+LGlv3p++hSObT6cPoXP/ltDtoJjYoPOn7aKjFfRODK4JI0kSzH7gN8YbU61cpacJ6xP
+        xW6+/gUrPozQez8AAA==
+    headers:
+      access-control-allow-origin: ['*']
+      access-control-expose-headers: ['ETag, Link, X-GitHub-OTP, X-RateLimit-Limit,
+          X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes,
+          X-Poll-Interval']
+      cache-control: ['public, max-age=60, s-maxage=60']
+      content-encoding: [gzip]
+      content-security-policy: [default-src 'none']
+      content-type: [application/json; charset=utf-8]
+      date: ['Sat, 24 Jun 2017 17:52:58 GMT']
+      etag: [W/"109fc7b2582f7fc8f5f5a10d4d4822bf"]
+      last-modified: ['Sun, 07 May 2017 08:59:49 GMT']
+      server: [GitHub.com]
+      status: [200 OK]
+      strict-transport-security: [max-age=31536000; includeSubdomains; preload]
+      vary: [Accept, Accept-Encoding]
+      x-content-type-options: [nosniff]
+      x-frame-options: [deny]
+      x-github-media-type: [github.v3; param=full; format=json]
+      x-github-request-id: ['EA76:16BA:9A444FF:B1F3B83:594EA6F9']
+      x-ratelimit-limit: ['60']
+      x-ratelimit-remaining: ['23']
+      x-ratelimit-reset: ['1498328685']
+      x-runtime-rack: ['0.040333']
+      x-served-by: [d256f86292c6dde5d09d15d926ec67a3]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: [application/vnd.github.v3.full+json]
+      Accept-Charset: [utf-8]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      User-Agent: [github3.py/1.0.0a4]
+    method: GET
+    uri: https://api.github.com/repos/codehaus-plexus/plexus-archiver/tags?per_page=100
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA72a304sNwyH32Wvz9lN4iR2eJWqqpzELkhQEH+qqke8ez0MPRdTujMXUcQFsKD5
+        lvlw/Iszv/w4/cEPcro5Pd3LX28v3/m53d79Kc/f4RxP305/3z1Vvr//7e353n7n9vX16eXmcuGn
+        u/Pvd6+3b/XcHh8uz/L0+HJpj11u2S6xXumyueDl81Lb1z9Br/w8CvR5qf8B2Rt+uHs93fw4vdyy
+        /U3o1SGTb1RLAyoIqdsXXDgW7xNDTuqxBbsZA27CSn+5HKa+v3+7oghmKVpAUxQtoK0iQC6ojMip
+        S3KhdUIIDkhI0LFG4dhU21hFh6nXFS3/OFOqaAFNUbSAtoqkp9YxV2IqrkoW8Nn3hJw9u5Zrzyw1
+        +jpW0WHqdUX+7GdJWlFTNK2orSjUnip7pymYEMeVSipVvBYMxNFWv+IlhsG1dJi6I2qaplm1tPzj
+        bRVRUA+xA2KWYJ+kOHuFsJFGcOQBqtoP0thaOky9rsidp/WkFTWlllbUVhS0FrSV0hEk+S451wbY
+        sWoslUTUKsthzmNFHabuiZrWmdx5Wm9aUVtRYjXTtMSoLDkB5sIC9hJ46Y1D7NoEkdxYUYepe6Km
+        dSf30QgnVdRXSx+qRmoQHZFStpaUon2klEOzVS82iT0VjTpW1GHqNVHh7Cd5+iRN0PRJ2pYTg7rS
+        s7OcwK4rUbP07SzmpRK86UILFlWrjLV0mLpjaVqHsrs3rUX9ZG1dOdsyRaFe2bZNyampcW0pKS4k
+        PlvgW7a6Dce6OkzddTWpSX3cv0ld6idr64pTSZiRYg8gGWtzTjBKzNCrj9Hb92B7qzLW1WHqrqt5
+        69+0RvXh6qtO1atL0fmEzWpKrFk5Qsmaq3QfIS6Ni8G+GuvqMHXPlb2tCUOJ5e7NCRSfpG1FWTRf
+        1jrvpIVac8fepUjtBcB3ixkRvG+B+lhLh6nXLZVZY4lwXlFTEsWK2oqqWUGxdHa2sbXlj8i2ukA2
+        84uVarBSAtv+hsGR4jB1R9SsalpW/jmSDPQfRcnVyvZRIxOV2GulbHuongJga+hLCrYLHlxL9Sj1
+        uiKadZoRzitqiqYVtRVleU9C5QxCiJWAnHeFvVeuaBWVoNtoogOPXfQOU/dETZofLaImnWr8i9qK
+        KlltueNUq5LLWgoo1e6olaQU7eQpSESVwXnvMHVP1LRoTvOS+YraimIpJqVG0eKZm2Y7ycguZY+W
+        /6zSAlRMngeHvcPUPVHTcjnNmh8tFfVVKg+uNRY7rw01kJdk0yI7eirZRkkgQDZQX37cBos6TN0R
+        NStG0KwYsYC2tVQdFW/1k6yCbFpEudvhrbN1MDgtFtJ9DwIRBo/4DlOvK8J5kXxFTYkRK2orylqQ
+        BgsMoWBy0abmqI4UnIRmgbxAsZDRvV8cD3ww4jB1R9SsWloGZ3MkfVFLNhINseQY7AzXDt5zo2jJ
+        vGjWkF3zwQI5oj0cMVbRYep1RXleJF9RUzStqG0tee0+YHF20s5R1WqHbSRh6ZxDxxLtuLcts6PB
+        kfwwdU/UtEie50XyFbUVBZrZNw/2JEQSkNhKpGQxzx6XAMg+g4l0jIPnEIepe6KmRfI8L5KvqK2o
+        Zk+pZGKbt1ou7zFyy620JDWxHckHsfOoVO0AcezSd5i6I2pWd1oePZiz7H3RnWLq2qXbKRN11NZy
+        oBgkx9x02T1Vc1XtBH7w0dNh6vv7r/8AxInMuP4qAAA=
+    headers:
+      access-control-allow-origin: ['*']
+      access-control-expose-headers: ['ETag, Link, X-GitHub-OTP, X-RateLimit-Limit,
+          X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes,
+          X-Poll-Interval']
+      cache-control: ['public, max-age=60, s-maxage=60']
+      content-encoding: [gzip]
+      content-security-policy: [default-src 'none']
+      content-type: [application/json; charset=utf-8]
+      date: ['Sat, 24 Jun 2017 17:52:58 GMT']
+      etag: [W/"14c375b9c09891d7768cf7ad728cbeee"]
+      last-modified: ['Sun, 07 May 2017 08:59:49 GMT']
+      server: [GitHub.com]
+      status: [200 OK]
+      strict-transport-security: [max-age=31536000; includeSubdomains; preload]
+      vary: [Accept, Accept-Encoding]
+      x-content-type-options: [nosniff]
+      x-frame-options: [deny]
+      x-github-media-type: [github.v3; param=full; format=json]
+      x-github-request-id: ['EA76:16BA:9A4452C:B1F3BB0:594EA6FA']
+      x-ratelimit-limit: ['60']
+      x-ratelimit-remaining: ['22']
+      x-ratelimit-reset: ['1498328685']
+      x-runtime-rack: ['0.034266']
+      x-served-by: [6694d697f15dfc31f0ffaf8cdb1d5a86]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1
