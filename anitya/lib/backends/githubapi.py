@@ -10,6 +10,7 @@
 
 import github3
 
+import anitya
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 
@@ -72,7 +73,14 @@ class GithubApiBackend(BaseBackend):
             raise AnityaPluginException(
                 'Project %s was incorrectly set-up' % project.name)
 
-        repo = github3.repository(owner, repo)
+        github_access_token = anitya.app.APP.config.get('GITHUB_ACCESS_TOKEN')
+
+        if github_access_token:
+            gh = github3.login(token=github_access_token)
+        else:
+            gh = github3
+
+        repo = gh.repository(owner, repo)
 
         if not repo:
             raise AnityaPluginException(
