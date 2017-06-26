@@ -50,6 +50,7 @@ oidc_scopes = [
     "https://release-monitoring.org/oidc/downstream",
     "https://release-monitoring.org/oidc/upsidedownstream",
 ]
+github_access_token = "foobar"
 
 [anitya_log_config]
     version = 1
@@ -151,6 +152,7 @@ class LoadTests(unittest.TestCase):
             },
             'SMTP_SERVER': 'smtp.example.com',
             'EMAIL_ERRORS': False,
+            'GITHUB_ACCESS_TOKEN': 'foobar',
             'BLACKLISTED_USERS': ['http://sometroublemaker.id.fedoraproject.org'],
             'OIDC_CLIENT_SECRETS': '/etc/anitya/client_secrets.json',
             'OIDC_ID_TOKEN_COOKIE_SECURE': True,
