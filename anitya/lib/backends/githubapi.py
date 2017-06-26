@@ -74,7 +74,7 @@ class GithubApiBackend(BaseBackend):
             url = project.homepage
         else:
             raise AnityaPluginException(
-                'Project %s was incorrectly set-up' % project.name)
+                'Project %s does not have a version URL or homepage' % project.name)
 
         url = url.replace('https://github.com/', '')
 
@@ -82,7 +82,7 @@ class GithubApiBackend(BaseBackend):
             owner, repo = url.split('/')
         except:
             raise AnityaPluginException(
-                'Project %s was incorrectly set-up' % project.name)
+                'The URL of project %s does not look like a github one' % project.name)
 
         github_access_token = anitya.app.APP.config.get('GITHUB_ACCESS_TOKEN')
 
@@ -95,7 +95,7 @@ class GithubApiBackend(BaseBackend):
 
         if not repo:
             raise AnityaPluginException(
-                'Project %s does not exists on GitHub' % project.name)
+                'Project %s does not exist on GitHub' % project.name)
 
         versions = []
 
