@@ -25,10 +25,12 @@ anitya tests for the flask application.
 
 import unittest
 
+from six.moves.urllib import parse
 import mock
 
 from anitya.lib import model
-from anitya.tests.base import AnityaTestCase, DatabaseTestCase, create_distro, create_project
+from anitya.tests.base import (AnityaTestCase, DatabaseTestCase, create_distro, create_project,
+                               login_user)
 
 
 class ShutdownSessionTests(AnityaTestCase):
@@ -49,182 +51,163 @@ class NewProjectTests(DatabaseTestCase):
     def setUp(self):
         """Set up the Flask testing environnment"""
         super(NewProjectTests, self).setUp()
-
-        self.flask_app.config['TESTING'] = True
         self.app = self.flask_app.test_client()
+        session = model.Session()
+        self.user = model.User(email='user@example.com', username='user')
+        session.add(self.user)
+        session.commit()
 
-    def test_new_project_unauthenticated(self):
-        """Assert that authentication is required to create a project"""
-        output = self.app.get('/project/new', follow_redirects=True)
-        self.assertEqual(output.status_code, 200)
-        self.assertTrue(
-            b'<ul id="flashes" class="list-group">'
-            b'<li class="list-group-item list-group-item-warning">'
-            b'Login required</li></ul>' in output.data)
+    def test_protected_view(self):
+        """Assert this view is protected and login is required."""
+        output = self.app.get('/project/new', follow_redirects=False)
+        self.assertEqual(output.status_code, 302)
+        self.assertEqual('/login/', parse.urlparse(output.location).path)
+
+    def test_authenticated_access(self):
+        """Assert authenticated users have access to the view."""
+        with login_user(self.flask_app, self.user):
+            output = self.app.get('/project/new', follow_redirects=False)
+            self.assertEqual(output.status_code, 200)
 
     def test_new_project(self):
         """Assert an authenticated user can create a new project"""
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/project/new', follow_redirects=False)
+                self.assertEqual(output.status_code, 200)
 
-            output = c.get('/project/new', follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
+                self.assertTrue(b'<h1>Add project</h1>' in output.data)
+                self.assertTrue(
+                    b'<td><label for="regex">Regex</label></td>' in output.data)
 
-            self.assertTrue(b'<h1>Add project</h1>' in output.data)
-            self.assertTrue(
-                b'<td><label for="regex">Regex</label></td>' in output.data)
-
-            csrf_token = output.data.split(
-                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
-            data = {
-                'csrf_token': csrf_token,
-                'name': 'repo_manager',
-                'homepage': 'https://pypi.python.org/pypi/repo_manager',
-                'backend': 'PyPI',
-            }
-            output = c.post(
-                '/project/new', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Project created</li>' in output.data)
-            self.assertTrue(
-                b'<h1>Project: repo_manager</h1>' in output.data)
-        projects = model.Project.all(self.session, count=True)
-        self.assertEqual(projects, 1)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {
+                    'csrf_token': csrf_token,
+                    'name': 'repo_manager',
+                    'homepage': 'https://pypi.python.org/pypi/repo_manager',
+                    'backend': 'PyPI',
+                }
+                output = c.post(
+                    '/project/new', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(
+                    b'<li class="list-group-item list-group-item-default">'
+                    b'Project created</li>' in output.data)
+                self.assertTrue(
+                    b'<h1>Project: repo_manager</h1>' in output.data)
+            projects = model.Project.all(self.session, count=True)
+            self.assertEqual(projects, 1)
 
     def test_new_project_no_csrf(self):
         """Assert a missing CSRF token results in an HTTP 400"""
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.get('/project/new', follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            data = {
-                'name': 'repo_manager',
-                'homepage': 'https://pypi.python.org/pypi/repo_manager',
-                'backend': 'PyPI',
-            }
-            output = c.post(
-                '/project/new', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 400)
-            self.assertTrue(b'<h1>Add project</h1>' in output.data)
-            self.assertTrue(
-                b'<td><label for="regex">Regex</label></td>' in output.data)
-        projects = model.Project.all(self.session, count=True)
-        self.assertEqual(projects, 0)
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/project/new', follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                data = {
+                    'name': 'repo_manager',
+                    'homepage': 'https://pypi.python.org/pypi/repo_manager',
+                    'backend': 'PyPI',
+                }
+                output = c.post(
+                    '/project/new', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 400)
+                self.assertTrue(b'<h1>Add project</h1>' in output.data)
+                self.assertTrue(
+                    b'<td><label for="regex">Regex</label></td>' in output.data)
+            projects = model.Project.all(self.session, count=True)
+            self.assertEqual(projects, 0)
 
     def test_new_project_duplicate(self):
         """Assert duplicate projects result in a HTTP 409"""
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/project/new', follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {
+                    'csrf_token': csrf_token,
+                    'name': 'requests',
+                    'homepage': 'https://pypi.python.org/pypi/requests',
+                    'backend': 'PyPI',
+                }
+                output = c.post(
+                    '/project/new', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
 
-            output = c.get('/project/new', follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            csrf_token = output.data.split(
-                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
-            data = {
-                'csrf_token': csrf_token,
-                'name': 'requests',
-                'homepage': 'https://pypi.python.org/pypi/requests',
-                'backend': 'PyPI',
-            }
-            output = c.post(
-                '/project/new', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-
-            # Now try to recreate the same project we did above
-            output = c.post(
-                '/project/new', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 409)
-            self.assertFalse(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Project created</li>' in output.data)
-            self.assertFalse(
-                b'<h1>Project: repo_manager</h1>' in output.data)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Unable to create project since it already exists.</li>'
-                in output.data)
-            self.assertTrue(b'<h1>Add project</h1>' in output.data)
-        projects = model.Project.query.count()
-        self.assertEqual(projects, 1)
+                # Now try to recreate the same project we did above
+                output = c.post(
+                    '/project/new', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 409)
+                self.assertFalse(
+                    b'<li class="list-group-item list-group-item-default">'
+                    b'Project created</li>' in output.data)
+                self.assertFalse(
+                    b'<h1>Project: repo_manager</h1>' in output.data)
+                self.assertTrue(
+                    b'<li class="list-group-item list-group-item-default">'
+                    b'Unable to create project since it already exists.</li>'
+                    in output.data)
+                self.assertTrue(b'<h1>Add project</h1>' in output.data)
+            projects = model.Project.query.count()
+            self.assertEqual(projects, 1)
 
     def test_new_project_invalid_homepage(self):
-        """Assert a HTTP 400 results in projects with invalid homepages"""
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.get('/project/new', follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            csrf_token = output.data.split(
-                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
-            data = {
-                'name': 'fedocal',
-                'homepage': 'pypi/fedocal',
-                'backend': 'PyPI',
-                'csrf_token': csrf_token,
-            }
-            output = c.post(
-                '/project/new', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 400)
-            self.assertTrue(b'<h1>Add project</h1>' in output.data)
-            self.assertTrue(
-                b'<td><label for="regex">Regex</label></td>' in output.data)
+        """Assert a project with an invalid homepage results in an HTTP 400."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/project/new', follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {
+                    'name': 'fedocal',
+                    'homepage': 'pypi/fedocal',
+                    'backend': 'PyPI',
+                    'csrf_token': csrf_token,
+                }
+                output = c.post(
+                    '/project/new', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 400)
+                self.assertTrue(b'<h1>Add project</h1>' in output.data)
+                self.assertTrue(
+                    b'<td><label for="regex">Regex</label></td>' in output.data)
 
     @mock.patch('anitya.lib.utilities.check_project_release')
     def test_new_project_with_check_release(self, patched):
         output = self.app.get('/project/new', follow_redirects=True)
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-            output = c.get('/project/new', follow_redirects=True)
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/project/new', follow_redirects=True)
 
-            # check_release off
-            data = {
-                'name': 'repo_manager',
-                'homepage': 'https://pypi.python.org/pypi/repo_manager',
-                'backend': 'PyPI',
-                'csrf_token': output.data.split(
-                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0],
-            }
-            output = c.post(
-                '/project/new', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Project created</li>' in output.data)
-            patched.assert_not_called()
+                # check_release off
+                data = {
+                    'name': 'repo_manager',
+                    'homepage': 'https://pypi.python.org/pypi/repo_manager',
+                    'backend': 'PyPI',
+                    'csrf_token': output.data.split(
+                        b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0],
+                }
+                output = c.post(
+                    '/project/new', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(
+                    b'<li class="list-group-item list-group-item-default">'
+                    b'Project created</li>' in output.data)
+                patched.assert_not_called()
 
-            # check_release_on
-            data['name'] += 'xxx'
-            data['check_release'] = 'on'
-            output = c.post(
-                '/project/new', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Project created</li>' in output.data)
-            patched.assert_called_once_with(mock.ANY, mock.ANY)
+                # check_release_on
+                data['name'] += 'xxx'
+                data['check_release'] = 'on'
+                output = c.post(
+                    '/project/new', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(
+                    b'<li class="list-group-item list-group-item-default">'
+                    b'Project created</li>' in output.data)
+                patched.assert_called_once_with(mock.ANY, mock.ANY)
 
 
 class FlaskTest(DatabaseTestCase):
@@ -428,322 +411,340 @@ class FlaskTest(DatabaseTestCase):
             b'exact match, redirecting</li>'
         self.assertTrue(expected in output.data)
 
-    @mock.patch('anitya.lib.utilities.check_project_release')
-    def test_edit_project(self, patched):
-        """ Test the edit_project function. """
+
+class EditProjectTests(DatabaseTestCase):
+
+    def setUp(self):
+        """Set up the Flask testing environnment"""
+        super(EditProjectTests, self).setUp()
+        self.app = self.flask_app.test_client()
+        # Make a user to login with
+        session = model.Session()
+        self.user = model.User(email='user@example.com', username='user')
+        session.add(self.user)
+        session.commit()
         create_distro(self.session)
         create_project(self.session)
 
-        output = self.app.get('/project/1/edit', follow_redirects=True)
-        self.assertEqual(output.status_code, 200)
-        self.assertTrue(
-            b'<ul id="flashes" class="list-group">'
-            b'<li class="list-group-item list-group-item-warning">'
-            b'Login required</li></ul>' in output.data)
+    def test_protected_view(self):
+        """Assert this view is protected and login is required."""
+        with self.flask_app.test_client() as client:
+            output = client.get('/project/1/edit', follow_redirects=False)
+            self.assertEqual(output.status_code, 302)
+            self.assertEqual('/login/', parse.urlparse(output.location).path)
 
-        projects = model.Project.all(self.session)
-        self.assertEqual(len(projects), 3)
-        self.assertEqual(projects[0].name, 'geany')
-        self.assertEqual(projects[0].id, 1)
-        self.assertEqual(projects[1].name, 'R2spec')
-        self.assertEqual(projects[1].id, 3)
-        self.assertEqual(projects[2].name, 'subsurface')
-        self.assertEqual(projects[2].id, 2)
-
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.get('/project/10/edit', follow_redirects=True)
-            self.assertEqual(output.status_code, 404)
-
-            output = c.get('/project/1/edit', follow_redirects=True)
+    def test_authenticated_access(self):
+        """Assert authenticated users have access to the view."""
+        with login_user(self.flask_app, self.user):
+            output = self.app.get('/project/1/edit', follow_redirects=False)
             self.assertEqual(output.status_code, 200)
 
-            self.assertTrue(b'<h1>Edit project</h1>' in output.data)
-            self.assertTrue(
-                b'<td><label for="regex">Regex</label></td>' in output.data)
+    def test_non_existing_project(self):
+        """Assert trying to edit a project that doesn't exist returns HTTP 404."""
+        with login_user(self.flask_app, self.user):
+            output = self.app.get('/project/idonotexist/edit', follow_redirects=False)
+            self.assertEqual(output.status_code, 404)
 
+    def test_no_csrf_token(self):
+        """Assert trying to edit a project without a CSRF token results in no change."""
+        with login_user(self.flask_app, self.user):
             data = {
                 'name': 'repo_manager',
                 'homepage': 'https://pypi.python.org/pypi/repo_manager',
                 'backend': 'PyPI',
             }
 
-            output = c.post(
-                '/project/1/edit', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Edit project</h1>' in output.data)
-            self.assertTrue(
-                b'<td><label for="regex">Regex</label></td>' in output.data)
+            output = self.app.post('/project/1/edit', data=data)
+            self.assertEqual(200, output.status_code)
+            self.assertEqual('geany', model.Project.query.get(1).name)
 
-            # This should works just fine
-            csrf_token = output.data.split(
-                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+    def test_edit_project(self):
+        """ Test the edit_project function. """
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/project/1/edit', follow_redirects=False)
+                self.assertEqual(output.status_code, 200)
 
-            data['csrf_token'] = csrf_token
+                self.assertTrue(b'<h1>Edit project</h1>' in output.data)
+                self.assertTrue(
+                    b'<td><label for="regex">Regex</label></td>' in output.data)
 
-            output = c.post(
-                '/project/1/edit', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Project edited</li>' in output.data)
-            self.assertTrue(
-                b'<h1>Project: repo_manager</h1>' in output.data)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {
+                    'name': 'repo_manager',
+                    'homepage': 'https://pypi.python.org/pypi/repo_manager',
+                    'backend': 'PyPI',
+                    'csrf_token': csrf_token,
+                }
 
-            # This should fail, the R2spec project already exists
-            data = {
-                'name': 'R2spec',
-                'homepage': 'https://fedorahosted.org/r2spec/',
-                'backend': 'folder',
-                'csrf_token': csrf_token,
-            }
+                output = c.post(
+                    '/project/1/edit', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(
+                    b'<li class="list-group-item list-group-item-default">'
+                    b'Project edited</li>' in output.data)
+                self.assertTrue(
+                    b'<h1>Project: repo_manager</h1>' in output.data)
 
-            output = c.post(
-                '/project/1/edit', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-warning">'
-                b'Could not edit this project. Is there '
-                b'already a project with these name and homepage?</li>'
-                in output.data)
-            self.assertTrue(
-                b'<h1>Project: repo_manager</h1>' in output.data)
+    def test_edit_to_duplicate_project(self):
+        """Assert trying to edit a project to make a duplicate fails."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/project/1/edit', follow_redirects=False)
+                self.assertEqual(output.status_code, 200)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {
+                    'name': 'R2spec',
+                    'homepage': 'https://fedorahosted.org/r2spec/',
+                    'backend': 'folder',
+                    'csrf_token': csrf_token,
+                }
 
-            # check_release off
-            output = c.post(
-                '/project/3/edit', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Project edited</li>' in output.data)
-            patched.assert_not_called()
+                output = c.post(
+                    '/project/1/edit', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(
+                    b'<li class="list-group-item list-group-item-warning">'
+                    b'Could not edit this project. Is there '
+                    b'already a project with these name and homepage?</li>'
+                    in output.data)
+                self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
+                self.assertEqual('geany', model.Project.query.get(1).name)
 
-            # check_release on
-            data['check_release'] = 'on'
-            output = c.post(
-                '/project/3/edit', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Project edited</li>' in output.data)
-            patched.assert_called_once_with(mock.ANY, mock.ANY)
+    @mock.patch('anitya.lib.utilities.check_project_release')
+    def test_with_check_release(self, patched):
+        """Assert when ``check_release='on'`` it checks the project's release."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/project/1/edit', follow_redirects=False)
+                self.assertEqual(output.status_code, 200)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {
+                    'name': 'repo_manager',
+                    'homepage': 'https://pypi.python.org/pypi/repo_manager',
+                    'backend': 'PyPI',
+                    'csrf_token': csrf_token,
+                    'check_release': 'on',
+                }
+                output = c.post(
+                    '/project/1/edit', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(
+                    b'<li class="list-group-item list-group-item-default">'
+                    b'Project edited</li>' in output.data)
+                patched.assert_called_once_with(mock.ANY, mock.ANY)
 
-        projects = model.Project.all(self.session)
-        self.assertEqual(len(projects), 3)
-        self.assertEqual(projects[0].name, 'R2spec')
-        self.assertEqual(projects[0].id, 3)
-        self.assertEqual(projects[1].name, 'repo_manager')
-        self.assertEqual(projects[1].id, 1)
-        self.assertEqual(projects[2].name, 'subsurface')
-        self.assertEqual(projects[2].id, 2)
 
-    def test_map_project(self):
-        """ Test the map_project function. """
+class MapProjectTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.ui.map_project` view."""
+
+    def setUp(self):
+        super(MapProjectTests, self).setUp()
         create_distro(self.session)
         create_project(self.session)
+        self.client = self.flask_app.test_client()
+        session = model.Session()
+        self.user = model.User(email='user@example.com', username='user')
+        session.add(self.user)
+        session.commit()
 
-        output = self.app.get('/project/1/map', follow_redirects=True)
-        self.assertEqual(output.status_code, 200)
-        self.assertTrue(
-            b'<ul id="flashes" class="list-group">'
-            b'<li class="list-group-item list-group-item-warning">'
-            b'Login required</li></ul>' in output.data)
+    def test_protected_view(self):
+        """Assert this view is protected and login is required."""
+        output = self.client.get('/project/1/map', follow_redirects=False)
+        self.assertEqual(output.status_code, 302)
+        self.assertEqual('/login/', parse.urlparse(output.location).path)
 
-        projects = model.Project.all(self.session)
-        self.assertEqual(len(projects), 3)
-        self.assertEqual(projects[0].name, 'geany')
-        self.assertEqual(len(projects[0].packages), 0)
-        self.assertEqual(projects[0].id, 1)
-        self.assertEqual(projects[1].name, 'R2spec')
-        self.assertEqual(projects[1].id, 3)
-        self.assertEqual(len(projects[1].packages), 0)
-        self.assertEqual(projects[2].name, 'subsurface')
-        self.assertEqual(projects[2].id, 2)
-        self.assertEqual(len(projects[2].packages), 0)
-
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.get('/project/10/map', follow_redirects=True)
-            self.assertEqual(output.status_code, 404)
-
-            output = c.get('/project/1/map', follow_redirects=True)
+    def test_authenticated_access(self):
+        """Assert authenticated users have access to the view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/project/1/map', follow_redirects=False)
             self.assertEqual(output.status_code, 200)
 
-            self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
-            self.assertTrue(
-                b'<td><label for="distro">Distribution</label></td>'
-                in output.data)
+    def test_non_existing_project(self):
+        """Assert trying to edit a project that doesn't exist returns HTTP 404."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/project/idonotexist/map', follow_redirects=False)
+            self.assertEqual(output.status_code, 404)
 
+    def test_no_csrf_token(self):
+        """Assert trying to edit a project without a CSRF token results in no change."""
+        with login_user(self.flask_app, self.user):
             data = {
                 'package_name': 'geany',
                 'distro': 'CentOS',
             }
-
-            output = c.post(
-                '/project/1/map', data=data, follow_redirects=True)
+            output = self.client.post('/project/1/map', data=data, follow_redirects=False)
             self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
-            self.assertTrue(
-                b'<td><label for="distro">Distribution</label></td>'
-                in output.data)
+            self.assertEqual(0, model.Packages.query.count())
 
-            # This should works just fine
-            csrf_token = output.data.split(
+    def test_map_project(self):
+        """Assert projects can be mapped to distributions."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/project/1/map')
+                self.assertEqual(output.status_code, 200)
+
+                self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
+                self.assertTrue(
+                    b'<td><label for="distro">Distribution</label></td>' in output.data)
+
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {
+                    'package_name': 'geany',
+                    'distro': 'CentOS',
+                    'csrf_token': csrf_token,
+                }
+
+                output = c.post('/project/1/map', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(
+                    b'<li class="list-group-item list-group-item-default">'
+                    b'Mapping added</li>' in output.data)
+                self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
+                self.assertEqual(1, model.Packages.query.count())
+
+    def test_map_same_distro(self):
+        """
+        Assert that projects can't have two mappings with the same name to the
+        same distribution.
+        """
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/project/1/map')
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {
+                    'package_name': 'geany',
+                    'distro': 'CentOS',
+                    'csrf_token': csrf_token,
+                }
+
+                output = c.post('/project/1/map', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                output = c.post('/project/1/map', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(
+                    b'<li class="list-group-item list-group-item-danger">'
+                    b'Could not edit the mapping of geany on '
+                    b'CentOS, there is already a package geany on CentOS '
+                    b'as part of the project <a href="/project/1/">geany'
+                    b'</a>.</li>'
+                    in output.data)
+                self.assertTrue(
+                    b'<h1>Project: geany</h1>' in output.data)
+
+
+class EditProjectMappingTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.ui.edit_project_mapping` view."""
+
+    def setUp(self):
+        super(EditProjectMappingTests, self).setUp()
+
+        # Set up a mapping to edit
+        session = model.Session()
+        self.user = model.User(email='user@example.com', username='user')
+        self.distro1 = model.Distro(name='CentOS')
+        self.distro2 = model.Distro(name='Fedora')
+        self.project = model.Project(
+            name='python_project',
+            homepage='https://example.com/python_project',
+            backend='PyPI',
+            ecosystem_name='pypi',
+        )
+        self.package = model.Packages(
+            package_name='python_project', distro=self.distro1.name, project=self.project)
+        session.add_all([self.user, self.distro1, self.distro2, self.project, self.package])
+        session.commit()
+        self.client = self.flask_app.test_client()
+
+    def test_edit_project_mapping_package_name(self):
+        """Assert a project's package name can be edited."""
+        with login_user(self.flask_app, self.user):
+            pre_edit_output = self.client.get('/project/1/map/1')
+            csrf_token = pre_edit_output.data.split(
                 b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
-
-            data['csrf_token'] = csrf_token
-
-            output = c.post(
-                '/project/1/map', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Mapping added</li>' in output.data)
-            self.assertTrue(
-                b'<h1>Project: geany</h1>' in output.data)
-
-            # This should fail, the mapping already exists
             data = {
-                'package_name': 'geany',
-                'distro': 'CentOS',
+                'package_name': 'Python Project',
+                'distro': self.distro1.name,
                 'csrf_token': csrf_token,
             }
+            output = self.client.post('/project/1/map/1', data=data, follow_redirects=True)
 
-            output = c.post(
-                '/project/1/map', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-danger">'
-                b'Could not edit the mapping of geany on '
-                b'CentOS, there is already a package geany on CentOS '
-                b'as part of the project <a href="/project/1/">geany'
-                b'</a>.</li>'
-                in output.data)
-            self.assertTrue(
-                b'<h1>Project: geany</h1>' in output.data)
-
-        projects = model.Project.all(self.session)
-        self.assertEqual(len(projects), 3)
-        self.assertEqual(projects[0].name, 'geany')
-        self.assertEqual(projects[0].id, 1)
-        self.assertEqual(len(projects[0].packages), 1)
-        self.assertEqual(projects[0].packages[0].package_name, 'geany')
-        self.assertEqual(projects[1].name, 'R2spec')
-        self.assertEqual(projects[1].id, 3)
-        self.assertEqual(len(projects[1].packages), 0)
-        self.assertEqual(projects[2].name, 'subsurface')
-        self.assertEqual(projects[2].id, 2)
-        self.assertEqual(len(projects[2].packages), 0)
-
-    def test_edit_project_mapping(self):
-        """ Test the edit_project_mapping function. """
-        self.test_map_project()
-
-        projects = model.Project.all(self.session)
-        self.assertEqual(len(projects), 3)
-        self.assertEqual(projects[0].name, 'geany')
-        self.assertEqual(projects[0].id, 1)
-        self.assertEqual(len(projects[0].packages), 1)
-        self.assertEqual(projects[0].packages[0].package_name, 'geany')
-        self.assertEqual(projects[1].name, 'R2spec')
-        self.assertEqual(projects[1].id, 3)
-        self.assertEqual(len(projects[1].packages), 0)
-        self.assertEqual(projects[2].name, 'subsurface')
-        self.assertEqual(projects[2].id, 2)
-        self.assertEqual(len(projects[2].packages), 0)
-
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.get('/project/10/map/1', follow_redirects=True)
-            self.assertEqual(output.status_code, 404)
-
-            output = c.get('/project/1/map/10', follow_redirects=True)
-            self.assertEqual(output.status_code, 404)
-
-            output = c.get('/project/1/map/1', follow_redirects=True)
+            self.assertEqual(pre_edit_output.status_code, 200)
             self.assertEqual(output.status_code, 200)
 
-            self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
-            self.assertTrue(
-                b'<td><label for="distro">Distribution</label></td>'
-                in output.data)
+            packages = model.Packages.query.all()
+            self.assertEqual(1, len(packages))
+            self.assertEqual('Python Project', packages[0].package_name)
 
-            data = {
-                'package_name': 'geany2',
-                'distro': 'CentOS',
-            }
-
-            output = c.post(
-                '/project/1/map/1', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
-            self.assertTrue(
-                b'<td><label for="distro">Distribution</label></td>'
-                in output.data)
-
-            # This should works just fine
-            csrf_token = output.data.split(
+    # You can't actually edit the distro at the moment, bug
+    @unittest.expectedFailure
+    def test_edit_project_mapping_distro(self):
+        """Assert a project's package distro can be edited."""
+        with login_user(self.flask_app, self.user):
+            pre_edit_output = self.client.get('/project/1/map/1')
+            csrf_token = pre_edit_output.data.split(
                 b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
-
-            data['csrf_token'] = csrf_token
-
-            output = c.post(
-                '/project/1/map/1', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Mapping edited</li>' in output.data)
-            self.assertTrue(
-                b'<h1>Project: geany</h1>' in output.data)
-
-            # This should fail, the mapping already exists
             data = {
-                'package_name': 'geany2',
-                'distro': 'CentOS',
+                'package_name': self.project.name,
+                'distro': self.distro2.name,
                 'csrf_token': csrf_token,
             }
+            output = self.client.post('/project/1/map/1', data=data, follow_redirects=True)
 
-            output = c.post(
-                '/project/1/map/1', data=data, follow_redirects=True)
+            self.assertEqual(pre_edit_output.status_code, 200)
             self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-danger">'
-                b'Could not edit the mapping of geany2 on '
-                b'CentOS, there is already a package geany2 on CentOS '
-                b'as part of the project <a href="/project/1/">geany'
-                b'</a>.</li>'
-                in output.data)
-            self.assertTrue(
-                b'<h1>Project: geany</h1>' in output.data)
 
-        projects = model.Project.all(self.session)
-        self.assertEqual(len(projects), 3)
-        self.assertEqual(projects[0].name, 'geany')
-        self.assertEqual(projects[0].id, 1)
-        self.assertEqual(len(projects[0].packages), 1)
-        self.assertEqual(projects[0].packages[0].package_name, 'geany2')
-        self.assertEqual(projects[1].name, 'R2spec')
-        self.assertEqual(projects[1].id, 3)
-        self.assertEqual(len(projects[1].packages), 0)
-        self.assertEqual(projects[2].name, 'subsurface')
-        self.assertEqual(projects[2].id, 2)
-        self.assertEqual(len(projects[2].packages), 0)
+            packages = model.Packages.query.all()
+            self.assertEqual(1, len(packages))
+            self.assertEqual(self.distro2.name, packages[0].distro)
 
+    def test_clashing_package_name(self):
+        """Assert two projects can't map to the same package name in a distro."""
+        # Set up a package to clash with.
+        session = model.Session()
+        best_project = model.Project(
+            name='best_project',
+            homepage='https://example.com/best_project',
+            backend='PyPI',
+            ecosystem_name='pypi',
+        )
+        best_package = model.Packages(
+            package_name='best_project', distro=self.distro1.name, project=best_project)
+        session.add_all([best_project, best_package])
+        session.commit()
 
-if __name__ == '__main__':
-    unittest.main()
+        with login_user(self.flask_app, self.user):
+            pre_edit_output = self.client.get('/project/1/map/1')
+            csrf_token = pre_edit_output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {
+                'package_name': self.project.name,
+                'distro': self.distro1.name,
+                'csrf_token': csrf_token,
+            }
+            output = self.client.post('/project/1/map/1', data=data, follow_redirects=True)
+
+            self.assertEqual(output.status_code, 200)
+            self.assertEqual(2, model.Packages.query.count())
+            self.assertEqual(1, model.Packages.query.filter_by(
+                package_name='best_project').count())
+            self.assertEqual(1, model.Packages.query.filter_by(
+                package_name='python_project').count())
+            self.assertTrue(b'Could not edit the mapping' in output.data)
+
+    def test_invalid_map_id(self):
+        """Assert trying to edit a mapping with an invalid package ID returns HTTP 404."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.post('/project/1/map/42', data={})
+            self.assertEqual(output.status_code, 404)
+
+    def test_invalid_project_id(self):
+        """Assert trying to edit a mapping with an invalid project ID returns HTTP 404."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.post('/project/42/map/1', data={})
+            self.assertEqual(output.status_code, 404)

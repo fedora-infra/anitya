@@ -68,7 +68,6 @@ class ProjectsResource(Resource):
     The ``api/v2/projects/`` API endpoint.
     """
 
-    @authentication.parse_api_token
     def get(self):
         """
         Lists all projects.
@@ -140,7 +139,6 @@ class ProjectsResource(Resource):
             order_by=model.Project.name, **args)
         return projects_page.as_dict()
 
-    @authentication.require_api_token("upstream")
     def post(self):
         """
         Create a new project.

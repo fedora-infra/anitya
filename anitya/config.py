@@ -40,11 +40,6 @@ DEFAULTS = dict(
     DB_URL='sqlite:////var/tmp/anitya-dev.sqlite',
     # List of admins based on their openid
     ANITYA_WEB_ADMINS=[],
-    ANITYA_WEB_FEDORA_OPENID='https://id.fedoraproject.org',
-    ANITYA_WEB_ALLOW_FAS_OPENID=True,
-    ANITYA_WEB_ALLOW_GOOGLE_OPENID=True,
-    ANITYA_WEB_ALLOW_YAHOO_OPENID=True,
-    ANITYA_WEB_ALLOW_GENERIC_OPENID=True,
     ADMIN_EMAIL='admin@fedoraproject.org',
     ANITYA_LOG_CONFIG={
         'version': 1,
@@ -81,19 +76,21 @@ DEFAULTS = dict(
     # errors occur.
     EMAIL_ERRORS=False,
     BLACKLISTED_USERS=[],
-    OIDC_CLIENT_SECRETS=os.path.join(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-        'client_secrets.json'
+    SESSION_PROTECTION='strong',
+    SOCIAL_AUTH_AUTHENTICATION_BACKENDS=(
+        'social_core.backends.fedora.FedoraOpenId',
+        'social_core.backends.yahoo.YahooOpenId',
+        'social_core.backends.open_id.OpenIdAuth',
+        # 'social_core.backends.google_openidconnect.GoogleOpenIdConnect',
+        # 'social_core.backends.github.GithubOAuth2',
     ),
-    # Force the application to require HTTPS to save the cookie. This should only
-    # be `False` in a development environment running on the local host!
-    OIDC_ID_TOKEN_COOKIE_SECURE=True,
-    OIDC_REQUIRE_VERIFIED_EMAIL=True,
-    OIDC_OPENID_REALM='http://localhost:5000/oidc_callback',
-    OIDC_SCOPES=[
-        'https://release-monitoring.org/oidc/upstream',
-        'https://release-monitoring.org/oidc/downstream',
-    ],
+    SOCIAL_AUTH_STORAGE='social_flask_sqlalchemy.models.FlaskStorage',
+    SOCIAL_AUTH_USER_MODEL='anitya.lib.model.User',
+    # Force the application to require HTTPS on authentication redirects.
+    SOCIAL_AUTH_REDIRECT_IS_HTTPS=True,
+    SOCIAL_AUTH_LOGIN_URL='/login/',
+    SOCIAL_AUTH_LOGIN_REDIRECT_URL='/',
+    SOCIAL_AUTH_LOGIN_ERROR_URL='/login-error/',
 )
 
 # Start with a basic logging configuration, which will be replaced by any user-

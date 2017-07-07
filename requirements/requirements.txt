@@ -6,6 +6,9 @@ flask-openid
 # Need the fixes for https://github.com/puiterwijk/flask-oidc/issues/12
 #                and https://github.com/puiterwijk/flask-oidc/issues/24
 flask-oidc >= 1.1.1
+flask-login
+social-auth-app-flask
+social-auth-app-flask-sqlalchemy
 flask-restful
 flask-wtf
 jinja2 >= 2.4

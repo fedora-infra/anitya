@@ -98,7 +98,7 @@
               </a>
             </li>
 
-            {%- if g.auth.logged_in -%}
+            {%- if user and user.is_authenticated -%}
             {%- if current == 'Add projects' -%}
             <li class="active">
             {%- else -%}
@@ -129,29 +129,11 @@
                </li>
             {%- endif -%}
             <li>
-              <a href="{{url_for('anitya_ui.logout')}}?next={{request.url}}">logout</a>
+              <a href="{{url_for('anitya_ui.logout')}}">logout</a>
             </li>
             {%- else -%}
             <li>
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <b class="caret"></b> login
-                </a>
-                <ul class="dropdown-menu">
-                  {%- if config['ANITYA_WEB_FEDORA_OPENID'] and
-                        config['ANITYA_WEB_ALLOW_FAS_OPENID'] -%}
-                  <li><a href="{{url_for('anitya_ui.fedora_login')}}">Fedora</a></li>
-                  <li class="divider"></li>
-                  {%- endif -%}
-                  {%- if config['ANITYA_WEB_ALLOW_GOOGLE_OPENID'] -%}
-                  <li><a href="{{url_for('anitya_ui.google_login')}}">Google</a></li>
-                  {%- endif -%}
-                  {%- if config['ANITYA_WEB_ALLOW_YAHOO_OPENID'] -%}
-                  <li><a href="{{url_for('anitya_ui.yahoo_login')}}">Yahoo</a></li>
-                  {%- endif -%}
-                  {%- if config['ANITYA_WEB_ALLOW_GENERIC_OPENID'] -%}
-                  <li><a href="{{url_for('anitya_ui.login')}}">Other OpenID</a></li>
-                  {%- endif -%}
-                </ul>
+              <a href="{{url_for('anitya_ui.login')}}">login</a>
             </li>
             {%- endif -%}
             <li>

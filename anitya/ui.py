@@ -1,37 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from math import ceil
-import functools
 
+from flask_login import login_required, logout_user
 import flask
 import six.moves.urllib.parse as urlparse
 
-import anitya
-import anitya.lib
-import anitya.lib.exceptions
-import anitya.lib.model
-
-from . import authentication
 from anitya.lib import utilities
 from anitya.lib.model import Session as SESSION
+import anitya
+import anitya.lib
 
 
 ui_blueprint = flask.Blueprint(
     'anitya_ui', __name__, static_folder='static', template_folder='templates')
-
-
-def login_required(function):
-    ''' Flask decorator to retrict access to logged-in users. '''
-    @functools.wraps(function)
-    def decorated_function(*args, **kwargs):
-        """ Decorated function, actually does the work. """
-        if not flask.g.auth.logged_in:
-            flask.flash('Login required', 'errors')
-            return flask.redirect(
-                flask.url_for('anitya_ui.login', next=flask.request.url))
-
-        return function(*args, **kwargs)
-    return decorated_function
 
 
 def get_extended_pattern(pattern):
@@ -83,91 +65,16 @@ def fedmsg():
 
 @ui_blueprint.route('/login/', methods=('GET', 'POST'))
 @ui_blueprint.route('/login', methods=('GET', 'POST'))
-@authentication.oid.loginhandler
 def login():
-    ''' Handle the login when no OpenID server have been selected in the
-    list.
-    '''
-    next_url = flask.url_for('anitya_ui.index')
-    if 'next' in flask.request.args:
-        if is_safe_url(flask.request.args['next']):
-            next_url = flask.request.args['next']
-
-    authentication.oid.store_factory = lambda: None
-    if flask.g.auth.logged_in:
-        return flask.redirect(next_url)
-
-    openid_server = flask.request.form.get('openid', None)
-    if openid_server:
-        return authentication.oid.try_login(
-            openid_server, ask_for=['email', 'fullname', 'nickname'])
-
-    return flask.render_template(
-        'login.html',
-        next=authentication.oid.get_next_url(),
-        error=authentication.oid.fetch_error())
-
-
-@ui_blueprint.route('/login/fedora/', methods=('GET', 'POST'))
-@ui_blueprint.route('/login/fedora', methods=('GET', 'POST'))
-@authentication.oid.loginhandler
-def fedora_login():
-    ''' Handles login against the Fedora OpenID server. '''
-    error = authentication.oid.fetch_error()
-    if error:
-        flask.flash('Error during login: %s' % error, 'errors')
-        return flask.redirect(flask.url_for('anitya_ui.index'))
-
-    authentication.oid.store_factory = lambda: None
-    return authentication.oid.try_login(
-        flask.current_app.config['ANITYA_WEB_FEDORA_OPENID'],
-        ask_for=['email', 'nickname'],
-        ask_for_optional=['fullname'])
-
-
-@ui_blueprint.route('/login/google/', methods=('GET', 'POST'))
-@ui_blueprint.route('/login/google', methods=('GET', 'POST'))
-@authentication.oid.loginhandler
-def google_login():
-    ''' Handles login via the Google OpenID. '''
-    error = authentication.oid.fetch_error()
-    if error:
-        flask.flash('Error during login: %s' % error, 'errors')
-        return flask.redirect(flask.url_for('anitya_ui.index'))
-
-    authentication.oid.store_factory = lambda: None
-    return authentication.oid.try_login(
-        "https://www.google.com/accounts/o8/id",
-        ask_for=['email', 'fullname'])
-
-
-@ui_blueprint.route('/login/yahoo/', methods=('GET', 'POST'))
-@ui_blueprint.route('/login/yahoo', methods=('GET', 'POST'))
-@authentication.oid.loginhandler
-def yahoo_login():
-    ''' Handles login via the Yahoo OpenID. '''
-    error = authentication.oid.fetch_error()
-    if error:
-        flask.flash('Error during login: %s' % error, 'errors')
-        return flask.redirect(flask.url_for('anitya_ui.index'))
-
-    authentication.oid.store_factory = lambda: None
-    return authentication.oid.try_login(
-        "https://me.yahoo.com/",
-        ask_for=['email', 'fullname'])
+    return flask.render_template('login.html')
 
 
 @ui_blueprint.route('/logout/')
 @ui_blueprint.route('/logout')
+@login_required
 def logout():
-    ''' Logout the user. '''
-    flask.session.pop('openid')
-    next_url = flask.url_for('anitya_ui.index')
-    if 'next' in flask.request.args:
-        if is_safe_url(flask.request.args['next']):
-            next_url = flask.request.args['next']
-
-    return flask.redirect(next_url)
+    logout_user()
+    return flask.redirect('/')
 
 
 @ui_blueprint.route('/project/<int:project_id>')
