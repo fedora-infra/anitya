@@ -23,9 +23,9 @@ def is_admin(user=None):
     ''' Check if the provided user, or the user logged in are recognized
     as being admins.
     '''
-    if not user and flask.g.auth.logged_in:
-        user = flask.g.auth.openid
-    return user in flask.current_app.config.get('ANITYA_WEB_ADMINS', [])
+    user = user or flask.g.user
+    if user.is_authenticated:
+        return user.admin
 
 
 @ui_blueprint.route('/distro/add', methods=['GET', 'POST'])
@@ -47,7 +47,7 @@ def add_distro():
             distro=distro,
             topic='distro.add',
             message=dict(
-                agent=flask.g.auth.openid,
+                agent=flask.g.user.username,
                 distro=distro.name,
             )
         )
@@ -92,7 +92,7 @@ def edit_distro(distro_name):
                 distro=distro,
                 topic='distro.edit',
                 message=dict(
-                    agent=flask.g.auth.openid,
+                    agent=flask.g.user.username,
                     old=distro.name,
                     new=name,
                 )
@@ -135,7 +135,7 @@ def delete_distro(distro_name):
             distro=distro,
             topic='distro.remove',
             message=dict(
-                agent=flask.g.auth.openid,
+                agent=flask.g.user.username,
                 distro=distro.name,
             )
         )
@@ -175,7 +175,7 @@ def delete_project(project_id):
                 project=project,
                 topic='project.remove',
                 message=dict(
-                    agent=flask.g.auth.openid,
+                    agent=flask.g.user.username,
                     project=project.name,
                 )
             )
@@ -230,7 +230,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
                 project=project,
                 topic='project.map.remove',
                 message=dict(
-                    agent=flask.g.auth.openid,
+                    agent=flask.g.user.username,
                     project=project.name,
                     distro=distro.name,
                 )
@@ -285,7 +285,7 @@ def delete_project_version(project_id, version):
                 project=project,
                 topic='project.version.remove',
                 message=dict(
-                    agent=flask.g.auth.openid,
+                    agent=flask.g.user.username,
                     project=project.name,
                     version=version,
                 )
@@ -316,9 +316,9 @@ def delete_project_version(project_id, version):
 def browse_logs():
 
     if is_admin():
-        user = flask.request.args.get('user', None)
+        user_logs = flask.request.args.get('user', None)
     else:
-        user = [flask.g.auth.openid, flask.g.auth.email]
+        user_logs = [flask.g.user.username, flask.g.user.email]
 
     from_date = flask.request.args.get('from_date', None)
     project = flask.request.args.get('project', None)
@@ -358,7 +358,7 @@ def browse_logs():
             SESSION,
             project_name=project or None,
             from_date=from_date,
-            user=user or None,
+            user=user_logs or None,
             offset=offset,
             limit=limit,
         )
@@ -367,7 +367,7 @@ def browse_logs():
             SESSION,
             project_name=project or None,
             from_date=from_date,
-            user=user or None,
+            user=user_logs or None,
             count=True
         )
     except Exception as err:
@@ -386,7 +386,7 @@ def browse_logs():
         page=page,
         project=project or '',
         from_date=from_date or '',
-        user=user or ''
+        user_logs=user_logs or ''
     )
 
 
@@ -400,7 +400,7 @@ def browse_flags():
     from_date = flask.request.args.get('from_date', None)
     state = flask.request.args.get('state', 'open')
     project = flask.request.args.get('project', None)
-    user = flask.request.args.get('user', None)
+    flags_for_user = flask.request.args.get('user', None)
     refresh = flask.request.args.get('refresh', False)
     limit = flask.request.args.get('limit', 50)
     page = flask.request.args.get('page', 1)
@@ -439,7 +439,7 @@ def browse_flags():
             project_name=project or None,
             state=state or None,
             from_date=from_date,
-            user=user or None,
+            user=flags_for_user or None,
             offset=offset,
             limit=limit,
         )
@@ -449,7 +449,7 @@ def browse_flags():
             project_name=project or None,
             state=state or None,
             from_date=from_date,
-            user=user or None,
+            user=flags_for_user or None,
             count=True
         )
     except Exception as err:
@@ -471,7 +471,7 @@ def browse_flags():
         page=page,
         project=project or '',
         from_date=from_date or '',
-        user=user or '',
+        flags_for_user=flags_for_user or '',
         state=state or ''
     )
 
@@ -499,7 +499,7 @@ def set_flag_state(flag_id, state):
                 SESSION,
                 flag=flag,
                 state=state,
-                user_id=flask.g.auth.openid,
+                user_id=flask.g.user.username,
             )
             flask.flash('Flag {0} set to {1}'.format(flag.id, state))
         except anitya.lib.exceptions.AnityaException as err:

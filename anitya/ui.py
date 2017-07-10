@@ -389,7 +389,7 @@ def new_project():
                 version_url=form.version_url.data.strip() or None,
                 version_prefix=form.version_prefix.data.strip() or None,
                 regex=form.regex.data.strip() or None,
-                user_id=flask.g.auth.openid,
+                user_id=flask.g.user.username,
                 check_release=form.check_release.data,
             )
             SESSION.commit()
@@ -401,7 +401,7 @@ def new_project():
                     project=project,
                     package_name=form.package_name.data,
                     distribution=form.distro.data,
-                    user_id=flask.g.auth.openid,
+                    user_id=flask.g.user.username,
                 )
                 SESSION.commit()
 
@@ -457,7 +457,7 @@ def edit_project(project_id):
                 version_prefix=form.version_prefix.data.strip(),
                 regex=form.regex.data.strip(),
                 insecure=form.insecure.data,
-                user_id=flask.g.auth.openid,
+                user_id=flask.g.user.username,
                 check_release=form.check_release.data,
             )
             flask.flash('Project edited')
@@ -496,8 +496,8 @@ def flag_project(project_id):
                 SESSION,
                 project=project,
                 reason=form.reason.data,
-                user_email=flask.g.auth.email,
-                user_id=flask.g.auth.openid,
+                user_email=flask.g.user.email,
+                user_id=flask.g.user.username,
             )
             flask.flash('Project flagged for admin review')
         except anitya.lib.exceptions.AnityaException as err:
@@ -538,7 +538,7 @@ def map_project(project_id):
                 project=project,
                 package_name=form.package_name.data.strip(),
                 distribution=form.distro.data.strip(),
-                user_id=flask.g.auth.openid,
+                user_id=flask.g.user.username,
             )
             SESSION.commit()
             flask.flash('Mapping added')
@@ -582,7 +582,7 @@ def edit_project_mapping(project_id, pkg_id):
                 project=project,
                 package_name=form.package_name.data,
                 distribution=form.distro.data,
-                user_id=flask.g.auth.openid,
+                user_id=flask.g.user.username,
                 old_package_name=package.package_name,
                 old_distro_name=package.distro,
             )
