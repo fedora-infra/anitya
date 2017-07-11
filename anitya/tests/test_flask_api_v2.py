@@ -34,7 +34,7 @@ import mock
 import unittest2 as unittest  # Ensure we always have TestCase.addCleanup
 
 import anitya
-from .base import (Modeltests, create_project)
+from .base import (DatabaseTestCase, create_project)
 
 
 # Py3 compatibility: UTF-8 decoding and JSON decoding may be separate steps
@@ -49,13 +49,11 @@ class _APItestsMixin(object):
         super(_APItestsMixin, self).setUp()
 
         anitya.app.APP.config['TESTING'] = True
-        anitya.app.SESSION = self.session
-        anitya.api_v2.SESSION = self.session
         self.oidc = anitya.app.APP.oidc
         self.app = anitya.app.APP.test_client()
 
 
-class AnonymousAccessTests(_APItestsMixin, Modeltests):
+class AnonymousAccessTests(_APItestsMixin, DatabaseTestCase):
     """Test access to APIs that don't require authentication"""
 
     def test_list_projects(self):
@@ -245,7 +243,7 @@ class AnonymousAccessTests(_APItestsMixin, Modeltests):
             data, {u'message': {u'page': u"invalid literal for int() with base 10: 'twenty'"}})
 
 
-class AuthenticationRequiredTests(_APItestsMixin, Modeltests):
+class AuthenticationRequiredTests(_APItestsMixin, DatabaseTestCase):
     """Test anonymous access is blocked to APIs requiring authentication"""
 
     def _check_authentication_failure_response(self, output):
@@ -323,7 +321,7 @@ class _AuthenticatedAPItestsMixin(_APItestsMixin):
         self.assertEqual("requests", data["name"])
 
 
-class MockAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
+class MockAuthenticationTests(_AuthenticatedAPItestsMixin, DatabaseTestCase):
     """Test authenticated behaviour with authentication checks mocked out"""
 
     def setUp(self):
@@ -372,7 +370,7 @@ _this_dir = os.path.dirname(__file__)
 CREDENTIALS_FILE = os.path.join(_this_dir, "oidc_credentials.json")
 
 
-class LiveAuthenticationTests(_AuthenticatedAPItestsMixin, Modeltests):
+class LiveAuthenticationTests(_AuthenticatedAPItestsMixin, DatabaseTestCase):
     """Test authenticated behaviour with live FAS credentials"""
 
     @classmethod

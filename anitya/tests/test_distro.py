@@ -26,10 +26,10 @@ anitya tests for the Distro object.
 import unittest
 
 import anitya.lib.model as model
-from anitya.tests.base import Modeltests, create_distro
+from anitya.tests.base import DatabaseTestCase, create_distro
 
 
-class Distrotests(Modeltests):
+class Distrotests(DatabaseTestCase):
     """ Distro tests. """
 
     def test_init_distro(self):

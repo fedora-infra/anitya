@@ -27,7 +27,7 @@ import unittest
 
 from anitya.lib import plugins
 from anitya.lib.versions import Version
-from anitya.tests.base import Modeltests
+from anitya.tests.base import DatabaseTestCase
 
 EXPECTED_BACKENDS = [
     'BitBucket', 'CPAN (perl)', 'crates.io', 'Debian project', 'Drupal6',
@@ -60,7 +60,7 @@ class VersionPluginsTests(unittest.TestCase):
             self.assertTrue(issubclass(plugin, Version))
 
 
-class Pluginstests(Modeltests):
+class Pluginstests(DatabaseTestCase):
     """ Plugins tests. """
 
     def test_load_all_plugins(self):

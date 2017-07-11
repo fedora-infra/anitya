@@ -28,16 +28,15 @@ import unittest
 import anitya.lib.backends.gnome as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from anitya.tests.base import Modeltests, create_distro, skip_jenkins
+from anitya.tests.base import DatabaseTestCase, create_distro
 
 
 BACKEND = 'GNOME'
 
 
-class GnomeBackendtests(Modeltests):
+class GnomeBackendtests(DatabaseTestCase):
     """ custom backend tests. """
 
-    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(GnomeBackendtests, self).setUp()

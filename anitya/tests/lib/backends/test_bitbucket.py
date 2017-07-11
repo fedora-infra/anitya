@@ -28,16 +28,15 @@ import unittest
 import anitya.lib.backends.bitbucket as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from anitya.tests.base import Modeltests, create_distro, skip_jenkins
+from anitya.tests.base import DatabaseTestCase, create_distro
 
 
 BACKEND = 'BitBucket'
 
 
-class BitBucketBackendtests(Modeltests):
+class BitBucketBackendtests(DatabaseTestCase):
     """ BitBucket backend tests. """
 
-    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(BitBucketBackendtests, self).setUp()

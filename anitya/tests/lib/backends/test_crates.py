@@ -28,14 +28,13 @@ import mock
 
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.lib.backends import crates
-from anitya.tests.base import Modeltests, skip_jenkins
+from anitya.tests.base import DatabaseTestCase
 import anitya.lib.model as model
 
 
-class CratesBackendTests(Modeltests):
+class CratesBackendTests(DatabaseTestCase):
     """Crates backend tests."""
 
-    @skip_jenkins
     def setUp(self):
         """Set up the environnment, run before every test"""
         super(CratesBackendTests, self).setUp()

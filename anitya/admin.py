@@ -46,6 +46,7 @@ def add_distro():
             SESSION.commit()
             flask.flash('Distribution added')
         except SQLAlchemyError:
+            SESSION.rollback()
             flask.flash(
                 'Could not add this distro, already exists?', 'error')
         return flask.redirect(

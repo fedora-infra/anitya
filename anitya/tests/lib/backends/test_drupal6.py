@@ -28,16 +28,15 @@ import unittest
 import anitya.lib.backends.drupal6 as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from anitya.tests.base import Modeltests, create_distro, skip_jenkins
+from anitya.tests.base import DatabaseTestCase, create_distro
 
 
 BACKEND = 'Drupal6'
 
 
-class Drupal6Backendtests(Modeltests):
+class Drupal6Backendtests(DatabaseTestCase):
     """ Drupal backend tests. """
 
-    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(Drupal6Backendtests, self).setUp()

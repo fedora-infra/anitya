@@ -28,11 +28,11 @@ import unittest
 
 import anitya
 from anitya.lib import model
-from anitya.tests.base import (Modeltests, create_distro, create_project,
+from anitya.tests.base import (DatabaseTestCase, create_distro, create_project,
                                create_package, create_flagged_project)
 
 
-class FlaskAdminTest(Modeltests):
+class FlaskAdminTest(DatabaseTestCase):
     """ Flask tests for the admin controller. """
 
     def setUp(self):
@@ -41,11 +41,6 @@ class FlaskAdminTest(Modeltests):
 
         anitya.app.APP.config['TESTING'] = True
         anitya.app.APP.config['ANITYA_WEB_ADMINS'] = ['http://pingou.id.fedoraproject.org/']
-        anitya.SESSION = self.session
-        anitya.ui.SESSION = self.session
-        anitya.app.SESSION = self.session
-        anitya.admin.SESSION = self.session
-        anitya.api.SESSION = self.session
         self.app = anitya.app.APP.test_client()
 
     def test_add_distro(self):

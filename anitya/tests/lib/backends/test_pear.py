@@ -28,16 +28,15 @@ import unittest
 import anitya.lib.backends.pear as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from anitya.tests.base import Modeltests, create_distro, skip_jenkins
+from anitya.tests.base import DatabaseTestCase, create_distro
 
 
 BACKEND = 'PEAR'
 
 
-class PearBackendtests(Modeltests):
+class PearBackendtests(DatabaseTestCase):
     """ Pear backend tests. """
 
-    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(PearBackendtests, self).setUp()

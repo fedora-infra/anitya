@@ -28,16 +28,15 @@ import unittest
 import anitya.lib.backends.google as backend
 import anitya.lib.model as model
 from anitya.lib.exceptions import AnityaPluginException
-from anitya.tests.base import Modeltests, create_distro, skip_jenkins
+from anitya.tests.base import DatabaseTestCase, create_distro
 
 
 BACKEND = 'Google code'
 
 
-class GoogleBackendtests(Modeltests):
+class GoogleBackendtests(DatabaseTestCase):
     """ custom backend tests. """
 
-    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(GoogleBackendtests, self).setUp()

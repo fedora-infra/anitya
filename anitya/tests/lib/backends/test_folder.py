@@ -30,16 +30,15 @@ import mock
 import anitya.lib.backends.folder as backend  # NOQA
 import anitya.lib.model as model  # NOQA
 from anitya.lib.exceptions import AnityaPluginException  # NOQA
-from anitya.tests.base import Modeltests, create_distro, skip_jenkins  # NOQA
+from anitya.tests.base import DatabaseTestCase, create_distro  # NOQA
 
 
 BACKEND = 'folder'
 
 
-class FolderBackendtests(Modeltests):
+class FolderBackendtests(DatabaseTestCase):
     """ folder backend tests. """
 
-    @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
         super(FolderBackendtests, self).setUp()
