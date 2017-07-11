@@ -20,6 +20,7 @@ from bunch import Bunch
 from flask_restful import Api
 
 from anitya.config import config as anitya_config
+from anitya.lib import utilities
 from anitya.lib.model import Session as SESSION, initialize as initialize_db
 import anitya.lib
 import anitya.authentication
@@ -157,7 +158,7 @@ def inject_variable():
     if justedit:  # pragma: no cover
         flask.session['justedit'] = None
 
-    cron_status = anitya.lib.get_last_cron(SESSION)
+    cron_status = utilities.get_last_cron(SESSION)
 
     return dict(
         version=__version__,

@@ -7,6 +7,7 @@ import logging
 import flask
 from sqlalchemy.exc import SQLAlchemyError
 
+from anitya.lib import utilities
 import anitya
 import anitya.forms
 import anitya.lib.model
@@ -31,7 +32,7 @@ def add_distro():
 
         distro = anitya.lib.model.Distro(name)
 
-        anitya.log(
+        utilities.log(
             SESSION,
             distro=distro,
             topic='distro.add',
@@ -76,7 +77,7 @@ def edit_distro(distro_name):
         name = form.name.data
 
         if name != distro.name:
-            anitya.log(
+            utilities.log(
                 SESSION,
                 distro=distro,
                 topic='distro.edit',
@@ -119,7 +120,7 @@ def delete_distro(distro_name):
     form = anitya.forms.ConfirmationForm()
 
     if form.validate_on_submit():
-        anitya.log(
+        utilities.log(
             SESSION,
             distro=distro,
             topic='distro.remove',
@@ -159,7 +160,7 @@ def delete_project(project_id):
 
     if form.validate_on_submit():
         if confirm:
-            anitya.log(
+            utilities.log(
                 SESSION,
                 project=project,
                 topic='project.remove',
@@ -214,7 +215,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
 
     if form.validate_on_submit():
         if confirm:
-            anitya.log(
+            utilities.log(
                 SESSION,
                 project=project,
                 topic='project.map.remove',
@@ -269,7 +270,7 @@ def delete_project_version(project_id, version):
 
     if form.validate_on_submit():
         if confirm:
-            anitya.log(
+            utilities.log(
                 SESSION,
                 project=project,
                 topic='project.version.remove',
@@ -484,7 +485,7 @@ def set_flag_state(flag_id, state):
 
     if form.validate_on_submit():
         try:
-            anitya.lib.set_flag_state(
+            utilities.set_flag_state(
                 SESSION,
                 flag=flag,
                 state=state,

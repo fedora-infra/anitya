@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from anitya.app import APP
-import anitya.lib
+from anitya.lib import utilities
 
-anitya.lib.init(
+utilities.init(
     APP.config['DB_URL'],
     None,
     debug=True,

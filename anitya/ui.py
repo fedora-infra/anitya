@@ -11,6 +11,7 @@ import anitya.lib.exceptions
 import anitya.lib.model
 
 from anitya.app import APP, SESSION, login_required
+from anitya.lib import utilities
 
 
 def get_extended_pattern(pattern):
@@ -452,7 +453,7 @@ def new_project():
     elif form.validate_on_submit():
         project = None
         try:
-            project = anitya.lib.create_project(
+            project = utilities.create_project(
                 SESSION,
                 name=form.name.data.strip(),
                 homepage=form.homepage.data.strip(),
@@ -467,7 +468,7 @@ def new_project():
 
             # Optionally, the user can also map a distro when creating a proj.
             if form.distro.data and form.package_name.data:
-                anitya.lib.map_project(
+                utilities.map_project(
                     SESSION,
                     project=project,
                     package_name=form.package_name.data,
@@ -518,7 +519,7 @@ def edit_project(project_id):
 
     if form.validate_on_submit():
         try:
-            anitya.lib.edit_project(
+            utilities.edit_project(
                 SESSION,
                 project=project,
                 name=form.name.data.strip(),
@@ -563,7 +564,7 @@ def flag_project(project_id):
 
     if form.validate_on_submit():
         try:
-            anitya.lib.flag_project(
+            utilities.flag_project(
                 SESSION,
                 project=project,
                 reason=form.reason.data,
@@ -604,7 +605,7 @@ def map_project(project_id):
 
     if form.validate_on_submit():
         try:
-            anitya.lib.map_project(
+            utilities.map_project(
                 SESSION,
                 project=project,
                 package_name=form.package_name.data.strip(),
@@ -648,7 +649,7 @@ def edit_project_mapping(project_id, pkg_id):
     if form.validate_on_submit():
 
         try:
-            anitya.lib.map_project(
+            utilities.map_project(
                 SESSION,
                 project=project,
                 package_name=form.package_name.data,

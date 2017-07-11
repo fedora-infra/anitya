@@ -189,7 +189,7 @@ class NewProjectTests(DatabaseTestCase):
             self.assertTrue(
                 b'<td><label for="regex">Regex</label></td>' in output.data)
 
-    @mock.patch('anitya.check_release')
+    @mock.patch('anitya.lib.utilities.check_project_release')
     def test_new_project_with_check_release(self, patched):
         output = self.app.get('/project/new', follow_redirects=True)
         with anitya.app.APP.test_client() as c:
@@ -429,7 +429,7 @@ class FlaskTest(DatabaseTestCase):
             b'exact match, redirecting</li>'
         self.assertTrue(expected in output.data)
 
-    @mock.patch('anitya.check_release')
+    @mock.patch('anitya.lib.utilities.check_project_release')
     def test_edit_project(self, patched):
         """ Test the edit_project function. """
         create_distro(self.session)

@@ -29,6 +29,7 @@ import mock
 
 import anitya.lib
 import anitya.lib.model as model
+from anitya.lib import utilities
 from anitya.lib.exceptions import AnityaException, ProjectExists
 from anitya.tests.base import DatabaseTestCase, create_distro, create_project
 
@@ -41,7 +42,7 @@ class AnityaLibtests(DatabaseTestCase):
         create_distro(self.session)
         self.assertEqual(2, model.Distro.all(self.session, count=True))
 
-        anitya.lib.create_project(
+        utilities.create_project(
             self.session,
             name='geany',
             homepage='http://www.geany.org/',
@@ -57,7 +58,7 @@ class AnityaLibtests(DatabaseTestCase):
 
         self.assertRaises(
             ProjectExists,
-            anitya.lib.create_project,
+            utilities.create_project,
             self.session,
             name='geany',
             homepage='http://www.geany.org/',
@@ -77,7 +78,7 @@ class AnityaLibtests(DatabaseTestCase):
                 self.session, 'flush', mock.Mock(side_effect=[SQLAlchemyError(), None])):
             self.assertRaises(
                 AnityaException,
-                anitya.lib.create_project,
+                utilities.create_project,
                 self.session,
                 name='geany',
                 homepage='http://www.geany.org/',
@@ -98,7 +99,7 @@ class AnityaLibtests(DatabaseTestCase):
         self.assertEqual(project_objs[1].name, 'R2spec')
         self.assertEqual(project_objs[2].name, 'subsurface')
 
-        anitya.lib.edit_project(
+        utilities.edit_project(
             self.session,
             project=project_objs[0],
             name=project_objs[0].name,
@@ -132,7 +133,7 @@ class AnityaLibtests(DatabaseTestCase):
 
         self.assertRaises(
             AnityaException,
-            anitya.lib.edit_project,
+            utilities.edit_project,
             self.session,
             project=project_objs[2],
             name='geany',
@@ -155,7 +156,7 @@ class AnityaLibtests(DatabaseTestCase):
         self.assertEqual(len(project_obj.packages), 0)
 
         # Map `geany` project to CentOS
-        anitya.lib.map_project(
+        utilities.map_project(
             self.session,
             project=project_obj,
             package_name='geany',
@@ -172,7 +173,7 @@ class AnityaLibtests(DatabaseTestCase):
         self.assertEqual(project_obj.packages[0].distro, 'CentOS')
 
         # Map `geany` project to CentOS, exactly the same way
-        anitya.lib.map_project(
+        utilities.map_project(
             self.session,
             project=project_obj,
             package_name='geany2',
@@ -191,7 +192,7 @@ class AnityaLibtests(DatabaseTestCase):
         self.assertEqual(project_obj.packages[1].distro, 'CentOS')
 
         # Edit the mapping of the `geany` project to Fedora
-        anitya.lib.map_project(
+        utilities.map_project(
             self.session,
             project=project_obj,
             package_name='geany3',
@@ -218,7 +219,7 @@ class AnityaLibtests(DatabaseTestCase):
 
         self.assertRaises(
             anitya.lib.exceptions.AnityaInvalidMappingException,
-            anitya.lib.map_project,
+            utilities.map_project,
             self.session,
             project=project_obj,
             package_name='geany2',
