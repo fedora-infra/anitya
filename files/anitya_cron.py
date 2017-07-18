@@ -12,6 +12,7 @@ import logging
 # with a global shared requests session.
 import multiprocessing.dummy as multiprocessing
 
+from anitya.lib import utilities
 import anitya
 import anitya.app
 import anitya.lib.exceptions
@@ -50,10 +51,10 @@ def projects_by_feed(session):
 
 def update_project(project_id):
     """ Check for updates on the specified project. """
-    session = anitya.lib.init(anitya.app.APP.config['DB_URL'])
+    session = utilities.init(anitya.app.APP.config['DB_URL'])
     project = anitya.lib.model.Project.by_id(session, project_id)
     try:
-        anitya.check_release(project, session),
+        utilities.check_project_release(project, session),
     except anitya.lib.exceptions.AnityaException as err:
         LOG.info(err)
     finally:

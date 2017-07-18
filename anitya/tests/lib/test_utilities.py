@@ -17,31 +17,25 @@
 # code or documentation are not subject to the GNU General Public
 # License and may only be used or replicated with the express permission
 # of Red Hat, Inc.
-#
-
-'''
-anitya tests for the anitya.lib module.
-'''
-import unittest
+"""Tests for the :mod:`anitya.lib.utilities` module."""
 
 from sqlalchemy.exc import SQLAlchemyError
 import mock
 
-import anitya.lib
-import anitya.lib.model as model
+from anitya.lib import utilities, model, exceptions
 from anitya.lib.exceptions import AnityaException, ProjectExists
 from anitya.tests.base import DatabaseTestCase, create_distro, create_project
 
 
-class AnityaLibtests(DatabaseTestCase):
-    """ AnityaLib tests. """
+class CreateProjectTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.lib.utilities.create_project` function."""
 
     def test_create_project(self):
         """ Test the create_project function of Distro. """
         create_distro(self.session)
         self.assertEqual(2, model.Distro.all(self.session, count=True))
 
-        anitya.lib.create_project(
+        utilities.create_project(
             self.session,
             name='geany',
             homepage='http://www.geany.org/',
@@ -50,14 +44,14 @@ class AnityaLibtests(DatabaseTestCase):
             user_id='noreply@fedoraproject.org',
         )
 
-        project_objs = anitya.lib.model.Project.all(self.session)
+        project_objs = model.Project.all(self.session)
         self.assertEqual(len(project_objs), 1)
         self.assertEqual(project_objs[0].name, 'geany')
         self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
 
         self.assertRaises(
             ProjectExists,
-            anitya.lib.create_project,
+            utilities.create_project,
             self.session,
             name='geany',
             homepage='http://www.geany.org/',
@@ -66,7 +60,7 @@ class AnityaLibtests(DatabaseTestCase):
             user_id='noreply@fedoraproject.org',
         )
 
-        project_objs = anitya.lib.model.Project.all(self.session)
+        project_objs = model.Project.all(self.session)
         self.assertEqual(len(project_objs), 1)
         self.assertEqual(project_objs[0].name, 'geany')
         self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
@@ -77,7 +71,7 @@ class AnityaLibtests(DatabaseTestCase):
                 self.session, 'flush', mock.Mock(side_effect=[SQLAlchemyError(), None])):
             self.assertRaises(
                 AnityaException,
-                anitya.lib.create_project,
+                utilities.create_project,
                 self.session,
                 name='geany',
                 homepage='http://www.geany.org/',
@@ -86,19 +80,23 @@ class AnityaLibtests(DatabaseTestCase):
                 user_id='noreply@fedoraproject.org',
             )
 
+
+class EditProjectTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.lib.utilities.edit_project` function."""
+
     def test_edit_project(self):
         """ Test the edit_project function of Distro. """
         create_distro(self.session)
         create_project(self.session)
 
-        project_objs = anitya.lib.model.Project.all(self.session)
+        project_objs = model.Project.all(self.session)
         self.assertEqual(len(project_objs), 3)
         self.assertEqual(project_objs[0].name, 'geany')
         self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
         self.assertEqual(project_objs[1].name, 'R2spec')
         self.assertEqual(project_objs[2].name, 'subsurface')
 
-        anitya.lib.edit_project(
+        utilities.edit_project(
             self.session,
             project=project_objs[0],
             name=project_objs[0].name,
@@ -110,7 +108,7 @@ class AnityaLibtests(DatabaseTestCase):
             insecure=False,
             user_id='noreply@fedoraproject.org')
 
-        project_objs = anitya.lib.model.Project.all(self.session)
+        project_objs = model.Project.all(self.session)
         self.assertEqual(len(project_objs), 3)
         self.assertEqual(project_objs[0].name, 'geany')
         self.assertEqual(project_objs[0].homepage, 'http://www.geany.org')
@@ -123,7 +121,7 @@ class AnityaLibtests(DatabaseTestCase):
         create_distro(self.session)
         create_project(self.session)
 
-        project_objs = anitya.lib.model.Project.all(self.session)
+        project_objs = model.Project.all(self.session)
         self.assertEqual(len(project_objs), 3)
         self.assertEqual(project_objs[0].name, 'geany')
         self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
@@ -132,7 +130,7 @@ class AnityaLibtests(DatabaseTestCase):
 
         self.assertRaises(
             AnityaException,
-            anitya.lib.edit_project,
+            utilities.edit_project,
             self.session,
             project=project_objs[2],
             name='geany',
@@ -145,17 +143,21 @@ class AnityaLibtests(DatabaseTestCase):
             user_id='noreply@fedoraproject.org',
         )
 
+
+class MapProjectTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.lib.utilities.map_project` function."""
+
     def test_map_project(self):
         """ Test the map_project function of Distro. """
         create_distro(self.session)
         create_project(self.session)
 
-        project_obj = anitya.lib.model.Project.get(self.session, 1)
+        project_obj = model.Project.get(self.session, 1)
         self.assertEqual(project_obj.name, 'geany')
         self.assertEqual(len(project_obj.packages), 0)
 
         # Map `geany` project to CentOS
-        anitya.lib.map_project(
+        utilities.map_project(
             self.session,
             project=project_obj,
             package_name='geany',
@@ -165,14 +167,14 @@ class AnityaLibtests(DatabaseTestCase):
         )
         self.session.commit()
 
-        project_obj = anitya.lib.model.Project.get(self.session, 1)
+        project_obj = model.Project.get(self.session, 1)
         self.assertEqual(project_obj.name, 'geany')
         self.assertEqual(len(project_obj.packages), 1)
         self.assertEqual(project_obj.packages[0].package_name, 'geany')
         self.assertEqual(project_obj.packages[0].distro, 'CentOS')
 
         # Map `geany` project to CentOS, exactly the same way
-        anitya.lib.map_project(
+        utilities.map_project(
             self.session,
             project=project_obj,
             package_name='geany2',
@@ -182,7 +184,7 @@ class AnityaLibtests(DatabaseTestCase):
         )
         self.session.commit()
 
-        project_obj = anitya.lib.model.Project.get(self.session, 1)
+        project_obj = model.Project.get(self.session, 1)
         self.assertEqual(project_obj.name, 'geany')
         self.assertEqual(len(project_obj.packages), 2)
         self.assertEqual(project_obj.packages[0].package_name, 'geany')
@@ -191,7 +193,7 @@ class AnityaLibtests(DatabaseTestCase):
         self.assertEqual(project_obj.packages[1].distro, 'CentOS')
 
         # Edit the mapping of the `geany` project to Fedora
-        anitya.lib.map_project(
+        utilities.map_project(
             self.session,
             project=project_obj,
             package_name='geany3',
@@ -202,7 +204,7 @@ class AnityaLibtests(DatabaseTestCase):
         )
         self.session.commit()
 
-        project_obj = anitya.lib.model.Project.get(self.session, 1)
+        project_obj = model.Project.get(self.session, 1)
         self.assertEqual(project_obj.name, 'geany')
         self.assertEqual(len(project_obj.packages), 2)
         pkgs = sorted(project_obj.packages, key=lambda x: x.package_name)
@@ -212,21 +214,16 @@ class AnityaLibtests(DatabaseTestCase):
         self.assertEqual(pkgs[1].distro, 'Fedora')
 
         # Edit the mapping of the `geany` project to Fedora
-        project_obj = anitya.lib.model.Project.get(self.session, 2)
+        project_obj = model.Project.get(self.session, 2)
         self.assertEqual(project_obj.name, 'subsurface')
         self.assertEqual(len(project_obj.packages), 0)
 
         self.assertRaises(
-            anitya.lib.exceptions.AnityaInvalidMappingException,
-            anitya.lib.map_project,
+            exceptions.AnityaInvalidMappingException,
+            utilities.map_project,
             self.session,
             project=project_obj,
             package_name='geany2',
             distribution='CentOS',
             user_id='noreply@fedoraproject.org',
         )
-
-
-if __name__ == '__main__':
-    SUITE = unittest.TestLoader().loadTestsFromTestCase(AnityaLibtests)
-    unittest.TextTestRunner(verbosity=2).run(SUITE)

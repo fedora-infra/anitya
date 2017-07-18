@@ -118,7 +118,7 @@ def migrate_wiki(agent):
 
     print "Migrating from wiki as %r" % agent
 
-    SESSION = anitya.lib.init(
+    SESSION = anitya.lib.utilities.init(
         anitya.app.APP.config['DB_URL'],
         None,
         create=True)
@@ -155,7 +155,7 @@ def migrate_wiki(agent):
             project.version_url = (name or pkg.name)
 
         try:
-            package = anitya.lib.map_project(
+            package = anitya.lib.utilities.map_project(
                 SESSION, project, pkg.name, 'Fedora', agent)
             project.packages.append(package)
 

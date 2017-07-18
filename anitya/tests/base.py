@@ -30,7 +30,7 @@ import vcr
 import mock
 
 from anitya import app
-from anitya.lib import model, create_project as lib_create_project, flag_project
+from anitya.lib import model, utilities
 
 
 engine = None
@@ -147,7 +147,7 @@ def create_distro(session):
 
 def create_project(session):
     """ Create some basic projects to work with. """
-    lib_create_project(
+    utilities.create_project(
         session,
         name='geany',
         homepage='http://www.geany.org/',
@@ -156,7 +156,7 @@ def create_project(session):
         user_id='noreply@fedoraproject.org',
     )
 
-    lib_create_project(
+    utilities.create_project(
         session,
         name='subsurface',
         homepage='http://subsurface.hohndel.org/',
@@ -165,7 +165,7 @@ def create_project(session):
         user_id='noreply@fedoraproject.org',
     )
 
-    lib_create_project(
+    utilities.create_project(
         session,
         name='R2spec',
         homepage='https://fedorahosted.org/r2spec/',
@@ -178,7 +178,7 @@ def create_ecosystem_projects(session):
 
     Each project name is used in two different ecosystems
     """
-    lib_create_project(
+    utilities.create_project(
         session,
         name='pypi_and_npm',
         homepage='https://example.com/not-a-real-pypi-project',
@@ -186,7 +186,7 @@ def create_ecosystem_projects(session):
         user_id='noreply@fedoraproject.org'
     )
 
-    lib_create_project(
+    utilities.create_project(
         session,
         name='pypi_and_npm',
         homepage='https://example.com/not-a-real-npmjs-project',
@@ -194,7 +194,7 @@ def create_ecosystem_projects(session):
         user_id='noreply@fedoraproject.org'
     )
 
-    lib_create_project(
+    utilities.create_project(
         session,
         name='rubygems_and_maven',
         homepage='https://example.com/not-a-real-rubygems-project',
@@ -202,7 +202,7 @@ def create_ecosystem_projects(session):
         user_id='noreply@fedoraproject.org'
     )
 
-    lib_create_project(
+    utilities.create_project(
         session,
         name='rubygems_and_maven',
         homepage='https://example.com/not-a-real-maven-project',
@@ -232,7 +232,7 @@ def create_package(session):
 
 def create_flagged_project(session):
     """ Create and flag a project. Returns the ProjectFlag. """
-    project = lib_create_project(
+    project = utilities.create_project(
         session,
         name='geany',
         homepage='http://www.geany.org/',
@@ -243,7 +243,7 @@ def create_flagged_project(session):
 
     session.add(project)
 
-    flag = flag_project(
+    flag = utilities.flag_project(
         session,
         project,
         "This is a duplicate.",

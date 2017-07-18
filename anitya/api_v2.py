@@ -10,11 +10,10 @@ from gettext import gettext as _
 from flask import jsonify
 from flask_restful import Resource, reqparse
 
+from anitya import authentication
 from anitya.app import APP, SESSION
+from anitya.lib import utilities, model
 from anitya.lib.exceptions import ProjectExists
-import anitya
-import anitya.lib.model
-import anitya.authentication
 
 _BASE_ARG_PARSER = reqparse.RequestParser(trim=True, bundle_errors=True)
 _BASE_ARG_PARSER.add_argument('access_token', type=str)
@@ -69,7 +68,7 @@ class ProjectsResource(Resource):
     The ``api/v2/projects/`` API endpoint.
     """
 
-    @anitya.authentication.parse_api_token
+    @authentication.parse_api_token
     def get(self):
         """
         Lists all projects.
@@ -137,11 +136,11 @@ class ProjectsResource(Resource):
         parser.add_argument('items_per_page', type=_items_per_page_validator, location='args')
         args = parser.parse_args(strict=True)
         args.pop('access_token')
-        projects_page = anitya.lib.model.Project.query.paginate(
-            order_by=anitya.lib.model.Project.name, **args)
+        projects_page = model.Project.query.paginate(
+            order_by=model.Project.name, **args)
         return projects_page.as_dict()
 
-    @anitya.authentication.require_api_token("upstream")
+    @authentication.require_api_token("upstream")
     def post(self):
         """
         Create a new project.
@@ -245,7 +244,7 @@ class ProjectsResource(Resource):
         access_token = args.pop('access_token')
 
         try:
-            project = anitya.lib.create_project(
+            project = utilities.create_project(
                 SESSION,
                 user_id=APP.oidc.user_getfield('email', access_token),
                 **args

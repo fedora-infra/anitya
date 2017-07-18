@@ -23,6 +23,7 @@ This module provides Anitya's HTTP API.
 import flask
 
 from anitya.app import APP, SESSION
+from anitya.lib import utilities
 import anitya
 import anitya.lib.plugins
 import anitya.lib.model
@@ -398,7 +399,7 @@ def api_get_version():
             httpcode = 404
         else:
             try:
-                version = anitya.check_release(project, SESSION, test=test)
+                version = utilities.check_project_release(project, SESSION, test=test)
                 if version:
                     output = {'version': version}
                 else:

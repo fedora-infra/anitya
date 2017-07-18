@@ -4,6 +4,45 @@ Changes
 dev (master)
 ------------
 
+Backwards-incompatible API changes
+----------------------------------
+
+A number of functions that make up Anitya's Python API have been moved
+(`#503 <https://github.com/release-monitoring/anitya/pull/503>`_). The full
+list of functions are below. Note that no function signatures have changed.
+
+* ``anitya.check_release`` is now ``anitya.lib.utilities.check_project_release``.
+
+* ``anitya.fedmsg_publish`` is now ``anitya.lib.utilities.fedmsg_publish``.
+
+* ``anitya.log`` is now ``anitya.lib.utilities.log``.
+
+* ``anitya.lib.init`` is now ``anitya.lib.utilities.init``.
+
+* ``anitya.lib.create_project`` is now ``anitya.lib.utilities.create_project``.
+
+* ``anitya.lib.edit_project`` is now ``anitya.lib.utilities.edit_project``.
+
+* ``anitya.lib.map_project`` is now ``anitya.lib.utilities.map_project``.
+
+* ``anitya.lib.flag_project`` is now ``anitya.lib.utilities.flag_project``.
+
+* ``anitya.lib.set_flag_state`` is now ``anitya.lib.utilities.set_flag_state``.
+
+* ``anitya.lib.get_last_cron`` is now ``anitya.lib.utilities.get_last_cron``.
+
+
+Features
+--------
+
+
+Bug fixes
+---------
+
+
+0.11.0 (Feb. 08, 2017)
+----------------------
+
 * Return 4XX codes in error cases for /projects/new rather than 200 (Issue #246)
 
 * Allow projecst using the "folder" backend to make insecure HTTPS requests
