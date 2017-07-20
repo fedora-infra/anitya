@@ -29,26 +29,44 @@ import anitya.mail_logging
 
 __version__ = '0.11.0'
 
-# Create the application.
-APP = flask.Flask(__name__)
-APP.config.update(anitya_config)
-initialize_db(anitya_config)
+
+def create(config=None):
+    """
+    Create and configure a Flask application object.
+
+    Args:
+        config (dict): The configuration to use when creating the application.
+            If no configuration is provided, :data:`anitya.config.config` is
+            used.
+
+    Returns:
+        flask.Flask: The configured Flask application.
+    """
+    app = flask.Flask(__name__)
+
+    if config is None:
+        config = anitya_config
+
+    app.config.update(config)
+    initialize_db(config)
+
+    # Set up the Flask extensions
+    anitya.authentication.configure_openid(app)
+    app.api = Api(app)
+
+    if app.config.get('EMAIL_ERRORS'):
+        # If email logging is configured, set up the anitya logger with an email
+        # handler for any ERROR-level logs.
+        _anitya_log = logging.getLogger('anitya')
+        _anitya_log.addHandler(anitya.mail_logging.get_mail_handler(
+            smtp_server=app.config.get('SMTP_SERVER'),
+            mail_admin=app.config.get('ADMIN_EMAIL')
+        ))
+
+    return app
 
 
-if APP.config['EMAIL_ERRORS']:
-    # If email logging is configured, set up the anitya logger with an email
-    # handler for any ERROR-level logs.
-    _anitya_log = logging.getLogger('anitya')
-    _anitya_log.addHandler(anitya.mail_logging.get_mail_handler(
-        smtp_server=APP.config.get('SMTP_SERVER'),
-        mail_admin=APP.config.get('ADMIN_EMAIL')
-    ))
-
-# Set up OpenID and OpenIDConnect
-anitya.authentication.configure_openid(APP)
-
-# Set up the Flask Restful API endpoints
-APP.api = Api(APP)
+APP = create()
 
 
 @APP.template_filter('format_examples')
