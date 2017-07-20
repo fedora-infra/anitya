@@ -78,7 +78,7 @@
     $('#distro').autocomplete({
         source: function( request, response ) {
             $.getJSON(
-              "{{ url_for('api_distro_names') }}", {
+              "{{ url_for('anitya_apiv1.api_distro_names') }}", {
                 pattern: request.term
               },
               function( data ) {

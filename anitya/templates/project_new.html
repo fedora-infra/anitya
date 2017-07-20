@@ -218,7 +218,7 @@
         var _name = $('#name').val().trim();
         show_hide();
         if (_name) {
-          var _url = "{{ url_for('api_projects') }}?pattern=" + _name;
+          var _url = "{{ url_for('anitya_apiv1.api_projects') }}?pattern=" + _name;
           show_similar_projects(_url, 'name');
         } else {
           $('#info_field').hide();
@@ -227,7 +227,7 @@
     $('#homepage').focusout(function(){
       var _homepage = $('#homepage').val().trim();
       if (_homepage) {
-        var _url = "{{ url_for('api_projects') }}?homepage=" + _homepage;
+        var _url = "{{ url_for('anitya_apiv1.api_projects') }}?homepage=" + _homepage;
         show_similar_projects(_url, 'homepage');
       } else {
         $('#info_field').hide();
@@ -250,7 +250,7 @@
     $('#distro').autocomplete({
         source: function( request, response ) {
             $.getJSON(
-              "{{ url_for('api_distro_names') }}", {
+              "{{ url_for('anitya_apiv1.api_distro_names') }}", {
                 pattern: request.term
               },
               function( data ) {

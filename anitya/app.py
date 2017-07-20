@@ -22,7 +22,7 @@ from flask_restful import Api
 from anitya.config import config as anitya_config
 from anitya.lib import utilities
 from anitya.lib.model import Session as SESSION, initialize as initialize_db
-from . import ui, admin
+from . import ui, admin, api
 import anitya.lib
 import anitya.authentication
 import anitya.mail_logging
@@ -61,6 +61,7 @@ def create(config=None):
 
     # Register all the view blueprints
     app.register_blueprint(ui.ui_blueprint)
+    app.register_blueprint(api.api_blueprint)
 
     # Mark login handlers
     app.oid.loginhandler(ui.login)

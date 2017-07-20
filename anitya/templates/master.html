@@ -194,7 +194,7 @@
       <div class="container">
         <p class="text-muted credit">
         Anitya ({{ version }}):
-        <a href="{{ url_for('api') }}">API</a>
+        <a href="{{ url_for('anitya_apiv1.api') }}">API</a>
         --
         <a href="https://github.com/fedora-infra/anitya">sources</a>
         --
@@ -228,7 +228,7 @@
         $('#searchbox').autocomplete({
           source: function( request, response ) {
             $.getJSON(
-              "{{ url_for('api_projects_names') }}", {
+              "{{ url_for('anitya_apiv1.api_projects_names') }}", {
                 pattern: request.term + '*'
               },
               function( data ) {

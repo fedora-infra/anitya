@@ -220,7 +220,7 @@
     }
     $(btn).hide(); $(btn + "-spinner").show();
     var _id = "{{ project.id }}";
-    var _url = "{{ url_for('api_get_version') }}";
+    var _url = "{{ url_for('anitya_apiv1.api_get_version') }}";
     data = {id: _id};
     if (test) {
         data.test = test;
