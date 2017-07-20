@@ -22,12 +22,17 @@ from flask_restful import Api
 from anitya.config import config as anitya_config
 from anitya.lib import utilities
 from anitya.lib.model import Session as SESSION, initialize as initialize_db
+from . import ui, admin
 import anitya.lib
 import anitya.authentication
 import anitya.mail_logging
 
 
 __version__ = '0.11.0'
+
+
+# For API compatibility
+login_required = ui.login_required
 
 
 def create(config=None):
@@ -54,6 +59,16 @@ def create(config=None):
     anitya.authentication.configure_openid(app)
     app.api = Api(app)
 
+    # Register all the view blueprints
+    app.register_blueprint(ui.ui_blueprint)
+
+    # Mark login handlers
+    app.oid.loginhandler(ui.login)
+    app.oid.loginhandler(ui.fedora_login)
+    app.oid.loginhandler(ui.yahoo_login)
+    app.oid.loginhandler(ui.google_login)
+
+
     if app.config.get('EMAIL_ERRORS'):
         # If email logging is configured, set up the anitya logger with an email
         # handler for any ERROR-level logs.
@@ -62,6 +77,7 @@ def create(config=None):
             smtp_server=app.config.get('SMTP_SERVER'),
             mail_admin=app.config.get('ADMIN_EMAIL')
         ))
+
 
     return app
 
@@ -118,7 +134,7 @@ def after_openid_login(resp):
     ''' This function saved the information about the user right after the
     login was successful on the OpenID server.
     '''
-    default = flask.url_for('index')
+    default = flask.url_for('anitya_ui.index')
     blacklist = APP.config['BLACKLISTED_USERS']
     if resp.identity_url:
         next_url = flask.request.args.get('next', default)
@@ -144,29 +160,6 @@ def shutdown_session(exception=None):
     SESSION.remove()
 
 
-def is_admin(user=None):
-    ''' Check if the provided user, or the user logged in are recognized
-    as being admins.
-    '''
-    if not user and flask.g.auth.logged_in:
-        user = flask.g.auth.openid
-    return user in APP.config.get('ANITYA_WEB_ADMINS', [])
-
-
-def login_required(function):
-    ''' Flask decorator to retrict access to logged-in users. '''
-    @functools.wraps(function)
-    def decorated_function(*args, **kwargs):
-        """ Decorated function, actually does the work. """
-        if not flask.g.auth.logged_in:
-            flask.flash('Login required', 'errors')
-            return flask.redirect(
-                flask.url_for('login', next=flask.request.url))
-
-        return function(*args, **kwargs)
-    return decorated_function
-
-
 @APP.context_processor
 def inject_variable():
     ''' Inject into all templates variables that we would like to have all
@@ -180,7 +173,7 @@ def inject_variable():
 
     return dict(
         version=__version__,
-        is_admin=is_admin(),
+        is_admin=admin.is_admin(),
         justedit=justedit,
         cron_status=cron_status,
     )
@@ -189,5 +182,3 @@ def inject_variable():
 # Finalize the import of other controllers
 from . import api  # NOQA
 from . import api_v2  # NOQA
-from . import ui  # NOQA
-from . import admin  # NOQA

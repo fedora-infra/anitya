@@ -14,14 +14,14 @@
     <div class="panel panel-default">
       <div class="panel-heading">
           <div class="list-group-item-text">
-        <a href="{{ url_for('edit_project', project_id=project.id) }}">
+        <a href="{{ url_for('anitya_ui.edit_project', project_id=project.id) }}">
             <button type="submit" class="btn btn-info btn-sm pull-right inline"
                 id="edit_btn" tabindex=1>
               <span class="glyphicon glyphicon-edit"></span>
               Edit
             </button>
         </a>
-        <a href="{{ url_for('flag_project', project_id=project.id) }}">
+        <a href="{{ url_for('anitya_ui.flag_project', project_id=project.id) }}">
           <button title="Ask for an admin intervention (delete version/project, fix mapping...)."
                  type="submit" class="btn btn-warning btn-sm pull-right inline"
                  id="flag_btn" tabindex=2>
@@ -45,7 +45,7 @@
                     <li property="doap:release" typeof="doap:Version">
                       <span property="doap:revision">{{ version }}</span>
                       {% if is_admin %}
-                      <a href="{{ url_for('delete_project_version',
+                      <a href="{{ url_for('anitya_ui.delete_project_version',
                                     project_id=project.id,
                                     version=version) }}"
                          title="Delete this version">[x]</a>
@@ -66,7 +66,7 @@
                 <span class="glyphicon glyphicon-refresh"></span>
                 Test check
               </button>
-              <img src="{{url_for('static', filename='img/spinner.gif')}}"
+              <img src="{{url_for('anitya_ui.static', filename='img/spinner.gif')}}"
                 id="testcheck-spinner" class="pull-right"
                 style="display: none; padding-top: 12px; padding-right: 25px;"/>
               <button type="submit" class="btn btn-success btn-sm pull-right"
@@ -74,7 +74,7 @@
                 <span class="glyphicon glyphicon-refresh"></span>
                 Full check
               </button>
-              <img src="{{url_for('static', filename='img/spinner.gif')}}"
+              <img src="{{url_for('anitya_ui.static', filename='img/spinner.gif')}}"
                 id="checknow-spinner" class="pull-right"
                 style="display: none; padding-top: 12px; padding-right: 25px;"/>
               {% endif %}
@@ -102,7 +102,7 @@
         <div class="list-group-item">
           <h4 class="list-group-item-heading">Whoah..</h4>
           <div class="list-group-item-text">
-            <a href="{{url_for('delete_project', project_id=project.id) }}">
+            <a href="{{url_for('anitya_ui.delete_project', project_id=project.id) }}">
               <button type="submit" class="btn btn-danger btn-sm pull-right">
                 <span class="glyphicon glyphicon-remove"></span>
                 Delete
@@ -140,7 +140,7 @@
                   <td>{{ package.package_name }}</td>
                   <td>
                     <a href="{{
-                      url_for('edit_project_mapping',
+                      url_for('anitya_ui.edit_project_mapping',
                               project_id=project.id,
                               pkg_id=package.id) }}">
                       <button type="submit" class="btn btn-info btn-sm pull-right">
@@ -152,7 +152,7 @@
                   {% if is_admin %}
                   <td>
                     <a href="{{
-                      url_for('delete_project_mapping',
+                      url_for('anitya_ui.delete_project_mapping',
                               project_id=project.id,
                               distro_name=package.distro,
                               pkg_name=package.package_name) }}">
@@ -174,7 +174,7 @@
         {% if g.auth.logged_in %}
         <div class="list-group-item">
           <div class="list-group-item-text">
-            <p><a href="{{ url_for('map_project', project_id=project.id) }}">
+            <p><a href="{{ url_for('anitya_ui.map_project', project_id=project.id) }}">
             <button type="submit" class="btn btn-info btn-sm pull-right" tabindex=6>
               <span class="glyphicon glyphicon-map-marker"></span>
               Add new distribution mapping
@@ -257,7 +257,7 @@
         return false;
     }
     if (event.which == 69 && !$("#searchbox").is(':focus')) { //e
-      window.location.replace("{{ url_for('edit_project', project_id=project.id) }}");
+      window.location.replace("{{ url_for('anitya_ui.edit_project', project_id=project.id) }}");
     }
     {% if g.auth.logged_in and (not project.versions or is_admin) %}
     if (event.which == 67 && !$("#searchbox").is(':focus')) { //c

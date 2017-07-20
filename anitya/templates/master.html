@@ -7,19 +7,19 @@
     <meta name="description" content="Monitoring project releases" />
     <meta name="author" content="Pierre-Yves Chibon" />
 
-    <link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ url_for('anitya_ui.static', filename='ico/favicon.ico') }}">
 
     <!-- Page Title -->
     <title>{% block title %}{% endblock %}</title>
 
-    <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='css/text.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='css/navbar.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='css/footer.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='css/cnucnu.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='css/jquery-ui.min.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='css/jquery-ui.theme.min.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='css/text.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='css/navbar.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='css/footer.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='css/cnucnu.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='css/jquery-ui.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='css/jquery-ui.theme.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />
 
     {% block header %}{% endblock %}
 
@@ -39,7 +39,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{url_for('index')}}">
+          <a class="navbar-brand" href="{{url_for('anitya_ui.index')}}">
             release-monitoring.org
           </a>
         </div>
@@ -47,7 +47,7 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
               <li>
-                  <a href="{{ url_for('static', filename='docs/index.html') }}">Documentation</a>
+                  <a href="{{ url_for('anitya_ui.static', filename='docs/index.html') }}">Documentation</a>
               </li>
             {%- if current == 'projects' -%}
             <li class="active">
@@ -59,29 +59,29 @@
               </a>
               <ul class="dropdown-menu">
                   <li>
-                      <a href="{{url_for('projects')}}">All</a>
+                      <a href="{{url_for('anitya_ui.projects')}}">All</a>
                   </li>
                   <li class="divider"></li>
                   <li>
-                    <a href="{{url_for('projects_updated')}}">Updated</a>
+                    <a href="{{url_for('anitya_ui.projects_updated')}}">Updated</a>
                   </li>
                   <li>
-                    <a href="{{url_for('projects_updated', status='odd')}}">
+                    <a href="{{url_for('anitya_ui.projects_updated', status='odd')}}">
                       Odd version found
                     </a>
                   </li>
                   <li>
-                    <a href="{{url_for('projects_updated', status='new')}}">
+                    <a href="{{url_for('anitya_ui.projects_updated', status='new')}}">
                       Not updated
                     </a>
                   </li>
                   <li>
-                    <a href="{{url_for('projects_updated', status='failed')}}">
+                    <a href="{{url_for('anitya_ui.projects_updated', status='failed')}}">
                       Failed to update
                     </a>
                   </li>
                   <li>
-                    <a href="{{url_for('projects_updated', status='never_updated')}}">
+                    <a href="{{url_for('anitya_ui.projects_updated', status='never_updated')}}">
                       Never updated
                     </a>
                   </li>
@@ -93,7 +93,7 @@
             {%- else -%}
             <li>
             {%- endif -%}
-              <a href="{{url_for('distros')}}">
+              <a href="{{url_for('anitya_ui.distros')}}">
                   distros
               </a>
             </li>
@@ -104,7 +104,7 @@
             {%- else -%}
             <li>
             {%- endif -%}
-              <a href="{{url_for('new_project')}}">
+              <a href="{{url_for('anitya_ui.new_project')}}">
                   add project
               </a>
             </li>
@@ -114,7 +114,7 @@
             {%- else -%}
             <li>
             {%- endif -%}
-              <a href="{{url_for('browse_logs')}}">
+              <a href="{{url_for('anitya_ui.browse_logs')}}">
                   logs
               </a>
             </li>
@@ -124,12 +124,12 @@
               {%- else -%}
                <li>
               {%- endif -%}
-               <a href="{{url_for('browse_flags')}}">
+               <a href="{{url_for('anitya_ui.browse_flags')}}">
                   flags</a>
                </li>
             {%- endif -%}
             <li>
-              <a href="{{url_for('logout')}}?next={{request.url}}">logout</a>
+              <a href="{{url_for('anitya_ui.logout')}}?next={{request.url}}">logout</a>
             </li>
             {%- else -%}
             <li>
@@ -139,23 +139,23 @@
                 <ul class="dropdown-menu">
                   {%- if config['ANITYA_WEB_FEDORA_OPENID'] and
                         config['ANITYA_WEB_ALLOW_FAS_OPENID'] -%}
-                  <li><a href="{{url_for('fedora_login')}}">Fedora</a></li>
+                  <li><a href="{{url_for('anitya_ui.fedora_login')}}">Fedora</a></li>
                   <li class="divider"></li>
                   {%- endif -%}
                   {%- if config['ANITYA_WEB_ALLOW_GOOGLE_OPENID'] -%}
-                  <li><a href="{{url_for('google_login')}}">Google</a></li>
+                  <li><a href="{{url_for('anitya_ui.google_login')}}">Google</a></li>
                   {%- endif -%}
                   {%- if config['ANITYA_WEB_ALLOW_YAHOO_OPENID'] -%}
-                  <li><a href="{{url_for('yahoo_login')}}">Yahoo</a></li>
+                  <li><a href="{{url_for('anitya_ui.yahoo_login')}}">Yahoo</a></li>
                   {%- endif -%}
                   {%- if config['ANITYA_WEB_ALLOW_GENERIC_OPENID'] -%}
-                  <li><a href="{{url_for('login')}}">Other OpenID</a></li>
+                  <li><a href="{{url_for('anitya_ui.login')}}">Other OpenID</a></li>
                   {%- endif -%}
                 </ul>
             </li>
             {%- endif -%}
             <li>
-              <form action="{{ url_for('projects_search') }}" role="form" class="form-inline">
+              <form action="{{ url_for('anitya_ui.projects_search') }}" role="form" class="form-inline">
                 <div class="form-group">
                   <input id="searchbox" class="form-control input-sm" type="text" name="pattern" placeholder="Project name"/>
                   <button type="submit" class="btn btn-sm btn-default">Search</button>
@@ -211,17 +211,17 @@
 
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript"
-        src="{{ url_for('static', filename='js/jquery-1.10.2.min.js')}}"></script>
+        src="{{ url_for('anitya_ui.static', filename='js/jquery-1.10.2.min.js')}}"></script>
     <script type="text/javascript"
-        src="{{ url_for('static', filename='js/jquery-ui.min.1.11.3.js')}}"></script>
+        src="{{ url_for('anitya_ui.static', filename='js/jquery-ui.min.1.11.3.js')}}"></script>
     <script type="text/javascript"
-        src="{{ url_for('static', filename='js/bootstrap.min.js') }}">
+        src="{{ url_for('anitya_ui.static', filename='js/bootstrap.min.js') }}">
     </script>
     <script type="text/javascript"
-        src="{{ url_for('static', filename='js/moment.js') }}">
+        src="{{ url_for('anitya_ui.static', filename='js/moment.js') }}">
     </script>
     <script type="text/javascript"
-        src="{{ url_for('static', filename='bootstrap-datetimepicker.js') }}">
+        src="{{ url_for('anitya_ui.static', filename='bootstrap-datetimepicker.js') }}">
     </script>
     <script type="text/javascript">
       $(function() {

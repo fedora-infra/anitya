@@ -12,10 +12,10 @@
 <div class="row">
 
     {% if package %}
-    <form method="POST" action="{{ url_for('edit_project_mapping',
+    <form method="POST" action="{{ url_for('anitya_ui.edit_project_mapping',
         project_id=project.id, pkg_id=package.id) }}" >
     {% else %}
-    <form method="POST" action="{{ url_for('map_project', project_id=project.id) }}" >
+    <form method="POST" action="{{ url_for('anitya_ui.map_project', project_id=project.id) }}" >
     {% endif %}
       {{ form.csrf_token }}
       <table id="input_table">
@@ -44,7 +44,7 @@
         {% endif %}
       </button>
 
-      <a href="{{ url_for('project', project_id=project.id) }}">
+      <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
         <button type="button" class="btn btn-danger">
           <span class="glyphicon glyphicon-ban-circle"></span>
           Cancel
@@ -78,7 +78,7 @@
     $('#distro').autocomplete({
         source: function( request, response ) {
             $.getJSON(
-              "{{ url_for('.api_distro_names') }}", {
+              "{{ url_for('api_distro_names') }}", {
                 pattern: request.term
               },
               function( data ) {

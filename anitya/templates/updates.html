@@ -25,7 +25,7 @@
         <li>
             {% if page > 1%}
               <a href="{{
-                url_for('projects_updated',
+                url_for('anitya_ui.projects_updated',
                         status=status, name=name, log=log, page=page-1) }}">
                 «
               </a>
@@ -39,7 +39,7 @@
         <li>
             {% if page < total_page %}
               <a href="{{
-                url_for('projects_updated',
+                url_for('anitya_ui.projects_updated',
                         status=status, name=name, log=log, page=page+1) }}">
                 »
               </a>
@@ -52,7 +52,7 @@
   </div>
 
   <div class="col-sm-8">
-    <form action="{{url_for('projects_updated', status=status) }}"
+    <form action="{{url_for('anitya_ui.projects_updated', status=status) }}"
           role="form" action="GET" class="form-inline">
       <div class="form-group">
         <input type="text" name="name" placeholder="Project name" class="form-control input-sm"/>
@@ -75,7 +75,7 @@
         {% for project in projects %}
             <tr>
               <td>
-                <a href="{{ url_for('project', project_id=project.id) }}">
+                <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
                 {{project.name}}
                 </a>
               </td>

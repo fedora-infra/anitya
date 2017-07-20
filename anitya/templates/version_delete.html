@@ -9,7 +9,7 @@
 <div class="row">
 
     <form method="POST" action="{{
-        url_for('delete_project_version',
+        url_for('anitya_ui.delete_project_version',
                 project_id=project.id,
                 version=version) }}" >
       {{ form.csrf_token }}
@@ -33,7 +33,7 @@
         Delete version
       </button>
 
-      <a href="{{ url_for('project', project_id=project.id) }}">
+      <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
         <button type="button" class="btn btn-danger">
           <span class="glyphicon glyphicon-ban-circle"></span>
           Cancel

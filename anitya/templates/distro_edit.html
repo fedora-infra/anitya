@@ -9,7 +9,7 @@
   <h1>Edit disribution: {{ distro.name }}</h1>
 </div>
 
-<form method="POST" action="{{ url_for('edit_distro', distro_name=distro.name) }}" >
+<form method="POST" action="{{ url_for('anitya_ui.edit_distro', distro_name=distro.name) }}" >
   <div class="row">
     <div class="col-md-6">
       <div class="list-group">
@@ -28,7 +28,7 @@
     <span class="glyphicon glyphicon-plus"></span>
     Submit
   </button>
-  <a href="{{ url_for('distros') }}">
+  <a href="{{ url_for('anitya_ui.distros') }}">
     <button type="button" class="btn btn-danger" tabindex=3>
       <span class="glyphicon glyphicon-ban-circle"></span>
       Cancel
