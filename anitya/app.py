@@ -145,6 +145,3 @@ def after_openid_login(resp):
         return flask.redirect(next_url)
     else:
         return flask.redirect(default)
-
-
-APP = create()
