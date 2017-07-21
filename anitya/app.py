@@ -68,6 +68,10 @@ def create(config=None):
     app.oid.loginhandler(ui.yahoo_login)
     app.oid.loginhandler(ui.google_login)
 
+    app.before_request(check_auth)
+    app.teardown_request(shutdown_session)
+    app.context_processor(inject_variable)
+
     if app.config.get('EMAIL_ERRORS'):
         # If email logging is configured, set up the anitya logger with an email
         # handler for any ERROR-level logs.
@@ -80,10 +84,6 @@ def create(config=None):
     return app
 
 
-APP = create()
-
-
-@APP.before_request
 def check_auth():
     ''' Set the flask.g variables using the session information if the user
     is logged in.
@@ -101,6 +101,32 @@ def check_auth():
         flask.g.auth.fullname = flask.session.get('fullname', None)
         flask.g.auth.nickname = flask.session.get('nickname', None)
         flask.g.auth.email = flask.session.get('email', None)
+
+
+def shutdown_session(exception=None):
+    ''' Remove the DB session at the end of each request. '''
+    SESSION.remove()
+
+
+def inject_variable():
+    ''' Inject into all templates variables that we would like to have all
+    the time.
+    '''
+    justedit = flask.session.get('justedit', False)
+    if justedit:  # pragma: no cover
+        flask.session['justedit'] = None
+
+    cron_status = utilities.get_last_cron(SESSION)
+
+    return dict(
+        version=__version__,
+        is_admin=admin.is_admin(),
+        justedit=justedit,
+        cron_status=cron_status,
+    )
+
+
+APP = create()
 
 
 @APP.oid.after_login
@@ -126,31 +152,6 @@ def after_openid_login(resp):
         return flask.redirect(next_url)
     else:
         return flask.redirect(default)
-
-
-@APP.teardown_request
-def shutdown_session(exception=None):
-    ''' Remove the DB session at the end of each request. '''
-    SESSION.remove()
-
-
-@APP.context_processor
-def inject_variable():
-    ''' Inject into all templates variables that we would like to have all
-    the time.
-    '''
-    justedit = flask.session.get('justedit', False)
-    if justedit:  # pragma: no cover
-        flask.session['justedit'] = None
-
-    cron_status = utilities.get_last_cron(SESSION)
-
-    return dict(
-        version=__version__,
-        is_admin=admin.is_admin(),
-        justedit=justedit,
-        cron_status=cron_status,
-    )
 
 
 # Finalize the import of other controllers
