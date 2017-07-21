@@ -21,9 +21,8 @@ from flask_restful import Api
 from anitya.config import config as anitya_config
 from anitya.lib import utilities
 from anitya.lib.model import Session as SESSION, initialize as initialize_db
-from . import ui, admin, api
+from . import ui, admin, api, authentication  # noqa: F401
 import anitya.lib
-import anitya.authentication
 import anitya.mail_logging
 
 
@@ -50,26 +49,20 @@ def create(config=None):
 
     if config is None:
         config = anitya_config
-
     app.config.update(config)
     initialize_db(config)
 
     # Set up the Flask extensions
-    anitya.authentication.configure_openid(app)
+    authentication.configure_openid(app)
     app.api = Api(app)
 
     # Register all the view blueprints
     app.register_blueprint(ui.ui_blueprint)
     app.register_blueprint(api.api_blueprint)
 
-    # Mark login handlers
-    app.oid.loginhandler(ui.login)
-    app.oid.loginhandler(ui.fedora_login)
-    app.oid.loginhandler(ui.yahoo_login)
-    app.oid.loginhandler(ui.google_login)
-
     app.before_request(check_auth)
     app.teardown_request(shutdown_session)
+
     app.context_processor(inject_variable)
 
     if app.config.get('EMAIL_ERRORS'):
@@ -126,16 +119,13 @@ def inject_variable():
     )
 
 
-APP = create()
-
-
-@APP.oid.after_login
+@authentication.oid.after_login
 def after_openid_login(resp):
     ''' This function saved the information about the user right after the
     login was successful on the OpenID server.
     '''
     default = flask.url_for('anitya_ui.index')
-    blacklist = APP.config['BLACKLISTED_USERS']
+    blacklist = flask.current_app.config['BLACKLISTED_USERS']
     if resp.identity_url:
         next_url = flask.request.args.get('next', default)
         openid_url = resp.identity_url
@@ -152,6 +142,9 @@ def after_openid_login(resp):
         return flask.redirect(next_url)
     else:
         return flask.redirect(default)
+
+
+APP = create()
 
 
 # Finalize the import of other controllers

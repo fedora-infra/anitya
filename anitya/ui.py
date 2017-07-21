@@ -11,6 +11,7 @@ import anitya.lib
 import anitya.lib.exceptions
 import anitya.lib.model
 
+from . import authentication
 from anitya.lib import utilities
 from anitya.lib.model import Session as SESSION
 
@@ -82,6 +83,7 @@ def fedmsg():
 
 @ui_blueprint.route('/login/', methods=('GET', 'POST'))
 @ui_blueprint.route('/login', methods=('GET', 'POST'))
+@authentication.oid.loginhandler
 def login():
     ''' Handle the login when no OpenID server have been selected in the
     list.
@@ -91,32 +93,33 @@ def login():
         if is_safe_url(flask.request.args['next']):
             next_url = flask.request.args['next']
 
-    flask.current_app.oid.store_factory = lambda: None
+    authentication.oid.store_factory = lambda: None
     if flask.g.auth.logged_in:
         return flask.redirect(next_url)
 
     openid_server = flask.request.form.get('openid', None)
     if openid_server:
-        return flask.current_app.oid.try_login(
+        return authentication.oid.try_login(
             openid_server, ask_for=['email', 'fullname', 'nickname'])
 
     return flask.render_template(
         'login.html',
-        next=flask.current_app.oid.get_next_url(),
-        error=flask.current_app.oid.fetch_error())
+        next=authentication.oid.get_next_url(),
+        error=authentication.oid.fetch_error())
 
 
 @ui_blueprint.route('/login/fedora/', methods=('GET', 'POST'))
 @ui_blueprint.route('/login/fedora', methods=('GET', 'POST'))
+@authentication.oid.loginhandler
 def fedora_login():
     ''' Handles login against the Fedora OpenID server. '''
-    error = flask.current_app.oid.fetch_error()
+    error = authentication.oid.fetch_error()
     if error:
         flask.flash('Error during login: %s' % error, 'errors')
         return flask.redirect(flask.url_for('anitya_ui.index'))
 
-    flask.current_app.oid.store_factory = lambda: None
-    return flask.current_app.oid.try_login(
+    authentication.oid.store_factory = lambda: None
+    return authentication.oid.try_login(
         flask.current_app.config['ANITYA_WEB_FEDORA_OPENID'],
         ask_for=['email', 'nickname'],
         ask_for_optional=['fullname'])
@@ -124,30 +127,32 @@ def fedora_login():
 
 @ui_blueprint.route('/login/google/', methods=('GET', 'POST'))
 @ui_blueprint.route('/login/google', methods=('GET', 'POST'))
+@authentication.oid.loginhandler
 def google_login():
     ''' Handles login via the Google OpenID. '''
-    error = flask.current_app.oid.fetch_error()
+    error = authentication.oid.fetch_error()
     if error:
         flask.flash('Error during login: %s' % error, 'errors')
         return flask.redirect(flask.url_for('anitya_ui.index'))
 
-    flask.current_app.oid.store_factory = lambda: None
-    return flask.current_app.oid.try_login(
+    authentication.oid.store_factory = lambda: None
+    return authentication.oid.try_login(
         "https://www.google.com/accounts/o8/id",
         ask_for=['email', 'fullname'])
 
 
 @ui_blueprint.route('/login/yahoo/', methods=('GET', 'POST'))
 @ui_blueprint.route('/login/yahoo', methods=('GET', 'POST'))
+@authentication.oid.loginhandler
 def yahoo_login():
     ''' Handles login via the Yahoo OpenID. '''
-    error = flask.current_app.oid.fetch_error()
+    error = authentication.oid.fetch_error()
     if error:
         flask.flash('Error during login: %s' % error, 'errors')
         return flask.redirect(flask.url_for('anitya_ui.index'))
 
-    flask.current_app.oid.store_factory = lambda: None
-    return flask.current_app.oid.try_login(
+    authentication.oid.store_factory = lambda: None
+    return authentication.oid.try_login(
         "https://me.yahoo.com/",
         ask_for=['email', 'fullname'])
 

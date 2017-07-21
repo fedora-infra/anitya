@@ -246,7 +246,7 @@ class ProjectsResource(Resource):
         try:
             project = utilities.create_project(
                 SESSION,
-                user_id=APP.oidc.user_getfield('email', access_token),
+                user_id=authentication.oidc.user_getfield('email', access_token),
                 **args
             )
             SESSION.commit()

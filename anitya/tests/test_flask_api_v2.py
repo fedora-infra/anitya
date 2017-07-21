@@ -49,7 +49,7 @@ class _APItestsMixin(object):
         super(_APItestsMixin, self).setUp()
 
         anitya.app.APP.config['TESTING'] = True
-        self.oidc = anitya.app.APP.oidc
+        self.oidc = anitya.authentication.oidc
         self.app = anitya.app.APP.test_client()
 
 
@@ -249,7 +249,7 @@ class AuthenticationRequiredTests(_APItestsMixin, DatabaseTestCase):
     def _check_authentication_failure_response(self, output):
         data = _read_json(output)
         # Check we get the expected error details
-        if self.oidc is None:
+        if not hasattr(self.oidc, 'flow'):
             exp = {
                 'error': 'oidc_not_configured',
                 'error_description': 'OpenID Connect is not configured on the server'
@@ -335,7 +335,7 @@ class MockAuthenticationTests(_AuthenticatedAPItestsMixin, DatabaseTestCase):
         mock_auth.start()
         self.addCleanup(mock_auth.stop)
 
-        # Replace anitya.app.APP.oidc.user_getfield
+        # Replace anitya.authentication.oidc.user_getfield
         mock_user_data = {
             "email": 'noreply@fedoraproject.org',
         }
@@ -352,7 +352,7 @@ class MockAuthenticationTests(_AuthenticatedAPItestsMixin, DatabaseTestCase):
                 except KeyError:
                     msg = "No mock user data for field {}"
                     raise ValueError(msg.format(fieldname))
-        mock_oidc = mock.patch('anitya.app.APP.oidc', MockOIDC())
+        mock_oidc = mock.patch('anitya.authentication.oidc', MockOIDC())
         mock_oidc.start()
         self.addCleanup(mock_oidc.stop)
 
