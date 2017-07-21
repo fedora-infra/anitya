@@ -11,9 +11,9 @@ from flask import jsonify
 from flask_restful import Resource, reqparse
 
 from anitya import authentication
-from anitya.app import APP, SESSION
 from anitya.lib import utilities, model
 from anitya.lib.exceptions import ProjectExists
+from anitya.lib.model import Session as SESSION
 
 _BASE_ARG_PARSER = reqparse.RequestParser(trim=True, bundle_errors=True)
 _BASE_ARG_PARSER.add_argument('access_token', type=str)
@@ -255,6 +255,3 @@ class ProjectsResource(Resource):
             response = jsonify(e.to_dict())
             response.status_code = 409
             return response
-
-
-APP.api.add_resource(ProjectsResource, '/api/v2/projects/')

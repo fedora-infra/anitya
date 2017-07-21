@@ -21,7 +21,7 @@ from flask_restful import Api
 from anitya.config import config as anitya_config
 from anitya.lib import utilities
 from anitya.lib.model import Session as SESSION, initialize as initialize_db
-from . import ui, admin, api, authentication  # noqa: F401
+from . import ui, admin, api, api_v2, authentication  # noqa: F401
 import anitya.lib
 import anitya.mail_logging
 
@@ -54,7 +54,10 @@ def create(config=None):
 
     # Set up the Flask extensions
     authentication.configure_openid(app)
+
+    # Register the v2 API resources
     app.api = Api(app)
+    app.api.add_resource(api_v2.ProjectsResource, '/api/v2/projects/')
 
     # Register all the view blueprints
     app.register_blueprint(ui.ui_blueprint)
@@ -145,8 +148,3 @@ def after_openid_login(resp):
 
 
 APP = create()
-
-
-# Finalize the import of other controllers
-from . import api  # NOQA
-from . import api_v2  # NOQA
