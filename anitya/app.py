@@ -10,7 +10,6 @@ User-facing Flask routes should be placed in the ``anitya.ui`` module and API
 routes should be placed in ``anitya.api_v2``.
 """
 
-import functools
 import logging
 import logging.config
 import logging.handlers
@@ -69,7 +68,6 @@ def create(config=None):
     app.oid.loginhandler(ui.yahoo_login)
     app.oid.loginhandler(ui.google_login)
 
-
     if app.config.get('EMAIL_ERRORS'):
         # If email logging is configured, set up the anitya logger with an email
         # handler for any ERROR-level logs.
@@ -79,35 +77,10 @@ def create(config=None):
             mail_admin=app.config.get('ADMIN_EMAIL')
         ))
 
-
     return app
 
 
 APP = create()
-
-
-@APP.template_filter('format_examples')
-def format_examples(examples):
-    ''' Return the plugins examples as HTML links. '''
-    output = ''
-    if examples:
-        for cnt, example in enumerate(examples):
-            if cnt > 0:
-                output += " <br /> "
-            output += "<a href='%(url)s'>%(url)s</a> " % ({'url': example})
-
-    return output
-
-
-@APP.template_filter('context_class')
-def context_class(category):
-    ''' Return bootstrap context class for a given category. '''
-    values = {
-        'message': 'default',
-        'error': 'danger',
-        'info': 'info',
-    }
-    return values.get(category, 'warning')
 
 
 @APP.before_request

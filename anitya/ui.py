@@ -693,3 +693,29 @@ def edit_project_mapping(project_id, pkg_id):
         package=package,
         form=form,
     )
+
+
+def format_examples(examples):
+    ''' Return the plugins examples as HTML links. '''
+    output = ''
+    if examples:
+        for cnt, example in enumerate(examples):
+            if cnt > 0:
+                output += " <br /> "
+            output += "<a href='%(url)s'>%(url)s</a> " % ({'url': example})
+
+    return output
+
+
+def context_class(category):
+    ''' Return bootstrap context class for a given category. '''
+    values = {
+        'message': 'default',
+        'error': 'danger',
+        'info': 'info',
+    }
+    return values.get(category, 'warning')
+
+
+ui_blueprint.add_app_template_filter(format_examples, name='format_examples')
+ui_blueprint.add_app_template_filter(context_class, name='context_class')
