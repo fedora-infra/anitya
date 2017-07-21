@@ -26,7 +26,6 @@ anitya tests for the flask application.
 import datetime
 import unittest
 
-import anitya
 from anitya.lib import model
 from anitya.tests.base import (DatabaseTestCase, create_distro, create_project,
                                create_package, create_flagged_project)
@@ -39,9 +38,9 @@ class FlaskAdminTest(DatabaseTestCase):
         """ Set up the environnment, ran before every tests. """
         super(FlaskAdminTest, self).setUp()
 
-        anitya.app.APP.config['TESTING'] = True
-        anitya.app.APP.config['ANITYA_WEB_ADMINS'] = ['http://pingou.id.fedoraproject.org/']
-        self.app = anitya.app.APP.test_client()
+        self.flask_app.config['TESTING'] = True
+        self.flask_app.config['ANITYA_WEB_ADMINS'] = ['http://pingou.id.fedoraproject.org/']
+        self.app = self.flask_app.test_client()
 
     def test_add_distro(self):
         """ Test the add_distro function. """
@@ -52,7 +51,7 @@ class FlaskAdminTest(DatabaseTestCase):
             b'<li class="list-group-item list-group-item-warning">'
             b'Login required</li></ul>' in output.data)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -62,7 +61,7 @@ class FlaskAdminTest(DatabaseTestCase):
             output = c.get('/distro/add', follow_redirects=True)
             self.assertEqual(output.status_code, 401)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'http://pingou.id.fedoraproject.org/'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -125,7 +124,7 @@ class FlaskAdminTest(DatabaseTestCase):
             b'<li class="list-group-item list-group-item-warning">'
             b'Login required</li></ul>' in output.data)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -138,7 +137,7 @@ class FlaskAdminTest(DatabaseTestCase):
             output = c.get('/distro/Debian/edit', follow_redirects=True)
             self.assertEqual(output.status_code, 401)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'http://pingou.id.fedoraproject.org/'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -191,7 +190,7 @@ class FlaskAdminTest(DatabaseTestCase):
             b'<li class="list-group-item list-group-item-warning">'
             b'Login required</li></ul>' in output.data)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -211,7 +210,7 @@ class FlaskAdminTest(DatabaseTestCase):
         self.assertEqual(output.data.count(b'<a href="/project/2'), 1)
         self.assertEqual(output.data.count(b'<a href="/project/3'), 1)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'http://pingou.id.fedoraproject.org/'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -280,7 +279,7 @@ class FlaskAdminTest(DatabaseTestCase):
             b'<li class="list-group-item list-group-item-warning">'
             b'Login required</li></ul>' in output.data)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -308,7 +307,7 @@ class FlaskAdminTest(DatabaseTestCase):
         self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
         self.assertTrue(b'<td>Fedora</td>' in output.data)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'http://pingou.id.fedoraproject.org/'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -374,7 +373,7 @@ class FlaskAdminTest(DatabaseTestCase):
             b'<li class="list-group-item list-group-item-warning">'
             b'Login required</li></ul>' in output.data)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -384,7 +383,7 @@ class FlaskAdminTest(DatabaseTestCase):
             output = c.get('/logs', follow_redirects=True)
             self.assertEqual(output.status_code, 200)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'http://pingou.id.fedoraproject.org/'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -425,7 +424,7 @@ class FlaskAdminTest(DatabaseTestCase):
             b'<li class="list-group-item list-group-item-warning">'
             b'Login required</li></ul>' in output.data)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -435,7 +434,7 @@ class FlaskAdminTest(DatabaseTestCase):
             output = c.get('/flags', follow_redirects=True)
             self.assertEqual(output.status_code, 401)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'http://pingou.id.fedoraproject.org/'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -478,7 +477,7 @@ class FlaskAdminTest(DatabaseTestCase):
         self.assertEqual(len(project.flags), 1)
         self.assertEqual(project.flags[0].state, 'open')
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'some_invalid_openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -498,7 +497,7 @@ class FlaskAdminTest(DatabaseTestCase):
 
         self.assertEqual(flag.state, 'open')
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'http://pingou.id.fedoraproject.org/'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -533,7 +532,7 @@ class FlaskAdminTest(DatabaseTestCase):
         self.assertEqual(len(project.flags), 1)
         self.assertEqual(project.flags[0].state, 'closed')
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'http://pingou.id.fedoraproject.org/'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -561,7 +560,7 @@ class FlaskAdminTest(DatabaseTestCase):
         self.assertEqual(len(project.flags), 1)
         self.assertEqual(project.flags[0].state, 'open')
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'http://pingou.id.fedoraproject.org/'
                 sess['fullname'] = 'Pierre-Yves C.'

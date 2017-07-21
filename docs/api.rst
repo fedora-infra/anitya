@@ -9,7 +9,7 @@ Anitya provides several APIs for users.
 HTTP API v2
 ===========
 
-.. autoflask:: anitya.app:APP
+.. autoflask:: anitya.app:create()
    :undoc-static:
    :modules: anitya.api_v2
    :order: path
@@ -18,7 +18,7 @@ HTTP API v2
 HTTP API v1
 ===========
 
-.. autoflask:: anitya.app:APP
+.. autoflask:: anitya.app:create()
    :undoc-static:
    :modules: anitya.api
    :order: path

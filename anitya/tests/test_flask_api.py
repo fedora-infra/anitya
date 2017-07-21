@@ -26,7 +26,6 @@ anitya tests for the flask API.
 import json
 import unittest
 
-import anitya
 import anitya.lib.model as model
 from anitya.lib.backends import REGEX
 from anitya.tests.base import (DatabaseTestCase, create_distro, create_project,
@@ -45,8 +44,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         """ Set up the environnment, ran before every tests. """
         super(AnityaWebAPItests, self).setUp()
 
-        anitya.app.APP.config['TESTING'] = True
-        self.app = anitya.app.APP.test_client()
+        self.flask_app.config['TESTING'] = True
+        self.app = self.flask_app.test_client()
 
     def test_api_docs_no_slash(self):
         """Assert the legacy /api endpoint redirects to docs."""

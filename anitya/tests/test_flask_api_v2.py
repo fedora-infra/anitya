@@ -48,9 +48,9 @@ class _APItestsMixin(object):
     def setUp(self):
         super(_APItestsMixin, self).setUp()
 
-        anitya.app.APP.config['TESTING'] = True
+        self.flask_app.config['TESTING'] = True
         self.oidc = anitya.authentication.oidc
-        self.app = anitya.app.APP.test_client()
+        self.app = self.flask_app.test_client()
 
 
 class AnonymousAccessTests(_APItestsMixin, DatabaseTestCase):

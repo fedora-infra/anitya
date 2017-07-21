@@ -18,5 +18,6 @@
 
 
 ## The most import line to make the wsgi working
-#from anitya.app import APP as application
+#from anitya.app import create
+#application = create()
 #application.debug = True

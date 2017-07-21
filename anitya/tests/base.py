@@ -25,11 +25,14 @@ from __future__ import print_function
 import unittest
 import os
 
+from flask_openid import OpenID
+from flask_oidc import OpenIDConnect
 from sqlalchemy import create_engine, event
+import flask
 import vcr
 import mock
 
-from anitya import app
+from anitya import app, config
 from anitya.lib import model, utilities
 
 
@@ -78,6 +81,18 @@ class AnityaTestCase(unittest.TestCase):
 
         This simply starts recording a VCR on start-up and stops on tearDown.
         """
+        mock_oidc = mock.patch(
+            'anitya.authentication.oidc',
+            OpenIDConnect(credentials_store=flask.session),
+        )
+        mock_oidc.start()
+        self.addCleanup(mock_oidc.stop)
+        mock_oid = mock.patch('anitya.authentication.oid', OpenID())
+        mock_oid.start()
+        self.addCleanup(mock_oid.stop)
+
+        self.flask_app = app.create(config.config)
+
         cwd = os.path.dirname(os.path.realpath(__file__))
         my_vcr = vcr.VCR(
             cassette_library_dir=os.path.join(cwd, 'request-data/'), record_mode='once')
@@ -96,11 +111,8 @@ class DatabaseTestCase(AnityaTestCase):
         super(DatabaseTestCase, self).setUp()
 
         # We don't want our SQLAlchemy session thrown away post-request because that rolls
-        # back the transaction and no database assertions can be made. This mocks out the
-        # function that disposes of the session at the end of a request.
-        mock_teardowns = mock.patch.object(app.APP, 'teardown_request_funcs', {})
-        mock_teardowns.start()
-        self.addCleanup(mock_teardowns.stop)
+        # back the transaction and no database assertions can be made.
+        self.flask_app.teardown_request_funcs = {}
 
         if engine is None:
             # In the future we could provide a postgres URI to test against various

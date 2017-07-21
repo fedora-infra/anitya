@@ -28,6 +28,7 @@ import unittest
 
 import mock
 
+from anitya.config import config
 from anitya.lib import backends
 from anitya.lib.exceptions import AnityaPluginException
 import anitya
@@ -40,7 +41,7 @@ class BaseBackendTests(unittest.TestCase):
         self.headers = {
             'User-Agent': 'Anitya {0} at upstream-monitoring.org'.format(
                 anitya.app.__version__),
-            'From': anitya.app.APP.config.get('ADMIN_EMAIL'),
+            'From': config.get('ADMIN_EMAIL'),
         }
 
     @mock.patch('anitya.lib.backends.http_session')
