@@ -12,9 +12,9 @@ import logging
 # with a global shared requests session.
 import multiprocessing.dummy as multiprocessing
 
-from anitya.lib import utilities
+from anitya.config import config
+from anitya.lib import utilities, model
 import anitya
-import anitya.app
 import anitya.lib.exceptions
 import anitya.lib.model
 
@@ -51,7 +51,7 @@ def projects_by_feed(session):
 
 def update_project(project_id):
     """ Check for updates on the specified project. """
-    session = utilities.init(anitya.app.APP.config['DB_URL'])
+    session = utilities.init(config['DB_URL'])
     project = anitya.lib.model.Project.by_id(session, project_id)
     try:
         utilities.check_project_release(project, session),
@@ -66,7 +66,8 @@ def main(debug, feed):
     ''' Retrieve all the packages and for each of them update the release
     version.
     '''
-    session = anitya.app.SESSION
+    model.initialize(config)
+    session = model.Session()
     run = anitya.lib.model.Run(status='started')
     session.add(run)
     session.commit()
@@ -96,7 +97,7 @@ def main(debug, feed):
 
     project_ids = [project.id for project in projects]
 
-    N = anitya.app.APP.config.get('CRON_POOL', 10)
+    N = config.get('CRON_POOL', 10)
     LOG.info("Launching pool (%i) to update %i projects", N, len(project_ids))
     p = multiprocessing.Pool(N)
     p.map(update_project, project_ids)

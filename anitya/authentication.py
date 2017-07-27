@@ -20,12 +20,16 @@
 Helper module for configuring OpenID Connect based authentication
 """
 from functools import wraps
+import logging
 
 import flask
 from flask_openid import OpenID
 from flask_oidc import OpenIDConnect
 
-APP = None
+_log = logging.getLogger(__name__)
+
+oid = OpenID()
+oidc = OpenIDConnect(credentials_store=flask.session)
 
 
 ####################################
@@ -34,16 +38,16 @@ APP = None
 
 def configure_openid(app):
     """Set up OpenID, OpenIDConnect, and the module's Flask app reference"""
-    global APP
-    app.oid = OpenID(app)
+    global oidc
+    global oid
+    oid.init_app(app)
     try:
-        app.oidc = OpenIDConnect(app, credentials_store=flask.session)
+        oidc.init_app(app)
     except Exception as exc:
         # Handle running with only anonymous API access enabled
-        app.logger.debug(str(exc))
-        app.oidc = None
+        _log.info(str(exc))
+        oidc = None
     app.route("/oidc_callback")(register_oidc_client)
-    APP = app
 
 
 def register_oidc_client(code, state):
@@ -65,8 +69,8 @@ def parse_api_token(f):
 
     Makes OIDC token information available, but allows anonymous access
     """
-    if APP.oidc is not None:
-        return APP.oidc.accept_token(require_token=False)(f)
+    if oidc is not None:
+        return oidc.accept_token(require_token=False)(f)
 
     # OIDC is not configured, so just allow anonymous access
     return f
@@ -106,12 +110,12 @@ def require_api_token(*scopes):
             raise RuntimeError(msg.format(scope))
         url_scopes.append(_BASE_SCOPE_URL + scope)
 
-    if APP.oidc is not None:
+    if hasattr(oidc, 'flow'):
         # OIDC is configured, check supplied token has relevant permissions
         # Don't render errors to JSON, as Flask-RESTful will handle that
-        validator = APP.oidc.accept_token(require_token=True,
-                                          scopes_required=url_scopes,
-                                          render_errors=False)
+        validator = oidc.accept_token(require_token=True,
+                                      scopes_required=url_scopes,
+                                      render_errors=False)
     else:
         # OIDC is not configured, so disallow APIs that require authentication
         def validator(f):

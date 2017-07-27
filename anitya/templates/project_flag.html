@@ -8,7 +8,7 @@
 <div class="page-header">
   <h1>Flag project</h1>
 </div>
-<form method="POST" action="{{ url_for('flag_project', project_id=project.id) }}" >
+<form method="POST" action="{{ url_for('anitya_ui.flag_project', project_id=project.id) }}" >
   <div class="row">
     <div class="col-md-12">
       <p> Flag a project for admin review. Use this form to request that the project
@@ -29,7 +29,7 @@
     <span class="glyphicon glyphicon-plus"></span>
     Submit
   </button>
-  <a href="{{ url_for('project', project_id=project.id) }}">
+  <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
     <button type="button" class="btn btn-danger" tabindex=3>
       <span class="glyphicon glyphicon-ban-circle"></span>
       Cancel

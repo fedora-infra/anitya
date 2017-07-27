@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from math import ceil
+import functools
 
 import flask
 import six.moves.urllib.parse as urlparse
@@ -10,8 +11,27 @@ import anitya.lib
 import anitya.lib.exceptions
 import anitya.lib.model
 
-from anitya.app import APP, SESSION, login_required
+from . import authentication
 from anitya.lib import utilities
+from anitya.lib.model import Session as SESSION
+
+
+ui_blueprint = flask.Blueprint(
+    'anitya_ui', __name__, static_folder='static', template_folder='templates')
+
+
+def login_required(function):
+    ''' Flask decorator to retrict access to logged-in users. '''
+    @functools.wraps(function)
+    def decorated_function(*args, **kwargs):
+        """ Decorated function, actually does the work. """
+        if not flask.g.auth.logged_in:
+            flask.flash('Login required', 'errors')
+            return flask.redirect(
+                flask.url_for('anitya_ui.login', next=flask.request.url))
+
+        return function(*args, **kwargs)
+    return decorated_function
 
 
 def get_extended_pattern(pattern):
@@ -37,7 +57,7 @@ def is_safe_url(target):
         ref_url.netloc == test_url.netloc
 
 
-@APP.route('/')
+@ui_blueprint.route('/')
 def index():
     total = anitya.lib.model.Project.all(SESSION, count=True)
     return flask.render_template(
@@ -47,101 +67,102 @@ def index():
     )
 
 
-@APP.route('/about')
+@ui_blueprint.route('/about')
 def about():
     """A backwards-compatibility route for old documentation links"""
-    new_path = flask.url_for('static', filename='docs/index.html')
+    new_path = flask.url_for('anitya_ui.static', filename='docs/index.html')
     return flask.redirect(new_path)
 
 
-@APP.route('/fedmsg')
+@ui_blueprint.route('/fedmsg')
 def fedmsg():
     """A backwards-compatibility route for old documentation links"""
-    new_path = flask.url_for('static', filename='docs/user-guide.html')
+    new_path = flask.url_for('anitya_ui.static', filename='docs/user-guide.html')
     return flask.redirect(new_path)
 
 
-@APP.route('/login/', methods=('GET', 'POST'))
-@APP.route('/login', methods=('GET', 'POST'))
-@APP.oid.loginhandler
+@ui_blueprint.route('/login/', methods=('GET', 'POST'))
+@ui_blueprint.route('/login', methods=('GET', 'POST'))
+@authentication.oid.loginhandler
 def login():
     ''' Handle the login when no OpenID server have been selected in the
     list.
     '''
-    next_url = flask.url_for('index')
+    next_url = flask.url_for('anitya_ui.index')
     if 'next' in flask.request.args:
         if is_safe_url(flask.request.args['next']):
             next_url = flask.request.args['next']
 
-    APP.oid.store_factory = lambda: None
+    authentication.oid.store_factory = lambda: None
     if flask.g.auth.logged_in:
         return flask.redirect(next_url)
 
     openid_server = flask.request.form.get('openid', None)
     if openid_server:
-        return APP.oid.try_login(
+        return authentication.oid.try_login(
             openid_server, ask_for=['email', 'fullname', 'nickname'])
 
     return flask.render_template(
         'login.html',
-        next=APP.oid.get_next_url(), error=APP.oid.fetch_error())
+        next=authentication.oid.get_next_url(),
+        error=authentication.oid.fetch_error())
 
 
-@APP.route('/login/fedora/', methods=('GET', 'POST'))
-@APP.route('/login/fedora', methods=('GET', 'POST'))
-@APP.oid.loginhandler
+@ui_blueprint.route('/login/fedora/', methods=('GET', 'POST'))
+@ui_blueprint.route('/login/fedora', methods=('GET', 'POST'))
+@authentication.oid.loginhandler
 def fedora_login():
     ''' Handles login against the Fedora OpenID server. '''
-    error = APP.oid.fetch_error()
+    error = authentication.oid.fetch_error()
     if error:
         flask.flash('Error during login: %s' % error, 'errors')
-        return flask.redirect(flask.url_for('index'))
+        return flask.redirect(flask.url_for('anitya_ui.index'))
 
-    APP.oid.store_factory = lambda: None
-    return APP.oid.try_login(
-        APP.config['ANITYA_WEB_FEDORA_OPENID'],
+    authentication.oid.store_factory = lambda: None
+    return authentication.oid.try_login(
+        flask.current_app.config['ANITYA_WEB_FEDORA_OPENID'],
         ask_for=['email', 'nickname'],
         ask_for_optional=['fullname'])
 
 
-@APP.route('/login/google/', methods=('GET', 'POST'))
-@APP.route('/login/google', methods=('GET', 'POST'))
-@APP.oid.loginhandler
+@ui_blueprint.route('/login/google/', methods=('GET', 'POST'))
+@ui_blueprint.route('/login/google', methods=('GET', 'POST'))
+@authentication.oid.loginhandler
 def google_login():
     ''' Handles login via the Google OpenID. '''
-    error = APP.oid.fetch_error()
+    error = authentication.oid.fetch_error()
     if error:
         flask.flash('Error during login: %s' % error, 'errors')
-        return flask.redirect(flask.url_for('index'))
+        return flask.redirect(flask.url_for('anitya_ui.index'))
 
-    APP.oid.store_factory = lambda: None
-    return APP.oid.try_login(
+    authentication.oid.store_factory = lambda: None
+    return authentication.oid.try_login(
         "https://www.google.com/accounts/o8/id",
         ask_for=['email', 'fullname'])
 
 
-@APP.route('/login/yahoo/', methods=('GET', 'POST'))
-@APP.route('/login/yahoo', methods=('GET', 'POST'))
-@APP.oid.loginhandler
+@ui_blueprint.route('/login/yahoo/', methods=('GET', 'POST'))
+@ui_blueprint.route('/login/yahoo', methods=('GET', 'POST'))
+@authentication.oid.loginhandler
 def yahoo_login():
     ''' Handles login via the Yahoo OpenID. '''
-    error = APP.oid.fetch_error()
+    error = authentication.oid.fetch_error()
     if error:
         flask.flash('Error during login: %s' % error, 'errors')
-        return flask.redirect(flask.url_for('index'))
+        return flask.redirect(flask.url_for('anitya_ui.index'))
 
-    APP.oid.store_factory = lambda: None
-    return APP.oid.try_login(
+    authentication.oid.store_factory = lambda: None
+    return authentication.oid.try_login(
         "https://me.yahoo.com/",
         ask_for=['email', 'fullname'])
 
 
-@APP.route('/logout/')
-@APP.route('/logout')
+@ui_blueprint.route('/logout/')
+@ui_blueprint.route('/logout')
 def logout():
     ''' Logout the user. '''
     flask.session.pop('openid')
-    next_url = flask.url_for('index')
+    next_url = flask.url_for('anitya_ui.index')
     if 'next' in flask.request.args:
         if is_safe_url(flask.request.args['next']):
             next_url = flask.request.args['next']
@@ -149,8 +170,8 @@ def logout():
     return flask.redirect(next_url)
 
 
-@APP.route('/project/<int:project_id>')
-@APP.route('/project/<int:project_id>/')
+@ui_blueprint.route('/project/<int:project_id>')
+@ui_blueprint.route('/project/<int:project_id>/')
 def project(project_id):
 
     project = anitya.lib.model.Project.by_id(SESSION, project_id)
@@ -165,8 +186,8 @@ def project(project_id):
     )
 
 
-@APP.route('/project/<project_name>')
-@APP.route('/project/<project_name>/')
+@ui_blueprint.route('/project/<project_name>')
+@ui_blueprint.route('/project/<project_name>/')
 def project_name(project_name):
 
     page = flask.request.args.get('page', 1)
@@ -196,8 +217,8 @@ def project_name(project_name):
         page=page)
 
 
-@APP.route('/projects')
-@APP.route('/projects/')
+@ui_blueprint.route('/projects')
+@ui_blueprint.route('/projects/')
 def projects():
 
     page = flask.request.args.get('page', 1)
@@ -221,9 +242,9 @@ def projects():
         page=page)
 
 
-@APP.route('/projects/updates')
-@APP.route('/projects/updates/')
-@APP.route('/projects/updates/<status>')
+@ui_blueprint.route('/projects/updates')
+@ui_blueprint.route('/projects/updates/')
+@ui_blueprint.route('/projects/updates/<status>')
 def projects_updated(status='updated'):
 
     page = flask.request.args.get('page', 1)
@@ -267,8 +288,8 @@ def projects_updated(status='updated'):
     )
 
 
-@APP.route('/distros')
-@APP.route('/distros/')
+@ui_blueprint.route('/distros')
+@ui_blueprint.route('/distros/')
 def distros():
 
     page = flask.request.args.get('page', 1)
@@ -292,8 +313,8 @@ def distros():
         page=page)
 
 
-@APP.route('/distro/<distroname>')
-@APP.route('/distro/<distroname>/')
+@ui_blueprint.route('/distro/<distroname>')
+@ui_blueprint.route('/distro/<distroname>/')
 def distro(distroname):
 
     page = flask.request.args.get('page', 1)
@@ -320,9 +341,9 @@ def distro(distroname):
         page=page)
 
 
-@APP.route('/projects/search')
-@APP.route('/projects/search/')
-@APP.route('/projects/search/<pattern>')
+@ui_blueprint.route('/projects/search')
+@ui_blueprint.route('/projects/search/')
+@ui_blueprint.route('/projects/search/<pattern>')
 def projects_search(pattern=None):
 
     pattern = flask.request.args.get('pattern', pattern) or '*'
@@ -355,7 +376,7 @@ def projects_search(pattern=None):
         flask.flash(
             'Only one result matching with an exact match, redirecting')
         return flask.redirect(
-            flask.url_for('project', project_id=projects[0].id))
+            flask.url_for('anitya_ui.project', project_id=projects[0].id))
 
     total_page = int(ceil(projects_count / float(50)))
 
@@ -369,9 +390,9 @@ def projects_search(pattern=None):
         page=page)
 
 
-@APP.route('/distro/<distroname>/search')
-@APP.route('/distro/<distroname>/search/')
-@APP.route('/distro/<distroname>/search/<pattern>')
+@ui_blueprint.route('/distro/<distroname>/search')
+@ui_blueprint.route('/distro/<distroname>/search/')
+@ui_blueprint.route('/distro/<distroname>/search/<pattern>')
 def distro_projects_search(distroname, pattern=None):
 
     pattern = flask.request.args.get('pattern', pattern) or '*'
@@ -407,7 +428,7 @@ def distro_projects_search(distroname, pattern=None):
         flask.flash(
             'Only one result matching with an exact match, redirecting')
         return flask.redirect(
-            flask.url_for('project', project_id=projects[0].id))
+            flask.url_for('anitya_ui.project', project_id=projects[0].id))
 
     total_page = int(ceil(projects_count / float(50)))
 
@@ -422,7 +443,7 @@ def distro_projects_search(distroname, pattern=None):
         page=page)
 
 
-@APP.route('/project/new', methods=['GET', 'POST'])
+@ui_blueprint.route('/project/new', methods=['GET', 'POST'])
 @login_required
 def new_project():
     """
@@ -490,7 +511,7 @@ def new_project():
 
         if project:
             return flask.redirect(
-                flask.url_for('project', project_id=project.id)
+                flask.url_for('anitya_ui.project', project_id=project.id)
             )
 
     return flask.render_template(
@@ -502,7 +523,7 @@ def new_project():
     ), 400
 
 
-@APP.route('/project/<project_id>/edit', methods=['GET', 'POST'])
+@ui_blueprint.route('/project/<project_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_project(project_id):
 
@@ -538,7 +559,7 @@ def edit_project(project_id):
             flask.flash(str(err), 'errors')
 
         return flask.redirect(
-            flask.url_for('project', project_id=project_id)
+            flask.url_for('anitya_ui.project', project_id=project_id)
         )
 
     return flask.render_template(
@@ -551,7 +572,7 @@ def edit_project(project_id):
     )
 
 
-@APP.route('/project/<project_id>/flag', methods=['GET', 'POST'])
+@ui_blueprint.route('/project/<project_id>/flag', methods=['GET', 'POST'])
 @login_required
 def flag_project(project_id):
 
@@ -576,7 +597,7 @@ def flag_project(project_id):
             flask.flash(str(err), 'errors')
 
         return flask.redirect(
-            flask.url_for('project', project_id=project.id)
+            flask.url_for('anitya_ui.project', project_id=project.id)
         )
 
     return flask.render_template(
@@ -588,7 +609,7 @@ def flag_project(project_id):
     )
 
 
-@APP.route('/project/<project_id>/map', methods=['GET', 'POST'])
+@ui_blueprint.route('/project/<project_id>/map', methods=['GET', 'POST'])
 @login_required
 def map_project(project_id):
 
@@ -615,13 +636,13 @@ def map_project(project_id):
             SESSION.commit()
             flask.flash('Mapping added')
         except anitya.lib.exceptions.AnityaInvalidMappingException as err:
-            err.link = flask.url_for('project', project_id=err.project_id)
+            err.link = flask.url_for('anitya_ui.project', project_id=err.project_id)
             flask.flash(err.message, 'error')
         except anitya.lib.exceptions.AnityaException as err:
             flask.flash(str(err), 'error')
 
         return flask.redirect(
-            flask.url_for('project', project_id=project.id)
+            flask.url_for('anitya_ui.project', project_id=project.id)
         )
 
     return flask.render_template(
@@ -632,7 +653,7 @@ def map_project(project_id):
     )
 
 
-@APP.route('/project/<project_id>/map/<pkg_id>', methods=['GET', 'POST'])
+@ui_blueprint.route('/project/<project_id>/map/<pkg_id>', methods=['GET', 'POST'])
 @login_required
 def edit_project_mapping(project_id, pkg_id):
 
@@ -662,13 +683,13 @@ def edit_project_mapping(project_id, pkg_id):
             SESSION.commit()
             flask.flash('Mapping edited')
         except anitya.lib.exceptions.AnityaInvalidMappingException as err:
-            err.link = flask.url_for('project', project_id=err.project_id)
+            err.link = flask.url_for('anitya_ui.project', project_id=err.project_id)
             flask.flash(err.message, 'error')
         except anitya.lib.exceptions.AnityaException as err:
             flask.flash(str(err), 'error')
 
         return flask.redirect(
-            flask.url_for('project', project_id=project_id))
+            flask.url_for('anitya_ui.project', project_id=project_id))
 
     return flask.render_template(
         'mapping.html',
@@ -677,3 +698,29 @@ def edit_project_mapping(project_id, pkg_id):
         package=package,
         form=form,
     )
+
+
+def format_examples(examples):
+    ''' Return the plugins examples as HTML links. '''
+    output = ''
+    if examples:
+        for cnt, example in enumerate(examples):
+            if cnt > 0:
+                output += " <br /> "
+            output += "<a href='%(url)s'>%(url)s</a> " % ({'url': example})
+
+    return output
+
+
+def context_class(category):
+    ''' Return bootstrap context class for a given category. '''
+    values = {
+        'message': 'default',
+        'error': 'danger',
+        'info': 'info',
+    }
+    return values.get(category, 'warning')
+
+
+ui_blueprint.add_app_template_filter(format_examples, name='format_examples')
+ui_blueprint.add_app_template_filter(context_class, name='context_class')

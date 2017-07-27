@@ -14,7 +14,7 @@
     <ul class="pagination pagination-sm">
         <li>
             {% if page > 1%}
-              <a href="{{ url_for('distros') }}?page={{page - 1}}">
+              <a href="{{ url_for('anitya_ui.distros') }}?page={{page - 1}}">
                 «
               </a>
             {% else %}
@@ -26,7 +26,7 @@
         </li>
         <li>
             {% if page < total_page %}
-              <a href="{{ url_for('distros') }}?page={{page + 1}}">
+              <a href="{{ url_for('anitya_ui.distros') }}?page={{page + 1}}">
                 »
               </a>
             {% else %}
@@ -44,7 +44,7 @@
   </p>
   {% if is_admin %}
   <p>
-  <a href="{{ url_for('add_distro') }}">
+  <a href="{{ url_for('anitya_ui.add_distro') }}">
     <button type="submit" class="btn btn-success">
       <span class="glyphicon glyphicon-edit"></span>
       Add a new distribution
@@ -56,18 +56,18 @@
   {% for distro in distros %}
     <span class="list-group-item">
       <h4 class="list-group-item-heading">
-        <a href="{{ url_for('distro', distroname=distro.name) }}">
+        <a href="{{ url_for('anitya_ui.distro', distroname=distro.name) }}">
           {{distro.name}}
         </a>
       </h4>
       {% if is_admin %}
-      <a href="{{ url_for('edit_distro', distro_name=distro.name) }}">
+      <a href="{{ url_for('anitya_ui.edit_distro', distro_name=distro.name) }}">
         <button type="submit" class="btn btn-info">
           <span class="glyphicon glyphicon-edit"></span>
           Edit
         </button>
       </a>
-      <a href="{{ url_for('delete_distro', distro_name=distro.name) }}">
+      <a href="{{ url_for('anitya_ui.delete_distro', distro_name=distro.name) }}">
         <button type="submit" class="btn btn-warning btn-sm pull-right">
           <span class="glyphicon glyphicon-remove"></span>
             Delete

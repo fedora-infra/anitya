@@ -15,14 +15,14 @@
   <h1>Flags</h1>
   {% if refresh %}
   <p>This page should refresh automatically every 5 seconds</p>
-  <a href="{{ url_for('browse_flags', page=page) }}">
+  <a href="{{ url_for('anitya_ui.browse_flags', page=page) }}">
     <button type="submit" class="btn btn-danger" id="checknow">
       <span class="glyphicon glyphicon-remove-sign"></span>
       Remove auto-refresh
     </button>
   </a>
   {% else %}
-  <a href="{{ url_for('browse_flags', page=page, refresh=True) }}">
+  <a href="{{ url_for('anitya_ui.browse_flags', page=page, refresh=True) }}">
     <button type="submit" class="btn btn-success" id="checknow">
       <span class="glyphicon glyphicon-refresh"></span>
       Activate auto-refresh
@@ -37,7 +37,7 @@
     <ul class="pagination pagination-sm">
         <li>
             {% if page > 1%}
-              <a href="{{ url_for('browse_flags', page=page-1, project=project,
+              <a href="{{ url_for('anitya_ui.browse_flags', page=page-1, project=project,
                 user=user, from_date=from_date) }}">
                 «
               </a>
@@ -50,7 +50,7 @@
         </li>
         <li>
             {% if page < total_page %}
-              <a href="{{ url_for('browse_flags', page=page+1, project=project,
+              <a href="{{ url_for('anitya_ui.browse_flags', page=page+1, project=project,
                 user=user, from_date=from_date) }}">
                 »
               </a>
@@ -63,7 +63,7 @@
   </div>
 
   <div class="col-xs-10">
-    <form action="{{url_for('browse_flags') }}" class="form-inline"
+    <form action="{{url_for('anitya_ui.browse_flags') }}" class="form-inline"
           role="form" action="GET" id="flags_form">
       <div class="form-group col-xs-6 col-sm-2">
         <select name="state" class="form-control">
@@ -108,14 +108,14 @@
     <tr>
         <td>
           {% if flag.state == 'open' %}
-          <form method="POST" action="{{ url_for('set_flag_state', flag_id=flag.id, state='closed') }}">
+          <form method="POST" action="{{ url_for('anitya_ui.set_flag_state', flag_id=flag.id, state='closed') }}">
             <button type="submit" class="btn btn-warning btn-sm pull-right inline"
                   id="flag_btn">
               <span class="glyphicon glyphicon-eye-close"></span>
               Close
             </button>
           {% else %}
-          <form method="POST" action="{{ url_for('set_flag_state', flag_id=flag.id, state='open') }}">
+          <form method="POST" action="{{ url_for('anitya_ui.set_flag_state', flag_id=flag.id, state='open') }}">
             <button type="submit" class="btn btn-success btn-sm pull-right inline"
                   id="flag_btn">
               <span class="glyphicon glyphicon-eye-open"></span>
@@ -132,7 +132,7 @@
         </td>
         <td>
           {% if flag.project -%}
-          <a href="{{ url_for('project', project_id=flag.project.id) }}">{{ flag.project.name }}</a>
+          <a href="{{ url_for('anitya_ui.project', project_id=flag.project.id) }}">{{ flag.project.name }}</a>
           {%- endif %}
         </td>
         <td> {{ flag.user }} </td>

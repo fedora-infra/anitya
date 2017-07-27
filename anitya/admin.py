@@ -12,13 +12,23 @@ import anitya
 import anitya.forms
 import anitya.lib.model
 
-from anitya.app import APP, SESSION, login_required, is_admin
+from anitya.ui import login_required, ui_blueprint
+from anitya.lib.model import Session as SESSION
 
 
 _log = logging.getLogger(__name__)
 
 
-@APP.route('/distro/add', methods=['GET', 'POST'])
+def is_admin(user=None):
+    ''' Check if the provided user, or the user logged in are recognized
+    as being admins.
+    '''
+    if not user and flask.g.auth.logged_in:
+        user = flask.g.auth.openid
+    return user in flask.current_app.config.get('ANITYA_WEB_ADMINS', [])
+
+
+@ui_blueprint.route('/distro/add', methods=['GET', 'POST'])
 @login_required
 def add_distro():
 
@@ -51,7 +61,7 @@ def add_distro():
             flask.flash(
                 'Could not add this distro, already exists?', 'error')
         return flask.redirect(
-            flask.url_for('distros')
+            flask.url_for('anitya_ui.distros')
         )
 
     return flask.render_template(
@@ -60,7 +70,7 @@ def add_distro():
         form=form)
 
 
-@APP.route('/distro/<distro_name>/edit', methods=['GET', 'POST'])
+@ui_blueprint.route('/distro/<distro_name>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_distro(distro_name):
 
@@ -95,7 +105,7 @@ def edit_distro(distro_name):
             message = 'Distribution edited'
             flask.flash(message)
         return flask.redirect(
-            flask.url_for('distros')
+            flask.url_for('anitya_ui.distros')
         )
 
     return flask.render_template(
@@ -105,7 +115,7 @@ def edit_distro(distro_name):
         form=form)
 
 
-@APP.route('/distro/<distro_name>/delete', methods=['GET', 'POST'])
+@ui_blueprint.route('/distro/<distro_name>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_distro(distro_name):
     """ Delete a distro """
@@ -133,7 +143,7 @@ def delete_distro(distro_name):
         SESSION.delete(distro)
         SESSION.commit()
         flask.flash('Distro %s has been removed' % distro_name)
-        return flask.redirect(flask.url_for('distros'))
+        return flask.redirect(flask.url_for('anitya_ui.distros'))
 
     return flask.render_template(
         'distro_delete.html',
@@ -142,7 +152,7 @@ def delete_distro(distro_name):
         form=form)
 
 
-@APP.route('/project/<project_id>/delete', methods=['GET', 'POST'])
+@ui_blueprint.route('/project/<project_id>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_project(project_id):
 
@@ -176,10 +186,10 @@ def delete_project(project_id):
             SESSION.delete(project)
             SESSION.commit()
             flask.flash('Project %s has been removed' % project_name)
-            return flask.redirect(flask.url_for('projects'))
+            return flask.redirect(flask.url_for('anitya_ui.projects'))
         else:
             return flask.redirect(
-                flask.url_for('project', project_id=project.id))
+                flask.url_for('anitya_ui.project', project_id=project.id))
 
     return flask.render_template(
         'project_delete.html',
@@ -188,7 +198,7 @@ def delete_project(project_id):
         form=form)
 
 
-@APP.route(
+@ui_blueprint.route(
     '/project/<project_id>/delete/<distro_name>/<pkg_name>',
     methods=['GET', 'POST'])
 @login_required
@@ -231,7 +241,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
 
             flask.flash('Mapping for %s has been removed' % project.name)
         return flask.redirect(
-            flask.url_for('project', project_id=project.id))
+            flask.url_for('anitya_ui.project', project_id=project.id))
 
     return flask.render_template(
         'regex_delete.html',
@@ -241,7 +251,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
         form=form)
 
 
-@APP.route(
+@ui_blueprint.route(
     '/project/<project_id>/delete/<version>', methods=['GET', 'POST'])
 @login_required
 def delete_project_version(project_id, version):
@@ -291,7 +301,7 @@ def delete_project_version(project_id, version):
 
             flask.flash('Version for %s has been removed' % version)
         return flask.redirect(
-            flask.url_for('project', project_id=project.id))
+            flask.url_for('anitya_ui.project', project_id=project.id))
 
     return flask.render_template(
         'version_delete.html',
@@ -301,7 +311,7 @@ def delete_project_version(project_id, version):
         form=form)
 
 
-@APP.route('/logs')
+@ui_blueprint.route('/logs')
 @login_required
 def browse_logs():
 
@@ -380,7 +390,7 @@ def browse_logs():
     )
 
 
-@APP.route('/flags')
+@ui_blueprint.route('/flags')
 @login_required
 def browse_flags():
 
@@ -466,7 +476,7 @@ def browse_flags():
     )
 
 
-@APP.route('/flags/<flag_id>/set/<state>', methods=['POST'])
+@ui_blueprint.route('/flags/<flag_id>/set/<state>', methods=['POST'])
 @login_required
 def set_flag_state(flag_id, state):
 
@@ -496,5 +506,5 @@ def set_flag_state(flag_id, state):
             flask.flash(str(err), 'errors')
 
     return flask.redirect(
-        flask.url_for('browse_flags')
+        flask.url_for('anitya_ui.browse_flags')
     )

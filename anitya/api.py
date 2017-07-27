@@ -22,15 +22,18 @@ This module provides Anitya's HTTP API.
 
 import flask
 
-from anitya.app import APP, SESSION
 from anitya.lib import utilities
+from anitya.lib.model import Session as SESSION
 import anitya
 import anitya.lib.plugins
 import anitya.lib.model
 
 
-@APP.route('/api/')
-@APP.route('/api')
+api_blueprint = flask.Blueprint('anitya_apiv1', __name__)
+
+
+@api_blueprint.route('/api/')
+@api_blueprint.route('/api')
 def api():
     """
     Retrieve the HTML information page.
@@ -42,8 +45,8 @@ def api():
     return flask.redirect(new_url)
 
 
-@APP.route('/api/version/')
-@APP.route('/api/version')
+@api_blueprint.route('/api/version/')
+@api_blueprint.route('/api/version')
 def api_version():
     '''
     Display the api version information.
@@ -66,8 +69,8 @@ def api_version():
     return flask.jsonify({'version': anitya.__api_version__})
 
 
-@APP.route('/api/projects/')
-@APP.route('/api/projects')
+@api_blueprint.route('/api/projects/')
+@api_blueprint.route('/api/projects')
 def api_projects():
     '''
     Lists all the projects registered in Anitya.
@@ -166,8 +169,8 @@ def api_projects():
     return jsonout
 
 
-@APP.route('/api/packages/wiki/')
-@APP.route('/api/packages/wiki')
+@api_blueprint.route('/api/packages/wiki/')
+@api_blueprint.route('/api/packages/wiki')
 def api_packages_wiki_list():
     '''
     List all packages in mediawiki format.
@@ -208,8 +211,8 @@ def api_packages_wiki_list():
     )
 
 
-@APP.route('/api/projects/names/')
-@APP.route('/api/projects/names')
+@api_blueprint.route('/api/projects/names/')
+@api_blueprint.route('/api/projects/names')
 def api_projects_names():
     '''
     Lists the names of all the projects registered in anitya.
@@ -277,8 +280,8 @@ def api_projects_names():
     return jsonout
 
 
-@APP.route('/api/distro/names/')
-@APP.route('/api/distro/names')
+@api_blueprint.route('/api/distro/names/')
+@api_blueprint.route('/api/distro/names')
 def api_distro_names():
     '''
     Lists the names of all the distributions registered in anitya.
@@ -338,7 +341,7 @@ def api_distro_names():
     return jsonout
 
 
-@APP.route('/api/version/get', methods=['POST'])
+@api_blueprint.route('/api/version/get', methods=['POST'])
 def api_get_version():
     '''
     Forces anitya to retrieve the latest version available from a project
@@ -413,8 +416,8 @@ def api_get_version():
     return jsonout
 
 
-@APP.route('/api/project/<int:project_id>/', methods=['GET'])
-@APP.route('/api/project/<int:project_id>', methods=['GET'])
+@api_blueprint.route('/api/project/<int:project_id>/', methods=['GET'])
+@api_blueprint.route('/api/project/<int:project_id>', methods=['GET'])
 def api_get_project(project_id):
     '''
     Retrieves a specific project using its identifier in anitya.
@@ -468,8 +471,8 @@ def api_get_project(project_id):
     return jsonout
 
 
-@APP.route('/api/project/<distro>/<path:package_name>/', methods=['GET'])
-@APP.route('/api/project/<distro>/<path:package_name>', methods=['GET'])
+@api_blueprint.route('/api/project/<distro>/<path:package_name>/', methods=['GET'])
+@api_blueprint.route('/api/project/<distro>/<path:package_name>', methods=['GET'])
 def api_get_project_distro(distro, package_name):
     '''
     Retrieves a project in a distribution via the name of the distribution
@@ -534,8 +537,8 @@ def api_get_project_distro(distro, package_name):
     return jsonout
 
 
-@APP.route('/api/by_ecosystem/<ecosystem>/<project_name>/', methods=['GET'])
-@APP.route('/api/by_ecosystem/<ecosystem>/<project_name>', methods=['GET'])
+@api_blueprint.route('/api/by_ecosystem/<ecosystem>/<project_name>/', methods=['GET'])
+@api_blueprint.route('/api/by_ecosystem/<ecosystem>/<project_name>', methods=['GET'])
 def api_get_project_ecosystem(ecosystem, project_name):
     '''
     Retrieves a project in an ecosystem via the name of the ecosystem

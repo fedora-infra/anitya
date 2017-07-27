@@ -28,18 +28,17 @@ import unittest
 import mock
 
 from anitya.lib import model
-from anitya.tests.base import DatabaseTestCase, create_distro, create_project
-import anitya
+from anitya.tests.base import AnityaTestCase, DatabaseTestCase, create_distro, create_project
 
 
-class ShutdownSessionTests(unittest.TestCase):
+class ShutdownSessionTests(AnityaTestCase):
     """Tests for the :func:`anitya.app.shutdown_session` function."""
 
     def test_session_removed_post_request(self):
         """Assert that the session is cleaned up after a request."""
         session = model.Session()
         self.assertTrue(session is model.Session())
-        app = anitya.app.APP.test_client()
+        app = self.flask_app.test_client()
         app.get('/about', follow_redirects=False)
         self.assertFalse(session is model.Session())
 
@@ -51,8 +50,8 @@ class NewProjectTests(DatabaseTestCase):
         """Set up the Flask testing environnment"""
         super(NewProjectTests, self).setUp()
 
-        anitya.app.APP.config['TESTING'] = True
-        self.app = anitya.app.APP.test_client()
+        self.flask_app.config['TESTING'] = True
+        self.app = self.flask_app.test_client()
 
     def test_new_project_unauthenticated(self):
         """Assert that authentication is required to create a project"""
@@ -65,7 +64,7 @@ class NewProjectTests(DatabaseTestCase):
 
     def test_new_project(self):
         """Assert an authenticated user can create a new project"""
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -100,7 +99,7 @@ class NewProjectTests(DatabaseTestCase):
 
     def test_new_project_no_csrf(self):
         """Assert a missing CSRF token results in an HTTP 400"""
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -125,7 +124,7 @@ class NewProjectTests(DatabaseTestCase):
 
     def test_new_project_duplicate(self):
         """Assert duplicate projects result in a HTTP 409"""
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -165,7 +164,7 @@ class NewProjectTests(DatabaseTestCase):
 
     def test_new_project_invalid_homepage(self):
         """Assert a HTTP 400 results in projects with invalid homepages"""
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -192,7 +191,7 @@ class NewProjectTests(DatabaseTestCase):
     @mock.patch('anitya.lib.utilities.check_project_release')
     def test_new_project_with_check_release(self, patched):
         output = self.app.get('/project/new', follow_redirects=True)
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -235,8 +234,8 @@ class FlaskTest(DatabaseTestCase):
         """ Set up the environnment, ran before every tests. """
         super(FlaskTest, self).setUp()
 
-        anitya.app.APP.config['TESTING'] = True
-        self.app = anitya.app.APP.test_client()
+        self.flask_app.config['TESTING'] = True
+        self.app = self.flask_app.test_client()
 
     def test_index(self):
         """ Test the index function. """
@@ -451,7 +450,7 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual(projects[2].name, 'subsurface')
         self.assertEqual(projects[2].id, 2)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -567,7 +566,7 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual(projects[2].id, 2)
         self.assertEqual(len(projects[2].packages), 0)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'
@@ -663,7 +662,7 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual(projects[2].id, 2)
         self.assertEqual(len(projects[2].packages), 0)
 
-        with anitya.app.APP.test_client() as c:
+        with self.flask_app.test_client() as c:
             with c.session_transaction() as sess:
                 sess['openid'] = 'openid_url'
                 sess['fullname'] = 'Pierre-Yves C.'

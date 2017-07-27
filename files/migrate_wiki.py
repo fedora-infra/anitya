@@ -14,6 +14,7 @@ import os
 import pprint
 
 from cnucnu.package_list import PackageList
+from anitya.config import config
 import anitya.app
 import anitya.lib
 import anitya.lib.plugins
@@ -119,7 +120,7 @@ def migrate_wiki(agent):
     print "Migrating from wiki as %r" % agent
 
     SESSION = anitya.lib.utilities.init(
-        anitya.app.APP.config['DB_URL'],
+        config['DB_URL'],
         None,
         create=True)
 

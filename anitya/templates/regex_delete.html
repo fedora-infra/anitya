@@ -9,7 +9,7 @@
 <div class="row">
 
     <form method="POST" action="{{
-        url_for('delete_project_mapping',
+        url_for('anitya_ui.delete_project_mapping',
                 project_id=project.id,
                 distro_name=package.distro,
                 pkg_name=package.package_name) }}" >
@@ -34,7 +34,7 @@
         Delete mapping
       </button>
 
-      <a href="{{ url_for('project', project_id=project.id) }}">
+      <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
         <button type="button" class="btn btn-danger">
           <span class="glyphicon glyphicon-ban-circle"></span>
           Cancel

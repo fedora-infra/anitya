@@ -9,9 +9,9 @@
   <h1>{{ context }} project</h1>
 </div>
 {% if context == 'Add' -%}
-<form method="POST" action="{{ url_for('new_project') }}" >
+<form method="POST" action="{{ url_for('anitya_ui.new_project') }}" >
 {%- elif context == 'Edit' -%}
-<form method="POST" action="{{ url_for('edit_project', project_id=project.id) }}" >
+<form method="POST" action="{{ url_for('anitya_ui.edit_project', project_id=project.id) }}" >
 {%- endif %}
   <div class="row">
     <div class="col-md-6">
@@ -72,9 +72,9 @@
     Submit
   </button>
   {%- if context == 'Add' -%}
-  <a href="{{ url_for('projects') }}">
+  <a href="{{ url_for('anitya_ui.projects') }}">
   {%- elif context == 'Edit' -%}
-  <a href="{{ url_for('project', project_id=project.id) }}">
+  <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
   {%- endif -%}
     <button type="button" class="btn btn-danger" tabindex=11>
       <span class="glyphicon glyphicon-ban-circle"></span>
@@ -218,7 +218,7 @@
         var _name = $('#name').val().trim();
         show_hide();
         if (_name) {
-          var _url = "{{ url_for('api_projects') }}?pattern=" + _name;
+          var _url = "{{ url_for('anitya_apiv1.api_projects') }}?pattern=" + _name;
           show_similar_projects(_url, 'name');
         } else {
           $('#info_field').hide();
@@ -227,7 +227,7 @@
     $('#homepage').focusout(function(){
       var _homepage = $('#homepage').val().trim();
       if (_homepage) {
-        var _url = "{{ url_for('api_projects') }}?homepage=" + _homepage;
+        var _url = "{{ url_for('anitya_apiv1.api_projects') }}?homepage=" + _homepage;
         show_similar_projects(_url, 'homepage');
       } else {
         $('#info_field').hide();
@@ -238,9 +238,9 @@
   $('body').bind('keyup', function(event) {
     if (event.which == 27) { // esc
       {% if context == 'Add' %}
-      window.location.replace("{{ url_for('projects') }}");
+      window.location.replace("{{ url_for('anitya_ui.projects') }}");
       {% elif context == 'Edit' %}
-      window.location.replace("{{ url_for('project', project_id=project.id) }}");
+      window.location.replace("{{ url_for('anitya_ui.project', project_id=project.id) }}");
       {% endif %}
     }
   });
@@ -250,7 +250,7 @@
     $('#distro').autocomplete({
         source: function( request, response ) {
             $.getJSON(
-              "{{ url_for('.api_distro_names') }}", {
+              "{{ url_for('anitya_apiv1.api_distro_names') }}", {
                 pattern: request.term
               },
               function( data ) {
