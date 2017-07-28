@@ -26,6 +26,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm.exc import NoResultFound
 
 from . import plugins, exceptions, model
 
@@ -358,7 +359,6 @@ def map_project(
     """ Map a project to a distribution.
 
     """
-
     distribution = distribution.strip()
 
     distro_obj = model.Distro.get(session, distribution)
@@ -389,10 +389,13 @@ def map_project(
     pkg = model.Packages.get(
         session, project.id, distro, pkgname)
 
-    # Check that we can update the mapping to the new info provided
-    other_pkg = model.Packages.by_package_name_distro(
-        session, package_name, distro)
-    if other_pkg and other_pkg.project:
+    # See if the new mapping would clash with an existing mapping
+    try:
+        other_pkg = model.Packages.query.filter_by(
+            distro=distribution, package_name=package_name).one()
+    except NoResultFound:
+        other_pkg = None
+    if other_pkg:
         raise exceptions.AnityaInvalidMappingException(
             pkgname, distro, package_name, distribution,
             other_pkg.project.id, other_pkg.project.name)

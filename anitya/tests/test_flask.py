@@ -23,8 +23,6 @@
 anitya tests for the flask application.
 '''
 
-import unittest
-
 from six.moves.urllib import parse
 import mock
 
@@ -681,8 +679,6 @@ class EditProjectMappingTests(DatabaseTestCase):
             self.assertEqual(1, len(packages))
             self.assertEqual('Python Project', packages[0].package_name)
 
-    # You can't actually edit the distro at the moment, bug
-    @unittest.expectedFailure
     def test_edit_project_mapping_distro(self):
         """Assert a project's package distro can be edited."""
         with login_user(self.flask_app, self.user):
