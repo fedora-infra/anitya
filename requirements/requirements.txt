@@ -16,3 +16,4 @@ sqlalchemy >= 0.9
 straight.plugin==1.4.0-post-1
 pytoml
 wtforms
+github3.py==1.0.0a4

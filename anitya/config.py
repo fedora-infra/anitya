@@ -85,6 +85,7 @@ DEFAULTS = dict(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
         'client_secrets.json'
     ),
+    GITHUB_ACCESS_TOKEN=None,
     # Force the application to require HTTPS to save the cookie. This should only
     # be `False` in a development environment running on the local host!
     OIDC_ID_TOKEN_COOKIE_SECURE=True,

@@ -18,3 +18,4 @@ sqlalchemy == 0.9.8
 straight.plugin==1.4.0-post-1
 pytoml == 0.1.11
 wtforms == 2.0
+github3.py==1.0.0a4
