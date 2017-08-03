@@ -20,10 +20,16 @@
 anitya mapping of python classes to Database Tables.
 """
 
+try:
+    # The Python 3.6+ API
+    from secrets import choice as random_choice
+except ImportError:
+    from random import choice as random_choice
 import collections
 import datetime
 import logging
 import time
+import string
 
 import six
 import sqlalchemy as sa
@@ -1062,3 +1068,42 @@ class User(BASE):
             six.text_type: The Unicode string that uniquely identifies a user.
         """
         return six.text_type(self.id)
+
+
+def _api_token_generator(charset=string.ascii_letters + string.digits, length=40):
+    """
+    Generate an API token of a given length using the provided character set.
+
+    Args:
+        charset (str): A string of characters to choose from in the token.
+        length (int): The number of characters to use in the token.
+
+    Returns:
+        str: The API token as a unicode string.
+    """
+    return u''.join(random_choice(charset) for __ in range(length))
+
+
+class ApiToken(BASE):
+    """
+    A table for user API tokens.
+
+    Attributes:
+        token (sa.String): A 40 character string that represents the API token.
+            This is the primary key and is, by default, generated automatically.
+        created (sa.DateTime): The time this API token was created.
+        description (sa.Text): A user-provided description of what the API token is for.
+        user (User): The user this API token is associated with.
+    """
+
+    __tablename__ = 'tokens'
+
+    token = sa.Column(sa.String(40), default=_api_token_generator, primary_key=True)
+    created = sa.Column(sa.DateTime, default=datetime.datetime.utcnow, nullable=False)
+    user_id = sa.Column(GUID, sa.ForeignKey('users.id'), nullable=False)
+    user = sa.orm.relationship(
+        'User',
+        lazy='joined',
+        backref=sa.orm.backref('api_tokens', cascade='all, delete-orphan'),
+    )
+    description = sa.Column(sa.Text, nullable=True)
