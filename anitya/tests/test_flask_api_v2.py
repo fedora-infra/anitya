@@ -25,15 +25,8 @@ Tests for the Flask-RESTful based v2 API
 from __future__ import unicode_literals
 
 import json
-import os.path
 
-import oauthlib.oauth2
-import requests_oauthlib
-
-import mock
-import unittest2 as unittest  # Ensure we always have TestCase.addCleanup
-
-import anitya
+from anitya.lib import model
 from .base import (DatabaseTestCase, create_project)
 
 
@@ -42,31 +35,39 @@ def _read_json(output):
     return json.loads(output.get_data(as_text=True))
 
 
-class _APItestsMixin(object):
-    """Helper mixin to set up API testing environment"""
+class ProjectsResourceGetTests(DatabaseTestCase):
 
     def setUp(self):
-        super(_APItestsMixin, self).setUp()
-
-        self.flask_app.config['TESTING'] = True
-        self.oidc = anitya.authentication.oidc
+        super(ProjectsResourceGetTests, self).setUp()
         self.app = self.flask_app.test_client()
+        session = model.Session()
+        self.user = model.User(email='user@example.com', username='user')
+        self.api_token = model.ApiToken(user=self.user)
+        session.add_all([self.user, self.api_token])
+        session.commit()
 
-
-class AnonymousAccessTests(_APItestsMixin, DatabaseTestCase):
-    """Test access to APIs that don't require authentication"""
-
-    def test_list_projects(self):
-        api_endpoint = '/api/v2/projects/'
-        output = self.app.get(api_endpoint)
+    def test_no_projects(self):
+        """Assert querying projects works, even if there are no projects."""
+        output = self.app.get('/api/v2/projects/')
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
         self.assertEqual(data, {'page': 1, 'items_per_page': 25, 'total_items': 0, 'items': []})
 
+    def test_authenticated(self):
+        """Assert the API works when authenticated."""
+        output = self.app.get(
+            '/api/v2/projects/', headers={'Authorization': 'Token ' + self.api_token.token})
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        self.assertEqual(data, {'page': 1, 'items_per_page': 25, 'total_items': 0, 'items': []})
+
+    def test_list_projects(self):
+        """Assert projects are returned when they exist."""
         create_project(self.session)
 
-        output = self.app.get(api_endpoint)
+        output = self.app.get('/api/v2/projects/')
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
@@ -115,6 +116,7 @@ class AnonymousAccessTests(_APItestsMixin, DatabaseTestCase):
         self.assertEqual(data, exp)
 
     def test_list_projects_items_per_page(self):
+        """Assert pagination works and page size is adjustable."""
         api_endpoint = '/api/v2/projects/?items_per_page=1'
         output = self.app.get(api_endpoint)
         self.assertEqual(output.status_code, 200)
@@ -153,6 +155,7 @@ class AnonymousAccessTests(_APItestsMixin, DatabaseTestCase):
         self.assertEqual(data, exp)
 
     def test_list_projects_items_per_page_with_page(self):
+        """Assert retrieving other pages works."""
         api_endpoint = '/api/v2/projects/?items_per_page=1&page=2'
         output = self.app.get(api_endpoint)
         self.assertEqual(output.status_code, 200)
@@ -243,41 +246,66 @@ class AnonymousAccessTests(_APItestsMixin, DatabaseTestCase):
             data, {u'message': {u'page': u"invalid literal for int() with base 10: 'twenty'"}})
 
 
-class AuthenticationRequiredTests(_APItestsMixin, DatabaseTestCase):
-    """Test anonymous access is blocked to APIs requiring authentication"""
+class ProjectsResourcePostTests(DatabaseTestCase):
 
-    def _check_authentication_failure_response(self, output):
-        data = _read_json(output)
-        # Check we get the expected error details
-        if not hasattr(self.oidc, 'flow'):
-            exp = {
-                'error': 'oidc_not_configured',
-                'error_description': 'OpenID Connect is not configured on the server'
-            }
-        else:
-            exp = {
-                "error_description": "Token required but invalid",
-                "error": "invalid_token",
-            }
-        self.assertEqual(data, exp)
+    def setUp(self):
+        super(ProjectsResourcePostTests, self).setUp()
+        self.app = self.flask_app.test_client()
+        session = model.Session()
+        self.user = model.User(email='user@example.com', username='user')
+        self.api_token = model.ApiToken(user=self.user)
+        session.add_all([self.user, self.api_token])
+        session.commit()
 
-    def test_project_monitoring_request(self):
+        self.auth = {'Authorization': 'Token ' + self.api_token.token}
+
+    def test_unauthenticated(self):
+        """Assert unauthenticated requests result in a HTTP 401 response."""
         self.maxDiff = None
+        error_details = {
+            'error': 'authentication_required',
+            'error_description': 'Authentication is required to access this API.',
+        }
+
         output = self.app.post('/api/v2/projects/')
+
         self.assertEqual(output.status_code, 401)
-        self._check_authentication_failure_response(output)
+        self.assertEqual(error_details, _read_json(output))
+        self.assertEqual('Token', output.headers['WWW-Authenticate'])
 
+    def test_invalid_token(self):
+        """Assert unauthenticated requests result in a HTTP 401 response."""
+        self.maxDiff = None
+        error_details = {
+            'error': 'authentication_required',
+            'error_description': 'Authentication is required to access this API.',
+        }
 
-class _AuthenticatedAPItestsMixin(_APItestsMixin):
-    """Common test definitions for tests of authenticated access"""
+        output = self.app.post('/api/v2/projects/', headers={'Authorization': 'Token eh'})
 
-    def _post_app_url(self, post_url, **kwds):
-        raise NotImplementedError("Subclass must define how to post a URL")
+        self.assertEqual(output.status_code, 401)
+        self.assertEqual(error_details, _read_json(output))
+        self.assertEqual('Token', output.headers['WWW-Authenticate'])
 
-    def test_invalid_project_monitoring_request(self):
-        # Check we get a 400 error reporting what we did wrong
-        # rather than an authentication error
-        output = self._post_app_url('/api/v2/projects/')
+    def test_invalid_auth_type(self):
+        """Assert unauthenticated requests result in a HTTP 401 response."""
+        self.maxDiff = None
+        error_details = {
+            'error': 'authentication_required',
+            'error_description': 'Authentication is required to access this API.',
+        }
+
+        output = self.app.post(
+            '/api/v2/projects/', headers={'Authorization': 'Basic ' + self.api_token.token})
+
+        self.assertEqual(output.status_code, 401)
+        self.assertEqual(error_details, _read_json(output))
+        self.assertEqual('Token', output.headers['WWW-Authenticate'])
+
+    def test_invalid_request(self):
+        """Assert invalid requests result in a helpful HTTP 400."""
+        output = self.app.post('/api/v2/projects/', headers=self.auth)
+
         self.assertEqual(output.status_code, 400)
         # Error details should report the missing required fields
         data = _read_json(output)
@@ -286,15 +314,16 @@ class _AuthenticatedAPItestsMixin(_APItestsMixin):
         self.assertIn("homepage", error_details)
         self.assertIn("name", error_details)
 
-    def test_conflicting_project_monitoring_request(self):
+    def test_conflicting_request(self):
         request_data = {
             "backend": "PyPI",
             "homepage": "http://python-requests.org",
             "name": "requests",
         }
-        output = self._post_app_url("/api/v2/projects/", data=request_data)
+
+        output = self.app.post('/api/v2/projects/', headers=self.auth, data=request_data)
         self.assertEqual(output.status_code, 201)
-        output = self._post_app_url("/api/v2/projects/", data=request_data)
+        output = self.app.post('/api/v2/projects/', headers=self.auth, data=request_data)
         self.assertEqual(output.status_code, 409)
         # Error details should report conflicting fields.
         data = _read_json(output)
@@ -303,14 +332,15 @@ class _AuthenticatedAPItestsMixin(_APItestsMixin):
         self.assertEqual("http://python-requests.org", data["requested_project"]["homepage"])
         self.assertEqual("requests", data["requested_project"]["name"])
 
-    def test_valid_project_monitoring_request(self):
+    def test_valid_request(self):
         request_data = {
             "backend": "PyPI",
             "homepage": "http://python-requests.org",
             "name": "requests",
         }
-        output = self._post_app_url('/api/v2/projects/', data=request_data)
-        # Error details should report the missing required fields
+
+        output = self.app.post('/api/v2/projects/', headers=self.auth, data=request_data)
+
         data = _read_json(output)
         self.assertEqual(output.status_code, 201)
         self.assertIn("backend", data)
@@ -319,103 +349,3 @@ class _AuthenticatedAPItestsMixin(_APItestsMixin):
         self.assertEqual("PyPI", data["backend"])
         self.assertEqual("http://python-requests.org", data["homepage"])
         self.assertEqual("requests", data["name"])
-
-
-class MockAuthenticationTests(_AuthenticatedAPItestsMixin, DatabaseTestCase):
-    """Test authenticated behaviour with authentication checks mocked out"""
-
-    def setUp(self):
-        super(MockAuthenticationTests, self).setUp()
-
-        # Replace anitya.authentication._validate_api_token
-        def _bypass_token_validation(validated, raw_api, *args, **kwds):
-            return raw_api(*args, **kwds)
-        mock_auth = mock.patch('anitya.authentication._validate_api_token',
-                               _bypass_token_validation)
-        mock_auth.start()
-        self.addCleanup(mock_auth.stop)
-
-        # Replace anitya.authentication.oidc.user_getfield
-        mock_user_data = {
-            "email": 'noreply@fedoraproject.org',
-        }
-
-        test_case = self
-
-        class MockOIDC:
-            # In the live API, `access_token` is optional, but here we expect
-            # to receive it
-            def user_getfield(self, fieldname, access_token):
-                test_case._check_access_token(access_token)
-                try:
-                    return mock_user_data[fieldname]
-                except KeyError:
-                    msg = "No mock user data for field {}"
-                    raise ValueError(msg.format(fieldname))
-        mock_oidc = mock.patch('anitya.authentication.oidc', MockOIDC())
-        mock_oidc.start()
-        self.addCleanup(mock_oidc.stop)
-
-    DUMMY_ACCESS_TOKEN = "THISISMYTOKEN"
-
-    def _check_access_token(self, access_token):
-        self.assertEqual(access_token, self.DUMMY_ACCESS_TOKEN)
-
-    def _post_app_url(self, post_url, **kwds):
-        query_string = "access_token={0}".format(self.DUMMY_ACCESS_TOKEN)
-        return self.app.post(post_url, query_string=query_string, **kwds)
-
-
-_this_dir = os.path.dirname(__file__)
-CREDENTIALS_FILE = os.path.join(_this_dir, "oidc_credentials.json")
-
-
-class LiveAuthenticationTests(_AuthenticatedAPItestsMixin, DatabaseTestCase):
-    """Test authenticated behaviour with live FAS credentials"""
-
-    @classmethod
-    def setUpClass(cls):
-        if not os.path.exists(CREDENTIALS_FILE):
-            raise unittest.SkipTest("No saved OIDC credentials available")
-        cls.access_token = cls._refresh_access_token()
-
-    def setUp(self):
-        super(LiveAuthenticationTests, self).setUp()
-        if self.oidc is None:
-            self.skipTest("OpenID Connect is not configured")
-
-    def _post_app_url(self, post_url, **kwds):
-        # Note: we currently assume all test cases can be completed
-        # without needing to refresh the access token a second time
-        query_string = "access_token={0}".format(self.access_token)
-        return self.app.post(post_url, query_string=query_string, **kwds)
-
-    @classmethod
-    def _refresh_access_token(cls):
-        with open(CREDENTIALS_FILE) as f:
-            oidc_credentials = json.load(f)
-        client_details = oidc_credentials["client_details"]
-        client_id = client_details["client_id"]
-        client_secret = client_details["client_secret"]
-        refresh_uri = client_details["token_uri"]
-
-        token = oidc_credentials["client_token"]
-        token["expire_in"] = -1
-        oauth = requests_oauthlib.OAuth2Session(client_id, token=token)
-        try:
-            token = oauth.refresh_token(refresh_uri,
-                                        client_id=client_id,
-                                        client_secret=client_secret)
-        except oauthlib.oauth2.InvalidGrantError:
-            msg = ("Token refresh failed, "
-                   "try running './request_oidc_credentials.py' again")
-            raise RuntimeError(msg)
-        oidc_credentials["client_token"] = token
-
-        with open(CREDENTIALS_FILE, "w") as f:
-            json.dump(oidc_credentials, f)
-        return token["access_token"]
-
-
-if __name__ == '__main__':
-    unittest.main()

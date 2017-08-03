@@ -27,14 +27,10 @@ import unittest
 import os
 
 from flask import request_started
-from flask_openid import OpenID
-from flask_oidc import OpenIDConnect
 from social_flask_sqlalchemy.models import PSABase
 from sqlalchemy import create_engine, event
-import flask
 import flask_login
 import vcr
-import mock
 
 from anitya import app, config
 from anitya.lib import model, utilities
@@ -109,16 +105,6 @@ class AnityaTestCase(unittest.TestCase):
 
         This simply starts recording a VCR on start-up and stops on tearDown.
         """
-        mock_oidc = mock.patch(
-            'anitya.authentication.oidc',
-            OpenIDConnect(credentials_store=flask.session),
-        )
-        mock_oidc.start()
-        self.addCleanup(mock_oidc.stop)
-        mock_oid = mock.patch('anitya.authentication.oid', OpenID())
-        mock_oid.start()
-        self.addCleanup(mock_oid.stop)
-
         self.config = config.config.copy()
         self.config['TESTING'] = True
         self.flask_app = app.create(self.config)

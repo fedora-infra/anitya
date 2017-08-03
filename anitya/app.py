@@ -13,19 +13,18 @@ routes should be placed in ``anitya.api_v2``.
 import logging
 import logging.config
 import logging.handlers
-import uuid
 
 import flask
 from flask_restful import Api
-from flask_login import LoginManager, login_required, current_user  # noqa
+from flask_login import LoginManager, current_user
 from social_core.backends.utils import load_backends
 from social_flask.routes import social_auth
 from social_flask_sqlalchemy import models as social_models
 
 from anitya.config import config as anitya_config
 from anitya.lib import utilities
-from anitya.lib.model import Session as SESSION, initialize as initialize_db, User
-from . import ui, admin, api, api_v2, authentication  # noqa: F401
+from anitya.lib.model import Session as SESSION, initialize as initialize_db
+from . import ui, admin, api, api_v2, authentication
 import anitya.lib
 import anitya.mail_logging
 
@@ -52,9 +51,6 @@ def create(config=None):
     app.config.update(config)
     initialize_db(config)
 
-    # Set up the Flask extensions
-    authentication.configure_openid(app)
-
     app.register_blueprint(social_auth)
     if len(social_models.UserSocialAuth.__table_args__) == 0:
         # This is a bit of a hack - this initialization call sets up the SQLAlchemy
@@ -69,7 +65,8 @@ def create(config=None):
         social_models.init_social(app, SESSION)
 
     login_manager = LoginManager()
-    login_manager.user_loader(user_loader)
+    login_manager.user_loader(authentication.load_user_from_session)
+    login_manager.request_loader(authentication.load_user_from_request)
     login_manager.login_view = '/login/'
     login_manager.init_app(app)
 
@@ -96,23 +93,6 @@ def create(config=None):
         ))
 
     return app
-
-
-def user_loader(user_id):
-    """
-    Used to reload a :class:`User` object from the session.
-
-    Args:
-        user_id (unicode): The user's ID as a unicode string.
-
-    Returns:
-        User: The user with the given user ID, if it exists. Otherwise, ``None`` is returned.
-    """
-    try:
-        return User.query.get(uuid.UUID(user_id))
-    except (TypeError, ValueError):
-        # Return None if the type was wrong
-        pass
 
 
 def global_user():

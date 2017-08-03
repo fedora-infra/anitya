@@ -7,6 +7,7 @@ It uses OpenID Connect for endpoints that require authentication.
 
 from gettext import gettext as _
 
+import flask_login
 from flask import jsonify
 from flask_restful import Resource, reqparse
 
@@ -16,7 +17,6 @@ from anitya.lib.exceptions import ProjectExists
 from anitya.lib.model import Session as SESSION
 
 _BASE_ARG_PARSER = reqparse.RequestParser(trim=True, bundle_errors=True)
-_BASE_ARG_PARSER.add_argument('access_token', type=str)
 
 
 def _page_validator(arg):
@@ -129,16 +129,15 @@ class ProjectsResource(Resource):
                          are no projects, this will return 200.
         :statuscode 400: If one or more of the query arguments is invalid.
         """
-
         parser = _BASE_ARG_PARSER.copy()
         parser.add_argument('page', type=_page_validator, location='args')
         parser.add_argument('items_per_page', type=_items_per_page_validator, location='args')
         args = parser.parse_args(strict=True)
-        args.pop('access_token')
         projects_page = model.Project.query.paginate(
             order_by=model.Project.name, **args)
         return projects_page.as_dict()
 
+    @authentication.require_token
     def post(self):
         """
         Create a new project.
@@ -147,7 +146,8 @@ class ProjectsResource(Resource):
 
         .. sourcecode:: http
 
-            POST /api/v2/projects/?access_token=MYAPIACCESSTOKEN HTTP/1.1
+            POST /api/v2/projects/ HTTP/1.1
+            Authorization: token hxPpKow7nnT6UTAEKMtQwl310P6GtyqV8DDbexnk
             Accept: application/json
             Accept-Encoding: gzip, deflate
             Connection: keep-alive
@@ -239,12 +239,11 @@ class ProjectsResource(Resource):
         parser.add_argument(
             'check_release', type=bool, help=check_release_help)
         args = parser.parse_args(strict=True)
-        access_token = args.pop('access_token')
 
         try:
             project = utilities.create_project(
                 SESSION,
-                user_id=authentication.oidc.user_getfield('email', access_token),
+                user_id=flask_login.current_user.email,
                 **args
             )
             SESSION.commit()
