@@ -356,8 +356,19 @@ def edit_project(
 def map_project(
         session, project, package_name, distribution, user_id,
         old_package_name=None, old_distro_name=None):
-    """ Map a project to a distribution.
+    """
+    Map a project to a distribution.
 
+    Args:
+        session (sqlalchemy.orm.session.Session): The database session.
+        project (anitya.lib.model.Project): The project to map to a distribution.
+        package_name (str): The name of the mapped package.
+        distribution (str): The name of the distribution.
+        user_id (str): The user ID.
+        old_package_name (str): The name of the old package mapping, if this is being
+            used to edit a mapping.
+        old_distro_name (str): The name of the old distro of the package mapping, if this
+            is being used to edit a mapping.
     """
     distribution = distribution.strip()
 
