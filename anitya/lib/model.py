@@ -30,6 +30,7 @@ import datetime
 import logging
 import time
 import string
+import uuid
 
 import six
 import sqlalchemy as sa
@@ -39,7 +40,6 @@ from sqlalchemy.orm import (
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.types import TypeDecorator, CHAR
-import uuid
 
 from anitya.config import config as anitya_config
 from .versions import GLOBAL_DEFAULT as DEFAULT_VERSION_SCHEME
