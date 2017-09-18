@@ -24,7 +24,10 @@ try:
     # The Python 3.6+ API
     from secrets import choice as random_choice
 except ImportError:
-    from random import choice as random_choice
+    # Fall back to random with os.urandom
+    import random
+    random = random.SystemRandom()
+    random_choice = random.choice
 import collections
 import datetime
 import logging
