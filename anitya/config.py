@@ -81,8 +81,6 @@ DEFAULTS = dict(
         'social_core.backends.fedora.FedoraOpenId',
         'social_core.backends.yahoo.YahooOpenId',
         'social_core.backends.open_id.OpenIdAuth',
-        # 'social_core.backends.google_openidconnect.GoogleOpenIdConnect',
-        # 'social_core.backends.github.GithubOAuth2',
     ),
     SOCIAL_AUTH_STORAGE='social_flask_sqlalchemy.models.FlaskStorage',
     SOCIAL_AUTH_USER_MODEL='anitya.lib.model.User',
