@@ -124,8 +124,6 @@ class AddDistroTests(DatabaseTestCase):
             create_output = self.client.post('/distro/add', data=data, follow_redirects=True)
             dup_output = self.client.post('/distro/add', data=data, follow_redirects=True)
 
-            # self.assertEqual(201, create_output.status_code)
-            # self.assertEqual(409, dup_output.status_code)
             self.assertTrue(b'Distribution added' in create_output.data)
             self.assertTrue(b'Could not add this distro' in dup_output.data)
 
