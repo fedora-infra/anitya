@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-              {% if g.auth.logged_in and (not project.versions or is_admin
+              {% if user and user.is_authenticated and (not project.versions or is_admin
                 or justedit) %}
               <button type="submit" class="btn btn-success btn-sm pull-right"
                   id="testcheck" tabindex=3>
@@ -171,7 +171,7 @@
             </dl>
           </div><!-- end group-item-text -->
         </div><!-- end group-item -->
-        {% if g.auth.logged_in %}
+        {% if user and user.is_authenticated %}
         <div class="list-group-item">
           <div class="list-group-item-text">
             <p><a href="{{ url_for('anitya_ui.map_project', project_id=project.id) }}">
@@ -259,7 +259,7 @@
     if (event.which == 69 && !$("#searchbox").is(':focus')) { //e
       window.location.replace("{{ url_for('anitya_ui.edit_project', project_id=project.id) }}");
     }
-    {% if g.auth.logged_in and (not project.versions or is_admin) %}
+    {% if user and user.is_authenticated and (not project.versions or is_admin) %}
     if (event.which == 67 && !$("#searchbox").is(':focus')) { //c
       checkrelease();
       return false;

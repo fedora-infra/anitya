@@ -17,129 +17,104 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
-Helper module for configuring OpenID Connect based authentication
+This module provides functions and classes for authentication and authorization.
+
+Anitya uses `Flask-Login`_ for user session management. It handles logging in,
+logging out, and remembering users’ sessions over extended periods of time.
+
+In addition, Anitya uses `Python Social Auth`_ to authenticate users from various
+third-party identity providers. It handles logging the user in and creating
+:class:`anitya.lib.model.User` objects as necessary.
+
+.. _Flask-Login: https://flask-login.readthedocs.io/en/latest/
+.. _Python Social Auth:
+    https://python-social-auth.readthedocs.io/en/latest/
 """
 from functools import wraps
 import logging
+import uuid
 
-import flask
-from flask_openid import OpenID
-from flask_oidc import OpenIDConnect
+import flask_login
+from sqlalchemy.orm.exc import NoResultFound
+
+from anitya.lib.model import User, ApiToken
+
 
 _log = logging.getLogger(__name__)
 
-oid = OpenID()
-oidc = OpenIDConnect(credentials_store=flask.session)
 
+def load_user_from_session(user_id):
+    """
+    Used to reload a :class:`User` object from the session.
 
-####################################
-# Set up core OpenID Connect support
-####################################
+    This implements the interface required by :meth:`flask_login.LoginManager.user_loader`.
 
-def configure_openid(app):
-    """Set up OpenID, OpenIDConnect, and the module's Flask app reference"""
-    global oidc
-    global oid
-    oid.init_app(app)
+    Args:
+        user_id (str): The user's ID as a unicode string.
+
+    Returns:
+        User: The user with the given user ID, if it exists. Otherwise, ``None`` is returned.
+    """
     try:
-        oidc.init_app(app)
-    except Exception as exc:
-        # Handle running with only anonymous API access enabled
-        _log.info(str(exc))
-        oidc = None
-    app.route("/oidc_callback")(register_oidc_client)
+        user = User.query.get(uuid.UUID(user_id))
+        _log.debug('Successfully loaded user "%s" from cookie session', user_id)
+        return user
+    except (TypeError, ValueError) as e:
+        # Return None if the type was wrong
+        _log.debug('Failed to load user "%s" from cookie session: %r', user_id, e)
 
 
-def register_oidc_client(code, state):
-    """Accept OpenIDConnect callback from authentication server"""
-    # TODO: Actually handle online token generation properly
-    #       https://github.com/release-monitoring/anitya/issues/442
-    token_data = {}
-    result = flask.jsonify(token_data)
-    result.status_code = 200
-    return result
-
-
-##################################################
-# Helpers for declaring OIDC enabled API endpoints
-##################################################
-
-def parse_api_token(f):
-    """Decorator for APIs that parse API tokens, but don't require them
-
-    Makes OIDC token information available, but allows anonymous access
+def load_user_from_request(request):
     """
-    if oidc is not None:
-        return oidc.accept_token(require_token=False)(f)
+    Load a user from a Flask request by examining the ``Authorization`` header.
 
-    # OIDC is not configured, so just allow anonymous access
-    return f
+    This implements the interface required by :meth:`flask_login.LoginManager.request_loader`.
 
+    Args:
+        request (flask.Request): The request object to load a user from.
 
-# Note: the scopes listed in _DEFINED_SCOPES must match those listed in
-# https://fedoraproject.org/wiki/Infrastructure/Authentication#release-monitoring.org
-#
-# To add new entries this list:
-# * request changes as per
-#   https://fedoraproject.org/wiki/Infrastructure/Authentication#Registering_new_scopes
-# * amend _DEFINED_SCOPES below
-# * amend anitya.default_config.OIDC_SCOPES
-_BASE_SCOPE_URL = "https://release-monitoring.org/oidc/"
-
-_DEFINED_SCOPES = {
-    "upstream": "Register upstream projects for monitoring",
-    "downstream": "Register downstreams & upstream/downstream mappings"
-}
-
-
-def require_api_token(*scopes):
-    """Decorator factory for APIs that *require* a valid OIDC API token
-
-    Anonymous access attempts will be automatically declined.
+    Returns:
+        User: The user associated with the API token, if it exists. Otherwise
+            ``None`` is returned.
     """
-    if not scopes:
-        # Project policy requirement - no unscoped access allowed
-        msg = "Authenticated APIs must specify at least one scope"
-        raise RuntimeError(msg)
-
-    url_scopes = []
-    for scope in scopes:
-        # Project policy requirement - nominal scopes must be listed above
-        if scope not in _DEFINED_SCOPES:
-            msg = "Unknown authentication scope: {0}"
-            raise RuntimeError(msg.format(scope))
-        url_scopes.append(_BASE_SCOPE_URL + scope)
-
-    if hasattr(oidc, 'flow'):
-        # OIDC is configured, check supplied token has relevant permissions
-        # Don't render errors to JSON, as Flask-RESTful will handle that
-        validator = oidc.accept_token(require_token=True,
-                                      scopes_required=url_scopes,
-                                      render_errors=False)
-    else:
-        # OIDC is not configured, so disallow APIs that require authentication
-        def validator(f):
-            return _report_oidc_not_configured
-
-    # Return a decorator that wraps the API endpoint in _validate_api_token
-    def _make_validated_wrapper(f):
-        @wraps(f)
-        def _authenticated_api_access(api_resource, *args, **kwds):
-            return _validate_api_token(validator(f), f, api_resource,
-                                       *args, **kwds)
-        return _authenticated_api_access
-
-    return _make_validated_wrapper
+    api_key = request.headers.get('Authorization')
+    if api_key:
+        _log.debug('Attempting to authenticate via user-provided "Authorization" header')
+        key_type, key_value = api_key.split()
+        if key_type.lower() == 'token':
+            try:
+                api_token = ApiToken.query.filter_by(token=key_value).one()
+                _log.debug('Successfully authenticated user "%s" via API token',
+                           api_token.user.id)
+                return api_token.user
+            except NoResultFound:
+                _log.debug('Failed to authenticate user via API token')
+                return
 
 
-def _report_oidc_not_configured(*args, **kwds):
-    error_details = {
-        'error': 'oidc_not_configured',
-        'error_description': 'OpenID Connect is not configured on the server'
-    }
-    return (error_details, 401, {'WWW-Authenticate': 'Bearer'})
+def require_token(f):
+    """
+    A decorator for API functions that enforces authentication.
 
+    This differs from :func:`flask_login.login_required` in that it will return
+    an HTTP 401 with JSON rather than redirecting the user to the login view.
 
-def _validate_api_token(validated_api, raw_api, *args, **kwds):
-    """Hook to allow token validation to be overridden for testing purposes"""
-    return validated_api(*args, **kwds)
+    Args:
+        f (callable): The function to require an authenticated user for.
+
+    Returns:
+        callable: A callable that aborts with an HTTP 401 if the current user is
+            not authenticated.
+    """
+    @wraps(f)
+    def _authenticated_api_access(*args, **kwds):
+        if not flask_login.current_user.is_authenticated:
+            error_details = {
+                'error': 'authentication_required',
+                'error_description': 'Authentication is required to access this API.',
+            }
+            return (error_details, 401, {'WWW-Authenticate': 'Token'})
+        else:
+            return f(*args, **kwds)
+
+    return _authenticated_api_access

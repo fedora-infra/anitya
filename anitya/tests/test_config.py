@@ -32,24 +32,23 @@ secret_key = "very_secret"
 permanent_session_lifetime = 3600
 db_url = "sqlite:////var/tmp/anitya-dev.sqlite"
 anitya_web_admins = ["http://pingou.id.fedoraproject.org"]
-anitya_web_fedora_openid = "https://id.fedoraproject.org"
-anitya_web_allow_fas_openid = true
-anitya_web_allow_google_openid = true
-anitya_web_allow_yahoo_openid = true
-anitya_web_allow_generic_openid = true
 admin_email = "admin@fedoraproject.org"
 smtp_server = "smtp.example.com"
 email_errors = false
 blacklisted_users = ["http://sometroublemaker.id.fedoraproject.org"]
-oidc_client_secrets = "/etc/anitya/client_secrets.json"
-oidc_id_token_cookie_secure = true
-oidc_require_verified_email = true
-oidc_openid_realm = "https://release-monitoring.org/oidc_callback"
-oidc_scopes = [
-    "https://release-monitoring.org/oidc/upstream",
-    "https://release-monitoring.org/oidc/downstream",
-    "https://release-monitoring.org/oidc/upsidedownstream",
+
+social_auth_authentication_backends = [
+    "social_core.backends.fedora.FedoraOpenId",
+    "social_core.backends.yahoo.YahooOpenId",
+    "social_core.backends.open_id.OpenIdAuth",
+    "social_core.backends.google_openidconnect.GoogleOpenIdConnect",
+    "social_core.backends.github.GithubOAuth2",
 ]
+# Force the application to require HTTPS on authentication redirects.
+social_auth_redirect_is_https = true
+social_auth_login_url = "/login/"
+social_auth_login_redirect_url = "/"
+social_auth_login_error_url = "/login-error/"
 
 [anitya_log_config]
     version = 1
@@ -82,6 +81,8 @@ partial_config = 'secret_key = "muchsecretverysafe"'
 
 class LoadTests(unittest.TestCase):
     """Unit tests for the :func:`anitya.config.load` function."""
+
+    maxDiff = None
 
     @mock.patch('anitya.config.open', mock.mock_open(read_data='Ni!'))
     @mock.patch('anitya.config._log', autospec=True)
@@ -116,11 +117,6 @@ class LoadTests(unittest.TestCase):
             'PERMANENT_SESSION_LIFETIME': timedelta(seconds=3600),
             'DB_URL': 'sqlite:////var/tmp/anitya-dev.sqlite',
             'ANITYA_WEB_ADMINS': ['http://pingou.id.fedoraproject.org'],
-            'ANITYA_WEB_FEDORA_OPENID': 'https://id.fedoraproject.org',
-            'ANITYA_WEB_ALLOW_FAS_OPENID': True,
-            'ANITYA_WEB_ALLOW_GOOGLE_OPENID': True,
-            'ANITYA_WEB_ALLOW_YAHOO_OPENID': True,
-            'ANITYA_WEB_ALLOW_GENERIC_OPENID': True,
             'ADMIN_EMAIL': 'admin@fedoraproject.org',
             'ANITYA_LOG_CONFIG': {
                 'version': 1,
@@ -152,15 +148,21 @@ class LoadTests(unittest.TestCase):
             'SMTP_SERVER': 'smtp.example.com',
             'EMAIL_ERRORS': False,
             'BLACKLISTED_USERS': ['http://sometroublemaker.id.fedoraproject.org'],
-            'OIDC_CLIENT_SECRETS': '/etc/anitya/client_secrets.json',
-            'OIDC_ID_TOKEN_COOKIE_SECURE': True,
-            'OIDC_REQUIRE_VERIFIED_EMAIL': True,
-            'OIDC_OPENID_REALM': 'https://release-monitoring.org/oidc_callback',
-            'OIDC_SCOPES': [
-                'https://release-monitoring.org/oidc/upstream',
-                'https://release-monitoring.org/oidc/downstream',
-                'https://release-monitoring.org/oidc/upsidedownstream',
+            'SESSION_PROTECTION': 'strong',
+            'SOCIAL_AUTH_AUTHENTICATION_BACKENDS': [
+                'social_core.backends.fedora.FedoraOpenId',
+                'social_core.backends.yahoo.YahooOpenId',
+                'social_core.backends.open_id.OpenIdAuth',
+                'social_core.backends.google_openidconnect.GoogleOpenIdConnect',
+                'social_core.backends.github.GithubOAuth2',
             ],
+            'SOCIAL_AUTH_STORAGE': 'social_flask_sqlalchemy.models.FlaskStorage',
+            'SOCIAL_AUTH_USER_MODEL': 'anitya.lib.model.User',
+            # Force the application to require HTTPS on authentication redirects.
+            'SOCIAL_AUTH_REDIRECT_IS_HTTPS': True,
+            'SOCIAL_AUTH_LOGIN_URL': '/login/',
+            'SOCIAL_AUTH_LOGIN_REDIRECT_URL': '/',
+            'SOCIAL_AUTH_LOGIN_ERROR_URL': '/login-error/',
         }
         config = anitya_config.load()
         self.assertEqual(sorted(expected_config.keys()), sorted(config.keys()))

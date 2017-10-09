@@ -23,10 +23,15 @@
 anitya tests of the model.
 '''
 
+from uuid import uuid4, UUID
 import datetime
 import unittest
 
+from sqlalchemy.dialects import postgresql, sqlite
+from sqlalchemy.types import CHAR
+from sqlalchemy.exc import IntegrityError
 import mock
+import six
 
 import anitya.lib.model as model
 from anitya.lib import versions
@@ -364,6 +369,181 @@ class DatabaseTestCase(DatabaseTestCase):
 
         pkg = model.Packages.by_id(self.session, 1)
         self.assertEqual(str(pkg), '<Packages(1, Fedora: geany)>')
+
+
+class GuidTests(unittest.TestCase):
+    """Tests for the :class:`anitya.lib.model.GUID` class."""
+
+    def test_load_dialect_impl_postgres(self):
+        """Assert with PostgreSQL, a UUID type is used."""
+        guid = model.GUID()
+        dialect = postgresql.dialect()
+
+        result = guid.load_dialect_impl(dialect)
+
+        self.assertTrue(isinstance(result, postgresql.UUID))
+
+    def test_load_dialect_impl_other(self):
+        """Assert with dialects other than PostgreSQL, a CHAR type is used."""
+        guid = model.GUID()
+        dialect = sqlite.dialect()
+
+        result = guid.load_dialect_impl(dialect)
+
+        self.assertTrue(isinstance(result, CHAR))
+
+    def test_process_bind_param_uuid_postgres(self):
+        """Assert UUIDs with PostgreSQL are normal string representations of UUIDs."""
+        guid = model.GUID()
+        uuid = uuid4()
+        dialect = postgresql.dialect()
+
+        result = guid.process_bind_param(uuid, dialect)
+
+        self.assertEqual(str(uuid), result)
+
+    def test_process_bind_param_uuid_other(self):
+        """Assert UUIDs with other dialects are hex-encoded strings of length 32."""
+        guid = model.GUID()
+        uuid = uuid4()
+        dialect = sqlite.dialect()
+
+        result = guid.process_bind_param(uuid, dialect)
+
+        self.assertEqual(32, len(result))
+        self.assertEqual(str(uuid).replace('-', ''), result)
+
+    def test_process_bind_param_str_other(self):
+        """Assert UUIDs with other dialects are hex-encoded strings of length 32."""
+        guid = model.GUID()
+        uuid = uuid4()
+        dialect = sqlite.dialect()
+
+        result = guid.process_bind_param(str(uuid), dialect)
+
+        self.assertEqual(32, len(result))
+        self.assertEqual(str(uuid).replace('-', ''), result)
+
+    def test_process_bind_param_none(self):
+        """Assert UUIDs with other dialects are hex-encoded strings of length 32."""
+        guid = model.GUID()
+        dialect = sqlite.dialect()
+
+        result = guid.process_bind_param(None, dialect)
+
+        self.assertTrue(result is None)
+
+    def test_process_result_value_none(self):
+        """Assert when the result value is None, None is returned."""
+        guid = model.GUID()
+
+        self.assertTrue(guid.process_result_value(None, sqlite.dialect()) is None)
+
+    def test_process_result_string(self):
+        """Assert when the result value is a string, a native UUID is returned."""
+        guid = model.GUID()
+        uuid = uuid4()
+
+        result = guid.process_result_value(str(uuid), sqlite.dialect())
+
+        self.assertTrue(isinstance(result, UUID))
+        self.assertEqual(uuid, result)
+
+    def test_process_result_short_string(self):
+        """Assert when the result value is a short string, a native UUID is returned."""
+        guid = model.GUID()
+        uuid = uuid4()
+
+        result = guid.process_result_value(str(uuid).replace('-', ''), sqlite.dialect())
+
+        self.assertTrue(isinstance(result, UUID))
+        self.assertEqual(uuid, result)
+
+
+class UserTests(DatabaseTestCase):
+
+    def test_user_id(self):
+        """Assert Users have a UUID id assigned to them."""
+        session = model.Session()
+        user = model.User(email='user@example.com', username='user')
+        session.add(user)
+        session.commit()
+
+        self.assertTrue(isinstance(user.id, UUID))
+
+    def test_user_get_id(self):
+        """Assert Users implements the Flask-Login API for getting user IDs."""
+        session = model.Session()
+        user = model.User(email='user@example.com', username='user')
+        session.add(user)
+        session.commit()
+
+        self.assertEqual(six.text_type(user.id), user.get_id())
+
+    def test_user_email_unique(self):
+        """Assert User emails have a uniqueness constraint on them."""
+        session = model.Session()
+        user = model.User(email='user@example.com', username='user')
+        session.add(user)
+        session.commit()
+
+        user2 = model.User(email='user@example.com', username='user2')
+        session.add(user2)
+        self.assertRaises(IntegrityError, session.commit)
+
+    def test_username_unique(self):
+        """Assert User usernames have a uniqueness constraint on them."""
+        session = model.Session()
+        user = model.User(email='user@example.com', username='user')
+        session.add(user)
+        session.commit()
+
+        user2 = model.User(email='user2@example.com', username='user')
+        session.add(user2)
+        self.assertRaises(IntegrityError, session.commit)
+
+    def test_default_active(self):
+        """Assert User usernames have a uniqueness constraint on them."""
+        session = model.Session()
+        user = model.User(email='user@example.com', username='user')
+        session.add(user)
+        session.commit()
+
+        self.assertTrue(user.active)
+        self.assertTrue(user.is_active)
+
+    def test_not_anonymous(self):
+        """Assert User implements the Flask-Login API for authenticated users."""
+        session = model.Session()
+        user = model.User(email='user@example.com', username='user')
+        session.add(user)
+        session.commit()
+
+        self.assertFalse(user.is_anonymous)
+        self.assertTrue(user.is_authenticated)
+
+
+class ApiTokenTests(DatabaseTestCase):
+
+    def test_token_default(self):
+        """Assert creating an ApiToken generates a random token."""
+        session = model.Session()
+        user = model.User(email='user@example.com', username='user')
+        token = model.ApiToken(user=user)
+        session.add(token)
+        session.commit()
+
+        self.assertEqual(40, len(token.token))
+
+    def test_user_relationship(self):
+        """Assert users have a reference to their tokens."""
+        session = model.Session()
+        user = model.User(email='user@example.com', username='user')
+        token = model.ApiToken(user=user)
+        session.add(token)
+        session.commit()
+
+        self.assertEqual(user.api_tokens, [token])
 
 
 if __name__ == '__main__':

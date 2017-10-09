@@ -20,17 +20,31 @@
 anitya mapping of python classes to Database Tables.
 """
 
+try:
+    # The Python 3.6+ API
+    from secrets import choice as random_choice
+except ImportError:
+    # Fall back to random with os.urandom
+    import random
+    random = random.SystemRandom()
+    random_choice = random.choice
 import collections
 import datetime
 import logging
 import time
+import string
+import uuid
 
+import six
 import sqlalchemy as sa
-from sqlalchemy.orm import validates
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import (
+    sessionmaker, scoped_session, query as sa_query, validates)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy.orm import sessionmaker, scoped_session, query as sa_query
+from sqlalchemy.types import TypeDecorator, CHAR
 
+from anitya.config import config as anitya_config
 from .versions import GLOBAL_DEFAULT as DEFAULT_VERSION_SCHEME
 
 
@@ -908,3 +922,191 @@ class Run(BASE):
             cls.created_on.desc()
         )
         return query.first()
+
+
+class GUID(TypeDecorator):
+    """
+    Platform-independent GUID type.
+
+    If PostgreSQL is being used, use its native UUID type, otherwise use a CHAR(32) type.
+    """
+    impl = CHAR
+
+    def load_dialect_impl(self, dialect):
+        """
+        PostgreSQL has a native UUID type, so use it if we're using PostgreSQL.
+
+        Args:
+            dialect (sqlalchemy.engine.interfaces.Dialect): The dialect in use.
+
+        Returns:
+            sqlalchemy.types.TypeEngine: Either a PostgreSQL UUID or a CHAR(32) on other
+                dialects.
+        """
+        if dialect.name == 'postgresql':
+            return dialect.type_descriptor(UUID())
+        else:
+            return dialect.type_descriptor(CHAR(32))
+
+    def process_bind_param(self, value, dialect):
+        """
+        Process the value being bound.
+
+        If PostgreSQL is in use, just use the string representation of the UUID.
+        Otherwise, use the integer as a hex-encoded string.
+
+        Args:
+            value (object): The value that's being bound to the object.
+            dialect (sqlalchemy.engine.interfaces.Dialect): The dialect in use.
+
+        Returns:
+            str: The value of the UUID as a string.
+        """
+        if value is None:
+            return value
+        elif dialect.name == 'postgresql':
+            return str(value)
+        else:
+            if not isinstance(value, uuid.UUID):
+                return "%.32x" % uuid.UUID(value).int
+            else:
+                # hexstring
+                return "%.32x" % value.int
+
+    def process_result_value(self, value, dialect):
+        """
+        Casts the UUID value to the native Python type.
+
+        Args:
+            value (object): The database value.
+            dialect (sqlalchemy.engine.interfaces.Dialect): The dialect in use.
+
+        Returns:
+            uuid.UUID: The value as a Python :class:`uuid.UUID`.
+        """
+        if value is None:
+            return value
+        else:
+            return uuid.UUID(value)
+
+
+class User(BASE):
+    """
+    A table for Anitya users.
+
+    This table is intended to work with a table of third-party authentication
+    providers. Anitya does not support local users.
+
+    Attributes:
+        id (uuid.UUID): The primary key for the table.
+        email (str): The user's email.
+        username (str): The user's username, as retrieved from third-party authentication.
+        active (bool): Indicates whether the user is active. If false, users will not be
+            able to log in.
+        social_auth (sqlalchemy.orm.dynamic.AppenderQuery): The list of
+            :class:`social_flask_sqlalchemy.models.UserSocialAuth` entries for this user.
+    """
+    __tablename__ = 'users'
+
+    id = sa.Column(GUID, primary_key=True, default=uuid.uuid4)
+    # SMTP says 256 is the maximum length of a path:
+    # https://tools.ietf.org/html/rfc5321#section-4.5.3
+    email = sa.Column(sa.String(256), nullable=False, index=True, unique=True)
+    username = sa.Column(sa.String(256), nullable=False, index=True, unique=True)
+    active = sa.Column(sa.Boolean, default=True)
+
+    @property
+    def admin(self):
+        """
+        Determine if this user is an administrator.
+
+        Returns:
+            bool: True if the user is an administrator.
+        """
+        return six.text_type(self.id) in anitya_config.get('ANITYA_WEB_ADMINS', [])
+
+    @property
+    def is_active(self):
+        """
+        Implement the flask-login interface for determining if the user is active.
+
+        If a user is _not_ active, they are not allowed to log in.
+
+        Returns:
+            bool: True if the user is active.
+        """
+        return self.active
+
+    @property
+    def is_anonymous(self):
+        """
+        Implement the flask-login interface for determining if the user is authenticated.
+
+        flask-login uses an "anonymous user" object if there is no authenticated user. This
+        indicates to flask-login this user is not an anonymous user.
+
+        Returns:
+            bool: False in all cases.
+        """
+        return False
+
+    @property
+    def is_authenticated(self):
+        """
+        Implement the flask-login interface for determining if the user is authenticated.
+
+        In this case, if flask-login has an instance of :class:`User`, then that user has
+        already authenticated via a third-party authentication mechanism.
+
+        Returns:
+            bool: True in all cases.
+        """
+        return True
+
+    def get_id(self):
+        """
+        Implement the flask-login interface for retrieving the user's ID.
+
+        Returns:
+            six.text_type: The Unicode string that uniquely identifies a user.
+        """
+        return six.text_type(self.id)
+
+
+def _api_token_generator(charset=string.ascii_letters + string.digits, length=40):
+    """
+    Generate an API token of a given length using the provided character set.
+
+    Args:
+        charset (str): A string of characters to choose from in the token.
+        length (int): The number of characters to use in the token.
+
+    Returns:
+        str: The API token as a unicode string.
+    """
+    return u''.join(random_choice(charset) for __ in range(length))
+
+
+class ApiToken(BASE):
+    """
+    A table for user API tokens.
+
+    Attributes:
+        token (sa.String): A 40 character string that represents the API token.
+            This is the primary key and is, by default, generated automatically.
+        created (sa.DateTime): The time this API token was created.
+        description (sa.Text): A user-provided description of what the API token is for.
+        user (User): The user this API token is associated with.
+    """
+
+    __tablename__ = 'tokens'
+
+    token = sa.Column(sa.String(40), default=_api_token_generator, primary_key=True)
+    created = sa.Column(sa.DateTime, default=datetime.datetime.utcnow, nullable=False)
+    user_id = sa.Column(GUID, sa.ForeignKey('users.id'), nullable=False)
+    user = sa.orm.relationship(
+        'User',
+        lazy='joined',
+        backref=sa.orm.backref('api_tokens', cascade='all, delete-orphan'),
+    )
+    description = sa.Column(sa.Text, nullable=True)

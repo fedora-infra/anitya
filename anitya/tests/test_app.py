@@ -46,6 +46,7 @@ class CreateTests(unittest.TestCase):
         """Assert a SMTPHandler is added to the anitya logger when ``EMAIL_ERRORS=True``."""
         config = {
             'DB_URL': 'sqlite://',
+            'SOCIAL_AUTH_USER_MODEL': 'anitya.lib.model.User',
             'EMAIL_ERRORS': True,
             'SMTP_SERVER': 'smtp.example.com',
             'ADMIN_EMAIL': 'admin@example.com',
@@ -65,5 +66,8 @@ class CreateTests(unittest.TestCase):
         self.assertRaises(UnboundExecutionError, Session.get_bind)
         Session.remove()
 
-        app.create({'DB_URL': 'sqlite://'})
+        app.create({
+            'DB_URL': 'sqlite://',
+            'SOCIAL_AUTH_USER_MODEL': 'anitya.lib.model.User',
+        })
         self.assertEqual('sqlite://', str(Session().get_bind().url))

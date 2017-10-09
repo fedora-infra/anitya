@@ -15,22 +15,21 @@ import logging.config
 import logging.handlers
 
 import flask
-from bunch import Bunch
 from flask_restful import Api
+from flask_login import LoginManager, current_user
+from social_core.backends.utils import load_backends
+from social_flask.routes import social_auth
+from social_flask_sqlalchemy import models as social_models
 
 from anitya.config import config as anitya_config
 from anitya.lib import utilities
 from anitya.lib.model import Session as SESSION, initialize as initialize_db
-from . import ui, admin, api, api_v2, authentication  # noqa: F401
+from . import ui, admin, api, api_v2, authentication
 import anitya.lib
 import anitya.mail_logging
 
 
 __version__ = '0.11.0'
-
-
-# For API compatibility
-login_required = ui.login_required
 
 
 def create(config=None):
@@ -52,8 +51,24 @@ def create(config=None):
     app.config.update(config)
     initialize_db(config)
 
-    # Set up the Flask extensions
-    authentication.configure_openid(app)
+    app.register_blueprint(social_auth)
+    if len(social_models.UserSocialAuth.__table_args__) == 0:
+        # This is a bit of a hack - this initialization call sets up the SQLAlchemy
+        # models with our own models and multiple calls to this function will cause
+        # SQLAlchemy to fail with sqlalchemy.exc.InvalidRequestError. Only calling it
+        # when there are no table arguments should ensure we only call it one time.
+        #
+        # Be aware that altering the configuration values this function uses, namely
+        # the SOCIAL_AUTH_USER_MODEL, after the first time ``create`` has been called
+        # will *not* cause the new configuration to be used for subsequent calls to
+        # ``create``.
+        social_models.init_social(app, SESSION)
+
+    login_manager = LoginManager()
+    login_manager.user_loader(authentication.load_user_from_session)
+    login_manager.request_loader(authentication.load_user_from_request)
+    login_manager.login_view = '/login/'
+    login_manager.init_app(app)
 
     # Register the v2 API resources
     app.api = Api(app)
@@ -63,7 +78,7 @@ def create(config=None):
     app.register_blueprint(ui.ui_blueprint)
     app.register_blueprint(api.api_blueprint)
 
-    app.before_request(check_auth)
+    app.before_request(global_user)
     app.teardown_request(shutdown_session)
 
     app.context_processor(inject_variable)
@@ -80,23 +95,9 @@ def create(config=None):
     return app
 
 
-def check_auth():
-    ''' Set the flask.g variables using the session information if the user
-    is logged in.
-    '''
-
-    flask.g.auth = Bunch(
-        logged_in=False,
-        method=None,
-        id=None,
-    )
-    if 'openid' in flask.session:
-        flask.g.auth.logged_in = True
-        flask.g.auth.method = u'openid'
-        flask.g.auth.openid = flask.session.get('openid')
-        flask.g.auth.fullname = flask.session.get('fullname', None)
-        flask.g.auth.nickname = flask.session.get('nickname', None)
-        flask.g.auth.email = flask.session.get('email', None)
+def global_user():
+    """Set the flask.g variables using the session information if the user is logged in."""
+    flask.g.user = current_user._get_current_object()
 
 
 def shutdown_session(exception=None):
@@ -119,29 +120,6 @@ def inject_variable():
         is_admin=admin.is_admin(),
         justedit=justedit,
         cron_status=cron_status,
+        user=current_user,
+        available_backends=load_backends(anitya_config['SOCIAL_AUTH_AUTHENTICATION_BACKENDS']),
     )
-
-
-@authentication.oid.after_login
-def after_openid_login(resp):
-    ''' This function saved the information about the user right after the
-    login was successful on the OpenID server.
-    '''
-    default = flask.url_for('anitya_ui.index')
-    blacklist = flask.current_app.config['BLACKLISTED_USERS']
-    if resp.identity_url:
-        next_url = flask.request.args.get('next', default)
-        openid_url = resp.identity_url
-        if openid_url in blacklist or resp.email in blacklist:
-            flask.flash(
-                'We are very sorry but your account has been blocked from '
-                'logging in to this service.', 'error')
-            return flask.redirect(next_url)
-
-        flask.session['openid'] = openid_url
-        flask.session['fullname'] = resp.fullname
-        flask.session['nickname'] = resp.nickname or resp.fullname
-        flask.session['email'] = resp.email
-        return flask.redirect(next_url)
-    else:
-        return flask.redirect(default)

@@ -22,21 +22,45 @@ Base class for Anitya tests.
 """
 from __future__ import print_function
 
+from contextlib import contextmanager
 import unittest
 import os
 
-from flask_openid import OpenID
-from flask_oidc import OpenIDConnect
+from flask import request_started
+from social_flask_sqlalchemy.models import PSABase
 from sqlalchemy import create_engine, event
-import flask
+import flask_login
 import vcr
-import mock
 
 from anitya import app, config
 from anitya.lib import model, utilities
 
 
 engine = None
+
+
+@contextmanager
+def login_user(app, user):
+    """
+    A context manager to log a user in for testing purposes.
+
+    For example:
+
+        >>> with login_user(self.flask_app, user):
+        ...     self.flask_app.test_client().get('/protected/view')
+
+    The above example will cause the request to ``/protected/view`` to occur with the
+    provided user being authenticated.
+
+    Args:
+        app (flask.Flask): An instance of the Flask application.
+        user (model.User): The user to log in. Note that this user must be committed to the
+            database as it needs a ``user.id`` value.
+    """
+    def handler(sender, **kwargs):
+        flask_login.login_user(user)
+    with request_started.connected_to(handler, app):
+        yield
 
 
 def _configure_db(db_uri='sqlite://'):
@@ -81,17 +105,9 @@ class AnityaTestCase(unittest.TestCase):
 
         This simply starts recording a VCR on start-up and stops on tearDown.
         """
-        mock_oidc = mock.patch(
-            'anitya.authentication.oidc',
-            OpenIDConnect(credentials_store=flask.session),
-        )
-        mock_oidc.start()
-        self.addCleanup(mock_oidc.stop)
-        mock_oid = mock.patch('anitya.authentication.oid', OpenID())
-        mock_oid.start()
-        self.addCleanup(mock_oid.stop)
-
-        self.flask_app = app.create(config.config)
+        self.config = config.config.copy()
+        self.config['TESTING'] = True
+        self.flask_app = app.create(self.config)
 
         cwd = os.path.dirname(os.path.realpath(__file__))
         my_vcr = vcr.VCR(
@@ -121,6 +137,7 @@ class DatabaseTestCase(AnityaTestCase):
 
         self.connection = engine.connect()
         model.BASE.metadata.create_all(bind=self.connection)
+        PSABase.metadata.create_all(bind=self.connection)
         self.transaction = self.connection.begin()
 
         model.Session.remove()

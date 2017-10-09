@@ -8,10 +8,7 @@ db_url = 'postgresql://postgres:anypasswordworkslocally@localhost/anitya'
 
 # A set of booleans to enable or disable OpenID providers
 anitya_web_fedora_openid = "https://id.fedoraproject.org"
-anitya_web_allow_fas_openid = true
-anitya_web_allow_google_openid = true
-anitya_web_allow_yahoo_openid = true
-anitya_web_allow_generic_openid = true
+social_auth_redirect_is_https = false
 
 blacklisted_users = []
 

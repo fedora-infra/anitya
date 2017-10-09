@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014  Red Hat, Inc.
+# Copyright © 2014-2017  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions
@@ -17,566 +17,735 @@
 # code or documentation are not subject to the GNU General Public
 # License and may only be used or replicated with the express permission
 # of Red Hat, Inc.
-#
+"""Tests for the :mod:`anitya.admin` module."""
 
-'''
-anitya tests for the flask application.
-'''
+import mock
+import six
 
-import datetime
-import unittest
-
+from anitya import admin
 from anitya.lib import model
-from anitya.tests.base import (DatabaseTestCase, create_distro, create_project,
-                               create_package, create_flagged_project)
+from anitya.tests.base import DatabaseTestCase, login_user
 
 
-class FlaskAdminTest(DatabaseTestCase):
-    """ Flask tests for the admin controller. """
+class IsAdminTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.is_admin` function."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
-        super(FlaskAdminTest, self).setUp()
+        super(IsAdminTests, self).setUp()
 
-        self.flask_app.config['TESTING'] = True
-        self.flask_app.config['ANITYA_WEB_ADMINS'] = ['http://pingou.id.fedoraproject.org/']
-        self.app = self.flask_app.test_client()
+        # Add a regular user and an admin user
+        session = model.Session()
+        self.user = model.User(email='user@example.com', username='user')
+        self.admin = model.User(email='admin@example.com', username='admin')
+        session.add_all([self.user, self.admin])
+        session.commit()
+
+        mock_config = mock.patch.dict(
+            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+        mock_config.start()
+        self.addCleanup(mock_config.stop)
+
+    def test_admin_user(self):
+        """Assert admin users passed via parameter returns True."""
+        self.assertTrue(admin.is_admin(self.admin))
+
+    def test_non_admin_user(self):
+        """Assert regular users passed via parameter returns False."""
+        self.assertFalse(admin.is_admin(self.user))
+
+
+class AddDistroTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.add_distro` view function."""
+
+    def setUp(self):
+        super(AddDistroTests, self).setUp()
+
+        # Add a regular user and an admin user
+        session = model.Session()
+        self.user = model.User(email='user@example.com', username='user')
+        self.admin = model.User(email='admin@example.com', username='admin')
+        session.add_all([self.user, self.admin])
+        session.commit()
+
+        mock_config = mock.patch.dict(
+            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+        mock_config.start()
+        self.addCleanup(mock_config.stop)
+
+        self.client = self.flask_app.test_client()
+
+    def test_non_admin_get(self):
+        """Assert non-admin users cannot add a distribution."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/distro/add')
+            self.assertEqual(401, output.status_code)
+
+    def test_no_csrf_token(self):
+        """Assert submitting without a CSRF token, no change is made."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post('/distro/add', data={'name': 'Fedora'})
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(0, model.Distro.query.count())
+
+    def test_invalid_csrf_token(self):
+        """Assert submitting with an invalid CSRF token, no change is made."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post('/distro/add', data={'csrf_token': 'abc', 'name': 'Fedora'})
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(0, model.Distro.query.count())
+
+    def test_admin_get(self):
+        """Assert admin users can view the add a distribution page."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/distro/add')
+            self.assertEqual(200, output.status_code)
 
     def test_add_distro(self):
-        """ Test the add_distro function. """
-        output = self.app.get('/distro/add', follow_redirects=True)
-        self.assertEqual(output.status_code, 200)
-        self.assertTrue(
-            b'<ul id="flashes" class="list-group">'
-            b'<li class="list-group-item list-group-item-warning">'
-            b'Login required</li></ul>' in output.data)
-
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.get('/distro/add', follow_redirects=True)
-            self.assertEqual(output.status_code, 401)
-
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.get('/distro/add')
-            self.assertEqual(output.status_code, 200)
-
-            self.assertTrue(b'<h1>Add a new disribution</h1>' in output.data)
-            self.assertIn(
-                b'<td><input id="name" name="name" tabindex="1" type="text"'
-                b' value=""></td>', output.data)
-
-            data = {
-                'name': 'Debian',
-            }
-
-            output = c.post(
-                '/distro/add', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Add a new disribution</h1>' in output.data)
-            self.assertIn(
-                b'<td><input id="name" name="name" tabindex="1" type="text"'
-                b' value="Debian"></td>', output.data)
-
+        """Assert admins can add distributions."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/distro/add')
             csrf_token = output.data.split(
                 b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {'name': 'Fedora', 'csrf_token': csrf_token}
 
-            data['csrf_token'] = csrf_token
+            output = self.client.post('/distro/add', data=data, follow_redirects=True)
 
-            output = c.post(
-                '/distro/add', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<h1>Distributions participating</h1>' in output.data)
-            self.assertTrue(
-                b'<a href="/distro/Debian/edit">' in output.data)
+            # self.assertEqual(201, output.status_code)
+            self.assertTrue(b'Distribution added' in output.data)
 
-            output = c.post(
-                '/distro/add', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'class="list-group-item list-group-item-danger">'
-                b'Could not add this distro, already exists?</'
-                in output.data)
-            self.assertTrue(
-                b'<h1>Distributions participating</h1>' in output.data)
-            self.assertTrue(
-                b'<a href="/distro/Debian/edit">' in output.data)
-
-    def test_edit_distro(self):
-        """ Test the edit_distro function. """
-        self.test_add_distro()
-
-        output = self.app.get('/distro/Debian/edit', follow_redirects=True)
-        self.assertEqual(output.status_code, 200)
-        self.assertTrue(
-            b'<ul id="flashes" class="list-group">'
-            b'<li class="list-group-item list-group-item-warning">'
-            b'Login required</li></ul>' in output.data)
-
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.get('/distro/foobar/edit', follow_redirects=True)
-            self.assertEqual(output.status_code, 404)
-
-            output = c.get('/distro/Debian/edit', follow_redirects=True)
-            self.assertEqual(output.status_code, 401)
-
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.get('/distro/Debian/edit', follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<h1>Edit disribution: Debian</h1>' in output.data)
-            self.assertIn(
-                b'<td><input id="name" name="name" tabindex="1" type="text" '
-                b'value="Debian"></td>', output.data)
-
-            data = {
-                'name': 'debian',
-            }
-
-            output = c.post(
-                '/distro/Debian/edit', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<h1>Edit disribution: Debian</h1>' in output.data)
-            self.assertIn(
-                b'<td><input id="name" name="name" tabindex="1" type="text"'
-                b' value="debian"></td>', output.data)
-
+    def test_duplicate_distro(self):
+        """Assert trying to create a duplicate distribution results in HTTP 409."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/distro/add')
             csrf_token = output.data.split(
                 b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {'name': 'Fedora', 'csrf_token': csrf_token}
 
-            data['csrf_token'] = csrf_token
+            create_output = self.client.post('/distro/add', data=data, follow_redirects=True)
+            dup_output = self.client.post('/distro/add', data=data, follow_redirects=True)
 
-            output = c.post(
-                '/distro/Debian/edit', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<h1>Distributions participating</h1>' in output.data)
-            self.assertTrue(
-                b'<a href="/distro/debian/edit">' in output.data)
+            self.assertTrue(b'Distribution added' in create_output.data)
+            self.assertTrue(b'Could not add this distro' in dup_output.data)
 
-    def test_delete_project(self):
-        """ Test the delete_project function. """
-        create_distro(self.session)
-        create_project(self.session)
 
-        output = self.app.get('/project/1/delete', follow_redirects=True)
-        self.assertEqual(output.status_code, 200)
-        self.assertTrue(
-            b'<ul id="flashes" class="list-group">'
-            b'<li class="list-group-item list-group-item-warning">'
-            b'Login required</li></ul>' in output.data)
+class EditDistroTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.edit_distro` view function."""
 
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
+    def setUp(self):
+        super(EditDistroTests, self).setUp()
 
-            output = c.get('/project/100/delete', follow_redirects=True)
-            self.assertEqual(output.status_code, 404)
+        # Add a regular user and an admin user
+        session = model.Session()
+        self.user = model.User(email='user@example.com', username='user')
+        self.admin = model.User(email='admin@example.com', username='admin')
 
-            output = c.get('/project/1/delete', follow_redirects=True)
-            self.assertEqual(output.status_code, 401)
+        # Add distributions to edit
+        self.fedora = model.Distro(name='Fedora')
+        self.centos = model.Distro(name='CentOS')
 
-        output = c.get('/projects/')
-        self.assertEqual(output.status_code, 200)
-        self.assertTrue(b'<h1>Projects monitored</h1>' in output.data)
-        self.assertEqual(output.data.count(b'<a href="/project/1'), 1)
-        self.assertEqual(output.data.count(b'<a href="/project/2'), 1)
-        self.assertEqual(output.data.count(b'<a href="/project/3'), 1)
+        session.add_all([self.user, self.admin, self.fedora, self.centos])
+        session.commit()
 
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
+        mock_config = mock.patch.dict(
+            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+        mock_config.start()
+        self.addCleanup(mock_config.stop)
 
-            output = c.get('/project/1/delete', follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<h1>Delete project geany?</h1>' in output.data)
-            self.assertTrue(
-                b'<button type="submit" name="confirm" value="Yes"'
-                in output.data)
+        self.client = self.flask_app.test_client()
 
-            data = {
-                'confirm': 'Yes',
-            }
+    def test_non_admin_get(self):
+        """Assert non-admin users cannot GET the edit distribution view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/distro/Fedora/edit')
+            self.assertEqual(401, output.status_code)
 
-            output = c.post(
-                '/project/1/delete', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<h1>Delete project geany?</h1>' in output.data)
-            self.assertTrue(
-                b'<button type="submit" name="confirm" value="Yes"'
-                in output.data)
+    def test_non_admin_post(self):
+        """Assert non-admin users cannot POST to the edit distribution view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.post('/distro/Fedora/edit')
+            self.assertEqual(401, output.status_code)
 
+    def test_admin_get(self):
+        """Assert admin users can get the edit distribution view."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/distro/Fedora/edit')
+            self.assertEqual(200, output.status_code)
+
+    def test_admin_post(self):
+        """Assert admin users can edit a distribution."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/distro/Fedora/edit')
             csrf_token = output.data.split(
                 b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {'name': 'Top', 'csrf_token': csrf_token}
 
-            data['csrf_token'] = csrf_token
-            del(data['confirm'])
+            output = self.client.post('/distro/Fedora/edit', data=data, follow_redirects=True)
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(200, self.client.get('/distro/Top/edit').status_code)
 
-            output = c.post(
-                '/project/1/delete', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<h1>Project: geany</h1>' in output.data)
+    def test_missing_distro(self):
+        """Assert requesting a non-existing distro returns HTTP 404."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/distro/LFS/edit')
+            self.assertEqual(404, output.status_code)
 
-            data['confirm'] = True
+    def test_no_csrf_token(self):
+        """Assert submitting without a CSRF token results in no change."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post('/distro/Fedora/edit', data={'name': 'Top'})
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(0, model.Distro.query.filter_by(name='Top').count())
 
-            output = c.post(
-                '/project/1/delete', data=data, follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<h1>Projects monitored</h1>' in output.data)
-            self.assertTrue(
-                b'<li class="list-group-item list-group-item-default">'
-                b'Project geany has been removed</li>'
-                in output.data)
-            self.assertEqual(output.data.count(b'<a href="/project/1'), 0)
-            self.assertEqual(output.data.count(b'<a href="/project/2'), 1)
-            self.assertEqual(output.data.count(b'<a href="/project/3'), 1)
+    def test_invalid_csrf_token(self):
+        """Assert submitting with an invalid CSRF token results in no change."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post(
+                '/distro/Fedora/edit', data={'csrf_token': 'a', 'name': 'Top'})
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(0, model.Distro.query.filter_by(name='Top').count())
 
-    def test_delete_project_mapping(self):
-        """ Test the delete_project_mapping function. """
-        create_distro(self.session)
-        create_project(self.session)
-        create_package(self.session)
 
-        output = self.app.get(
-            '/project/1/delete/Fedora/geany', follow_redirects=True)
-        self.assertEqual(output.status_code, 200)
-        self.assertTrue(
-            b'<ul id="flashes" class="list-group">'
-            b'<li class="list-group-item list-group-item-warning">'
-            b'Login required</li></ul>' in output.data)
+class DeleteDistroTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.delete_distro` view function."""
 
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
+    def setUp(self):
+        super(DeleteDistroTests, self).setUp()
 
-            output = c.get(
-                '/project/100/delete/Fedora/geany', follow_redirects=True)
-            self.assertEqual(output.status_code, 404)
+        # Add a regular user and an admin user
+        session = model.Session()
+        self.user = model.User(email='user@example.com', username='user')
+        self.admin = model.User(email='admin@example.com', username='admin')
 
-            output = c.get(
-                '/project/1/delete/CentOS/geany', follow_redirects=True)
-            self.assertEqual(output.status_code, 404)
+        # Add distributions to delete
+        self.fedora = model.Distro(name='Fedora')
+        self.centos = model.Distro(name='CentOS')
 
-            output = c.get(
-                '/project/1/delete/Fedora/geany2', follow_redirects=True)
-            self.assertEqual(output.status_code, 404)
+        session.add_all([self.user, self.admin, self.fedora, self.centos])
+        session.commit()
 
-            output = c.get(
-                '/project/1/delete/Fedora/geany', follow_redirects=True)
-            self.assertEqual(output.status_code, 401)
+        mock_config = mock.patch.dict(
+            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+        mock_config.start()
+        self.addCleanup(mock_config.stop)
 
-        output = c.get('/project/1/')
-        self.assertEqual(output.status_code, 200)
-        self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
-        self.assertTrue(b'<td>Fedora</td>' in output.data)
+        self.client = self.flask_app.test_client()
 
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
+    def test_non_admin_get(self):
+        """Assert non-admin users cannot GET the delete distribution view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/distro/Fedora/delete')
+            self.assertEqual(401, output.status_code)
 
-            output = c.get('/project/1/delete/Fedora/geany', follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<h1>Project: geany - Delete package</h1>' in output.data)
-            self.assertTrue(
-                b'<button type="submit" name="confirm" value="Yes"'
-                in output.data)
+    def test_non_admin_post(self):
+        """Assert non-admin users cannot POST to the delete distribution view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.post('/distro/Fedora/delete')
+            self.assertEqual(401, output.status_code)
 
-            data = {
-                'confirm': 'Yes',
-            }
+    def test_admin_get(self):
+        """Assert admin users can get the delete distribution view."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/distro/Fedora/delete')
+            self.assertEqual(200, output.status_code)
 
-            output = c.post(
-                '/project/1/delete/Fedora/geany', data=data,
-                follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'<h1>Project: geany - Delete package</h1>' in output.data)
-            self.assertTrue(
-                b'<button type="submit" name="confirm" value="Yes"'
-                in output.data)
-
+    def test_admin_post(self):
+        """Assert admin users can delete a distribution."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/distro/Fedora/delete')
             csrf_token = output.data.split(
                 b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
-
-            data['csrf_token'] = csrf_token
-            del(data['confirm'])
-
-            output = c.post(
-                '/project/1/delete/Fedora/geany', data=data,
-                follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
-            self.assertTrue(b'<td>Fedora</td>' in output.data)
-
-            data['confirm'] = True
-
-            output = c.post(
-                '/project/1/delete/Fedora/geany', data=data,
-                follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(
-                b'class="list-group-item list-group-item-default">'
-                b'Mapping for geany has been removed</li>'
-                in output.data)
-            self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
-            self.assertFalse(b'<td>Fedora</td>' in output.data)
-
-    def test_browse_logs(self):
-        """ Test the browse_logs function. """
-        self.test_add_distro()
-
-        output = self.app.get('/logs', follow_redirects=True)
-        self.assertEqual(output.status_code, 200)
-        self.assertTrue(
-            b'<ul id="flashes" class="list-group">'
-            b'<li class="list-group-item list-group-item-warning">'
-            b'Login required</li></ul>' in output.data)
-
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.get('/logs', follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.get('/logs')
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Logs</h1>' in output.data)
-            self.assertTrue(b'added the distro named: Debian' in output.data)
-
-            output = c.get('/logs?page=abc&limit=def&from_date=ghi')
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Logs</h1>' in output.data)
-            self.assertTrue(b'added the distro named: Debian' in output.data)
-
-            output = c.get('/logs?from_date=%s' % datetime.datetime.utcnow().date())
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Logs</h1>' in output.data)
-            self.assertTrue(b'added the distro named: Debian' in output.data)
-
-            # the Debian log shouldn't show up if the "from date" is tomorrow
-            tomorrow = datetime.datetime.utcnow().date() + datetime.timedelta(days=1)
-            output = c.get('/logs?from_date=%s' % tomorrow)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Logs</h1>' in output.data)
-            self.assertFalse(b'added the distro named: Debian' in output.data)
-
-    def test_browse_flags(self):
-        """ Test the browse_flags function. """
-
-        create_flagged_project(self.session)
-
-        output = self.app.get('/flags', follow_redirects=True)
-        self.assertEqual(output.status_code, 200)
-        self.assertTrue(
-            b'<ul id="flashes" class="list-group">'
-            b'<li class="list-group-item list-group-item-warning">'
-            b'Login required</li></ul>' in output.data)
-
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.get('/flags', follow_redirects=True)
-            self.assertEqual(output.status_code, 401)
-
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.get('/flags')
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Flags</h1>' in output.data)
-            self.assertTrue(b'geany' in output.data)
-
-            output = c.get('/flags?page=abc&limit=def&from_date=ghi')
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Flags</h1>' in output.data)
-            self.assertTrue(b'geany' in output.data)
-
-            output = c.get('/flags?from_date=%s' % datetime.datetime.utcnow().date())
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Flags</h1>' in output.data)
-            self.assertTrue(b'geany' in output.data)
-
-            # geany shouldn't show up if the "from date" is tomorrow
-            tomorrow = datetime.datetime.utcnow().date() + datetime.timedelta(days=1)
-            output = c.get('/flags?from_date=%s' % tomorrow)
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Flags</h1>' in output.data)
-            self.assertFalse(b'geany' in output.data)
-
-            output = c.get('/flags?from_date=%s&project=geany' % datetime.datetime.utcnow().date())
-            self.assertEqual(output.status_code, 200)
-            self.assertTrue(b'<h1>Flags</h1>' in output.data)
-            self.assertTrue(b'geany' in output.data)
-
-    def test_flag_project(self):
-        """ Test setting the flag state of a project. """
-
-        flag = create_flagged_project(self.session)
-
-        project = model.Project.by_name(self.session, 'geany')[0]
-        self.assertEqual(len(project.flags), 1)
-        self.assertEqual(project.flags[0].state, 'open')
-
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'some_invalid_openid_url'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.post('/flags/{0}/set/closed'.format(flag.id),
-                            follow_redirects=True)
-
-            # Non-admin ID will complain, insufficient creds
-            self.assertEqual(output.status_code, 401)
-
-        # Nothing should have changed.
-        project = model.Project.by_name(self.session, 'geany')[0]
-        self.assertEqual(len(project.flags), 1)
-        self.assertEqual(project.flags[0].state, 'open')
-
-        self.assertEqual(flag.state, 'open')
-
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.post('/flags/{0}/set/closed'.format(flag.id),
-                            follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-
-            # Now the flag state should *not* have toggled because while we did
-            # provide a valid admin openid, we did not provide a CSRF token.
-            project = model.Project.by_name(self.session, 'geany')[0]
-            self.assertEqual(len(project.flags), 1)
-            self.assertEqual(project.flags[0].state, 'open')
-
-            # Go ahead and get the csrf token from the page and try again.
-            data = {}
-
-            csrf_token = output.data.split(
-                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
-
-            data['csrf_token'] = csrf_token
-
-            output = c.post('/flags/{0}/set/closed'.format(flag.id),
-                            data=data,
-                            follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
-
-        # Now the flag state should have toggled.
-        project = model.Project.by_name(self.session, 'geany')[0]
-        self.assertEqual(len(project.flags), 1)
-        self.assertEqual(project.flags[0].state, 'closed')
-
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
-
-            output = c.post('/flags/{0}/set/open'.format(flag.id),
-                            follow_redirects=True)
-
-            # Get a new CSRF Token
-            output = c.get('/distro/add')
-            csrf_token = output.data.split(
-                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
-
-            # Grab the CSRF token again so we can toggle the flag again
             data = {'csrf_token': csrf_token}
 
-            output = c.post('/flags/{0}/set/open'.format(flag.id),
-                            data=data,
-                            follow_redirects=True)
-            self.assertEqual(output.status_code, 200)
+            output = self.client.post('/distro/Fedora/delete', data=data, follow_redirects=True)
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(404, self.client.get('/distro/Fedora/delete').status_code)
 
-        # Make sure we can toggle the flag again.
-        project = model.Project.by_name(self.session, 'geany')[0]
-        self.assertEqual(len(project.flags), 1)
-        self.assertEqual(project.flags[0].state, 'open')
+    def test_missing_distro(self):
+        """Assert requesting a non-existing distro returns HTTP 404."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/distro/LFS/delete')
+            self.assertEqual(404, output.status_code)
 
-        with self.flask_app.test_client() as c:
-            with c.session_transaction() as sess:
-                sess['openid'] = 'http://pingou.id.fedoraproject.org/'
-                sess['fullname'] = 'Pierre-Yves C.'
-                sess['nickname'] = 'pingou'
-                sess['email'] = 'pingou@pingoured.fr'
+    def test_no_csrf_token(self):
+        """Assert submitting without a CSRF token results in no change."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post('/distro/Fedora/delete', data={})
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(1, model.Distro.query.filter_by(name='Fedora').count())
 
-            output = c.post('/flags/{0}/set/nonsense'.format(flag.id),
-                            follow_redirects=True)
-            self.assertEqual(output.status_code, 422)
-
-        # Make sure that passing garbage doesn't change anything.
-        project = model.Project.by_name(self.session, 'geany')[0]
-        self.assertEqual(len(project.flags), 1)
-        self.assertEqual(project.flags[0].state, 'open')
+    def test_invalid_csrf_token(self):
+        """Assert submitting with an invalid CSRF token results in no change."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post('/distro/Fedora/delete', data={'csrf_token': 'a'})
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(1, model.Distro.query.filter_by(name='Fedora').count())
 
 
-if __name__ == '__main__':
-    SUITE = unittest.TestLoader().loadTestsFromTestCase(FlaskAdminTest)
-    unittest.TextTestRunner(verbosity=2).run(SUITE)
+class DeleteProjectTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.delete_projects` view function."""
+
+    def setUp(self):
+        super(DeleteProjectTests, self).setUp()
+        self.project = model.Project(
+            name='test_project',
+            homepage='https://example.com/test_project',
+            backend='PyPI',
+        )
+
+        # Add a regular user and an admin user
+        session = model.Session()
+        self.user = model.User(email='user@example.com', username='user')
+        self.admin = model.User(email='admin@example.com', username='admin')
+
+        session.add_all([self.user, self.admin, self.project])
+        session.commit()
+
+        mock_config = mock.patch.dict(
+            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+        mock_config.start()
+        self.addCleanup(mock_config.stop)
+
+        self.client = self.flask_app.test_client()
+
+    def test_non_admin_get(self):
+        """Assert non-admin users cannot GET the delete project view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/project/{0}/delete'.format(self.project.id))
+            self.assertEqual(401, output.status_code)
+
+    def test_non_admin_post(self):
+        """Assert non-admin users cannot POST to the delete project view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.post('/project/{0}/delete'.format(self.project.id))
+            self.assertEqual(401, output.status_code)
+
+    def test_missing_project(self):
+        """Assert HTTP 404 is returned if the project doesn't exist."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post('/project/42/delete')
+            self.assertEqual(404, output.status_code)
+
+    def test_admin_get(self):
+        """Assert admin users can get the delete project view."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/project/{0}/delete'.format(self.project.id))
+            self.assertEqual(200, output.status_code)
+
+    def test_admin_post(self):
+        """Assert admin users can delete projects."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/project/{0}/delete'.format(self.project.id))
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {'confirm': True, 'csrf_token': csrf_token}
+
+            output = self.client.post(
+                '/project/{0}/delete'.format(self.project.id), data=data, follow_redirects=True)
+
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(0, len(model.Project.query.all()))
+
+    def test_admin_post_unconfirmed(self):
+        """Assert admin users must confirm deleting projects."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/project/{0}/delete'.format(self.project.id))
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {'csrf_token': csrf_token}
+
+            output = self.client.post('/project/{0}/delete'.format(self.project.id), data=data)
+
+            self.assertEqual(302, output.status_code)
+            self.assertEqual(1, len(model.Project.query.all()))
+
+
+class DeleteProjectMappingTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.delete_project_mapping` view."""
+
+    def setUp(self):
+        super(DeleteProjectMappingTests, self).setUp()
+        self.project = model.Project(
+            name='test_project',
+            homepage='https://example.com/test_project',
+            backend='PyPI',
+        )
+        self.distro = model.Distro(name='Fedora')
+        self.package = model.Packages(
+            distro=self.distro.name, project=self.project, package_name='test-project')
+
+        # Add a regular user and an admin user
+        session = model.Session()
+        self.user = model.User(email='user@example.com', username='user')
+        self.admin = model.User(email='admin@example.com', username='admin')
+
+        session.add_all([self.user, self.admin, self.distro, self.project, self.package])
+        session.commit()
+
+        mock_config = mock.patch.dict(
+            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+        mock_config.start()
+        self.addCleanup(mock_config.stop)
+
+        self.client = self.flask_app.test_client()
+
+    def test_non_admin_get(self):
+        """Assert non-admin users cannot GET the delete project mapping view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/project/1/delete/Fedora/test-project')
+            self.assertEqual(401, output.status_code)
+
+    def test_non_admin_post(self):
+        """Assert non-admin users cannot POST to the delete project mapping view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.post('/project/1/delete/Fedora/test-project')
+            self.assertEqual(401, output.status_code)
+
+    def test_admin_get(self):
+        """Assert admin users can GET the delete project mapping view."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/project/1/delete/Fedora/test-project')
+            self.assertEqual(200, output.status_code)
+
+    def test_missing_project(self):
+        """Assert HTTP 404 is returned if the project doesn't exist."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/project/42/delete/Fedora/test-project')
+            self.assertEqual(404, output.status_code)
+
+    def test_missing_distro(self):
+        """Assert HTTP 404 is returned if the distro doesn't exist."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/project/1/delete/LFS/test-project')
+            self.assertEqual(404, output.status_code)
+
+    def test_missing_package(self):
+        """Assert HTTP 404 is returned if the package doesn't exist."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/project/1/delete/Fedora/some-package')
+            self.assertEqual(404, output.status_code)
+
+    def test_admin_post(self):
+        """Assert admin users can delete project mappings."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/project/1/delete/Fedora/test-project')
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {'confirm': True, 'csrf_token': csrf_token}
+
+            output = self.client.post(
+                '/project/1/delete/Fedora/test-project', data=data, follow_redirects=True)
+
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(0, len(model.Packages.query.all()))
+
+    def test_admin_post_unconfirmed(self):
+        """Assert failing to confirm the action results in no change."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/project/1/delete/Fedora/test-project')
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {'csrf_token': csrf_token}
+
+            output = self.client.post(
+                '/project/1/delete/Fedora/test-project', data=data, follow_redirects=True)
+
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(1, len(model.Packages.query.all()))
+
+
+class DeleteProjectVersionTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.delete_project_version` view."""
+
+    def setUp(self):
+        super(DeleteProjectVersionTests, self).setUp()
+        session = model.Session()
+
+        # Add a project with a version to delete.
+        self.project = model.Project(
+            name='test_project',
+            homepage='https://example.com/test_project',
+            backend='PyPI',
+        )
+        self.project_version = model.ProjectVersion(project=self.project, version='1.0.0')
+
+        # Add a regular user and an admin user
+        self.user = model.User(email='user@example.com', username='user')
+        self.admin = model.User(email='admin@example.com', username='admin')
+
+        session.add_all([self.user, self.admin, self.project, self.project_version])
+        session.commit()
+
+        mock_config = mock.patch.dict(
+            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+        mock_config.start()
+        self.addCleanup(mock_config.stop)
+
+        self.client = self.flask_app.test_client()
+
+    def test_non_admin_get(self):
+        """Assert non-admin users cannot GET the delete project version view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/project/1/delete/1.0.0')
+            self.assertEqual(401, output.status_code)
+
+    def test_non_admin_post(self):
+        """Assert non-admin users cannot POST to the delete project mapping view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.post('/project/1/delete/1.0.0')
+            self.assertEqual(401, output.status_code)
+
+    def test_admin_get(self):
+        """Assert admin users can GET the delete project mapping view."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/project/1/delete/1.0.0')
+            self.assertEqual(200, output.status_code)
+
+    def test_missing_project(self):
+        """Assert HTTP 404 is returned if the project doesn't exist."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/project/42/delete/1.0.0')
+            self.assertEqual(404, output.status_code)
+
+    def test_missing_version(self):
+        """Assert HTTP 404 is returned if the project doesn't exist."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/project/42/delete/9.9.9')
+            self.assertEqual(404, output.status_code)
+
+    def test_admin_post(self):
+        """Assert admin users can delete project mappings."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/project/1/delete/1.0.0')
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {'confirm': True, 'csrf_token': csrf_token}
+
+            output = self.client.post('/project/1/delete/1.0.0', data=data, follow_redirects=True)
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(0, len(model.ProjectVersion.query.all()))
+
+    def test_admin_post_unconfirmed(self):
+        """Assert failing to confirm the action results in no change."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/project/1/delete/1.0.0')
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {'csrf_token': csrf_token}
+
+            output = self.client.post('/project/1/delete/1.0.0', data=data)
+            self.assertEqual(302, output.status_code)
+            self.assertEqual(1, len(model.ProjectVersion.query.all()))
+
+
+class BrowseLogsTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.browse_logs` view function."""
+
+    def setUp(self):
+        super(BrowseLogsTests, self).setUp()
+        session = model.Session()
+
+        # Add a regular user and an admin user
+        self.user = model.User(email='user@example.com', username='user')
+        self.admin = model.User(email='admin@example.com', username='admin')
+
+        self.user_log = model.Log(
+            user='user@example.com',
+            project='relational_db',
+            distro='Fedora',
+            description='This is a log',
+        )
+        self.admin_log = model.Log(
+            user='admin',
+            project='best_project',
+            distro='CentOS',
+            description='This is also a log',
+        )
+
+        session.add_all([self.user, self.admin, self.user_log, self.admin_log])
+        session.commit()
+
+        mock_config = mock.patch.dict(
+            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+        mock_config.start()
+        self.addCleanup(mock_config.stop)
+
+        self.client = self.flask_app.test_client()
+
+    def test_non_admin_get(self):
+        """Assert non-admin users get only their own logs."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/logs')
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'This is a log' in output.data)
+            self.assertFalse(b'This is also a log' in output.data)
+
+    def test_admin_get(self):
+        """Assert admin users can get everyone's logs."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/logs')
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'This is a log' in output.data)
+            self.assertTrue(b'This is also a log' in output.data)
+
+    def test_from_date(self):
+        """Assert logs can be filtered via a from_date."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/logs?from_date=2017-07-19')
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'This is a log' in output.data)
+            self.assertTrue(b'This is also a log' in output.data)
+
+    def test_from_date_future(self):
+        """Assert when the from_date doesn't include logs, none are returned."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/logs?from_date=2500-07-01')
+
+            self.assertEqual(200, output.status_code)
+            self.assertFalse(b'This is a log' in output.data)
+            self.assertFalse(b'This is also a log' in output.data)
+
+
+class BrowseFlagsTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.browse_flags` view function."""
+
+    def setUp(self):
+        super(BrowseFlagsTests, self).setUp()
+        session = model.Session()
+
+        # Add a regular user and an admin user
+        self.user = model.User(email='user@example.com', username='user')
+        self.admin = model.User(email='admin@example.com', username='admin')
+
+        self.project1 = model.Project(
+            name='test_project', homepage='https://example.com/test_project', backend='PyPI')
+        self.project2 = model.Project(
+            name='project2', homepage='https://example.com/project2', backend='PyPI')
+        self.flag1 = model.ProjectFlag(
+            reason='I wanted to flag it', user='user', project=self.project1)
+        self.flag2 = model.ProjectFlag(
+            reason='This project is wrong', user='user', project=self.project2)
+
+        session.add_all(
+            [self.user, self.admin, self.project1, self.project2, self.flag1, self.flag2])
+        session.commit()
+
+        mock_config = mock.patch.dict(
+            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+        mock_config.start()
+        self.addCleanup(mock_config.stop)
+
+        self.client = self.flask_app.test_client()
+
+    def test_non_admin_get(self):
+        """Assert non-admin users can't see flags."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/flags')
+            self.assertEqual(401, output.status_code)
+
+    def test_admin_get(self):
+        """Assert admin users can see the flags."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/flags')
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'I wanted to flag it' in output.data)
+            self.assertTrue(b'This project is wrong' in output.data)
+
+    def test_pages(self):
+        """Assert admin users can see the flags."""
+        with login_user(self.flask_app, self.admin):
+            page_one = self.client.get('/flags?limit=1&page=1')
+
+            self.assertEqual(200, page_one.status_code)
+            self.assertTrue(
+                b'I wanted to flag it' in page_one.data or
+                b'This project is wrong' in page_one.data
+            )
+            self.assertFalse(
+                b'I wanted to flag it' in page_one.data and
+                b'This project is wrong' in page_one.data
+            )
+
+    def test_from_date(self):
+        """Assert admin users can see the flags."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/flags?from_date=2017-07-01')
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'I wanted to flag it' in output.data)
+            self.assertTrue(b'This project is wrong' in output.data)
+
+    def test_from_date_future(self):
+        """Assert admin users can see the flags."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/flags?from_date=2200-07-01')
+
+            self.assertEqual(200, output.status_code)
+            self.assertFalse(b'I wanted to flag it' in output.data)
+            self.assertFalse(b'This project is wrong' in output.data)
+
+
+class SetFlagStateTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.set_flag_state` view function."""
+
+    def setUp(self):
+        super(SetFlagStateTests, self).setUp()
+        session = model.Session()
+
+        # Add a regular user and an admin user
+        self.user = model.User(email='user@example.com', username='user')
+        self.admin = model.User(email='admin@example.com', username='admin')
+
+        self.project1 = model.Project(
+            name='test_project', homepage='https://example.com/test_project', backend='PyPI')
+        self.project2 = model.Project(
+            name='project2', homepage='https://example.com/project2', backend='PyPI')
+        self.flag1 = model.ProjectFlag(
+            reason='I wanted to flag it', user='user', project=self.project1)
+        self.flag2 = model.ProjectFlag(
+            reason='This project is wrong', user='user', project=self.project2)
+
+        session.add_all(
+            [self.user, self.admin, self.project1, self.project2, self.flag1, self.flag2])
+        session.commit()
+
+        mock_config = mock.patch.dict(
+            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+        mock_config.start()
+        self.addCleanup(mock_config.stop)
+
+        self.client = self.flask_app.test_client()
+
+    def test_non_admin_post(self):
+        """Assert non-admin users can't set flags."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.post('/flags/1/set/closed')
+            self.assertEqual(401, output.status_code)
+
+    def test_bad_state(self):
+        """Assert an invalid stat results in HTTP 422."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post('/flags/1/set/deferred')
+            self.assertEqual(422, output.status_code)
+
+    def test_missing(self):
+        """Assert trying to set the state of a non-existent flag results in HTTP 404."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post('/flags/42/set/closed')
+            self.assertEqual(404, output.status_code)
+
+    def test_set_flag(self):
+        """Assert trying to set the state of a non-existent flag results in HTTP 404."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/flags')
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+
+            output = self.client.post(
+                '/flags/1/set/closed', data={'csrf_token': csrf_token}, follow_redirects=True)
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'Flag 1 set to closed' in output.data)

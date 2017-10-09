@@ -38,7 +38,7 @@
         <li>
             {% if page > 1%}
               <a href="{{ url_for('anitya_ui.browse_flags', page=page-1, project=project,
-                user=user, from_date=from_date) }}">
+                user=flags_for_user, from_date=from_date) }}">
                 «
               </a>
             {% else %}
@@ -51,7 +51,7 @@
         <li>
             {% if page < total_page %}
               <a href="{{ url_for('anitya_ui.browse_flags', page=page+1, project=project,
-                user=user, from_date=from_date) }}">
+                user=flags_for_user, from_date=from_date) }}">
                 »
               </a>
             {% else %}
@@ -78,7 +78,7 @@
       </div>
       <div class="form-group col-xs-6 col-sm-4">
         <input type="text" name="user" placeholder="User identifier"
-            class="form-control" value="{{ user }}"/>
+            class="form-control" value="{{ flags_for_user }}"/>
       </div>
       <div class="form-group col-xs-6 col-sm-2">
         <div class='input-group date' id='datetimepicker'>
