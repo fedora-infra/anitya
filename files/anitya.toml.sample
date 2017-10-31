@@ -45,6 +45,11 @@ oidc_scopes = [
     "https://release-monitoring.org/oidc/downstream",
 ]
 
+# If `true`, Anitya creates new projects from libraries.io messages in addition
+# to updating existing projects. This requires that the libraries.io fedmsg
+# consumer is running; defaults to false.
+create_librariesio_projects = false
+
 # The logging configuration, in dictConfig format.
 [anitya_log_config]
     version = 1

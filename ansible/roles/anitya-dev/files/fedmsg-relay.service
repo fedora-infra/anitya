@@ -1,0 +1,10 @@
+[Unit]
+Description=The fedmsg relay service
+After=network.target
+
+[Service]
+ExecStart=/home/vagrant/.virtualenvs/anitya/bin/fedmsg-relay --config-filename %h/devel/fedmsg.d/fedmsg-config.py
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

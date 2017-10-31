@@ -66,5 +66,9 @@ setup(
     include_package_data=True,
     scripts=['files/anitya_cron.py'],
     install_requires=get_requirements(),
-    test_suite='anitya.tests'
+    test_suite='anitya.tests',
+    entry_points="""
+    [moksha.consumer]
+    librariesio = anitya.librariesio_consumer:LibrariesioConsumer
+    """,
 )

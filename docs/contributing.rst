@@ -79,3 +79,14 @@ has some helpful tips, but the anitya service can be started in the virtual mach
 
 Log output is viewable with ``journalctl`` and you can navigate to http://localhost:5000/ to
 view the web user interface.
+
+Tips
+^^^^
+
+Anitya publishes fedmsgs, and these are viewable with ``fedmsg-tail``::
+
+    $ workon anitya
+    $ fedmsg-tail
+
+This will also show you all incoming messages from `libraries.io's <https://libraries.io/>`_
+SSE feed.

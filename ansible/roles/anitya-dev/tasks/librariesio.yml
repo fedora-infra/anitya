@@ -1,0 +1,42 @@
+---
+
+- name: Install sse2fedmsg
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  pip: name={{ item }} virtualenv=/home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
+  with_items:
+      - sse2fedmsg
+
+- name: Create the ~/.fedmsg.d directory
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  file:
+    path: /home/{{ ansible_env.SUDO_USER }}/.fedmsg.d
+    state: directory
+
+- name: Install the required fedmsg config for librariesio2fedmsg
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  copy:
+    remote_src: True
+    src: /home/{{ ansible_env.SUDO_USER }}/devel/fedmsg.d/fedmsg-config.py
+    dest: /home/{{ ansible_env.SUDO_USER }}/.fedmsg.d/config.py
+
+- name: Install the service files for librariesio2fedmsg
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  copy:
+    src: "{{ item }}"
+    dest: /home/{{ ansible_env.SUDO_USER }}/.config/systemd/user/{{ item }}
+  with_items:
+    - fedmsg-hub.service
+    - fedmsg-relay.service
+    - librariesio2fedmsg.service
+
+- name: Reload the systemd daemon
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  command: systemctl --user daemon-reload
+
+- name: Enable the librariesio services
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  command: systemctl --user enable fedmsg-hub fedmsg-relay librariesio2fedmsg
+
+- name: Start the librariesio services
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  command: systemctl --user start fedmsg-hub fedmsg-relay librariesio2fedmsg

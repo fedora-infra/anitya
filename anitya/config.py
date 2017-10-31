@@ -89,6 +89,7 @@ DEFAULTS = dict(
     SOCIAL_AUTH_LOGIN_URL='/login/',
     SOCIAL_AUTH_LOGIN_REDIRECT_URL='/',
     SOCIAL_AUTH_LOGIN_ERROR_URL='/login-error/',
+    CREATE_LIBRARIESIO_PROJECTS=False,
 )
 
 # Start with a basic logging configuration, which will be replaced by any user-

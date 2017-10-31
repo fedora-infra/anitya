@@ -10,7 +10,6 @@
 - name: Install anitya system dependencies
   dnf: name={{ item }} state=present
   with_items:
-    - fedmsg
     - gcc
     - libffi-devel
     - openssl-devel
@@ -105,3 +104,4 @@
     creates: /home/{{ ansible_env.SUDO_USER }}/devel/anitya/static/docs/objects.inv
 
 - include: db.yml
+- include: librariesio.yml

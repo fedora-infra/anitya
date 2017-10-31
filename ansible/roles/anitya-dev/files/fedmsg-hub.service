@@ -1,0 +1,11 @@
+[Unit]
+Description=The fedmsg relay service
+After=network.target
+
+[Service]
+Environment="ANITYA_WEB_CONFIG=/home/vagrant/anitya.toml"
+ExecStart=/home/vagrant/.virtualenvs/anitya/bin/fedmsg-hub --config-filename %h/devel/fedmsg.d/fedmsg-config.py
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
