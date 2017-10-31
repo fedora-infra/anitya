@@ -110,7 +110,7 @@ class ContextInjector(logging.Filter):  # pragma: no cover
         try:
             record.username = "%s -- %s" % (
                 flask.g.user.id, flask.g.user.email)
-        except:
+        except Exception:
             pass
 
         return True
