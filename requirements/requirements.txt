@@ -1,6 +1,5 @@
 alembic
 blinker
-bunch
 python-dateutil
 dateutils
 fedmsg[commands,consumers]

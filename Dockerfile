@@ -10,7 +10,6 @@ RUN dnf update -y libnghttp2 && \
         python-wtforms \
         python-openid \
         python-dateutil \
-        python-bunch \
         python-straight-plugin \
         python-setuptools \
         python-sqlalchemy \

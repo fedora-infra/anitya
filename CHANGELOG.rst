@@ -4,6 +4,12 @@ Changes
 dev (master)
 ------------
 
+Dependencies
+------------
+
+* Drop the dependency on the Python bunch package as it is not used.
+
+
 Backwards-incompatible API changes
 ----------------------------------
 
