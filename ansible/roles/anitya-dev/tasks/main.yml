@@ -103,5 +103,5 @@
     chdir: /home/{{ ansible_env.SUDO_USER }}/devel/docs/
     creates: /home/{{ ansible_env.SUDO_USER }}/devel/anitya/static/docs/objects.inv
 
-- include: db.yml
-- include: librariesio.yml
+- import_tasks: db.yml
+- import_tasks: librariesio.yml
