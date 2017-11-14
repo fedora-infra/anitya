@@ -3,18 +3,12 @@ blinker
 python-dateutil
 dateutils
 fedmsg[commands,consumers]
-flask-openid
-# Need the fixes for https://github.com/puiterwijk/flask-oidc/issues/12
-#                and https://github.com/puiterwijk/flask-oidc/issues/24
-flask-oidc >= 1.1.1
 flask-login
 social-auth-app-flask
 social-auth-app-flask-sqlalchemy
 flask-restful
 flask-wtf
 jinja2 >= 2.4
-python-openid; python_version < '3.0'
-python3-openid; python_version >= '3.0'
 sqlalchemy >= 0.9
 # https://github.com/ironfroggy/straight.plugin/issues/17#issuecomment-41466275
 straight.plugin==1.4.0-post-1

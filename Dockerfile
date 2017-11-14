@@ -6,9 +6,7 @@ RUN dnf update -y libnghttp2 && \
     dnf install -y \
         python-flask \
         python-flask-wtf \
-        python-flask-openid \
         python-wtforms \
-        python-openid \
         python-dateutil \
         python-straight-plugin \
         python-setuptools \
