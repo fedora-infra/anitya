@@ -3,7 +3,6 @@
 # install with ``python setup.py install`` so this lets pip handle
 # the dependencies before readthedocs installs Anitya.
 alembic
-bunch
 python-dateutil
 fedmsg
 flask >= 0.10.1
