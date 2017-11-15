@@ -11,4 +11,5 @@ exclude_lines =
     if __name__ == .__main__.:
 omit =
     anitya/tests/*
-
+    anitya/db/migrations
+    anitya/db/migrations/*
