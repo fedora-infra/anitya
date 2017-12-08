@@ -4,3 +4,5 @@ include runtests.sh createdb.py nosetests migrate_wiki.py
 recursive-include fedmsg.d *
 recursive-include files *
 recursive-include requirements *
+recursive-include anitya/templates *
+recursive-include anitya/static *
