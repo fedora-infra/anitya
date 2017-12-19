@@ -1,0 +1,57 @@
+{% extends "master.html" %}
+
+{% block title %}Settings · Anitya{% endblock %}
+
+
+{% block body %}
+  <div class="intro">
+      <h3>
+        API Tokens
+      </h3>
+      <p>
+        API keys are tokens used to authenticate you when using the REST API.
+        These keys are like passwords; make sure to store them safely.
+      </p>
+  </div>
+
+  <div class="col-md-8 col-md-offset-2">
+    {% if user.api_tokens %}
+    <ul class="list-group list-group-flush">
+    {% for api_token in user.api_tokens %}
+        <li class="list-group-item">
+          <div class="form-group">
+            <div class="input-group">
+              <strong>{{ api_token.description or '' }}</strong>
+            </div>
+            <div class="input-group">
+              <div class="input-group-addon">
+                <span class="oi" data-glyph="key"></span>
+              </div>
+              <input class="form-control" type="text" value="{{ api_token.token }}" readonly>
+            </div>
+          </div>
+          <form class="pull-xs-right" action="{{ url_for('.delete_token',
+    				                     token=api_token.token) }}"
+            method="POST" class="icon">
+            <button class="btn btn-danger" type="submit"
+                onclick="return confirm('Are you sure to delete this token?');"
+                title="Remove API Token">
+	      Remove API Token
+            </button>
+            {{ form.csrf_token }}
+          </form>
+        </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="card-block">
+      <form action="{{ url_for('.new_token') }}" method="POST">
+        {{ form.description.label }}: {{ form.description(size=30) }}
+        <button class="btn btn-primary" type="submit" title="Create API Token">
+          Create API Token
+        </button>
+        {{ form.csrf_token }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -8,6 +8,17 @@ from wtforms import BooleanField
 from anitya.compat import FlaskForm
 
 
+class TokenForm(FlaskForm):
+    """
+    Form for API tokens.
+
+    Attributes:
+        description (TextField): The human-readable API token description, useful
+            for users to describe the token's purpose.
+    """
+    description = TextField('Token description', [validators.optional()])
+
+
 class ProjectForm(FlaskForm):
     name = TextField('Project name', [validators.Required()])
     homepage = TextField(
