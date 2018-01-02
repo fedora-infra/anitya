@@ -79,6 +79,9 @@ DEFAULTS = dict(
     SESSION_PROTECTION='strong',
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS=(
         'social_core.backends.fedora.FedoraOpenId',
+        'social_core.backends.gitlab.GitLabOAuth2',
+        'social_core.backends.github.GithubOAuth2',
+        'social_core.backends.google.GoogleOAuth2',
         'social_core.backends.yahoo.YahooOpenId',
         'social_core.backends.open_id.OpenIdAuth',
     ),

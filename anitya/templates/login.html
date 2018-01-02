@@ -6,23 +6,24 @@
 <div class="socialaccount_ballot">
   <ul class="socialaccount_providers list-inline">
     {% for name, backend in available_backends.items() %}
-    {% if name == 'openid'%}
       <li>
-        <form role="form" action="{{url_for('anitya_ui.login')}}" method="post">
-          <input name="openid" placeholder="https://id.openid.server">
-          <span class="pull-right">
-              <button type="submit" class="btn btn-success">
-                  <span class="glyphicon glyphicon-plus"></span>
-                  Login</button>
-          </span>
-        </form>
+	{% if name == 'openid'%}
+          <form role="form" action="{{url_for('anitya_ui.login')}}" method="post">
+            <input name="openid" placeholder="https://id.openid.server">
+            <span class="pull-right">
+                <button type="submit" class="btn btn-success">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Login</button>
+            </span>
+          </form>
+        {% elif name == 'google-oauth2' %}
+          <a title="{{ Google }}" class="socialaccount_provider openid btn btn-default"
+             href="{{url_for('social.auth', backend=name)}}">Google</a>
+        {% else %}
+          <a title="{{ name.capitalize() }}" class="socialaccount_provider openid btn btn-default"
+             href="{{url_for('social.auth', backend=name)}}">{{ name.capitalize() }}</a>
+        {% endif %}
       </li>
-    {% else %}
-      <li>
-        <a title="{{ name.capitalize() }}" class="socialaccount_provider openid btn btn-default"
-          href="{{url_for('social.auth', backend=name)}}">{{ name.capitalize() }}</a>
-      </li>
-    {% endif %}
     {% endfor %}
   </ul>
 </div>
