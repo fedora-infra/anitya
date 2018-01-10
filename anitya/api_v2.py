@@ -10,6 +10,8 @@ from gettext import gettext as _
 import flask_login
 from flask import jsonify
 from flask_restful import Resource, reqparse
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import NoResultFound
 
 from anitya import authentication
 from anitya.db import Session, models
@@ -61,6 +63,183 @@ def _items_per_page_validator(arg):
     if arg > 250:
         raise ValueError(_('Value must be less than or equal to 250.'))
     return arg
+
+
+class PackagesResource(Resource):
+    """The ``api/v2/packages/`` API endpoint."""
+
+    def get(self):
+        """
+        List all packages.
+
+        **Example request**:
+
+        .. sourcecode:: http
+
+            GET /api/v2/packages/?name=0ad&distribution=Fedora HTTP/1.1
+            Accept: application/json
+            Accept-Encoding: gzip, deflate
+            Connection: keep-alive
+            Host: localhost:5000
+            User-Agent: HTTPie/0.9.4
+
+        **Example response**:
+
+        .. sourcecode:: http
+
+            HTTP/1.0 200 OK
+            Content-Length: 181
+            Content-Type: application/json
+            Date: Mon, 15 Jan 2018 20:21:44 GMT
+            Server: Werkzeug/0.14.1 Python/2.7.14
+
+            {
+                "items": [
+                    {
+                        "distribution": "Fedora",
+                        "name": "python-requests"
+                        "project": "requests",
+                        "ecosystem": "pypi",
+                    }
+                ],
+                "items_per_page": 25,
+                "page": 1,
+                "total_items": 1
+            }
+
+
+        :query int page: The package page number to retrieve (defaults to 1).
+        :query int items_per_page: The number of items per page (defaults to
+                                   25, maximum of 250).
+        :query str distribution: Filter packages by distribution.
+        :query str name: The name of the package.
+        :statuscode 200: If all arguments are valid. Note that even if there
+                         are no projects, this will return 200.
+        :statuscode 400: If one or more of the query arguments is invalid.
+        """
+        parser = _BASE_ARG_PARSER.copy()
+        parser.add_argument('page', type=_page_validator, location='args')
+        parser.add_argument('items_per_page', type=_items_per_page_validator, location='args')
+        parser.add_argument('distribution', type=str, location='args')
+        parser.add_argument('name', type=str, location='args')
+        args = parser.parse_args(strict=True)
+        q = models.Packages.query
+        distro = args.pop('distribution')
+        name = args.pop('name')
+        if distro:
+            q = q.filter_by(distro=distro)
+        if name:
+            q = q.filter_by(package_name=name)
+        page = q.paginate(order_by=models.Packages.package_name, **args)
+        return {
+            u'items': [
+                {
+                    u'distribution': package.distro,
+                    u'name': package.package_name,
+                    u'project': package.project.name,
+                    u'ecosystem': package.project.ecosystem_name,
+                } for package in page.items],
+            u'page': page.page,
+            u'items_per_page': page.items_per_page,
+            u'total_items': page.total_items,
+        }
+
+    @authentication.require_token
+    def post(self):
+        """
+        Create a new package associated with an existing project and distribution.
+
+        **Example request**:
+
+        .. sourcecode:: http
+
+            POST /api/v2/packages/ HTTP/1.1
+            Accept: application/json
+            Accept-Encoding: gzip, deflate
+            Authorization: Token gAOFi2wQPzUJFIfDkscAKjbJfXELCz0r44m57Ur2
+            Connection: keep-alive
+            Content-Length: 120
+            Content-Type: application/json
+            Host: localhost:5000
+            User-Agent: HTTPie/0.9.4
+
+            {
+                "distribution": "Fedora",
+                "package_name": "python-requests",
+                "project_ecosystem": "pypi",
+                "project_name": "requests"
+            }
+
+        .. sourcecode:: http
+
+            HTTP/1.0 201 CREATED
+            Content-Length: 69
+            Content-Type: application/json
+            Date: Mon, 15 Jan 2018 21:49:01 GMT
+            Server: Werkzeug/0.14.1 Python/2.7.14
+
+            {
+                "distribution": "Fedora",
+                "name": "python-requests"
+            }
+
+
+        :reqheader Authorization: API token to use for authentication
+        :reqjson string distribution: The name of the distribution that contains this
+            package.
+        :reqjson string package_name: The name of the package in the distribution repository.
+        :reqjson string project_name: The project name in Anitya.
+        :reqjson string project_ecosystem: The ecosystem the project is a part of.
+            If it's not part of an ecosystem, use the homepage used in the Anitya project.
+
+        :statuscode 201: When the package was successfully created.
+        :statuscode 400: When required arguments are missing or malformed.
+        :statuscode 401: When your access token is missing or invalid
+        :statuscode 409: When the package already exists.
+        """
+        distribution_help = _('The name of the distribution that contains this package.')
+        package_name_help = _('The name of the package in the distribution repository.')
+        project_name_help = _('The project name in Anitya.')
+        project_ecosystem_help = _(
+            'The ecosystem the project is a part of. If it\'s not part of an ecosystem,'
+            ' use the homepage used in the Anitya project.')
+
+        parser = _BASE_ARG_PARSER.copy()
+        parser.add_argument('distribution', type=str, help=distribution_help, required=True)
+        parser.add_argument(
+            'package_name', type=str, help=package_name_help, required=True)
+        parser.add_argument(
+            'project_name', type=str, help=project_name_help, required=True)
+        parser.add_argument(
+            'project_ecosystem', type=str, help=project_ecosystem_help, required=True)
+        args = parser.parse_args(strict=True)
+        try:
+            project = models.Project.query.filter_by(
+                name=args.project_name, ecosystem_name=args.project_ecosystem).one()
+        except NoResultFound:
+            return {
+                'error': 'Project "{}" in ecosystem "{}" not found'.format(
+                    args.project_name, args.project_ecosystem)
+            }, 400
+
+        try:
+            distro = models.Distro.query.filter_by(name=args.distribution).one()
+        except NoResultFound:
+            return {'error': 'Distribution "{}" not found'.format(args.distribution)}, 400
+
+        try:
+            package = models.Packages(
+                distro=distro.name,
+                project=project,
+                package_name=args.package_name,
+            )
+
+            Session.add(package)
+            Session.commit()
+            return {u'distribution': distro.name, u'name': package.package_name}, 201
+        except IntegrityError:
+            Session.rollback()
+            return {'error': 'package already exists in distribution'}, 409
 
 
 class ProjectsResource(Resource):

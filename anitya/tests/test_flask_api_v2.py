@@ -35,6 +35,475 @@ def _read_json(output):
     return json.loads(output.get_data(as_text=True))
 
 
+class PackagesResourceGetTests(DatabaseTestCase):
+    """Tests for HTTP GET on the ``api/v2/packages/`` resource."""
+
+    def setUp(self):
+        super(PackagesResourceGetTests, self).setUp()
+        self.app = self.flask_app.test_client()
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
+        self.api_token = models.ApiToken(user=self.user)
+        fedora = models.Distro('Fedora')
+        debian = models.Distro('Debian')
+        jcline_linux = models.Distro('jcline linux')
+        session.add_all([self.user, self.api_token, fedora, debian, jcline_linux])
+        session.commit()
+
+    def test_no_packages(self):
+        """Assert querying packages works, even if there are no packages."""
+        output = self.app.get('/api/v2/packages/')
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        self.assertEqual(data, {'page': 1, 'items_per_page': 25, 'total_items': 0, 'items': []})
+
+    def test_authenticated(self):
+        """Assert the API works when authenticated."""
+        output = self.app.get(
+            '/api/v2/packages/', headers={'Authorization': 'Token ' + self.api_token.token})
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        self.assertEqual(data, {'page': 1, 'items_per_page': 25, 'total_items': 0, 'items': []})
+
+    def test_packages(self):
+        """Assert packages are returned when they exist."""
+        project = models.Project(
+            name='requests',
+            homepage='https://pypi.io/project/requests',
+            backend='PyPI',
+        )
+        fedora_package = models.Packages(
+            distro='Fedora', project=project, package_name='python-requests')
+        debian_package = models.Packages(
+            distro='Debian', project=project, package_name='python-requests')
+        jcline_package = models.Packages(
+            distro='jcline linux', project=project, package_name='requests')
+        Session.add_all([project, fedora_package, debian_package, jcline_package])
+        Session.commit()
+
+        output = self.app.get('/api/v2/packages/')
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        exp = {
+            'page': 1,
+            'items_per_page': 25,
+            'total_items': 3,
+            'items': [
+                {
+                    "distribution": "Fedora",
+                    "name": "python-requests",
+                    "project": "requests",
+                    "ecosystem": "pypi"
+                },
+                {
+                    "distribution": "Debian",
+                    "name": "python-requests",
+                    "project": "requests",
+                    "ecosystem": "pypi"
+                },
+                {
+                    "distribution": "jcline linux",
+                    "name": "requests",
+                    "project": "requests",
+                    "ecosystem": "pypi"
+                },
+            ]
+        }
+
+        self.assertEqual(data, exp)
+
+    def test_filter_packages_by_name(self):
+        """Assert filtering packages by name works."""
+        project = models.Project(
+            name='requests',
+            homepage='https://pypi.io/project/requests',
+            backend='PyPI',
+        )
+        fedora_package = models.Packages(
+            distro='Fedora', project=project, package_name='python-requests')
+        debian_package = models.Packages(
+            distro='Debian', project=project, package_name='python-requests')
+        jcline_package = models.Packages(
+            distro='jcline linux', project=project, package_name='requests')
+        Session.add_all([project, fedora_package, debian_package, jcline_package])
+        Session.commit()
+
+        output = self.app.get('/api/v2/packages/?name=python-requests')
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        exp = {
+            'page': 1,
+            'items_per_page': 25,
+            'total_items': 2,
+            'items': [
+                {
+                    "distribution": "Fedora",
+                    "name": "python-requests",
+                    "project": "requests",
+                    "ecosystem": "pypi"
+                },
+                {
+                    "distribution": "Debian",
+                    "name": "python-requests",
+                    "project": "requests",
+                    "ecosystem": "pypi"
+                },
+            ]
+        }
+
+        self.assertEqual(data, exp)
+
+    def test_list_packages_items_per_page_no_items(self):
+        """Assert pagination works and page size is adjustable."""
+        api_endpoint = '/api/v2/packages/?items_per_page=1'
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        self.assertEqual(data, {'page': 1, 'items_per_page': 1, 'total_items': 0, 'items': []})
+
+    def test_list_packages_items_per_page(self):
+        """Assert pagination works and page size is adjustable."""
+        project = models.Project(
+            name='requests',
+            homepage='https://pypi.io/project/requests',
+            backend='PyPI',
+        )
+        fedora_package = models.Packages(
+            distro='Fedora', project=project, package_name='python-requests')
+        debian_package = models.Packages(
+            distro='Debian', project=project, package_name='python-requests')
+        Session.add_all([project, fedora_package, debian_package])
+        Session.commit()
+        output = self.app.get('/api/v2/packages/?items_per_page=1')
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        exp = {
+            'page': 1,
+            'items_per_page': 1,
+            'total_items': 2,
+            'items': [
+                {
+                    "distribution": "Fedora",
+                    "name": "python-requests",
+                    "project": "requests",
+                    "ecosystem": "pypi"
+                },
+            ]
+        }
+
+        self.assertEqual(data, exp)
+
+    def test_list_packages_items_per_page_with_page(self):
+        """Assert retrieving other pages works."""
+        project = models.Project(
+            name='requests',
+            homepage='https://pypi.io/project/requests',
+            backend='PyPI',
+        )
+        fedora_package = models.Packages(
+            distro='Fedora', project=project, package_name='python-requests')
+        debian_package = models.Packages(
+            distro='Debian', project=project, package_name='python-requests')
+        Session.add_all([project, fedora_package, debian_package])
+        Session.commit()
+        output = self.app.get('/api/v2/packages/?items_per_page=1&page=2')
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        exp = {
+            'page': 2,
+            'items_per_page': 1,
+            'total_items': 2,
+            'items': [
+                {
+                    "distribution": "Debian",
+                    "name": "python-requests",
+                    "project": "requests",
+                    "ecosystem": "pypi"
+                },
+            ]
+        }
+
+        self.assertEqual(data, exp)
+
+    def test_filter_distribution(self):
+        """Assert retrieving other pages works."""
+        project = models.Project(
+            name='requests',
+            homepage='https://pypi.io/project/requests',
+            backend='PyPI',
+        )
+        fedora_package = models.Packages(
+            distro='Fedora', project=project, package_name='python-requests')
+        debian_package = models.Packages(
+            distro='Debian', project=project, package_name='python-requests')
+        Session.add_all([project, fedora_package, debian_package])
+        Session.commit()
+        fedora = self.app.get('/api/v2/packages/?distribution=Fedora')
+        debian = self.app.get('/api/v2/packages/?distribution=Debian')
+        self.assertEqual(fedora.status_code, 200)
+        self.assertEqual(debian.status_code, 200)
+        fedora_data = _read_json(fedora)
+        debian_data = _read_json(debian)
+
+        fedora_exp = {
+            'page': 1,
+            'items_per_page': 25,
+            'total_items': 1,
+            'items': [
+                {
+                    "distribution": "Fedora",
+                    "name": "python-requests",
+                    "project": "requests",
+                    "ecosystem": "pypi"
+                },
+            ]
+        }
+        debian_exp = {
+            'page': 1,
+            'items_per_page': 25,
+            'total_items': 1,
+            'items': [
+                {
+                    "distribution": "Debian",
+                    "name": "python-requests",
+                    "project": "requests",
+                    "ecosystem": "pypi"
+                },
+            ]
+        }
+
+        self.assertEqual(fedora_data, fedora_exp)
+        self.assertEqual(debian_data, debian_exp)
+
+    def test_list_packages_items_per_page_too_big(self):
+        """Assert unreasonably large items per page results in an error."""
+        api_endpoint = '/api/v2/packages/?items_per_page=500'
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 400)
+        data = _read_json(output)
+
+        self.assertEqual(
+            data, {u'message': {u'items_per_page': u'Value must be less than or equal to 250.'}})
+
+    def test_list_packages_items_per_page_negative(self):
+        """Assert a negative value for items_per_page results in an error."""
+        api_endpoint = '/api/v2/packages/?items_per_page=-25'
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 400)
+        data = _read_json(output)
+
+        self.assertEqual(
+            data, {u'message': {u'items_per_page': u'Value must be greater than or equal to 1.'}})
+
+    def test_list_packages_items_per_page_non_integer(self):
+        """Assert a non-integer for items_per_page results in an error."""
+        api_endpoint = '/api/v2/packages/?items_per_page=twenty'
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 400)
+        data = _read_json(output)
+
+        self.assertEqual(
+            data,
+            {u'message': {u'items_per_page': u"invalid literal for int() with base 10: 'twenty'"}}
+        )
+
+    def test_list_packages_page_negative(self):
+        """Assert a negative value for a page results in an error."""
+        api_endpoint = '/api/v2/packages/?page=-25'
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 400)
+        data = _read_json(output)
+
+        self.assertEqual(
+            data, {u'message': {u'page': u'Value must be greater than or equal to 1.'}})
+
+    def test_list_packages_page_non_integer(self):
+        """Assert a non-integer value for a page results in an error."""
+        api_endpoint = '/api/v2/projects/?page=twenty'
+        output = self.app.get(api_endpoint)
+        self.assertEqual(output.status_code, 400)
+        data = _read_json(output)
+
+        self.assertEqual(
+            data, {u'message': {u'page': u"invalid literal for int() with base 10: 'twenty'"}})
+
+
+class PackagesResourcePostTests(DatabaseTestCase):
+
+    def setUp(self):
+        super(PackagesResourcePostTests, self).setUp()
+        self.app = self.flask_app.test_client()
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
+        self.api_token = models.ApiToken(user=self.user)
+        self.project = models.Project(
+            name='requests',
+            homepage='https://pypi.io/project/requests',
+            backend='PyPI',
+        )
+        self.fedora = models.Distro('Fedora')
+        session.add_all([self.user, self.api_token, self.project, self.fedora])
+        session.commit()
+
+        self.auth = {'Authorization': 'Token ' + self.api_token.token}
+
+    def test_unauthenticated(self):
+        """Assert unauthenticated requests result in a HTTP 401 response."""
+        self.maxDiff = None
+        error_details = {
+            'error': 'authentication_required',
+            'error_description': 'Authentication is required to access this API.',
+        }
+
+        output = self.app.post('/api/v2/packages/')
+
+        self.assertEqual(output.status_code, 401)
+        self.assertEqual(error_details, _read_json(output))
+        self.assertEqual('Token', output.headers['WWW-Authenticate'])
+
+    def test_invalid_token(self):
+        """Assert unauthenticated requests result in a HTTP 401 response."""
+        self.maxDiff = None
+        error_details = {
+            'error': 'authentication_required',
+            'error_description': 'Authentication is required to access this API.',
+        }
+
+        output = self.app.post('/api/v2/packages/', headers={'Authorization': 'Token eh'})
+
+        self.assertEqual(output.status_code, 401)
+        self.assertEqual(error_details, _read_json(output))
+        self.assertEqual('Token', output.headers['WWW-Authenticate'])
+
+    def test_invalid_auth_type(self):
+        """Assert unauthenticated requests result in a HTTP 401 response."""
+        self.maxDiff = None
+        error_details = {
+            'error': 'authentication_required',
+            'error_description': 'Authentication is required to access this API.',
+        }
+
+        output = self.app.post(
+            '/api/v2/packages/', headers={'Authorization': 'Basic ' + self.api_token.token})
+
+        self.assertEqual(output.status_code, 401)
+        self.assertEqual(error_details, _read_json(output))
+        self.assertEqual('Token', output.headers['WWW-Authenticate'])
+
+    def test_no_token_type(self):
+        """Assert unauthenticated requests result in a HTTP 401 response."""
+        self.maxDiff = None
+        error_details = {
+            'error': 'authentication_required',
+            'error_description': 'Authentication is required to access this API.',
+        }
+
+        output = self.app.post(
+            '/api/v2/packages/', headers={'Authorization': 'pleaseletmein'})
+
+        self.assertEqual(output.status_code, 401)
+        self.assertEqual(error_details, _read_json(output))
+        self.assertEqual('Token', output.headers['WWW-Authenticate'])
+
+    def test_invalid_request(self):
+        """Assert invalid requests result in a helpful HTTP 400."""
+        output = self.app.post('/api/v2/packages/', headers=self.auth)
+
+        self.assertEqual(output.status_code, 400)
+        # Error details should report the missing required fields
+        data = _read_json(output)
+        error_details = data["message"]
+        self.assertIn("distribution", error_details)
+        self.assertIn("package_name", error_details)
+        self.assertIn("project_name", error_details)
+        self.assertIn("project_ecosystem", error_details)
+
+    def test_valid_request(self):
+        """Assert packages can be created."""
+        request_data = {
+            "project_ecosystem": "pypi",
+            "project_name": "requests",
+            "package_name": "python-requests",
+            "distribution": "Fedora",
+        }
+
+        output = self.app.post('/api/v2/packages/', headers=self.auth, data=request_data)
+        self.assertEqual(output.status_code, 201)
+        data = _read_json(output)
+        self.assertEqual({'distribution': 'Fedora', 'name': 'python-requests'}, data)
+
+    def test_same_package_two_distros(self):
+        """Assert packages can be created."""
+        Session.add(models.Distro('Debian'))
+        Session.commit()
+        request_data = {
+            "project_ecosystem": "pypi",
+            "project_name": "requests",
+            "package_name": "python-requests",
+            "distribution": "Fedora",
+        }
+
+        output = self.app.post('/api/v2/packages/', headers=self.auth, data=request_data)
+        self.assertEqual(output.status_code, 201)
+
+        request_data['distribution'] = 'Debian'
+        output = self.app.post('/api/v2/packages/', headers=self.auth, data=request_data)
+        self.assertEqual(output.status_code, 201)
+
+    def test_conflicting_request(self):
+        """Assert conflicts for packages result in HTTP 409."""
+        request_data = {
+            "project_ecosystem": "pypi",
+            "project_name": "requests",
+            "package_name": "python-requests",
+            "distribution": "Fedora",
+        }
+
+        output = self.app.post('/api/v2/packages/', headers=self.auth, data=request_data)
+        self.assertEqual(output.status_code, 201)
+        output = self.app.post('/api/v2/packages/', headers=self.auth, data=request_data)
+        self.assertEqual(output.status_code, 409)
+        # Error details should report conflicting fields.
+        data = _read_json(output)
+        self.assertEqual(data, {'error': 'package already exists in distribution'})
+
+    def test_missing_distro(self):
+        """Assert a missing distribution results in HTTP 400."""
+        request_data = {
+            "project_ecosystem": "pypi",
+            "project_name": "requests",
+            "package_name": "python-requests",
+            "distribution": "Mythical Distribution",
+        }
+
+        output = self.app.post('/api/v2/packages/', headers=self.auth, data=request_data)
+        self.assertEqual(output.status_code, 400)
+        data = _read_json(output)
+        self.assertEqual({'error': 'Distribution "Mythical Distribution" not found'}, data)
+
+    def test_missing_project(self):
+        """Assert a missing project results in HTTP 400."""
+        request_data = {
+            "project_ecosystem": "Missing",
+            "project_name": "requests",
+            "package_name": "python-requests",
+            "distribution": "Fedora",
+        }
+
+        output = self.app.post('/api/v2/packages/', headers=self.auth, data=request_data)
+        self.assertEqual(output.status_code, 400)
+        data = _read_json(output)
+        self.assertEqual(
+            {'error': 'Project "requests" in ecosystem "Missing" not found'}, data)
+
+
 class ProjectsResourceGetTests(DatabaseTestCase):
 
     def setUp(self):

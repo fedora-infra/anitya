@@ -73,6 +73,7 @@ def create(config=None):
     # Register the v2 API resources
     app.api = Api(app)
     app.api.add_resource(api_v2.ProjectsResource, '/api/v2/projects/')
+    app.api.add_resource(api_v2.PackagesResource, '/api/v2/packages/')
 
     # Register all the view blueprints
     app.register_blueprint(ui.ui_blueprint)
