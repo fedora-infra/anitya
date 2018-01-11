@@ -129,11 +129,17 @@
                </li>
             {%- endif -%}
             <li>
-              <a href="{{url_for('anitya_ui.logout')}}">logout</a>
+              <a href="{{url_for('anitya_ui.logout')}}">
+                <span class="glyphicon glyphicon-log-out"></span>
+	        logout
+	      </a>
             </li>
             {%- else -%}
             <li>
-              <a href="{{url_for('anitya_ui.login')}}">login</a>
+              <a href="{{url_for('anitya_ui.login')}}">
+                <span class="glyphicon glyphicon-log-in"></span>
+	        login
+	      </a>
             </li>
             {%- endif -%}
             <li>
