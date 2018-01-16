@@ -28,7 +28,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm.exc import NoResultFound
 
-from . import plugins, exceptions, model
+from . import plugins, exceptions
+from anitya.db import models, Base
 
 
 _log = logging.getLogger(__name__)
@@ -54,7 +55,7 @@ def fedmsg_publish(*args, **kwargs):  # pragma: no cover
 def check_project_release(project, session, test=False):
     ''' Check if the provided project has a new release available or not.
 
-    :arg package: a Package object has defined in anitya.lib.model.Project
+    :arg package: a Package object has defined in anitya.db.modelss.Project
 
     '''
     backend = plugins.get_plugin(project.backend)
@@ -86,7 +87,7 @@ def check_project_release(project, session, test=False):
     if up_version and up_version not in project.versions:
         publish = True
         project.versions_obj.append(
-            model.ProjectVersion(
+            models.ProjectVersion(
                 project_id=project.id,
                 version=up_version
             )
@@ -144,7 +145,7 @@ def log(session, project=None, distro=None, topic=None, message=None):
 
     Publish the message and log it in the db.
     """
-    # A big lookup of fedmsg topics to model.Log template strings.
+    # A big lookup of fedmsg topics to models.Log template strings.
     templates = {
         'distro.add': '%(agent)s added the distro named: %(distro)s',
         'distro.edit': '%(agent)s edited distro name from: %(old)s to: '
@@ -180,7 +181,7 @@ def log(session, project=None, distro=None, topic=None, message=None):
         message=message,
     ))
 
-    model.Log.insert(
+    models.Log.insert(
         session,
         user=message['agent'],
         project=project,
@@ -195,7 +196,7 @@ def init(db_url, alembic_ini=None, debug=False, create=False):  # pragma: no cov
     url obtained.
 
     :deprecated: This function is deprecated as of Anitya 0.12. Use the
-                 scoped session in :mod:`anitya.lib.model`
+                 scoped session in :mod:`anitya.db`
 
     :arg db_url, URL used to connect to the database. The URL contains
         information with regards to the database engine, the host to
@@ -211,7 +212,7 @@ def init(db_url, alembic_ini=None, debug=False, create=False):  # pragma: no cov
     engine = create_engine(db_url, echo=debug)
 
     if create:
-        model.BASE.metadata.create_all(engine)
+        Base.metadata.create_all(engine)
 
     # Source: http://docs.sqlalchemy.org/en/latest/dialects/sqlite.html
     # see section 'sqlite-foreign-keys'
@@ -248,7 +249,7 @@ def create_project(
                   if e.default_backend == backend]
     ecosystem_name = ecosystems[0].name if len(ecosystems) == 1 else None
 
-    project = model.Project(
+    project = models.Project(
         name=name,
         homepage=homepage,
         backend=backend,
@@ -361,7 +362,7 @@ def map_project(
 
     Args:
         session (sqlalchemy.orm.session.Session): The database session.
-        project (anitya.lib.model.Project): The project to map to a distribution.
+        project (anitya.db.modelss.Project): The project to map to a distribution.
         package_name (str): The name of the mapped package.
         distribution (str): The name of the distribution.
         user_id (str): The user ID.
@@ -372,10 +373,10 @@ def map_project(
     """
     distribution = distribution.strip()
 
-    distro_obj = model.Distro.get(session, distribution)
+    distro_obj = models.Distro.get(session, distribution)
 
     if not distro_obj:
-        distro_obj = model.Distro(name=distribution)
+        distro_obj = models.Distro(name=distribution)
         log(
             session,
             distro=distro_obj,
@@ -397,12 +398,12 @@ def map_project(
 
     pkgname = old_package_name or package_name
     distro = old_distro_name or distribution
-    pkg = model.Packages.get(
+    pkg = models.Packages.get(
         session, project.id, distro, pkgname)
 
     # See if the new mapping would clash with an existing mapping
     try:
-        other_pkg = model.Packages.query.filter_by(
+        other_pkg = models.Packages.query.filter_by(
             distro=distribution, package_name=package_name).one()
     except NoResultFound:
         other_pkg = None
@@ -415,7 +416,7 @@ def map_project(
     if not pkg:
         topic = 'project.map.new'
         if not other_pkg:
-            pkg = model.Packages(
+            pkg = models.Packages(
                 distro=distro_obj.name,
                 project_id=project.id,
                 package_name=package_name
@@ -470,7 +471,7 @@ def flag_project(session, project, reason, user_email, user_id):
 
     """
 
-    flag = model.ProjectFlag(
+    flag = models.ProjectFlag(
         user=user_email,
         project=project,
         reason=reason)
@@ -538,4 +539,4 @@ def set_flag_state(session, flag, state, user_id):
 def get_last_cron(session):
     """ Retrieve the last log entry about the cron
     """
-    return model.Run.last_entry(session)
+    return models.Run.last_entry(session)

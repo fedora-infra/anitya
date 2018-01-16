@@ -26,7 +26,7 @@ anitya tests for the Maven backend.
 import unittest
 
 from anitya.lib.backends.maven import MavenBackend
-import anitya.lib.model as model
+from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
@@ -44,13 +44,13 @@ class MavenBackendTest(DatabaseTestCase):
         create_distro(self.session)
 
     def assert_plexus_version(self, **kwargs):
-        project = model.Project(backend=BACKEND, **kwargs)
+        project = models.Project(backend=BACKEND, **kwargs)
         exp = '1.3.8'
         obs = MavenBackend.get_version(project)
         self.assertEqual(obs, exp)
 
     def assert_invalid(self, **kwargs):
-        project = model.Project(backend=BACKEND, **kwargs)
+        project = models.Project(backend=BACKEND, **kwargs)
         self.assertRaises(
             AnityaPluginException,
             MavenBackend.get_version,
@@ -91,7 +91,7 @@ class MavenBackendTest(DatabaseTestCase):
         )
 
     def test_dots_in_artifact_id(self):
-        project = model.Project(
+        project = models.Project(
             backend=BACKEND,
             name='felix-gogo-shell',
             homepage='http://www.apache.org/dist/felix/',
@@ -102,7 +102,7 @@ class MavenBackendTest(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_maven_get_versions(self):
-        project = model.Project(
+        project = models.Project(
             backend=BACKEND,
             name='plexus-maven-plugin',
             version_url='org.codehaus.plexus:plexus-maven-plugin',

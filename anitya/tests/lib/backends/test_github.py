@@ -26,7 +26,7 @@ anitya tests for the custom backend.
 import unittest
 
 import anitya.lib.backends.github as backend
-import anitya.lib.model as model
+from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
@@ -46,7 +46,7 @@ class GithubBackendtests(DatabaseTestCase):
 
     def create_project(self):
         """ Create some basic projects to work with. """
-        project = model.Project(
+        project = models.Project(
             name='fedocal',
             homepage='https://github.com/fedora-infra/fedocal',
             version_url='fedora-infra/fedocal',
@@ -55,7 +55,7 @@ class GithubBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='foobar',
             homepage='http://github.com/foo/bar',
             version_url='foobar/bar',
@@ -64,7 +64,7 @@ class GithubBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='pkgdb2',
             homepage='https://github.com/fedora-infra/pkgdb2',
             backend=BACKEND,
@@ -75,13 +75,13 @@ class GithubBackendtests(DatabaseTestCase):
     def test_get_version(self):
         """ Test the get_version function of the github backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '0.14'
         obs = backend.GithubBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.GithubBackend.get_version,
@@ -89,7 +89,7 @@ class GithubBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '2.3'
         obs = backend.GithubBackend.get_version(project)
         self.assertEqual(obs, exp)
@@ -97,7 +97,7 @@ class GithubBackendtests(DatabaseTestCase):
     def test_get_versions(self):
         """ Test the get_versions function of the github backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             u'v0.9.3',
             u'0.10', u'0.11', u'0.11.1', u'0.12',
@@ -108,7 +108,7 @@ class GithubBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.GithubBackend.get_versions,
@@ -116,7 +116,7 @@ class GithubBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             u'1.33.0', u'1.33.2', u'1.33.3',
             u'2.0', u'2.0.1', u'2.0.2', u'2.0.3', u'2.1', u'2.2', u'2.3'
@@ -126,7 +126,7 @@ class GithubBackendtests(DatabaseTestCase):
 
     def test_plexus_utils(self):
         """ Regression test for issue #286 """
-        project = model.Project(
+        project = models.Project(
             version_url='codehaus-plexus/plexus-archiver',
             version_prefix='plexus-archiver-',
         )

@@ -24,7 +24,7 @@ logging out, and remembering users’ sessions over extended periods of time.
 
 In addition, Anitya uses `Python Social Auth`_ to authenticate users from various
 third-party identity providers. It handles logging the user in and creating
-:class:`anitya.lib.model.User` objects as necessary.
+:class:`anitya.db.models.User` objects as necessary.
 
 .. _Flask-Login: https://flask-login.readthedocs.io/en/latest/
 .. _Python Social Auth:
@@ -37,7 +37,7 @@ import uuid
 import flask_login
 from sqlalchemy.orm.exc import NoResultFound
 
-from anitya.lib.model import User, ApiToken
+from anitya.db import User, ApiToken
 
 
 _log = logging.getLogger(__name__)

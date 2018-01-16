@@ -26,7 +26,7 @@ anitya tests for the custom backend.
 import unittest
 
 import anitya.lib.backends.gnome as backend
-import anitya.lib.model as model
+from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
@@ -46,7 +46,7 @@ class GnomeBackendtests(DatabaseTestCase):
 
     def create_project(self):
         """ Create some basic projects to work with. """
-        project = model.Project(
+        project = models.Project(
             name='evolution-data-server',
             homepage='https://git.gnome.org/browse/evolution-data-server/',
             backend=BACKEND,
@@ -54,7 +54,7 @@ class GnomeBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='fake',
             homepage='https://pypi.python.org/pypi/repo_manager_fake',
             backend=BACKEND,
@@ -62,7 +62,7 @@ class GnomeBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='gnome-control-center',
             homepage='https://git.gnome.org/browse/gnome-control-center/',
             backend=BACKEND,
@@ -73,13 +73,13 @@ class GnomeBackendtests(DatabaseTestCase):
     def test_custom_get_version(self):
         """ Test the get_version function of the gnome backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '3.17.2'
         obs = backend.GnomeBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.GnomeBackend.get_version,
@@ -87,7 +87,7 @@ class GnomeBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '3.16.2'
         obs = backend.GnomeBackend.get_version(project)
         self.assertEqual(obs, exp)
@@ -95,7 +95,7 @@ class GnomeBackendtests(DatabaseTestCase):
     def test_custom_get_versions(self):
         """ Test the get_versions function of the gnome backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             u'0.0.3', u'0.0.4', u'0.0.5', u'0.0.6', u'0.0.7', u'0.0.90',
             u'0.0.91', u'0.0.92', u'0.0.93', u'0.0.94', u'0.0.94.1', u'0.0.95',
@@ -157,7 +157,7 @@ class GnomeBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.GnomeBackend.get_versions,
@@ -165,7 +165,7 @@ class GnomeBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             u'2.19.1', u'2.19.3', u'2.19.4', u'2.19.5', u'2.19.6', u'2.19.90',
             u'2.19.91', u'2.19.92', u'2.20.0', u'2.20.0.1', u'2.20.1',

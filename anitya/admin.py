@@ -8,12 +8,11 @@ import flask
 from sqlalchemy.exc import SQLAlchemyError
 
 from anitya.lib import utilities
+from anitya.db import models, Session
 import anitya
 import anitya.forms
-import anitya.lib.model
 
 from anitya.ui import login_required, ui_blueprint
-from anitya.db import Session
 
 
 _log = logging.getLogger(__name__)
@@ -40,7 +39,7 @@ def add_distro():
     if form.validate_on_submit():
         name = form.name.data
 
-        distro = anitya.lib.model.Distro(name)
+        distro = models.Distro(name)
 
         utilities.log(
             Session,
@@ -74,7 +73,7 @@ def add_distro():
 @login_required
 def edit_distro(distro_name):
 
-    distro = anitya.lib.model.Distro.by_name(Session, distro_name)
+    distro = models.Distro.by_name(Session, distro_name)
     if not distro:
         flask.abort(404)
 
@@ -120,7 +119,7 @@ def edit_distro(distro_name):
 def delete_distro(distro_name):
     """ Delete a distro """
 
-    distro = anitya.lib.model.Distro.by_name(Session, distro_name)
+    distro = models.Distro.by_name(Session, distro_name)
     if not distro:
         flask.abort(404)
 
@@ -156,7 +155,7 @@ def delete_distro(distro_name):
 @login_required
 def delete_project(project_id):
 
-    project = anitya.lib.model.Project.get(Session, project_id)
+    project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
 
@@ -204,15 +203,15 @@ def delete_project(project_id):
 @login_required
 def delete_project_mapping(project_id, distro_name, pkg_name):
 
-    project = anitya.lib.model.Project.get(Session, project_id)
+    project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
 
-    distro = anitya.lib.model.Distro.get(Session, distro_name)
+    distro = models.Distro.get(Session, distro_name)
     if not distro:
         flask.abort(404)
 
-    package = anitya.lib.model.Packages.get(
+    package = models.Packages.get(
         Session, project.id, distro.name, pkg_name)
     if not package:
         flask.abort(404)
@@ -256,7 +255,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
 @login_required
 def delete_project_version(project_id, version):
 
-    project = anitya.lib.model.Project.get(Session, project_id)
+    project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
 
@@ -354,7 +353,7 @@ def browse_logs():
 
     logs = []
     try:
-        logs = anitya.lib.model.Log.search(
+        logs = models.Log.search(
             Session,
             project_name=project or None,
             from_date=from_date,
@@ -363,7 +362,7 @@ def browse_logs():
             limit=limit,
         )
 
-        cnt_logs = anitya.lib.model.Log.search(
+        cnt_logs = models.Log.search(
             Session,
             project_name=project or None,
             from_date=from_date,
@@ -434,7 +433,7 @@ def browse_flags():
     flags = []
 
     try:
-        flags = anitya.lib.model.ProjectFlag.search(
+        flags = models.ProjectFlag.search(
             Session,
             project_name=project or None,
             state=state or None,
@@ -444,7 +443,7 @@ def browse_flags():
             limit=limit,
         )
 
-        cnt_flags = anitya.lib.model.ProjectFlag.search(
+        cnt_flags = models.ProjectFlag.search(
             Session,
             project_name=project or None,
             state=state or None,
@@ -486,7 +485,7 @@ def set_flag_state(flag_id, state):
     if state not in ('open', 'closed'):
         flask.abort(422)
 
-    flag = anitya.lib.model.ProjectFlag.get(Session, flag_id)
+    flag = models.ProjectFlag.get(Session, flag_id)
 
     if not flag:
         flask.abort(404)

@@ -33,7 +33,8 @@ import flask_login
 import vcr
 
 from anitya import app, config
-from anitya.lib import model, utilities
+from anitya.db import models, Base, Session
+from anitya.lib import utilities
 
 
 engine = None
@@ -54,7 +55,7 @@ def login_user(app, user):
 
     Args:
         app (flask.Flask): An instance of the Flask application.
-        user (model.User): The user to log in. Note that this user must be committed to the
+        user (models.User): The user to log in. Note that this user must be committed to the
             database as it needs a ``user.id`` value.
     """
     def handler(sender, **kwargs):
@@ -89,7 +90,7 @@ def _configure_db(db_uri='sqlite://'):
             """Emit our own 'BEGIN' instead of letting pysqlite do it."""
             conn.execute('BEGIN')
 
-    @event.listens_for(model.Session, 'after_transaction_end')
+    @event.listens_for(Session, 'after_transaction_end')
     def restart_savepoint(session, transaction):
         """Allow tests to call rollback on the session."""
         if transaction.nested and not transaction._parent.nested:
@@ -136,13 +137,13 @@ class DatabaseTestCase(AnityaTestCase):
             _configure_db()
 
         self.connection = engine.connect()
-        model.BASE.metadata.create_all(bind=self.connection)
+        Base.metadata.create_all(bind=self.connection)
         PSABase.metadata.create_all(bind=self.connection)
         self.transaction = self.connection.begin()
 
-        model.Session.remove()
-        model.Session.configure(bind=self.connection, autoflush=False)
-        self.session = model.Session()
+        Session.remove()
+        Session.configure(bind=self.connection, autoflush=False)
+        self.session = Session()
 
         # Start a transaction after creating the schema, but before anything is
         # placed into the database. We'll roll back to the start of this
@@ -155,18 +156,18 @@ class DatabaseTestCase(AnityaTestCase):
         self.session.close()
         self.transaction.rollback()
         self.connection.close()
-        model.Session.remove()
+        Session.remove()
         super(DatabaseTestCase, self).tearDown()
 
 
 def create_distro(session):
     """ Create some basic distro for testing. """
-    distro = model.Distro(
+    distro = models.Distro(
         name='Fedora',
     )
     session.add(distro)
 
-    distro = model.Distro(
+    distro = models.Distro(
         name='Debian',
     )
     session.add(distro)
@@ -242,14 +243,14 @@ def create_ecosystem_projects(session):
 
 def create_package(session):
     """ Create some basic packages to work with. """
-    package = model.Packages(
+    package = models.Packages(
         project_id=1,
         distro='Fedora',
         package_name='geany',
     )
     session.add(package)
 
-    package = model.Packages(
+    package = models.Packages(
         project_id=2,
         distro='Fedora',
         package_name='subsurface',

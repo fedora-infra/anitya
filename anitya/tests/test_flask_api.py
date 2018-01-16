@@ -26,7 +26,7 @@ anitya tests for the flask API.
 import json
 import unittest
 
-import anitya.lib.model as model
+from anitya.db import models
 from anitya.lib.backends import REGEX
 from anitya.tests.base import (DatabaseTestCase, create_distro, create_project,
                                create_package, create_ecosystem_projects)
@@ -255,7 +255,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.assertEqual(data, exp)
 
         # Modify the project so that it fails
-        project = model.Project.get(self.session, 1)
+        project = models.Project.get(self.session, 1)
         project.version_url = "http://www.geany.org/Down"
         self.session.add(project)
         self.session.commit()

@@ -13,10 +13,10 @@ import logging
 import multiprocessing.dummy as multiprocessing
 
 from anitya.config import config
-from anitya.lib import utilities, model
+from anitya import db
+from anitya.lib import utilities
 import anitya
 import anitya.lib.exceptions
-import anitya.lib.model
 
 LOG = logging.getLogger('anitya')
 
@@ -41,7 +41,7 @@ def projects_by_feed(session):
     If a new entry is noticed and we don't have a project for it, add it.
     """
     for name, homepage, backend, version in indexed_listings():
-        project = anitya.lib.model.Project.get_or_create(
+        project = db.Project.get_or_create(
             session, name, homepage, backend)
         if project.latest_version == version:
             LOG.debug("Project %s is already up to date." % project.name)
@@ -52,7 +52,7 @@ def projects_by_feed(session):
 def update_project(project_id):
     """ Check for updates on the specified project. """
     session = utilities.init(config['DB_URL'])
-    project = anitya.lib.model.Project.by_id(session, project_id)
+    project = db.Project.by_id(session, project_id)
     try:
         utilities.check_project_release(project, session),
     except anitya.lib.exceptions.AnityaException as err:
@@ -66,9 +66,9 @@ def main(debug, feed):
     ''' Retrieve all the packages and for each of them update the release
     version.
     '''
-    model.initialize(config)
-    session = model.Session()
-    run = anitya.lib.model.Run(status='started')
+    db.initialize(config)
+    session = db.Session()
+    run = db.Run(status='started')
     session.add(run)
     session.commit()
     LOG.setLevel(logging.DEBUG)
@@ -93,7 +93,7 @@ def main(debug, feed):
         projects = list(projects_by_feed(session))
         session.commit()
     else:
-        projects = anitya.lib.model.Project.all(session)
+        projects = db.Project.all(session)
 
     project_ids = [project.id for project in projects]
 
@@ -102,7 +102,7 @@ def main(debug, feed):
     p = multiprocessing.Pool(N)
     p.map(update_project, project_ids)
 
-    run = anitya.lib.model.Run(status='ended')
+    run = db.Run(status='ended')
     session.add(run)
     session.commit()
 

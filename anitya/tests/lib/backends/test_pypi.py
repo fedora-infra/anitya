@@ -26,7 +26,7 @@ anitya tests for the pypi backend.
 import unittest
 
 import anitya.lib.backends.pypi as backend
-import anitya.lib.model as model
+from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
@@ -46,7 +46,7 @@ class PypiBackendtests(DatabaseTestCase):
 
     def create_project(self):
         """ Create some basic projects to work with. """
-        project = model.Project(
+        project = models.Project(
             name='repo_manager',
             homepage='https://pypi.python.org/pypi/repo_manager',
             backend=BACKEND,
@@ -54,7 +54,7 @@ class PypiBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='fake',
             homepage='https://pypi.python.org/pypi/repo_manager_fake',
             backend=BACKEND,
@@ -62,7 +62,7 @@ class PypiBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='chai',
             homepage='https://pypi.python.org/pypi/chai',
             backend=BACKEND,
@@ -73,13 +73,13 @@ class PypiBackendtests(DatabaseTestCase):
     def test_pypi_get_version(self):
         """ Test the get_version function of the pypi backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '0.1.0'
         obs = backend.PypiBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.PypiBackend.get_version,
@@ -87,7 +87,7 @@ class PypiBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '1.1.0'
         obs = backend.PypiBackend.get_version(project)
         self.assertEqual(obs, exp)
@@ -95,13 +95,13 @@ class PypiBackendtests(DatabaseTestCase):
     def test_pypi_get_versions(self):
         """ Test the get_versions function of the pypi backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = ['0.1.0']
         obs = backend.PypiBackend.get_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.PypiBackend.get_versions,
@@ -109,7 +109,7 @@ class PypiBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             '0.1.0', '0.1.1', '0.1.2', '0.1.3', '0.1.4', '0.1.5', '0.1.6',
             '0.1.7', '0.1.9', '0.1.10', '0.1.11', '0.1.12', '0.1.13',

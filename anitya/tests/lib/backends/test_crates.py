@@ -29,7 +29,7 @@ import mock
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.lib.backends import crates
 from anitya.tests.base import DatabaseTestCase
-import anitya.lib.model as model
+from anitya.db import models
 
 
 class CratesBackendTests(DatabaseTestCase):
@@ -42,12 +42,12 @@ class CratesBackendTests(DatabaseTestCase):
 
     def create_project(self):
         """Create some basic projects to work with."""
-        project1 = model.Project(
+        project1 = models.Project(
             name='itoa',
             homepage='https://crates.io/crates/itoa',
             backend='crates.io',
         )
-        project2 = model.Project(
+        project2 = models.Project(
             name='pleasedontmakethisprojectitllbreakmytests',
             homepage='https://crates.io/crates/somenonsensehomepage',
             backend='crates.io',
@@ -58,12 +58,12 @@ class CratesBackendTests(DatabaseTestCase):
 
     def test_get_version(self):
         """Test the get_version function of the crates backend."""
-        project = model.Project.by_id(self.session, 1)
+        project = models.Project.by_id(self.session, 1)
         self.assertEqual('0.2.1', crates.CratesBackend.get_version(project))
 
     def test_get_version_missing(self):
         """Assert an exception is raised if a project doesn't exist and get_version is called"""
-        project = model.Project.get(self.session, 2)
+        project = models.Project.get(self.session, 2)
         self.assertRaises(
             AnityaPluginException,
             crates.CratesBackend.get_version,
@@ -73,20 +73,20 @@ class CratesBackendTests(DatabaseTestCase):
     def test_get_versions(self):
         """Test the get_versions function of the crates backend."""
         expected_versions = ['0.2.1', '0.2.0', '0.1.1', '0.1.0']
-        project = model.Project.by_id(self.session, 1)
+        project = models.Project.by_id(self.session, 1)
         self.assertEqual(expected_versions, crates.CratesBackend.get_versions(project))
 
     def test_get_ordered_versions(self):
         """Test the get_ordered_versions function of the crates backend. """
         expected_versions = ['0.2.1', '0.2.0', '0.1.1', '0.1.0']
-        project = model.Project.by_id(self.session, 1)
+        project = models.Project.by_id(self.session, 1)
         self.assertEqual(expected_versions, crates.CratesBackend.get_ordered_versions(project))
 
     @mock.patch('anitya.lib.backends.crates.CratesBackend.call_url')
     def test__get_versions_no_json(self, mock_call_url):
         """Assert we handle getting non-JSON responses gracefully"""
         mock_call_url.return_value.json.side_effect = ValueError
-        project = model.Project.by_id(self.session, 1)
+        project = models.Project.by_id(self.session, 1)
         with self.assertRaises(AnityaPluginException) as context_manager:
             crates.CratesBackend._get_versions(project)
             self.assertIn('Failed to decode JSON', str(context_manager.exception))

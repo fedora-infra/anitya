@@ -6,10 +6,9 @@ from flask_login import login_required, logout_user
 import flask
 import six.moves.urllib.parse as urlparse
 
-from anitya.db import Session
-from anitya.lib import utilities
+from anitya.db import Session, models
+from anitya.lib import utilities, exceptions, plugins as anitya_plugins
 import anitya
-import anitya.lib
 
 
 ui_blueprint = flask.Blueprint(
@@ -41,7 +40,7 @@ def is_safe_url(target):
 
 @ui_blueprint.route('/')
 def index():
-    total = anitya.lib.model.Project.all(Session, count=True)
+    total = models.Project.all(Session, count=True)
     return flask.render_template(
         'index.html',
         current='index',
@@ -90,10 +89,10 @@ def new_token():
     """Create a new API token for the current user."""
     form = anitya.forms.TokenForm()
     if form.validate_on_submit():
-        token = anitya.lib.model.ApiToken(
+        token = models.ApiToken(
             user=flask.g.user, description=form.description.data)
-        SESSION.add(token)
-        SESSION.commit()
+        Session.add(token)
+        Session.commit()
         return flask.redirect(flask.url_for('anitya_ui.settings'))
     else:
         flask.abort(400)
@@ -105,11 +104,11 @@ def delete_token(token):
     """Delete the API token provided for current user."""
     form = anitya.forms.TokenForm()
     if form.validate_on_submit():
-        t = anitya.lib.model.ApiToken.query.filter_by(user=flask.g.user, token=token).first()
+        t = models.ApiToken.query.filter_by(user=flask.g.user, token=token).first()
         if t is None:
             flask.abort(404)
-        SESSION.delete(t)
-        SESSION.commit()
+        Session.delete(t)
+        Session.commit()
         return flask.redirect(flask.url_for('anitya_ui.settings'))
     else:
         flask.abort(400)
@@ -119,7 +118,7 @@ def delete_token(token):
 @ui_blueprint.route('/project/<int:project_id>/')
 def project(project_id):
 
-    project = anitya.lib.model.Project.by_id(Session, project_id)
+    project = models.Project.by_id(Session, project_id)
 
     if not project:
         flask.abort(404)
@@ -142,9 +141,9 @@ def project_name(project_name):
     except ValueError:
         page = 1
 
-    projects = anitya.lib.model.Project.search(
+    projects = models.Project.search(
         Session, pattern=project_name, page=page)
-    projects_count = anitya.lib.model.Project.search(
+    projects_count = models.Project.search(
         Session, pattern=project_name, count=True)
 
     if projects_count == 1:
@@ -173,8 +172,8 @@ def projects():
     except ValueError:
         page = 1
 
-    projects = anitya.lib.model.Project.all(Session, page=page)
-    projects_count = anitya.lib.model.Project.all(Session, count=True)
+    projects = models.Project.all(Session, page=page)
+    projects_count = models.Project.all(Session, count=True)
 
     total_page = int(ceil(projects_count / float(50)))
 
@@ -213,9 +212,9 @@ def projects_updated(status='updated'):
             'Returning all the projects regardless of how/if their version '
             'was retrieved correctly')
 
-    projects = anitya.lib.model.Project.updated(
+    projects = models.Project.updated(
         Session, status=status, name=name, log=log, page=page)
-    projects_count = anitya.lib.model.Project.updated(
+    projects_count = models.Project.updated(
         Session, status=status, name=name, log=log, count=True)
 
     total_page = int(ceil(projects_count / float(50)))
@@ -244,8 +243,8 @@ def distros():
     except ValueError:
         page = 1
 
-    distros = anitya.lib.model.Distro.all(Session, page=page)
-    distros_count = anitya.lib.model.Distro.all(Session, count=True)
+    distros = models.Distro.all(Session, page=page)
+    distros_count = models.Distro.all(Session, count=True)
 
     total_page = int(ceil(distros_count / float(50)))
 
@@ -269,9 +268,9 @@ def distro(distroname):
     except ValueError:
         page = 1
 
-    projects = anitya.lib.model.Project.by_distro(
+    projects = models.Project.by_distro(
         Session, distro=distroname, page=page)
-    projects_count = anitya.lib.model.Project.by_distro(
+    projects_count = models.Project.by_distro(
         Session, distro=distroname, count=True)
 
     total_page = int(ceil(projects_count / float(50)))
@@ -300,21 +299,21 @@ def projects_search(pattern=None):
     except ValueError:
         page = 1
 
-    projects = anitya.lib.model.Project.search(
+    projects = models.Project.search(
         Session, pattern=pattern, page=page)
 
     if not str(exact).lower() in ['1', 'true']:
         # Extends the search
-        for proj in anitya.lib.model.Project.search(
+        for proj in models.Project.search(
                 Session,
                 pattern=get_extended_pattern(pattern),
                 page=page):
             if proj not in projects:
                 projects.append(proj)
-        projects_count = anitya.lib.model.Project.search(
+        projects_count = models.Project.search(
             Session, pattern=get_extended_pattern(pattern), count=True)
     else:
-        projects_count = anitya.lib.model.Project.search(
+        projects_count = models.Project.search(
             Session, pattern=pattern, count=True)
 
     if projects_count == 1 and projects[0].name == pattern.replace('*', ''):
@@ -349,24 +348,24 @@ def distro_projects_search(distroname, pattern=None):
     except ValueError:
         page = 1
 
-    projects = anitya.lib.model.Project.search(
+    projects = models.Project.search(
         Session, pattern=pattern, distro=distroname, page=page)
 
     if not str(exact).lower() in ['1', 'true']:
         # Extends the search
-        for proj in anitya.lib.model.Project.search(
+        for proj in models.Project.search(
                 Session,
                 pattern=get_extended_pattern(pattern),
                 distro=distroname,
                 page=page):
             if proj not in projects:
                 projects.append(proj)
-        projects_count = anitya.lib.model.Project.search(
+        projects_count = models.Project.search(
             Session,
             pattern=get_extended_pattern(pattern),
             distro=distroname, count=True)
     else:
-        projects_count = anitya.lib.model.Project.search(
+        projects_count = models.Project.search(
             Session, pattern=pattern, distro=distroname, count=True)
 
     if projects_count == 1 and projects[0].name == pattern.replace('*', ''):
@@ -398,7 +397,7 @@ def new_project():
     a HTTP 400 for invalid forms, a HTTP 409 if the request conflicts with an
     existing project, or a HTTP 302 redirect to the new project.
     """
-    plugins = anitya.lib.plugins.load_plugins(Session)
+    plugins = anitya_plugins.load_plugins(Session)
     plg_names = [plugin.name for plugin in plugins]
     form = anitya.forms.ProjectForm(backends=plg_names)
 
@@ -444,7 +443,7 @@ def new_project():
                 Session.commit()
 
             flask.flash('Project created')
-        except anitya.lib.exceptions.AnityaException as err:
+        except exceptions.AnityaException as err:
             flask.flash(str(err))
             return flask.render_template(
                 'project_new.html',
@@ -472,11 +471,11 @@ def new_project():
 @login_required
 def edit_project(project_id):
 
-    project = anitya.lib.model.Project.get(Session, project_id)
+    project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
 
-    plugins = anitya.lib.plugins.load_plugins(Session)
+    plugins = anitya_plugins.load_plugins(Session)
     plg_names = [plugin.name for plugin in plugins]
 
     form = anitya.forms.ProjectForm(
@@ -500,7 +499,7 @@ def edit_project(project_id):
             )
             flask.flash('Project edited')
             flask.session['justedit'] = True
-        except anitya.lib.exceptions.AnityaException as err:
+        except exceptions.AnityaException as err:
             flask.flash(str(err), 'errors')
 
         return flask.redirect(
@@ -521,7 +520,7 @@ def edit_project(project_id):
 @login_required
 def flag_project(project_id):
 
-    project = anitya.lib.model.Project.get(Session, project_id)
+    project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
 
@@ -538,7 +537,7 @@ def flag_project(project_id):
                 user_id=flask.g.user.username,
             )
             flask.flash('Project flagged for admin review')
-        except anitya.lib.exceptions.AnityaException as err:
+        except exceptions.AnityaException as err:
             flask.flash(str(err), 'errors')
 
         return flask.redirect(
@@ -558,7 +557,7 @@ def flag_project(project_id):
 @login_required
 def map_project(project_id):
 
-    project = anitya.lib.model.Project.get(Session, project_id)
+    project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
 
@@ -580,10 +579,10 @@ def map_project(project_id):
             )
             Session.commit()
             flask.flash('Mapping added')
-        except anitya.lib.exceptions.AnityaInvalidMappingException as err:
+        except exceptions.AnityaInvalidMappingException as err:
             err.link = flask.url_for('anitya_ui.project', project_id=err.project_id)
             flask.flash(err.message, 'error')
-        except anitya.lib.exceptions.AnityaException as err:
+        except exceptions.AnityaException as err:
             flask.flash(str(err), 'error')
 
         return flask.redirect(
@@ -602,11 +601,11 @@ def map_project(project_id):
 @login_required
 def edit_project_mapping(project_id, pkg_id):
 
-    project = anitya.lib.model.Project.get(Session, project_id)
+    project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
 
-    package = anitya.lib.model.Packages.by_id(Session, pkg_id)
+    package = models.Packages.by_id(Session, pkg_id)
     if not package:
         flask.abort(404)
 
@@ -627,10 +626,10 @@ def edit_project_mapping(project_id, pkg_id):
 
             Session.commit()
             flask.flash('Mapping edited')
-        except anitya.lib.exceptions.AnityaInvalidMappingException as err:
+        except exceptions.AnityaInvalidMappingException as err:
             err.link = flask.url_for('anitya_ui.project', project_id=err.project_id)
             flask.flash(err.message, 'error')
-        except anitya.lib.exceptions.AnityaException as err:
+        except exceptions.AnityaException as err:
             flask.flash(str(err), 'error')
 
         return flask.redirect(

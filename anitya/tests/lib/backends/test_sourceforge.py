@@ -26,7 +26,7 @@ anitya tests for the custom backend.
 import unittest
 
 import anitya.lib.backends.sourceforge as backend
-import anitya.lib.model as model
+from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
@@ -46,7 +46,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
 
     def create_project(self):
         """ Create some basic projects to work with. """
-        project = model.Project(
+        project = models.Project(
             name='filezilla',
             homepage='http://sourceforge.net/projects/filezilla/',
             backend=BACKEND,
@@ -54,7 +54,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='foobar',
             homepage='http://sourceforge.net/projects/foobar',
             backend=BACKEND,
@@ -62,7 +62,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='file-folder-ren',
             homepage='http://sourceforge.net/projects/file-folder-ren/',
             backend=BACKEND,
@@ -73,13 +73,13 @@ class SourceforgeBackendtests(DatabaseTestCase):
     def test_get_version(self):
         """ Test the get_version function of the sourceforge backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '3.11.0.1'
         obs = backend.SourceforgeBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.SourceforgeBackend.get_version,
@@ -87,7 +87,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.SourceforgeBackend.get_version,
@@ -97,7 +97,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
     def test_get_versions(self):
         """ Test the get_versions function of the sourceforge backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             u'3.9.0.3', u'3.9.0.4', u'3.9.0.5', u'3.9.0.6',
             u'3.10.0', u'3.10.0.1', u'3.10.0.2',
@@ -108,7 +108,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.SourceforgeBackend.get_versions,
@@ -116,7 +116,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.SourceforgeBackend.get_versions,

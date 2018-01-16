@@ -83,7 +83,8 @@ import logging
 from fedmsg.consumers import FedmsgConsumer
 
 from anitya import config
-from anitya.lib import exceptions, plugins, model, utilities
+from anitya.db import models, Session, initialize
+from anitya.lib import exceptions, plugins, utilities
 
 
 _log = logging.getLogger(__name__)
@@ -117,7 +118,7 @@ class LibrariesioConsumer(FedmsgConsumer):
             ]
         _log.info('Subscribing to the following fedmsg topics: %r', self.topic)
 
-        model.initialize(config.config)
+        initialize(config.config)
 
         super(LibrariesioConsumer, self).__init__(hub)
 
@@ -154,8 +155,8 @@ class LibrariesioConsumer(FedmsgConsumer):
                        'unsupported %s platform', version, name, homepage, platform)
             return
 
-        session = model.Session()
-        project = model.Project.by_name_and_ecosystem(session, name, ecosystem.name)
+        session = Session()
+        project = models.Project.by_name_and_ecosystem(session, name, ecosystem.name)
         if project is None and config.config['CREATE_LIBRARIESIO_PROJECTS'] is True:
             try:
                 project = utilities.create_project(
@@ -184,9 +185,9 @@ class LibrariesioConsumer(FedmsgConsumer):
 
         # Refresh the project object that was committed by either
         # ``create_project`` or ``check_project_release`` above
-        project = model.Project.by_name_and_ecosystem(session, name, ecosystem.name)
+        project = models.Project.by_name_and_ecosystem(session, name, ecosystem.name)
         if project and project.latest_version != version:
             _log.info('libraries.io found %r had a latest version of %s, but Anitya found %s',
                       project, version, project.latest_version)
 
-        model.Session.remove()
+        Session.remove()

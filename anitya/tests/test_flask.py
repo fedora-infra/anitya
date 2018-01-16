@@ -26,7 +26,7 @@ anitya tests for the flask application.
 from six.moves.urllib import parse
 import mock
 
-from anitya.lib import model
+from anitya.db import models, Session
 from anitya.tests.base import (AnityaTestCase, DatabaseTestCase, create_distro, create_project,
                                login_user)
 
@@ -36,11 +36,11 @@ class ShutdownSessionTests(AnityaTestCase):
 
     def test_session_removed_post_request(self):
         """Assert that the session is cleaned up after a request."""
-        session = model.Session()
-        self.assertTrue(session is model.Session())
+        session = Session()
+        self.assertTrue(session is Session())
         app = self.flask_app.test_client()
         app.get('/about', follow_redirects=False)
-        self.assertFalse(session is model.Session())
+        self.assertFalse(session is Session())
 
 
 class SettingsTests(DatabaseTestCase):
@@ -49,8 +49,8 @@ class SettingsTests(DatabaseTestCase):
         """Set up the Flask testing environnment"""
         super(SettingsTests, self).setUp()
         self.app = self.flask_app.test_client()
-        session = model.Session()
-        self.user = model.User(email='user@example.com', username='user')
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
         session.add(self.user)
         session.commit()
 
@@ -88,8 +88,8 @@ class SettingsTests(DatabaseTestCase):
 
     def test_delete_token(self):
         """Assert a user can delete an API token."""
-        session = model.Session()
-        token = model.ApiToken(user=self.user, description='Test token')
+        session = Session()
+        token = models.ApiToken(user=self.user, description='Test token')
         session.add(token)
         session.commit()
 
@@ -107,7 +107,7 @@ class SettingsTests(DatabaseTestCase):
 
                 self.assertEqual(output.status_code, 200)
                 self.assertFalse(b'Test token' in output.data)
-                self.assertEqual(0, model.ApiToken.query.filter_by(user=self.user).count())
+                self.assertEqual(0, models.ApiToken.query.filter_by(user=self.user).count())
 
     def test_delete_invalid_token(self):
         """Assert trying to delete an invalid token fails."""
@@ -125,8 +125,8 @@ class SettingsTests(DatabaseTestCase):
 
     def test_delete_token_invalid_csrf(self):
         """Assert trying to delete a token without a CSRF token fails."""
-        session = model.Session()
-        token = model.ApiToken(user=self.user, description='Test token')
+        session = Session()
+        token = models.ApiToken(user=self.user, description='Test token')
         session.add(token)
         session.commit()
 
@@ -138,7 +138,7 @@ class SettingsTests(DatabaseTestCase):
                                 data=data, follow_redirects=True)
 
                 self.assertEqual(output.status_code, 400)
-                self.assertEqual(1, model.ApiToken.query.filter_by(user=self.user).count())
+                self.assertEqual(1, models.ApiToken.query.filter_by(user=self.user).count())
 
 
 class NewProjectTests(DatabaseTestCase):
@@ -148,8 +148,8 @@ class NewProjectTests(DatabaseTestCase):
         """Set up the Flask testing environnment"""
         super(NewProjectTests, self).setUp()
         self.app = self.flask_app.test_client()
-        session = model.Session()
-        self.user = model.User(email='user@example.com', username='user')
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
         session.add(self.user)
         session.commit()
 
@@ -192,7 +192,7 @@ class NewProjectTests(DatabaseTestCase):
                     b'Project created</li>' in output.data)
                 self.assertTrue(
                     b'<h1>Project: repo_manager</h1>' in output.data)
-            projects = model.Project.all(self.session, count=True)
+            projects = models.Project.all(self.session, count=True)
             self.assertEqual(projects, 1)
 
     def test_new_project_no_csrf(self):
@@ -212,7 +212,7 @@ class NewProjectTests(DatabaseTestCase):
                 self.assertTrue(b'<h1>Add project</h1>' in output.data)
                 self.assertTrue(
                     b'<td><label for="regex">Regex</label></td>' in output.data)
-            projects = model.Project.all(self.session, count=True)
+            projects = models.Project.all(self.session, count=True)
             self.assertEqual(projects, 0)
 
     def test_new_project_duplicate(self):
@@ -247,7 +247,7 @@ class NewProjectTests(DatabaseTestCase):
                     b'Unable to create project since it already exists.</li>'
                     in output.data)
                 self.assertTrue(b'<h1>Add project</h1>' in output.data)
-            projects = model.Project.query.count()
+            projects = models.Project.query.count()
             self.assertEqual(projects, 1)
 
     def test_new_project_invalid_homepage(self):
@@ -515,8 +515,8 @@ class EditProjectTests(DatabaseTestCase):
         super(EditProjectTests, self).setUp()
         self.app = self.flask_app.test_client()
         # Make a user to login with
-        session = model.Session()
-        self.user = model.User(email='user@example.com', username='user')
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
         session.add(self.user)
         session.commit()
         create_distro(self.session)
@@ -552,7 +552,7 @@ class EditProjectTests(DatabaseTestCase):
 
             output = self.app.post('/project/1/edit', data=data)
             self.assertEqual(200, output.status_code)
-            self.assertEqual('geany', model.Project.query.get(1).name)
+            self.assertEqual('geany', models.Project.query.get(1).name)
 
     def test_edit_project(self):
         """ Test the edit_project function. """
@@ -607,7 +607,7 @@ class EditProjectTests(DatabaseTestCase):
                     b'already a project with these name and homepage?</li>'
                     in output.data)
                 self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
-                self.assertEqual('geany', model.Project.query.get(1).name)
+                self.assertEqual('geany', models.Project.query.get(1).name)
 
     @mock.patch('anitya.lib.utilities.check_project_release')
     def test_with_check_release(self, patched):
@@ -642,8 +642,8 @@ class MapProjectTests(DatabaseTestCase):
         create_distro(self.session)
         create_project(self.session)
         self.client = self.flask_app.test_client()
-        session = model.Session()
-        self.user = model.User(email='user@example.com', username='user')
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
         session.add(self.user)
         session.commit()
 
@@ -674,7 +674,7 @@ class MapProjectTests(DatabaseTestCase):
             }
             output = self.client.post('/project/1/map', data=data, follow_redirects=False)
             self.assertEqual(output.status_code, 200)
-            self.assertEqual(0, model.Packages.query.count())
+            self.assertEqual(0, models.Packages.query.count())
 
     def test_map_project(self):
         """Assert projects can be mapped to distributions."""
@@ -701,7 +701,7 @@ class MapProjectTests(DatabaseTestCase):
                     b'<li class="list-group-item list-group-item-default">'
                     b'Mapping added</li>' in output.data)
                 self.assertTrue(b'<h1>Project: geany</h1>' in output.data)
-                self.assertEqual(1, model.Packages.query.count())
+                self.assertEqual(1, models.Packages.query.count())
 
     def test_map_same_distro(self):
         """
@@ -741,17 +741,17 @@ class EditProjectMappingTests(DatabaseTestCase):
         super(EditProjectMappingTests, self).setUp()
 
         # Set up a mapping to edit
-        session = model.Session()
-        self.user = model.User(email='user@example.com', username='user')
-        self.distro1 = model.Distro(name='CentOS')
-        self.distro2 = model.Distro(name='Fedora')
-        self.project = model.Project(
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
+        self.distro1 = models.Distro(name='CentOS')
+        self.distro2 = models.Distro(name='Fedora')
+        self.project = models.Project(
             name='python_project',
             homepage='https://example.com/python_project',
             backend='PyPI',
             ecosystem_name='pypi',
         )
-        self.package = model.Packages(
+        self.package = models.Packages(
             package_name='python_project', distro=self.distro1.name, project=self.project)
         session.add_all([self.user, self.distro1, self.distro2, self.project, self.package])
         session.commit()
@@ -773,7 +773,7 @@ class EditProjectMappingTests(DatabaseTestCase):
             self.assertEqual(pre_edit_output.status_code, 200)
             self.assertEqual(output.status_code, 200)
 
-            packages = model.Packages.query.all()
+            packages = models.Packages.query.all()
             self.assertEqual(1, len(packages))
             self.assertEqual('Python Project', packages[0].package_name)
 
@@ -793,21 +793,21 @@ class EditProjectMappingTests(DatabaseTestCase):
             self.assertEqual(pre_edit_output.status_code, 200)
             self.assertEqual(output.status_code, 200)
 
-            packages = model.Packages.query.all()
+            packages = models.Packages.query.all()
             self.assertEqual(1, len(packages))
             self.assertEqual(self.distro2.name, packages[0].distro)
 
     def test_clashing_package_name(self):
         """Assert two projects can't map to the same package name in a distro."""
         # Set up a package to clash with.
-        session = model.Session()
-        best_project = model.Project(
+        session = Session()
+        best_project = models.Project(
             name='best_project',
             homepage='https://example.com/best_project',
             backend='PyPI',
             ecosystem_name='pypi',
         )
-        best_package = model.Packages(
+        best_package = models.Packages(
             package_name='best_project', distro=self.distro1.name, project=best_project)
         session.add_all([best_project, best_package])
         session.commit()
@@ -824,10 +824,10 @@ class EditProjectMappingTests(DatabaseTestCase):
             output = self.client.post('/project/1/map/1', data=data, follow_redirects=True)
 
             self.assertEqual(output.status_code, 200)
-            self.assertEqual(2, model.Packages.query.count())
-            self.assertEqual(1, model.Packages.query.filter_by(
+            self.assertEqual(2, models.Packages.query.count())
+            self.assertEqual(1, models.Packages.query.filter_by(
                 package_name='best_project').count())
-            self.assertEqual(1, model.Packages.query.filter_by(
+            self.assertEqual(1, models.Packages.query.filter_by(
                 package_name='python_project').count())
             self.assertTrue(b'Could not edit the mapping' in output.data)
 

@@ -86,7 +86,7 @@ DEFAULTS = dict(
         'social_core.backends.open_id.OpenIdAuth',
     ),
     SOCIAL_AUTH_STORAGE='social_flask_sqlalchemy.models.FlaskStorage',
-    SOCIAL_AUTH_USER_MODEL='anitya.lib.model.User',
+    SOCIAL_AUTH_USER_MODEL='anitya.db.models.User',
     # Force the application to require HTTPS on authentication redirects.
     SOCIAL_AUTH_REDIRECT_IS_HTTPS=True,
     SOCIAL_AUTH_LOGIN_URL='/login/',

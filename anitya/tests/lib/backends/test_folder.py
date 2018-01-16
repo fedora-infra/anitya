@@ -28,7 +28,7 @@ import unittest
 import mock
 
 import anitya.lib.backends.folder as backend  # NOQA
-import anitya.lib.model as model  # NOQA
+from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException  # NOQA
 from anitya.tests.base import DatabaseTestCase, create_distro  # NOQA
 
@@ -48,7 +48,7 @@ class FolderBackendtests(DatabaseTestCase):
 
     def create_project(self):
         """ Create some basic projects to work with. """
-        project = model.Project(
+        project = models.Project(
             name='gnash',
             homepage='https://www.gnu.org/software/gnash/',
             version_url='http://ftp.gnu.org/pub/gnu/gnash/',
@@ -57,7 +57,7 @@ class FolderBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='fake',
             homepage='https://pypi.python.org/pypi/repo_manager_fake',
             backend=BACKEND,
@@ -66,7 +66,7 @@ class FolderBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='subsurface',
             homepage='http://subsurface.hohndel.org/',
             version_url='http://subsurface.hohndel.org/downloads/',
@@ -78,13 +78,13 @@ class FolderBackendtests(DatabaseTestCase):
     def test_folder_get_version(self):
         """ Test the get_version function of the folder backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '0.8.10'
         obs = backend.FolderBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.FolderBackend.get_version,
@@ -92,7 +92,7 @@ class FolderBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '4.4.2'
         obs = backend.FolderBackend.get_version(project)
         self.assertEqual(obs, exp)
@@ -100,7 +100,7 @@ class FolderBackendtests(DatabaseTestCase):
     def test_folder_get_versions_insecure(self):
         """Assert projects with insecure=True get the URL insecurely"""
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
 
         with mock.patch('anitya.lib.backends.BaseBackend.call_url') as m_call:
             m_call.side_effect = backend.BaseBackend.call_url
@@ -114,7 +114,7 @@ class FolderBackendtests(DatabaseTestCase):
     def test_folder_get_versions(self):
         """ Test the get_versions function of the folder backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             u'0.7.1', u'0.7.2', u'0.8.0', u'0.8.1', u'0.8.2', u'0.8.3',
             u'0.8.4', u'0.8.5', u'0.8.6', u'0.8.7', u'0.8.8', u'0.8.9',
@@ -124,7 +124,7 @@ class FolderBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.FolderBackend.get_version,
@@ -132,7 +132,7 @@ class FolderBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             u'3.1.1', u'4.0', u'4.0.1', u'4.0.2', u'4.0.3', u'4.1', u'4.2',
             u'4.3', u'4.4.0', u'4.4.1', u'4.4.2',

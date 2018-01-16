@@ -12,8 +12,8 @@ from flask import jsonify
 from flask_restful import Resource, reqparse
 
 from anitya import authentication
-from anitya.db import Session
-from anitya.lib import utilities, model
+from anitya.db import Session, models
+from anitya.lib import utilities
 from anitya.lib.exceptions import ProjectExists
 
 _BASE_ARG_PARSER = reqparse.RequestParser(trim=True, bundle_errors=True)
@@ -133,8 +133,8 @@ class ProjectsResource(Resource):
         parser.add_argument('page', type=_page_validator, location='args')
         parser.add_argument('items_per_page', type=_items_per_page_validator, location='args')
         args = parser.parse_args(strict=True)
-        projects_page = model.Project.query.paginate(
-            order_by=model.Project.name, **args)
+        projects_page = models.Project.query.paginate(
+            order_by=models.Project.name, **args)
         return projects_page.as_dict()
 
     @authentication.require_token

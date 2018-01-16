@@ -121,7 +121,7 @@ class CratesBackend(BaseBackend):
         Make a request for all versions of the project provided.
 
         Args:
-            project (anitya.lib.model.Project): The Rust project to retrieve
+            project (anitya.lib.anitya.db.models.Project): The Rust project to retrieve
                 versions for.
 
         Returns:
@@ -166,7 +166,7 @@ class CratesBackend(BaseBackend):
         Get the latest version of the project provided.
 
         Args:
-            project (anitya.lib.model.Project): The Rust project to retrieve
+            project (anitya.lib.anitya.db.models.Project): The Rust project to retrieve
                 the latest version for.
 
         Returns:
@@ -184,7 +184,7 @@ class CratesBackend(BaseBackend):
         Get all versions of the project provided.
 
         Args:
-            project (anitya.lib.model.Project): The Rust project to retrieve
+            project (anitya.lib.anitya.db.models.Project): The Rust project to retrieve
                 versions for.
 
         Returns:
@@ -202,7 +202,7 @@ class CratesBackend(BaseBackend):
         Get all versions of the project provided, ordered from newest to oldest.
 
         Args:
-            project (anitya.lib.model.Project): The Rust project to retrieve
+            project (anitya.lib.anitya.db.models.Project): The Rust project to retrieve
                 versions for.
 
         Returns:

@@ -26,7 +26,7 @@ anitya tests for the custom backend.
 import unittest
 
 import anitya.lib.backends.npmjs as backend
-import anitya.lib.model as model
+from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
@@ -46,7 +46,7 @@ class NpmjsBackendtests(DatabaseTestCase):
 
     def create_project(self):
         """ Create some basic projects to work with. """
-        project = model.Project(
+        project = models.Project(
             name='request',
             homepage='https://www.npmjs.org/package/request',
             backend=BACKEND,
@@ -54,7 +54,7 @@ class NpmjsBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='foobarasd',
             homepage='https://www.npmjs.org/package/foobarasd',
             backend=BACKEND,
@@ -62,7 +62,7 @@ class NpmjsBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='colors',
             homepage='https://www.npmjs.org/package/colors',
             backend=BACKEND,
@@ -73,13 +73,13 @@ class NpmjsBackendtests(DatabaseTestCase):
     def test_get_version(self):
         """ Test the get_version function of the npmjs backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '2.56.0'
         obs = backend.NpmjsBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.NpmjsBackend.get_version,
@@ -87,7 +87,7 @@ class NpmjsBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '1.1.0'
         obs = backend.NpmjsBackend.get_version(project)
         self.assertEqual(obs, exp)
@@ -95,7 +95,7 @@ class NpmjsBackendtests(DatabaseTestCase):
     def test_get_versions(self):
         """ Test the get_versions function of the npmjs backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             u'0.8.3', u'0.9.0', u'0.9.1', u'0.9.5', u'0.10.0',
             u'1.0.0', u'1.1.0', u'1.1.1', u'1.2.0',
@@ -124,7 +124,7 @@ class NpmjsBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.NpmjsBackend.get_versions,
@@ -132,7 +132,7 @@ class NpmjsBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             u'0.3.0', u'0.5.0', u'0.5.1',
             u'0.6.0', u'0.6.0-1', u'0.6.1', u'0.6.2',

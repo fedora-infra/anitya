@@ -23,7 +23,7 @@ import mock
 import six
 
 from anitya import admin
-from anitya.lib import model
+from anitya.db import models, Session
 from anitya.tests.base import DatabaseTestCase, login_user
 
 
@@ -34,14 +34,14 @@ class IsAdminTests(DatabaseTestCase):
         super(IsAdminTests, self).setUp()
 
         # Add a regular user and an admin user
-        session = model.Session()
-        self.user = model.User(email='user@example.com', username='user')
-        self.admin = model.User(email='admin@example.com', username='admin')
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
+        self.admin = models.User(email='admin@example.com', username='admin')
         session.add_all([self.user, self.admin])
         session.commit()
 
         mock_config = mock.patch.dict(
-            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+            models.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
         mock_config.start()
         self.addCleanup(mock_config.stop)
 
@@ -61,14 +61,14 @@ class AddDistroTests(DatabaseTestCase):
         super(AddDistroTests, self).setUp()
 
         # Add a regular user and an admin user
-        session = model.Session()
-        self.user = model.User(email='user@example.com', username='user')
-        self.admin = model.User(email='admin@example.com', username='admin')
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
+        self.admin = models.User(email='admin@example.com', username='admin')
         session.add_all([self.user, self.admin])
         session.commit()
 
         mock_config = mock.patch.dict(
-            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+            models.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
         mock_config.start()
         self.addCleanup(mock_config.stop)
 
@@ -85,14 +85,14 @@ class AddDistroTests(DatabaseTestCase):
         with login_user(self.flask_app, self.admin):
             output = self.client.post('/distro/add', data={'name': 'Fedora'})
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, model.Distro.query.count())
+            self.assertEqual(0, models.Distro.query.count())
 
     def test_invalid_csrf_token(self):
         """Assert submitting with an invalid CSRF token, no change is made."""
         with login_user(self.flask_app, self.admin):
             output = self.client.post('/distro/add', data={'csrf_token': 'abc', 'name': 'Fedora'})
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, model.Distro.query.count())
+            self.assertEqual(0, models.Distro.query.count())
 
     def test_admin_get(self):
         """Assert admin users can view the add a distribution page."""
@@ -135,19 +135,19 @@ class EditDistroTests(DatabaseTestCase):
         super(EditDistroTests, self).setUp()
 
         # Add a regular user and an admin user
-        session = model.Session()
-        self.user = model.User(email='user@example.com', username='user')
-        self.admin = model.User(email='admin@example.com', username='admin')
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
+        self.admin = models.User(email='admin@example.com', username='admin')
 
         # Add distributions to edit
-        self.fedora = model.Distro(name='Fedora')
-        self.centos = model.Distro(name='CentOS')
+        self.fedora = models.Distro(name='Fedora')
+        self.centos = models.Distro(name='CentOS')
 
         session.add_all([self.user, self.admin, self.fedora, self.centos])
         session.commit()
 
         mock_config = mock.patch.dict(
-            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+            models.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
         mock_config.start()
         self.addCleanup(mock_config.stop)
 
@@ -194,7 +194,7 @@ class EditDistroTests(DatabaseTestCase):
         with login_user(self.flask_app, self.admin):
             output = self.client.post('/distro/Fedora/edit', data={'name': 'Top'})
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, model.Distro.query.filter_by(name='Top').count())
+            self.assertEqual(0, models.Distro.query.filter_by(name='Top').count())
 
     def test_invalid_csrf_token(self):
         """Assert submitting with an invalid CSRF token results in no change."""
@@ -202,7 +202,7 @@ class EditDistroTests(DatabaseTestCase):
             output = self.client.post(
                 '/distro/Fedora/edit', data={'csrf_token': 'a', 'name': 'Top'})
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, model.Distro.query.filter_by(name='Top').count())
+            self.assertEqual(0, models.Distro.query.filter_by(name='Top').count())
 
 
 class DeleteDistroTests(DatabaseTestCase):
@@ -212,19 +212,19 @@ class DeleteDistroTests(DatabaseTestCase):
         super(DeleteDistroTests, self).setUp()
 
         # Add a regular user and an admin user
-        session = model.Session()
-        self.user = model.User(email='user@example.com', username='user')
-        self.admin = model.User(email='admin@example.com', username='admin')
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
+        self.admin = models.User(email='admin@example.com', username='admin')
 
         # Add distributions to delete
-        self.fedora = model.Distro(name='Fedora')
-        self.centos = model.Distro(name='CentOS')
+        self.fedora = models.Distro(name='Fedora')
+        self.centos = models.Distro(name='CentOS')
 
         session.add_all([self.user, self.admin, self.fedora, self.centos])
         session.commit()
 
         mock_config = mock.patch.dict(
-            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+            models.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
         mock_config.start()
         self.addCleanup(mock_config.stop)
 
@@ -271,14 +271,14 @@ class DeleteDistroTests(DatabaseTestCase):
         with login_user(self.flask_app, self.admin):
             output = self.client.post('/distro/Fedora/delete', data={})
             self.assertEqual(200, output.status_code)
-            self.assertEqual(1, model.Distro.query.filter_by(name='Fedora').count())
+            self.assertEqual(1, models.Distro.query.filter_by(name='Fedora').count())
 
     def test_invalid_csrf_token(self):
         """Assert submitting with an invalid CSRF token results in no change."""
         with login_user(self.flask_app, self.admin):
             output = self.client.post('/distro/Fedora/delete', data={'csrf_token': 'a'})
             self.assertEqual(200, output.status_code)
-            self.assertEqual(1, model.Distro.query.filter_by(name='Fedora').count())
+            self.assertEqual(1, models.Distro.query.filter_by(name='Fedora').count())
 
 
 class DeleteProjectTests(DatabaseTestCase):
@@ -286,22 +286,22 @@ class DeleteProjectTests(DatabaseTestCase):
 
     def setUp(self):
         super(DeleteProjectTests, self).setUp()
-        self.project = model.Project(
+        self.project = models.Project(
             name='test_project',
             homepage='https://example.com/test_project',
             backend='PyPI',
         )
 
         # Add a regular user and an admin user
-        session = model.Session()
-        self.user = model.User(email='user@example.com', username='user')
-        self.admin = model.User(email='admin@example.com', username='admin')
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
+        self.admin = models.User(email='admin@example.com', username='admin')
 
         session.add_all([self.user, self.admin, self.project])
         session.commit()
 
         mock_config = mock.patch.dict(
-            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+            models.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
         mock_config.start()
         self.addCleanup(mock_config.stop)
 
@@ -343,7 +343,7 @@ class DeleteProjectTests(DatabaseTestCase):
                 '/project/{0}/delete'.format(self.project.id), data=data, follow_redirects=True)
 
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, len(model.Project.query.all()))
+            self.assertEqual(0, len(models.Project.query.all()))
 
     def test_admin_post_unconfirmed(self):
         """Assert admin users must confirm deleting projects."""
@@ -356,7 +356,7 @@ class DeleteProjectTests(DatabaseTestCase):
             output = self.client.post('/project/{0}/delete'.format(self.project.id), data=data)
 
             self.assertEqual(302, output.status_code)
-            self.assertEqual(1, len(model.Project.query.all()))
+            self.assertEqual(1, len(models.Project.query.all()))
 
 
 class DeleteProjectMappingTests(DatabaseTestCase):
@@ -364,25 +364,25 @@ class DeleteProjectMappingTests(DatabaseTestCase):
 
     def setUp(self):
         super(DeleteProjectMappingTests, self).setUp()
-        self.project = model.Project(
+        self.project = models.Project(
             name='test_project',
             homepage='https://example.com/test_project',
             backend='PyPI',
         )
-        self.distro = model.Distro(name='Fedora')
-        self.package = model.Packages(
+        self.distro = models.Distro(name='Fedora')
+        self.package = models.Packages(
             distro=self.distro.name, project=self.project, package_name='test-project')
 
         # Add a regular user and an admin user
-        session = model.Session()
-        self.user = model.User(email='user@example.com', username='user')
-        self.admin = model.User(email='admin@example.com', username='admin')
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
+        self.admin = models.User(email='admin@example.com', username='admin')
 
         session.add_all([self.user, self.admin, self.distro, self.project, self.package])
         session.commit()
 
         mock_config = mock.patch.dict(
-            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+            models.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
         mock_config.start()
         self.addCleanup(mock_config.stop)
 
@@ -436,7 +436,7 @@ class DeleteProjectMappingTests(DatabaseTestCase):
                 '/project/1/delete/Fedora/test-project', data=data, follow_redirects=True)
 
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, len(model.Packages.query.all()))
+            self.assertEqual(0, len(models.Packages.query.all()))
 
     def test_admin_post_unconfirmed(self):
         """Assert failing to confirm the action results in no change."""
@@ -450,7 +450,7 @@ class DeleteProjectMappingTests(DatabaseTestCase):
                 '/project/1/delete/Fedora/test-project', data=data, follow_redirects=True)
 
             self.assertEqual(200, output.status_code)
-            self.assertEqual(1, len(model.Packages.query.all()))
+            self.assertEqual(1, len(models.Packages.query.all()))
 
 
 class DeleteProjectVersionTests(DatabaseTestCase):
@@ -458,25 +458,25 @@ class DeleteProjectVersionTests(DatabaseTestCase):
 
     def setUp(self):
         super(DeleteProjectVersionTests, self).setUp()
-        session = model.Session()
+        session = Session()
 
         # Add a project with a version to delete.
-        self.project = model.Project(
+        self.project = models.Project(
             name='test_project',
             homepage='https://example.com/test_project',
             backend='PyPI',
         )
-        self.project_version = model.ProjectVersion(project=self.project, version='1.0.0')
+        self.project_version = models.ProjectVersion(project=self.project, version='1.0.0')
 
         # Add a regular user and an admin user
-        self.user = model.User(email='user@example.com', username='user')
-        self.admin = model.User(email='admin@example.com', username='admin')
+        self.user = models.User(email='user@example.com', username='user')
+        self.admin = models.User(email='admin@example.com', username='admin')
 
         session.add_all([self.user, self.admin, self.project, self.project_version])
         session.commit()
 
         mock_config = mock.patch.dict(
-            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+            models.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
         mock_config.start()
         self.addCleanup(mock_config.stop)
 
@@ -522,7 +522,7 @@ class DeleteProjectVersionTests(DatabaseTestCase):
 
             output = self.client.post('/project/1/delete/1.0.0', data=data, follow_redirects=True)
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, len(model.ProjectVersion.query.all()))
+            self.assertEqual(0, len(models.ProjectVersion.query.all()))
 
     def test_admin_post_unconfirmed(self):
         """Assert failing to confirm the action results in no change."""
@@ -534,7 +534,7 @@ class DeleteProjectVersionTests(DatabaseTestCase):
 
             output = self.client.post('/project/1/delete/1.0.0', data=data)
             self.assertEqual(302, output.status_code)
-            self.assertEqual(1, len(model.ProjectVersion.query.all()))
+            self.assertEqual(1, len(models.ProjectVersion.query.all()))
 
 
 class BrowseLogsTests(DatabaseTestCase):
@@ -542,19 +542,19 @@ class BrowseLogsTests(DatabaseTestCase):
 
     def setUp(self):
         super(BrowseLogsTests, self).setUp()
-        session = model.Session()
+        session = Session()
 
         # Add a regular user and an admin user
-        self.user = model.User(email='user@example.com', username='user')
-        self.admin = model.User(email='admin@example.com', username='admin')
+        self.user = models.User(email='user@example.com', username='user')
+        self.admin = models.User(email='admin@example.com', username='admin')
 
-        self.user_log = model.Log(
+        self.user_log = models.Log(
             user='user@example.com',
             project='relational_db',
             distro='Fedora',
             description='This is a log',
         )
-        self.admin_log = model.Log(
+        self.admin_log = models.Log(
             user='admin',
             project='best_project',
             distro='CentOS',
@@ -565,7 +565,7 @@ class BrowseLogsTests(DatabaseTestCase):
         session.commit()
 
         mock_config = mock.patch.dict(
-            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+            models.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
         mock_config.start()
         self.addCleanup(mock_config.stop)
 
@@ -613,19 +613,19 @@ class BrowseFlagsTests(DatabaseTestCase):
 
     def setUp(self):
         super(BrowseFlagsTests, self).setUp()
-        session = model.Session()
+        session = Session()
 
         # Add a regular user and an admin user
-        self.user = model.User(email='user@example.com', username='user')
-        self.admin = model.User(email='admin@example.com', username='admin')
+        self.user = models.User(email='user@example.com', username='user')
+        self.admin = models.User(email='admin@example.com', username='admin')
 
-        self.project1 = model.Project(
+        self.project1 = models.Project(
             name='test_project', homepage='https://example.com/test_project', backend='PyPI')
-        self.project2 = model.Project(
+        self.project2 = models.Project(
             name='project2', homepage='https://example.com/project2', backend='PyPI')
-        self.flag1 = model.ProjectFlag(
+        self.flag1 = models.ProjectFlag(
             reason='I wanted to flag it', user='user', project=self.project1)
-        self.flag2 = model.ProjectFlag(
+        self.flag2 = models.ProjectFlag(
             reason='This project is wrong', user='user', project=self.project2)
 
         session.add_all(
@@ -633,7 +633,7 @@ class BrowseFlagsTests(DatabaseTestCase):
         session.commit()
 
         mock_config = mock.patch.dict(
-            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+            models.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
         mock_config.start()
         self.addCleanup(mock_config.stop)
 
@@ -693,19 +693,19 @@ class SetFlagStateTests(DatabaseTestCase):
 
     def setUp(self):
         super(SetFlagStateTests, self).setUp()
-        session = model.Session()
+        session = Session()
 
         # Add a regular user and an admin user
-        self.user = model.User(email='user@example.com', username='user')
-        self.admin = model.User(email='admin@example.com', username='admin')
+        self.user = models.User(email='user@example.com', username='user')
+        self.admin = models.User(email='admin@example.com', username='admin')
 
-        self.project1 = model.Project(
+        self.project1 = models.Project(
             name='test_project', homepage='https://example.com/test_project', backend='PyPI')
-        self.project2 = model.Project(
+        self.project2 = models.Project(
             name='project2', homepage='https://example.com/project2', backend='PyPI')
-        self.flag1 = model.ProjectFlag(
+        self.flag1 = models.ProjectFlag(
             reason='I wanted to flag it', user='user', project=self.project1)
-        self.flag2 = model.ProjectFlag(
+        self.flag2 = models.ProjectFlag(
             reason='This project is wrong', user='user', project=self.project2)
 
         session.add_all(
@@ -713,7 +713,7 @@ class SetFlagStateTests(DatabaseTestCase):
         session.commit()
 
         mock_config = mock.patch.dict(
-            model.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
+            models.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
         mock_config.start()
         self.addCleanup(mock_config.stop)
 

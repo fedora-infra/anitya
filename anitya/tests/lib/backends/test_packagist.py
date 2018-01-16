@@ -26,7 +26,7 @@ anitya tests for the packagist backend.
 import unittest
 
 import anitya.lib.backends.packagist as backend
-import anitya.lib.model as model
+from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
@@ -46,7 +46,7 @@ class PackagistBackendtests(DatabaseTestCase):
 
     def create_project(self):
         """ Create some basic projects to work with. """
-        project = model.Project(
+        project = models.Project(
             name='php-code-coverage',
             homepage='https://packagist.org/packages/phpunit/php-code-coverage',
             version_url='phpunit',
@@ -55,7 +55,7 @@ class PackagistBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='fake',
             homepage='https://packagist.org/packages/fake/php-fake',
             version_url='fake',
@@ -64,7 +64,7 @@ class PackagistBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='php-timer',
             homepage='https://packagist.org/packages/phpunit/php-timer',
             version_url='phpunit',
@@ -76,13 +76,13 @@ class PackagistBackendtests(DatabaseTestCase):
     def test_packagist_get_version(self):
         """ Test the get_version function of the packagist backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '2.0.17'
         obs = backend.PackagistBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.PackagistBackend.get_version,
@@ -90,7 +90,7 @@ class PackagistBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '1.0.5'
         obs = backend.PackagistBackend.get_version(project)
         self.assertEqual(obs, exp)
@@ -98,7 +98,7 @@ class PackagistBackendtests(DatabaseTestCase):
     def test_packagist_get_versions(self):
         """ Test the get_versions function of the packagist backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             u'1.2.0', u'1.2.1', u'1.2.10', u'1.2.11', u'1.2.12', u'1.2.13',
             u'1.2.14', u'1.2.15', u'1.2.16', u'1.2.17', u'1.2.18', u'1.2.2',
@@ -115,7 +115,7 @@ class PackagistBackendtests(DatabaseTestCase):
         self.assertListEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.PackagistBackend.get_versions,
@@ -123,7 +123,7 @@ class PackagistBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = ['dev-master', '1.0.3', '1.0.4', '1.0.5']
         obs = backend.PackagistBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)

@@ -26,7 +26,7 @@ anitya tests for the custom backend.
 import unittest
 
 import anitya.lib.backends.launchpad as backend
-import anitya.lib.model as model
+from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
@@ -46,7 +46,7 @@ class LaunchpadBackendtests(DatabaseTestCase):
 
     def create_project(self):
         """ Create some basic projects to work with. """
-        project = model.Project(
+        project = models.Project(
             name='exaile',
             homepage='https://launchpad.net/exaile',
             backend=BACKEND,
@@ -54,7 +54,7 @@ class LaunchpadBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='foo',
             homepage='https://launchpad.net/foo',
             backend=BACKEND,
@@ -65,13 +65,13 @@ class LaunchpadBackendtests(DatabaseTestCase):
     def test_get_version(self):
         """ Test the get_version function of the custom backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '3.4.0'
         obs = backend.LaunchpadBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.LaunchpadBackend.get_version,
@@ -81,13 +81,13 @@ class LaunchpadBackendtests(DatabaseTestCase):
     def test_get_versions(self):
         """ Test the get_versions function of the custom backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = ['3.3.0', '3.3.1', '3.3.2', '3.4.0']
         obs = backend.LaunchpadBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.LaunchpadBackend.get_version,
