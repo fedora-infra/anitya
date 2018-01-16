@@ -77,6 +77,44 @@ def logout():
     return flask.redirect('/')
 
 
+@ui_blueprint.route('/settings/', methods=('GET', 'POST'))
+@login_required
+def settings():
+    """The user's settings, currently only the API token page."""
+    return flask.render_template('settings.html', form=anitya.forms.TokenForm())
+
+
+@ui_blueprint.route('/settings/tokens/new', methods=('POST',))
+@login_required
+def new_token():
+    """Create a new API token for the current user."""
+    form = anitya.forms.TokenForm()
+    if form.validate_on_submit():
+        token = anitya.lib.model.ApiToken(
+            user=flask.g.user, description=form.description.data)
+        SESSION.add(token)
+        SESSION.commit()
+        return flask.redirect(flask.url_for('anitya_ui.settings'))
+    else:
+        flask.abort(400)
+
+
+@ui_blueprint.route('/settings/tokens/delete/<token>/', methods=('POST',))
+@login_required
+def delete_token(token):
+    """Delete the API token provided for current user."""
+    form = anitya.forms.TokenForm()
+    if form.validate_on_submit():
+        t = anitya.lib.model.ApiToken.query.filter_by(user=flask.g.user, token=token).first()
+        if t is None:
+            flask.abort(404)
+        SESSION.delete(t)
+        SESSION.commit()
+        return flask.redirect(flask.url_for('anitya_ui.settings'))
+    else:
+        flask.abort(400)
+
+
 @ui_blueprint.route('/project/<int:project_id>')
 @ui_blueprint.route('/project/<int:project_id>/')
 def project(project_id):

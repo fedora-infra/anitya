@@ -43,6 +43,104 @@ class ShutdownSessionTests(AnityaTestCase):
         self.assertFalse(session is model.Session())
 
 
+class SettingsTests(DatabaseTestCase):
+
+    def setUp(self):
+        """Set up the Flask testing environnment"""
+        super(SettingsTests, self).setUp()
+        self.app = self.flask_app.test_client()
+        session = model.Session()
+        self.user = model.User(email='user@example.com', username='user')
+        session.add(self.user)
+        session.commit()
+
+    def test_login_required(self):
+        """Assert this view is protected and login is required."""
+        output = self.app.get('/settings/', follow_redirects=False)
+        self.assertEqual(output.status_code, 302)
+        self.assertEqual('/login/', parse.urlparse(output.location).path)
+
+    def test_new_token(self):
+        """Assert a user can create a new API token."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/settings/', follow_redirects=False)
+                self.assertEqual(output.status_code, 200)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {'csrf_token': csrf_token, 'description': 'Test token'}
+
+                output = c.post('/settings/tokens/new', data=data, follow_redirects=True)
+
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(b'Test token' in output.data)
+
+    def test_new_token_bad_csrf(self):
+        """Assert a valid CSRF token is required to make a token."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                data = {'csrf_token': 'no good?', 'description': 'Test token'}
+
+                output = c.post('/settings/tokens/new', data=data, follow_redirects=True)
+
+                self.assertEqual(output.status_code, 400)
+                self.assertFalse(b'Test token' in output.data)
+
+    def test_delete_token(self):
+        """Assert a user can delete an API token."""
+        session = model.Session()
+        token = model.ApiToken(user=self.user, description='Test token')
+        session.add(token)
+        session.commit()
+
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/settings/', follow_redirects=False)
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(b'Test token' in output.data)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {'csrf_token': csrf_token}
+
+                output = c.post('/settings/tokens/delete/{}/'.format(token.token),
+                                data=data, follow_redirects=True)
+
+                self.assertEqual(output.status_code, 200)
+                self.assertFalse(b'Test token' in output.data)
+                self.assertEqual(0, model.ApiToken.query.filter_by(user=self.user).count())
+
+    def test_delete_invalid_token(self):
+        """Assert trying to delete an invalid token fails."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/settings/', follow_redirects=False)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {'csrf_token': csrf_token}
+
+                output = c.post('/settings/tokens/delete/thisprobablywillnotwork/',
+                                data=data, follow_redirects=True)
+
+                self.assertEqual(output.status_code, 404)
+
+    def test_delete_token_invalid_csrf(self):
+        """Assert trying to delete a token without a CSRF token fails."""
+        session = model.Session()
+        token = model.ApiToken(user=self.user, description='Test token')
+        session.add(token)
+        session.commit()
+
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                data = {'csrf_token': 'not a valid token'}
+
+                output = c.post('/settings/tokens/delete/{}/'.format(token.token),
+                                data=data, follow_redirects=True)
+
+                self.assertEqual(output.status_code, 400)
+                self.assertEqual(1, model.ApiToken.query.filter_by(user=self.user).count())
+
+
 class NewProjectTests(DatabaseTestCase):
     """Tests for the ``/project/new`` endpoint"""
 
