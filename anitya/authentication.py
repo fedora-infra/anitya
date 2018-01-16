@@ -80,7 +80,10 @@ def load_user_from_request(request):
     api_key = request.headers.get('Authorization')
     if api_key:
         _log.debug('Attempting to authenticate via user-provided "Authorization" header')
-        key_type, key_value = api_key.split()
+        try:
+            key_type, key_value = api_key.split()
+        except ValueError:
+            return
         if key_type.lower() == 'token':
             try:
                 api_token = ApiToken.query.filter_by(token=key_value).one()
