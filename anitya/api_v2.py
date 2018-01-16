@@ -12,9 +12,9 @@ from flask import jsonify
 from flask_restful import Resource, reqparse
 
 from anitya import authentication
+from anitya.db import Session
 from anitya.lib import utilities, model
 from anitya.lib.exceptions import ProjectExists
-from anitya.lib.model import Session as SESSION
 
 _BASE_ARG_PARSER = reqparse.RequestParser(trim=True, bundle_errors=True)
 
@@ -242,11 +242,11 @@ class ProjectsResource(Resource):
 
         try:
             project = utilities.create_project(
-                SESSION,
+                Session,
                 user_id=flask_login.current_user.email,
                 **args
             )
-            SESSION.commit()
+            Session.commit()
             return project.__json__(), 201
         except ProjectExists as e:
             response = jsonify(e.to_dict())
