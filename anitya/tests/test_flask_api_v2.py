@@ -115,6 +115,72 @@ class ProjectsResourceGetTests(DatabaseTestCase):
 
         self.assertEqual(data, exp)
 
+    def test_filter_projects_by_ecosystem(self):
+        """Assert projects can be filtered by ecosystem."""
+        create_project(self.session)
+
+        output = self.app.get(
+            '/api/v2/projects/?ecosystem=http%3A%2F%2Fsubsurface.hohndel.org%2F')
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        for item in data['items']:
+            del item['created_on']
+            del item['updated_on']
+
+        exp = {
+            'page': 1,
+            'items_per_page': 25,
+            'total_items': 1,
+            'items': [
+                {
+                    "id": 2,
+                    "backend": "custom",
+                    "homepage": "http://subsurface.hohndel.org/",
+                    "name": "subsurface",
+                    "regex": "DEFAULT",
+                    "version": None,
+                    "version_url": "http://subsurface.hohndel.org/downloads/",
+                    "versions": []
+                }
+            ]
+        }
+
+        self.assertEqual(data, exp)
+
+    def test_filter_projects_by_name(self):
+        """Assert projects can be filtered by name."""
+        create_project(self.session)
+
+        output = self.app.get(
+            '/api/v2/projects/?name=subsurface')
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        for item in data['items']:
+            del item['created_on']
+            del item['updated_on']
+
+        exp = {
+            'page': 1,
+            'items_per_page': 25,
+            'total_items': 1,
+            'items': [
+                {
+                    "id": 2,
+                    "backend": "custom",
+                    "homepage": "http://subsurface.hohndel.org/",
+                    "name": "subsurface",
+                    "regex": "DEFAULT",
+                    "version": None,
+                    "version_url": "http://subsurface.hohndel.org/downloads/",
+                    "versions": []
+                }
+            ]
+        }
+
+        self.assertEqual(data, exp)
+
     def test_list_projects_items_per_page(self):
         """Assert pagination works and page size is adjustable."""
         api_endpoint = '/api/v2/projects/?items_per_page=1'

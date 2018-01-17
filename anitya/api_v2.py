@@ -125,16 +125,27 @@ class ProjectsResource(Resource):
         :query int page: The project page number to retrieve (defaults to 1).
         :query int items_per_page: The number of items per page (defaults to
                                    25, maximum of 250).
+        :query string ecosystem: The project ecosystem (e.g. pypi, rubygems).
+            If the project is not part of a language package index, use its homepage.
+        :query string name: The project name to filter the query by.
         :statuscode 200: If all arguments are valid. Note that even if there
-                         are no projects, this will return 200.
+                         are no projects matching the query, this will return 200.
         :statuscode 400: If one or more of the query arguments is invalid.
         """
         parser = _BASE_ARG_PARSER.copy()
         parser.add_argument('page', type=_page_validator, location='args')
         parser.add_argument('items_per_page', type=_items_per_page_validator, location='args')
+        parser.add_argument('ecosystem', type=str, location='args')
+        parser.add_argument('name', type=str, location='args')
         args = parser.parse_args(strict=True)
-        projects_page = models.Project.query.paginate(
-            order_by=models.Project.name, **args)
+        ecosystem = args.pop('ecosystem')
+        name = args.pop('name')
+        q = models.Project.query
+        if ecosystem:
+            q = q.filter_by(ecosystem_name=ecosystem)
+        if name:
+            q = q.filter_by(name=name)
+        projects_page = q.paginate(order_by=models.Project.name, **args)
         return projects_page.as_dict()
 
     @authentication.require_token
