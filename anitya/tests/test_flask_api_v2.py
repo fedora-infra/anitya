@@ -26,7 +26,7 @@ from __future__ import unicode_literals
 
 import json
 
-from anitya.lib import model
+from anitya.db import Session, models
 from .base import (DatabaseTestCase, create_project)
 
 
@@ -40,9 +40,9 @@ class ProjectsResourceGetTests(DatabaseTestCase):
     def setUp(self):
         super(ProjectsResourceGetTests, self).setUp()
         self.app = self.flask_app.test_client()
-        session = model.Session()
-        self.user = model.User(email='user@example.com', username='user')
-        self.api_token = model.ApiToken(user=self.user)
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
+        self.api_token = models.ApiToken(user=self.user)
         session.add_all([self.user, self.api_token])
         session.commit()
 
@@ -251,9 +251,9 @@ class ProjectsResourcePostTests(DatabaseTestCase):
     def setUp(self):
         super(ProjectsResourcePostTests, self).setUp()
         self.app = self.flask_app.test_client()
-        session = model.Session()
-        self.user = model.User(email='user@example.com', username='user')
-        self.api_token = model.ApiToken(user=self.user)
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
+        self.api_token = models.ApiToken(user=self.user)
         session.add_all([self.user, self.api_token])
         session.commit()
 

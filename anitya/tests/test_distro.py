@@ -25,7 +25,7 @@ anitya tests for the Distro object.
 
 import unittest
 
-import anitya.lib.model as model
+from anitya.db import models
 from anitya.tests.base import DatabaseTestCase, create_distro
 
 
@@ -35,9 +35,9 @@ class Distrotests(DatabaseTestCase):
     def test_init_distro(self):
         """ Test the __init__ function of Distro. """
         create_distro(self.session)
-        self.assertEqual(2, model.Distro.all(self.session, count=True))
+        self.assertEqual(2, models.Distro.all(self.session, count=True))
 
-        distros = model.Distro.all(self.session)
+        distros = models.Distro.all(self.session)
         self.assertEqual(distros[0].name, 'Debian')
         self.assertEqual(distros[1].name, 'Fedora')
 
@@ -45,44 +45,44 @@ class Distrotests(DatabaseTestCase):
         """ Test the by_name function of Distro. """
         create_distro(self.session)
 
-        distro = model.Distro.by_name(self.session, 'fedora')
+        distro = models.Distro.by_name(self.session, 'fedora')
         self.assertEqual(distro.name, 'Fedora')
 
-        distro = model.Distro.get(self.session, 'fedora')
+        distro = models.Distro.get(self.session, 'fedora')
         self.assertEqual(distro.name, 'Fedora')
 
-        distro = model.Distro.by_name(self.session, 'DEBIAN')
+        distro = models.Distro.by_name(self.session, 'DEBIAN')
         self.assertEqual(distro.name, 'Debian')
 
-        distro = model.Distro.get(self.session, 'DEBIAN')
+        distro = models.Distro.get(self.session, 'DEBIAN')
         self.assertEqual(distro.name, 'Debian')
 
     def test_distro_all(self):
         """ Test the all function of Distro. """
         create_distro(self.session)
 
-        distro = model.Distro.all(self.session, page=2)
+        distro = models.Distro.all(self.session, page=2)
         self.assertEqual(distro, [])
 
-        distro = model.Distro.all(self.session, page='b')
-        distro2 = model.Distro.all(self.session)
+        distro = models.Distro.all(self.session, page='b')
+        distro2 = models.Distro.all(self.session)
         self.assertEqual(distro, distro2)
 
     def test_distro_json(self):
         """ Test the __json__ function of Distro. """
         create_distro(self.session)
 
-        distro = model.Distro.by_name(self.session, 'fedora')
+        distro = models.Distro.by_name(self.session, 'fedora')
         self.assertEqual(distro.__json__(), {'name': 'Fedora'})
 
     def test_distro_search(self):
         """ Test the search function of Distro. """
         create_distro(self.session)
 
-        distro = model.Distro.search(self.session, 'fed')
+        distro = models.Distro.search(self.session, 'fed')
         self.assertEqual(distro, [])
 
-        distro = model.Distro.search(self.session, 'fed*')
+        distro = models.Distro.search(self.session, 'fed*')
         self.assertNotEqual(distro, [])
         self.assertEqual(distro[0].name, 'Fedora')
         self.assertEqual(len(distro), 1)
@@ -91,13 +91,13 @@ class Distrotests(DatabaseTestCase):
         """ Test the get_or_create function of Distro. """
         create_distro(self.session)
 
-        distro = model.Distro.get_or_create(self.session, 'fedora')
+        distro = models.Distro.get_or_create(self.session, 'fedora')
         self.assertEqual(distro.name, 'Fedora')
-        self.assertEqual(2, model.Distro.all(self.session, count=True))
+        self.assertEqual(2, models.Distro.all(self.session, count=True))
 
-        distro = model.Distro.get_or_create(self.session, 'CentOS')
+        distro = models.Distro.get_or_create(self.session, 'CentOS')
         self.assertEqual(distro.name, 'CentOS')
-        self.assertEqual(3, model.Distro.all(self.session, count=True))
+        self.assertEqual(3, models.Distro.all(self.session, count=True))
 
 
 if __name__ == '__main__':

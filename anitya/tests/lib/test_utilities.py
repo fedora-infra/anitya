@@ -22,7 +22,8 @@
 from sqlalchemy.exc import SQLAlchemyError
 import mock
 
-from anitya.lib import utilities, model, exceptions
+from anitya.db import models
+from anitya.lib import utilities, exceptions
 from anitya.lib.exceptions import AnityaException, ProjectExists
 from anitya.tests.base import DatabaseTestCase, create_distro, create_project
 
@@ -33,7 +34,7 @@ class CreateProjectTests(DatabaseTestCase):
     def test_create_project(self):
         """ Test the create_project function of Distro. """
         create_distro(self.session)
-        self.assertEqual(2, model.Distro.all(self.session, count=True))
+        self.assertEqual(2, models.Distro.all(self.session, count=True))
 
         utilities.create_project(
             self.session,
@@ -44,7 +45,7 @@ class CreateProjectTests(DatabaseTestCase):
             user_id='noreply@fedoraproject.org',
         )
 
-        project_objs = model.Project.all(self.session)
+        project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 1)
         self.assertEqual(project_objs[0].name, 'geany')
         self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
@@ -60,7 +61,7 @@ class CreateProjectTests(DatabaseTestCase):
             user_id='noreply@fedoraproject.org',
         )
 
-        project_objs = model.Project.all(self.session)
+        project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 1)
         self.assertEqual(project_objs[0].name, 'geany')
         self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
@@ -89,7 +90,7 @@ class EditProjectTests(DatabaseTestCase):
         create_distro(self.session)
         create_project(self.session)
 
-        project_objs = model.Project.all(self.session)
+        project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 3)
         self.assertEqual(project_objs[0].name, 'geany')
         self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
@@ -108,7 +109,7 @@ class EditProjectTests(DatabaseTestCase):
             insecure=False,
             user_id='noreply@fedoraproject.org')
 
-        project_objs = model.Project.all(self.session)
+        project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 3)
         self.assertEqual(project_objs[0].name, 'geany')
         self.assertEqual(project_objs[0].homepage, 'http://www.geany.org')
@@ -121,7 +122,7 @@ class EditProjectTests(DatabaseTestCase):
         create_distro(self.session)
         create_project(self.session)
 
-        project_objs = model.Project.all(self.session)
+        project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 3)
         self.assertEqual(project_objs[0].name, 'geany')
         self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
@@ -152,7 +153,7 @@ class MapProjectTests(DatabaseTestCase):
         create_distro(self.session)
         create_project(self.session)
 
-        project_obj = model.Project.get(self.session, 1)
+        project_obj = models.Project.get(self.session, 1)
         self.assertEqual(project_obj.name, 'geany')
         self.assertEqual(len(project_obj.packages), 0)
 
@@ -167,7 +168,7 @@ class MapProjectTests(DatabaseTestCase):
         )
         self.session.commit()
 
-        project_obj = model.Project.get(self.session, 1)
+        project_obj = models.Project.get(self.session, 1)
         self.assertEqual(project_obj.name, 'geany')
         self.assertEqual(len(project_obj.packages), 1)
         self.assertEqual(project_obj.packages[0].package_name, 'geany')
@@ -184,7 +185,7 @@ class MapProjectTests(DatabaseTestCase):
         )
         self.session.commit()
 
-        project_obj = model.Project.get(self.session, 1)
+        project_obj = models.Project.get(self.session, 1)
         self.assertEqual(project_obj.name, 'geany')
         self.assertEqual(len(project_obj.packages), 2)
         self.assertEqual(project_obj.packages[0].package_name, 'geany')
@@ -204,7 +205,7 @@ class MapProjectTests(DatabaseTestCase):
         )
         self.session.commit()
 
-        project_obj = model.Project.get(self.session, 1)
+        project_obj = models.Project.get(self.session, 1)
         self.assertEqual(project_obj.name, 'geany')
         self.assertEqual(len(project_obj.packages), 2)
         pkgs = sorted(project_obj.packages, key=lambda x: x.package_name)
@@ -214,7 +215,7 @@ class MapProjectTests(DatabaseTestCase):
         self.assertEqual(pkgs[1].distro, 'Fedora')
 
         # Edit the mapping of the `geany` project to Fedora
-        project_obj = model.Project.get(self.session, 2)
+        project_obj = models.Project.get(self.session, 2)
         self.assertEqual(project_obj.name, 'subsurface')
         self.assertEqual(len(project_obj.packages), 0)
 

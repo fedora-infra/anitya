@@ -26,7 +26,7 @@ anitya tests for the custom backend.
 import unittest
 
 import anitya.lib.backends.pear as backend
-import anitya.lib.model as model
+from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
@@ -46,7 +46,7 @@ class PearBackendtests(DatabaseTestCase):
 
     def create_project(self):
         """ Create some basic projects to work with. """
-        project = model.Project(
+        project = models.Project(
             name='PHP-UML',
             homepage='http://pear.php.net/package/PHP_UML',
             backend=BACKEND,
@@ -54,7 +54,7 @@ class PearBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='foo',
             homepage='http://pear.php.net/package/foo',
             backend=BACKEND,
@@ -65,13 +65,13 @@ class PearBackendtests(DatabaseTestCase):
     def test_get_version(self):
         """ Test the get_version function of the custom backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '1.6.2'
         obs = backend.PearBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.PearBackend.get_version,
@@ -81,7 +81,7 @@ class PearBackendtests(DatabaseTestCase):
     def test_get_versions(self):
         """ Test the get_versions function of the custom backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             '0.4.2', '0.4.4', '0.5.0', '0.5.1', '0.5.2', '0.5.3', '1.0.0',
             '1.0.1', '1.5.0', '1.5.1', '1.5.2', '1.5.3', '1.5.4', '1.5.5',
@@ -90,7 +90,7 @@ class PearBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.PearBackend.get_version,

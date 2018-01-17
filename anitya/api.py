@@ -22,11 +22,10 @@ This module provides Anitya's HTTP API.
 
 import flask
 
+from anitya.db import Session, models
 from anitya.lib import utilities
-from anitya.lib.model import Session as SESSION
 import anitya
 import anitya.lib.plugins
-import anitya.lib.model
 
 
 api_blueprint = flask.Blueprint('anitya_apiv1', __name__)
@@ -148,14 +147,14 @@ def api_projects():
         return jsonout
 
     if homepage is not None:
-        project_objs = anitya.lib.model.Project.by_homepage(SESSION, homepage)
+        project_objs = models.Project.by_homepage(Session, homepage)
     elif pattern or distro:
         if pattern and '*' not in pattern:
             pattern += '*'
-        project_objs = anitya.lib.model.Project.search(
-            SESSION, pattern=pattern, distro=distro)
+        project_objs = models.Project.search(
+            Session, pattern=pattern, distro=distro)
     else:
-        project_objs = anitya.lib.model.Project.all(SESSION)
+        project_objs = models.Project.all(Session)
 
     projects = [project.__json__() for project in project_objs]
 
@@ -194,7 +193,7 @@ def api_packages_wiki_list():
       * 3proxy None http://www.3proxy.ru/download/
     '''
 
-    project_objs = anitya.lib.model.Project.all(SESSION)
+    project_objs = models.Project.all(Session)
 
     projects = []
     for project in project_objs:
@@ -263,10 +262,10 @@ def api_projects_names():
         pattern += '*'
 
     if pattern:
-        project_objs = anitya.lib.model.Project.search(
-            SESSION, pattern=pattern)
+        project_objs = models.Project.search(
+            Session, pattern=pattern)
     else:
-        project_objs = anitya.lib.model.Project.all(SESSION)
+        project_objs = models.Project.all(Session)
 
     projects = [project.name for project in project_objs]
 
@@ -324,10 +323,10 @@ def api_distro_names():
         pattern += '*'
 
     if pattern:
-        distro_objs = anitya.lib.model.Distro.search(
-            SESSION, pattern=pattern)
+        distro_objs = models.Distro.search(
+            Session, pattern=pattern)
     else:
-        distro_objs = anitya.lib.model.Distro.all(SESSION)
+        distro_objs = models.Distro.all(Session)
 
     distros = [distro.name for distro in distro_objs]
 
@@ -394,15 +393,15 @@ def api_get_version():
         httpcode = 400
     else:
 
-        project = anitya.lib.model.Project.get(
-            SESSION, project_id=project_id)
+        project = models.Project.get(
+            Session, project_id=project_id)
 
         if not project:
             output = {'output': 'notok', 'error': 'No such project'}
             httpcode = 404
         else:
             try:
-                version = utilities.check_project_release(project, SESSION, test=test)
+                version = utilities.check_project_release(project, Session, test=test)
                 if version:
                     output = {'version': version}
                 else:
@@ -457,7 +456,7 @@ def api_get_project(project_id):
 
     '''
 
-    project = anitya.lib.model.Project.get(SESSION, project_id=project_id)
+    project = models.Project.get(Session, project_id=project_id)
 
     if not project:
         output = {'output': 'notok', 'error': 'no such project'}
@@ -515,8 +514,8 @@ def api_get_project_distro(distro, package_name):
     '''
     package_name = package_name.rstrip('/')
 
-    package = anitya.lib.model.Packages.by_package_name_distro(
-        SESSION, package_name, distro)
+    package = models.Packages.by_package_name_distro(
+        Session, package_name, distro)
 
     if not package:
         output = {
@@ -526,8 +525,8 @@ def api_get_project_distro(distro, package_name):
         httpcode = 404
 
     else:
-        project = anitya.lib.model.Project.get(
-            SESSION, project_id=package.project.id)
+        project = models.Project.get(
+            Session, project_id=package.project.id)
 
         output = project.__json__(detailed=True)
         httpcode = 200
@@ -592,8 +591,8 @@ def api_get_project_ecosystem(ecosystem, project_name):
         }
     '''
 
-    project = anitya.lib.model.Project.by_name_and_ecosystem(
-        SESSION, project_name, ecosystem)
+    project = models.Project.by_name_and_ecosystem(
+        Session, project_name, ecosystem)
 
     if not project:
         output = {

@@ -29,7 +29,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.lib.backends import get_versions_by_regex_for_text
 from anitya.tests.base import DatabaseTestCase, create_distro
 import anitya.lib.backends.debian as backend
-import anitya.lib.model as model
+from anitya.db import models
 
 
 BACKEND = 'Debian project'
@@ -47,7 +47,7 @@ class DebianBackendtests(DatabaseTestCase):
 
     def create_project(self):
         """ Create some basic projects to work with. """
-        project = model.Project(
+        project = models.Project(
             name='guake',
             homepage='http://ftp.debian.org/debian/pool/main/g/guake/',
             backend=BACKEND,
@@ -55,7 +55,7 @@ class DebianBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='foo',
             homepage='http://pecl.php.net/package/foo',
             backend=BACKEND,
@@ -63,7 +63,7 @@ class DebianBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='libgnupg-interface-perl',
             homepage='http://ftp.debian.org/debian/pool/main/'
             'libg/libgnupg-interface-perl/',
@@ -75,13 +75,13 @@ class DebianBackendtests(DatabaseTestCase):
     def test_get_version(self):
         """ Test the get_version function of the debian backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '0.7.2'
         obs = backend.DebianBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.DebianBackend.get_version,
@@ -89,7 +89,7 @@ class DebianBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '0.52'
         obs = backend.DebianBackend.get_version(project)
         self.assertEqual(obs, exp)
@@ -97,7 +97,7 @@ class DebianBackendtests(DatabaseTestCase):
     def test_get_versions(self):
         """ Test the get_versions function of the debian backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             u'0.4.2', u'0.4.3', u'0.4.4',
             u'0.5.0',
@@ -111,7 +111,7 @@ class DebianBackendtests(DatabaseTestCase):
         Assert an exception is raised if the request results in a HTTP 404.
         """
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.DebianBackend.get_version,
@@ -121,7 +121,7 @@ class DebianBackendtests(DatabaseTestCase):
     def test_get_versions_no_z_release(self):
         """Assert the Debian backend handles versions in the format X.Y"""
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [u'0.45', u'0.50', u'0.52']
         obs = backend.DebianBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -138,7 +138,7 @@ class DebianBackendtests(DatabaseTestCase):
             tarball_names,
             'http://example.com',
             backend.DEBIAN_REGEX % {'name': 'libgnupg-interface-perl'},
-            model.Project.get(self.session, 3)
+            models.Project.get(self.session, 3)
         )
         self.assertEqual(sorted(['0.45', '0.46']), sorted(versions))
 
@@ -154,7 +154,7 @@ class DebianBackendtests(DatabaseTestCase):
             tarball_names,
             'http://example.com',
             backend.DEBIAN_REGEX % {'name': 'libgnupg-interface-perl'},
-            model.Project.get(self.session, 3)
+            models.Project.get(self.session, 3)
         )
         self.assertEqual(sorted(['0.45', '0.46']), sorted(versions))
 

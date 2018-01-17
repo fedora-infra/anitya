@@ -36,6 +36,7 @@ import anitya.lib.backends.launchpad
 import anitya.lib.backends.gnome
 import anitya.lib.backends.npmjs
 import anitya.lib.backends.rubygems
+from anitya import db
 
 
 CONVERT_URL = {
@@ -144,7 +145,7 @@ def migrate_wiki(agent):
         else:
             url = clean_url(url)
 
-        project = anitya.lib.model.Project.get_or_create(
+        project = db.Project.get_or_create(
             SESSION,
             name=(name or pkg.name),
             homepage=url,

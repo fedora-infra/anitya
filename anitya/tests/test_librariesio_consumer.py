@@ -27,13 +27,13 @@ import unittest
 import mock
 
 from anitya import config
+from anitya.db import Project
 from anitya.lib.exceptions import AnityaPluginException, AnityaException
 from anitya.librariesio_consumer import LibrariesioConsumer
-from anitya.lib.model import Project
 from anitya.tests.base import DatabaseTestCase
 
 
-@mock.patch('anitya.librariesio_consumer.model.initialize', mock.Mock())
+@mock.patch('anitya.librariesio_consumer.initialize', mock.Mock())
 class LibrariesioConsumerTests(DatabaseTestCase):
 
     def setUp(self):

@@ -25,7 +25,7 @@ from sqlalchemy.exc import UnboundExecutionError
 
 from anitya import app
 from anitya.config import config as anitya_config
-from anitya.lib.model import Session
+from anitya.db import Session
 
 
 class CreateTests(unittest.TestCase):
@@ -46,7 +46,7 @@ class CreateTests(unittest.TestCase):
         """Assert a SMTPHandler is added to the anitya logger when ``EMAIL_ERRORS=True``."""
         config = {
             'DB_URL': 'sqlite://',
-            'SOCIAL_AUTH_USER_MODEL': 'anitya.lib.model.User',
+            'SOCIAL_AUTH_USER_MODEL': 'anitya.db.models.User',
             'EMAIL_ERRORS': True,
             'SMTP_SERVER': 'smtp.example.com',
             'ADMIN_EMAIL': 'admin@example.com',
@@ -68,6 +68,6 @@ class CreateTests(unittest.TestCase):
 
         app.create({
             'DB_URL': 'sqlite://',
-            'SOCIAL_AUTH_USER_MODEL': 'anitya.lib.model.User',
+            'SOCIAL_AUTH_USER_MODEL': 'anitya.db.models.User',
         })
         self.assertEqual('sqlite://', str(Session().get_bind().url))

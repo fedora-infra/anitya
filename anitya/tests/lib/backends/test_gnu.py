@@ -26,7 +26,7 @@ anitya tests for the custom backend.
 import unittest
 
 import anitya.lib.backends.gnu as backend
-import anitya.lib.model as model
+from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
@@ -46,7 +46,7 @@ class GnuBackendtests(DatabaseTestCase):
 
     def create_project(self):
         """ Create some basic projects to work with. """
-        project = model.Project(
+        project = models.Project(
             name='gnash',
             homepage='https://www.gnu.org/software/gnash/',
             version_url='http://ftp.gnu.org/pub/gnu/gnash/',
@@ -55,7 +55,7 @@ class GnuBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='fake',
             homepage='https://pypi.python.org/pypi/repo_manager_fake',
             backend=BACKEND,
@@ -63,7 +63,7 @@ class GnuBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='subsurface',
             homepage='http://subsurface.hohndel.org/',
             version_url='http://subsurface.hohndel.org/downloads/',
@@ -75,13 +75,13 @@ class GnuBackendtests(DatabaseTestCase):
     def test_custom_get_version(self):
         """ Test the get_version function of the custom backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '0.8.10'
         obs = backend.GnuBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.GnuBackend.get_version,
@@ -89,7 +89,7 @@ class GnuBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.GnuBackend.get_version,
@@ -99,7 +99,7 @@ class GnuBackendtests(DatabaseTestCase):
     def test_custom_get_versions(self):
         """ Test the get_versions function of the custom backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             '0.7.1', '0.7.2', '0.8.0', '0.8.1', '0.8.2', '0.8.3', '0.8.4',
             '0.8.5', '0.8.6', '0.8.7', '0.8.8', '0.8.9', '0.8.10'
@@ -108,7 +108,7 @@ class GnuBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.GnuBackend.get_version,
@@ -116,7 +116,7 @@ class GnuBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.GnuBackend.get_version,

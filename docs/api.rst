@@ -42,7 +42,7 @@ Exceptions
 Database API
 ------------
 
-.. automodule:: anitya.lib.model
+.. automodule:: anitya.db
     :members:
     :undoc-members:
     :show-inheritance:

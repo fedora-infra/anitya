@@ -24,7 +24,7 @@ import six
 import mock
 
 from anitya import authentication
-from anitya.lib.model import Session, User, ApiToken
+from anitya.db import Session, User, ApiToken
 from anitya.tests.base import DatabaseTestCase
 
 

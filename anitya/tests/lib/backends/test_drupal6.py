@@ -26,7 +26,7 @@ anitya tests for the custom backend.
 import unittest
 
 import anitya.lib.backends.drupal6 as backend
-import anitya.lib.model as model
+from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
@@ -46,7 +46,7 @@ class Drupal6Backendtests(DatabaseTestCase):
 
     def create_project(self):
         """ Create some basic projects to work with. """
-        project = model.Project(
+        project = models.Project(
             name='wysiwyg',
             homepage='https://www.drupal.org/project/wysiwyg',
             backend=BACKEND,
@@ -54,7 +54,7 @@ class Drupal6Backendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='foo',
             homepage='http://pecl.php.net/package/foo',
             backend=BACKEND,
@@ -62,7 +62,7 @@ class Drupal6Backendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='admin_menu',
             homepage='https://www.drupal.org/project/admin_menu',
             backend=BACKEND,
@@ -73,13 +73,13 @@ class Drupal6Backendtests(DatabaseTestCase):
     def test_get_version(self):
         """ Test the get_version function of the debian backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '2.4'
         obs = backend.Drupal6Backend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.Drupal6Backend.get_version,
@@ -87,7 +87,7 @@ class Drupal6Backendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = '3.0-alpha4'
         obs = backend.Drupal6Backend.get_version(project)
         self.assertEqual(obs, exp)
@@ -95,13 +95,13 @@ class Drupal6Backendtests(DatabaseTestCase):
     def test_get_versions(self):
         """ Test the get_versions function of the debian backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = ['2.x-dev', '2.0-alpha1', '2.0', '2.1', '2.2', '2.3', '2.4']
         obs = backend.Drupal6Backend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.Drupal6Backend.get_version,
@@ -109,7 +109,7 @@ class Drupal6Backendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = ['1.x-dev', '1.0-beta', '1.0', '1.1', '1.2', '1.3', '1.4',
                '1.5', '1.6', '1.7', '1.8', '1.9', '3.x-dev', '3.0-alpha1',
                '3.0-alpha2', '3.0-alpha3', '3.0-alpha4']

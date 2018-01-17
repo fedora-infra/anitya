@@ -36,7 +36,7 @@ class Drupal7Backend(BaseBackend):
         ''' Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
-        :arg Project project: a :class:`model.Project` object whose backend
+        :arg Project project: a :class:`anitya.db.models.Project` object whose backend
             corresponds to the current plugin.
         :return: the latest version found upstream
         :return type: str
@@ -53,7 +53,7 @@ class Drupal7Backend(BaseBackend):
         of the projects provided, project that relies on the backend of
         this plugin.
 
-        :arg Project project: a :class:`model.Project` object whose backend
+        :arg Project project: a :class:`anitya.db.models.Project` object whose backend
             corresponds to the current plugin.
         :return: a list of all the possible releases found
         :return type: list

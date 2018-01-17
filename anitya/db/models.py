@@ -16,9 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-"""
-anitya mapping of python classes to Database Tables.
-"""
+"""SQLAlchemy database models."""
 
 try:
     # The Python 3.6+ API
@@ -28,7 +26,6 @@ except ImportError:
     import random
     random = random.SystemRandom()
     random_choice = random.choice
-import collections
 import datetime
 import logging
 import time
@@ -38,142 +35,14 @@ import uuid
 import six
 import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import (
-    sessionmaker, scoped_session, query as sa_query, validates)
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import validates
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.types import TypeDecorator, CHAR
 
 from anitya.config import config as anitya_config
-from .versions import GLOBAL_DEFAULT as DEFAULT_VERSION_SCHEME
-
-
-#: This is a configured scoped session. It creates thread-local sessions. This
-#: means that ``Session() is Session()`` is ``True``. This is a convenient way
-#: to avoid passing a session instance around. Consult SQLAlchemy's documentation
-#: for details.
-#:
-#: Before you can use this, you must call :func:`initialize`.
-Session = scoped_session(sessionmaker())
-
-
-def initialize(config):
-    """
-    Initialize the database.
-
-    This creates a database engine from the provided configuration and
-    configures the scoped session to use the engine.
-
-    Args:
-        config (dict): A dictionary that contains the configuration necessary
-            to initialize the database.
-
-    Returns:
-        sqlalchemy.engine: The database engine created from the configuration.
-    """
-    #: The SQLAlchemy database engine. This is constructed using the value of
-    #: ``DB_URL`` in :mod:`anitya.config``.
-    engine = sa.create_engine(config['DB_URL'], echo=config.get('SQL_DEBUG', False))
-    # Source: http://docs.sqlalchemy.org/en/latest/dialects/sqlite.html#foreign-key-support
-    if config['DB_URL'].startswith('sqlite:'):
-        sa.event.listen(
-            engine,
-            'connect',
-            lambda db_con, con_record: db_con.execute('PRAGMA foreign_keys=ON')
-        )
-    Session.configure(bind=engine)
-    return engine
-
-
-_Page = collections.namedtuple(
-    '_Page', ('items', 'page', 'items_per_page', 'total_items'))
-
-
-class Page(_Page):
-    """
-    A sub-class of namedtuple that represents a page.
-
-    Attributes:
-        items (object): The database objects from the query.
-        page (int): The page number used for the query.
-        items_per_page (int): The number of items per page.
-        total_items (int): The total number of items in the database.
-    """
-
-    def as_dict(self):
-        """
-        Return a dictionary representing the page.
-
-        Returns:
-            dict: A dictionary representation of the page and its items, using
-                the ``__json__`` method defined on the item objects.
-        """
-        return {
-            u'items': [item.__json__() for item in self.items],
-            u'page': self.page,
-            u'items_per_page': self.items_per_page,
-            u'total_items': self.total_items,
-        }
-
-
-class BaseQuery(sa_query.Query):
-    """A base Query object that provides queries."""
-
-    def paginate(self, page=None, items_per_page=None, order_by=None):
-        """
-        Retrieve a page of items.
-
-        Args:
-            page (int): the page number to retrieve. This page is 1-indexed and
-                        defaults to 1.
-            items_per_page (int): The number of items per page. This defaults
-                                  to 25.
-            order_by (sa.Column or tuple): One or more criterion by which to order
-                                           the pages.
-
-        Returns:
-            Page: A namedtuple of the items.
-
-        Raises:
-            ValueError: If the page or items_per_page values are less than 1.
-        """
-
-        if page is None:
-            page = 1
-        if items_per_page is None:
-            items_per_page = 25
-
-        if page < 1:
-            raise ValueError('page must be 1 or greater.')
-        if items_per_page < 1:
-            raise ValueError('items_per_page must be 1 or greater.')
-
-        if not isinstance(order_by, tuple):
-            order_by = (order_by,)
-
-        q = self.order_by(*order_by)
-        total_items = q.count()
-        items = q.limit(items_per_page).offset(items_per_page * (page - 1)).all()
-        return Page(
-            items=items, page=page, total_items=total_items, items_per_page=items_per_page)
-
-
-class AnityaBase(object):
-    """
-    Base class for the SQLAlchemy model base class.
-
-    Attributes:
-        query (sqlalchemy.orm.query.Query): a class property which produces a
-            :class:`BaseQuery` object against the class and the current Session
-            when called. Classes that want a customized Query class should
-            sub-class :class:`BaseQuery` and explicitly set the query property
-            on the model.
-    """
-
-    query = Session.query_property(query_cls=BaseQuery)
-
-
-BASE = declarative_base(cls=AnityaBase)
+from anitya.lib.versions import GLOBAL_DEFAULT as DEFAULT_VERSION_SCHEME
+from anitya.lib.plugins import ECOSYSTEM_PLUGINS, BACKEND_PLUGINS, VERSION_PLUGINS
+from .meta import Base
 
 
 _log = logging.getLogger(__name__)
@@ -196,7 +65,7 @@ def _paginate_query(query, page):
     return query
 
 
-class Log(BASE):
+class Log(Base):
     ''' Simple table to store/log action occuring in the database. '''
     __tablename__ = 'logs'
 
@@ -286,7 +155,7 @@ class Log(BASE):
         return query.all()
 
 
-class Distro(BASE):
+class Distro(Base):
     __tablename__ = 'distros'
 
     name = sa.Column(sa.String(200), primary_key=True)
@@ -357,7 +226,7 @@ class Distro(BASE):
         return distro
 
 
-class Packages(BASE):
+class Packages(Base):
     __tablename__ = 'packages'
 
     id = sa.Column(sa.Integer, primary_key=True)
@@ -422,7 +291,7 @@ class Packages(BASE):
         return query.first()
 
 
-class Project(BASE):
+class Project(Base):
     """
     Models an upstream project and maps it to a database table.
 
@@ -433,7 +302,8 @@ class Project(BASE):
         backend (sa.String): The name of the backend to use when fetching updates;
             this is a foreign key to a :class:`Backend`.
         ecosystem_name (sa.String): The name of the ecosystem this project is a part
-            of. This is a foreign key to :class:`Ecosystem` and may be null.
+            of. If the project isn't part of an ecosystem (e.g. PyPI), use the homepage
+            URL.
         version_url (sa.String): The url to use when polling for new versions. This
             may be ignored if this project is part of an ecosystem with a fixed
             URL (e.g. Cargo projects are on https://crates.io).
@@ -483,20 +353,12 @@ class Project(BASE):
 
     @validates('backend')
     def validate_backend(self, key, value):
-        # At the moment I have to stash this here because there's a circular
-        # import. It can be resolved after the config is decoupled from Flask:
-        # https://github.com/release-monitoring/anitya/pull/450
-        from .plugins import BACKEND_PLUGINS
         if value not in BACKEND_PLUGINS.get_plugin_names():
             raise ValueError('Backend "{}" is not supported.'.format(value))
         return value
 
     @validates('ecosystem_name')
     def validate_ecosystem_name(self, key, value):
-        # At the moment I have to stash this here because there's a circular
-        # import. It can be resolved after the config is decoupled from Flask:
-        # https://github.com/release-monitoring/anitya/pull/450
-        from .plugins import ECOSYSTEM_PLUGINS
         if value and value not in ECOSYSTEM_PLUGINS.get_plugin_names():
             raise ValueError('Ecosystem "{}" is not supported.'.format(value))
         return value
@@ -529,11 +391,14 @@ class Project(BASE):
         Returns:
             anitya.lib.versions.Version: A ``Version`` sub-class.
         """
-        from .plugins import ECOSYSTEM_PLUGINS, BACKEND_PLUGINS, VERSION_PLUGINS
         version_scheme = self.version_scheme
         if not version_scheme and self.ecosystem_name:
             ecosystem = ECOSYSTEM_PLUGINS.get_plugin(self.ecosystem_name)
-            version_scheme = ecosystem.default_version_scheme
+            if ecosystem is None:
+                # This project uses its URL as an ecosystem
+                version_scheme = DEFAULT_VERSION_SCHEME
+            else:
+                version_scheme = ecosystem.default_version_scheme
         if not version_scheme and self.backend:
             backend = BACKEND_PLUGINS.get_plugin(self.backend)
             version_scheme = backend.default_version_scheme
@@ -783,7 +648,7 @@ class Project(BASE):
             return query.all()
 
 
-class ProjectVersion(BASE):
+class ProjectVersion(Base):
     __tablename__ = 'projects_versions'
 
     project_id = sa.Column(
@@ -799,7 +664,7 @@ class ProjectVersion(BASE):
     project = sa.orm.relation('Project', backref='versions_obj')
 
 
-class ProjectFlag(BASE):
+class ProjectFlag(Base):
     __tablename__ = 'projects_flags'
 
     id = sa.Column(sa.Integer, primary_key=True)
@@ -905,7 +770,7 @@ class ProjectFlag(BASE):
         return query.first()
 
 
-class Run(BASE):
+class Run(Base):
     __tablename__ = 'runs'
 
     status = sa.Column(sa.String(20), primary_key=True)
@@ -990,7 +855,7 @@ class GUID(TypeDecorator):
             return uuid.UUID(value)
 
 
-class User(BASE):
+class User(Base):
     """
     A table for Anitya users.
 
@@ -1087,7 +952,7 @@ def _api_token_generator(charset=string.ascii_letters + string.digits, length=40
     return u''.join(random_choice(charset) for __ in range(length))
 
 
-class ApiToken(BASE):
+class ApiToken(Base):
     """
     A table for user API tokens.
 

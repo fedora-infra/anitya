@@ -8,12 +8,11 @@ import flask
 from sqlalchemy.exc import SQLAlchemyError
 
 from anitya.lib import utilities
+from anitya.db import models, Session
 import anitya
 import anitya.forms
-import anitya.lib.model
 
 from anitya.ui import login_required, ui_blueprint
-from anitya.lib.model import Session as SESSION
 
 
 _log = logging.getLogger(__name__)
@@ -40,10 +39,10 @@ def add_distro():
     if form.validate_on_submit():
         name = form.name.data
 
-        distro = anitya.lib.model.Distro(name)
+        distro = models.Distro(name)
 
         utilities.log(
-            SESSION,
+            Session,
             distro=distro,
             topic='distro.add',
             message=dict(
@@ -53,11 +52,11 @@ def add_distro():
         )
 
         try:
-            SESSION.add(distro)
-            SESSION.commit()
+            Session.add(distro)
+            Session.commit()
             flask.flash('Distribution added')
         except SQLAlchemyError:
-            SESSION.rollback()
+            Session.rollback()
             flask.flash(
                 'Could not add this distro, already exists?', 'error')
         return flask.redirect(
@@ -74,7 +73,7 @@ def add_distro():
 @login_required
 def edit_distro(distro_name):
 
-    distro = anitya.lib.model.Distro.by_name(SESSION, distro_name)
+    distro = models.Distro.by_name(Session, distro_name)
     if not distro:
         flask.abort(404)
 
@@ -88,7 +87,7 @@ def edit_distro(distro_name):
 
         if name != distro.name:
             utilities.log(
-                SESSION,
+                Session,
                 distro=distro,
                 topic='distro.edit',
                 message=dict(
@@ -100,8 +99,8 @@ def edit_distro(distro_name):
 
             distro.name = name
 
-            SESSION.add(distro)
-            SESSION.commit()
+            Session.add(distro)
+            Session.commit()
             message = 'Distribution edited'
             flask.flash(message)
         return flask.redirect(
@@ -120,7 +119,7 @@ def edit_distro(distro_name):
 def delete_distro(distro_name):
     """ Delete a distro """
 
-    distro = anitya.lib.model.Distro.by_name(SESSION, distro_name)
+    distro = models.Distro.by_name(Session, distro_name)
     if not distro:
         flask.abort(404)
 
@@ -131,7 +130,7 @@ def delete_distro(distro_name):
 
     if form.validate_on_submit():
         utilities.log(
-            SESSION,
+            Session,
             distro=distro,
             topic='distro.remove',
             message=dict(
@@ -140,8 +139,8 @@ def delete_distro(distro_name):
             )
         )
 
-        SESSION.delete(distro)
-        SESSION.commit()
+        Session.delete(distro)
+        Session.commit()
         flask.flash('Distro %s has been removed' % distro_name)
         return flask.redirect(flask.url_for('anitya_ui.distros'))
 
@@ -156,7 +155,7 @@ def delete_distro(distro_name):
 @login_required
 def delete_project(project_id):
 
-    project = anitya.lib.model.Project.get(SESSION, project_id)
+    project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
 
@@ -171,7 +170,7 @@ def delete_project(project_id):
     if form.validate_on_submit():
         if confirm:
             utilities.log(
-                SESSION,
+                Session,
                 project=project,
                 topic='project.remove',
                 message=dict(
@@ -181,10 +180,10 @@ def delete_project(project_id):
             )
 
             for version in project.versions_obj:
-                SESSION.delete(version)
+                Session.delete(version)
 
-            SESSION.delete(project)
-            SESSION.commit()
+            Session.delete(project)
+            Session.commit()
             flask.flash('Project %s has been removed' % project_name)
             return flask.redirect(flask.url_for('anitya_ui.projects'))
         else:
@@ -204,16 +203,16 @@ def delete_project(project_id):
 @login_required
 def delete_project_mapping(project_id, distro_name, pkg_name):
 
-    project = anitya.lib.model.Project.get(SESSION, project_id)
+    project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
 
-    distro = anitya.lib.model.Distro.get(SESSION, distro_name)
+    distro = models.Distro.get(Session, distro_name)
     if not distro:
         flask.abort(404)
 
-    package = anitya.lib.model.Packages.get(
-        SESSION, project.id, distro.name, pkg_name)
+    package = models.Packages.get(
+        Session, project.id, distro.name, pkg_name)
     if not package:
         flask.abort(404)
 
@@ -226,7 +225,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
     if form.validate_on_submit():
         if confirm:
             utilities.log(
-                SESSION,
+                Session,
                 project=project,
                 topic='project.map.remove',
                 message=dict(
@@ -236,8 +235,8 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
                 )
             )
 
-            SESSION.delete(package)
-            SESSION.commit()
+            Session.delete(package)
+            Session.commit()
 
             flask.flash('Mapping for %s has been removed' % project.name)
         return flask.redirect(
@@ -256,7 +255,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
 @login_required
 def delete_project_version(project_id, version):
 
-    project = anitya.lib.model.Project.get(SESSION, project_id)
+    project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
 
@@ -281,7 +280,7 @@ def delete_project_version(project_id, version):
     if form.validate_on_submit():
         if confirm:
             utilities.log(
-                SESSION,
+                Session,
                 project=project,
                 topic='project.version.remove',
                 message=dict(
@@ -292,12 +291,12 @@ def delete_project_version(project_id, version):
             )
 
             # Delete the record of the version for this project
-            SESSION.delete(version_obj)
+            Session.delete(version_obj)
             # Adjust the latest_version if needed
             if project.latest_version == version:
                 project.latest_version = None
-                SESSION.add(project)
-            SESSION.commit()
+                Session.add(project)
+            Session.commit()
 
             flask.flash('Version for %s has been removed' % version)
         return flask.redirect(
@@ -354,8 +353,8 @@ def browse_logs():
 
     logs = []
     try:
-        logs = anitya.lib.model.Log.search(
-            SESSION,
+        logs = models.Log.search(
+            Session,
             project_name=project or None,
             from_date=from_date,
             user=user_logs or None,
@@ -363,8 +362,8 @@ def browse_logs():
             limit=limit,
         )
 
-        cnt_logs = anitya.lib.model.Log.search(
-            SESSION,
+        cnt_logs = models.Log.search(
+            Session,
             project_name=project or None,
             from_date=from_date,
             user=user_logs or None,
@@ -434,8 +433,8 @@ def browse_flags():
     flags = []
 
     try:
-        flags = anitya.lib.model.ProjectFlag.search(
-            SESSION,
+        flags = models.ProjectFlag.search(
+            Session,
             project_name=project or None,
             state=state or None,
             from_date=from_date,
@@ -444,8 +443,8 @@ def browse_flags():
             limit=limit,
         )
 
-        cnt_flags = anitya.lib.model.ProjectFlag.search(
-            SESSION,
+        cnt_flags = models.ProjectFlag.search(
+            Session,
             project_name=project or None,
             state=state or None,
             from_date=from_date,
@@ -486,7 +485,7 @@ def set_flag_state(flag_id, state):
     if state not in ('open', 'closed'):
         flask.abort(422)
 
-    flag = anitya.lib.model.ProjectFlag.get(SESSION, flag_id)
+    flag = models.ProjectFlag.get(Session, flag_id)
 
     if not flag:
         flask.abort(404)
@@ -496,7 +495,7 @@ def set_flag_state(flag_id, state):
     if form.validate_on_submit():
         try:
             utilities.set_flag_state(
-                SESSION,
+                Session,
                 flag=flag,
                 state=state,
                 user_id=flask.g.user.username,

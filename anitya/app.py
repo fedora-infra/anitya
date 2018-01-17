@@ -22,8 +22,8 @@ from social_flask.routes import social_auth
 from social_flask_sqlalchemy import models as social_models
 
 from anitya.config import config as anitya_config
+from anitya.db import Session, initialize as initialize_db
 from anitya.lib import utilities
-from anitya.lib.model import Session as SESSION, initialize as initialize_db
 from . import ui, admin, api, api_v2, authentication
 import anitya.lib
 import anitya.mail_logging
@@ -62,7 +62,7 @@ def create(config=None):
         # the SOCIAL_AUTH_USER_MODEL, after the first time ``create`` has been called
         # will *not* cause the new configuration to be used for subsequent calls to
         # ``create``.
-        social_models.init_social(app, SESSION)
+        social_models.init_social(app, Session)
 
     login_manager = LoginManager()
     login_manager.user_loader(authentication.load_user_from_session)
@@ -102,7 +102,7 @@ def global_user():
 
 def shutdown_session(exception=None):
     ''' Remove the DB session at the end of each request. '''
-    SESSION.remove()
+    Session.remove()
 
 
 def inject_variable():
@@ -113,7 +113,7 @@ def inject_variable():
     if justedit:  # pragma: no cover
         flask.session['justedit'] = None
 
-    cron_status = utilities.get_last_cron(SESSION)
+    cron_status = utilities.get_last_cron(Session)
 
     return dict(
         version=__version__,

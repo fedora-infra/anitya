@@ -26,7 +26,7 @@ anitya tests for the bitbucket backend.
 import unittest
 
 import anitya.lib.backends.bitbucket as backend
-import anitya.lib.model as model
+from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
@@ -46,7 +46,7 @@ class BitBucketBackendtests(DatabaseTestCase):
 
     def create_project(self):
         """ Create some basic projects to work with. """
-        project = model.Project(
+        project = models.Project(
             name='sqlalchemy',
             homepage='https://bitbucket.org/zzzeek/sqlalchemy',
             version_url='zzzeek/sqlalchemy',
@@ -55,7 +55,7 @@ class BitBucketBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='foobar',
             homepage='http://bitbucket.org/foo/bar',
             version_url='foobar/bar',
@@ -64,7 +64,7 @@ class BitBucketBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        project = model.Project(
+        project = models.Project(
             name='cherrypy',
             homepage='https://bitbucket.org/cherrypy/cherrypy',
             backend=BACKEND,
@@ -75,13 +75,13 @@ class BitBucketBackendtests(DatabaseTestCase):
     def test_get_version(self):
         """ Test the get_version function of the BitBucket backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = 'rel_1_1_3'
         obs = backend.BitBucketBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.BitBucketBackend.get_version,
@@ -89,7 +89,7 @@ class BitBucketBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = 'v5.2.0'
         obs = backend.BitBucketBackend.get_version(project)
         self.assertEqual(obs, exp)
@@ -97,7 +97,7 @@ class BitBucketBackendtests(DatabaseTestCase):
     def test_get_versions(self):
         """ Test the get_versions function of the BitBucket backend. """
         pid = 1
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             'rel_0_1_0', 'rel_0_1_1', 'rel_0_1_2', 'rel_0_1_3',
             'rel_0_1_4', 'rel_0_1_5', 'rel_0_1_6', 'rel_0_1_7',
@@ -140,7 +140,7 @@ class BitBucketBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
         pid = 2
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.BitBucketBackend.get_versions,
@@ -148,7 +148,7 @@ class BitBucketBackendtests(DatabaseTestCase):
         )
 
         pid = 3
-        project = model.Project.get(self.session, pid)
+        project = models.Project.get(self.session, pid)
         exp = [
             'cherrypy-2.0.0-beta', 'cherrypy-2.0.0', 'cherrypy-2.1.0-alpha',
             'cherrypy-2.1.0-rc1', 'cherrypy-2.1.0-rc2', 'cherrypy-2.1.1',

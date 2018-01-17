@@ -7,7 +7,7 @@ import sys
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from anitya.lib.model import BASE
+from anitya.db import Base
 
 
 # this is the Alembic Config object, which provides
@@ -21,7 +21,7 @@ fileConfig(config.config_file_name)
 # add your model's MetaData object here
 # for 'autogenerate' support
 sys.path.append(dirname(dirname(__file__)))
-target_metadata = BASE.metadata
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
