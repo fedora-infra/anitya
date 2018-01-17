@@ -70,7 +70,7 @@ class ProjectTests(DatabaseTestCase):
             backend='Nope',
         )
 
-    def test_validate_ecosystem_none(self):
+    def test_default_ecosystem_is_homepage(self):
         project = models.Project(
             name='test',
             homepage='http://example.com',
@@ -80,7 +80,8 @@ class ProjectTests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
         self.assertEqual(1, self.session.query(models.Project).count())
-        self.assertEqual(None, self.session.query(models.Project).one().ecosystem_name)
+        self.assertEqual(
+            'http://example.com', self.session.query(models.Project).one().ecosystem_name)
 
     def test_validate_ecosystem_good(self):
         project = models.Project(
@@ -93,16 +94,6 @@ class ProjectTests(DatabaseTestCase):
         self.session.commit()
         self.assertEqual(1, self.session.query(models.Project).count())
         self.assertEqual('pypi', self.session.query(models.Project).one().ecosystem_name)
-
-    def test_validate_ecosystem_bad(self):
-        self.assertRaises(
-            ValueError,
-            models.Project,
-            name='test',
-            homepage='http://example.com',
-            backend='custom',
-            ecosystem_name='Nope',
-        )
 
     def test_get_version_class(self):
         project = models.Project(

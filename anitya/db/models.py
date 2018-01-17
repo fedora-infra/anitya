@@ -329,7 +329,7 @@ class Project(Base):
     homepage = sa.Column(sa.String(200), nullable=False)
 
     backend = sa.Column(sa.String(200), default='custom')
-    ecosystem_name = sa.Column(sa.String(200), nullable=True, index=True)
+    ecosystem_name = sa.Column(sa.String(200), nullable=False, index=True)
     version_url = sa.Column(sa.String(200), nullable=True)
     regex = sa.Column(sa.String(200), nullable=True)
     version_prefix = sa.Column(sa.String(200), nullable=True)
@@ -355,12 +355,6 @@ class Project(Base):
     def validate_backend(self, key, value):
         if value not in BACKEND_PLUGINS.get_plugin_names():
             raise ValueError('Backend "{}" is not supported.'.format(value))
-        return value
-
-    @validates('ecosystem_name')
-    def validate_ecosystem_name(self, key, value):
-        if value and value not in ECOSYSTEM_PLUGINS.get_plugin_names():
-            raise ValueError('Ecosystem "{}" is not supported.'.format(value))
         return value
 
     @property

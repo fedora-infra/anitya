@@ -244,16 +244,10 @@ def create_project(
     """ Create the project in the database.
 
     """
-    # Set the ecosystem if there's one associated with the given backend
-    ecosystems = [e for e in plugins.ECOSYSTEM_PLUGINS.get_plugins()
-                  if e.default_backend == backend]
-    ecosystem_name = ecosystems[0].name if len(ecosystems) == 1 else None
-
     project = models.Project(
         name=name,
         homepage=homepage,
         backend=backend,
-        ecosystem_name=ecosystem_name,
         version_url=version_url,
         regex=regex,
         version_prefix=version_prefix,
