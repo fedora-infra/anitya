@@ -124,6 +124,7 @@ class BaseQueryPaginateTests(DatabaseTestCase):
                 'backend': u'custom',
                 'name': u'R2spec',
                 'homepage': u'https://fedorahosted.org/r2spec/',
+                'ecosystem': u'https://fedorahosted.org/r2spec/',
                 'regex': None,
                 'version': None,
                 'version_url': None,

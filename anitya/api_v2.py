@@ -277,6 +277,7 @@ class ProjectsResource(Resource):
                     {
                         "backend": "Sourceforge",
                         "created_on": 1412174943.0,
+                        "ecosystem": "http://sourceforge.net/projects/zero-install",
                         "homepage": "http://sourceforge.net/projects/zero-install",
                         "id": 1,
                         "name": "0install",

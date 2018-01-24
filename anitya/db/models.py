@@ -416,6 +416,7 @@ class Project(Base):
             versions=self.versions,
             created_on=time.mktime(self.created_on.timetuple()) if self.created_on else None,
             updated_on=time.mktime(self.updated_on.timetuple()) if self.updated_on else None,
+            ecosystem=self.ecosystem_name,
         )
         if detailed:
             output['packages'] = [pkg.__json__() for pkg in self.packages]

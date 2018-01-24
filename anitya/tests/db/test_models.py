@@ -95,6 +95,16 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual(1, self.session.query(models.Project).count())
         self.assertEqual('pypi', self.session.query(models.Project).one().ecosystem_name)
 
+    def test_ecosystem_in_json(self):
+        """Assert the ecosystem is included in the dict returned from ``__json__``"""
+        project = models.Project(
+            name='test',
+            homepage='http://example.com',
+            backend='custom',
+            ecosystem_name='pypi',
+        )
+        self.assertEqual('pypi', project.__json__()['ecosystem'])
+
     def test_get_version_class(self):
         project = models.Project(
             name='test',
