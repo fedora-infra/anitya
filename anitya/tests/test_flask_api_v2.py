@@ -557,7 +557,8 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "regex": None,
                     "version": None,
                     "version_url": None,
-                    "versions": []
+                    "versions": [],
+                    'ecosystem': "https://fedorahosted.org/r2spec/",
                 },
                 {
                     "id": 1,
@@ -567,7 +568,8 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "regex": "DEFAULT",
                     "version": None,
                     "version_url": "http://www.geany.org/Download/Releases",
-                    "versions": []
+                    "versions": [],
+                    "ecosystem": "http://www.geany.org/",
                 },
                 {
                     "id": 2,
@@ -577,7 +579,8 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "regex": "DEFAULT",
                     "version": None,
                     "version_url": "http://subsurface.hohndel.org/downloads/",
-                    "versions": []
+                    "versions": [],
+                    "ecosystem": "http://subsurface.hohndel.org/",
                 }
             ]
         }
@@ -610,7 +613,8 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "regex": "DEFAULT",
                     "version": None,
                     "version_url": "http://subsurface.hohndel.org/downloads/",
-                    "versions": []
+                    "versions": [],
+                    "ecosystem": "http://subsurface.hohndel.org/",
                 }
             ]
         }
@@ -643,7 +647,8 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "regex": "DEFAULT",
                     "version": None,
                     "version_url": "http://subsurface.hohndel.org/downloads/",
-                    "versions": []
+                    "versions": [],
+                    "ecosystem": "http://subsurface.hohndel.org/",
                 }
             ]
         }
@@ -682,7 +687,8 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "regex": None,
                     "version": None,
                     "version_url": None,
-                    "versions": []
+                    "versions": [],
+                    "ecosystem": "https://fedorahosted.org/r2spec/",
                 },
             ]
         }
@@ -721,7 +727,8 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "regex": "DEFAULT",
                     "version": None,
                     "version_url": "http://www.geany.org/Download/Releases",
-                    "versions": []
+                    "versions": [],
+                    "ecosystem": "http://www.geany.org/",
                 },
             ]
         }
