@@ -15,7 +15,6 @@ env:
     - TOXENV=lint
     - TOXENV=docs
     - TOXENV=py27
-    - TOXENV=el7
 matrix:
   include:
     - python: 3.5

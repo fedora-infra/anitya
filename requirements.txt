@@ -4,6 +4,7 @@ python-dateutil
 dateutils
 fedmsg[commands,consumers]
 flask-login
+gunicorn
 social-auth-app-flask
 social-auth-app-flask-sqlalchemy
 flask-restful
@@ -12,5 +13,6 @@ jinja2 >= 2.4
 sqlalchemy >= 0.9
 # https://github.com/ironfroggy/straight.plugin/issues/17#issuecomment-41466275
 straight.plugin==1.4.0-post-1
+psycopg2
 pytoml
 wtforms
