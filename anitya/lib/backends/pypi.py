@@ -21,7 +21,7 @@ class PypiBackend(BaseBackend):
     name = 'PyPI'
     examples = [
         'https://pypi.python.org/pypi/arrow',
-        'https://pypi.python.org/pypi/fedmsg',
+        'https://pypi.org/project/fedmsg/',
     ]
 
     @classmethod
@@ -38,7 +38,7 @@ class PypiBackend(BaseBackend):
             when the version cannot be retrieved correctly
 
         '''
-        url = 'https://pypi.python.org/pypi/%s/json' % project.name
+        url = 'https://pypi.org/pypi/%s/json' % project.name
         try:
             req = cls.call_url(url)
         except Exception:  # pragma: no cover
@@ -66,7 +66,7 @@ class PypiBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url = 'https://pypi.python.org/pypi/%s/json' % project.name
+        url = 'https://pypi.org/pypi/%s/json' % project.name
         try:
             req = cls.call_url(url)
         except Exception:  # pragma: no cover
@@ -86,7 +86,7 @@ class PypiBackend(BaseBackend):
         by querying an RSS feed.
         '''
 
-        url = 'https://pypi.python.org/pypi?%3Aaction=rss'
+        url = 'https://pypi.org/rss/updates.xml'
 
         try:
             response = cls.call_url(url)
@@ -103,5 +103,5 @@ class PypiBackend(BaseBackend):
         for entry in items:
             title = entry['title']['value']
             name, version = title.rsplit(None, 1)
-            homepage = 'https://pypi.python.org/pypi/%s' % name
+            homepage = 'https://pypi.org/project/%s/' % name
             yield name, homepage, cls.name, version
