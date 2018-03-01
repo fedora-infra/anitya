@@ -23,8 +23,6 @@
 anitya tests for the pypi backend.
 '''
 
-import unittest
-
 import anitya.lib.backends.pypi as backend
 from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
@@ -42,85 +40,48 @@ class PypiBackendtests(DatabaseTestCase):
         super(PypiBackendtests, self).setUp()
 
         create_distro(self.session)
-        self.create_project()
 
-    def create_project(self):
-        """ Create some basic projects to work with. """
+    def test_get_version_missing_project(self):
+        """Assert an AnityaPluginException is raised for projects that result in 404."""
         project = models.Project(
-            name='repo_manager',
-            homepage='https://pypi.python.org/pypi/repo_manager',
+            name='repo_manager_fake',
+            homepage='https://pypi.org/project/repo_manager_fake/',
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
-        project = models.Project(
-            name='fake',
-            homepage='https://pypi.python.org/pypi/repo_manager_fake',
-            backend=BACKEND,
-        )
-        self.session.add(project)
-        self.session.commit()
-
-        project = models.Project(
-            name='chai',
-            homepage='https://pypi.python.org/pypi/chai',
-            backend=BACKEND,
-        )
-        self.session.add(project)
-        self.session.commit()
-
-    def test_pypi_get_version(self):
-        """ Test the get_version function of the pypi backend. """
-        pid = 1
-        project = models.Project.get(self.session, pid)
-        exp = '0.1.0'
-        obs = backend.PypiBackend.get_version(project)
-        self.assertEqual(obs, exp)
-
-        pid = 2
-        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.PypiBackend.get_version,
             project
         )
 
-        pid = 3
-        project = models.Project.get(self.session, pid)
-        exp = '1.1.0'
+    def test_pypi_get_version(self):
+        """ Test the get_version function of the pypi backend. """
+        project = models.Project(
+            name='chai',
+            homepage='https://pypi.org/project/chai/',
+            backend=BACKEND,
+        )
+        self.session.add(project)
+        self.session.commit()
+
         obs = backend.PypiBackend.get_version(project)
-        self.assertEqual(obs, exp)
+        self.assertEqual(obs, '1.1.2')
 
     def test_pypi_get_versions(self):
         """ Test the get_versions function of the pypi backend. """
-        pid = 1
-        project = models.Project.get(self.session, pid)
-        exp = ['0.1.0']
-        obs = backend.PypiBackend.get_versions(project)
-        self.assertEqual(obs, exp)
-
-        pid = 2
-        project = models.Project.get(self.session, pid)
-        self.assertRaises(
-            AnityaPluginException,
-            backend.PypiBackend.get_versions,
-            project
+        project = models.Project(
+            name='repo_manager',
+            homepage='https://pypi.org/project/repo_manager/',
+            backend=BACKEND,
         )
+        self.session.add(project)
+        self.session.commit()
+        exp = ['0.1.0']
 
-        pid = 3
-        project = models.Project.get(self.session, pid)
-        exp = [
-            '0.1.0', '0.1.1', '0.1.2', '0.1.3', '0.1.4', '0.1.5', '0.1.6',
-            '0.1.7', '0.1.9', '0.1.10', '0.1.11', '0.1.12', '0.1.13',
-            '0.1.14', '0.1.15', '0.1.16', '0.1.17', '0.1.18', '0.1.19',
-            '0.1.20', '0.1.21', '0.1.22', '0.1.23', '0.2.0', '0.2.1',
-            '0.2.2', '0.2.3', '0.2.4', '0.3.0', '0.3.1', '0.3.2', '0.3.3',
-            '0.3.5', '0.3.6', '0.3.7', '0.4.0', '0.4.1', '0.4.2', '0.4.3',
-            '0.4.4', '0.4.5', '0.4.6', '0.4.7', '0.4.8', '1.0.0', '1.0.1',
-            '1.1.0',
-        ]
-        obs = backend.PypiBackend.get_ordered_versions(project)
+        obs = backend.PypiBackend.get_versions(project)
         self.assertEqual(obs, exp)
 
     def test_pypi_check_feed(self):
@@ -128,15 +89,14 @@ class PypiBackendtests(DatabaseTestCase):
         generator = backend.PypiBackend.check_feed()
         items = list(generator)
 
-        self.assertEqual(items[0], (
-            'mkbrutus', 'https://pypi.python.org/pypi/mkbrutus',
-            'PyPI', '1.0.2a1'))
-        self.assertEqual(items[1], (
-            'ansible-lint', 'https://pypi.python.org/pypi/ansible-lint',
-            'PyPI', '3.0.0rc6'))
-        # etc...
-
-
-if __name__ == '__main__':
-    SUITE = unittest.TestLoader().loadTestsFromTestCase(PypiBackendtests)
-    unittest.TextTestRunner(verbosity=2).run(SUITE)
+        self.assertEqual(
+            items[0], ('simplemdx', 'https://pypi.org/project/simplemdx/', 'PyPI', '0.1.2'))
+        self.assertEqual(
+            items[1],
+            (
+                'tapioca-trustwave-appscanner',
+                'https://pypi.org/project/tapioca-trustwave-appscanner/',
+                'PyPI',
+                '0.3'
+            )
+        )

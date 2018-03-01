@@ -8,62 +8,56 @@ interactions:
       From: [admin@fedoraproject.org]
       User-Agent: [Anitya 0.11.0 at upstream-monitoring.org]
     method: GET
-    uri: https://pypi.python.org/pypi/ImageMetaTag/json
+    uri: https://pypi.org/pypi/ImageMetaTag/json
   response:
-    body: {string: "{\n    \"info\": {\n        \"maintainer\": \"\", \n        \"\
-        docs_url\": null, \n        \"requires_python\": null, \n        \"maintainer_email\"\
-        : \"\", \n        \"cheesecake_code_kwalitee_id\": null, \n        \"keywords\"\
-        : \"\", \n        \"package_url\": \"http://pypi.python.org/pypi/ImageMetaTag\"\
-        , \n        \"author\": \"Malcolm Brooks\", \n        \"author_email\": \"\
-        Malcolm.E.Brooks@metoffice.gov.uk\", \n        \"download_url\": \"https://github.com/SciTools-incubator/image-meta-tag\"\
-        , \n        \"platform\": \"unix based\", \n        \"version\": \"0.1\",\
-        \ \n        \"cheesecake_documentation_id\": null, \n        \"_pypi_hidden\"\
-        : false, \n        \"description\": \"ImageMetaTag is a python package built\
-        \ around a wrapper for savefig in matplotlib, which adds metadata tags to\
-        \ supported image file formats.\\r\\n\\r\\nOnce the images have been tagged,\
-        \ it can also be used to manage an SQL database of images and their metadata.\
-        \ The image metadata can be used to produce an ImageMetaTag.ImageDict object:\
-        \ a structured/heirachical dictionary of dictionaries which can be used to\
-        \ easily create web pages to present large numbers of images.\\r\\n\\r\\nAs\
-        \ the image metadata tagging process involves reading the image using the\
-        \ Image library, a few common image post-processing options are included such\
-        \ as cropping, logo addition and colour palette manipulation to reduce filesizes.\\\
-        r\\n\\r\\nImageMetaTag is released under a BSD 3-Clause License.\\r\\n\\r\\\
-        nSupported image file formats: png\", \n        \"release_url\": \"http://pypi.python.org/pypi/ImageMetaTag/0.1\"\
-        , \n        \"downloads\": {\n            \"last_month\": 0, \n          \
-        \  \"last_week\": 0, \n            \"last_day\": 0\n        }, \n        \"\
-        _pypi_ordering\": 0, \n        \"classifiers\": [\n            \"Development\
-        \ Status :: 3 - Alpha\", \n            \"License :: OSI Approved :: BSD License\"\
-        , \n            \"Natural Language :: English\"\n        ], \n        \"bugtrack_url\"\
-        : \"https://github.com/SciTools-incubator/image-meta-tag/issues\", \n    \
-        \    \"name\": \"ImageMetaTag\", \n        \"license\": \"BSD3\", \n     \
-        \   \"summary\": \"Tags images created by matplotlib with metadata, builds\
-        \ databases and webpages.\", \n        \"home_page\": \"https://github.com/SciTools-incubator/image-meta-tag\"\
-        , \n        \"cheesecake_installability_id\": null\n    }, \n    \"releases\"\
-        : {\n        \"0.1\": []\n    }, \n    \"urls\": []\n}"}
+    body:
+      string: !!binary |
+        H4sIAAAAAAAC/+1TS2/UMBD+K5HPeTnv5FhxQaJSpfZWVZFjj7NmkzjYDmWp9r9jx4VdEELAuYdI
+        mdc338w3fkFi4RJ1L4hs5iAV6tAtmaic5uBGSXnUKHyN9DATMdm49QzbaBShx35TznMwZtVdkozC
+        HLYhpnJO7ql4kHLSkVjoNhAjVSJmMkI0gyGRIWMitN7AwdOJaC24AKVR94julBwVmWexjMEHsoyb
+        rQq6Lrg7WRaL+8viGj2FiIGmSqxGyMWzYpJqz2jZpsnZz8skCXtliS4e7Qa2bU3PyAl1aeiNWS7m
+        cDGfAY7WOofoIGfoV0vkP4e1rY9wepbKdXZEJkFh0Q7u5v5dbh12t4uxHyifcLGv976Q2dW8d+C3
+        Fvthh14nYrhUs89ZlfwI1PwizXpaRSzVmLyGk2uMxJYpmIBo+KeyNK7i1hd/2oQC3TOhjRXx6cq1
+        7rp5bnqbZ6JO30cI3H4YMSSwOxqt4GHgrMHyCMjCgtXWg13DLnGIPtsL8WLvjdH5B+tdzzTGvrWP
+        do8vyIozW4DewBfzegFiBG32/JmV1jdgMrAMIG2gJASnA29a3uCSQ5myNksd6wPJysrmVk3Jh4Hz
+        vC1bXA/Q0KbKswJTBgxndGhYxeqa8SpjOR5o3maQpQVjtKK2QV46xlcnGOEQcTHBb1SN9hmi9WRv
+        PYbRqXwgutdiRB0nk4bQ0e/9NH83xWrfq21gTqtrNjileo/sFeov63UPzI4tvtpMjPO6LEO0rftT
+        MmLnmqW4jnAW4fIB511edSm2FT/fjhtNxx78ILUB5i/J89AJ5QnkSQoNaeqizIeWpbSu7X5JXQMp
+        0iKjRcmromyhJRnOOcNQtWVRkzqjHIoUJ39c2fnpvFPSb6fwdgrnbzRe6NzpBgAA
     headers:
       Accept-Ranges: [bytes]
+      Access-Control-Allow-Headers: ['Content-Type, If-Match, If-Modified-Since, If-None-Match,
+          If-Unmodified-Since']
+      Access-Control-Allow-Methods: [GET]
       Access-Control-Allow-Origin: ['*']
-      Age: ['46860']
-      Cache-Control: ['max-age=600, public']
+      Access-Control-Expose-Headers: [X-PyPI-Last-Serial]
+      Access-Control-Max-Age: ['86400']
+      Age: ['43828']
+      Cache-Control: ['max-age=900, public']
       Connection: [keep-alive]
-      Content-Disposition: [inline]
-      Content-Length: ['2278']
-      Content-Type: [application/json; charset="UTF-8"]
-      Date: ['Sun, 15 Oct 2017 22:24:13 GMT']
-      Fastly-Debug-Digest: [7d5bd0ade32a30a4b50d66ebca725f4f4821a9581009319fbe78b465f013285a]
-      Server: [nginx/1.10.3]
-      Strict-Transport-Security: [max-age=31536000; includeSubDomains]
-      Via: [1.1 varnish, 1.1 varnish]
+      Content-Encoding: [gzip]
+      Content-Length: ['675']
+      Content-Security-Policy: ['base-uri ''self''; block-all-mixed-content; connect-src
+          ''self'' https://2p66nmmycsj3.statuspage.io; default-src ''none''; font-src
+          ''self'' fonts.gstatic.com; form-action ''self''; frame-ancestors ''none'';
+          frame-src ''none''; img-src ''self'' https://warehouse-camo.herokuapp.com/
+          https://secure.gravatar.com; script-src ''self'' www.google-analytics.com;
+          style-src ''self'' fonts.googleapis.com']
+      Content-Type: [application/json]
+      Date: ['Thu, 01 Mar 2018 15:01:27 GMT']
+      Etag: ['"HDSJplkFI96TQghKDIR7cA"']
+      Referrer-Policy: [origin-when-cross-origin]
+      Server: [nginx]
+      Strict-Transport-Security: [max-age=31536000; includeSubDomains; preload]
+      Vary: [Accept-Encoding]
       X-Cache: ['HIT, MISS']
       X-Cache-Hits: ['1, 0']
-      X-Clacks-Overhead: [GNU Terry Pratchett]
       X-Content-Type-Options: [nosniff]
       X-Frame-Options: [deny]
-      X-PYPI-LAST-SERIAL: ['3251214']
       X-Permitted-Cross-Domain-Policies: [none]
-      X-Served-By: ['cache-iad2141-IAD, cache-atl6220-ATL']
-      X-Timer: ['S1508106253.292525,VS0,VE13']
+      X-Pypi-Last-Serial: ['3419994']
+      X-Served-By: ['cache-iad2120-IAD, cache-atl6235-ATL']
+      X-Timer: ['S1519916488.524014,VS0,VE19']
       X-XSS-Protection: [1; mode=block]
     status: {code: 200, message: OK}
 version: 1
