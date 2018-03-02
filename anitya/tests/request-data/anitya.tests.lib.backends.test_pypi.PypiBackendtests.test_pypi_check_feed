@@ -6,156 +6,82 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.9.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.11.0 at upstream-monitoring.org]
     method: GET
-    uri: https://pypi.python.org/pypi?%3Aaction=rss
+    uri: https://pypi.org/rss/updates.xml
   response:
-    body: {string: !!python/unicode "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE
-        rss PUBLIC \"-//Netscape Communications//DTD RSS 0.91//EN\" \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">\n<rss
-        version=\"0.91\">\n <channel>\n  <title>PyPI Recent Updates</title>\n  <link>https://pypi.python.org/pypi</link>\n
-        \ <description>Recent updates to the Python Package Index</description>\n
-        \ <language>en</language>\n\n  <item>\n    <title>mkbrutus 1.0.2a1</title>\n
-        \   <link>http://pypi.python.org/pypi/mkbrutus/1.0.2a1</link>\n    <description>Password
-        bruteforcer for MikroTik devices</description>\n    <pubDate>11 May 2016 03:22:34
-        GMT</pubDate>\n   </item>\n  <item>\n    <title>ansible-lint 3.0.0rc6</title>\n
-        \   <link>http://pypi.python.org/pypi/ansible-lint/3.0.0rc6</link>\n    <description>checks
-        playbooks for practices and behaviour that could potentially be improved</description>\n
-        \   <pubDate>11 May 2016 03:19:34 GMT</pubDate>\n   </item>\n  <item>\n    <title>image2gif
-        1.0.0</title>\n    <link>http://pypi.python.org/pypi/image2gif/1.0.0</link>\n
-        \   <description>read and write animated gifs,for Pillow</description>\n    <pubDate>11
-        May 2016 03:14:39 GMT</pubDate>\n   </item>\n  <item>\n    <title>polysquare-setuptools-lint
-        0.0.37</title>\n    <link>http://pypi.python.org/pypi/polysquare-setuptools-lint/0.0.37</link>\n
-        \   <description>Provides a 'polysquarelint' command for setuptools</description>\n
-        \   <pubDate>11 May 2016 03:08:25 GMT</pubDate>\n   </item>\n  <item>\n    <title>cchen224-ec2
-        0.0.96</title>\n    <link>http://pypi.python.org/pypi/cchen224-ec2/0.0.96</link>\n
-        \   <description>cc personal use for AWS</description>\n    <pubDate>11 May
-        2016 03:08:12 GMT</pubDate>\n   </item>\n  <item>\n    <title>fastecdsa 1.1.2</title>\n
-        \   <link>http://pypi.python.org/pypi/fastecdsa/1.1.2</link>\n    <description>Fast
-        elliptic curve digital signatures</description>\n    <pubDate>11 May 2016
-        03:05:38 GMT</pubDate>\n   </item>\n  <item>\n    <title>robotframework-yamllibrary
-        0.1.8</title>\n    <link>http://pypi.python.org/pypi/robotframework-yamllibrary/0.1.8</link>\n
-        \   <description>Yaml utility library for Robot Framework</description>\n
-        \   <pubDate>11 May 2016 03:01:28 GMT</pubDate>\n   </item>\n  <item>\n    <title>pushover_complete
-        1.0.1</title>\n    <link>http://pypi.python.org/pypi/pushover_complete/1.0.1</link>\n
-        \   <description>A Python package for interacting with *all* aspects of the
-        Pushover API</description>\n    <pubDate>11 May 2016 03:00:46 GMT</pubDate>\n
-        \  </item>\n  <item>\n    <title>linearsolve 2.0.0a</title>\n    <link>http://pypi.python.org/pypi/linearsolve/2.0.0a</link>\n
-        \   <description>A package for solving dynamic stochastic general equilibrium
-        (DSGE) models</description>\n    <pubDate>11 May 2016 02:59:59 GMT</pubDate>\n
-        \  </item>\n  <item>\n    <title>mediabrowser 0.1.6</title>\n    <link>http://pypi.python.org/pypi/mediabrowser/0.1.6</link>\n
-        \   <description>Django media browser for WYSIWYG HTML editor</description>\n
-        \   <pubDate>11 May 2016 02:50:16 GMT</pubDate>\n   </item>\n  <item>\n    <title>klag
-        1.0.2</title>\n    <link>http://pypi.python.org/pypi/klag/1.0.2</link>\n    <description>A
-        Kafka consumer group monitoring CLI.</description>\n    <pubDate>11 May 2016
-        02:43:27 GMT</pubDate>\n   </item>\n  <item>\n    <title>resdk 1.3.0</title>\n
-        \   <link>http://pypi.python.org/pypi/resdk/1.3.0</link>\n    <description>Resolwe
-        SDK for Python</description>\n    <pubDate>11 May 2016 02:33:07 GMT</pubDate>\n
-        \  </item>\n  <item>\n    <title>qworkerd 0.2.post48</title>\n    <link>http://pypi.python.org/pypi/qworkerd/0.2.post48</link>\n
-        \   <description>Celery based worker (default/pluggable)</description>\n    <pubDate>11
-        May 2016 02:16:12 GMT</pubDate>\n   </item>\n  <item>\n    <title>pytest-report
-        0.2.1</title>\n    <link>http://pypi.python.org/pypi/pytest-report/0.2.1</link>\n
-        \   <description>Creates json report that is compatible with atom.io's linter
-        message format</description>\n    <pubDate>11 May 2016 02:08:02 GMT</pubDate>\n
-        \  </item>\n  <item>\n    <title>batchcompute-cli 1.2.5</title>\n    <link>http://pypi.python.org/pypi/batchcompute-cli/1.2.5</link>\n
-        \   <description>Alicloud BatchCompute command line interface</description>\n
-        \   <pubDate>11 May 2016 02:06:09 GMT</pubDate>\n   </item>\n  <item>\n    <title>spectrometer-reporttool
-        0.0.4</title>\n    <link>http://pypi.python.org/pypi/spectrometer-reporttool/0.0.4</link>\n
-        \   <description>UNKNOWN</description>\n    <pubDate>11 May 2016 02:05:10
-        GMT</pubDate>\n   </item>\n  <item>\n    <title>ndb_relations 0.1</title>\n
-        \   <link>http://pypi.python.org/pypi/ndb_relations/0.1</link>\n    <description>Providing
-        a way to define and retrieve relations between Google App Engine ndb entities</description>\n
-        \   <pubDate>11 May 2016 01:54:56 GMT</pubDate>\n   </item>\n  <item>\n    <title>ryu-faucet
-        0.31a</title>\n    <link>http://pypi.python.org/pypi/ryu-faucet/0.31a</link>\n
-        \   <description>Ryu application to perform Layer 2 switching with VLANs.</description>\n
-        \   <pubDate>11 May 2016 01:43:40 GMT</pubDate>\n   </item>\n  <item>\n    <title>python-sailsd
-        0.2.0</title>\n    <link>http://pypi.python.org/pypi/python-sailsd/0.2.0</link>\n
-        \   <description>Python library to make interacting with the sailsd API easy</description>\n
-        \   <pubDate>11 May 2016 01:43:00 GMT</pubDate>\n   </item>\n  <item>\n    <title>djangocassandra
-        0.4.1</title>\n    <link>http://pypi.python.org/pypi/djangocassandra/0.4.1</link>\n
-        \   <description>Cassandra support for the Django web framework</description>\n
-        \   <pubDate>11 May 2016 01:42:21 GMT</pubDate>\n   </item>\n  <item>\n    <title>aws_syncr
-        0.5.9.9</title>\n    <link>http://pypi.python.org/pypi/aws_syncr/0.5.9.9</link>\n
-        \   <description>Application that reads yaml and syncs definitions with amazon</description>\n
-        \   <pubDate>11 May 2016 01:35:48 GMT</pubDate>\n   </item>\n  <item>\n    <title>hfut_stu_lib
-        1.2.1</title>\n    <link>http://pypi.python.org/pypi/hfut_stu_lib/1.2.1</link>\n
-        \   <description></description>\n    <pubDate>11 May 2016 01:23:46 GMT</pubDate>\n
-        \  </item>\n  <item>\n    <title>Token 1.6.4</title>\n    <link>http://pypi.python.org/pypi/Token/1.6.4</link>\n
-        \   <description>Token client to REST Apis</description>\n    <pubDate>11
-        May 2016 01:22:56 GMT</pubDate>\n   </item>\n  <item>\n    <title>pyparsing
-        2.1.2</title>\n    <link>http://pypi.python.org/pypi/pyparsing/2.1.2</link>\n
-        \   <description>Python parsing module</description>\n    <pubDate>11 May
-        2016 01:22:39 GMT</pubDate>\n   </item>\n  <item>\n    <title>elastic 4.0.22</title>\n
-        \   <link>http://pypi.python.org/pypi/elastic/4.0.22</link>\n    <description>Extension
-        for ASE to calculate elastic constants</description>\n    <pubDate>11 May
-        2016 01:18:44 GMT</pubDate>\n   </item>\n  <item>\n    <title>captain 0.4.9</title>\n
-        \   <link>http://pypi.python.org/pypi/captain/0.4.9</link>\n    <description>python
-        cli scripts for humans</description>\n    <pubDate>11 May 2016 01:17:58 GMT</pubDate>\n
-        \  </item>\n  <item>\n    <title>endpoints 1.1.16</title>\n    <link>http://pypi.python.org/pypi/endpoints/1.1.16</link>\n
-        \   <description>Get an api up and running quickly</description>\n    <pubDate>11
-        May 2016 01:17:12 GMT</pubDate>\n   </item>\n  <item>\n    <title>prom 0.9.87</title>\n
-        \   <link>http://pypi.python.org/pypi/prom/0.9.87</link>\n    <description>A
-        lightweight orm for PostgreSQL or SQLite</description>\n    <pubDate>11 May
-        2016 01:14:26 GMT</pubDate>\n   </item>\n  <item>\n    <title>mimirCache 0.0.2.10</title>\n
-        \   <link>http://pypi.python.org/pypi/mimirCache/0.0.2.10</link>\n    <description>mimircache
-        platform for analyzing cache traces, developed by Ymir group @ Emory University</description>\n
-        \   <pubDate>11 May 2016 01:12:27 GMT</pubDate>\n   </item>\n  <item>\n    <title>FlexGet
-        2.0.17</title>\n    <link>http://pypi.python.org/pypi/FlexGet/2.0.17</link>\n
-        \   <description>FlexGet is a program aimed to automate downloading or processing
-        content (torrents, podcasts, etc.) from different sources like RSS-feeds,
-        html-pages, various sites and more.</description>\n    <pubDate>11 May 2016
-        01:11:06 GMT</pubDate>\n   </item>\n  <item>\n    <title>testdata 0.6.8</title>\n
-        \   <link>http://pypi.python.org/pypi/testdata/0.6.8</link>\n    <description>Easily
-        generate random unicode test data among other things</description>\n    <pubDate>11
-        May 2016 01:10:15 GMT</pubDate>\n   </item>\n  <item>\n    <title>ara 0.4.0</title>\n
-        \   <link>http://pypi.python.org/pypi/ara/0.4.0</link>\n    <description>ARA
-        - Ansible run analysis</description>\n    <pubDate>11 May 2016 01:09:28 GMT</pubDate>\n
-        \  </item>\n  <item>\n    <title>karaage 3.1.28</title>\n    <link>http://pypi.python.org/pypi/karaage/3.1.28</link>\n
-        \   <description>Collection of Django apps to manage a clusters</description>\n
-        \   <pubDate>11 May 2016 01:04:09 GMT</pubDate>\n   </item>\n  <item>\n    <title>sqlbuilder
-        0.7.9.38</title>\n    <link>http://pypi.python.org/pypi/sqlbuilder/0.7.9.38</link>\n
-        \   <description>SmartSQL - lightweight sql builder.</description>\n    <pubDate>11
-        May 2016 00:55:05 GMT</pubDate>\n   </item>\n  <item>\n    <title>python-bitso
-        0.1.9</title>\n    <link>http://pypi.python.org/pypi/python-bitso/0.1.9</link>\n
-        \   <description>A python wrapper for the Bitso API.</description>\n    <pubDate>11
-        May 2016 00:51:16 GMT</pubDate>\n   </item>\n  <item>\n    <title>polysquare-generic-file-linter
-        0.1.13</title>\n    <link>http://pypi.python.org/pypi/polysquare-generic-file-linter/0.1.13</link>\n
-        \   <description>Polysquare Style Guide Linter</description>\n    <pubDate>11
-        May 2016 00:46:37 GMT</pubDate>\n   </item>\n  <item>\n    <title>karaage-cluster-tools
-        1.2.6</title>\n    <link>http://pypi.python.org/pypi/karaage-cluster-tools/1.2.6</link>\n
-        \   <description>Karaage cluster management tools</description>\n    <pubDate>11
-        May 2016 00:41:25 GMT</pubDate>\n   </item>\n  <item>\n    <title>pip 8.1.2</title>\n
-        \   <link>http://pypi.python.org/pypi/pip/8.1.2</link>\n    <description>The
-        PyPA recommended tool for installing Python packages.</description>\n    <pubDate>11
-        May 2016 00:40:56 GMT</pubDate>\n   </item>\n  <item>\n    <title>python-bitso
-        0.1.8</title>\n    <link>http://pypi.python.org/pypi/python-bitso/0.1.8</link>\n
-        \   <description>A python wrapper for the Bitso API.</description>\n    <pubDate>11
-        May 2016 00:39:47 GMT</pubDate>\n   </item>\n  <item>\n    <title>CherryPy
-        5.4.0</title>\n    <link>http://pypi.python.org/pypi/CherryPy/5.4.0</link>\n
-        \   <description>Object-Oriented HTTP framework</description>\n    <pubDate>11
-        May 2016 00:36:56 GMT</pubDate>\n   </item>\n  </channel>\n</rss>\n"}
+    body:
+      string: !!binary |
+        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
+        KAAA
     headers:
-      accept-ranges: [bytes]
-      age: ['0']
-      connection: [keep-alive]
-      content-length: ['10353']
-      content-type: [text/xml; charset=utf-8]
-      date: ['Wed, 11 May 2016 03:36:55 GMT']
-      fastly-debug-digest: [63112014d6fd2f9322c4b9b8c813bf3e0cb47f9321e73985fb60fb6b381a48ef]
-      public-key-pins: [max-age=600; includeSubDomains; pin-sha256="WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18=";
-          pin-sha256="5C8kvU039KouVrl52D0eZSGf4Onjo4Khs8tmyTlV3nU="; pin-sha256="5C8kvU039KouVrl52D0eZSGf4Onjo4Khs8tmyTlV3nU=";
-          pin-sha256="lCppFqbkrlJ3EcVFAkeip0+44VaoJUymbnOaEUk7tEU="; pin-sha256="TUDnr0MEoJ3of7+YliBMBVFB4/gJsv5zO7IxD9+YoWI=";
-          pin-sha256="x4QzPSC810K5/cMjb05Qm4k3Bw5zBn4lTdO/nEW/Td4=";]
-      server: [nginx/1.8.1]
-      strict-transport-security: [max-age=31536000; includeSubDomains]
-      via: [1.1 varnish, 1.1 varnish]
-      x-cache: ['HIT, MISS']
-      x-cache-hits: ['1, 0']
-      x-clacks-overhead: [GNU Terry Pratchett]
-      x-content-type-options: [nosniff]
-      x-frame-options: [deny]
-      x-permitted-cross-domain-policies: [none]
-      x-served-by: ['cache-iad2126-IAD, cache-lax1433-LAX']
-      x-timer: ['S1462937815.601877,VS0,VE60']
-      x-xss-protection: [1; mode=block]
+      Accept-Ranges: [bytes]
+      Age: ['71662']
+      Connection: [keep-alive]
+      Content-Encoding: [gzip]
+      Content-Length: ['2454']
+      Content-Security-Policy: ['base-uri ''self''; block-all-mixed-content; connect-src
+          ''self'' https://2p66nmmycsj3.statuspage.io; default-src ''none''; font-src
+          ''self'' fonts.gstatic.com; form-action ''self''; frame-ancestors ''none'';
+          frame-src ''none''; img-src ''self'' https://warehouse-camo.herokuapp.com/
+          https://secure.gravatar.com; script-src ''self'' www.google-analytics.com;
+          style-src ''self'' fonts.googleapis.com ''unsafe-inline''']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Thu, 01 Mar 2018 15:22:51 GMT']
+      Etag: ['"SkNhPaMJgSY0olLzjY5Jug"']
+      Referrer-Policy: [origin-when-cross-origin]
+      Server: [nginx]
+      Strict-Transport-Security: [max-age=31536000; includeSubDomains; preload]
+      Vary: [Accept-Encoding]
+      X-Cache: ['HIT, HIT']
+      X-Cache-Hits: ['1, 1']
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [deny]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Served-By: ['cache-iad2141-IAD, cache-atl6224-ATL']
+      X-Timer: ['S1519917772.894300,VS0,VE8']
+      X-XSS-Protection: [1; mode=block]
     status: {code: 200, message: OK}
 version: 1

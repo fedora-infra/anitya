@@ -57,8 +57,8 @@ class LibrariesioConsumerTests(DatabaseTestCase):
                             'description': 'Tags images created by matplotlib with ...',
                             'language': 'Python',
                             'platform': 'Pypi',
-                            'package_manager_url': 'https://pypi.python.org/pypi/ImageMetaTag/',
-                            'latest_release_number': '0.1',
+                            'package_manager_url': 'https://pypi.org/project/ImageMetaTag/',
+                            'latest_release_number': '0.6.9',
                             'rank': 4,
                             'stars': 1,
                             'keywords': [],
@@ -69,8 +69,8 @@ class LibrariesioConsumerTests(DatabaseTestCase):
                         },
                         'platform': 'Pypi',
                         'published_at': '2017-03-03 16:44:46 UTC',
-                        'version': '0.1',
-                        'package_manager_url': 'https://pypi.python.org/pypi/ImageMetaTag/0.4.4'
+                        'version': '0.6.9',
+                        'package_manager_url': 'https://pypi.org/project/ImageMetaTag/0.6.9'
                     },
                     'event': 'event',
                     'id': None
@@ -159,7 +159,7 @@ class LibrariesioConsumerTests(DatabaseTestCase):
         project = self.session.query(Project).first()
         self.assertEqual('ImageMetaTag', project.name)
         self.assertEqual('pypi', project.ecosystem_name)
-        self.assertEqual('0.1', project.latest_version)
+        self.assertEqual('0.6.9', project.latest_version)
 
     @mock.patch('anitya.librariesio_consumer._log')
     @mock.patch('anitya.librariesio_consumer.utilities.create_project')
@@ -178,7 +178,7 @@ class LibrariesioConsumerTests(DatabaseTestCase):
         """Assert that a libraries.io event about an existing project updates that project"""
         project = Project(
             name='ImageMetaTag',
-            homepage='https://pypi.python.org/pypi/ImageMetaTag',
+            homepage='https://pypi.org/project/ImageMetaTag/',
             ecosystem_name='pypi',
             backend='PyPI',
         )
@@ -192,7 +192,7 @@ class LibrariesioConsumerTests(DatabaseTestCase):
         project = self.session.query(Project).first()
         self.assertEqual('ImageMetaTag', project.name)
         self.assertEqual('pypi', project.ecosystem_name)
-        self.assertEqual('0.1', project.latest_version)
+        self.assertEqual('0.6.9', project.latest_version)
 
     @mock.patch('anitya.librariesio_consumer.utilities.check_project_release')
     def test_existing_project_check_failure(self, mock_check):
@@ -219,16 +219,16 @@ class LibrariesioConsumerTests(DatabaseTestCase):
         consumer = LibrariesioConsumer(self.mock_hub)
         project = Project(
             name='ImageMetaTag',
-            homepage='https://pypi.python.org/pypi/ImageMetaTag',
+            homepage='https://pypi.org/project/ImageMetaTag/',
             ecosystem_name='pypi',
             backend='PyPI',
         )
         self.session.add(project)
         self.session.commit()
-        self.supported_fedmsg['body']['msg']['data']['version'] = '0.2'
+        self.supported_fedmsg['body']['msg']['data']['version'] = '0.6.11'
         consumer.consume(self.supported_fedmsg)
         project = self.session.query(Project).first()
-        self.assertEqual('0.1', project.latest_version)
+        self.assertEqual('0.6.9', project.latest_version)
         self.assertIn(
             'libraries.io has found an update (version %s) for project %r',
             mock_log.info.call_args_list[1][0],

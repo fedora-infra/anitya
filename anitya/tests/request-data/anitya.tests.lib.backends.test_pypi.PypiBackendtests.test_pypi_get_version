@@ -6,794 +6,311 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.11.0 at upstream-monitoring.org]
     method: GET
-    uri: https://pypi.python.org/pypi/repo_manager/json
+    uri: https://pypi.org/pypi/chai/json
   response:
-    body: {string: !!python/unicode "{\n    \"info\": {\n        \"maintainer\": null,
-        \n        \"docs_url\": null, \n        \"requires_python\": null, \n        \"maintainer_email\":
-        null, \n        \"cheesecake_code_kwalitee_id\": null, \n        \"keywords\":
-        null, \n        \"package_url\": \"http://pypi.python.org/pypi/repo_manager\",
-        \n        \"author\": \"Pierre-Yves Chibon\", \n        \"author_email\":
-        \"pingou@pingoured.fr\", \n        \"download_url\": \"UNKNOWN\", \n        \"platform\":
-        \"UNKNOWN\", \n        \"version\": \"0.1.0\", \n        \"cheesecake_documentation_id\":
-        null, \n        \"_pypi_hidden\": false, \n        \"description\": \"repo_manager\\n============\\n\\n:Author:
-        Pierre-Yves Chibon <pingou@pingoured.fr>\\n\\n\\nrepo_manager is a small application
-        to manage RPMs repositories.\\n\\n\\nGet this project:\\n-----------------\\nSource:
-        \ https://github.com/pypingou/repo_manager\\n\\n\\nActions:\\n--------\\n\\n*
-        ``Add`` a package to an existing repository.\\n* ``Remove`` a package from
-        an existing repository.\\n* ``Clean`` a repository.\\n  This means remove
-        duplicates while eventually keeping a number of the\\n  most recent ones for
-        future downgrade.\\n* ``Upgrade`` a package from a repository into another
-        (for example moving\\n  from a testing repository into a production one).\\n*
-        ``Replace`` a package from a repository into another (ie: replacing a\\n  package
-        in a repository with one having the same `nevr`).\\n* Get some ``info`` about
-        the repository (number of RPMs, duplicates,\\n  applications)\\n\\n\\nLicense:\\n--------\\n\\nThis
-        project is licensed GPLv3+.\\n\", \n        \"release_url\": \"http://pypi.python.org/pypi/repo_manager/0.1.0\",
-        \n        \"downloads\": {\n            \"last_month\": 82, \n            \"last_week\":
-        25, \n            \"last_day\": 5\n        }, \n        \"_pypi_ordering\":
-        0, \n        \"classifiers\": [], \n        \"bugtrack_url\": null, \n        \"name\":
-        \"repo_manager\", \n        \"license\": \"GPLv3+\", \n        \"summary\":
-        \"A simple application to manage RPM repositories\", \n        \"home_page\":
-        \"https://github.com/pypingou/repo_manager\", \n        \"stable_version\":
-        null, \n        \"cheesecake_installability_id\": null\n    }, \n    \"releases\":
-        {\n        \"0.1.0\": [\n            {\n                \"has_sig\": false,
-        \n                \"upload_time\": \"2014-06-30T16:57:30\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/r/repo_manager/repo_manager-0.1.0.tar.gz\",
-        \n                \"md5_digest\": \"1626a15d15b1de5f070a6319ae063569\", \n
-        \               \"downloads\": 1076, \n                \"filename\": \"repo_manager-0.1.0.tar.gz\",
-        \n                \"packagetype\": \"sdist\", \n                \"size\":
-        3271744\n            }\n        ]\n    }, \n    \"urls\": [\n        {\n            \"has_sig\":
-        false, \n            \"upload_time\": \"2014-06-30T16:57:30\", \n            \"comment_text\":
-        \"\", \n            \"python_version\": \"source\", \n            \"url\":
-        \"https://pypi.python.org/packages/source/r/repo_manager/repo_manager-0.1.0.tar.gz\",
-        \n            \"md5_digest\": \"1626a15d15b1de5f070a6319ae063569\", \n            \"downloads\":
-        1076, \n            \"filename\": \"repo_manager-0.1.0.tar.gz\", \n            \"packagetype\":
-        \"sdist\", \n            \"size\": 3271744\n        }\n    ]\n}"}
+    body:
+      string: !!binary |
+        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
     headers:
-      accept-ranges: [bytes]
-      access-control-allow-origin: ['*']
-      age: ['31536']
-      cache-control: ['max-age=600, public']
-      connection: [keep-alive]
-      content-disposition: [inline]
-      content-length: ['3181']
-      content-type: [application/json; charset="UTF-8"]
-      date: ['Thu, 28 May 2015 19:29:09 GMT']
-      public-key-pins: [max-age=600; includeSubDomains; pin-sha256="WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18=";
-          pin-sha256="5C8kvU039KouVrl52D0eZSGf4Onjo4Khs8tmyTlV3nU="; pin-sha256="5C8kvU039KouVrl52D0eZSGf4Onjo4Khs8tmyTlV3nU=";
-          pin-sha256="lCppFqbkrlJ3EcVFAkeip0+44VaoJUymbnOaEUk7tEU="; pin-sha256="TUDnr0MEoJ3of7+YliBMBVFB4/gJsv5zO7IxD9+YoWI=";
-          pin-sha256="x4QzPSC810K5/cMjb05Qm4k3Bw5zBn4lTdO/nEW/Td4=";]
-      server: [nginx/1.6.2]
-      strict-transport-security: [max-age=31536000; includeSubDomains]
-      via: [1.1 varnish]
-      x-cache: [HIT]
-      x-cache-hits: ['1']
-      x-clacks-overhead: [GNU Terry Pratchett]
-      x-pypi-last-serial: ['1566089']
-      x-served-by: [cache-iad2123-IAD]
-      x-timer: ['S1432841349.612588,VS0,VE0']
-    status: {code: 200, message: OK}
-- request:
-    body: null
-    headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
+      Accept-Ranges: [bytes]
+      Access-Control-Allow-Headers: ['Content-Type, If-Match, If-Modified-Since, If-None-Match,
+          If-Unmodified-Since']
+      Access-Control-Allow-Methods: [GET]
+      Access-Control-Allow-Origin: ['*']
+      Access-Control-Expose-Headers: [X-PyPI-Last-Serial]
+      Access-Control-Max-Age: ['86400']
+      Age: ['0']
+      Cache-Control: ['max-age=900, public']
       Connection: [keep-alive]
-      From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
-    method: GET
-    uri: https://pypi.python.org/pypi/fake/json
-  response:
-    body: {string: !!python/unicode "\n<!DOCTYPE html>\n<html>\n  <head>\n    <meta
-        http-equiv=\"Content-type\" content=\"text/html; charset=utf-8\">\n    <title>Not
-        Found</title>\n    <style type=\"text/css\" media=\"screen\">\n      body
-        {\n        background-color: #f1f1f1;\n        margin: 0;\n        font-family:
-        \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n        font-weight: 200;\n
-        \       color: #333;\n      }\n\n      .container {\n        margin: 100px
-        auto;\n        width: 600px;\n        text-align: center;\n      }\n\n      h1
-        {\n        font-size: 24px;\n        font-weight: 300;\n        text-shadow:
-        0 1px 0 #fff;\n      }\n\n      p { color: rgba(0, 0, 0, 0.5); margin: 10px
-        0 40px; font-size: 18px; font-weight: 200; line-height: 1.6em;}\n\n      a
-        {\n        color: #4183c4;\n        text-decoration: none;\n      }\n      a:hover
-        {\n        text-decoration: underline;\n      }\n\n      .logo { display:
-        inline-block; margin-top: 35px; }\n    </style>\n  </head>\n  <body>\n    <div
-        class=\"container\">\n      <h1>Not Found</h1>\n      <p id=\"message\">\n
-        \       Sorry, the page you're looking for couldn't be found.\n        <br>\n
-        \       Perhaps check the URL?\n      </p>\n      <a href=\"/\" class=\"logo\">\n
-        \       <img width=\"300\" title=\"\" alt=\"\"\nsrc=\"data:image/png;base64,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\"\n
-        \     </a>\n    </div>\n  </body>\n</html>\n\n"}
-    headers:
-      accept-ranges: [bytes]
-      age: ['0']
-      connection: [keep-alive]
-      content-length: ['28063']
-      content-type: [text/html]
-      date: ['Thu, 28 May 2015 19:29:09 GMT']
-      etag: ['"54d691a6-6d9f"']
-      server: [nginx/1.6.2]
-      via: [1.1 varnish]
-      x-cache: [MISS]
-      x-cache-hits: ['0']
-      x-served-by: [cache-iad2135-IAD]
-      x-timer: ['S1432841349.774434,VS0,VE62']
-    status: {code: 404, message: Not Found}
-- request:
-    body: null
-    headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
-    method: GET
-    uri: https://pypi.python.org/pypi/chai/json
-  response:
-    body: {string: !!python/unicode "{\n    \"info\": {\n        \"maintainer\": null,
-        \n        \"docs_url\": null, \n        \"requires_python\": null, \n        \"maintainer_email\":
-        null, \n        \"cheesecake_code_kwalitee_id\": null, \n        \"keywords\":
-        \"python,test,mock\", \n        \"package_url\": \"http://pypi.python.org/pypi/chai\",
-        \n        \"author\": \"Vitaly Babiy, Aaron Westendorf\", \n        \"author_email\":
-        \"vbabiy@agoragames.com, aaron@agoragames.com\", \n        \"download_url\":
-        \"UNKNOWN\", \n        \"platform\": \"UNKNOWN\", \n        \"version\": \"1.1.0\",
-        \n        \"cheesecake_documentation_id\": null, \n        \"_pypi_hidden\":
-        false, \n        \"description\": \"=================================\\n Chai
-        - Python Mocking Made Easy\\n=================================\\n\\n.. image::
-        https://travis-ci.org/agoragames/chai.svg?branch=master\\n    :target: https://travis-ci.org/agoragames/chai\\n\\n:Version:
-        1.1.0\\n:Download: http://pypi.python.org/pypi/chai\\n:Source: https://github.com/agoragames/chai\\n:Keywords:
-        python, mocking, testing, unittest, unittest2\\n\\n.. contents::\\n    :local:\\n\\n..
-        _chai-overview:\\n\\nOverview\\n========\\n\\nChai provides a very easy to
-        use api for mocking, stubbing and spying your python objects, patterned after
-        the `Mocha <http://mocha.rubyforge.org/>`_ library for Ruby.\\n\\n.. _chai-example:\\n\\nExample\\n=======\\n\\nThe
-        following is an example of a simple test case which is mocking out a get method\\non
-        the ``CustomObject``. The Chai api allows use of call chains to make the code
-        \\nshort, clean, and very readable. It also does away with the standard setup-and-replay\\nwork
-        flow, giving you more flexibility in how you write your cases. ::\\n\\n\\n
-        \   from chai import Chai\\n\\n    class CustomObject (object): \\n        def
-        get(self, arg):\\n            pass\\n\\n    class TestCase(Chai):\\n        def
-        test_mock_get(self):\\n            obj = CustomObject()\\n            self.expect(obj.get).args('name').returns('My
-        Name')\\n            self.assert_equals(obj.get('name'), 'My Name')\\n            self.expect(obj.get).args('name').returns('Your
-        Name')\\n            self.assert_equals(obj.get('name'), 'Your Name')\\n\\n
-        \       def test_mock_get_with_at_most(self):\\n            obj = CustomObject()\\n
-        \           self.expect(obj.get).args('name').returns('My Name').at_most(2)\\n
-        \           self.assert_equals(obj.get('name'), 'My Name')\\n            self.assert_equals(obj.get('name'),
-        'My Name')\\n            self.assert_equals(obj.get('name'), 'My Name') #
-        this one will fail\\n\\n    if __name__ == '__main__':\\n        import unittest2\\n
-        \       unittest2.main()\\n\\n\\n.. _chai-api:\\n\\nAPI\\n===\\n\\nAll of
-        the features are available by extending the ``Chai`` class, itself a subclass
-        of ``unittest.TestCase``. If ``unittest2`` is available Chai will use that,
-        else it will fall back to ``unittest``. Chai also aliases all of the ``assert*``
-        methods to lower-case with undersores. For example, ``assertNotEquals`` can
-        also be referenced as ``assert_not_equals``.\\n\\nAdditionally, ``Chai`` loads
-        in all assertions, comparators and mocking methods into the module in which
-        a ``Chai`` subclass is declared. This is done to cut down on the verbosity
-        of typing ``self.`` everywhere that you want to run a test.  The references
-        are loaded into the subclass' module during ``setUp``, so you're sure any
-        method you call will be a reference to the class and module in which a particular
-        test method is currently being executed. Methods and comparators you define
-        locally in a test case will be globally available when you're running that
-        particular case as well. ::\\n    \\n    class ProtocolInterface(object):
-        \\n        def _private_call(self, arg):\\n            pass\\n        def
-        get_result(self, arg): \\n            self._private_call(arg)\\n            return
-        'ok'\\n    \\n    class TestCase(Chai):\\n        def assert_complicated_state(self,
-        obj):\\n            return True  # ..or.. raise AssertionError()\\n\\n        def
-        test_mock_get(self):\\n            obj = ProtocolInterface()\\n            data
-        = object()\\n            expect(obj._private_call).args(data)\\n            assert_equals('ok',
-        obj.get_result(data))\\n            assert_complicated_state(data)\\n\\nAs
-        of 0.3.0, the Chai API has significantly changed such that the default behavior
-        of an expectation is least specific. This supports rapid iterative testing
-        with minimal pain and verbosity. An example of the differences: ::\\n    \\n
-        \   class CustomObject (object): \\n        def get(self, arg):\\n            return
-        arg\\n\\n    class TestCase(Chai):\\n        def test_0_2_0(self):\\n            obj
-        = CustomObject()\\n            expect(obj.get).args(5)\\n            assert_equals(
-        None, obj.get(5) )\\n            expect(obj.get).any_args().returns( 'test'
-        ).times(2)\\n            assert_equals( 'test', obj.get(5) )\\n            assert_equals(
-        'test', obj.get(5) )\\n        \\n        def test_0_3_0(self):\\n            obj
-        = CustomObject()\\n            expect(obj.get)\\n            assert_equals(
-        None, obj.get() )\\n            expect(obj.get).returns( 'test' )\\n            assert_equals(
-        'test', obj.get(5) )\\n            assert_equals( 'test', obj.get(5) )\\n\\nStubbing\\n--------\\n\\nThe
-        simplest mock is to stub a method. This replaces the original method with
-        a subclass of ``chai.Stub``, the main instrumentation class. All additional
-        ``stub`` and ``expect`` calls will re-use this stub, and the stub is responsible
-        for re-installing the original reference when ``Chai.tearDown`` is run.\\n\\nStubbing
-        is used for situations when you want to assert that a method is never called.
-        ::\\n\\n    class CustomObject (object): \\n        def get(self, arg):\\n
-        \           pass\\n        @property\\n        def prop(self):\\n            pass\\n\\n
-        \   class TestCase(Chai):\\n        def test_mock_get(self):\\n            obj
-        = CustomObject()\\n            stub(obj.get)\\n            assert_raises(
-        UnexpectedCall, obj.get )\\n\\nIn this example, we can reference ``obj.get``
-        directly because ``get`` is a bound method and provides all of the context
-        we need to refer back to ``obj`` and stub the method accordingly. There are
-        cases where this is insufficient, such as module imports, special Python types,
-        and when module attributes are imported from another (like ``os`` and ``posix``).
-        If the object can't be stubbed with a reference, ``UnsupportedStub`` will
-        be raised and you can use the verbose reference instead. ::\\n    \\n    class
-        TestCase(Chai):\\n        def test_mock_get(self):\\n            obj = CustomObject()\\n
-        \           stub(obj, 'get')\\n            assert_raises( UnexpectedCall,
-        obj.get )\\n\\nStubbing an unbound method will apply that stub to all future
-        instances of that class. ::\\n\\n    class TestCase(Chai):\\n        def test_mock_get(self):\\n
-        \           stub(CustomObject.get)\\n            obj = CustomObject()\\n            assert_raises(
-        UnexpectedCall, obj.get )\\n\\nUnbound methods can also be stubbed by attribute
-        name instead of by reference. ::\\n\\n    class TestCase(Chai):\\n        def
-        test_mock_get(self):\\n            stub(CustomObject, 'get')\\n            obj
-        = CustomObject()\\n            assert_raises( UnexpectedCall, obj.get )\\n\\nSome
-        methods cannot be stubbed because it is impossible to call ``setattr`` on
-        the object, typically because it's a C extension. A good example of this is
-        the ``datetime.datetime`` class. In that situation, it is best to mock out
-        the entire module (see below).\\n\\nFinally, Chai supports stubbing of properties
-        on classes. In all cases, the stub will be applied to a class and individually
-        to each of the 3 property methods. Because the stub is on the class, all instances
-        need to be addressed when you write expectations. The first interface is via
-        the named attribute method which can be used on both classes and instances.
-        ::\\n\\n    class TestCase(Chai):\\n        def test_prop_attr(self):\\n            obj
-        = CustomObject()\\n            stub( obj, 'prop' )\\n            assert_raises(
-        UnexpectedCall, lambda: obj.prop )\\n            stub( stub( obj, 'prop' ).setter
-        )\\n\\nUsing the class, you can directly refer to all 3 methods of the property.
-        To refer to the getter you use the property directly, and for the methods
-        you use its associated attribute name. You can stub in any order and it will
-        still resolve correctly. ::\\n\\n    class TestCase(Chai):\\n      def test_prop_attr(self):\\n
-        \       stub( CustomObject.prop.setter )\\n        stub( CustomObject.prop
-        )\\n        stub( CustomObject.prop.deleter )\\n        assert_raises( UnexpectedCall,
-        lambda: CustomObject().prop )\\n\\nPython 3\\n++++++++\\n\\nUnbound methods
-        can only be stubbed by attribute in Python 3 as unbound methods do not have
-        a reference to the class they're defined in, and appear as module functions.\\n\\nPyPy\\n++++\\nPyPy
-        does not support stubs on the setter and deleter methods of properties. Additionally,
-        it does not support spies on methods such as ``ExampleClass.__hash__`` because
-        it is represented as an unbound method, rather than CPython's ``method-wrapper``,
-        and unbound methods do not support spies.\\n\\n\\nExpectations and Spies\\n----------------------\\n\\nExpectations
-        are individual test cases that can be applied to a stub. They are expected
-        to be run in order (unless otherwise noted). They are greedy, in that so long
-        as an expectation has not been met and the arguments match, the arguments
-        will be processed by that expectation. This mostly applies to the \\\"at_least\\\"
-        and \\\"any_order\\\" expectations, which (may) stay open throughout the test
-        and will handle any matching call.\\n\\nExpectations will automatically create
-        a stub if it's not already applied, so no separate call to ``stub`` is necessary.
-        The arguments and edge cases regarding what can and cannot have expectations
-        applied are identical to stubs. The ``expect`` call will return a new ``chai.Expectation``
-        object which can then be used to modify the expectation. Without any modifiers,
-        an expectation will expect a single call without arguments and return None.
-        ::\\n\\n    class TestCase(Chai):\\n        def test_mock_get(self):\\n            obj
-        = CustomObject()\\n            expect(obj.get)\\n            assert_equals(
-        None, obj.get() )\\n            assert_raises( UnexpectedCall, obj.get )\\n\\nModifiers
-        can be applied to the expectation. Each modifier will return a reference to
-        the expectation for easy chaining. In this example, we're going to match a
-        parameter and change the behavior depending on the argument. This also shows
-        the ability to incrementally add expectations throughout the test. ::\\n\\n
-        \   class TestCase(Chai):\\n        def test_mock_get(self):\\n            obj
-        = CustomObject()\\n            expect(obj.get).args('foo').returns('hello').times(2)\\n
-        \           assert_equals( 'hello', obj.get('foo') )\\n            assert_equals(
-        'hello', obj.get('foo') )\\n            expect(obj.get).args('bar').raises(
-        ValueError )\\n            assert_raises( ValueError, obj.get, 'bar' )\\n\\nIt
-        is very common to need to run expectations on the constructor for an object,
-        possibly including returning a mock object. Chai makes this very simple. ::\\n\\n
-        \   def method():\\n        obj = CustomObject('state')\\n        obj.save()\\n
-        \       return obj\\n\\n    class TestCase(Chai):\\n        def test_method(self):\\n
-        \           obj = mock()\\n            expect( CustomObject ).args('state').returns(
-        obj )\\n            expect( obj.save )\\n            assert_equals( obj, method()
-        )\\n    \\n\\nThe arguments modifier supports several matching functions.
-        For simplicity in covering the common cases, the ``args`` modifier assumes
-        an equals test for instances and a logical or of ``[instanceof, equals]``
-        test for types. All rules that apply to positional arguments also apply to
-        keyword arguments. ::\\n\\n    class TestCase(Chai):\\n        def test_mock_get(self):\\n
-        \           obj = CustomObject()\\n            expect(obj.get).args(is_a(float)).returns(42)\\n
-        \           assert_raises( UnexpectedCall, obj.get, 3 )\\n            assert_equals(
-        42, obj.get(3.14) )\\n            \\n            expect(obj.get).args(str).returns('yes')\\n
-        \           assert_equals( 'yes', obj.get('no') )\\n\\n            expect(obj.get).args(is_arg(list)).return('yes')\\n
-        \           assert_raises( UnexpectedCall, obj.get, [] )\\n            assert_equals(
-        'yes', obj.get(list) )\\n\\nLastly, Chai 1.0.0 supports spies. These are an
-        extension of expectations and support most of the same features. The modifiers
-        ``returns``, ``raises`` and ``side_effect`` raise ``UnsupportedModifier``
-        because the spy passes arguments and returns or raises the results of the
-        stubbed function. Additionally, there are a few types of stubs which are not
-        (currently) supported by spies:\\n\\n* properties\\n* unbound methods\\n\\nSpies
-        can be used just like any expectation. ::\\n\\n    class TestCase(Chai):\\n
-        \       def test_spy(self):\\n            class Spy(object):\\n                def
-        __init__(self, val):\\n                    self._val = val\\n                def
-        set(self, val):\\n                    self._val = val\\n                def
-        get(self):\\n                    return self._val\\n\\n            # Spy on
-        the constructor\\n            spy(Spy)\\n            obj = Spy(3)\\n            assert_true(isinstance(obj,Spy))\\n
-        \           assert_equals(3, obj._val)\\n\\n            # Spy on the set function\\n
-        \           spy(obj.set).args(5)\\n            obj.set(5)\\n            assert_equals(5,
-        obj._val)\\n\\n            # Spy on the get function\\n            spy(obj.get)\\n
-        \           assert_equals(5, obj.get())\\n\\n            # Spy on the hash
-        function\\n            spy(Spy, '__hash__')\\n            dict()[obj] = \\\"I
-        spy with my little eye\\\"\\n\\nModifiers\\n+++++++++\\n\\nExpectations expose
-        the following public methods for changing their behavior.\\n\\n\\nargs(``*args``,
-        ``**kwargs``)\\n  Add a test to the expectation for matching arguments.\\n\\nany_args\\n
-        \ Any arguments are accepted.\\n\\nreturns(object)\\n  Add a return value
-        to the expectation when it is matched and executed.\\n\\nraises(exception)\\n
-        \ When the expectation is run it will raise this exception. Accepts type or
-        instance.\\n\\ntimes(int)\\n  An integer that defines a hard limit on the
-        minimum and maximum number of times the expectation should be executed.\\n\\nat_least(int)\\n
-        \ Sets a minimum number of times the expectation should run and removes any
-        maximum.\\n\\nat_least_once\\n  Equivalent to ``at_least(1)``.\\n\\nat_most(int)\\n
-        \ Sets a maximum number of times the expectation should run. Does not affect
-        the minimum.\\n\\nat_most_once\\n  Equivalent to ``at_most(1)``.\\n\\nonce\\n
-        \ Equivalent to ``times(1)``, also the default for any expectation.\\n\\nany_order\\n
-        \ The expectation can be called at any time, independent of when it was defined.
-        Can be combined with ``at_least_once`` to force it to respond to all matching
-        calls throughout the test.\\n\\nside_effect(callable, \\\\*args, \\\\*\\\\*kwargs)\\n
-        \ Called with a function argument. When the expectation passes a test, the
-        function will be executed. The side effect will be executed even if the expectation
-        is configured to raise an exception. If the side effect is defined with arguments,
-        then those arguments will be passed in when it's called, otherwise the arguments
-        passed in to the expectation will be passed in.\\n\\nteardown\\n  Will remove
-        the stub after the expectation has been met. This is useful in cases where
-        you need to mock core methods such as ``open``, but immediately return its
-        original behavior after the mocked call has run.\\n  \\n\\nArgument Comparators\\n++++++++++++++++++++\\n\\nArgument
-        comparators are defined as classes in ``chai.comparators``, but loaded into
-        the ``Chai`` class for convenience (and by extension, a subclass' module).
-        ``Chai`` handles the common case of a ``type`` object by using the ``is_a``
-        comparator, else defaults to the ``equals`` comparator. Users can create subclasses
-        of ``Comparator`` and use those for custom argument processing.\\n\\nComparators
-        can also be used inside data structures. For example: ::\\n\\n  expect( area
-        ).args( {'pi':almost_equals(3.14), 'radius':is_a(int,long,float)} )\\n\\n\\n\\nequals(object)\\n
-        \ The default comparator, uses standard Python equals operator\\n\\nalmost_equals(float,
-        places)\\n  Identical to assertAlmostEquals, will match an argument to the
-        comparator value to a most ``places`` digits beyond the decimal point.\\n\\nlength(len)\\n
-        \   Matches parameters with defined length. Must be either an integer or a
-        set of integers that implements the ``in`` function.\\n\\nis_a(type)\\n  Match
-        an argument of a given type. Supports same arguments as builtin function ``isinstance``.\\n\\nis_arg(object)\\n
-        \ Matches an argument using the Python ``is`` comparator.\\n\\nany_of(comparator_list)\\n
-        \ Matches an argument if any of the comparators in the argument list are met.
-        Uses automatic comparator generation for instances and types in the list.\\n\\nall_of(comparator_list)\\n
-        \ Matches an argument if all of the comparators in the argument list are met.
-        Uses automatic comparator generation for instances and types in the list.\\n\\nnot_of(comparator)\\n
-        \ Matches an argument if the supplied comparator does not match.\\n\\nmatches(pattern)\\n
-        \ Matches an argument using a regular expression. Standard ``re`` rules apply.\\n\\nfunc(callable)\\n
-        \ Matches an argument if the callable returns True. The callable must take
-        one argument, the parameter being checked.\\n\\nignore\\n  Matches any argument.\\n\\nin_arg(in_list)\\n
-        \ Matches if the argument is in the ``in_list``.\\n\\ncontains(object)\\n
-        \ Matches if the argument contains the object using the Python ``in`` function.\\n\\nlike(container)\\n
-        \ Matches if the argument contains all of the same items as in ``container``.
-        Insists that the argument is the same type as ``container``. Useful when you
-        need to assert a few values in a list or dictionary, but the exact contents
-        are not known or can vary.\\n\\nvar(name)\\n  A variable match against the
-        first time that the argument is called. In the case of multiple calls, the
-        second one must match the previous value of ``name``. After your tests have
-        run, you can check the value against expected arguments through ``var(name).value``.
-        This is really useful when you're testing a deep stack and it's simpler to
-        assert that \\\"value A was used in method call X\\\". Variables can also
-        be used to capture an argument and return it. ::\\n\\n    expect( encode ).args(
-        var('src'), 'gzip' ).returns( var('src') )\\n\\n\\n**A note of caution**\\nIf
-        you are using the ``func`` comparator to produce side effects, be aware that
-        it may be called more than once even if the expectation you're defining only
-        occurs once. This is due to the way ``Stub.__call__`` processes the expectations
-        and determines when to process arguments through an expectation.\\n\\n\\nContext
-        Manager\\n+++++++++++++++\\n\\nAn expectation can act as a context manager,
-        which is very useful in complex mocking situations. The context will always
-        be the return value for the expectation. For example: ::\\n\\n  def get_cursor(cname):\\n
-        \     return db.Connection( 'host:port' ).collection( cname ).cursor()\\n\\n
-        \ def test_get_cursor():\\n      with expect( db.Connection ).any_args().returns(
-        mock() ) as connection:\\n          with expect( connection.collection ).args(
-        'collection' ).returns( mock() ) as collection:\\n              expect( collection.cursor
-        ).returns( 'cursor' )\\n\\n      assert_equals( 'cursor', get_cursor('collection')
-        )\\n\\nMock\\n----\\n\\nSometimes you need a mock object which can be used
-        to stub and expect anything. Chai exposes this through the ``mock`` method
-        which can be called in one of two ways.\\n\\nWithout any arguments, ``Chai.mock()``
-        will return a ``chai.Mock`` object that can be used for any purpose. If called
-        with arguments, it behaves like ``stub`` and ``expect``, creating a Mock object
-        and setting it as the attribute on another object.\\n\\nAny request for an
-        attribute from a Mock will return a new Mock object, but ``setattr`` behaves
-        as expected so it can store state as well. The dynamic function will act like
-        a stub, raising ``UnexpectedCall`` if no expectation is defined. ::\\n\\n
-        \   class CustomObject(object):\\n        def __init__(self, handle):\\n            _handle
-        = handle\\n        def do(self, arg):\\n            return _handle.do(arg)\\n\\n
-        \   class TestCase(Chai):\\n        def test_mock_get(self):\\n            obj
-        = CustomObject( mock() )\\n            expect( obj._handle.do ).args('it').returns('ok')\\n
-        \           assert_equals('ok', obj.do('it'))\\n            assert_raises(
-        UnexpectedCall, obj._handle.do_it_again )\\n\\nThe ``stub`` and ``expect``
-        methods handle ``Mock`` objects as arguments by mocking the ``__call__`` method,
-        which can also act in place of ``__init__``. ::\\n\\n    # module custom.py\\n
-        \   from collections import deque\\n\\n    class CustomObject(object):\\n
-        \       def __init__(self):\\n            self._stack = deque()\\n\\n    #
-        module custom_test.py\\n    import custom\\n    from custom import CustomObject\\n\\n
-        \   class TestCase(Chai):\\n        def test_mock_get(self):\\n            mock(
-        custom, 'deque' )\\n            expect( custom.deque ).returns( 'stack' )\\n\\n
-        \           obj = CustomObject()\\n            assert_equals('stack', obj._stack)\\n\\nHere
-        we can see how to mock an entire module, in this case replacing the ``deque``
-        import in ``custom.py`` with a ``Mock``. \\n\\n``Mock`` objects, because of
-        the ``getattr`` implementation, can also support nested attributes. ::\\n\\n
-        \   class TestCase(Chai):\\n        def test_mock(self):\\n          m = mock()\\n
-        \         m.id = 42\\n          expect( m.foo.bar ).returns( 'hello' )\\n
-        \         assert_equals( 'hello', m.foo.bar() )\\n          assert_equals(
-        42, m.id )\\n\\nIn addition to implementing ``__call__``, ``Mock`` objects
-        implement ``__nonzero__``, \\nthe container and context manager interfaces
-        are defined. Nonzero will always return\\n``True``; other methods will raise
-        ``UnexpectedCall``.  The ``__getattr__`` method\\ncannot be itself stubbed.\\n\\n..
-        _chai-installation:\\n\\nInstallation\\n============\\n\\nYou can install
-        Chai either via the Python Package Index (PyPI)\\nor from source.\\n\\nTo
-        install using ``pip``,::\\n\\n    $ pip install chai\\n\\n.. _chai-installing-from-source:\\n\\nDownloading
-        and installing from source\\n--------------------------------------\\n\\nDownload
-        the latest version of Chai from http://pypi.python.org/pypi/chai\\n\\nYou
-        can install it by doing the following,::\\n\\n    $ tar xvfz chai-*.*.*.tar.gz\\n
-        \   $ cd chai-*.*.*.tar.gz\\n    $ python setup.py install # as root\\n\\n..
-        _chai-installing-from-git:\\n\\nUsing the development version\\n-----------------------------\\n\\nYou
-        can clone the repository by doing the following::\\n\\n    $ git clone git://github.com/agoragames/chai.git\\n\\n..
-        _testing:\\n\\nTesting\\n=======\\n\\nUse `nose <https://github.com/nose-devs/nose/>`_
-        to run the test suite. ::\\n\\n  $ nosetests\\n\\n.. _bug-tracker:\\n\\nBug
-        tracker\\n===========\\n\\nIf you have any suggestions, bug reports or annoyances
-        please report them\\nto our issue tracker at https://github.com/agoragames/chai/issues\\n\\n..
-        _license:\\n\\nLicense\\n=======\\n\\nThis software is licensed under the
-        `New BSD License`. See the ``LICENSE.txt``\\nfile in the top distribution
-        directory for the full license text.\\n\\n.. _contributors:\\n\\nContributors\\n============\\n\\nSpecial
-        thank you to the following people for contributions to Chai\\n\\n* Jason Baker
-        (https://github.com/jasonbaker)\\n* Pierre-Yves Chibon (https://github.com/pypingou)\\n\\n..
-        # vim: syntax=rst expandtab tabstop=4 shiftwidth=4 shiftround\", \n        \"release_url\":
-        \"http://pypi.python.org/pypi/chai/1.1.0\", \n        \"downloads\": {\n            \"last_month\":
-        4019, \n            \"last_week\": 1174, \n            \"last_day\": 233\n
-        \       }, \n        \"_pypi_ordering\": 46, \n        \"classifiers\": [\n
-        \           \"Development Status :: 6 - Mature\", \n            \"Intended
-        Audience :: Developers\", \n            \"License :: OSI Approved :: BSD License\",
-        \n            \"Operating System :: POSIX\", \n            \"Programming Language
-        :: Python\", \n            \"Programming Language :: Python :: 2.7\", \n            \"Programming
-        Language :: Python :: 3\", \n            \"Programming Language :: Python
-        :: 3.0\", \n            \"Programming Language :: Python :: 3.1\", \n            \"Programming
-        Language :: Python :: 3.2\", \n            \"Topic :: Software Development
-        :: Libraries\", \n            \"Topic :: Software Development :: Libraries
-        :: Python Modules\", \n            \"Topic :: Software Development :: Testing\"\n
-        \       ], \n        \"name\": \"chai\", \n        \"bugtrack_url\": null,
-        \n        \"license\": \"LICENSE.txt\", \n        \"summary\": \"Easy to use
-        mocking, stubbing and spying framework.\", \n        \"home_page\": \"https://github.com/agoragames/chai\",
-        \n        \"stable_version\": null, \n        \"cheesecake_installability_id\":
-        null\n    }, \n    \"releases\": {\n        \"1.1.0\": [\n            {\n
-        \               \"has_sig\": false, \n                \"upload_time\": \"2015-01-26T18:43:19\",
-        \n                \"comment_text\": \"\", \n                \"python_version\":
-        \"source\", \n                \"url\": \"https://pypi.python.org/packages/source/c/chai/chai-1.1.0.tar.gz\",
-        \n                \"md5_digest\": \"b6e356d49b6752b40c1b47b82635e492\", \n
-        \               \"downloads\": 1037, \n                \"filename\": \"chai-1.1.0.tar.gz\",
-        \n                \"packagetype\": \"sdist\", \n                \"size\":
-        79533\n            }\n        ], \n        \"0.1.20\": [\n            {\n
-        \               \"has_sig\": false, \n                \"upload_time\": \"2011-12-14T18:58:30\",
-        \n                \"comment_text\": \"\", \n                \"python_version\":
-        \"source\", \n                \"url\": \"https://pypi.python.org/packages/source/c/chai/chai-0.1.20.tar.gz\",
-        \n                \"md5_digest\": \"1f7cc65df20d34cfa253b004173266b4\", \n
-        \               \"downloads\": 2664, \n                \"filename\": \"chai-0.1.20.tar.gz\",
-        \n                \"packagetype\": \"sdist\", \n                \"size\":
-        27434\n            }\n        ], \n        \"1.0.0\": [\n            {\n                \"has_sig\":
-        false, \n                \"upload_time\": \"2014-10-14T21:02:30\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-1.0.0.tar.gz\", \n                \"md5_digest\":
-        \"fce8d1deb08ef6c1fb2b56eea7ae7b67\", \n                \"downloads\": 999,
-        \n                \"filename\": \"chai-1.0.0.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 78641\n            }\n        ], \n
-        \       \"1.0.1\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2014-12-03T21:13:30\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-1.0.1.tar.gz\", \n                \"md5_digest\":
-        \"e4f98e15660d47df86da14c58eb09193\", \n                \"downloads\": 941,
-        \n                \"filename\": \"chai-1.0.1.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 79015\n            }\n        ], \n
-        \       \"0.1.9\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2011-06-09T17:46:50\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.9.tar.gz\", \n                \"md5_digest\":
-        \"96023fd839a5393f9324cb046266b773\", \n                \"downloads\": 4824,
-        \n                \"filename\": \"chai-0.1.9.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 20308\n            }\n        ], \n
-        \       \"0.2.4\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-03-21T20:38:42\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.2.4.tar.gz\", \n                \"md5_digest\":
-        \"2b0144bc91812b8300f604f093304c6b\", \n                \"downloads\": 1835,
-        \n                \"filename\": \"chai-0.2.4.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 21174\n            }\n        ], \n
-        \       \"0.2.3\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-03-19T14:57:26\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.2.3.tar.gz\", \n                \"md5_digest\":
-        \"b3de604228251ad206b95e741ac2e564\", \n                \"downloads\": 1846,
-        \n                \"filename\": \"chai-0.2.3.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 29915\n            }\n        ], \n
-        \       \"0.2.2\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2012-09-11T19:37:56\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.2.2.tar.gz\", \n                \"md5_digest\":
-        \"2818af42917735560dea5b12e7ebe384\", \n                \"downloads\": 2424,
-        \n                \"filename\": \"chai-0.2.2.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 29321\n            }\n        ], \n
-        \       \"0.2.1\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2012-09-06T14:49:10\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.2.1.tar.gz\", \n                \"md5_digest\":
-        \"853fa2ff2ecc358e3dce296bae8213c8\", \n                \"downloads\": 2242,
-        \n                \"filename\": \"chai-0.2.1.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 29273\n            }\n        ], \n
-        \       \"0.2.0\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2012-08-31T13:33:36\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.2.0.tar.gz\", \n                \"md5_digest\":
-        \"8d74e58fcf0e1593c79d4856d63ae22c\", \n                \"downloads\": 2295,
-        \n                \"filename\": \"chai-0.2.0.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 29107\n            }\n        ], \n
-        \       \"0.1.0\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2011-03-02T02:41:09\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.0.tar.gz\", \n                \"md5_digest\":
-        \"4421bf6251311bf3068230ad44740411\", \n                \"downloads\": 3066,
-        \n                \"filename\": \"chai-0.1.0.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 20483\n            }\n        ], \n
-        \       \"0.1.1\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2011-03-03T19:47:07\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.1.tar.gz\", \n                \"md5_digest\":
-        \"af309e744f0f1dbc6bf4d975cafb204f\", \n                \"downloads\": 2962,
-        \n                \"filename\": \"chai-0.1.1.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 17167\n            }\n        ], \n
-        \       \"0.1.2\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2011-03-04T22:07:13\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.2.tar.gz\", \n                \"md5_digest\":
-        \"889dc9ba57c2314c4d354f2081633e15\", \n                \"downloads\": 2941,
-        \n                \"filename\": \"chai-0.1.2.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 17478\n            }\n        ], \n
-        \       \"0.1.3\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2011-03-08T20:07:08\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.3.tar.gz\", \n                \"md5_digest\":
-        \"dc84001e61c604c83b1bc026b44a66c0\", \n                \"downloads\": 4497,
-        \n                \"filename\": \"chai-0.1.3.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 19507\n            }\n        ], \n
-        \       \"0.1.4\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2011-03-09T17:28:18\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.4.tar.gz\", \n                \"md5_digest\":
-        \"00161e8c280cacbebca90ab1016c86be\", \n                \"downloads\": 12156,
-        \n                \"filename\": \"chai-0.1.4.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 19705\n            }\n        ], \n
-        \       \"0.1.5\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2011-04-26T21:19:07\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.5.tar.gz\", \n                \"md5_digest\":
-        \"3fe347a80c65883897445d3f73e8280a\", \n                \"downloads\": 6401,
-        \n                \"filename\": \"chai-0.1.5.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 12738\n            }\n        ], \n
-        \       \"0.1.6\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2011-05-17T22:22:53\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.6.tar.gz\", \n                \"md5_digest\":
-        \"c162f64a8e02fbaa24a601ff81a62972\", \n                \"downloads\": 2903,
-        \n                \"filename\": \"chai-0.1.6.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 12841\n            }\n        ], \n
-        \       \"0.1.7\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2011-05-19T17:56:28\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.7.tar.gz\", \n                \"md5_digest\":
-        \"e1e18146744f026c5a59e6bfcf346c78\", \n                \"downloads\": 35988,
-        \n                \"filename\": \"chai-0.1.7.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 16622\n            }\n        ], \n
-        \       \"0.3.2\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-05-17T18:52:01\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.3.2.tar.gz\", \n                \"md5_digest\":
-        \"21324495a713ff6c072494bfc49cfe99\", \n                \"downloads\": 1482,
-        \n                \"filename\": \"chai-0.3.2.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 30708\n            }\n        ], \n
-        \       \"0.3.3\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-05-22T14:23:55\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.3.3.tar.gz\", \n                \"md5_digest\":
-        \"5e82e7a054b22b0e6e6263aa6e37b75b\", \n                \"downloads\": 1680,
-        \n                \"filename\": \"chai-0.3.3.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 21831\n            }\n        ], \n
-        \       \"0.3.0\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-04-02T00:03:05\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.3.0.tar.gz\", \n                \"md5_digest\":
-        \"6471b05e832751bde33822e65b9954cc\", \n                \"downloads\": 1763,
-        \n                \"filename\": \"chai-0.3.0.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 21725\n            }\n        ], \n
-        \       \"0.3.1\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-04-10T00:48:59\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.3.1.tar.gz\", \n                \"md5_digest\":
-        \"573e7e9922d08475dd0cd2cfe497b0c0\", \n                \"downloads\": 2175,
-        \n                \"filename\": \"chai-0.3.1.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 21823\n            }\n        ], \n
-        \       \"0.3.6\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-06-11T21:26:42\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.3.6.tar.gz\", \n                \"md5_digest\":
-        \"ba2fa061ecd7d505a1ea24801bc693e2\", \n                \"downloads\": 1763,
-        \n                \"filename\": \"chai-0.3.6.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 30863\n            }\n        ], \n
-        \       \"0.3.7\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-07-29T21:16:30\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.3.7.tar.gz\", \n                \"md5_digest\":
-        \"bb3c0a55a896d974d9d5bdea93f72ad9\", \n                \"downloads\": 1642,
-        \n                \"filename\": \"chai-0.3.7.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 31053\n            }\n        ], \n
-        \       \"0.3.5\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-06-10T18:55:54\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.3.5.tar.gz\", \n                \"md5_digest\":
-        \"ccec5d364b081bc09f4cdabc466e7ac5\", \n                \"downloads\": 1496,
-        \n                \"filename\": \"chai-0.3.5.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 30788\n            }\n        ], \n
-        \       \"0.4.8\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2014-06-09T15:25:55\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.4.8.tar.gz\", \n                \"md5_digest\":
-        \"8f3a0091378fcbff86a567ccfb43bcc2\", \n                \"downloads\": 2418,
-        \n                \"filename\": \"chai-0.4.8.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 74805\n            }\n        ], \n
-        \       \"0.4.1\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-09-09T17:51:42\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.4.1.tar.gz\", \n                \"md5_digest\":
-        \"c766da37995c09e973112b3e2eaaffd6\", \n                \"downloads\": 1451,
-        \n                \"filename\": \"chai-0.4.1.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 31889\n            }\n        ], \n
-        \       \"0.4.0\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-08-30T12:48:19\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.4.0.tar.gz\", \n                \"md5_digest\":
-        \"4683dcd9f44b6693ffcfc225c89a948d\", \n                \"downloads\": 3466,
-        \n                \"filename\": \"chai-0.4.0.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 31856\n            }\n        ], \n
-        \       \"0.4.3\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-09-17T18:41:57\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.4.3.tar.gz\", \n                \"md5_digest\":
-        \"9aac7b689c89f095a68c2c54055e6196\", \n                \"downloads\": 1492,
-        \n                \"filename\": \"chai-0.4.3.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 31911\n            }\n        ], \n
-        \       \"0.4.2\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-09-09T17:57:05\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.4.2.tar.gz\", \n                \"md5_digest\":
-        \"05df249bcea6f5a611236803941a7439\", \n                \"downloads\": 1491,
-        \n                \"filename\": \"chai-0.4.2.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 31879\n            }\n        ], \n
-        \       \"0.4.5\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-10-29T18:34:23\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.4.5.tar.gz\", \n                \"md5_digest\":
-        \"1cca6be0fb029c64c93fe0d3530af58a\", \n                \"downloads\": 1462,
-        \n                \"filename\": \"chai-0.4.5.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 73905\n            }\n        ], \n
-        \       \"0.4.4\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-10-15T19:26:41\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.4.4.tar.gz\", \n                \"md5_digest\":
-        \"c0c5887274ad492f46529449e7a4379d\", \n                \"downloads\": 1789,
-        \n                \"filename\": \"chai-0.4.4.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 31958\n            }\n        ], \n
-        \       \"0.4.7\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2014-01-02T18:13:06\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.4.7.tar.gz\", \n                \"md5_digest\":
-        \"f6b08eba1aa053946dde4d7d42325b07\", \n                \"downloads\": 2206,
-        \n                \"filename\": \"chai-0.4.7.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 74598\n            }\n        ], \n
-        \       \"0.4.6\": [\n            {\n                \"has_sig\": false, \n
-        \               \"upload_time\": \"2013-12-02T22:11:41\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.4.6.tar.gz\", \n                \"md5_digest\":
-        \"3249d7e748bad04553aea19b2163398b\", \n                \"downloads\": 1453,
-        \n                \"filename\": \"chai-0.4.6.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 74310\n            }\n        ], \n
-        \       \"0.1.12\": [\n            {\n                \"has_sig\": false,
-        \n                \"upload_time\": \"2011-08-17T22:42:57\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.12.tar.gz\", \n
-        \               \"md5_digest\": \"7fb898e44ce995ed306cc0a013c1d943\", \n                \"downloads\":
-        2842, \n                \"filename\": \"chai-0.1.12.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 24489\n            }\n        ], \n
-        \       \"0.1.13\": [\n            {\n                \"has_sig\": false,
-        \n                \"upload_time\": \"2011-08-24T20:25:29\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.13.tar.gz\", \n
-        \               \"md5_digest\": \"8f98d03f55152b7ad314e0073492bed4\", \n                \"downloads\":
-        2777, \n                \"filename\": \"chai-0.1.13.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 25014\n            }\n        ], \n
-        \       \"0.1.10\": [\n            {\n                \"has_sig\": false,
-        \n                \"upload_time\": \"2011-08-16T20:07:09\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.10.tar.gz\", \n
-        \               \"md5_digest\": \"94a7139b7f976df564757d89ed4b419c\", \n                \"downloads\":
-        2822, \n                \"filename\": \"chai-0.1.10.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 23961\n            }\n        ], \n
-        \       \"0.1.11\": [\n            {\n                \"has_sig\": false,
-        \n                \"upload_time\": \"2011-08-17T20:42:46\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.11.tar.gz\", \n
-        \               \"md5_digest\": \"31ef44dd2eaa918999c13bbe31254286\", \n                \"downloads\":
-        2800, \n                \"filename\": \"chai-0.1.11.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 24286\n            }\n        ], \n
-        \       \"0.1.16\": [\n            {\n                \"has_sig\": false,
-        \n                \"upload_time\": \"2011-11-04T00:07:20\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.16.tar.gz\", \n
-        \               \"md5_digest\": \"a79e2469e68eb7fb7fe127288ca782d5\", \n                \"downloads\":
-        2719, \n                \"filename\": \"chai-0.1.16.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 26463\n            }\n        ], \n
-        \       \"0.1.17\": [\n            {\n                \"has_sig\": false,
-        \n                \"upload_time\": \"2011-11-04T15:20:30\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.17.tar.gz\", \n
-        \               \"md5_digest\": \"86364db469056442a00ce87fd6250dbb\", \n                \"downloads\":
-        2706, \n                \"filename\": \"chai-0.1.17.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 26493\n            }\n        ], \n
-        \       \"0.1.14\": [\n            {\n                \"has_sig\": false,
-        \n                \"upload_time\": \"2011-08-29T20:49:46\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.14.tar.gz\", \n
-        \               \"md5_digest\": \"d08e88cae9607ac5732f9512ef6972e8\", \n                \"downloads\":
-        6990, \n                \"filename\": \"chai-0.1.14.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 25668\n            }\n        ], \n
-        \       \"0.1.15\": [\n            {\n                \"has_sig\": false,
-        \n                \"upload_time\": \"2011-10-28T22:35:20\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.15.tar.gz\", \n
-        \               \"md5_digest\": \"35f68b546417546af3dc10a6cab026c6\", \n                \"downloads\":
-        2739, \n                \"filename\": \"chai-0.1.15.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 26456\n            }\n        ], \n
-        \       \"0.1.18\": [\n            {\n                \"has_sig\": false,
-        \n                \"upload_time\": \"2011-11-08T20:13:56\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.18.tar.gz\", \n
-        \               \"md5_digest\": \"4433ba55580d60ccbb2de6dc5345cca5\", \n                \"downloads\":
-        2683, \n                \"filename\": \"chai-0.1.18.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 27524\n            }\n        ], \n
-        \       \"0.1.19\": [\n            {\n                \"has_sig\": false,
-        \n                \"upload_time\": \"2011-11-08T22:49:04\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.19.tar.gz\", \n
-        \               \"md5_digest\": \"82215b435a3c3b63bfb0fe61c8383489\", \n                \"downloads\":
-        16667, \n                \"filename\": \"chai-0.1.19.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 27612\n            }\n        ], \n
-        \       \"0.1.23\": [\n            {\n                \"has_sig\": false,
-        \n                \"upload_time\": \"2012-08-16T15:35:43\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.23.tar.gz\", \n
-        \               \"md5_digest\": \"26d53a1c6697f684bf850ab0b4105ccd\", \n                \"downloads\":
-        2316, \n                \"filename\": \"chai-0.1.23.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 29013\n            }\n        ], \n
-        \       \"0.1.22\": [\n            {\n                \"has_sig\": false,
-        \n                \"upload_time\": \"2012-05-15T20:43:35\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.22.tar.gz\", \n
-        \               \"md5_digest\": \"cab2ae1e58ed038780419ac1746c6fb0\", \n                \"downloads\":
-        2637, \n                \"filename\": \"chai-0.1.22.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 28879\n            }\n        ], \n
-        \       \"0.1.21\": [\n            {\n                \"has_sig\": false,
-        \n                \"upload_time\": \"2012-01-10T18:10:16\", \n                \"comment_text\":
-        \"\", \n                \"python_version\": \"source\", \n                \"url\":
-        \"https://pypi.python.org/packages/source/c/chai/chai-0.1.21.tar.gz\", \n
-        \               \"md5_digest\": \"252ed9ca11dae781e0d9a40d1fc6e792\", \n                \"downloads\":
-        9794, \n                \"filename\": \"chai-0.1.21.tar.gz\", \n                \"packagetype\":
-        \"sdist\", \n                \"size\": 28494\n            }\n        ]\n    },
-        \n    \"urls\": [\n        {\n            \"has_sig\": false, \n            \"upload_time\":
-        \"2015-01-26T18:43:19\", \n            \"comment_text\": \"\", \n            \"python_version\":
-        \"source\", \n            \"url\": \"https://pypi.python.org/packages/source/c/chai/chai-1.1.0.tar.gz\",
-        \n            \"md5_digest\": \"b6e356d49b6752b40c1b47b82635e492\", \n            \"downloads\":
-        1037, \n            \"filename\": \"chai-1.1.0.tar.gz\", \n            \"packagetype\":
-        \"sdist\", \n            \"size\": 79533\n        }\n    ]\n}"}
-    headers:
-      accept-ranges: [bytes]
-      access-control-allow-origin: ['*']
-      age: ['36560']
-      cache-control: ['max-age=600, public']
-      connection: [keep-alive]
-      content-disposition: [inline]
-      content-length: ['50822']
-      content-type: [application/json; charset="UTF-8"]
-      date: ['Thu, 28 May 2015 19:29:10 GMT']
-      public-key-pins: [max-age=600; includeSubDomains; pin-sha256="WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18=";
-          pin-sha256="5C8kvU039KouVrl52D0eZSGf4Onjo4Khs8tmyTlV3nU="; pin-sha256="5C8kvU039KouVrl52D0eZSGf4Onjo4Khs8tmyTlV3nU=";
-          pin-sha256="lCppFqbkrlJ3EcVFAkeip0+44VaoJUymbnOaEUk7tEU="; pin-sha256="TUDnr0MEoJ3of7+YliBMBVFB4/gJsv5zO7IxD9+YoWI=";
-          pin-sha256="x4QzPSC810K5/cMjb05Qm4k3Bw5zBn4lTdO/nEW/Td4=";]
-      server: [nginx/1.6.2]
-      strict-transport-security: [max-age=31536000; includeSubDomains]
-      via: [1.1 varnish]
-      x-cache: [HIT]
-      x-cache-hits: ['1']
-      x-clacks-overhead: [GNU Terry Pratchett]
-      x-pypi-last-serial: ['1565974']
-      x-served-by: [cache-iad2138-IAD]
-      x-timer: ['S1432841350.038311,VS0,VE2']
+      Content-Encoding: [gzip]
+      Content-Length: ['15080']
+      Content-Security-Policy: ['base-uri ''self''; block-all-mixed-content; connect-src
+          ''self'' https://2p66nmmycsj3.statuspage.io; default-src ''none''; font-src
+          ''self'' fonts.gstatic.com; form-action ''self''; frame-ancestors ''none'';
+          frame-src ''none''; img-src ''self'' https://warehouse-camo.herokuapp.com/
+          https://secure.gravatar.com; script-src ''self'' www.google-analytics.com;
+          style-src ''self'' fonts.googleapis.com']
+      Content-Type: [application/json]
+      Date: ['Thu, 01 Mar 2018 15:22:52 GMT']
+      Etag: ['"xAv88R6bAfk+7kY4vzkdJw"']
+      Referrer-Policy: [origin-when-cross-origin]
+      Server: [nginx]
+      Strict-Transport-Security: [max-age=31536000; includeSubDomains; preload]
+      Vary: [Accept-Encoding]
+      X-Cache: ['HIT, MISS']
+      X-Cache-Hits: ['1, 0']
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [deny]
+      X-Permitted-Cross-Domain-Policies: [none]
+      X-Pypi-Last-Serial: ['2960711']
+      X-Served-By: ['cache-iad2130-IAD, cache-atl6244-ATL']
+      X-Timer: ['S1519917772.064804,VS0,VE124']
+      X-XSS-Protection: [1; mode=block]
     status: {code: 200, message: OK}
 version: 1
