@@ -146,14 +146,14 @@ class LibrariesioConsumerTests(DatabaseTestCase):
     def test_new_project_configured_off(self):
         """libraries.io events shouldn't create projects if the configuration is off."""
         consumer = LibrariesioConsumer(self.mock_hub)
-        with mock.patch.dict(config.config, {'CREATE_LIBRARIESIO_PROJECTS': False}):
+        with mock.patch.dict(config.config, {'LIBRARIESIO_PLATFORM_WHITELIST': []}):
             consumer.consume(self.supported_fedmsg)
         self.assertEqual(0, self.session.query(Project).count())
 
     def test_new_project_configured_on(self):
         """Assert that a libraries.io event about an unknown project creates that project"""
         consumer = LibrariesioConsumer(self.mock_hub)
-        with mock.patch.dict(config.config, {'CREATE_LIBRARIESIO_PROJECTS': True}):
+        with mock.patch.dict(config.config, {'LIBRARIESIO_PLATFORM_WHITELIST': ['pypi']}):
             consumer.consume(self.supported_fedmsg)
         self.assertEqual(1, self.session.query(Project).count())
         project = self.session.query(Project).first()
@@ -167,7 +167,7 @@ class LibrariesioConsumerTests(DatabaseTestCase):
         """Assert failures to create projects are logged as errors."""
         mock_create.side_effect = AnityaException("boop")
         consumer = LibrariesioConsumer(self.mock_hub)
-        with mock.patch.dict(config.config, {'CREATE_LIBRARIESIO_PROJECTS': True}):
+        with mock.patch.dict(config.config, {'LIBRARIESIO_PLATFORM_WHITELIST': ['pypi']}):
             consumer.consume(self.supported_fedmsg)
         self.assertEqual(0, self.session.query(Project).count())
         mock_log.error.assert_called_once_with(

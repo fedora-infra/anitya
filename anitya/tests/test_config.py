@@ -50,7 +50,7 @@ social_auth_login_url = "/login/"
 social_auth_login_redirect_url = "/"
 social_auth_login_error_url = "/login-error/"
 
-create_librariesio_projects = true
+librariesio_platform_whitelist = ['pypi', 'rubygems']
 
 [anitya_log_config]
     version = 1
@@ -165,7 +165,7 @@ class LoadTests(unittest.TestCase):
             'SOCIAL_AUTH_LOGIN_URL': '/login/',
             'SOCIAL_AUTH_LOGIN_REDIRECT_URL': '/',
             'SOCIAL_AUTH_LOGIN_ERROR_URL': '/login-error/',
-            'CREATE_LIBRARIESIO_PROJECTS': True,
+            'LIBRARIESIO_PLATFORM_WHITELIST': ['pypi', 'rubygems'],
         }
         config = anitya_config.load()
         self.assertEqual(sorted(expected_config.keys()), sorted(config.keys()))

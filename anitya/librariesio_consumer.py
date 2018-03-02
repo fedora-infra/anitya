@@ -157,7 +157,7 @@ class LibrariesioConsumer(FedmsgConsumer):
 
         session = Session()
         project = models.Project.by_name_and_ecosystem(session, name, ecosystem.name)
-        if project is None and config.config['CREATE_LIBRARIESIO_PROJECTS'] is True:
+        if project is None and platform in config.config['LIBRARIESIO_PLATFORM_WHITELIST']:
             try:
                 project = utilities.create_project(
                     session,
@@ -172,7 +172,10 @@ class LibrariesioConsumer(FedmsgConsumer):
             except exceptions.AnityaException as e:
                 _log.error('A new project was discovered via libraries.io, %r, '
                            'but we failed with "%s"', project, str(e))
-        elif project is not None:
+        elif project is None:
+            _log.info('Discovered new project, %s, on the %s platform, but anitya is '
+                      'configured to not create the project', name, platform)
+        else:
             _log.info('libraries.io has found an update (version %s) for project %r',
                       version, project)
             # This will fetch the version, emit fedmsgs, add log entries, and
