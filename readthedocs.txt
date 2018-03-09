@@ -9,7 +9,9 @@ flask >= 0.10.1
 flask-restful
 flask-wtf
 jinja2 >= 2.4
-sphinx==1.5.6
+social-auth-app-flask
+social-auth-app-flask-sqlalchemy
+sphinx
 sphinxcontrib-httpdomain
 sqlalchemy >= 0.9
 straight.plugin==1.4.0-post-1
