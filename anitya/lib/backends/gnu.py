@@ -25,7 +25,7 @@ class GnuBackend(BaseBackend):
 
     name = 'GNU project'
     examples = [
-        'http://ftp.gnu.org/pub/gnu/gnash/',
+        'https://ftp.gnu.org/pub/gnu/gnash/',
     ]
 
     @classmethod
