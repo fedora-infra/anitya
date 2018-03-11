@@ -233,4 +233,4 @@ freenode network. Please do stop by and say hello.
 .. _issue tracker: https://github.com/release-monitoring/anitya/issues
 .. _source code: https://github.com/release-monitoring/anitya
 .. _fedmsg topic documentation:
-    http://fedora-fedmsg.readthedocs.io/en/latest/topics.html#anitya
+    https://fedora-fedmsg.readthedocs.io/en/latest/topics.html#anitya

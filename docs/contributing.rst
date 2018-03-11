@@ -22,7 +22,7 @@ good to go!
 
 Unit tests
 ^^^^^^^^^^
-The test suites can be run using `tox <http://tox.readthedocs.io/>`_ by simply running
+The test suites can be run using `tox <https://tox.readthedocs.io/>`_ by simply running
 ``tox`` from the repository root. These tests include unit tests, a linter to ensure
 Python code style is correct, and checks the documentation for Sphinx warnings or
 errors.
@@ -43,7 +43,7 @@ docstrings. Please consider converting them and opening a pull request!
 Python API documentation is automatically generated from the code using Sphinx's
 `autodoc <http://www.sphinx-doc.org/en/stable/tutorial.html#autodoc>`_ extension.
 HTTP REST API documentation is automatically generated from the code using the
-`httpdomain <http://pythonhosted.org/sphinxcontrib-httpdomain/>`_ extension.
+`httpdomain <https://pythonhosted.org/sphinxcontrib-httpdomain/>`_ extension.
 
 
 Development Environment
