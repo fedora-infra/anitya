@@ -20,8 +20,8 @@ class SourceforgeBackend(BaseBackend):
 
     name = 'Sourceforge'
     examples = [
-        'http://sourceforge.net/projects/filezilla/',
-        'http://sourceforge.net/projects/file-folder-ren/',
+        'https://sourceforge.net/projects/filezilla/',
+        'https://sourceforge.net/projects/file-folder-ren/',
     ]
 
     @classmethod
@@ -55,7 +55,7 @@ class SourceforgeBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url_template = 'http://sourceforge.net/projects/%(name)s/rss?limit=200'
+        url_template = 'https://sourceforge.net/projects/%(name)s/rss?limit=200'
 
         url = url_template % {
             'name': (project.version_url or project.name).replace('+', '\+')
