@@ -59,7 +59,7 @@ def initialize(config):
     #: The SQLAlchemy database engine. This is constructed using the value of
     #: ``DB_URL`` in :mod:`anitya.config``.
     engine = create_engine(config['DB_URL'], echo=config.get('SQL_DEBUG', False))
-    # Source: http://docs.sqlalchemy.org/en/latest/dialects/sqlite.html#foreign-key-support
+    # Source: https://docs.sqlalchemy.org/en/latest/dialects/sqlite.html#foreign-key-support
     if config['DB_URL'].startswith('sqlite:'):
         event.listen(
             engine,

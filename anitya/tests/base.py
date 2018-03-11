@@ -76,7 +76,7 @@ def _configure_db(db_uri='sqlite://'):
 
     if db_uri.startswith('sqlite://'):
         # Necessary to get nested transactions working with SQLite. See:
-        # http://docs.sqlalchemy.org/en/latest/dialects/sqlite.html\
+        # https://docs.sqlalchemy.org/en/latest/dialects/sqlite.html\
         # #serializable-isolation-savepoints-transactional-ddl
         @event.listens_for(engine, "connect")
         def connect_event(dbapi_connection, connection_record):

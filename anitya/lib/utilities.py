@@ -214,7 +214,7 @@ def init(db_url, alembic_ini=None, debug=False, create=False):  # pragma: no cov
     if create:
         Base.metadata.create_all(engine)
 
-    # Source: http://docs.sqlalchemy.org/en/latest/dialects/sqlite.html
+    # Source: https://docs.sqlalchemy.org/en/latest/dialects/sqlite.html
     # see section 'sqlite-foreign-keys'
     if db_url.startswith('sqlite:'):
         def _fk_pragma_on_connect(dbapi_con, con_record):
