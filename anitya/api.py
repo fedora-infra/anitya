@@ -104,13 +104,13 @@ def api_projects():
           {
             "backend": "custom",
             "created_on": 1409917222.0,
-            "homepage": "http://www.finnie.org/software/2ping/",
+            "homepage": "https://www.finnie.org/software/2ping/",
             "id": 2,
             "name": "2ping",
             "regex": null,
             "updated_on": 1414400794.0,
             "version": "2.1.1",
-            "version_url": "http://www.finnie.org/software/2ping",
+            "version_url": "https://www.finnie.org/software/2ping",
             "versions": [
               "2.1.1"
             ]
@@ -118,13 +118,13 @@ def api_projects():
           {
             "backend": "custom",
             "created_on": 1409917223.0,
-            "homepage": "http://www.3proxy.ru/download/",
+            "homepage": "https://www.3proxy.ru/download/",
             "id": 3,
             "name": "3proxy",
             "regex": null,
             "updated_on": 1415115096.0,
             "version": "0.7.1.1",
-            "version_url": "http://www.3proxy.ru/download/",
+            "version_url": "https://www.3proxy.ru/download/",
             "versions": [
               "0.7.1.1"
             ]
@@ -189,8 +189,8 @@ def api_packages_wiki_list():
 
     Sample response::
 
-      * 2ping None http://www.finnie.org/software/2ping
-      * 3proxy None http://www.3proxy.ru/download/
+      * 2ping None https://www.finnie.org/software/2ping
+      * 3proxy None https://www.3proxy.ru/download/
     '''
 
     project_objs = models.Project.all(Session)
@@ -436,7 +436,7 @@ def api_get_project(project_id):
       {
         "backend": "custom",
         "created_on": 1409917222.0,
-        "homepage": "http://www.finnie.org/software/2ping/",
+        "homepage": "https://www.finnie.org/software/2ping/",
         "id": 2,
         "name": "2ping",
         "packages": [
@@ -448,7 +448,7 @@ def api_get_project(project_id):
         "regex": null,
         "updated_on": 1414400794.0,
         "version": "2.1.1",
-        "version_url": "http://www.finnie.org/software/2ping",
+        "version_url": "https://www.finnie.org/software/2ping",
         "versions": [
           "2.1.1"
         ]
@@ -493,7 +493,7 @@ def api_get_project_distro(distro, package_name):
       {
         "backend": "custom",
         "created_on": 1409917222.0,
-        "homepage": "http://www.finnie.org/software/2ping/",
+        "homepage": "https://www.finnie.org/software/2ping/",
         "id": 2,
         "name": "2ping",
         "packages": [
@@ -505,7 +505,7 @@ def api_get_project_distro(distro, package_name):
         "regex": null,
         "updated_on": 1414400794.0,
         "version": "2.1.1",
-        "version_url": "http://www.finnie.org/software/2ping",
+        "version_url": "https://www.finnie.org/software/2ping",
         "versions": [
           "2.1.1"
         ]

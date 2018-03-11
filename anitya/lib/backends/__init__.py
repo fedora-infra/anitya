@@ -75,7 +75,7 @@ class BaseBackend(object):
     @classmethod
     def expand_subdirs(self, url, glob_char="*"):
         ''' Expand dirs containing ``glob_char`` in the given URL with the latest
-        Example URL: ``http://www.example.com/foo/*/``
+        Example URL: ``https://www.example.com/foo/*/``
 
         The globbing char can be bundled with other characters enclosed within
         the same slashes in the URL like ``/rel*/``.
