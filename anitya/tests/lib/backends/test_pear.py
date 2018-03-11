@@ -48,7 +48,7 @@ class PearBackendtests(DatabaseTestCase):
         """ Create some basic projects to work with. """
         project = models.Project(
             name='PHP-UML',
-            homepage='http://pear.php.net/package/PHP_UML',
+            homepage='https://pear.php.net/package/PHP_UML',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -56,7 +56,7 @@ class PearBackendtests(DatabaseTestCase):
 
         project = models.Project(
             name='foo',
-            homepage='http://pear.php.net/package/foo',
+            homepage='https://pear.php.net/package/foo',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -103,10 +103,10 @@ class PearBackendtests(DatabaseTestCase):
         items = list(generator)
 
         self.assertEqual(items[0], (
-            'File_Therion', 'http://pear.php.net/package/File_Therion',
+            'File_Therion', 'https://pear.php.net/package/File_Therion',
             'PEAR', '0.1.0'))
         self.assertEqual(items[1], (
-            'Net_URL2', 'http://pear.php.net/package/Net_URL2',
+            'Net_URL2', 'https://pear.php.net/package/Net_URL2',
             'PEAR', '2.1.2'))
         # etc...
 

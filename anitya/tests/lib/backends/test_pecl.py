@@ -48,7 +48,7 @@ class PeclBackendtests(DatabaseTestCase):
         """ Create some basic projects to work with. """
         project = models.Project(
             name='inotify',
-            homepage='http://pecl.php.net/package/inotify',
+            homepage='https://pecl.php.net/package/inotify',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -56,7 +56,7 @@ class PeclBackendtests(DatabaseTestCase):
 
         project = models.Project(
             name='foo',
-            homepage='http://pecl.php.net/package/foo',
+            homepage='https://pecl.php.net/package/foo',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -100,9 +100,9 @@ class PeclBackendtests(DatabaseTestCase):
         items = list(generator)
 
         self.assertEqual(items[0], (
-            'rrd', 'http://pecl.php.net/package/rrd', 'PECL', '2.0.1'))
+            'rrd', 'https://pecl.php.net/package/rrd', 'PECL', '2.0.1'))
         self.assertEqual(items[1], (
-            'libsodium', 'http://pecl.php.net/package/libsodium',
+            'libsodium', 'https://pecl.php.net/package/libsodium',
             'PECL', '1.0.6'))
         # etc...
 

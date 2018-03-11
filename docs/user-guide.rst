@@ -56,9 +56,9 @@ The backends available are:
   `launchpad.net <https://launchpad.net/>`_
 * ``npmjs.py`` for projects hosted on `npmjs.org <https://www.npmjs.org/>`_
 * ``pear.py`` for projects hosted on
-  `pear.php.net <http://pear.php.net/>`_
+  `pear.php.net <https://pear.php.net/>`_
 * ``pecl.py`` for projects hosted on
-  `pecl.php.net <http://pecl.php.net/>`_
+  `pecl.php.net <https://pecl.php.net/>`_
 * ``pypi.py`` for projects hosted on
   `pypi.python.org <https://pypi.python.org/pypi>`_
 * ``rubygems.py`` for projects hosted on
