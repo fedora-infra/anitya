@@ -57,7 +57,7 @@ class BitBucketBackendtests(DatabaseTestCase):
 
         project = models.Project(
             name='foobar',
-            homepage='http://bitbucket.org/foo/bar',
+            homepage='https://bitbucket.org/foo/bar',
             version_url='foobar/bar',
             backend=BACKEND,
         )
