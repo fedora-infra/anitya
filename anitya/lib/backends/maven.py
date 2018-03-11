@@ -25,8 +25,8 @@ class MavenBackend(BaseBackend):
 
     name = 'Maven Central'
     examples = [
-        'http://repo1.maven.org/maven2/plexus/plexus-compiler/',
-        'http://repo1.maven.org/maven2/com/google/inject/guice/',
+        'https://repo1.maven.org/maven2/plexus/plexus-compiler/',
+        'https://repo1.maven.org/maven2/com/google/inject/guice/',
     ]
 
     @classmethod
@@ -72,7 +72,7 @@ class MavenBackend(BaseBackend):
 
             group_id = match.group(1)
             artifact_id = match.group(2)
-            url = 'http://repo1.maven.org/maven2/{group_id}/{artifact_id}/'\
+            url = 'https://repo1.maven.org/maven2/{group_id}/{artifact_id}/'\
                   .format(
                       group_id=group_id.replace('.', '/'),
                       artifact_id=artifact_id,
