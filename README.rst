@@ -19,7 +19,7 @@ Now this service has been split into two parts:
 
 Anitya provides a user-friendly interface to add or edit projects. New
 releases are announced on `fedmsg <http://fedmsg.com>`_ and notifications
-can then be sent via `FMN <http://github.com/fedora-infra/fmn>`_ (the FedMsg
+can then be sent via `FMN <https://github.com/fedora-infra/fmn>`_ (the FedMsg
 Notifications service).
 
 :Github page: https://github.com/fedora-infra/anitya

@@ -57,7 +57,7 @@ class GithubBackendtests(DatabaseTestCase):
 
         project = models.Project(
             name='foobar',
-            homepage='http://github.com/foo/bar',
+            homepage='https://github.com/foo/bar',
             version_url='foobar/bar',
             backend=BACKEND,
         )

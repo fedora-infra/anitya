@@ -44,7 +44,7 @@ The backends available are:
   basic apache folder or modified one.
 * ``freshmeat.py`` for projects hosted on
   `freshmeat.net <http://freshmeat.net/>`_ / `freecode.com <http://freecode.com/>`_
-* ``github.py`` for projects hosted on `github.com <http://github.com/>`_
+* ``github.py`` for projects hosted on `github.com <https://github.com/>`_
 * ``gnome.py`` for projects hosted on
   `download.gnome.org <https://download.gnome.org/sources/>`_
 * ``gnu.py`` for projects hosted on `gnu.org <https://www.gnu.org/software/>`_
