@@ -6,54 +6,40 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.11.0 at upstream-monitoring.org]
     method: GET
-    uri: http://rubygems.org/api/v1/versions/bio/latest.json
+    uri: https://rubygems.org/api/v1/versions/bio/latest.json
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAA6tWKkstKs7Mz1OyUjLUM9Ez1jMwMDBUqgUAGa837BgAAAA=
+        H4sIAKDRpFoAA6pWKkstKs7Mz1OyUjLUM9UzVKoFAAAA//8DAKl3OMQTAAAA
     headers:
+      accept-ranges: [bytes]
+      age: ['0']
       cache-control: ['max-age=0, private, must-revalidate']
       connection: [keep-alive]
       content-encoding: [gzip]
+      content-security-policy: ['default-src ''self''; script-src ''self'' https://secure.gaug.es;
+          style-src ''self'' https://fonts.googleapis.com; img-src ''self'' https://secure.gaug.es
+          https://gravatar.com https://secure.gravatar.com; font-src ''self'' https://fonts.gstatic.com;
+          connect-src https://s3-us-west-2.amazonaws.com/rubygems-dumps/; frame-src
+          https://ghbtns.com']
       content-type: [application/json; charset=utf-8]
-      date: ['Thu, 28 May 2015 19:29:11 GMT']
-      server: [nginx]
-      status: [200 OK]
+      date: ['Sun, 11 Mar 2018 06:50:08 GMT']
+      etag: ['"24c70a65fc5758e148f6f236f9cc374f"']
+      server: [RubyGems.org]
+      strict-transport-security: [max-age=0]
+      vary: ['Accept-Encoding,Fastly-SSL']
+      via: [1.1 varnish]
+      x-backend: ['F_Rails 54.186.104.15:443']
+      x-cache: [MISS]
+      x-cache-hits: ['0']
       x-content-type-options: [nosniff]
       x-frame-options: [SAMEORIGIN]
-      x-request-id: [fadba8f8-62f3-4bc1-9620-8242633c2598]
-      x-runtime: ['0.006423']
-      x-ua-compatible: ['IE=Edge,chrome=1']
-      x-xss-protection: [1; mode=block]
-    status: {code: 200, message: OK}
-- request:
-    body: null
-    headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
-    method: GET
-    uri: http://rubygems.org/api/v1/versions/biofoobar/latest.json
-  response:
-    body:
-      string: !!binary |
-        H4sIAAAAAAAAA6tWKkstKs7Mz1OyUirNy87LL89TqgUAKuW6yhUAAAA=
-    headers:
-      cache-control: ['max-age=0, private, must-revalidate']
-      connection: [keep-alive]
-      content-encoding: [gzip]
-      content-type: [application/json; charset=utf-8]
-      date: ['Thu, 28 May 2015 19:29:11 GMT']
-      server: [nginx]
-      status: [200 OK]
-      x-content-type-options: [nosniff]
-      x-frame-options: [SAMEORIGIN]
-      x-request-id: [0b068b09-7b37-4a6e-b855-96e59b8f2bcd]
-      x-runtime: ['0.005007']
+      x-request-id: [a62e7d3b-f95a-4cbb-81da-31d3b457eb08]
+      x-runtime: ['0.008426']
+      x-served-by: [cache-mdw17324-MDW]
+      x-timer: ['S1520751009.798984,VS0,VE61']
       x-ua-compatible: ['IE=Edge,chrome=1']
       x-xss-protection: [1; mode=block]
     status: {code: 200, message: OK}

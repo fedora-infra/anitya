@@ -62,7 +62,7 @@ The backends available are:
 * ``pypi.py`` for projects hosted on
   `pypi.python.org <https://pypi.python.org/pypi>`_
 * ``rubygems.py`` for projects hosted on
-  `rubygems.org <http://rubygems.org/>`_
+  `rubygems.org <https://rubygems.org/>`_
 * ``sourceforge.py`` for projects hosted on
   `sourceforge.net <http://sourceforge.net/>`_
 * ``stackage.py`` for projects hosted on

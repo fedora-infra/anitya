@@ -48,7 +48,7 @@ class RubygemsBackendtests(DatabaseTestCase):
         """ Create some basic projects to work with. """
         project = models.Project(
             name='bio',
-            homepage='http://rubygems.org/gems/bio',
+            homepage='https://rubygems.org/gems/bio',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -56,7 +56,7 @@ class RubygemsBackendtests(DatabaseTestCase):
 
         project = models.Project(
             name='biofoobar',
-            homepage='http://rubygems.org/gems/biofoobar',
+            homepage='https://rubygems.org/gems/biofoobar',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -66,7 +66,7 @@ class RubygemsBackendtests(DatabaseTestCase):
         """ Test the get_version function of the rubygems backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '1.4.3.0001'
+        exp = '1.5.1'
         obs = backend.RubygemsBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -82,7 +82,7 @@ class RubygemsBackendtests(DatabaseTestCase):
         """ Test the get_versions function of the rubygems backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = ['1.4.3.0001']
+        exp = ['1.5.1']
         obs = backend.RubygemsBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
@@ -100,11 +100,11 @@ class RubygemsBackendtests(DatabaseTestCase):
         items = list(generator)
 
         self.assertEqual(items[0], (
-            'culqi', 'http://rubygems.org/gems/culqi',
-            'Rubygems', '1.1.4'))
+            'mathrix-rails', 'https://rubygems.org/gems/mathrix-rails',
+            'Rubygems', '1.0.0'))
         self.assertEqual(items[1], (
-            'rspec-instafail', 'http://rubygems.org/gems/rspec-instafail',
-            'Rubygems', '0.5.0'))
+            'zipcoder', 'https://rubygems.org/gems/zipcoder',
+            'Rubygems', '0.2.0'))
         # etc...
 
 
