@@ -48,15 +48,15 @@ class HackageBackendtests(DatabaseTestCase):
         """ Create some basic projects to work with. """
         project = models.Project(
             name='Biobase',
-            homepage='http://hackage.haskell.org/package/Biobase',
+            homepage='https://hackage.haskell.org/package/Biobase',
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name='foobar',
-            homepage='http://hackage.haskell.org/package/foobar',
+            name='non-existent-package-that-does-not-exist',
+            homepage='https://hackage.haskell.org/package/non-existent-package-that-does-not-exist',
             backend=BACKEND,
         )
         self.session.add(project)

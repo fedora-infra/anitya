@@ -51,7 +51,7 @@ The backends available are:
 * ``google.py`` for projects hosted on
   `code.google.com <https://code.google.com/>`_
 * ``hackage.py`` for projects hosted on
-  `hackage.haskell.org <http://hackage.haskell.org/>`_
+  `hackage.haskell.org <https://hackage.haskell.org/>`_
 * ``launchpad.py`` for projects hosted on
   `launchpad.net <https://launchpad.net/>`_
 * ``npmjs.py`` for projects hosted on `npmjs.org <https://www.npmjs.org/>`_
