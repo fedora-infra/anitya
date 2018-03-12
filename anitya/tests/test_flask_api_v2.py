@@ -563,13 +563,13 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                 {
                     "id": 1,
                     "backend": "custom",
-                    "homepage": "http://www.geany.org/",
+                    "homepage": "https://www.geany.org/",
                     "name": "geany",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://www.geany.org/Download/Releases",
+                    "version_url": "https://www.geany.org/Download/Releases",
                     "versions": [],
-                    "ecosystem": "http://www.geany.org/",
+                    "ecosystem": "https://www.geany.org/",
                 },
                 {
                     "id": 2,
@@ -722,13 +722,13 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                 {
                     "id": 1,
                     "backend": "custom",
-                    "homepage": "http://www.geany.org/",
+                    "homepage": "https://www.geany.org/",
                     "name": "geany",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://www.geany.org/Download/Releases",
+                    "version_url": "https://www.geany.org/Download/Releases",
                     "versions": [],
-                    "ecosystem": "http://www.geany.org/",
+                    "ecosystem": "https://www.geany.org/",
                 },
             ]
         }

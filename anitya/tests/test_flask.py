@@ -367,8 +367,8 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual(output.status_code, 200)
 
         expected = b"""
-            <p><a property="doap:homepage" href="http://www.geany.org/"
-               target="_blank" rel="noopener noreferrer">http://www.geany.org/
+            <p><a property="doap:homepage" href="https://www.geany.org/"
+               target="_blank" rel="noopener noreferrer">https://www.geany.org/
              </a><p>"""
 
         self.assertTrue(expected in output.data)
@@ -385,8 +385,8 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual(output.status_code, 200)
 
         expected = b"""
-                <a href="http://www.geany.org/" target="_blank" rel="noopener noreferrer">
-                  http://www.geany.org/
+                <a href="https://www.geany.org/" target="_blank" rel="noopener noreferrer">
+                  https://www.geany.org/
                 </a>"""
         self.assertTrue(expected in output.data)
 
@@ -486,8 +486,8 @@ class FlaskTest(DatabaseTestCase):
         output = self.app.get('/projects/search/g*')
         self.assertEqual(output.status_code, 200)
         expected = b"""
-                  <a href="http://www.geany.org/" target="_blank" rel="noopener noreferrer">
-                    http://www.geany.org/
+                  <a href="https://www.geany.org/" target="_blank" rel="noopener noreferrer">
+                    https://www.geany.org/
                   </a>"""
         self.assertTrue(expected in output.data)
 

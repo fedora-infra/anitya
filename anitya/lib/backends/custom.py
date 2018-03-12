@@ -26,7 +26,7 @@ class CustomBackend(BaseBackend):
     name = 'custom'
     examples = [
         'https://subsurface-divelog.org/downloads/',
-        'http://www.geany.org/Download/Releases',
+        'https://www.geany.org/Download/Releases',
     ]
     more_info = 'More information in the '\
         '<a href=\'/about#test-your-regex\'>about#test-your-regex</a>'

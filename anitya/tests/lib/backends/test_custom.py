@@ -47,8 +47,8 @@ class CustomBackendtests(DatabaseTestCase):
         """ Create some basic projects to work with. """
         project = models.Project(
             name='geany',
-            homepage='http://www.geany.org/',
-            version_url='http://www.geany.org/Download/Releases',
+            homepage='https://www.geany.org/',
+            version_url='https://www.geany.org/Download/Releases',
             regex='DEFAULT',
             backend=BACKEND,
         )
@@ -78,7 +78,7 @@ class CustomBackendtests(DatabaseTestCase):
         """ Test the get_version function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '1.24.1'
+        exp = '1.33'
         obs = backend.CustomBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -100,7 +100,7 @@ class CustomBackendtests(DatabaseTestCase):
         """ Test the get_versions function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = ['1.24.1']
+        exp = ['1.33']
         obs = backend.CustomBackend.get_versions(project)
         self.assertEqual(obs, exp)
 
