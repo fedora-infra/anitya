@@ -60,33 +60,33 @@ class MavenBackendTest(DatabaseTestCase):
     def test_maven_nonexistent(self):
         self.assert_invalid(
             name='foo',
-            homepage='http://example.com',
+            homepage='https://example.com',
         )
 
     def test_maven_coordinates_in_version_url(self):
         self.assert_plexus_version(
             name='plexus-maven-plugin',
             version_url='org.codehaus.plexus:plexus-maven-plugin',
-            homepage='http://plexus.codehaus.org/',
+            homepage='https://plexus.codehaus.org/',
         )
 
     def test_maven_coordinates_in_name(self):
         self.assert_plexus_version(
             name='org.codehaus.plexus:plexus-maven-plugin',
-            homepage='http://plexus.codehaus.org/',
+            homepage='https://plexus.codehaus.org/',
         )
 
     def test_maven_bad_coordinates(self):
         self.assert_invalid(
             name='plexus-maven-plugin',
-            homepage='http://plexus.codehaus.org/',
+            homepage='https://plexus.codehaus.org/',
             version_url='plexus-maven-plugin',
         )
 
     def test_maven_get_version_by_url(self):
         self.assert_plexus_version(
             name='plexus-maven-plugin',
-            homepage='http://repo1.maven.org/maven2/'
+            homepage='https://repo1.maven.org/maven2/'
                      'org/codehaus/plexus/plexus-maven-plugin/',
         )
 
@@ -94,7 +94,7 @@ class MavenBackendTest(DatabaseTestCase):
         project = models.Project(
             backend=BACKEND,
             name='felix-gogo-shell',
-            homepage='http://www.apache.org/dist/felix/',
+            homepage='https://www.apache.org/dist/felix/',
             version_url='org.apache.felix:org.apache.felix.gogo.shell',
         )
         exp = '1.0.0'
@@ -106,7 +106,7 @@ class MavenBackendTest(DatabaseTestCase):
             backend=BACKEND,
             name='plexus-maven-plugin',
             version_url='org.codehaus.plexus:plexus-maven-plugin',
-            homepage='http://plexus.codehaus.org/',
+            homepage='https://plexus.codehaus.org/',
         )
         exp = ['1.1-alpha-7', '1.1', '1.1.1', '1.1.2', '1.1.3', '1.2', '1.3',
                '1.3.1', '1.3.2', '1.3.3', '1.3.4', '1.3.5', '1.3.6', '1.3.7',
