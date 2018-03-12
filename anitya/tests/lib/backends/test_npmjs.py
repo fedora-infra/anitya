@@ -145,14 +145,14 @@ class NpmjsBackendtests(DatabaseTestCase):
     def test_npmjs_check_feed(self):
         """ Test the check_feed method of the npmjs backend. """
         generator = backend.NpmjsBackend.check_feed()
-        items = list(generator)
+        items = sorted(generator)
 
         self.assertEqual(items[0], (
-            '0-_-0', 'http://npmjs.org/package/0-_-0', 'npmjs', '1.0.0'))
+            '2d-density', 'https://github.com/nilestanner/2d-density#readme', 'npmjs', '1.0.0'))
         self.assertEqual(items[1], (
-            '111-react-simpleform',
-            'http://npmjs.org/package/111-react-simpleform',
-            'npmjs', '1.2.0'))
+            '2d-density', 'https://github.com/nilestanner/2d-density#readme', 'npmjs', '1.0.1'))
+        self.assertEqual(items[2], (
+            'angular-stackblitz', 'http://npmjs.org/package/angular-stackblitz', 'npmjs', '0.0.0'))
         # etc...
 
 
