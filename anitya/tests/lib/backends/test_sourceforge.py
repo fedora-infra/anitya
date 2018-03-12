@@ -48,7 +48,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
         """ Create some basic projects to work with. """
         project = models.Project(
             name='filezilla',
-            homepage='http://sourceforge.net/projects/filezilla/',
+            homepage='https://sourceforge.net/projects/filezilla/',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -56,7 +56,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
 
         project = models.Project(
             name='foobar',
-            homepage='http://sourceforge.net/projects/foobar',
+            homepage='https://sourceforge.net/projects/foobar',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -64,7 +64,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
 
         project = models.Project(
             name='file-folder-ren',
-            homepage='http://sourceforge.net/projects/file-folder-ren/',
+            homepage='https://sourceforge.net/projects/file-folder-ren/',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -74,7 +74,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
         """ Test the get_version function of the sourceforge backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '3.11.0.1'
+        exp = '3.31.0'
         obs = backend.SourceforgeBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -99,10 +99,10 @@ class SourceforgeBackendtests(DatabaseTestCase):
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [
-            u'3.9.0.3', u'3.9.0.4', u'3.9.0.5', u'3.9.0.6',
-            u'3.10.0', u'3.10.0.1', u'3.10.0.2',
-            u'3.10.1', u'3.10.1.1', u'3.10.2', u'3.10.3',
-            u'3.11.0', u'3.11.0.1',
+            u'3.25.0', u'3.25.1', u'3.25.2',
+            u'3.26.0', u'3.26.1', u'3.26.2',
+            u'3.27.0', u'3.27.0.1', u'3.27.1',
+            u'3.28.0', u'3.29.0', u'3.30.0', u'3.31.0',
         ]
         obs = backend.SourceforgeBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
