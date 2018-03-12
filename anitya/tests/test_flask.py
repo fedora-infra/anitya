@@ -398,8 +398,8 @@ class FlaskTest(DatabaseTestCase):
         self.assertTrue(expected in output.data)
 
         expected = b"""
-                <a href="http://subsurface.hohndel.org/" target="_blank" rel="noopener noreferrer">
-                  http://subsurface.hohndel.org/
+                <a href="https://subsurface-divelog.org/" target="_blank" rel="noopener noreferrer">
+                  https://subsurface-divelog.org/
                 </a>"""
         self.assertTrue(expected in output.data)
 

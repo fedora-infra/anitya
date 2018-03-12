@@ -25,7 +25,7 @@ class CustomBackend(BaseBackend):
 
     name = 'custom'
     examples = [
-        'http://subsurface.hohndel.org/downloads/',
+        'https://subsurface-divelog.org/downloads/',
         'http://www.geany.org/Download/Releases',
     ]
     more_info = 'More information in the '\

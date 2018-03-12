@@ -65,8 +65,8 @@ class GnuBackendtests(DatabaseTestCase):
 
         project = models.Project(
             name='subsurface',
-            homepage='http://subsurface.hohndel.org/',
-            version_url='http://subsurface.hohndel.org/downloads/',
+            homepage='https://subsurface-divelog.org/',
+            version_url='https://subsurface-divelog.org/downloads/',
             backend=BACKEND,
         )
         self.session.add(project)

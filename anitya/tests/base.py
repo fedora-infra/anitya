@@ -189,8 +189,8 @@ def create_project(session):
     utilities.create_project(
         session,
         name='subsurface',
-        homepage='http://subsurface.hohndel.org/',
-        version_url='http://subsurface.hohndel.org/downloads/',
+        homepage='https://subsurface-divelog.org/',
+        version_url='https://subsurface-divelog.org/downloads/',
         regex='DEFAULT',
         user_id='noreply@fedoraproject.org',
     )

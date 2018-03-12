@@ -109,12 +109,12 @@ class AnityaWebAPItests(DatabaseTestCase):
                 {
                     "id": 2,
                     "backend": "custom",
-                    "homepage": "http://subsurface.hohndel.org/",
-                    "ecosystem": "http://subsurface.hohndel.org/",
+                    "homepage": "https://subsurface-divelog.org/",
+                    "ecosystem": "https://subsurface-divelog.org/",
                     "name": "subsurface",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://subsurface.hohndel.org/downloads/",
+                    "version_url": "https://subsurface-divelog.org/downloads/",
                     "versions": []
                 }
             ],
@@ -195,7 +195,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.assertEqual(output.status_code, 200)
 
         exp = b"* geany DEFAULT http://www.geany.org/Download/Releases\n"\
-            b"* subsurface DEFAULT http://subsurface.hohndel.org/downloads/"
+            b"* subsurface DEFAULT https://subsurface-divelog.org/downloads/"
         self.assertEqual(output.data, exp)
 
     def test_api_projects_names(self):

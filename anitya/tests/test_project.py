@@ -67,11 +67,11 @@ class Projecttests(DatabaseTestCase):
 
         project = models.Project.by_id(self.session, 2)
         self.assertEqual(project.name, 'subsurface')
-        self.assertEqual(project.homepage, 'http://subsurface.hohndel.org/')
+        self.assertEqual(project.homepage, 'https://subsurface-divelog.org/')
 
         project = models.Project.get(self.session, 2)
         self.assertEqual(project.name, 'subsurface')
-        self.assertEqual(project.homepage, 'http://subsurface.hohndel.org/')
+        self.assertEqual(project.homepage, 'https://subsurface-divelog.org/')
 
         project = models.Project.by_id(self.session, 10)
         self.assertEqual(project, None)
@@ -87,10 +87,10 @@ class Projecttests(DatabaseTestCase):
         self.assertEqual(projects[0].homepage, 'http://www.geany.org/')
 
         projects = models.Project.by_homepage(
-            self.session, 'http://subsurface.hohndel.org/')
+            self.session, 'https://subsurface-divelog.org/')
         self.assertEqual(len(projects), 1)
         self.assertEqual(projects[0].name, 'subsurface')
-        self.assertEqual(projects[0].homepage, 'http://subsurface.hohndel.org/')
+        self.assertEqual(projects[0].homepage, 'https://subsurface-divelog.org/')
 
         project = models.Project.by_homepage(self.session, 'terminal')
         self.assertEqual(project, [])

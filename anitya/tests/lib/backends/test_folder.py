@@ -68,8 +68,8 @@ class FolderBackendtests(DatabaseTestCase):
 
         project = models.Project(
             name='subsurface',
-            homepage='http://subsurface.hohndel.org/',
-            version_url='http://subsurface.hohndel.org/downloads/',
+            homepage='https://subsurface-divelog.org/',
+            version_url='https://subsurface-divelog.org/downloads/',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -93,7 +93,7 @@ class FolderBackendtests(DatabaseTestCase):
 
         pid = 3
         project = models.Project.get(self.session, pid)
-        exp = '4.4.2'
+        exp = '4.7.7'
         obs = backend.FolderBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -136,6 +136,9 @@ class FolderBackendtests(DatabaseTestCase):
         exp = [
             u'3.1.1', u'4.0', u'4.0.1', u'4.0.2', u'4.0.3', u'4.1', u'4.2',
             u'4.3', u'4.4.0', u'4.4.1', u'4.4.2',
+            u'4.5.0', u'4.5.1', u'4.5.2', u'4.5.3', u'4.5.4', u'4.5.5', u'4.5.6',
+            u'4.6.0', u'4.6.1', u'4.6.2', u'4.6.3', u'4.6.4',
+            u'4.7.1', u'4.7.2', u'4.7.3', u'4.7.4', u'4.7.5', u'4.7.6', u'4.7.7',
         ]
         obs = backend.FolderBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
