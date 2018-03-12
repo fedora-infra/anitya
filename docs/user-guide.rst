@@ -32,14 +32,14 @@ project.
 
 The backends available are:
 
-* ``cpan.py`` for perl projects hosted on `CPAN <http://www.cpan.org/>`_
+* ``cpan.py`` for perl projects hosted on `CPAN <https://www.cpan.org/>`_
 * ``crates.py`` for crates hosted on `crates.io <https://crates.io/>`_
 * ``debian.py`` for projects hosted on the
   `Debian ftp <http://ftp.debian.org/debian/pool/main/>`_
 * ``drupal6.py`` for Drupal6 modules hosted on
-  `drupal.org <http://drupal.org/project/>`_
+  `drupal.org <https://drupal.org/project/>`_
 * ``drupal7.py`` for Drupal7 modules hosted on
-  `drupal.org <http://drupal.org/project/>`_
+  `drupal.org <https://drupal.org/project/>`_
 * ``folder.py`` for projects whose release archives are provided in a folder
   basic apache folder or modified one.
 * ``freshmeat.py`` for projects hosted on
