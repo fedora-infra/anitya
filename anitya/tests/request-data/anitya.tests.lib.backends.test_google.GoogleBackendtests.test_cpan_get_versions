@@ -8,7 +8,7 @@ interactions:
       From: [admin@fedoraproject.org]
       User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
     method: GET
-    uri: http://code.google.com/p/arduino/downloads/list?sort=releasedate
+    uri: https://code.google.com/p/arduino/downloads/list?sort=releasedate
   response:
     body: {string: !!python/unicode "\n\n<!DOCTYPE html>\n<html>\n<head>\n <meta http-equiv=\"Content-Type\"
         content=\"text/html; charset=UTF-8\" >\n <meta http-equiv=\"X-UA-Compatible\"
