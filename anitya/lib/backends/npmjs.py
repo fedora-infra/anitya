@@ -40,7 +40,7 @@ class NpmjsBackend(BaseBackend):
             when the version cannot be retrieved correctly
 
         '''
-        url_template = 'http://registry.npmjs.org/%(name)s'
+        url_template = 'https://registry.npmjs.org/%(name)s'
 
         url = url_template % {'name': project.name}
 
@@ -74,7 +74,7 @@ class NpmjsBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url_template = 'http://registry.npmjs.org/%(name)s'
+        url_template = 'https://registry.npmjs.org/%(name)s'
 
         url = url_template % {'name': project.name}
 
@@ -122,6 +122,6 @@ class NpmjsBackend(BaseBackend):
                 continue
             doc = item['doc']
             name = doc['name']
-            homepage = doc.get('homepage', 'http://npmjs.org/package/%s' % name)
+            homepage = doc.get('homepage', 'https://npmjs.org/package/%s' % name)
             for version in doc.get('versions', []):
                 yield name, homepage, cls.name, version
