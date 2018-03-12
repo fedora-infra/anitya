@@ -21,8 +21,8 @@ class RubygemsBackend(BaseBackend):
 
     name = 'Rubygems'
     examples = [
-        'http://rubygems.org/gems/aa',
-        'http://rubygems.org/gems/bio',
+        'https://rubygems.org/gems/aa',
+        'https://rubygems.org/gems/bio',
     ]
 
     @classmethod
@@ -56,7 +56,7 @@ class RubygemsBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url = 'http://rubygems.org/api/v1/versions/%(name)s/latest.json' % {
+        url = 'https://rubygems.org/api/v1/versions/%(name)s/latest.json' % {
             'name': project.name}
 
         try:
@@ -96,5 +96,5 @@ class RubygemsBackend(BaseBackend):
 
         for item in data:
             name, version = item['name'], item['version']
-            homepage = 'http://rubygems.org/gems/%s' % name
+            homepage = 'https://rubygems.org/gems/%s' % name
             yield name, homepage, cls.name, version
