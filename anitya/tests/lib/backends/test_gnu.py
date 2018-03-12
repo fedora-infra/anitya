@@ -49,7 +49,7 @@ class GnuBackendtests(DatabaseTestCase):
         project = models.Project(
             name='gnash',
             homepage='https://www.gnu.org/software/gnash/',
-            version_url='http://ftp.gnu.org/pub/gnu/gnash/',
+            version_url='https://ftp.gnu.org/pub/gnu/gnash/',
             backend=BACKEND,
         )
         self.session.add(project)

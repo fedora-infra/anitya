@@ -6,61 +6,39 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.11.0 at upstream-monitoring.org]
     method: GET
-    uri: http://ftp.gnu.org/gnu/gnash/
+    uri: https://ftp.gnu.org/gnu/gnash/
   response:
-    body: {string: !!python/unicode "<html>\n<head>\n\t<title>GNU Project Archives</title>\n\t<style
-        type=\"text/css\">\n\t\t.hbar {\n\t\t\tfont-family:\tsans-serif;\n\t\t\tfont-size:\t13px;\n\t\t\tmargin-top:\t0px;\n\t\t\tpadding-top:\t1px
-        !important;\n\t\t\theight:\t\t22px;\n\t\t\tpadding-left:\t2px;\n\t\t}\n\t\t.hr
-        { border-top: 1px solid #c9f1d7; margin-bottom: 1em; }\n\t\thr { color: #c9f1d7;
-        background-color: #c9f1d7; border-width: 1px; }\n\t</style>\n</head>\n<body
-        topmargin=\"3\" marginheight=\"3\">\n<!--\n    <iframe src=\"https://static.fsf.org/nosvn/banners/2014fundraiser/2014fundraiserbanner.html\"\n\t
-        \   style=\"width: 100%; align: center;\" frameborder=\"0\" scrolling=\"no\">\n
-        \   </iframe>\n-->\n    <div class=\"hbar\"><nobr>\n    <a href=\"http://www.gnu.org/\">
-        \         GNU Website</a> &nbsp; &middot; &nbsp; \n    <a href=\"http://savannah.gnu.org\">
-        \     Savannah</a> &nbsp; &middot; &nbsp;\n    <a href=\"http://lists.gnu.org/\">
-        \       Mailing Lists</a> &nbsp; &middot; &nbsp; \n    <a href=\"http://www.fsf.org/\">
-        \         FSF</a> &nbsp; &middot; &nbsp; \n    <a href=\"http://www.libreplanet.org\">
-        \  LibrePlanet</a> &nbsp; &middot; &nbsp;\n    <a href=\"https://my.fsf.org/donate/\">
-        \  Donate</a>\n\t</nobr></div>\n\t<div class=\"hr\"></div>\n\t<a href=\"http://gnu.org\"><img
-        src=\"/.gnu-gnu-gnu.png\" border=\"0\" /></a>\n  <pre><!-- include file not
-        found --></pre>\n  <p><!-- include file not found --></p>\n<pre><img src=\"/icons/blank.gif\"
-        alt=\"Icon \" /> <a href=\"?C=N;O=D\">Name</a>                    <a href=\"?C=M;O=A\">Last
-        modified</a>      <a href=\"?C=S;O=A\">Size</a>  <hr /><img src=\"/icons/back.gif\"
-        alt=\"[DIR]\" /> <a href=\"/gnu/\">Parent Directory</a>                             -
-        \  \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\" /> <a href=\"0.7.1/\">0.7.1/</a>
-        \                 06-May-2006 20:05    -   \n<img src=\"/icons/folder.gif\"
-        alt=\"[DIR]\" /> <a href=\"0.7.2/\">0.7.2/</a>                  17-Nov-2006
-        14:45    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\" /> <a href=\"0.8.0/\">0.8.0/</a>
-        \                 10-Jun-2007 12:39    -   \n<img src=\"/icons/folder.gif\"
-        alt=\"[DIR]\" /> <a href=\"0.8.1/\">0.8.1/</a>                  29-Aug-2007
-        13:30    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\" /> <a href=\"0.8.2/\">0.8.2/</a>
-        \                 05-Mar-2008 10:05    -   \n<img src=\"/icons/folder.gif\"
-        alt=\"[DIR]\" /> <a href=\"0.8.3/\">0.8.3/</a>                  17-Jun-2008
-        16:15    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\" /> <a href=\"0.8.4/\">0.8.4/</a>
-        \                 13-Oct-2008 17:15    -   \n<img src=\"/icons/folder.gif\"
-        alt=\"[DIR]\" /> <a href=\"0.8.5/\">0.8.5/</a>                  03-Mar-2009
-        15:05    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\" /> <a href=\"0.8.6/\">0.8.6/</a>
-        \                 15-Sep-2009 14:05    -   \n<img src=\"/icons/folder.gif\"
-        alt=\"[DIR]\" /> <a href=\"0.8.7/\">0.8.7/</a>                  15-Feb-2010
-        10:55    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\" /> <a href=\"0.8.8/\">0.8.8/</a>
-        \                 22-Aug-2010 13:10    -   \n<img src=\"/icons/folder.gif\"
-        alt=\"[DIR]\" /> <a href=\"0.8.9/\">0.8.9/</a>                  19-Mar-2011
-        07:10    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\" /> <a href=\"0.8.10/\">0.8.10/</a>
-        \                31-Jan-2012 11:15    -   \n<hr /></pre>\n\t<p style=\"font-size:
-        small; font-family: sans-serif;\">\n\t\tThis archive is also available by\n\t\t<a
-        href=\"ftp://ftp.gnu.org/\">anonymous ftp</a> and\n\t\t<a href=\"rsync://ftp.gnu.org/ftp/\">rsync</a>,
-        and from\n    <a href=\"http://www.gnu.org/prep/ftp.html\">mirrors worldwide</a>.\n\t</p>\n
-        \ <p style=\"font-size: small; font-family: sans-serif;\">\n    <a href=\"//www.fsf.org/about/dmca-notice\">Copyright
-        Infringement\nNotification</a>\n  </p>\n</body>\n</html>\n"}
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA83XTW+bMBgH8Hs/xTMO03YA27yEkBKmLHRbpDSN2lTTNE2TA06wRiA1btXu08+A
+        q2ZTU7adOEROwt/Oz9YTg8NX8cV09WV5Bp9W53NYXr+fz6ZgmAh9dqYIxau4veBYNnzgBc0ROlsY
+        0UmYyV0enUCYMZqqFkLJZc6iWZGyeyg3gLbFrXrRKgtRe0mFkU6H6zJ9qAchz3dQ3zdD0nXTr34r
+        olBmcEdzvi3Ghiz3RhTy3RYqkYwNxJOyqNA6p8UPa8s3BtBcjo2vs+nFN5VDMqt7RyGFTLDN2Hg3
+        HS9OL8axES3ojoWIPp85V5mJEc1pJWFXpnzDWXo0fNWGr/jP4wPGbSZmVSL4XvKyeIoiNcXDqSZl
+        Xu2pmqunZpCJw1QbSbtWgya/LcZycnm2WMWzy3ZJ0nqIJ12z/Ea0pIIVEmIuWCJL8aB9bfh1sa72
+        p48fQf+64NtMGhGACc8m/4G8KfOUiUP0MS62fIsob9seKv9g2RgPTOyZeAA2HmEPoDd+W/vtTj8h
+        JvGBuCO3P/6hhRt/3b7s9816ChiIPXKCHvmJ9nfVj/IPTTsA4owc3CO/rf1d9TM0saP+AkB6Vf9D
+        y9F+p9s/aOp/MCJ98rva73b6CTaJA8Tvl9/Tfq/DHzT1o/xev+pnoP2Dbn9gqpVX+2ev/L72+y/7
+        VfFgu/Hjkdcn/1D7h91+tX/a9f5J+rR/BtofdPhJXf8kAOz3y08eb8Ck4w5MbBMT0yFAyP/vQH/5
+        aIr0Q3tI01Swqoome5pkDNmWa/nwZiV4dXPL8u8fF9dozovb+7dwxcQdE0AlbOTeUs+hVim2sCyF
+        BNd11Mz0SGrw5tygzgfN4eMXqAnbHLwMAAA=
     headers:
       connection: [Keep-Alive]
+      content-encoding: [gzip]
+      content-length: ['653']
+      content-security-policy: ['default-src ''self''; img-src ''self'' https://static.fsf.org
+          https://gnu.org; object-src ''none''; frame-ancestors ''none''; child-src
+          ''self'' https://static.gnu.org']
       content-type: [text/html;charset=UTF-8]
-      date: ['Thu, 28 May 2015 19:28:51 GMT']
-      keep-alive: ['timeout=15, max=100']
-      server: [Apache/2.2.14 (Trisquel GNU/Linux)]
+      date: ['Mon, 12 Mar 2018 06:13:23 GMT']
+      keep-alive: ['timeout=5, max=100']
+      server: [Apache/2.4.7 (Trisquel_GNU/Linux)]
+      strict-transport-security: [max-age=63072000]
       vary: [Accept-Encoding]
+      x-content-type-options: [nosniff]
+      x-frame-options: [DENY]
     status: {code: 200, message: OK}
 - request:
     body: null
@@ -69,26 +47,37 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.11.0 at upstream-monitoring.org]
     method: GET
-    uri: http://ftp.gnu.org/gnu/fake/
+    uri: https://ftp.gnu.org/gnu/fake/
   response:
-    body:
-      string: !!binary |
-        H4sIAAAAAAAAA02PT0/DMAzF7/0UZic4EHdVDxyiSGztYFIpFaQHjhnx1oqSlCTlz7cn7YTExdKz
-        /X5+5hfF41a+NCXcy4cKmnZT7bewukbcl3KHWMjiPMlYiljWK5HwLrwPgnekdBShDwOJPM2htgF2
-        djKa47mZcFyW+MHqn9m3Fv92okr4KGRH4OhjIh9IQ/tUAZ7MhEf1RghfyoOJluNsAWsgdL0HT+6T
-        HOM4zlAXi9LakffidlSvHWHGMrbO4VK63kfyAHd1i1Vvpu8reF7MoCI0jCyeYtadoLEuwE3K8Y8U
-        sy+pY8752+QXaUOusygBAAA=
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /gnu/fake/ was not found on this server.</p>
+
+        <hr>
+
+        <address>Apache/2.4.7 (Trisquel_GNU/Linux) Server at ftp.gnu.org Port 443</address>
+
+        </body></html>
+
+        '}
     headers:
       connection: [Keep-Alive]
-      content-encoding: [gzip]
-      content-length: ['245']
+      content-length: ['296']
       content-type: [text/html; charset=iso-8859-1]
-      date: ['Thu, 28 May 2015 19:28:51 GMT']
-      keep-alive: ['timeout=15, max=100']
-      server: [Apache/2.2.14 (Trisquel GNU/Linux)]
-      vary: [Accept-Encoding]
+      date: ['Mon, 12 Mar 2018 06:13:23 GMT']
+      keep-alive: ['timeout=5, max=99']
+      server: [Apache/2.4.7 (Trisquel_GNU/Linux)]
+      strict-transport-security: [max-age=63072000]
     status: {code: 404, message: Not Found}
 - request:
     body: null
@@ -97,25 +86,36 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.11.0 at upstream-monitoring.org]
     method: GET
-    uri: http://ftp.gnu.org/gnu/subsurface/
+    uri: https://ftp.gnu.org/gnu/subsurface/
   response:
-    body:
-      string: !!binary |
-        H4sIAAAAAAAAA01Py07DMBC85yuWnuCAN41y4GBZgiaFSiFE4Bw4uvW2iRTi4AePv8dJhdTLSrM7
-        MzvDr4qXjXxvSniSzxU07UO128DqFnFXyi1iIYvzJWMpYlmvRMI7/zEI3pHSEfjeDyTyNIfaeNia
-        MGqO52XCcSHxvdG/s24tLjgRJXwSsiOw9BnIedLQvlaApzGgC3sX7FEdCOFbORij8DgLwYzgu96B
-        I/tFlnGcZmsbh9LaknPiflKHjjBjGVvncC1t76L/AI91i1U/hp8beFvEoKKpn1h8yIw9QWOsh7uU
-        479TbLBkj2nnzskfQihoJS4BAAA=
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /gnu/subsurface/ was not found on this server.</p>
+
+        <hr>
+
+        <address>Apache/2.4.7 (Trisquel_GNU/Linux) Server at ftp.gnu.org Port 443</address>
+
+        </body></html>
+
+        '}
     headers:
       connection: [Keep-Alive]
-      content-encoding: [gzip]
-      content-length: ['248']
+      content-length: ['302']
       content-type: [text/html; charset=iso-8859-1]
-      date: ['Thu, 28 May 2015 19:28:51 GMT']
-      keep-alive: ['timeout=15, max=100']
-      server: [Apache/2.2.14 (Trisquel GNU/Linux)]
-      vary: [Accept-Encoding]
+      date: ['Mon, 12 Mar 2018 06:13:23 GMT']
+      keep-alive: ['timeout=5, max=98']
+      server: [Apache/2.4.7 (Trisquel_GNU/Linux)]
+      strict-transport-security: [max-age=63072000]
     status: {code: 404, message: Not Found}
 version: 1
