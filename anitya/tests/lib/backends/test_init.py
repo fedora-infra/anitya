@@ -47,7 +47,7 @@ class BaseBackendTests(unittest.TestCase):
     @mock.patch('anitya.lib.backends.http_session')
     def test_call_http_url(self, mock_http_session):
         """Assert HTTP urls are handled by requests"""
-        url = 'http://www.example.com/'
+        url = 'https://www.example.com/'
         self.backend.call_url(url)
 
         mock_http_session.get.assert_called_once_with(

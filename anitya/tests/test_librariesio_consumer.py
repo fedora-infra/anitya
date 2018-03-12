@@ -125,7 +125,7 @@ class LibrariesioConsumerTests(DatabaseTestCase):
                             'keywords': [],
                             'normalized_licenses': ['GPL-3.0+'],
                             'forks': 0,
-                            'homepage': 'http://example.com/GreatProject',
+                            'homepage': 'https://example.com/GreatProject',
                             'name': 'GreatProject',
                         },
                         'platform': 'GREAT',

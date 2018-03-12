@@ -136,7 +136,7 @@ class DebianBackendtests(DatabaseTestCase):
         """
         versions = get_versions_by_regex_for_text(
             tarball_names,
-            'http://example.com',
+            'https://example.com',
             backend.DEBIAN_REGEX % {'name': 'libgnupg-interface-perl'},
             models.Project.get(self.session, 3)
         )
@@ -152,7 +152,7 @@ class DebianBackendtests(DatabaseTestCase):
         """
         versions = get_versions_by_regex_for_text(
             tarball_names,
-            'http://example.com',
+            'https://example.com',
             backend.DEBIAN_REGEX % {'name': 'libgnupg-interface-perl'},
             models.Project.get(self.session, 3)
         )
