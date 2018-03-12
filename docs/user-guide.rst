@@ -64,7 +64,7 @@ The backends available are:
 * ``rubygems.py`` for projects hosted on
   `rubygems.org <https://rubygems.org/>`_
 * ``sourceforge.py`` for projects hosted on
-  `sourceforge.net <http://sourceforge.net/>`_
+  `sourceforge.net <https://sourceforge.net/>`_
 * ``stackage.py`` for projects hosted on
   `www.stackage.org <https://www.stackage.org/>`_
 

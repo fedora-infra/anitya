@@ -361,7 +361,7 @@ def api_get_version():
       {
         "backend": "Sourceforge",
         "created_on": 1409917222.0,
-        "homepage": "http://sourceforge.net/projects/zero-install",
+        "homepage": "https://sourceforge.net/projects/zero-install",
         "id": 1,
         "name": "zero-install",
         "packages": [
