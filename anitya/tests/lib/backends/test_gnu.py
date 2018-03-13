@@ -49,7 +49,7 @@ class GnuBackendtests(DatabaseTestCase):
         project = models.Project(
             name='gnash',
             homepage='https://www.gnu.org/software/gnash/',
-            version_url='http://ftp.gnu.org/pub/gnu/gnash/',
+            version_url='https://ftp.gnu.org/pub/gnu/gnash/',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -65,8 +65,8 @@ class GnuBackendtests(DatabaseTestCase):
 
         project = models.Project(
             name='subsurface',
-            homepage='http://subsurface.hohndel.org/',
-            version_url='http://subsurface.hohndel.org/downloads/',
+            homepage='https://subsurface-divelog.org/',
+            version_url='https://subsurface-divelog.org/downloads/',
             backend=BACKEND,
         )
         self.session.add(project)

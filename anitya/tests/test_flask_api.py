@@ -87,12 +87,12 @@ class AnityaWebAPItests(DatabaseTestCase):
                 {
                     "id": 1,
                     "backend": "custom",
-                    "homepage": "http://www.geany.org/",
-                    "ecosystem": "http://www.geany.org/",
+                    "homepage": "https://www.geany.org/",
+                    "ecosystem": "https://www.geany.org/",
                     "name": "geany",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://www.geany.org/Download/Releases",
+                    "version_url": "https://www.geany.org/Download/Releases",
                     "versions": []
                 },
                 {
@@ -109,12 +109,12 @@ class AnityaWebAPItests(DatabaseTestCase):
                 {
                     "id": 2,
                     "backend": "custom",
-                    "homepage": "http://subsurface.hohndel.org/",
-                    "ecosystem": "http://subsurface.hohndel.org/",
+                    "homepage": "https://subsurface-divelog.org/",
+                    "ecosystem": "https://subsurface-divelog.org/",
                     "name": "subsurface",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://subsurface.hohndel.org/downloads/",
+                    "version_url": "https://subsurface-divelog.org/downloads/",
                     "versions": []
                 }
             ],
@@ -136,12 +136,12 @@ class AnityaWebAPItests(DatabaseTestCase):
                 {
                     "id": 1,
                     "backend": "custom",
-                    "homepage": "http://www.geany.org/",
-                    "ecosystem": "http://www.geany.org/",
+                    "homepage": "https://www.geany.org/",
+                    "ecosystem": "https://www.geany.org/",
                     "name": "geany",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://www.geany.org/Download/Releases",
+                    "version_url": "https://www.geany.org/Download/Releases",
                     "versions": [],
                 },
             ],
@@ -150,7 +150,7 @@ class AnityaWebAPItests(DatabaseTestCase):
 
         self.assertEqual(data, exp)
 
-        output = self.app.get('/api/projects/?homepage=http://www.geany.org/')
+        output = self.app.get('/api/projects/?homepage=https://www.geany.org/')
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
@@ -163,12 +163,12 @@ class AnityaWebAPItests(DatabaseTestCase):
                 {
                     "id": 1,
                     "backend": "custom",
-                    "homepage": "http://www.geany.org/",
-                    "ecosystem": "http://www.geany.org/",
+                    "homepage": "https://www.geany.org/",
+                    "ecosystem": "https://www.geany.org/",
                     "name": "geany",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://www.geany.org/Download/Releases",
+                    "version_url": "https://www.geany.org/Download/Releases",
                     "versions": [],
                 },
             ],
@@ -194,8 +194,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         output = self.app.get('/api/packages/wiki/')
         self.assertEqual(output.status_code, 200)
 
-        exp = b"* geany DEFAULT http://www.geany.org/Download/Releases\n"\
-            b"* subsurface DEFAULT http://subsurface.hohndel.org/downloads/"
+        exp = b"* geany DEFAULT https://www.geany.org/Download/Releases\n"\
+            b"* subsurface DEFAULT https://subsurface-divelog.org/downloads/"
         self.assertEqual(output.data, exp)
 
     def test_api_projects_names(self):
@@ -261,7 +261,7 @@ class AnityaWebAPItests(DatabaseTestCase):
 
         # Modify the project so that it fails
         project = models.Project.get(self.session, 1)
-        project.version_url = "http://www.geany.org/Down"
+        project.version_url = "https://www.geany.org/Down"
         self.session.add(project)
         self.session.commit()
 
@@ -273,7 +273,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         exp = {
             "error": [
                 "geany: no upstream version found. "
-                "- http://www.geany.org/Down - "
+                "- https://www.geany.org/Down - "
                 " " + REGEX % ({'name': 'geany'})
             ],
             "output": "notok"
@@ -282,7 +282,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.assertEqual(data, exp)
 
         # Modify it back:
-        project.version_url = "http://www.geany.org/Download/Releases"
+        project.version_url = "https://www.geany.org/Download/Releases"
         self.session.add(project)
         self.session.commit()
 
@@ -296,13 +296,13 @@ class AnityaWebAPItests(DatabaseTestCase):
         exp = {
             "id": 1,
             "backend": "custom",
-            "homepage": "http://www.geany.org/",
-            "ecosystem": "http://www.geany.org/",
+            "homepage": "https://www.geany.org/",
+            "ecosystem": "https://www.geany.org/",
             "name": "geany",
             "regex": "DEFAULT",
-            "version": "1.24.1",
-            "version_url": "http://www.geany.org/Download/Releases",
-            "versions": ["1.24.1"],
+            "version": "1.33",
+            "version_url": "https://www.geany.org/Download/Releases",
+            "versions": ["1.33"],
             "packages": [
                 {
                   "distro": "Fedora",
@@ -342,12 +342,12 @@ class AnityaWebAPItests(DatabaseTestCase):
         exp = {
             "id": 1,
             "backend": "custom",
-            "homepage": "http://www.geany.org/",
-            "ecosystem": "http://www.geany.org/",
+            "homepage": "https://www.geany.org/",
+            "ecosystem": "https://www.geany.org/",
             "name": "geany",
             "regex": 'DEFAULT',
             "version": None,
-            "version_url": 'http://www.geany.org/Download/Releases',
+            "version_url": 'https://www.geany.org/Download/Releases',
             "versions": [],
             "packages": [
                 {
@@ -396,12 +396,12 @@ class AnityaWebAPItests(DatabaseTestCase):
         exp = {
             "id": 1,
             "backend": "custom",
-            "homepage": "http://www.geany.org/",
-            "ecosystem": "http://www.geany.org/",
+            "homepage": "https://www.geany.org/",
+            "ecosystem": "https://www.geany.org/",
             "name": "geany",
             "regex": 'DEFAULT',
             "version": None,
-            "version_url": 'http://www.geany.org/Download/Releases',
+            "version_url": 'https://www.geany.org/Download/Releases',
             "versions": [],
             "packages": [
                 {

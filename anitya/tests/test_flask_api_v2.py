@@ -563,24 +563,24 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                 {
                     "id": 1,
                     "backend": "custom",
-                    "homepage": "http://www.geany.org/",
+                    "homepage": "https://www.geany.org/",
                     "name": "geany",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://www.geany.org/Download/Releases",
+                    "version_url": "https://www.geany.org/Download/Releases",
                     "versions": [],
-                    "ecosystem": "http://www.geany.org/",
+                    "ecosystem": "https://www.geany.org/",
                 },
                 {
                     "id": 2,
                     "backend": "custom",
-                    "homepage": "http://subsurface.hohndel.org/",
+                    "homepage": "https://subsurface-divelog.org/",
                     "name": "subsurface",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://subsurface.hohndel.org/downloads/",
+                    "version_url": "https://subsurface-divelog.org/downloads/",
                     "versions": [],
-                    "ecosystem": "http://subsurface.hohndel.org/",
+                    "ecosystem": "https://subsurface-divelog.org/",
                 }
             ]
         }
@@ -592,7 +592,7 @@ class ProjectsResourceGetTests(DatabaseTestCase):
         create_project(self.session)
 
         output = self.app.get(
-            '/api/v2/projects/?ecosystem=http%3A%2F%2Fsubsurface.hohndel.org%2F')
+            '/api/v2/projects/?ecosystem=https%3A%2F%2Fsubsurface-divelog.org%2F')
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
@@ -608,13 +608,13 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                 {
                     "id": 2,
                     "backend": "custom",
-                    "homepage": "http://subsurface.hohndel.org/",
+                    "homepage": "https://subsurface-divelog.org/",
                     "name": "subsurface",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://subsurface.hohndel.org/downloads/",
+                    "version_url": "https://subsurface-divelog.org/downloads/",
                     "versions": [],
-                    "ecosystem": "http://subsurface.hohndel.org/",
+                    "ecosystem": "https://subsurface-divelog.org/",
                 }
             ]
         }
@@ -642,13 +642,13 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                 {
                     "id": 2,
                     "backend": "custom",
-                    "homepage": "http://subsurface.hohndel.org/",
+                    "homepage": "https://subsurface-divelog.org/",
                     "name": "subsurface",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://subsurface.hohndel.org/downloads/",
+                    "version_url": "https://subsurface-divelog.org/downloads/",
                     "versions": [],
-                    "ecosystem": "http://subsurface.hohndel.org/",
+                    "ecosystem": "https://subsurface-divelog.org/",
                 }
             ]
         }
@@ -722,13 +722,13 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                 {
                     "id": 1,
                     "backend": "custom",
-                    "homepage": "http://www.geany.org/",
+                    "homepage": "https://www.geany.org/",
                     "name": "geany",
                     "regex": "DEFAULT",
                     "version": None,
-                    "version_url": "http://www.geany.org/Download/Releases",
+                    "version_url": "https://www.geany.org/Download/Releases",
                     "versions": [],
-                    "ecosystem": "http://www.geany.org/",
+                    "ecosystem": "https://www.geany.org/",
                 },
             ]
         }

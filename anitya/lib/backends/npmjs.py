@@ -40,7 +40,7 @@ class NpmjsBackend(BaseBackend):
             when the version cannot be retrieved correctly
 
         '''
-        url_template = 'http://registry.npmjs.org/%(name)s'
+        url_template = 'https://registry.npmjs.org/%(name)s'
 
         url = url_template % {'name': project.name}
 
@@ -74,7 +74,7 @@ class NpmjsBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url_template = 'http://registry.npmjs.org/%(name)s'
+        url_template = 'https://registry.npmjs.org/%(name)s'
 
         url = url_template % {'name': project.name}
 
@@ -100,7 +100,12 @@ class NpmjsBackend(BaseBackend):
         by querying an weird JSON endpoint.
         '''
 
-        url = 'https://registry.npmjs.org/-/all/static/today.json'
+        url = ('https://skimdb.npmjs.com/registry/_changes?'
+               'feed=normal'
+               '&descending=true'
+               '&limit=40'
+               '&include_docs=true'
+               '&attachments=false')
 
         try:
             response = cls.call_url(url)
@@ -112,8 +117,11 @@ class NpmjsBackend(BaseBackend):
         except Exception:  # pragma: no cover
             raise AnityaPluginException('No JSON returned by %s' % url)
 
-        for item in data[:40]:
-            for version in item.get('versions', []):
-                name = item['name']
-                homepage = 'http://npmjs.org/package/%s' % name
+        for item in data['results']:
+            if item.get('deleted'):
+                continue
+            doc = item['doc']
+            name = doc['name']
+            homepage = doc.get('homepage', 'https://npmjs.org/package/%s' % name)
+            for version in doc.get('versions', []):
                 yield name, homepage, cls.name, version

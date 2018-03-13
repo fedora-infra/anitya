@@ -39,8 +39,8 @@ class CreateProjectTests(DatabaseTestCase):
         utilities.create_project(
             self.session,
             name='geany',
-            homepage='http://www.geany.org/',
-            version_url='http://www.geany.org/Download/Releases',
+            homepage='https://www.geany.org/',
+            version_url='https://www.geany.org/Download/Releases',
             regex='DEFAULT',
             user_id='noreply@fedoraproject.org',
         )
@@ -48,15 +48,15 @@ class CreateProjectTests(DatabaseTestCase):
         project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 1)
         self.assertEqual(project_objs[0].name, 'geany')
-        self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
+        self.assertEqual(project_objs[0].homepage, 'https://www.geany.org/')
 
         self.assertRaises(
             ProjectExists,
             utilities.create_project,
             self.session,
             name='geany',
-            homepage='http://www.geany.org/',
-            version_url='http://www.geany.org/Download/Releases',
+            homepage='https://www.geany.org/',
+            version_url='https://www.geany.org/Download/Releases',
             regex='DEFAULT',
             user_id='noreply@fedoraproject.org',
         )
@@ -64,7 +64,7 @@ class CreateProjectTests(DatabaseTestCase):
         project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 1)
         self.assertEqual(project_objs[0].name, 'geany')
-        self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
+        self.assertEqual(project_objs[0].homepage, 'https://www.geany.org/')
 
     def test_create_project_general_error(self):
         """Assert general SQLAlchemy exceptions result in AnityaException."""
@@ -75,8 +75,8 @@ class CreateProjectTests(DatabaseTestCase):
                 utilities.create_project,
                 self.session,
                 name='geany',
-                homepage='http://www.geany.org/',
-                version_url='http://www.geany.org/Download/Releases',
+                homepage='https://www.geany.org/',
+                version_url='https://www.geany.org/Download/Releases',
                 regex='DEFAULT',
                 user_id='noreply@fedoraproject.org',
             )
@@ -93,7 +93,7 @@ class EditProjectTests(DatabaseTestCase):
         project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 3)
         self.assertEqual(project_objs[0].name, 'geany')
-        self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
+        self.assertEqual(project_objs[0].homepage, 'https://www.geany.org/')
         self.assertEqual(project_objs[1].name, 'R2spec')
         self.assertEqual(project_objs[2].name, 'subsurface')
 
@@ -101,7 +101,7 @@ class EditProjectTests(DatabaseTestCase):
             self.session,
             project=project_objs[0],
             name=project_objs[0].name,
-            homepage='http://www.geany.org',
+            homepage='https://www.geany.org',
             backend='PyPI',
             version_url=None,
             version_prefix=None,
@@ -112,7 +112,7 @@ class EditProjectTests(DatabaseTestCase):
         project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 3)
         self.assertEqual(project_objs[0].name, 'geany')
-        self.assertEqual(project_objs[0].homepage, 'http://www.geany.org')
+        self.assertEqual(project_objs[0].homepage, 'https://www.geany.org')
         self.assertEqual(project_objs[0].backend, 'PyPI')
 
     def test_edit_project_creating_duplicate(self):
@@ -125,7 +125,7 @@ class EditProjectTests(DatabaseTestCase):
         project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 3)
         self.assertEqual(project_objs[0].name, 'geany')
-        self.assertEqual(project_objs[0].homepage, 'http://www.geany.org/')
+        self.assertEqual(project_objs[0].homepage, 'https://www.geany.org/')
         self.assertEqual(project_objs[1].name, 'R2spec')
         self.assertEqual(project_objs[2].name, 'subsurface')
 
@@ -135,7 +135,7 @@ class EditProjectTests(DatabaseTestCase):
             self.session,
             project=project_objs[2],
             name='geany',
-            homepage='http://www.geany.org/',
+            homepage='https://www.geany.org/',
             backend=project_objs[2].backend,
             version_url=project_objs[2].version_url,
             version_prefix=None,

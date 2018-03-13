@@ -180,8 +180,8 @@ def create_project(session):
     utilities.create_project(
         session,
         name='geany',
-        homepage='http://www.geany.org/',
-        version_url='http://www.geany.org/Download/Releases',
+        homepage='https://www.geany.org/',
+        version_url='https://www.geany.org/Download/Releases',
         regex='DEFAULT',
         user_id='noreply@fedoraproject.org',
     )
@@ -189,8 +189,8 @@ def create_project(session):
     utilities.create_project(
         session,
         name='subsurface',
-        homepage='http://subsurface.hohndel.org/',
-        version_url='http://subsurface.hohndel.org/downloads/',
+        homepage='https://subsurface-divelog.org/',
+        version_url='https://subsurface-divelog.org/downloads/',
         regex='DEFAULT',
         user_id='noreply@fedoraproject.org',
     )
@@ -265,8 +265,8 @@ def create_flagged_project(session):
     project = utilities.create_project(
         session,
         name='geany',
-        homepage='http://www.geany.org/',
-        version_url='http://www.geany.org/Download/Releases',
+        homepage='https://www.geany.org/',
+        version_url='https://www.geany.org/Download/Releases',
         regex='DEFAULT',
         user_id='noreply@fedoraproject.org',
     )
