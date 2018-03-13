@@ -55,8 +55,8 @@ class NpmjsBackendtests(DatabaseTestCase):
         self.session.commit()
 
         project = models.Project(
-            name='foobarasd',
-            homepage='https://www.npmjs.org/package/foobarasd',
+            name='non-existent-package-that-does-not-exist',
+            homepage='https://www.npmjs.org/package/non-existent-package-that-does-not-exist',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -74,7 +74,7 @@ class NpmjsBackendtests(DatabaseTestCase):
         """ Test the get_version function of the npmjs backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '2.56.0'
+        exp = '2.83.0'
         obs = backend.NpmjsBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -88,7 +88,7 @@ class NpmjsBackendtests(DatabaseTestCase):
 
         pid = 3
         project = models.Project.get(self.session, pid)
-        exp = '1.1.0'
+        exp = '1.2.0'
         obs = backend.NpmjsBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -118,7 +118,11 @@ class NpmjsBackendtests(DatabaseTestCase):
             u'2.36.0', u'2.37.0', u'2.38.0', u'2.39.0', u'2.40.0', u'2.41.0',
             u'2.42.0', u'2.43.0', u'2.44.0', u'2.45.0', u'2.46.0', u'2.47.0',
             u'2.48.0', u'2.49.0', u'2.50.0', u'2.51.0', u'2.52.0', u'2.53.0',
-            u'2.54.0', u'2.55.0', u'2.56.0',
+            u'2.54.0', u'2.55.0', u'2.56.0', u'2.57.0', u'2.58.0', u'2.59.0',
+            u'2.60.0', u'2.61.0', u'2.62.0', u'2.63.0', u'2.64.0', u'2.65.0',
+            u'2.66.0', u'2.67.0', u'2.68.0', u'2.69.0', u'2.70.0', u'2.71.0',
+            u'2.72.0', u'2.73.0', u'2.74.0', u'2.75.0', u'2.76.0', u'2.77.0',
+            u'2.78.0', u'2.79.0', u'2.80.0', u'2.81.0', u'2.82.0', u'2.83.0',
         ]
         obs = backend.NpmjsBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -137,7 +141,8 @@ class NpmjsBackendtests(DatabaseTestCase):
             u'0.3.0', u'0.5.0', u'0.5.1',
             u'0.6.0', u'0.6.0-1', u'0.6.1', u'0.6.2',
             u'1.0.0', u'1.0.1', u'1.0.2', u'1.0.3',
-            u'1.1.0',
+            u'1.1.0', u'1.1.1', u'1.1.2',
+            u'1.2.0-rc0', u'1.2.0',
         ]
         obs = backend.NpmjsBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -145,14 +150,14 @@ class NpmjsBackendtests(DatabaseTestCase):
     def test_npmjs_check_feed(self):
         """ Test the check_feed method of the npmjs backend. """
         generator = backend.NpmjsBackend.check_feed()
-        items = list(generator)
+        items = sorted(generator)
 
         self.assertEqual(items[0], (
-            '0-_-0', 'http://npmjs.org/package/0-_-0', 'npmjs', '1.0.0'))
+            '2d-density', 'https://github.com/nilestanner/2d-density#readme', 'npmjs', '1.0.0'))
         self.assertEqual(items[1], (
-            '111-react-simpleform',
-            'http://npmjs.org/package/111-react-simpleform',
-            'npmjs', '1.2.0'))
+            '2d-density', 'https://github.com/nilestanner/2d-density#readme', 'npmjs', '1.0.1'))
+        self.assertEqual(items[2], (
+            'angular-stackblitz', 'https://npmjs.org/package/angular-stackblitz', 'npmjs', '0.0.0'))
         # etc...
 
 
