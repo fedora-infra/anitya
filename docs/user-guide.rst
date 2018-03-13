@@ -32,19 +32,19 @@ project.
 
 The backends available are:
 
-* ``cpan.py`` for perl projects hosted on `CPAN <http://www.cpan.org/>`_
+* ``cpan.py`` for perl projects hosted on `CPAN <https://www.cpan.org/>`_
 * ``crates.py`` for crates hosted on `crates.io <https://crates.io/>`_
 * ``debian.py`` for projects hosted on the
   `Debian ftp <http://ftp.debian.org/debian/pool/main/>`_
 * ``drupal6.py`` for Drupal6 modules hosted on
-  `drupal.org <http://drupal.org/project/>`_
+  `drupal.org <https://drupal.org/project/>`_
 * ``drupal7.py`` for Drupal7 modules hosted on
-  `drupal.org <http://drupal.org/project/>`_
+  `drupal.org <https://drupal.org/project/>`_
 * ``folder.py`` for projects whose release archives are provided in a folder
   basic apache folder or modified one.
 * ``freshmeat.py`` for projects hosted on
   `freshmeat.net <http://freshmeat.net/>`_ / `freecode.com <http://freecode.com/>`_
-* ``github.py`` for projects hosted on `github.com <http://github.com/>`_
+* ``github.py`` for projects hosted on `github.com <https://github.com/>`_
 * ``gnome.py`` for projects hosted on
   `download.gnome.org <https://download.gnome.org/sources/>`_
 * ``gnu.py`` for projects hosted on `gnu.org <https://www.gnu.org/software/>`_
@@ -56,9 +56,9 @@ The backends available are:
   `launchpad.net <https://launchpad.net/>`_
 * ``npmjs.py`` for projects hosted on `npmjs.org <https://www.npmjs.org/>`_
 * ``pear.py`` for projects hosted on
-  `pear.php.net <http://pear.php.net/>`_
+  `pear.php.net <https://pear.php.net/>`_
 * ``pecl.py`` for projects hosted on
-  `pecl.php.net <http://pecl.php.net/>`_
+  `pecl.php.net <https://pecl.php.net/>`_
 * ``pypi.py`` for projects hosted on
   `pypi.python.org <https://pypi.python.org/pypi>`_
 * ``rubygems.py`` for projects hosted on
@@ -233,4 +233,4 @@ freenode network. Please do stop by and say hello.
 .. _issue tracker: https://github.com/release-monitoring/anitya/issues
 .. _source code: https://github.com/release-monitoring/anitya
 .. _fedmsg topic documentation:
-    http://fedora-fedmsg.readthedocs.io/en/latest/topics.html#anitya
+    https://fedora-fedmsg.readthedocs.io/en/latest/topics.html#anitya

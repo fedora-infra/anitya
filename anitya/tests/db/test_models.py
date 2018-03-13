@@ -53,7 +53,7 @@ class ProjectTests(DatabaseTestCase):
     def test_validate_backend(self):
         project = models.Project(
             name='test',
-            homepage='http://example.com',
+            homepage='https://example.com',
             backend='custom',
         )
         self.session.add(project)
@@ -66,14 +66,14 @@ class ProjectTests(DatabaseTestCase):
             ValueError,
             models.Project,
             name='test',
-            homepage='http://example.com',
+            homepage='https://example.com',
             backend='Nope',
         )
 
     def test_default_ecosystem_is_homepage(self):
         project = models.Project(
             name='test',
-            homepage='http://example.com',
+            homepage='https://example.com',
             backend='custom',
             ecosystem_name=None,
         )
@@ -81,12 +81,13 @@ class ProjectTests(DatabaseTestCase):
         self.session.commit()
         self.assertEqual(1, self.session.query(models.Project).count())
         self.assertEqual(
-            'http://example.com', self.session.query(models.Project).one().ecosystem_name)
+            'https://example.com',
+            self.session.query(models.Project).one().ecosystem_name)
 
     def test_validate_ecosystem_good(self):
         project = models.Project(
             name='test',
-            homepage='http://example.com',
+            homepage='https://example.com',
             backend='custom',
             ecosystem_name='pypi',
         )
@@ -99,7 +100,7 @@ class ProjectTests(DatabaseTestCase):
         """Assert the ecosystem is included in the dict returned from ``__json__``"""
         project = models.Project(
             name='test',
-            homepage='http://example.com',
+            homepage='https://example.com',
             backend='custom',
             ecosystem_name='pypi',
         )
@@ -108,7 +109,7 @@ class ProjectTests(DatabaseTestCase):
     def test_get_version_class(self):
         project = models.Project(
             name='test',
-            homepage='http://example.com',
+            homepage='https://example.com',
             backend='custom',
             ecosystem_name='pypi',
             version_scheme='RPM',
@@ -119,7 +120,7 @@ class ProjectTests(DatabaseTestCase):
     def test_get_version_class_missing(self):
         project = models.Project(
             name='test',
-            homepage='http://example.com',
+            homepage='https://example.com',
             backend='custom',
             ecosystem_name='pypi',
             version_scheme='Invalid',
@@ -158,10 +159,10 @@ class ProjectTests(DatabaseTestCase):
         project = models.Project.get_or_create(
             self.session,
             name='test',
-            homepage='http://test.org',
+            homepage='https://test.org',
             backend='custom')
         self.assertEqual(project.name, 'test')
-        self.assertEqual(project.homepage, 'http://test.org')
+        self.assertEqual(project.homepage, 'https://test.org')
         self.assertEqual(project.backend, 'custom')
 
         self.assertRaises(
@@ -169,7 +170,7 @@ class ProjectTests(DatabaseTestCase):
             models.Project.get_or_create,
             self.session,
             name='test_project',
-            homepage='http://project.test.org',
+            homepage='https://project.test.org',
             backend='foobar'
         )
 

@@ -40,8 +40,8 @@ class PearBackend(BaseBackend):
 
     name = 'PEAR'
     examples = [
-        'http://pear.php.net/package/Auth/',
-        'http://pear.php.net/package/PHP_UML',
+        'https://pear.php.net/package/Auth/',
+        'https://pear.php.net/package/PHP_UML',
     ]
 
     @classmethod
@@ -119,5 +119,5 @@ class PearBackend(BaseBackend):
         for entry in items:
             title = entry['title']['value']
             name, version = title.rsplit(None, 1)
-            homepage = 'http://pear.php.net/package/%s' % name
+            homepage = 'https://pear.php.net/package/%s' % name
             yield name, homepage, cls.name, version

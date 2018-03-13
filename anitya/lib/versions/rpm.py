@@ -32,7 +32,7 @@ try:
     from rpm import labelCompare as _compare_rpm_labels
 except ImportError:
     # Emulate RPM field comparisons as described in
-    # http://stackoverflow.com/questions/3206319/how-do-i-compare-rpm-versions-in-python/3206477#3206477
+    # https://stackoverflow.com/a/3206477
     #
     # * Search each string for alphabetic fields [a-zA-Z]+ and
     #   numeric fields [0-9]+ separated by junk [^a-zA-Z0-9]*.

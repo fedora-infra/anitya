@@ -56,7 +56,7 @@ class ContextInjector(logging.Filter):  # pragma: no cover
     it when we are emailed error messages.  Seeing an error, but not knowing
     which host it comes from, is not that useful.
 
-    http://docs.python.org/2/howto/logging-cookbook.html#filters-contextual
+    https://docs.python.org/2/howto/logging-cookbook.html#filters-contextual
 
     This code has been originally written by Ralph Bean for the fedmsg
     project:

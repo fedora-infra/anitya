@@ -40,8 +40,8 @@ class PeclBackend(BaseBackend):
 
     name = 'PECL'
     examples = [
-        'http://pecl.php.net/package/inotify',
-        'http://pecl.php.net/package/gnupg',
+        'https://pecl.php.net/package/inotify',
+        'https://pecl.php.net/package/gnupg',
     ]
 
     @classmethod
@@ -119,5 +119,5 @@ class PeclBackend(BaseBackend):
         for entry in items:
             title = entry['title']['value']
             name, version = title.rsplit(None, 1)
-            homepage = 'http://pecl.php.net/package/%s' % name
+            homepage = 'https://pecl.php.net/package/%s' % name
             yield name, homepage, cls.name, version

@@ -25,8 +25,8 @@ class FolderBackend(BaseBackend):
 
     name = 'folder'
     examples = [
-        'http://ftp.gnu.org/pub/gnu/gnash/',
-        'http://subsurface.hohndel.org/downloads/',
+        'https://ftp.gnu.org/pub/gnu/gnash/',
+        'https://subsurface-divelog.org/downloads/',
     ]
 
     @classmethod

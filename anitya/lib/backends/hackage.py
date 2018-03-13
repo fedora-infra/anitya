@@ -21,8 +21,8 @@ class HackageBackend(BaseBackend):
 
     name = 'Hackage'
     examples = [
-        'http://hackage.haskell.org/package/Hs2lib',
-        'http://hackage.haskell.org/package/Biobase',
+        'https://hackage.haskell.org/package/Hs2lib',
+        'https://hackage.haskell.org/package/Biobase',
     ]
 
     @classmethod

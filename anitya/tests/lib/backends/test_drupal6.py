@@ -56,7 +56,7 @@ class Drupal6Backendtests(DatabaseTestCase):
 
         project = models.Project(
             name='foo',
-            homepage='http://pecl.php.net/package/foo',
+            homepage='https://pecl.php.net/package/foo',
             backend=BACKEND,
         )
         self.session.add(project)

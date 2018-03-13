@@ -349,7 +349,7 @@ class ProjectsResource(Resource):
 
             {
                 "backend": "custom",
-                "homepage": "http://example.com/test",
+                "homepage": "https://example.com/test",
                 "name": "test_project",
                 "version_prefix": "release-"
             }
