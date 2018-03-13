@@ -59,7 +59,7 @@ class GnuBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url = 'http://ftp.gnu.org/gnu/%(name)s/' % {'name': project.name}
+        url = 'https://ftp.gnu.org/gnu/%(name)s/' % {'name': project.name}
 
         try:
             req = cls.call_url(url)

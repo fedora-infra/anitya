@@ -48,7 +48,7 @@ class Projecttests(DatabaseTestCase):
 
         project = models.Project.by_name(self.session, 'geany')
         self.assertEqual(project[0].name, 'geany')
-        self.assertEqual(project[0].homepage, 'http://www.geany.org/')
+        self.assertEqual(project[0].homepage, 'https://www.geany.org/')
 
         project = models.Project.by_name(self.session, 'terminal')
         self.assertEqual(project, [])
@@ -59,19 +59,19 @@ class Projecttests(DatabaseTestCase):
 
         project = models.Project.by_id(self.session, 1)
         self.assertEqual(project.name, 'geany')
-        self.assertEqual(project.homepage, 'http://www.geany.org/')
+        self.assertEqual(project.homepage, 'https://www.geany.org/')
 
         project = models.Project.get(self.session, 1)
         self.assertEqual(project.name, 'geany')
-        self.assertEqual(project.homepage, 'http://www.geany.org/')
+        self.assertEqual(project.homepage, 'https://www.geany.org/')
 
         project = models.Project.by_id(self.session, 2)
         self.assertEqual(project.name, 'subsurface')
-        self.assertEqual(project.homepage, 'http://subsurface.hohndel.org/')
+        self.assertEqual(project.homepage, 'https://subsurface-divelog.org/')
 
         project = models.Project.get(self.session, 2)
         self.assertEqual(project.name, 'subsurface')
-        self.assertEqual(project.homepage, 'http://subsurface.hohndel.org/')
+        self.assertEqual(project.homepage, 'https://subsurface-divelog.org/')
 
         project = models.Project.by_id(self.session, 10)
         self.assertEqual(project, None)
@@ -81,16 +81,16 @@ class Projecttests(DatabaseTestCase):
         create_project(self.session)
 
         projects = models.Project.by_homepage(
-            self.session, 'http://www.geany.org/')
+            self.session, 'https://www.geany.org/')
         self.assertEqual(len(projects), 1)
         self.assertEqual(projects[0].name, 'geany')
-        self.assertEqual(projects[0].homepage, 'http://www.geany.org/')
+        self.assertEqual(projects[0].homepage, 'https://www.geany.org/')
 
         projects = models.Project.by_homepage(
-            self.session, 'http://subsurface.hohndel.org/')
+            self.session, 'https://subsurface-divelog.org/')
         self.assertEqual(len(projects), 1)
         self.assertEqual(projects[0].name, 'subsurface')
-        self.assertEqual(projects[0].homepage, 'http://subsurface.hohndel.org/')
+        self.assertEqual(projects[0].homepage, 'https://subsurface-divelog.org/')
 
         project = models.Project.by_homepage(self.session, 'terminal')
         self.assertEqual(project, [])
@@ -101,7 +101,7 @@ class Projecttests(DatabaseTestCase):
 
         projects = models.Project.all(self.session)
         self.assertEqual(projects[0].name, 'geany')
-        self.assertEqual(projects[0].homepage, 'http://www.geany.org/')
+        self.assertEqual(projects[0].homepage, 'https://www.geany.org/')
         self.assertEqual(projects[1].name, 'R2spec')
         self.assertEqual(
             projects[1].homepage, 'https://fedorahosted.org/r2spec/')
@@ -118,13 +118,13 @@ class Projecttests(DatabaseTestCase):
 
         projects = models.Project.search(self.session, 'gea*')
         self.assertEqual(projects[0].name, 'geany')
-        self.assertEqual(projects[0].homepage, 'http://www.geany.org/')
+        self.assertEqual(projects[0].homepage, 'https://www.geany.org/')
 
     def test_distro_repr(self):
         """ Test the __repr__ function of Project. """
         create_project(self.session)
 
-        obs = '<Project(geany, http://www.geany.org/)>'
+        obs = '<Project(geany, https://www.geany.org/)>'
         project = models.Project.by_id(self.session, 1)
         self.assertEqual(str(project), obs)
 

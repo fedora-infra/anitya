@@ -47,8 +47,8 @@ class CustomBackendtests(DatabaseTestCase):
         """ Create some basic projects to work with. """
         project = models.Project(
             name='geany',
-            homepage='http://www.geany.org/',
-            version_url='http://www.geany.org/Download/Releases',
+            homepage='https://www.geany.org/',
+            version_url='https://www.geany.org/Download/Releases',
             regex='DEFAULT',
             backend=BACKEND,
         )
@@ -66,8 +66,8 @@ class CustomBackendtests(DatabaseTestCase):
 
         project = models.Project(
             name='subsurface',
-            homepage='http://subsurface.hohndel.org/',
-            version_url='http://subsurface.hohndel.org/downloads/',
+            homepage='https://subsurface-divelog.org/',
+            version_url='https://subsurface-divelog.org/downloads/',
             regex='DEFAULT',
             backend=BACKEND,
         )
@@ -78,7 +78,7 @@ class CustomBackendtests(DatabaseTestCase):
         """ Test the get_version function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '1.24.1'
+        exp = '1.33'
         obs = backend.CustomBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -92,7 +92,7 @@ class CustomBackendtests(DatabaseTestCase):
 
         pid = 3
         project = models.Project.get(self.session, pid)
-        exp = '4.4.2'
+        exp = '4.7.7'
         obs = backend.CustomBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -100,7 +100,7 @@ class CustomBackendtests(DatabaseTestCase):
         """ Test the get_versions function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = ['1.24.1']
+        exp = ['1.33']
         obs = backend.CustomBackend.get_versions(project)
         self.assertEqual(obs, exp)
 
@@ -114,8 +114,13 @@ class CustomBackendtests(DatabaseTestCase):
 
         pid = 3
         project = models.Project.get(self.session, pid)
-        exp = [u'3.1.1', u'4.0', u'4.0.1', u'4.0.2', u'4.0.3',
-               u'4.1', u'4.2', u'4.3', u'4.4.0', u'4.4.1', u'4.4.2']
+        exp = [
+            u'3.1.1', u'4.0', u'4.0.1', u'4.0.2', u'4.0.3',
+            u'4.1', u'4.2', u'4.3', u'4.4.0', u'4.4.1', u'4.4.2',
+            u'4.5.0', u'4.5.1', u'4.5.2', u'4.5.3', u'4.5.4', u'4.5.5', u'4.5.6',
+            u'4.6.0', u'4.6.1', u'4.6.2', u'4.6.3', u'4.6.4',
+            u'4.7.1', u'4.7.2', u'4.7.3', u'4.7.4', u'4.7.5', u'4.7.6', u'4.7.7',
+        ]
         obs = backend.CustomBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
