@@ -3,7 +3,7 @@ Anitya Development Guide
 ========================
 
 Anitya welcomes contributions! Our issue tracker is located on
-`GitHub <https://github.com/fedora-infra/anitya/issues>`_.
+`GitHub <https://github.com/release-monitoring/anitya/issues>`_.
 
 
 Contribution Guidelines
@@ -65,7 +65,7 @@ To get started, install Vagrant::
 
 Next, clone the repository and configure your Vagrantfile::
 
-    $ git clone https://github.com/fedora-infra/anitya.git
+    $ git clone https://github.com/release-monitoring/anitya.git
     $ cd anitya
     $ cp Vagrantfile.example Vagrantfile
     $ vagrant up

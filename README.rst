@@ -11,7 +11,7 @@ developed within Fedora, the project created tickets on the `Fedora
 bugzilla <https://bugzilla.redhat.com/>`_ when a new release is available.
 Now this service has been split into two parts:
 
-* `anitya <https://github.com/fedora-infra/anitya>`_: find and announce new
+* `anitya <https://github.com/release-monitoring/anitya>`_: find and announce new
   releases
 * `the new hotness <https://github.com/fedora-infra/the-new-hotness/>`_:
   listens to the fedmsg bus, opens a ticket on bugzilla for packages allowing
@@ -22,7 +22,7 @@ releases are announced on `fedmsg <http://fedmsg.com>`_ and notifications
 can then be sent via `FMN <https://github.com/fedora-infra/fmn>`_ (the FedMsg
 Notifications service).
 
-:Github page: https://github.com/fedora-infra/anitya
+:Github page: https://github.com/release-monitoring/anitya
 
 Development
 -------
