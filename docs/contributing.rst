@@ -1,4 +1,4 @@
-
+========================
 Anitya Development Guide
 ========================
 
@@ -7,22 +7,23 @@ Anitya welcomes contributions! Our issue tracker is located on
 
 
 Contribution Guidelines
------------------------
+=======================
 
 When you make a pull request, a Fedora Infrastructure team member will review your
 code. Please make sure you follow the guidelines below:
 
-Code style
-^^^^^^^^^^
+Code Style
+----------
 
 We follow the `PEP8 <https://www.python.org/dev/peps/pep-0008/>`_ style guide for Python.
 The test suite includes a test that enforces the required style, so all you need to do is
 run the tests to ensure your code follows the style. If the unit test passes, you are
 good to go!
 
-Unit tests
-^^^^^^^^^^
-The test suites can be run using `tox <https://tox.readthedocs.io/>`_ by simply running
+Unit Tests
+----------
+
+The test suites can be run using `tox <http://tox.readthedocs.io/>`_ by simply running
 ``tox`` from the repository root. These tests include unit tests, a linter to ensure
 Python code style is correct, and checks the documentation for Sphinx warnings or
 errors.
@@ -33,7 +34,8 @@ If you are unsure how to write unit tests for your code, we will be happy to hel
 you during the code review process.
 
 Documentation
-^^^^^^^^^^^^^
+-------------
+
 Anitya uses `sphinx <http://www.sphinx-doc.org/>`_ to create its documentation.
 New packages, modules, classes, methods, functions, and attributes all should be
 documented using `"Google style" <http://www.sphinx-doc.org/en/latest/ext/example_google.html>`_
@@ -47,7 +49,7 @@ HTTP REST API documentation is automatically generated from the code using the
 
 
 Development Environment
------------------------
+=======================
 
 The development environment is set up using `Ansible <https://www.ansible.com/>`_. You can use
 this to set up a development enviroment on any host, but only the Ansible playbook on hosts you
@@ -55,7 +57,7 @@ are willing to reprovision since it expects to own the host. It does things like
 ``~/.bashrc`` and ``/etc/motd``.
 
 Vagrant
-^^^^^^^
+-------
 
 The best way to set up a development enviroment is to use `Vagrant <https://vagrantup.com/>`_.
 Vagrant provisions a new virtual machine and then runs the Ansible playbook on it automatically.
@@ -81,7 +83,7 @@ Log output is viewable with ``journalctl`` and you can navigate to http://localh
 view the web user interface.
 
 Tips
-^^^^
+----
 
 Anitya publishes fedmsgs, and these are viewable with ``fedmsg-tail``::
 
