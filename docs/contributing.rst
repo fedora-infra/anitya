@@ -1,6 +1,6 @@
-========================
-Anitya Development Guide
-========================
+=================
+Development Guide
+=================
 
 Anitya welcomes contributions! Our issue tracker is located on
 `GitHub <https://github.com/release-monitoring/anitya/issues>`_.

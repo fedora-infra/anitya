@@ -1,6 +1,6 @@
-========================
-Anitya API Documentation
-========================
+=================
+API Documentation
+=================
 
 Anitya provides several APIs for users.
 
