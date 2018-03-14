@@ -33,6 +33,7 @@ project.
 The backends available are:
 
 * ``cpan.py`` for perl projects hosted on `CPAN <https://www.cpan.org/>`_
+* ``cran.py`` for R projects hosted on `CRAN <https://cran.r-project.org/>`_
 * ``crates.py`` for crates hosted on `crates.io <https://crates.io/>`_
 * ``debian.py`` for projects hosted on the
   `Debian ftp <http://ftp.debian.org/debian/pool/main/>`_

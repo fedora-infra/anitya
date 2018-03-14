@@ -30,8 +30,8 @@ from anitya.lib.versions import Version
 from anitya.tests.base import DatabaseTestCase
 
 EXPECTED_BACKENDS = [
-    'BitBucket', 'CPAN (perl)', 'crates.io', 'Debian project', 'Drupal6',
-    'Drupal7', 'Freshmeat',
+    'BitBucket', 'CPAN (perl)', 'CRAN (R)', 'crates.io', 'Debian project',
+    'Drupal6', 'Drupal7', 'Freshmeat',
     'GNOME', 'GNU project', 'GitHub', 'Google code', 'Hackage',
     'Launchpad', 'Maven Central', 'PEAR', 'PECL', 'Packagist', 'PyPI',
     'Rubygems', 'Sourceforge', 'Stackage', 'custom', 'folder', 'npmjs',
