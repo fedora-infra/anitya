@@ -3,6 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+======
 Anitya
 ======
 
@@ -19,21 +20,29 @@ Anitya provides a user-friendly interface to add, edit, or browse projects.
 
 :Github page: https://github.com/release-monitorings/anitya
 
-Table of Contents
------------------
+User Guide
+==========
 
 .. toctree::
    :maxdepth: 2
 
    user-guide
-   api
-   contributing
+   release-notes
    glossary
 
+Admin Guide
+===========
 
-Indices and tables
-------------------
+.. toctree::
+   :maxdepth: 2
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   admin-guide
+
+Developer Guide
+===============
+
+.. toctree::
+   :maxdepth: 2
+
+   api
+   contributing
