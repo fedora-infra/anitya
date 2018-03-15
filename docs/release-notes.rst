@@ -1,8 +1,9 @@
-Changes
-=======
+=============
+Release Notes
+=============
 
 dev (master)
-------------
+============
 
 Dependencies
 ------------
@@ -46,12 +47,14 @@ Bug fixes
 ---------
 
 
-0.11.0 (Feb. 08, 2017)
-----------------------
+v0.11.0
+=======
+
+Released February 08, 2017.
 
 * Return 4XX codes in error cases for /projects/new rather than 200 (Issue #246)
 
-* Allow projecst using the "folder" backend to make insecure HTTPS requests
+* Allow projects using the "folder" backend to make insecure HTTPS requests
   (Issue #386)
 
 * Fix an issue where turning the insecure flag on and then off for a project
@@ -70,8 +73,10 @@ Bug fixes
 * [insert summary of change here]
 
 
-0.10.1 (Nov. 29, 2016)
-----------------------
+v0.10.1
+=======
+
+Released November 29, 2016.
 
 * Fix an issue where the version prefix was not being stripped (Issue #372)
 
