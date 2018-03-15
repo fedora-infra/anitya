@@ -8,11 +8,30 @@ dev (master)
 Dependencies
 ------------
 
-* Drop the dependency on the Python bunch package as it is not used.
+* Drop the dependency on the Python ``bunch`` package as it is not used.
+
+* There is no longer a hard dependency on the ``rpm`` Python package.
+
+* Introduce a dependency on the Python ``social-auth-app-flask-sqlalchemy`` and
+  ``flask-login`` packages in order to support authenticating against OAuth2,
+  OpenID Connect, and plain OpenID providers.
+
+* Introduce a dependency on the Python ``blinker`` package to support signaling
+  in Flask.
+
+* Introduce a dependency on the Python ``pytoml`` package in order to support
+  a TOML configuration format.
 
 
-Backwards-incompatible API changes
-----------------------------------
+Backwards-incompatible Changes
+------------------------------
+
+* Dropped support for Python 2.6
+
+* Added support for Python 3.4+
+
+APIs
+^^^^
 
 A number of functions that make up Anitya's Python API have been moved
 (`#503 <https://github.com/release-monitoring/anitya/pull/503>`_). The full
@@ -39,12 +58,82 @@ list of functions are below. Note that no function signatures have changed.
 * ``anitya.lib.get_last_cron`` is now ``anitya.lib.utilities.get_last_cron``.
 
 
+Deprecations
+------------
+
+* Deprecated the v1 HTTP API.
+
+
 Features
 --------
 
+* Introduced a new set of APIs under ``api/v2/`` that support write operations
+  for users authenticated with an API token.
 
-Bug fixes
+* Configuration is now TOML format.
+
+* Added a user guide to the documentation.
+
+* Added an admin guide to the documentation.
+
+* Automatically generate API documentation with Sphinx.
+
+* Introduce httpdomain support to document the HTTP APIs.
+
+* Add initial support for projects to set a "version scheme" in order to help
+  with version ordering. At the present the only version scheme implemented is
+  the RPM scheme.
+
+* Add support for authenticating using a large number of OAuth2, OpenID Connect,
+  and OpenID providers.
+
+* Add a fedmsg consumer that integrates with libraries.io to provide more timely
+  project update notifications.
+
+* Add support for running on OpenShift with s2i.
+
+* Switch over to pypi.org rather than pypi.python.org
+
+* Use HTTPS in backend examples, default URLs, and documentation.
+
+
+Bug Fixes
 ---------
+
+* Fixed deprecation warnings from using ``flask.ext`` (#431).
+
+* Fix the NPM backend's update feed.
+
+
+Developer Improvements
+----------------------
+
+* Fixed all warnings generated from building the Sphinx documentation and
+  introduce tests to ensure there are no regressions (#427).
+
+* Greatly improved the unit tests by breaking monolithic tests up.
+
+* Moved the unit tests into the ``anitya.tests`` package so tests didn't need
+  to mess with the Python path.
+
+* Fixed logging during test runs
+
+* Switched to pytest as the test runner since nose is dead.
+
+* Introduced nested transactions for database tests rather than removing the
+  database after each test. This greatly reduced run time.
+
+* Added support for testing against multiple Python versions via tox.
+
+* Added Travis CI integration.
+
+* Added code coverage with pytest-cov and Codecov integration.
+
+* Fixed all flake8 errors.
+
+* Refactored the database code to avoid circular dependencies.
+
+* Allow the Vagrant environment to be provisioned with an empty database.
 
 
 v0.11.0

@@ -45,7 +45,7 @@ WSGI Application
 ----------------
 
 The WSGI application is located at ``anitya.wsgi``. This application handles the
-web interface force creating, updating, and viewing projects. It also offers a
+web interface for creating, updating, and viewing projects. It also offers a
 REST API.
 
 
