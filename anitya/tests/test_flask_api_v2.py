@@ -587,6 +587,66 @@ class ProjectsResourceGetTests(DatabaseTestCase):
 
         self.assertEqual(data, exp)
 
+    def test_list_projects_with_same_name(self):
+        """Assert two projects with the same name are sorted by the ecosystem."""
+        self.maxDiff = None
+        session = Session()
+        project1 = models.Project(
+            name="zlib",
+            homepage="https://hackage.haskell.org/package/zlib",
+            backend='GitHub',
+            ecosystem_name="https://hackage.haskell.org/package/zlib",
+        )
+        project2 = models.Project(
+            name="zlib",
+            homepage="http://www.zlib.net/",
+            backend="custom",
+            regex="DEFAULT",
+            ecosystem_name="http://www.zlib.net/",
+        )
+        session.add_all([project1, project2])
+        session.commit()
+
+        output = self.app.get('/api/v2/projects/')
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        for item in data['items']:
+            del item['created_on']
+            del item['updated_on']
+
+        exp = {
+            'page': 1,
+            'items_per_page': 25,
+            'total_items': 2,
+            'items': [
+                {
+                    "id": 2,
+                    "backend": "custom",
+                    "homepage": "http://www.zlib.net/",
+                    "name": "zlib",
+                    "regex": "DEFAULT",
+                    "version": None,
+                    "version_url": None,
+                    "versions": [],
+                    "ecosystem": "http://www.zlib.net/",
+                },
+                {
+                    "id": 1,
+                    "backend": "GitHub",
+                    "homepage": "https://hackage.haskell.org/package/zlib",
+                    "name": "zlib",
+                    "regex": None,
+                    "version": None,
+                    "version_url": None,
+                    "versions": [],
+                    "ecosystem": "https://hackage.haskell.org/package/zlib",
+                }
+            ]
+        }
+
+        self.assertEqual(data, exp)
+
     def test_filter_projects_by_ecosystem(self):
         """Assert projects can be filtered by ecosystem."""
         create_project(self.session)

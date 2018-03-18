@@ -325,7 +325,8 @@ class ProjectsResource(Resource):
             q = q.filter_by(ecosystem_name=ecosystem)
         if name:
             q = q.filter_by(name=name)
-        projects_page = q.paginate(order_by=models.Project.name, **args)
+        projects_page = q.paginate(
+            order_by=(models.Project.name, models.Project.ecosystem_name), **args)
         return projects_page.as_dict()
 
     @authentication.require_token
