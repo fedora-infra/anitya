@@ -1,6 +1,6 @@
-===============
-Anitya Glossary
-===============
+========
+Glossary
+========
 
 .. glossary::
 

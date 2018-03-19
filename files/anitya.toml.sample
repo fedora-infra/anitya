@@ -1,7 +1,7 @@
 # This is a TOML-format file. For the spec, see https://github.com/toml-lang/toml#spec
 
 # Secret key used to generate the CSRF token in the forms.
-secret_key = "very_secret"
+secret_key = "changeme please"
 
 # The lifetime of the session, in seconds.
 permanent_session_lifetime = 3600
@@ -9,15 +9,11 @@ permanent_session_lifetime = 3600
 # URL to the database
 db_url = "sqlite:////var/tmp/anitya-dev.sqlite"
 
-# List of admins based on their openid
-anitya_web_admins = ["http://pingou.id.fedoraproject.org"]
-
-# A set of booleans to enable or disable OpenID providers
-anitya_web_fedora_openid = "https://id.fedoraproject.org"
-anitya_web_allow_fas_openid = true
-anitya_web_allow_google_openid = true
-anitya_web_allow_yahoo_openid = true
-anitya_web_allow_generic_openid = true
+# List of web administrators. The values should be the value of the "id" column
+# for the user in the "users" table of the database. They need to log in before
+# this record is created. An example value would be
+# "65536ed7-bdd3-4a1e-8252-10d874fd706b"
+anitya_web_admins = []
 
 # The email to use in the 'From' header when sending emails.
 admin_email = "admin@fedoraproject.org"
@@ -29,28 +25,33 @@ smtp_server = "smtp.example.com"
 # errors occur.
 email_errors = false
 
-# List of users that are not allowed to sign in, by OpenID.
-blacklisted_users = ["http://sometroublemaker.id.fedoraproject.org"]
+# List of users that are not allowed to sign in, by "id" from the "users" table.
+blacklisted_users = []
 
-# Location of the client secrets for OpenID Connect
-oidc_client_secrets = "/etc/anitya/client_secrets.json"
+# The type of session protection used by social-auth.
+session_protection = "strong"
 
-# Force the application to require HTTPS to save the cookie. This should only
-# be `False` in a development environment running on the local host!
-oidc_id_token_cookie_secure = true
-oidc_require_verified_email = true
-oidc_openid_realm = "http://localhost:5000/oidc_callback"
-oidc_scopes = [
-    "https://release-monitoring.org/oidc/upstream",
-    "https://release-monitoring.org/oidc/downstream",
+# The authentication backends to use. For valid values, see social-auth's
+# documentation.
+social_auth_authentication_backends = [
+    "social_core.backends.fedora.FedoraOpenId",
+    "social_core.backends.gitlab.GitLabOAuth2",
+    "social_core.backends.github.GithubOAuth2",
+    "social_core.backends.google.GoogleOAuth2",
+    "social_core.backends.yahoo.YahooOpenId",
+    "social_core.backends.open_id.OpenIdAuth"
 ]
 
-# If `true`, Anitya creates new projects from libraries.io messages in addition
-# to updating existing projects. This requires that the libraries.io fedmsg
-# consumer is running; defaults to false.
-create_librariesio_projects = false
+# Force the application to require HTTPS on authentication redirects.
+social_auth_redirect_is_https = true
 
-# The logging configuration, in dictConfig format.
+# List of platforms for which Anitya should automatically create new projects
+# when Libraries.io announces a new version. See https://libraries.io/ for the
+# list of valid platforms. By default, Anitya will only update existing projects
+# via Libraries.io.
+librariesio_platform_whitelist = []
+
+# The logging configuration, in Python dictConfig format.
 [anitya_log_config]
     version = 1
     disable_existing_loggers = true

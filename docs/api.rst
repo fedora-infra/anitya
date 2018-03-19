@@ -1,6 +1,6 @@
-========================
-Anitya API Documentation
-========================
+=================
+API Documentation
+=================
 
 Anitya provides several APIs for users.
 
@@ -43,6 +43,30 @@ Database API
 ------------
 
 .. automodule:: anitya.db
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+anitya.db.meta
+^^^^^^^^^^^^^^
+
+.. automodule:: anitya.db.meta
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+anitya.db.events
+^^^^^^^^^^^^^^^^
+
+.. automodule:: anitya.db.events
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+anitya.db.models
+^^^^^^^^^^^^^^^^
+
+.. automodule:: anitya.db.models
     :members:
     :undoc-members:
     :show-inheritance:
