@@ -18,7 +18,7 @@ which files a Bugzilla bug against a package when the upstream project makes a n
 
 Anitya provides a user-friendly interface to add, edit, or browse projects.
 
-:Github page: https://github.com/release-monitorings/anitya
+:Github page: https://github.com/release-monitoring/anitya
 
 User Guide
 ==========
