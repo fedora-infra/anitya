@@ -4,7 +4,7 @@ include =
     anitya/*
 
 [report]
-fail_under = 83
+fail_under = 88
 precision = 2
 exclude_lines =
     pragma: no cover
