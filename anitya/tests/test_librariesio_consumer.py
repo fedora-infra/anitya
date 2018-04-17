@@ -80,21 +80,18 @@ class LibrariesioConsumerTests(DatabaseTestCase):
         self.mock_hub = mock.Mock(config={'environment': 'dev', 'topic_prefix': 'anitya'})
 
     def test_dev_environment_topics(self):
-        """Assert when the environment is set to dev, both dev and prod topic is used."""
-        expected_topics = [
-            'org.fedoraproject.prod.sse2fedmsg.librariesio',
-            'anitya.dev.sse2fedmsg.librariesio',
-        ]
-        consumer = LibrariesioConsumer(self.mock_hub)
+        """Assert when the environment is set to dev, the dev topic is used."""
+        mock_hub = mock.Mock(config={'environment': 'dev', 'topic_prefix': 'anitya'})
+        consumer = LibrariesioConsumer(mock_hub)
 
-        self.assertEqual(expected_topics, consumer.topic)
+        self.assertEqual([u'anitya.dev.sse2fedmsg.librariesio'], consumer.topic)
 
     def test_prod_environment_topics(self):
         """Assert when the environment is set to prod, only the prod topic is used."""
         mock_hub = mock.Mock(config={'environment': 'prod', 'topic_prefix': 'anitya'})
         consumer = LibrariesioConsumer(mock_hub)
 
-        self.assertEqual(['org.fedoraproject.prod.sse2fedmsg.librariesio'], consumer.topic)
+        self.assertEqual([u'anitya.prod.sse2fedmsg.librariesio'], consumer.topic)
 
     @mock.patch('anitya.librariesio_consumer._log')
     def test_no_ecosystem(self, mock_log):
