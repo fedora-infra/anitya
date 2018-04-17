@@ -102,7 +102,7 @@ class LibrariesioConsumer(FedmsgConsumer):
             configuration to enable this consumer.
     """
     topic = [
-        'org.fedoraproject.prod.sse2fedmsg.librariesio',
+        'sse2fedmsg.librariesio',
     ]
 
     config_key = 'anitya.libraryio.enabled'
@@ -110,12 +110,8 @@ class LibrariesioConsumer(FedmsgConsumer):
     def __init__(self, hub):
         # If we're in development mode, add the dev versions of the topics so
         # local playback with fedmsg-dg-replay works as expected.
-        if hub.config['environment'] == 'dev':
-            prefix, env = hub.config['topic_prefix'], hub.config['environment']
-            self.topic = self.topic + [
-                '.'.join([prefix, env] + topic.split('.')[3:])
-                for topic in self.topic
-            ]
+        prefix, env = hub.config['topic_prefix'], hub.config['environment']
+        self.topic = ['.'.join([prefix, env, topic]) for topic in self.topic]
         _log.info('Subscribing to the following fedmsg topics: %r', self.topic)
 
         initialize(config.config)
