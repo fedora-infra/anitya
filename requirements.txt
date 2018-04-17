@@ -1,7 +1,6 @@
 alembic
 blinker
 python-dateutil
-dateutils
 fedmsg[commands,consumers]
 flask-login
 gunicorn
