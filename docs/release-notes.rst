@@ -2,8 +2,8 @@
 Release Notes
 =============
 
-dev (master)
-============
+v0.12.0
+=======
 
 Dependencies
 ------------
@@ -134,6 +134,24 @@ Developer Improvements
 * Refactored the database code to avoid circular dependencies.
 
 * Allow the Vagrant environment to be provisioned with an empty database.
+
+
+Contributors
+------------
+
+Many thanks to all the contributors for this release, including those who filed
+issues. Commits for this release were contributed by:
+
+* Elliott Sales de Andrade
+* Jeremy Cline
+* luto
+* Michael Simacek
+* Nick Coghlan
+* Nicolas Quiniou-Briand
+* Ricardo Martincoski
+* robled
+
+Thank you all for your hard work.
 
 
 v0.11.0
