@@ -26,7 +26,7 @@
               {{ render_field_in_row(form.homepage, type="url", tabindex=2) }}
             </tr>
             <tr>
-              {{ render_field_in_row(form.backend, tabindex=3) }}
+              {{ render_field_in_row(form.backend, docs=url_for('anitya_ui.static', filename='docs/user-guide.html') + "#backends", tabindex=3) }}
             </tr>
             <tr>
               {{ render_field_in_row(form.version_scheme, tabindex=4) }}
