@@ -30,7 +30,7 @@ import anitya.lib
 import anitya.mail_logging
 
 
-__version__ = '0.12.0'
+__version__ = '0.12.1'
 
 
 def create(config=None):
