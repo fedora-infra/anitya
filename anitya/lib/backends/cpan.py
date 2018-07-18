@@ -24,8 +24,8 @@ class CpanBackend(BaseBackend):
 
     name = 'CPAN (perl)'
     examples = [
-        'http://search.cpan.org/dist/Net-Whois-Raw/',
-        'http://search.cpan.org/dist/SOAP/',
+        'https://metacpan.org/release/Net-Whois-Raw/',
+        'https://metacpan.org/release/SOAP/',
     ]
 
     @classmethod
@@ -59,7 +59,7 @@ class CpanBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url = 'http://search.cpan.org/dist/%(name)s/' % {
+        url = 'https://metacpan.org/release/%(name)s/' % {
             'name': project.name}
 
         regex = REGEX % {'name': project.name}
@@ -73,7 +73,7 @@ class CpanBackend(BaseBackend):
         by querying an RSS feed.
         '''
 
-        url = 'http://search.cpan.org/uploads.rdf'
+        url = 'https://metacpan.org/feed/recent'
 
         try:
             response = cls.call_url(url)
@@ -90,5 +90,5 @@ class CpanBackend(BaseBackend):
         for entry in items:
             title = entry['title']['value']
             name, version = title.rsplit('-', 1)
-            homepage = 'http://search.cpan.org/dist/%s/' % name
+            homepage = 'https://metacpan.org/release/%s/' % name
             yield name, homepage, cls.name, version
