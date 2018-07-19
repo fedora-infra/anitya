@@ -2,6 +2,24 @@
 Release Notes
 =============
 
+master
+======
+
+Dependencies
+------------
+
+* Explicitly depend on ``defusedxml``
+
+Features
+========
+
+* Update CPAN backend to use metacpan.org (`#569
+  <https://github.com/release-monitoring/anitya/pull/569>`_).
+
+* Parse XML from CPAN with defusedxml (`#569
+  <https://github.com/release-monitoring/anitya/pull/569>`_).
+
+
 v0.12.1
 =======
 
