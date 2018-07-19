@@ -9,10 +9,14 @@
 
 """
 
-import anitya.lib.xml2dict as xml2dict
+import logging
+
+from defusedxml import ElementTree as ET
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
 from anitya.lib.exceptions import AnityaPluginException
+
+_log = logging.getLogger(__name__)
 
 
 class CpanBackend(BaseBackend):
@@ -81,14 +85,15 @@ class CpanBackend(BaseBackend):
             raise AnityaPluginException('Could not contact %s' % url)
 
         try:
-            parser = xml2dict.XML2Dict()
-            data = parser.fromstring(response.text)
-        except Exception:  # pragma: no cover
+            root = ET.fromstring(response.text)
+        except ET.ParseError:
             raise AnityaPluginException('No XML returned by %s' % url)
 
-        items = data['RDF']['item']
-        for entry in items:
-            title = entry['title']['value']
-            name, version = title.rsplit('-', 1)
+        for item in root.iter(tag='{http://purl.org/rss/1.0/}item'):
+            title = item.find('{http://purl.org/rss/1.0/}title')
+            try:
+                name, version = title.text.rsplit('-', 1)
+            except ValueError:
+                _log.info('Unable to parse CPAN package %s into a name and version')
             homepage = 'https://metacpan.org/release/%s/' % name
             yield name, homepage, cls.name, version
