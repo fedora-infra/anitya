@@ -100,13 +100,11 @@ class CpanBackendtests(DatabaseTestCase):
         items = list(generator)
 
         self.assertEqual(items[0], (
-            'Dist-Zilla-PluginBundle-Author-Plicease',
-            'http://search.cpan.org/dist/Dist-Zilla-PluginBundle-Author-Plicease/',
-            'CPAN (perl)', '2.06'))
+            'URI-Fast', 'https://metacpan.org/release/URI-Fast/',
+            'CPAN (perl)', '0.38_06'))
         self.assertEqual(items[1], (
-            'Dist-Zilla-Plugin-Author-Plicease',
-            'http://search.cpan.org/dist/Dist-Zilla-Plugin-Author-Plicease/',
-            'CPAN (perl)', '2.06'))
+            'Model-Envoy', 'https://metacpan.org/release/Model-Envoy/',
+            'CPAN (perl)', '0.2.4'))
         # etc...
 
 

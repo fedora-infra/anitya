@@ -1,5 +1,6 @@
 alembic
 blinker
+defusedxml
 python-dateutil
 fedmsg[commands,consumers]
 flask-login

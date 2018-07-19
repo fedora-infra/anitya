@@ -6,164 +6,180 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
     method: GET
-    uri: http://search.cpan.org/dist/SOAP/
+    uri: https://metacpan.org/release/SOAP/
   response:
-    body: {string: !!python/unicode "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01
-        Transitional//EN\">\n<html>\n <head>\n  <link rel=\"stylesheet\" href=\"http://st.pimg.net/tucs/style.css?3\"
-        type=\"text/css\" />\n<style>\n.styleswitch {\n  text-align: right;\n}\n</style>\n\n\n<script
-        type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script>\n<script
-        type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/jquery.cookie.js\"></script>\n<script
-        type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/sh_main.min.js\"></script>\n<script
-        type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/sh_perl.min.js\"></script>\n<script
-        type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/jquery.styleswitch.js\"></script>\n\n<link
-        rel=\"stylesheet\" href=\"http://st.pimg.net/tucs/print.css\" type=\"text/css\"
-        media=\"print\" />\n  <link rel=\"alternate\" type=\"application/rss+xml\"
-        title=\"RSS 1.0\" href=\"http://search.cpan.org/uploads.rdf\" />\n  <link
-        rel=\"search\" href=\"http://st.pimg.net/tucs/opensearch.xml\" type=\"application/opensearchdescription+xml\"
-        title=\"SearchCPAN\" />\n  <title>Keith Brown / SOAP - search.cpan.org</title>\n
-        <script type=\"text/javascript\">\n    var _gaq = _gaq || [];\n    _gaq.push(['_setAccount',
-        'UA-3528438-1']);\n    _gaq.push([\"_setCustomVar\",2,\"Distribution\",\"SOAP\",3]);\n
-        \   _gaq.push([\"_setCustomVar\",5,\"Release\",\"SOAP-0.28\",3]);\n    _gaq.push([\"_setCustomVar\",1,\"Author\",\"KBROWN\",3]);\n
-        \   _gaq.push(['_trackPageview']);\n  </script>\n </head>\n <body id=\"cpansearch\">\n
-        \  <div class=\"header\">\n<center><div class=\"logo\"><a href=\"/\"><img
-        src=\"http://st.pimg.net/tucs/img/cpan_banner.png\" alt=\"CPAN\"></a></div></center>\n<div
-        class=\"menubar\">\n <a href=\"/\">Home</a>\n&middot; <a href=\"/author/\">Authors</a>\n&middot;
-        <a href=\"/recent\">Recent</a>\n&middot; <a href=\"http://log.perl.org/cpansearch/\">News</a>\n&middot;
-        <a href=\"/mirror\">Mirrors</a>\n&middot; <a href=\"/faq.html\">FAQ</a>\n&middot;
-        <a href=\"/feedback\">Feedback</a>\n</div>\n<form method=\"get\" action=\"/search\"
-        name=\"f\" class=\"searchbox\">\n<input type=\"text\" name=\"query\" value=\"\"
-        size=\"35\">\n<br>in <select name=\"mode\">\n <option value=\"all\">All</option>\n
-        <option value=\"module\" >Modules</option>\n <option value=\"dist\" >Distributions</option>\n
-        <option value=\"author\" >Authors</option>\n</select>&nbsp;<input type=\"submit\"
-        value=\"CPAN Search\">\n</form>\n</div>\n\n\n  <div class=path>\n<div id=permalink
-        class=\"noprint\"><a href=\"/dist/SOAP/\">permalink</a></div>\n  <a href=\"/~kbrown/\">Keith
-        Brown</a> &gt;\n  SOAP\n </div>\n\n <div class=box>\n  <h1 class=t1>SOAP</h1>\n<a
-        href=\"http://hexten.net/cpan-faces/\"><img src=\"http://www.gravatar.com/avatar/58b29a24803bb9bd2a0b5c31340a531f?r=g&s=80&d=http%3A%2F%2Fst.pimg.net%2Ftucs%2Fimg%2Fwho.png\"
-        width=80 height=80 \nstyle=\"float:right\"\n/></a>\n\n  <table>\n   <tr>\n
-        \   <td class=label>This Release</td>\n    <td class=cell>SOAP-0.28</td>\n
-        \   <td><small>&nbsp;[<a href=\"/CPAN/authors/id/K/KB/KBROWN/SOAP-0.28.tar.gz\">Download</a>]\n
-        \   [<a href=\"/src/KBROWN/SOAP-0.28/\">Browse</a>]&nbsp;</small></td>\n    <td><small>05
-        Sep 2000</small>\n    </td>\n   </tr>\n\n\n\n   <tr>\n    <td class=label>Other
-        Releases</td>\n    <td class=cell colspan=3>\n     <form action=\"/redirect\">\n
-        \     <select name=\"url\">\n       <option value=\"/~kbrown/SOAP-0.26/\">SOAP-0.26&nbsp;&nbsp;--&nbsp;&nbsp;31
-        Aug 2000</option>\n       <option value=\"/~kbrown/SOAP-0.25/\">SOAP-0.25&nbsp;&nbsp;--&nbsp;&nbsp;16
-        Aug 2000</option>\n       <option value=\"/~kbrown/SOAP-0.23/\">SOAP-0.23&nbsp;&nbsp;--&nbsp;&nbsp;09
-        Jan 2000</option>\n       <option value=\"/~kbrown/SOAP-0.22/\">SOAP-0.22&nbsp;&nbsp;--&nbsp;&nbsp;03
-        Jan 2000</option>\n      </select><input type=submit value=\"Goto\">\n     </form></td></tr>\n\n
-        \  <tr>\n    <td class=label>Links</td>\n    <td class=cell colspan=3><small>\n
-        \    [&nbsp;<a href=\"http://www.cpanforum.com/dist/SOAP\">Discussion&nbsp;Forum</a>&nbsp;]\n
-        \    [&nbsp;<a href=\"https://rt.cpan.org/Public/Dist/Display.html?Name=SOAP\">View/Report&nbsp;Bugs
-        (3)</a>&nbsp;]\n     [&nbsp;<a href=\"http://deps.cpantesters.org/?module=SOAP;perl=latest\">Dependencies</a>&nbsp;]\n
-        \    [&nbsp;<a href=\"/tools/SOAP-0.28\">Other&nbsp;Tools</a>&nbsp;]\n    </small></td></tr>\n\n\n<tr>\n
-        \   <td class=label>CPAN Testers</td>\n    <td class=cell colspan=3><small>\nPASS
-        (72)&nbsp;&nbsp;\nFAIL (10)&nbsp;&nbsp;\nNA (3)&nbsp;&nbsp;\nUNKNOWN (3)&nbsp;&nbsp;\n
-        \    [&nbsp;<a href=\"http://www.cpantesters.org/distro/S/SOAP.html#SOAP-0.28\">View&nbsp;Reports</a>&nbsp;]\n
-        \    [&nbsp;<a href=\"http://matrix.cpantesters.org/?dist=SOAP+0.28\">Perl/Platform&nbsp;Version&nbsp;Matrix</a>&nbsp;]\n
-        \   </small></td></tr>\n\n\n   <tr>\n    <td class=label>Rating</td>\n    <td
-        class=cell colspan=3 nowrap><small>\n<img src=\"http://st.pimg.net/tucs/img/stars-1.0.gif\"
-        alt=\"*    \">\n     (<a href=\"http://cpanratings.perl.org/d/SOAP\">1 Reviews</a>)\n
-        \    [&nbsp;<a href=\"http://cpanratings.perl.org/rate/?distribution=SOAP\">Rate&nbsp;this&nbsp;distribution</a>&nbsp;]\n\n
-        \   </small></td></tr>\n\n   <tr>\n    <td class=label>License</td>\n    <td
-        class=cell colspan=3>\nUnknown\n</td>\n   </tr>\n   <tr>\n    <td class=label>Special
-        Files</td>\n    <td class=cell colspan=3><table><tr class=distfiles>\n     <td>\n
-        \     <a href=\"/src/KBROWN/SOAP-0.28/Changes\">Changes</a><br>\n     </td>\n
-        \    <td>\n      <a href=\"/src/KBROWN/SOAP-0.28/Makefile.PL\">Makefile.PL</a><br>\n
-        \    </td>\n     <td>\n      <a href=\"MANIFEST\">MANIFEST</a><br>\n     </td>\n
-        \    <td>\n      <a href=\"/src/KBROWN/SOAP-0.28/README\">README</a><br>\n
-        \    </td>\n    </tr></table></td>\n   </tr>\n  </table>\n </div>\n\n <div
-        class=box>\n  <h2 class=t2>Modules</h2>\n  <table width=\"100%\">\n   <tr
-        class=r>\n    <td>\n     <a href=\"lib/SOAP.pm\">SOAP</a>\n    </td>\n    <td
-        width=\"99%\">\n     <small>Library for SOAP clients and servers in Perl&nbsp;</small>\n
-        \   </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n
-        \  <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/Defs.pm\">SOAP::Defs</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>Spec-defined constants&nbsp;</small>\n
-        \   </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n
-        \  <tr class=r>\n    <td>\n     <a href=\"lib/SOAP/Envelope.pm\">SOAP::Envelope</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>Creates SOAP streams&nbsp;</small>\n
-        \   </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n
-        \  <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/EnvelopeMaker.pm\">SOAP::EnvelopeMaker</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>Creates SOAP envelopes&nbsp;</small>\n
-        \   </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n
-        \  <tr class=r>\n    <td>\n     <a href=\"lib/SOAP/GenericHashSerializer.pm\">SOAP::GenericHashSerializer</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>Generic serializer for Perl
-        hashes&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n
-        \  </tr>\n   <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/GenericInputStream.pm\">SOAP::GenericInputStream</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>Default handler for SOAP::Parser
-        output&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n
-        \  </tr>\n   <tr class=r>\n    <td>\n     <a href=\"lib/SOAP/GenericScalarSerializer.pm\">SOAP::GenericScalarSerializer</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>Generic serializer for Perl
-        scalar references&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n
-        \  </tr>\n   <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/OutputStream.pm\">SOAP::OutputStream</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>Writes SOAP fragments&nbsp;</small>\n
-        \   </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n
-        \  <tr class=r>\n    <td>\n     <a href=\"lib/SOAP/Packager.pm\">SOAP::Packager</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>SOAP internal helper class&nbsp;</small>\n
-        \   </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n
-        \  <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/Parser.pm\">SOAP::Parser</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>Parses SOAP documents&nbsp;</small>\n
-        \   </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n
-        \  <tr class=r>\n    <td>\n     <a href=\"lib/SOAP/Serializer.pm\">SOAP::Serializer</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>serialization utilities&nbsp;</small>\n
-        \   </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n
-        \  <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/SimpleTypeWrapper.pm\">SOAP::SimpleTypeWrapper</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>deprecated&nbsp;</small>\n
-        \   </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n
-        \  <tr class=r>\n    <td>\n     <a href=\"lib/SOAP/Struct.pm\">SOAP::Struct</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>support for ordered hashes&nbsp;</small>\n
-        \   </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n
-        \  <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/StructSerializer.pm\">SOAP::StructSerializer</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>(internal) serializer for SOAP
-        structs&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n
-        \  </tr>\n   <tr class=r>\n    <td>\n     <a href=\"lib/SOAP/Transport/HTTP/Apache.pm\">SOAP::Transport::HTTP::Apache</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>SOAP mod_perl handler&nbsp;</small>\n
-        \   </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n
-        \  <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/Transport/HTTP/CGI.pm\">SOAP::Transport::HTTP::CGI</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>Generic SOAP CGI handler&nbsp;</small>\n
-        \   </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n
-        \  <tr class=r>\n    <td>\n     <a href=\"lib/SOAP/Transport/HTTP/Client.pm\">SOAP::Transport::HTTP::Client</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>Client side HTTP support for
-        SOAP/Perl&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n
-        \  </tr>\n   <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/Transport/HTTP/Server.pm\">SOAP::Transport::HTTP::Server</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>Server side HTTP support for
-        SOAP/Perl&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n
-        \  </tr>\n   <tr class=r>\n    <td>\n     <a href=\"lib/SOAP/TypeMapper.pm\">SOAP::TypeMapper</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>Maps Perl types to their serializer/deserializer
-        classes&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n
-        \  </tr>\n   <tr class=s>\n    <td>\n     <a href=\"lib/SOAP/TypedPrimitive.pm\">SOAP::TypedPrimitive</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>Wrapper for xsd primitives
-        that need explicit SOAP type attributes&nbsp;</small>\n    </td>\n    <td>&nbsp;</td>\n
-        \   <td class=\"version\">0.28</td>\n   </tr>\n   <tr class=r>\n    <td>\n
-        \    <a href=\"lib/SOAP/TypedPrimitiveSerializer.pm\">SOAP::TypedPrimitiveSerializer</a>\n
-        \   </td>\n    <td width=\"99%\">\n     <small>serializer for xsd scalars&nbsp;</small>\n
-        \   </td>\n    <td>&nbsp;</td>\n    <td class=\"version\">0.28</td>\n   </tr>\n
-        \ </table>\n </div>\n\n\n<div class=\"footer\"><div class=\"cpanstats\">110152
-        Uploads, 31875 Distributions\n150558 Modules, 12210 Uploaders\n</div>\n<div
-        class=\"sponsor\">\nhosted by <a href=\"http://www.yellowbot.com\">YellowBot</a><br/>\n<a
-        href=\"http://www.yellowbot.com\"><img alt=\"do. tag. write. share.\" src=\"http://st.pimg.net/tucs/img/yellowbot_logo.gif\"></a>\n</div>\n</div>\n<script
-        type=\"text/javascript\">\nvar gaJsHost = ((\"https:\" == document.location.protocol)
-        ? \"https://ssl.\" : \"http://www.\");\ndocument.write(unescape(\"%3Cscript
-        src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));\n</script>\n<script
-        type=\"text/javascript\" src=\"http://ipv4.v6test.develooper.com/js/v1/v6test.js\"></script>\n\n<script
-        type=\"text/javascript\">\n   // v6.target = '';\n   if (!v6.target) { v6.only_once
-        = true }\n   v6.site = '7A0D89A6-2B82-11DF-B9DA-F61CBD13F020';\n   v6.api_server
-        = 'http://ipv4.v6test.develooper.com';\n   try {\n     v6.test();\n   } catch(err)
-        {}\n</script>\n<script type=\"text/javascript\">\n  $(document).ready(function(){\n
-        \   $(\"a[href^=http:]\").click(function(){\n      var href = $(this).attr('href');\n
-        \     var m = href.match('\\/\\/([^\\/:]+)');\n      _gaq.push(['_trackEvent','External',m[1],'Distribution']);\n
-        \   });\n    $(\"a[href^=/CPAN/]\").click(function(){\n      var href = $(this).attr('href');\n
-        \     _gaq.push(['_trackEvent','Download',href,'Distribution']);\n    });\n
-        \ });\n</script>\n<!-- Thu May 28 19:28:33 2015 GMT (0.037510871887207) @cpansearch2
-        -->\n </body>\n</html>\n"}
+    body: {string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n\
+        <body bgcolor=\"white\">\r\n<center><h1>301 Moved Permanently</h1></center>\r\
+        \n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"}
     headers:
-      cache-control: [max-age=3599]
-      content-length: ['12357']
-      content-type: [text/html]
-      date: ['Thu, 28 May 2015 19:28:33 GMT']
-      expires: ['Thu, 28 May 2015 20:28:33 GMT']
-      last-modified: ['Thu, 28 May 2015 19:28:33 GMT']
-      server: [Plack/Starman (Perl)]
+      Accept-Ranges: [bytes, bytes, bytes, bytes]
+      Age: ['0', '0', '0', '0']
+      Connection: [keep-alive]
+      Content-Length: ['178']
+      Content-Type: [text/html]
+      Date: ['Thu, 19 Jul 2018 16:48:00 GMT']
+      Location: ['https://metacpan.org/release/SOAP']
+      Server: [nginx]
+      Via: [1.1 varnish, 1.1 varnish]
+      X-Cache: ['MISS, MISS']
+      X-Cache-Hits: ['0, 0']
+      X-Served-By: ['cache-lax8629-LAX, cache-dca17746-DCA']
+      X-Timer: ['S1532018880.368581,VS0,VE204']
+    status: {code: 301, message: Moved Permanently}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+    method: GET
+    uri: https://metacpan.org/release/SOAP
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA+09a3PbOJLf8yswys3YvrFEPaz4EclZT5zXTR6+2LNbW6lUCiIhiWOKZAjStmZn
+        //t1NwASfMiy4iS7W3WsjEXi0ehuNBrdjSZn9MPpu6cXfz97xl5evHl9/GA0TxfB8QMG12guuKdu
+        6XEhUs5CvhDj1pUvruMoSVvMjcJUhOm4de176XzsiSvfFW162GV+6Kc+D9rS5YEY93bZgt/4i2xh
+        CloW9NRPA3F8/u7krN3t9A9Ym732JwlPlmwaJQzLmRv4MJRkPPSYFMmVSCQMwc5EEkBzRM+NediJ
+        ktnIUeAK8IEfXrJEBOMWD1KRhDwVLZYuYyCGx3Hguzz1o9BJpPz5ZhFAFfYft96fn7fYPBHTccuZ
+        CuE5ni/TxJ9k1BqxajGnOoxu/4lLKVLp8IOp98gbTgZ8MjiYTA+n+3x/6O5398TBXm+wx/emPa87
+        FbzjStlSOMp0GQg5FyI1SKbiJnWwQXUw1V7wxJ3nmMoUqHGdKBahqukommrkFi08Id3Ej7G0xIA3
+        wNWnZydvm8d1eRiFACwwQ8/TNJZHjmNPhgNNBZeigV2WSFkIWFK1iQw0zIRizhwk1c1S5rsIu8wj
+        LJPOlF/hTQf+NBOKTBPtNMrceVuBkf4fQo5bvWH/Bv5rBlvt1YnDmQ1fUcxk4tri0jt4dDg97B8O
+        9/uDYa/X6/LD3n4fREgI7u4NXfdg8uhgOu38LkvC8Tu/4gpg63jkqLvaWEUBY9vTLHSR39v+rtyN
+        dme7yS7fXez8w/+w9SKKZoE4CXmwBHLku8nvwk23Po6Tx/6H5OMY//z5Z95/5x82WKzsfKY2nc9/
+        /vnh404nzuR8myezbIGTt/PPXaoMxr3/DsU1O4XFuL3zmI9lx00EPDwLBDbcjnZ2LcALqJ+JVFfK
+        X5YXfPYWZAeafeh+fMw7XC5Dd9yDO+To7PGiE/MEmr6NPNHxQdCT9BcBkiS2kUwL8j93tq/90Iuu
+        d73IJRx3txS/tna3HOf6+rozI4a0ueFIx40WTvH0u4SWM7618/iBBXfGt7cURVu7bOu3k3Z//6B/
+        uLe/1+5Bgc00vKSfivMYlMw5X4DcvIdu7Ij1ut0Spo8r8KUIPYQe85lAtYwomPq6GNRv7DWYXvsp
+        KMcjlydeyzTI16LMFgtYi7TMmnpluARrve6mEZrgkQYyEHN4t3b5SkqkCTTOTp0nhirqVmbuyCn2
+        z9Ek8pbWYgz5FSABC37cgtsJT5j6aXtiyrMAtH4SofaFUn9GqtpSGwTB83MIiAz3Q5G0p0Hme5WW
+        1DoLrOHMWPDT1DbwTdsrX/oTEPobe9fJ23Gt8h62mMdTDmpuNkOcZeB7AlgiAlMBC18ArzpWTR0e
+        QMwHnnI25W3AUeJv/4Y0d9vuPnL8RhAS6g0U6gRASB1C+b+iw8jhTYVBBftaE7ysmWjkl7ryeXAA
+        C38x07tJaR8yUlpsQiCuVUD29TJaiGqZuRpJwqtOlrk2pMSojFki4o6tN5DCsoxow4fkoQrPvhDU
+        0RHCqdaY69uTBVrPBaVRJ2IONmUEinUtFe8JQLXUXPejYO57ngib17q5ClL4JMoaKPHDabSejBPs
+        XC0013enAoy/z3VKPmdCKr27jprnJ/9bLTLXd6QlXzN+Os8mZJ2YlVMs/2sxcXwpgbQ6wapjG7yj
+        9SS/8NOX2YS9IlDVSnN9R+IdsCIbSMLSmMewMd5BKN9C42qZub4nKWkUBQ20XIMhexdFd4Hdq4Xm
+        +o50GHmcctiJYn+NGkc7YQIG4Xr6Ts5eVYvMtSF1IyfTgY5S6SpTydwm/myeruDACCzMBePkFK2w
+        fLnrRlmYOkE0Qw2KUYt55I1bZ+/OL1rM9wqTsq2bAEsQ7IoRi+nxkigGFyZk0G8mvE8+OqkYR4Aq
+        X8YBXx4x8NbF4xXI42UbdRWw2r6rGHum9haYJ4rilfWjiRkK3A5B9E5WQ1s5yXhZk5ejDd5cdgt2
+        eAETj61NQc8QGJshuCA+KstX+T2O3yxP9tUMMU6iqQ8sPD5TN/eBNeVXUQIuCXSXwLPn+nED/G5t
+        gJctDFEIPpN7OW791/bWw4qEbu10ZDZZ+Cn48AxmMEtCWNMBrubX1ODWOcPrdoSbFypeq/vdsi5o
+        2f07LIxzfxaC27my/t9jYdzaAK87qXwn4lk67zv4FwT1D/FE+eCfQOPZ7X7ii/ixO498V4yn3BWT
+        KLq0pE9LF8zkq/Ds5LfzZ9spGM87a8jAq7rjGOB0f632nbVAnutOaxveOhl4rZZcc/1rea+swW/C
+        eQV6I74re3Nts/94rutY0zdhu4a9Ed8vVJ+17f7jGa+iu9+E7wr0RmxXwfe1zb4719Fo9dWhUWOY
+        sXpVWaE6bsSKd9Dl1enaZvdkxaYWRr39yPH8q6Jo5IC3YAWEbw/XWpDshhhxBn9cJCns1VLymWDq
+        SUVZToGVyyhjPEn8K8HmIhHsyudMn/gZMX9SXzV4ngFecaDOMJLUdwPhSL70wxmKqzdZ4qGVjq21
+        ydLDddViJpL7aRLw8BKsTj/0GMZyrudLnIKOZkNOkE1aJcppU5pE10x7l/EcLLEG2bKbY1y9LRc8
+        CMgCZW4UtBdee9DQDa9CfnPbreiMctggO5X5zItL80ijHq4ateQLOuaE1iCgeEtt8E+bVBVKRnNs
+        XF328NRrlkRZfEsHvOxOfhhn6Z164TWi5tYZY0ufiXxWx5/j1l5P+ayaHGqf00gYorQnUdBiVzzI
+        xK2BUnOVQ+wFxu1Jeps5bV+jSZamUQ4EOuplQTA0RcppaR2fUw0Y19Rn/QCrYv32tUJ+zHVL9Spv
+        v6FLQ1F5wVXWWAPz7BYL0Eo0Xxhj1tLd6zd0wuuBvmwAkwQWpptki4kKEamJZAoArELlIV2K5STi
+        CaxgfS4/bs0Y14kPatPOT9PVo/PrL+/f/e1tnpOQS5iqbqNQwjrWo/0qwMBkvwC9oZ4pvcKLeaOm
+        xz+FExk/dtSPVWkzTZ1TMjxNyWQ74OBhp2wBD+BsL9u62uyFJcEtHMBGP84WopEEOG5qWsFCE6FH
+        xsichzN0JvWpdCeIVOJGh/iDJkmH1pXaREYRnXwyBU54Zs3lx62Kj3TqSkk2Gm+81ZO8rZrA2Kzf
+        7Xbb3cN2d2iOyomHaozSeOvGeVSM82jVOAftQe++4wyLcYarx+nt33ccs9Hg7apxeu1e977jmLWH
+        t6vH6e41jgMCRmKgQOgWJQnVo+rlkwuFLZnmT65pRj+02/DzWxj4l2COhAyPHI936S6iJJFjNkv4
+        NJUsnQt2/tcXzAgv88M0otLTd292wWTw3TmAWggeSjaB5SrxGP7aDwKmwzLUWCeGMaHTPlg0NaA7
+        jP2dL3940G4DuSXKwCBK2jOezYT6q9eHvJoxlafW6u/FNy3NFbCdMKiLyTxWIWYF0N7d6/TywptF
+        EEplSWlD6npATgfOhgPwyy2PbjCFqKl97/Dw0KFahRtgNzOaVjNZXRdk2PmSSTyTRQ0yzQLGU9TS
+        KEQTEYD1pDmbCJkFKdhxyF7QVTF3Cz8CZgX8v1QsYtRjOB0iiaOAFMouE6EEpQY90zlPCRieRKR+
+        DE5QdCkZGoYgdjm0SQRa9uk8Qawwj+K5D5hFNx12plSmF4VbKePe7xloTD9lkwDUsgiWuzhAeCl/
+        0JBw8tSdnun3OHmoccHe/UMkEfvpYa/7+G3EPAHOAAZiZZ7eZzGMDRkmDOyyvRucxl3Wi28Yj8G8
+        3cXNLEpAHz4Ue6Iv+ixK2MN9wQfTvj18gjr4Ztzqthhb0o+Wlb2WJSEtNgURHbc0LCvpLAcwvC+A
+        HnS9H4DhPQH0vwiDkUMyPMKFcIzGgVYlJtFtRbYadHkjVJphZ8qv5Kc0+uTOhXv5YQu10tZHNma9
+        xwhNZzMpqwMNT9Ja0Cc3CYrDDxi2bILXQufc8+qRYB9UW0ihAGUf5rEA6HZqJX+WAgIlS1l5MsZW
+        TsQiuhK5/du9Sw9aQXmX6nZ9S1djPume2m5a281Oai0Na7pqc7pkN+dmvmantsCMZcN+/rkwqY1R
+        q/cR28SyovJQYVw1KxRDPu/2llYrUgXNUeHB9OGkqHOPrerZQx09tUeU8OM5Svnvg/IJYBvPV1gt
+        c8k6X6hlSSF1+q7RBzSLrTIlFQ/R9p5IFWOiETmMLQaS6op5FHgigXnS/Yxrtgp8eda0AJh1W5oe
+        XWYiHxatyBD0vgWmPFVsCdhH/gAud4fsXMRknbDewVF376g/ZC/eXOS2uAXWOteSUZa4NQsIRL4a
+        RJpe018iniJKsLNw91LFk9Dql3SuxrZrYQ+ZdjAnKtZhwhUjOq3jhF8jiJ0yruqG3+LEuLnfogx3
+        2ZAtvoIeN5pJm5CnCoCWUBz9gY2DmY4ojmJw5fNhUVxouHDWTqNbR4wDcGhcP3EDYQ/8UhkTTw0k
+        YmYTCqvZ4FeTwZM0j0Y5ZxkYAq6DmhT/oM7t4CsHTzCTd3wbwhj1akBYJaHkQZxtsIYVtjmyBuMC
+        KTyU50DfDeGFPh3YeoTeE5wxQuNnEr88DZ6ar0KNNqsG3C4U5Bw5tWQ0yO0Y4DAH+vsB/IQcNpO6
+        0KLJWEWSpApml+ZXcQ+0JTQa9yiojfVAn34ydizSQwVgn3ti3M+3PrKOjtjD7iFsTvsHtHqc5qjh
+        N8FkUMPksAuY9LrfHZM9UF965WvDpSxJVSEiJCThonZehcsKd26lMkODA2QITFVbeH695mAyi9oC
+        bIYx41cisLu/9l18t+OIZeFlSLEQgvBAa/dmnX4CW9WVny4rWtrarnEzwxZt4Fis9jIr69TUPgFH
+        ZLwAHTLPmW/UoFrjxqzs7XcLw7JvLEkaEKifhejLUb7NiEK2Bgs3WqAz2Dru7zEaBiYM64+NgWF+
+        LDKa6KVsqfokV+SNlFc5i0fNtuN7zq8wzbWZ7qQ86cz+yC2v8oxhWCiIuD4JsSft1NRsm2jWoN/Z
+        3/91ogVyJ1clt4omIi1uYnR6kjLiT7IkGN8ioI34ogmEiYF1fI3Zzp7p0VT/QmI1fsU+H4tk4Utc
+        fE2bY+PwsMnURz7L4UiEXxvRHnPFi1vNoyVStuXnDPzs+qDn2QRdkAn6xhikyAGuIJs1BaLhP1zx
+        l5WEkUXk4WtUpYz5h34IfnAQtPE3yciOlG3P52A053ZelYAUORPyoI7+KwWN4a+BpjEvDPUy+psY
+        sGWf4nPuSCCjjiyO1zoayzfv2GDfltidbxikRY5YbziIb+5iOa9CQNvGVV8Qs4JqJvItDDJrr5a4
+        vhnnvCYfbE0nZc3mHc3gVudNeI4EfG2Ob8zylTzX4fK18fGtXNFt/WzFyjfCWsdqj/8nW8S46rXl
+        UMRZrUZlt9sOf+PfeuyWYt6lyPA6UEMCNWwC1dvfDNSAQA3qoChyvRGoPoHqN4Hq7tVA5XHpFdNa
+        CYLcYZY9fzp1MKHSeaI1Z3Vjc8gMUWtkvMV+ZiJ0I0/89v7V02gRg8iFKcVzlITsfJmInAIaYNek
+        8/8XkgZQ9xISlJIm+w2tAI6baYMRpzf/1bbOBUx4MVUNe3duCJbfVzx+rY4B610fqMSQB2bXxwgl
+        2a/tGGNHeaZoYQ1oSyAPdqkWZ9h6e4u6VgNbj9EWRttQA1GQTTjnfB5dm0hLvZUOVbWOX/qeMHGw
+        9zgKoyEtO8AEWC30c7zjDEwSkwdfOgCOblR5NZuDAvTPo4Rh1IHOeTDuXj491oe5se9ih3z+ykfA
+        ODOFv2E7hOCPXHE0uymphW4db7i/vy/EwcF+Xzx65E33Dnj3cLI36A+mgh8Mek/kuDfoKhdlTMB+
+        HJz82H8O/6ogoUg9wM3wYNI/5P29g+5gMjmceH3enQzdQW+w1+XDQW/64+A5ADoF0D/2H3lwp1LJ
+        XXqLU4kLOquhCpbzO5x8H6tfLWqmcymc0Go4+DZ+EIXilUfUENxsnrX8uMWlDHi1IppX4anVsuI5
+        5u3T1I/zaIq3BCXvu5+AI1N/BsqYg1R6rePcVfWrccJ5Ap5huazQvxWvHBBXPnkpsAP2dRaYCFPR
+        t2r9i/RaiAZPh7wcHc9hr4FtRVCnhFUNKdAdnzM/aQoGPpFRko4/fOjv9j5+bBVdKzjJeaMz8l6g
+        AirPUwUprY5yMSinL1GiR0vFBPL1DpUpxiIw+pgv+GuBrncUBDy2sh2autBmSdltNpPnfWp4Peep
+        DMV1y4Q36Y1srUYpC4G1rbSDkTPvW0Bs3Kl7W2CMMhdOc6GM18S1ojQtAEtMY7sRHqxC8I2WLADz
+        g02yGR4ynJOb1IkX7JpOYV+xay5Zyi/VOSmet04Fvpgl8FT6L5/oIBRtaKz3U3PiCg0X9JqPVuTC
+        s8/YCWdC154zU2Pl+Ni31gZTYv/6HQZf4LC7bO10VKen2GV7K5/mho3nQzmBANSFaC/A7Vf7DguE
+        lE2bj4RKux3emt3no+175srKmmu061T+F+pJSlhQS1nnGGnZysveqBsjPFoYGgyDOPL0fo5/Kda4
+        2TdnCB7C1grgljGOjk7FVKqR1L0e7zwWLr70DyvGw68KgIMOo20E+Vl4JYIo1ikcxbMe4Sl9f0Iq
+        akABCb74Mvhv+CWu6obCppGEbrDZWC8EaA7ffcnl/BxuwLT7oxizsVKPretwinQFTSF9GmgOHb4M
+        j1fosJ4TzypIWDUag1P15QYYLfQCPbzqcsZBTSeYJwt9vgSNc5cHPFnJkGr1HViC31/iSaG+NuPO
+        O6KkzBe7TCPwNzqYVeIwTfiM0nc2GugMNjs+Kwg2z2bxIGRKY8Fw11wEMdBIamPDUXB+ijHwSY9A
+        D5oE435uBrw+a7WJMhNEPi0D8yCgNw03G8bHT8ZcLGPxt4THsTVatUIPClZDIsCNFt5m49COmAOn
+        J0NGFuMnwUjIogQMQ9BoX7D0FMwGtlXK9ajbZv53qoJOk6YCnZthcJHwUCIpR0cvLy6g4CTm7jzX
+        ryuqbZmEzegTJtgbZXC/4Z++eLVybKirLHdCAIq/0ti0/a0enqqN/qcHJsEqYFhdkggE4Gy8a9YG
+        PKcteCU+qtpMBT18XXyWuOXZ66so0aPCg1RKFgOdUmfm+YklnuChWLJKCmvDRYKjemeJvwBNcVVI
+        Zqk018KEHRF9Iz0Wm3rM0OQpCwWsUzws8l2wWEl6EHHMMFQJAPfBrL6MV9VXdKGFsNqr6liQnVzY
+        jOuMxghmIWljRdlwpPLW8Tv8wbS2mumoCC5oXZU3on2a3LlBigyyd4Xx5uTtq+fPzi/AjNV3XwQF
+        jDKkpHP2GgAVD18C6/2zk9M3z1rH6teGUJ4Agmg8wtuOrcwU0XkXeBZefsJizR9VVg+6mpoUXqxp
+        09zOhCpKzaip9qTUqYR6yHF0gwhD0HQmB947HjjmB3UcBFWH3cYtoBLI+Cn1F0I+Xv0myWi+V0ZL
+        feJM+yx0Llc9nwNh3KsQV7iBeVGNXvzeWBO18fFFxPT0aPN01YrcBc0JtsMS3JJ4Sf5PDG6jYBhl
+        QnNWpWHjSTzUkVMEqm4JYsTMCeTIiRtRKOuNUljkJI7phTPon0ln4od0+A5WJv0o8WsEmlgf+7Qv
+        6reGUgDZ1L2GqfoOJkWCwKwJgi9Ah6yC9huC0RYKTGPDu83Raswx2Ip+NsO0qWShbEv4p/xkA14V
+        xyq1EqPDaaHUq9k2FEbTbrbz6u35xcnr15Ro0zpGQfBEykHNeIxoaxpmllHUmV4TrDDtTjI9jaK0
+        eQ0blM2n6KprVYOh98ee4ppGLG5DoB51yUNolr6zryYKGpraVOFbj6tpshrmH94xAVq5MO9n9Vv6
+        NaaG8atgsMuNbPepr1y0e/lLXvkxLKZmtzkm3hwx/NRYI2p41aSk6U3s1vHJGZmnNRB3x3ZosB0U
+        JH85tua7ZeoLZCZ75UtRLOZF46hYe18cF36SRAkaEriS3qinr4bjV+Fjnuiw5mtjLdRDl5VPM38l
+        Qr6q+OavRKOSo3NFur0rsndY6jmSMfcwPnzEht34huG7KmwAdzVMVxOP7zozolUdwlUh9/E1pio4
+        VovdFgd0tfzLw8PW8ctI0ptEM3Qso0yCJRAn0RXocI9NlkfVELYeo86bMiV6WR/mhNwZ+6YpmyxT
+        seDJJUhgJ7t0kvK3tuovrNegMnWaaF4Kwxdvyt/PXHDM4wYnM5SY8GcG/ITvjlc+55xDrAvNV2AL
+        vZtWBUFsqRDZwKbA/wx7L6xHWqkNUMpsoKTMW9mQA/xEIvNvwog64bgrBUtFdZVPdRCaC7dSriAW
+        06951ut1TRrrsFeHfDdONBVVlEgNSp11vQPiHdxF06kUaaHxH1V5CW4COCqLI9ZvUkCMnUjGVToH
+        Gv9JCopAOQKgDzwTTlG+gNlLd9k5sO1SJH+PMuYrr92+5jwGbwI8BUAOobFe90fMNKNXs9BARaO3
+        cS6lggseBs0n4OBhaM9xMwk0tHW1dAaDYcNkP6VWBjnaTu1vi6tro3EnmfRDIfGt8IkIpPNoOKwP
+        +4tuxF5TIxqWvY+ARlVQx+GvfriEWoEf3kH1C3a8xv1UuDyQnQqagGXBccSwjkS5vkEWGb5fSq4b
+        7AbAySgGzySifLcFvxSqytDLiCGdGojfJHqDnmAmueHNs4sTFAlM5NdFjKeMXpZA8wtf4YrRwSTw
+        RgaqgJsWRbmo+mgtCSvIAFwBd9ITN+MWWgzq+9omJoFBi9q7LOWD5RrYeniiuVlziKKp5eogxYq4
+        wa8aZXZuUK6HC2r80YW10TFkwJp0TF3LkC7BZqMUMzdMlXpYycdRav8PRUZpYs1ZOgdPGv6USl4E
+        0QSjCEU53OteWFp8Xj21v69egewZ9ACxypReTrxjYBn+FB2c1H6Ch+cRqBj9/RB8x9huUSC06bhP
+        1o77C63/DJYhJqrh8RZTIteMANwZLsAtTgUZpN94iujLbN94imaKVeohXsu3FxGqFkxSY5h7IyS9
+        MN7AsXvh4a/FY0Z46M/dqc8us+0oBIXnT4ti2EzxFBZPyxIRR9LHT4HvNCPcNMXG9fgXrdGzd6ff
+        c/b5Wq6r2Vfpc81cvBcC7h0R0Nk13wCD9YKnMFAS9w0Q8O6IAAZ2v8HwyR2HL1aTc/70zTdAZP3O
+        oRBRRyvfAIHJHRHA4x/9hZU6FvQwukWxGHim052MCRPXbGheK6rab8XjyFFYgVVD/1ey/wPiVy9N
+        rWwAAA==
+    headers:
+      Accept-Ranges: [bytes]
+      Age: ['0']
+      Cache-Control: [max-age=3600]
+      Connection: [keep-alive]
+      Content-Encoding: [gzip]
+      Content-Length: ['6844']
+      Content-Type: [text/html; charset=utf-8]
+      Date: ['Thu, 19 Jul 2018 16:48:01 GMT']
+      Last-Modified: ['Tue, 05 Sep 2000 18:04:25 GMT']
+      Server: [nginx]
+      Vary: [Accept-Encoding]
+      Via: [1.1 varnish, 1.1 varnish]
+      X-Cache: ['MISS, MISS']
+      X-Cache-Hits: ['0, 0']
+      X-Runtime: ['0.274922']
+      X-Served-By: ['cache-lax8645-LAX, cache-dca17746-DCA']
+      X-Timer: ['S1532018881.614394,VS0,VE993']
     status: {code: 200, message: OK}
 - request:
     body: null
@@ -172,99 +188,114 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
     method: GET
-    uri: http://search.cpan.org/dist/foo/
+    uri: https://metacpan.org/release/foo/
   response:
-    body: {string: !!python/unicode "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01
-        Transitional//EN\">\n<html>\n <head>\n  <link rel=\"stylesheet\" href=\"http://st.pimg.net/tucs/style.css?3\"
-        type=\"text/css\" />\n<style>\n.styleswitch {\n  text-align: right;\n}\n</style>\n\n\n<script
-        type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js\"></script>\n<script
-        type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/jquery.cookie.js\"></script>\n<script
-        type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/sh_main.min.js\"></script>\n<script
-        type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/sh_perl.min.js\"></script>\n<script
-        type=\"text/javascript\" src=\"http://st.pimg.net/tucs/js/jquery.styleswitch.js\"></script>\n\n<link
-        rel=\"stylesheet\" href=\"http://st.pimg.net/tucs/print.css\" type=\"text/css\"
-        media=\"print\" />\n  <link rel=\"alternate\" type=\"application/rss+xml\"
-        title=\"RSS 1.0\" href=\"http://search.cpan.org/uploads.rdf\" />\n  <link
-        rel=\"search\" href=\"http://st.pimg.net/tucs/opensearch.xml\" type=\"application/opensearchdescription+xml\"
-        title=\"SearchCPAN\" />\n  <title>The CPAN Search Site - search.cpan.org</title>\n
-        <script type=\"text/javascript\">\n    var _gaq = _gaq || [];\n    _gaq.push(['_setAccount',
-        'UA-3528438-1']);\n    _gaq.push(['_trackPageview']);\n  </script>\n </head>\n
-        <body id=\"cpansearch\">\n   <div class=\"header\">\n<center><div class=\"logo\"><a
-        href=\"/\"><img src=\"http://st.pimg.net/tucs/img/cpan_banner.png\" alt=\"CPAN\"></a></div></center>\n<div
-        class=\"menubar\">\n <a href=\"/\">Home</a>\n&middot; <a href=\"/author/\">Authors</a>\n&middot;
-        <a href=\"/recent\">Recent</a>\n&middot; <a href=\"http://log.perl.org/cpansearch/\">News</a>\n&middot;
-        <a href=\"/mirror\">Mirrors</a>\n&middot; <a href=\"/faq.html\">FAQ</a>\n&middot;
-        <a href=\"/feedback\">Feedback</a>\n</div>\n<form method=\"get\" action=\"/search\"
-        name=\"f\" class=\"searchbox\">\n<input type=\"text\" name=\"query\" value=\"\"
-        size=\"35\">\n<br>in <select name=\"mode\">\n <option value=\"all\">All</option>\n
-        <option value=\"module\" >Modules</option>\n <option value=\"dist\" >Distributions</option>\n
-        <option value=\"author\" >Authors</option>\n</select>&nbsp;<input type=\"submit\"
-        value=\"CPAN Search\">\n</form>\n</div>\n\nThe distribution '<b>foo</b>' cannot
-        be found, did you mean one of these<br />\n\n\n<br><div class=t4>\n<small>\nResults
-        <b>1</b> - <b>10</b> of\n<b>10</b> Found</small></div>\n<!--results-->\n<!--item-->\n
-        \ <p><h2 class=sr><a href=\"/~miket/DBIx-Foo-0.03/\"><b>DBIx-Foo</b></a></h2>\n<small>Simple
-        Database Wrapper and Helper Functions. Easy DB integration without the need
-        for an ORM. </small><br/>\n<small>   <a href=\"/~miket/DBIx-Foo-0.03/\">DBIx-Foo-0.03</a>
-        -\n   <span class=date>22 Feb 2013</span> -\n   <a href=\"/~miket/\">Mike
-        Tonks</a>\n</small>\n<!--end item-->\n<!--item-->\n  <p><h2 class=sr><a href=\"/~fayland/Foorum-1.001000/\"><b>Foorum</b></a></h2>\n<small>forum
-        system based on Catalyst </small><br/>\n<small>   <a href=\"/~fayland/Foorum-1.001000/\">Foorum-1.001000</a>
-        -\n   <span class=date>27 Sep 2009</span> -\n   <a href=\"/~fayland/\">Fayland
-        &#x6797;</a>\n</small>\n<!--end item-->\n<!--item-->\n  <p><h2 class=sr><a
-        href=\"/~manwar/Food-ECodes-0.11/\"><b>Food-ECodes</b></a></h2>\n<small>Interface
-        to Food Additive ECodes.</small><br/>\n<small>   <a href=\"/~manwar/Food-ECodes-0.11/\">Food-ECodes-0.11</a><img
-        src=\"http://st.pimg.net/tucs/img/stars-4.0.gif\" alt=\"**** \">\n     (<a
-        href=\"http://cpanratings.perl.org/d/Food-ECodes\">1 Reviews</a>)\n\n -\n
-        \  <span class=date>16 Jan 2015</span> -\n   <a href=\"/~manwar/\">Mohammad
-        S Anwar</a>\n</small>\n<!--end item-->\n<!--item-->\n  <p><h2 class=sr><a
-        href=\"/~strytoast/Football-League-Match-0.01/\"><b>Football-League-Match</b></a></h2>\n<small>A
-        single footie match</small><br/>\n<small>   <a href=\"/~strytoast/Football-League-Match-0.01/\">Football-League-Match-0.01</a>
-        -\n   <span class=date>14 Apr 2003</span> -\n   <a href=\"/~strytoast/\">Stray
-        Taoist</a>\n</small>\n<!--end item-->\n<!--item-->\n  <p><h2 class=sr><a href=\"/~bpostle/I18NFool-0.31/\"><b>I18NFool</b></a></h2>\n<small>Internationalization
-        File Object Oriented Leech</small><br/>\n<small>   <a href=\"/~bpostle/I18NFool-0.31/\">I18NFool-0.31</a>
-        -\n   <span class=date>07 Oct 2004</span> -\n   <a href=\"/~bpostle/\">Bruno
-        Postle</a>\n</small>\n<!--end item-->\n<!--item-->\n  <p><h2 class=sr><a href=\"/~miyagawa/Kwiki-Footnote-0.01/\"><b>Kwiki-Footnote</b></a></h2>\n<small>Footnote
-        plugin for Kwiki</small><br/>\n<small>   <a href=\"/~miyagawa/Kwiki-Footnote-0.01/\">Kwiki-Footnote-0.01</a>
-        -\n   <span class=date>02 Apr 2005</span> -\n   <a href=\"/~miyagawa/\">Tatsuhiko
-        Miyagawa</a>\n</small>\n<!--end item-->\n<!--item-->\n  <p><h2 class=sr><a
-        href=\"/~spurkis/Scalar-Footnote-0.99_01/\"><b>Scalar-Footnote</b></a></h2>\n<small>Attach
-        hidden scalars to references</small><br/>\n<small>   <a href=\"/~spurkis/Scalar-Footnote-0.99_01/\">Scalar-Footnote-0.99_01</a>
-        -\n   <span class=date>30 May 2004</span> -\n   <a href=\"/~spurkis/\">Steve
-        Purkis</a>\n</small>\n<!--end item-->\n<!--item-->\n  <p><h2 class=sr><a href=\"/~plytle/WWW-WuFoo-0.007/\"><b>WWW-WuFoo</b></a></h2>\n<small>Interface
-        to WuFoo.com&#39;s online forms</small><br/>\n<small>   <a href=\"/~plytle/WWW-WuFoo-0.007/\">WWW-WuFoo-0.007</a>
-        -\n   <span class=date>13 Apr 2013</span> -\n   <a href=\"/~plytle/\">Peter
-        Lytle</a>\n</small>\n<!--end item-->\n<!--item-->\n  <p><h2 class=sr><a href=\"/~ikuta/Net-RabbitFoot-1.03/\"><b>Net-RabbitFoot</b></a></h2>\n<small>An
-        Asynchronous and multi channel Perl AMQP client.</small><br/>\n<small>   <a
-        href=\"/~ikuta/Net-RabbitFoot-1.03/\">Net-RabbitFoot-1.03</a> -\n   <span
-        class=date>07 Apr 2011</span> -\n   <a href=\"/~ikuta/\">Masahito Ikuta</a>\n</small>\n<!--end
-        item-->\n<!--item-->\n  <p><h2 class=sr><a href=\"/~barefoot/Dist-Zilla-PluginBundle-BAREFOOT-0.03/\"><b>Dist-Zilla-PluginBundle-BAREFOOT</b></a></h2>\n<small>Dist::Zilla
-        configuration the way BAREFOOT does it</small><br/>\n<small>   <a href=\"/~barefoot/Dist-Zilla-PluginBundle-BAREFOOT-0.03/\">Dist-Zilla-PluginBundle-BAREFOOT-0.03</a>
-        -\n   <span class=date>21 Feb 2013</span> -\n   <a href=\"/~barefoot/\">Buddy
-        Burden</a>\n</small>\n<!--end item-->\n<!--end results-->\n<br>\n\n\n<div
-        class=\"footer\"><div class=\"cpanstats\">110152 Uploads, 31875 Distributions\n150558
-        Modules, 12210 Uploaders\n</div>\n<div class=\"sponsor\">\nhosted by <a href=\"http://www.yellowbot.com\">YellowBot</a><br/>\n<a
-        href=\"http://www.yellowbot.com\"><img alt=\"do. tag. write. share.\" src=\"http://st.pimg.net/tucs/img/yellowbot_logo.gif\"></a>\n</div>\n</div>\n<script
-        type=\"text/javascript\">\nvar gaJsHost = ((\"https:\" == document.location.protocol)
-        ? \"https://ssl.\" : \"http://www.\");\ndocument.write(unescape(\"%3Cscript
-        src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));\n</script>\n<script
-        type=\"text/javascript\" src=\"http://ipv4.v6test.develooper.com/js/v1/v6test.js\"></script>\n\n<script
-        type=\"text/javascript\">\n   // v6.target = '';\n   if (!v6.target) { v6.only_once
-        = true }\n   v6.site = '7A0D89A6-2B82-11DF-B9DA-F61CBD13F020';\n   v6.api_server
-        = 'http://ipv4.v6test.develooper.com';\n   try {\n     v6.test();\n   } catch(err)
-        {}\n</script>\n<script type=\"text/javascript\">\n  $(document).ready(function(){\n
-        \   $(\"a[href^=http:]\").click(function(){\n      var href = $(this).attr('href');\n
-        \     var m = href.match('\\/\\/([^\\/:]+)');\n      _gaq.push(['_trackEvent','External',m[1],'Other']);\n
-        \   });\n    $(\"a[href^=/CPAN/]\").click(function(){\n      var href = $(this).attr('href');\n
-        \     _gaq.push(['_trackEvent','Download',href,'Other']);\n    });\n  });\n</script>\n<!--
-        Thu May 28 19:28:33 2015 GMT (0.035491943359375) @cpansearch2 -->\n </body>\n</html>\n"}
+    body: {string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n\
+        <body bgcolor=\"white\">\r\n<center><h1>301 Moved Permanently</h1></center>\r\
+        \n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"}
     headers:
-      cache-control: [max-age=3599]
-      content-length: ['7467']
-      content-type: [text/html]
-      date: ['Thu, 28 May 2015 19:28:33 GMT']
-      expires: ['Thu, 28 May 2015 20:28:33 GMT']
-      last-modified: ['Thu, 28 May 2015 19:28:33 GMT']
-      server: [Plack/Starman (Perl)]
-    status: {code: 410, message: Gone}
+      Accept-Ranges: [bytes, bytes, bytes, bytes]
+      Age: ['0', '0', '0', '0']
+      Connection: [keep-alive]
+      Content-Length: ['178']
+      Content-Type: [text/html]
+      Date: ['Thu, 19 Jul 2018 16:48:01 GMT']
+      Location: ['https://metacpan.org/release/foo']
+      Server: [nginx]
+      Via: [1.1 varnish, 1.1 varnish]
+      X-Cache: ['MISS, MISS']
+      X-Cache-Hits: ['0, 0']
+      X-Served-By: ['cache-lax8630-LAX, cache-dca17746-DCA']
+      X-Timer: ['S1532018882.667942,VS0,VE125']
+    status: {code: 301, message: Moved Permanently}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+    method: GET
+    uri: https://metacpan.org/release/foo
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      Accept-Ranges: [bytes, bytes, bytes, bytes]
+      Age: ['0', '0', '0', '0']
+      Cache-Control: [private]
+      Connection: [keep-alive]
+      Content-Encoding: [gzip]
+      Content-Type: [text/html; charset=utf-8]
+      Date: ['Thu, 19 Jul 2018 16:48:02 GMT']
+      Server: [nginx]
+      Vary: [Accept-Encoding]
+      Via: [1.1 varnish, 1.1 varnish]
+      X-Cache: ['MISS, MISS']
+      X-Cache-Hits: ['0, 0']
+      X-Runtime: ['0.196082']
+      X-Served-By: ['cache-lax8638-LAX, cache-dca17746-DCA']
+      X-Timer: ['S1532018882.869043,VS0,VE323']
+    status: {code: 404, message: Not Found}
 version: 1
