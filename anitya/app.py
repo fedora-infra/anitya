@@ -20,16 +20,17 @@ from flask_login import LoginManager, current_user
 from social_core.backends.utils import load_backends
 from social_flask.routes import social_auth
 from social_flask_sqlalchemy import models as social_models
+from sqlalchemy.exc import IntegrityError
 
 from anitya.config import config as anitya_config
-from anitya.db import Session, initialize as initialize_db
+from anitya.db import Session, initialize as initialize_db, models
 from anitya.lib import utilities
 from . import ui, admin, api, api_v2, authentication
 import anitya.lib
 import anitya.mail_logging
 
 
-__version__ = '0.12.0'
+__version__ = '0.12.1'
 
 
 def create(config=None):
@@ -81,6 +82,7 @@ def create(config=None):
 
     app.before_request(global_user)
     app.teardown_request(shutdown_session)
+    app.register_error_handler(IntegrityError, integrity_error_handler)
 
     app.context_processor(inject_variable)
 
@@ -124,3 +126,27 @@ def inject_variable():
         user=current_user,
         available_backends=load_backends(anitya_config['SOCIAL_AUTH_AUTHENTICATION_BACKENDS']),
     )
+
+
+def integrity_error_handler(error):
+    """
+    Flask error handler for unhandled IntegrityErrors.
+
+    Args:
+        error (IntegrityError): The exception to be handled.
+
+    Returns:
+        tuple: A tuple of (message, HTTP error code).
+    """
+    # Because social auth provides the route and raises the exception, this is
+    # the simplest way to turn the error into a nicely formatted error message
+    # for the user.
+    if 'email' in error.params:
+        Session.rollback()
+        other_user = models.User.query.filter_by(email=error.params['email']).one()
+        social_auth_user = other_user.social_auth.filter_by(user_id=other_user.id).one()
+        msg = ("Error: There's already an account associated with your email, "
+               "authenticate with {}.".format(social_auth_user.provider))
+        return msg, 400
+
+    return 'The server encountered an unexpected error', 500

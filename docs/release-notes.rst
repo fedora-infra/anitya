@@ -2,6 +2,44 @@
 Release Notes
 =============
 
+master
+======
+
+Dependencies
+------------
+
+* Explicitly depend on ``defusedxml``
+
+Features
+========
+
+* Update CPAN backend to use metacpan.org (`#569
+  <https://github.com/release-monitoring/anitya/pull/569>`_).
+
+* Parse XML from CPAN with defusedxml (`#569
+  <https://github.com/release-monitoring/anitya/pull/569>`_).
+
+
+v0.12.1
+=======
+
+Dependencies
+------------
+
+* Unpin ``straight.plugin`` dependency. It was pinned to avoid a bug which has
+  since been fixed in the latest releases (`#564
+  <https://github.com/release-monitoring/anitya/pull/564>`_).
+
+Bug Fixes
+---------
+
+* Rather than returning an HTTP 500 when authenticating with two separate
+  identity providers using the same email, return a HTTP 400 to indicate the
+  client should not retry the request and inform them they must log in with
+  the original identity provider (`#563
+  <https://github.com/release-monitoring/anitya/pull/563>`_).
+
+
 v0.12.0
 =======
 

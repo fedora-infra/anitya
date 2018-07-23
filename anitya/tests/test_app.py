@@ -21,11 +21,13 @@
 import logging
 import unittest
 
-from sqlalchemy.exc import UnboundExecutionError
+from social_flask_sqlalchemy import models as social_models
+from sqlalchemy.exc import UnboundExecutionError, IntegrityError
 
 from anitya import app
 from anitya.config import config as anitya_config
-from anitya.db import Session
+from anitya.db import Session, models
+from anitya.tests import base
 
 
 class CreateTests(unittest.TestCase):
@@ -71,3 +73,36 @@ class CreateTests(unittest.TestCase):
             'SOCIAL_AUTH_USER_MODEL': 'anitya.db.models.User',
         })
         self.assertEqual('sqlite://', str(Session().get_bind().url))
+
+
+class IntegrityErrorHandlerTests(base.DatabaseTestCase):
+
+    def setUp(self):
+        super(IntegrityErrorHandlerTests, self).setUp()
+        session = Session()
+        user = models.User(email='user@example.com', username='user')
+        social_auth_user = social_models.UserSocialAuth(provider='Demo Provider', user=user)
+        session.add(social_auth_user)
+        session.add(user)
+        session.commit()
+
+    def test_not_email(self):
+        """Assert an IntegrityError without the email key results in a 500 error"""
+        err = IntegrityError('SQL Statement', {}, None)
+
+        msg, errno = app.integrity_error_handler(err)
+
+        self.assertEqual(500, errno)
+        self.assertEqual('The server encountered an unexpected error', msg)
+
+    def test_email(self):
+        """Assert an HTTP 400 is generated from an email IntegrityError."""
+
+        err = IntegrityError('SQL Statement', {'email': 'user@example.com'}, None)
+        expected_msg = ("Error: There's already an account associated with your email, "
+                        "authenticate with Demo Provider.")
+
+        msg, errno = app.integrity_error_handler(err)
+
+        self.assertEqual(400, errno)
+        self.assertEqual(expected_msg, msg)
