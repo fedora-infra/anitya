@@ -1,0 +1,52 @@
+[
+    {
+        "distro": {
+            "name": "GLPI"
+        },
+        "message": {
+            "agent": "http://zlopez.id.fedoraproject.org/",
+            "distro": "GLPI"
+        },
+        "project": null
+    },
+    {
+        "distro": {
+            "name": "Fedorq"
+        },
+        "message": {
+            "agent": "http://zlopez.id.fedoraproject.org/",
+            "distro": "Fedorq"
+        },
+        "project": null
+    },
+    {
+        "distro": {
+            "name": "opensu"
+        },
+        "message": {
+            "agent": "http://carlwgeorge.id.fedoraproject.org/",
+            "distro": "opensu"
+        },
+        "project": null
+    },
+    {
+        "distro": {
+            "name": "CentOS EPEL"
+        },
+        "message": {
+            "agent": "http://carlwgeorge.id.fedoraproject.org/",
+            "distro": "CentOS EPEL"
+        },
+        "project": null
+    },
+    {
+        "distro": {
+            "name": "Fedura"
+        },
+        "message": {
+            "agent": "http://carlwgeorge.id.fedoraproject.org/",
+            "distro": "Fedura"
+        },
+        "project": null
+    }
+]

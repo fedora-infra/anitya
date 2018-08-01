@@ -1,0 +1,244 @@
+[
+    {
+        "distro": null,
+        "message": {
+            "agent": "elyscape",
+            "packages": [
+                {
+                    "distro": "Fedora",
+                    "package_name": "nextcloud"
+                }
+            ],
+            "project": "server",
+            "reason": "Poorly-named clone of nextcloud project. This should be removed and the Fedora package mapping should be moved over to the nextcloud project."
+        },
+        "project": {
+            "backend": "GitHub",
+            "created_on": 1487685191.0,
+            "ecosystem": "http://nextcloud.com",
+            "homepage": "http://nextcloud.com",
+            "id": 13332,
+            "name": "server",
+            "regex": null,
+            "updated_on": 1487930520.0,
+            "version": "v11.0.2RC1",
+            "version_url": null,
+            "versions": [
+                "v11.0.2RC1"
+            ]
+        }
+    },
+    {
+        "distro": null,
+        "message": {
+            "agent": "http://lfdominguez.id.fedoraproject.org/",
+            "packages": [
+                {
+                    "distro": "Fedora",
+                    "package_name": "samba"
+                },
+                {
+                    "distro": "PLD-Linux",
+                    "package_name": "samba"
+                },
+                {
+                    "distro": "Alpine",
+                    "package_name": "samba"
+                },
+                {
+                    "distro": "Arch Linux",
+                    "package_name": "samba"
+                },
+                {
+                    "distro": "Buildroot",
+                    "package_name": "samba4"
+                },
+                {
+                    "distro": "NethServer",
+                    "package_name": "ns-samba"
+                }
+            ],
+            "project": "samba",
+            "reason": "Not catching new releases of samba in github, there is a 4.9.1"
+        },
+        "project": {
+            "backend": "GitHub",
+            "created_on": 1412175112.0,
+            "homepage": "https://www.samba.org/",
+            "id": 4758,
+            "name": "samba",
+            "regex": null,
+            "updated_on": 1538748518.0,
+            "version": "4.9.0rc2",
+            "version_url": "https://github.com/samba-team/samba",
+            "versions": [
+                "4.9.0rc2",
+                "4.9.0rc1",
+                "4.8.3",
+                "4.8.2",
+                "4.8.1",
+                "4.8.0",
+                "4.7.6",
+                "4.7.5",
+                "4.7.4",
+                "4.7.3",
+                "4.7.2",
+                "4.7.1",
+                "4.7.0",
+                "4.6.8",
+                "4.6.7",
+                "4.6.6",
+                "4.6.5",
+                "4.6.4",
+                "4.6.3",
+                "4.6.2",
+                "4.6.1",
+                "4.6.0",
+                "4.5.5",
+                "4.5.4",
+                "4.5.3",
+                "4.5.2",
+                "4.5.1",
+                "4.5.0",
+                "4.4.5",
+                "4.4.4",
+                "4.4.3",
+                "4.4.2",
+                "4.4.0",
+                "4.3.6",
+                "4.3.5",
+                "4.3.4",
+                "4.3.3",
+                "4.3.2",
+                "4.3.1",
+                "4.3.0",
+                "4.2.3",
+                "4.2.2",
+                "4.2.1",
+                "4.2.0",
+                "4.1.17",
+                "4.1.16",
+                "4.1.15",
+                "4.1.14",
+                "4.1.13",
+                "4.1.12",
+                "talloc-2.1.13"
+            ]
+        }
+    },
+    {
+        "distro": null,
+        "message": {
+            "agent": "http://sergiopr.id.fedoraproject.org/",
+            "packages": [
+                {
+                    "distro": "Fedora",
+                    "package_name": "pyfits"
+                }
+            ],
+            "project": "pyfits",
+            "reason": "Please, remove this project as it has been retired in Fedora"
+        },
+        "project": {
+            "backend": "PyPI",
+            "created_on": 1412175075.0,
+            "homepage": "https://pypi.python.org/pypi/pyfits",
+            "id": 3742,
+            "name": "pyfits",
+            "regex": null,
+            "updated_on": 1513686303.0,
+            "version": "3.5",
+            "version_url": null,
+            "versions": [
+                "3.5",
+                "3.4",
+                "3.3"
+            ]
+        }
+    },
+    {
+        "distro": null,
+        "message": {
+            "agent": "http://genodeftest.id.fedoraproject.org/",
+            "packages": [
+                {
+                    "distro": "Fedora",
+                    "package_name": "gnucash"
+                },
+                {
+                    "distro": "Arch Linux",
+                    "package_name": "gnucash"
+                }
+            ],
+            "project": "gnucash",
+            "reason": "The version detection broke, maybe because GitHub changed its formatting?"
+        },
+        "project": {
+            "backend": "GitHub",
+            "created_on": 1412174984.0,
+            "homepage": "https://gnucash.org/",
+            "id": 1205,
+            "name": "gnucash",
+            "regex": null,
+            "updated_on": 1538384881.0,
+            "version": "3.2",
+            "version_url": "https://github.com/Gnucash/gnucash/",
+            "versions": [
+                "3.2",
+                "3.1",
+                "3.0",
+                "2.7.8",
+                "2.7.7",
+                "2.7.6",
+                "2.7.5",
+                "2.7.4",
+                "2.7.3",
+                "2.7.2",
+                "2.7.1",
+                "2.7.0",
+                "2.6.17",
+                "2.6.16",
+                "2.6.15",
+                "2.6.14",
+                "2.6.13b",
+                "2.6.12",
+                "2.6.11",
+                "2.6.10",
+                "2.6.9",
+                "2.6.8",
+                "2.6.7",
+                "2.6.6",
+                "2.6.5",
+                "2.6.4"
+            ]
+        }
+    },
+    {
+        "distro": null,
+        "message": {
+            "agent": "http://frankcrawford.id.fedoraproject.org/",
+            "packages": [
+                {
+                    "distro": "Fedora",
+                    "package_name": "sysusage"
+                }
+            ],
+            "project": "SysUsage-Sar",
+            "reason": "Please delete this version.\r\nReplaced by new info"
+        },
+        "project": {
+            "backend": "Sourceforge",
+            "created_on": 1412175119.0,
+            "homepage": "http://sysusage.darold.net/",
+            "id": 4935,
+            "name": "SysUsage-Sar",
+            "regex": null,
+            "updated_on": 1523363451.0,
+            "version": "5.3",
+            "version_url": "sysusage",
+            "versions": [
+                "5.3"
+            ]
+        }
+    }
+]

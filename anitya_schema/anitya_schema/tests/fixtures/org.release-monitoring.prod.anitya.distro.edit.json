@@ -1,0 +1,13 @@
+[
+    {
+        "distro": {
+            "name": "OpenSUSE"
+        },
+        "message": {
+            "agent": "http://zlopez.id.fedoraproject.org/",
+            "new": "openSUSE",
+            "old": "OpenSUSE"
+        },
+        "project": null
+    }
+]

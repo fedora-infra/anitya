@@ -1,0 +1,52 @@
+[
+    {
+        "distro": {
+            "name": "Fedor"
+        },
+        "message": {
+            "agent": "eseyman",
+            "distro": "Fedor"
+        },
+        "project": null
+    },
+    {
+        "distro": {
+            "name": "OpenMandriva"
+        },
+        "message": {
+            "agent": "http://fdrt.id.fedoraproject.org/",
+            "distro": "OpenMandriva"
+        },
+        "project": null
+    },
+    {
+        "distro": {
+            "name": "Flathub"
+        },
+        "message": {
+            "agent": "http://hadess.id.fedoraproject.org/",
+            "distro": "Flathub"
+        },
+        "project": null
+    },
+    {
+        "distro": {
+            "name": "Devuan"
+        },
+        "message": {
+            "agent": "http://cleaver.id.fedoraproject.org/",
+            "distro": "Devuan"
+        },
+        "project": null
+    },
+    {
+        "distro": {
+            "name": "DragonFly BSD"
+        },
+        "message": {
+            "agent": "http://cleaver.id.fedoraproject.org/",
+            "distro": "DragonFly BSD"
+        },
+        "project": null
+    }
+]
