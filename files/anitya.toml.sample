@@ -52,7 +52,7 @@ social_auth_redirect_is_https = true
 librariesio_platform_whitelist = []
 
 # Default regular expression used for backend
-default_regex = '%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_](?:minsrc|src|source|asc|release))?\.(?:tar|t[bglx]z|tbz2|zip)'
+default_regex = "%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_](?:minsrc|src|source|asc|release))?\.(?:tar|t[bglx]z|tbz2|zip)"
 
 # The logging configuration, in Python dictConfig format.
 [anitya_log_config]
