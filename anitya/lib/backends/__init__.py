@@ -34,9 +34,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.lib.versions import RpmVersion
 import six
 
-
-REGEX = '%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
-        '(?:minsrc|src|source|asc))?\.(?:tar|t[bglx]z|tbz2|zip)'
+REGEX = anitya_config.get('DEFAULT_REGEX')
 
 _log = logging.getLogger(__name__)
 
