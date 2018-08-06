@@ -34,7 +34,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.lib.versions import RpmVersion
 import six
 
-REGEX = anitya_config.get('DEFAULT_REGEX')
+REGEX = anitya_config['DEFAULT_REGEX']
 
 _log = logging.getLogger(__name__)
 
