@@ -109,7 +109,7 @@
 
         examples["{{ plugin.name }}"]="{{ plugin.examples | format_examples }}";
         more_info["{{ plugin.name }}"]="{{ plugin.more_info}}";
-        default_regex["{{ plugin.name }}"]="{{ plugin.default_regex }}";
+        default_regex["{{ plugin.name }}"]="{{ plugin.default_regex_html }}";
 
       {%- endautoescape -%}
     {%- endfor %}
