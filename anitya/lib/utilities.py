@@ -347,6 +347,8 @@ def edit_project(
             'Could not edit this project. Is there already a project '
             'with these name and homepage?')
 
+    return changes
+
 
 def map_project(
         session, project, package_name, distribution, user_id,
