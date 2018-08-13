@@ -603,11 +603,9 @@ class EditProjectTests(DatabaseTestCase):
                 output = c.post(
                     '/project/1/edit', data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
-                self.assertFalse(
+                self.assertTrue(
                     b'<li class="list-group-item list-group-item-default">'
-                    b'Project edited</li>' in output.data)
-                self.assertFalse(
-                    b'<h1>Project: repo_manager</h1>' in output.data)
+                    b'Project edited - No changes were made</li>' in output.data)
 
     def test_edit_to_duplicate_project(self):
         """Assert trying to edit a project to make a duplicate fails."""

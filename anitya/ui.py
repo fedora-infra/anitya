@@ -499,6 +499,8 @@ def edit_project(project_id):
             )
             if changes:
                 flask.flash('Project edited')
+            else:
+                flask.flash('Project edited - No changes were made')
             flask.session['justedit'] = True
         except exceptions.AnityaException as err:
             flask.flash(str(err), 'errors')
