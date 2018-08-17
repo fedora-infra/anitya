@@ -55,7 +55,6 @@ class BaseBackend(object):
             indicate example project URLs.
         default_regex (str): A regular expression to use by default with the
             backend.
-        default_regex_html (str): default_regex modified for HTML rendering
         more_info (str): A string that provides more detailed information to
             the user about the backend.
         default_version_scheme (str): The default version scheme for this
@@ -68,7 +67,6 @@ class BaseBackend(object):
     name = None
     examples = None
     default_regex = None
-    default_regex_html = None
     more_info = None
     default_version_scheme = None
 

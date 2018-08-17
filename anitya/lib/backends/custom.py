@@ -31,7 +31,6 @@ class CustomBackend(BaseBackend):
     more_info = 'More information in the '\
         '<a href=\'/about#test-your-regex\'>about#test-your-regex</a>'
     default_regex = REGEX % {'name': '{project name}'}
-    default_regex_html = default_regex.replace('\\', '\\\\')
 
     @classmethod
     def get_version(cls, project):
