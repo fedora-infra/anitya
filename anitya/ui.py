@@ -484,7 +484,7 @@ def edit_project(project_id):
 
     if form.validate_on_submit():
         try:
-            utilities.edit_project(
+            changes = utilities.edit_project(
                 Session,
                 project=project,
                 name=form.name.data.strip(),
@@ -497,7 +497,10 @@ def edit_project(project_id):
                 user_id=flask.g.user.username,
                 check_release=form.check_release.data,
             )
-            flask.flash('Project edited')
+            if changes:
+                flask.flash('Project edited')
+            else:
+                flask.flash('Project edited - No changes were made')
             flask.session['justedit'] = True
         except exceptions.AnityaException as err:
             flask.flash(str(err), 'errors')

@@ -583,6 +583,30 @@ class EditProjectTests(DatabaseTestCase):
                 self.assertTrue(
                     b'<h1>Project: repo_manager</h1>' in output.data)
 
+    def test_edit_project_no_change(self):
+        """ Test the edit_project function. """
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/project/1/edit', follow_redirects=False)
+                self.assertEqual(output.status_code, 200)
+
+                self.assertTrue(b'<h1>Edit project</h1>' in output.data)
+                self.assertTrue(
+                    b'<td><label for="regex">Regex</label></td>' in output.data)
+
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {
+                    'csrf_token': csrf_token,
+                }
+
+                output = c.post(
+                    '/project/1/edit', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(
+                    b'<li class="list-group-item list-group-item-default">'
+                    b'Project edited - No changes were made</li>' in output.data)
+
     def test_edit_to_duplicate_project(self):
         """Assert trying to edit a project to make a duplicate fails."""
         with login_user(self.flask_app, self.user):
