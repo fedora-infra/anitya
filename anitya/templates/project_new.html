@@ -1,7 +1,7 @@
 {% extends "master.html" %}
 {% from "functions.html" import render_field_in_row %}
 
-{% block title %}Add New Project · Anitya{% endblock %}
+{% block title %}{{ context }} Project · Anitya{% endblock %}
 
 {% block body %}
 
@@ -15,7 +15,7 @@
 {%- endif %}
   <div class="row">
     <div class="col-md-6">
-      <p> {{ context }} your project to anitya</p>
+      <p> {{ context }} your project</p>
       <div class="list-group">
         <span class="list-group-item">
           <table class="table table-condensed">
