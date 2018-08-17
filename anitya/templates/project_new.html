@@ -109,7 +109,11 @@
 
         examples["{{ plugin.name }}"]="{{ plugin.examples | format_examples }}";
         more_info["{{ plugin.name }}"]="{{ plugin.more_info}}";
+        {% if plugin.default_regex -%}
+        default_regex["{{ plugin.name }}"]="{{ plugin.default_regex.replace('\\', '\\\\') }}";
+        {% else %}
         default_regex["{{ plugin.name }}"]="{{ plugin.default_regex }}";
+        {% endif -%}
 
       {%- endautoescape -%}
     {%- endfor %}
