@@ -52,6 +52,8 @@ social_auth_login_error_url = "/login-error/"
 
 librariesio_platform_whitelist = ['pypi', 'rubygems']
 
+default_regex = "a*b*"
+
 [anitya_log_config]
     version = 1
     disable_existing_loggers = true
@@ -166,6 +168,7 @@ class LoadTests(unittest.TestCase):
             'SOCIAL_AUTH_LOGIN_REDIRECT_URL': '/',
             'SOCIAL_AUTH_LOGIN_ERROR_URL': '/login-error/',
             'LIBRARIESIO_PLATFORM_WHITELIST': ['pypi', 'rubygems'],
+            'DEFAULT_REGEX': 'a*b*',
         }
         config = anitya_config.load()
         self.assertEqual(sorted(expected_config.keys()), sorted(config.keys()))

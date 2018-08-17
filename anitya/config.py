@@ -93,6 +93,9 @@ DEFAULTS = dict(
     SOCIAL_AUTH_LOGIN_REDIRECT_URL='/',
     SOCIAL_AUTH_LOGIN_ERROR_URL='/login-error/',
     LIBRARIESIO_PLATFORM_WHITELIST=[],
+    DEFAULT_REGEX='%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
+                  '(?:minsrc|src|source|asc|release))?\.(?:tar|t[bglx]z|tbz2|zip)',
+
 )
 
 # Start with a basic logging configuration, which will be replaced by any user-
