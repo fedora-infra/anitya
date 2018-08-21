@@ -199,13 +199,13 @@ class BaseBackend(object):
 
         :arg url: the url to request (get).
         :type url: str
+        :arg insecure: flag for secure/insecure connection (default False)
+        :type insecure: bool
+        :type use_token: bool
         :return: the request object corresponding to the request made
         :return type: Request
         '''
-        user_agent = 'Anitya %s at upstream-monitoring.org' % \
-            pkg_resources.get_distribution('anitya').version
-        from_email = anitya_config.get('ADMIN_EMAIL')
-
+        headers = self.get_header()
         if '*' in url:
             url = self.expand_subdirs(url)
 
@@ -213,19 +213,14 @@ class BaseBackend(object):
             socket.setdefaulttimeout(30)
 
             req = urllib2.Request(url)
-            req.add_header('User-Agent', user_agent)
-            req.add_header('From', from_email)
+            req.add_header('User-Agent', headers.user_agent)
+            req.add_header('From', headers.from_email)
             resp = urllib2.urlopen(req)
             content = resp.read()
 
             return content
 
         else:
-            headers = {
-                'User-Agent': user_agent,
-                'From': from_email,
-            }
-
             # Works around https://github.com/kennethreitz/requests/issues/2863
             # Currently, requests does not start new TCP connections based on
             # TLS settings. This means that if a connection is ever started to
@@ -246,6 +241,27 @@ class BaseBackend(object):
                     url, headers=headers, timeout=60, verify=True)
 
             return resp
+
+    @classmethod
+    def get_header(self):
+        ''' Get HTTP header.
+
+        This method returns predefined header for for Anitya.
+        The header will contain user-agent and e-mail.
+
+        :return: header dictionary
+        :return type: dict
+        '''
+        user_agent = 'Anitya %s at upstream-monitoring.org' % \
+            pkg_resources.get_distribution('anitya').version
+        from_email = anitya_config.get('ADMIN_EMAIL')
+
+        headers = {
+            'User-Agent': user_agent,
+            'From': from_email,
+        }
+
+        return headers
 
 
 def get_versions_by_regex(url, regex, project, insecure=False):

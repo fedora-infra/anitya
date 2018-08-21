@@ -28,6 +28,8 @@ import unittest
 
 import mock
 
+import pkg_resources
+
 from anitya.config import config
 from anitya.lib import backends
 from anitya.lib.exceptions import AnityaPluginException
@@ -62,6 +64,21 @@ class BaseBackendTests(unittest.TestCase):
         insecure_session = mock_session.return_value.__enter__.return_value
         insecure_session.get.assert_called_once_with(
             url, headers=self.headers, timeout=60, verify=False)
+
+    def test_get_header(self):
+        """Assert HTTP header creation"""
+        user_agent = 'Anitya %s at upstream-monitoring.org' % \
+            pkg_resources.get_distribution('anitya').version
+        from_email = config.get('ADMIN_EMAIL')
+
+        headers_exp = {
+            'User-Agent': user_agent,
+            'From': from_email,
+        }
+
+        headers = self.backend.get_header()
+
+        self.assertEqual(headers_exp, headers)
 
 
 class GetVersionsByRegexTextTests(unittest.TestCase):
