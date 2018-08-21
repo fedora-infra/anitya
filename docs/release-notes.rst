@@ -19,6 +19,11 @@ Features
 * Parse XML from CPAN with defusedxml (`#569
   <https://github.com/release-monitoring/anitya/pull/569>`_).
 
+* Change edit message for project, when no edit actually happened (`#579
+  <https://github.com/release-monitoring/anitya/pull/579>`_).
+
+* Fix wrong title on Edit page (`#578
+  <https://github.com/release-monitoring/anitya/pull/578>`_).
 
 v0.12.1
 =======
