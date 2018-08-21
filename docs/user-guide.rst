@@ -46,6 +46,7 @@ The backends available are:
 * ``freshmeat.py`` for projects hosted on
   `freshmeat.net <http://freshmeat.net/>`_ / `freecode.com <http://freecode.com/>`_
 * ``github.py`` for projects hosted on `github.com <https://github.com/>`_
+  using `Github v4 API <https://developer.github.com/v4/>`
 * ``gnome.py`` for projects hosted on
   `download.gnome.org <https://download.gnome.org/sources/>`_
 * ``gnu.py`` for projects hosted on `gnu.org <https://www.gnu.org/software/>`_

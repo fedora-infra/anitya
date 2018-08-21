@@ -95,7 +95,8 @@ DEFAULTS = dict(
     LIBRARIESIO_PLATFORM_WHITELIST=[],
     DEFAULT_REGEX='%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'\
                   '(?:minsrc|src|source|asc|release))?\.(?:tar|t[bglx]z|tbz2|zip)',
-
+    # Token for GitHub API
+    GITHUB_ACCESS_TOKEN=None,
 )
 
 # Start with a basic logging configuration, which will be replaced by any user-
