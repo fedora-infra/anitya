@@ -1,0 +1,225 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+    method: GET
+    uri: https://gitlab.gnome.org/api/v4/projects/GNOME%2Fgnome-video-arcade/repository/tags
+  response:
+    body: {string: !!python/unicode '[{"name":"0.8.8","message":"GNOME Video Arcade
+        0.8.8\n-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEErDEg6UgxL8MvuQzRYS6HsnWBOlkFAln3t9sACgkQYS6HsnWB\nOlktrxAAmFLyineyHHNzYx+f1g6flMcpxqxsZ3RM4n0D/qGc24+GLriNTtyowKnj\nLHwIJjmFknjbVCjgK3Ym/sVf0isEKeRmOE0bC6pRx9/z1FzXtKnZD/w797NEmliK\n8ydz4trI7NpuVvnTu9bFlBc/xDJE1UOU3p2Z48skla+BMWHTFCwwuSc6+pNhbPLO\nAMPEiECOX4Ecw6fMtM/bYV7rSH5fuFGbU6RaZMHp9tWFwdgBKy4vm0Tibl/QH6GG\nxSBGiqhKYVKqM1ZdZ24lO8eDYAbSx9UZbH7dibQ9aBe9w3fCGMAXRnGkU51kZjq5\nhEDrVou0sCx5tcJOYH8OeIfLF9orxgxhlujnXKPm0J2ePVIC0/cJHpAD/0CarGD8\nqmcyZw2ys45z6N07gCDlz0Mby7Z4I0XZ7JKk8j9PzNp+cu/uvEhTaWVeNLaWMPIA\n90nQRWfQiqX3TzBIVv26zEOo2hCw2xuzVVSGkiIshAwf5oAbJ8Pw9kSik/vl5XfD\nqX3hOC3OZYOw/nZc2efGzg3v65CNPj8aJL8Q2NGjKoW8nEPbqxV121ItkHpf4P+o\na/2qWrGqToZ2T0ujP0NhU6Zuh8FR8XOCYZYwBN6JfOxXpKGhfVzXlK6CnLKR65gs\n8/BCr1isPGqTgi+vjG1HARNoq0SGmYKnLhEuOrfzUA8cL6shIf8=\n=SvGY\n-----END
+        PGP SIGNATURE-----","target":"e8205537ba3f09bbc829d2df1042b6d872fdb45a","commit":{"id":"438e659ce98c5b05d87aae1a3f5d52a95958c473","short_id":"438e659c","title":"Update
+        NEWS and README for 0.8.8 release.","created_at":"2017-10-30T23:37:33.000Z","parent_ids":["724b24cc5979fced420bcde676c93fe9e3afcbbd"],"message":"Update
+        NEWS and README for 0.8.8 release.\n","author_name":"Matthew Barnes","author_email":"mbarnes@fedoraproject.org","authored_date":"2017-10-30T23:37:33.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@fedoraproject.org","committed_date":"2017-10-30T23:37:33.000Z"},"release":null},{"name":"0.8.7","message":"0.8.7\n-----BEGIN
+        PGP SIGNATURE-----\n\niQFHBAABCAAxFiEEzidTTK62AFbQTyCldXKyiJROSJEFAlkDW9kTHG1iYXJuZXNA\ncmVkaGF0LmNvbQAKCRB1crKIlE5IkTFwB/9NIyMUqoaHxCIqUpQkQLiChKE5/wbU\nOM7L4btMFFhJbfVWqFSNxd9BGyJPKGK/mxeTm9zP8k1KuqbZusiZ5KM0de21twlf\nGbixhJDDc6l474q+WGVUSIC/jg8AmqlgAxDrjJDgEtavWSJNaWB6HDBIdADvxFge\nZ06wdY7WLpB2myPrq0Kmhj3n5pJUZ+NsmylKkT66BlnnAoexS9My2pfCa6qNer2t\nSaSK/BHnQ9w8fhHVXecT8qRJ84QRoOnDv0UdrVFvc81QwYtVCuYhpxZ8D/PtX9ps\nrJ2gyM69X3OIcUG7wx355pEPez4+foAPBfhSXcUt0Y3UScSccFz+KaWZ\n=vZ9p\n-----END
+        PGP SIGNATURE-----","target":"92140923789b35657beab979b1a664b6533cc429","commit":{"id":"3bc68f581c20ffac72d334b5e0e6856a0eb952a3","short_id":"3bc68f58","title":"Update
+        NEWS and README for 0.8.7 release.","created_at":"2017-04-28T15:08:50.000Z","parent_ids":["4d10c20cf6f4f62d91a86d2bb0ece095c80aff9b"],"message":"Update
+        NEWS and README for 0.8.7 release.\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2017-04-28T15:04:07.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2017-04-28T15:08:50.000Z"},"release":null},{"name":"0.8.6","message":"0.8.6\n-----BEGIN
+        PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWzdLZAAoJEHVysoiUTkiR404IAJiRd/afeRZqZ6TCs7S/OJ7r\nVmFwRPLf0Cc+kOZ2m3EGwVHMgmpz8sCaVE8X0hCZvGFZ5bAi2qhJHUVo8Shg30aw\ncqCSmQPGjUan+mgG+jBNiLLcrqnRMlA8gt8Tvexdv5Gl6KG0Z7R6k3CTCm8Iav1w\nBiFtyDGRo4zP3OZzEjWJwgYzPY+uyO19j4+alWNTRTPfeGXRru1zCbBN7nr4VTMF\nLyiT4r1eRavMCCzIVeY8mozdE2SsK6A7dfJu5d6aUYMTa9ncpczPZETlZCAXxHcj\n6xQ66zpJJf+IZNsO6I1uOh7Cg+oIwD6IiKNkdrlOisO1U7ErfbdrQQUadJtkH9M=\n=tG/m\n-----END
+        PGP SIGNATURE-----","target":"a4ae004537535da54e8817cfac7685a890f5b18c","commit":{"id":"c7d8be1ff66eb9887bd4086f31bf83f79bcebb50","short_id":"c7d8be1f","title":"Update
+        NEWS and README for 0.8.6 release.","created_at":"2016-02-24T15:56:13.000Z","parent_ids":["ff0691c1627c5180295c0ab599ca6986fc55a166"],"message":"Update
+        NEWS and README for 0.8.6 release.\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2016-02-24T15:56:13.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2016-02-24T15:56:13.000Z"},"release":null},{"name":"0.8.5","message":"0.8.5\n-----BEGIN
+        PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJV9yy1AAoJEHVysoiUTkiRu3YH+QE3mUd14CTjhHLEjyqxlkak\ncAE5QQ+uHUK7B4PAt34trDTHD7p060hLtNuYbl6kJaepKmGdXUTgA8miCZztljds\nye2kLjO9223U9gcSWgzePng2GlZh7hJnKUH5xlX2JlidlvhFs6snvyyK1GDne9do\nuQ/bRMy4x3tOFH2pIyIL7GGHbXzFPYJQ5Ay8vIQ0mxgz63K8wxyL/qrkCeIJBiIe\n0VpalNdmyyncj5G4kMWIdBUx17FC3XcuARGCwnwjJQRLgZadJa3FpNPZCroRVcWy\nsUW7V0VGLB2dV6ts2RbxJw2qqpT25z6n08PgXQCN8rOdvRHN6GV5OV6Abaf2O7Q=\n=x3ld\n-----END
+        PGP SIGNATURE-----","target":"ab83ffb82f281c1be2809bd308d7b08efe3d9102","commit":{"id":"79bd5e5d9179897583bada4e09d22ba9b4ef0aee","short_id":"79bd5e5d","title":"Update
+        NEWS and README for 0.8.5 release.","created_at":"2015-09-14T20:22:37.000Z","parent_ids":["3fead008a774dc8bdb5d6d41a5f943f88c42e5cc"],"message":"Update
+        NEWS and README for 0.8.5 release.\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2015-09-14T20:22:37.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2015-09-14T20:22:37.000Z"},"release":null},{"name":"0.8.4","message":"0.8.4\n-----BEGIN
+        PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJV3mh4AAoJEHVysoiUTkiRYXcIAI496xpHok4WLqLK/BuW5jxK\nZVFvmfNvx3wgqq8Xst0QoNpfwdTk40vQLkcpvw6Cn9DcZnESqakGzWli4K3tcRTw\nYn9JkfgzzqbEwJ+uoa+DP/uk5Nx1VBG2zwBoXHz7HUdCp/6hwH/dPrt9IGJxSoSt\nHPMIi7RIjMyI6ctk8ZLtg4PSKvt+iYLVJccg4DZ7/ypDGkI+H1WzCr7+EdSSBIkQ\nBKWzAwGqSmJnxpUAF1jSouluJPaRVCHXEkgchxtezpYgFgzTv8Vjnhkq/gihZWMP\nLTKkY03cgPSo+4omEQLBQrR7TemS+qBH7x6ycV9v5HPTyC41nbgSljpZXCC0Ib8=\n=0AHg\n-----END
+        PGP SIGNATURE-----","target":"1029c62d608ff8401666310b4e3439f6f830c1a7","commit":{"id":"8953fc7709ecc6ca5bee50dad2903dae200ea0e2","short_id":"8953fc77","title":"Update
+        NEWS and README for 0.8.4 release.","created_at":"2015-08-27T01:28:15.000Z","parent_ids":["a7a087322d98e9187264bd25bbb9626cd473e700"],"message":"Update
+        NEWS and README for 0.8.4 release.\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2015-08-27T01:28:15.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2015-08-27T01:28:15.000Z"},"release":null},{"name":"0.8.3","message":"GNOME
+        Video Arcade 0.8.3","target":"0ae1783161a4c8e8bfe81de074f3564d94ab6d82","commit":{"id":"3a3390201acf9f29f4103cc1942d34d23ac58455","short_id":"3a339020","title":"Update
+        NEWS and README for 0.8.3 release.","created_at":"2012-02-16T14:09:33.000Z","parent_ids":["dbc304fa8b48e145a50006cda5e16c8de62b9dcf"],"message":"Update
+        NEWS and README for 0.8.3 release.\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2012-02-13T14:22:52.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2012-02-16T14:09:33.000Z"},"release":null},{"name":"0.8.2","message":"GNOME
+        Video Arcade 0.8.2","target":"338616b2ec8fbe911c0da33d32685dae92f34605","commit":{"id":"c104cb85ae297a32c309f7e8d72ffe5323ee8df8","short_id":"c104cb85","title":"Update
+        NEWS and README for 0.8.2 release.","created_at":"2012-01-16T03:54:19.000Z","parent_ids":["ae2af5e8cee80f107522f3672cb94e8638aaf582"],"message":"Update
+        NEWS and README for 0.8.2 release.\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2012-01-16T03:41:02.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2012-01-16T03:54:19.000Z"},"release":null},{"name":"0.8.1","message":"GNOME
+        Video Arcade 0.8.1","target":"b669f3cdc55f86625f6a71594f1205f730ff5d23","commit":{"id":"34dff261af30022d251eb25d3658efc9e426ccba","short_id":"34dff261","title":"Update
+        NEWS and README for 0.8.1 release.","created_at":"2012-01-15T21:41:11.000Z","parent_ids":["7e21eacb10c68956411f361cbc20c221e8c5d45e"],"message":"Update
+        NEWS and README for 0.8.1 release.\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2012-01-15T21:41:11.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2012-01-15T21:41:11.000Z"},"release":null},{"name":"0.8.0","message":"0.8.0","target":"17801d2aed32b80d6d48366147d07147d3d69971","commit":{"id":"c21560021dd9253f243a168a450785f4793863f3","short_id":"c2156002","title":"Update
+        NEWS and README for 0.8.0 release.","created_at":"2011-05-15T22:57:15.000Z","parent_ids":["9cc0833fb16a2daeebed8d344611b76ad339c2fa"],"message":"Update
+        NEWS and README for 0.8.0 release.\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2011-05-15T22:53:36.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2011-05-15T22:57:15.000Z"},"release":null},{"name":"0.7.1","message":"0.7.1","target":"2aeea65d1bbf503909a583cf3e620b75bbfcc6ed","commit":{"id":"c6488320cb42462c5435665d6fb598bb1fbe98c3","short_id":"c6488320","title":"Update
+        NEWS for 0.7.1 release.","created_at":"2010-06-01T01:15:02.000Z","parent_ids":["12ea158f652903855d32870fc1858cf9a7a8511c"],"message":"Update
+        NEWS for 0.7.1 release.\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2010-06-01T01:15:02.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2010-06-01T01:15:02.000Z"},"release":null},{"name":"0.7.0","message":"GNOME
+        Video Arcade 0.7.0","target":"16bc8440639291aa4f5f40044c72ce263979a317","commit":{"id":"1f75c652c1faff2f498ef012f4379bd3fc041f05","short_id":"1f75c652","title":"Update
+        NEWS for 0.7.0 release.","created_at":"2010-03-12T00:22:56.000Z","parent_ids":["6b27870a98b00fab50c0d7d9d5797ca97cc44350"],"message":"Update
+        NEWS for 0.7.0 release.\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2010-03-12T00:22:56.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2010-03-12T00:22:56.000Z"},"release":null},{"name":"0.6.8","message":"0.6.8","target":"8587595c70af8bbabfb71fedc7b37b00600465ce","commit":{"id":"e68cb6692562b4cf83b2098c45b8bbdfa79ccdaa","short_id":"e68cb669","title":"Update
+        NEWS for 0.6.8 release.","created_at":"2010-01-24T03:26:21.000Z","parent_ids":["b9e5cf7984fe59d1214b9ef1302f061172f817ea"],"message":"Update
+        NEWS for 0.6.8 release.\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2010-01-24T03:14:32.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2010-01-24T03:26:21.000Z"},"release":null},{"name":"0.6.7","message":"Tagging
+        0.6.7 release\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1.4.9 (GNU/Linux)\n\niEYEABECAAYFAkn05F4ACgkQwxelusg+xO1DxQCfbSUZlAyDeIBJU8YWiyVTKJJE\neHYAoJ/nIWTgyCvWOKWcsx1+VDyN23Wk\n=LWpn\n-----END
+        PGP SIGNATURE-----","target":"5acacf1889d0a8f28b131ece4bc09b7905cc9931","commit":{"id":"bc80bf094e5344372c713e852e5964209a72ceee","short_id":"bc80bf09","title":"Final
+        preparations for 0.6.7.","created_at":"2009-04-26T22:45:20.000Z","parent_ids":["177d47555d569e1604b8382977c7a5ec99cfa21c"],"message":"Final
+        preparations for 0.6.7.\n\n2009-04-26  Matthew Barnes  \u003cmbarnes@redhat.com\u003e\n\n\t*
+        NEWS: Update for 0.6.7\n\n\t* docs/reference:\n\tUpdate developer documentation.\n\n\t*
+        src/gva-input-file.c:\n\tDocument the new functions.\n","author_name":"Matthew
+        Barnes","author_email":"mbarnes@redhat.com","authored_date":"2009-04-26T22:40:28.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2009-04-26T22:45:20.000Z"},"release":null},{"name":"0.6.6","message":"GNOME
+        Video Arcade 0.6.6","target":"6d1a822c3ca8246847a29ed6ee79aeea3f3c169c","commit":{"id":"b0374f8672c2bb743c38667a7a02777bc8692fd7","short_id":"b0374f86","title":"2009-03-15  Matthew
+        Barnes  \u003cmbarnes@redhat.com\u003e","created_at":"2009-03-16T03:27:05.000Z","parent_ids":["9a8ec1092991d29ca1353943c0b473041a99167b"],"message":"2009-03-15  Matthew
+        Barnes  \u003cmbarnes@redhat.com\u003e\n\n\t* NEWS: Update for 0.6.6\n","author_name":"Matthew
+        Barnes","author_email":"mbarnes@redhat.com","authored_date":"2009-03-16T03:27:05.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2009-03-16T03:27:05.000Z"},"release":null},{"name":"0.6.5","message":"","target":"c1a4b922c661c451c5e4bbb30de4e27496e4c116","commit":{"id":"c1a4b922c661c451c5e4bbb30de4e27496e4c116","short_id":"c1a4b922","title":"Fix
+        Subversion breakage?","created_at":"2008-11-21T12:38:11.000Z","parent_ids":["574770a886a813343cbbbfc65c9fc40fb73c256c"],"message":"Fix
+        Subversion breakage?\n\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2008-11-21T12:38:11.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2008-11-21T12:38:11.000Z"},"release":null},{"name":"0.6.4","message":"","target":"625b2b4631d6929609282e48981a8a0257bca7c8","commit":{"id":"625b2b4631d6929609282e48981a8a0257bca7c8","short_id":"625b2b46","title":"Tag
+        version 0.6.4.","created_at":"2008-09-28T00:31:10.000Z","parent_ids":["b90ae8316ddc6454408ffb16e04978b073ff2a0f"],"message":"Tag
+        version 0.6.4.\n\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2008-09-28T00:31:10.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2008-09-28T00:31:10.000Z"},"release":null},{"name":"0.6.3","message":"","target":"e627d79e2ed6d19f0caa23db759cbd77eeff924a","commit":{"id":"e627d79e2ed6d19f0caa23db759cbd77eeff924a","short_id":"e627d79e","title":"Tag
+        version 0.6.3","created_at":"2008-06-29T17:55:05.000Z","parent_ids":["1b08f0dd4b4cd6c81946392a6e0af98df9367cc7"],"message":"Tag
+        version 0.6.3\n\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2008-06-29T17:55:05.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2008-06-29T17:55:05.000Z"},"release":null},{"name":"0.6.2","message":"","target":"3e34abdca538845ce253aa2ac3275d33e723720b","commit":{"id":"3e34abdca538845ce253aa2ac3275d33e723720b","short_id":"3e34abdc","title":"Tag
+        version 0.6.2","created_at":"2008-06-16T20:14:54.000Z","parent_ids":["5c4c0ed73242bc9089bd410b0429f61319243547"],"message":"Tag
+        version 0.6.2\n\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2008-06-16T20:14:54.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2008-06-16T20:14:54.000Z"},"release":null},{"name":"0.6.1.1","message":"","target":"3e3fa2b2ea7025a9b4aa7615ced1afe4eb53e6f1","commit":{"id":"3e3fa2b2ea7025a9b4aa7615ced1afe4eb53e6f1","short_id":"3e3fa2b2","title":"Tag
+        version 0.6.1.1.","created_at":"2008-05-25T06:05:34.000Z","parent_ids":["68eb8dbb729baeb60f429ae56707703517e7711a"],"message":"Tag
+        version 0.6.1.1.\n\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2008-05-25T06:05:34.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2008-05-25T06:05:34.000Z"},"release":null},{"name":"0.6.1","message":"","target":"4d93dd270e86613d6b22390d31927cd0c4fbdecc","commit":{"id":"4d93dd270e86613d6b22390d31927cd0c4fbdecc","short_id":"4d93dd27","title":"Tag
+        version 0.6.1.","created_at":"2008-05-17T19:32:03.000Z","parent_ids":["e008445ccb9319ae2139b12091ce2cde8e388229"],"message":"Tag
+        version 0.6.1.\n\n","author_name":"Matthew Barnes","author_email":"mbarnes@redhat.com","authored_date":"2008-05-17T19:32:03.000Z","committer_name":"Matthew
+        Barnes","committer_email":"mbarnes@redhat.com","committed_date":"2008-05-17T19:32:03.000Z"},"release":null}]'}
+    headers:
+      cache-control: ['max-age=0, private, must-revalidate']
+      connection: [close]
+      content-length: ['15397']
+      content-type: [application/json]
+      date: ['Wed, 22 Aug 2018 15:48:04 GMT']
+      etag: [W/"581c52c49923baa23572741fb3bee301"]
+      link: ['<https://gitlab.gnome.org/api/v4/projects/GNOME%2Fgnome-video-arcade/repository/tags?id=GNOME%2Fgnome-video-arcade&order_by=updated&page=2&per_page=20&sort=desc>;
+          rel="next", <https://gitlab.gnome.org/api/v4/projects/GNOME%2Fgnome-video-arcade/repository/tags?id=GNOME%2Fgnome-video-arcade&order_by=updated&page=1&per_page=20&sort=desc>;
+          rel="first", <https://gitlab.gnome.org/api/v4/projects/GNOME%2Fgnome-video-arcade/repository/tags?id=GNOME%2Fgnome-video-arcade&order_by=updated&page=3&per_page=20&sort=desc>;
+          rel="last"']
+      server: [Apache/2.4.6 (Red Hat Enterprise Linux)]
+      strict-transport-security: [max-age=15768000;includeSubdomains]
+      vary: [Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-next-page: ['2']
+      x-page: ['1']
+      x-per-page: ['20']
+      x-prev-page: ['']
+      x-request-id: [96ee068b-f2dd-4290-a205-27f61b42183a]
+      x-runtime: ['0.148450']
+      x-total: ['44']
+      x-total-pages: ['3']
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+    method: GET
+    uri: https://gitlab.com/api/v4/projects/foo%2Fbar/repository/tags
+  response:
+    body: {string: !!python/unicode '{"message":"404 Project Not Found"}'}
+    headers:
+      cache-control: [no-cache]
+      content-length: ['35']
+      content-type: [application/json]
+      date: ['Wed, 22 Aug 2018 15:48:05 GMT']
+      ratelimit-limit: ['600']
+      ratelimit-observed: ['1']
+      ratelimit-remaining: ['599']
+      ratelimit-reset: ['1534952945']
+      ratelimit-resettime: ['Thu, 22 Aug 2018 15:49:05 GMT']
+      server: [nginx]
+      vary: [Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-request-id: [f74167e1-f9a4-4619-8ed1-45ed77f23ac4]
+      x-runtime: ['0.018326']
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+    method: GET
+    uri: https://gitlab.com/api/v4/projects/xonotic%2Fxonotic/repository/tags
+  response:
+    body: {string: !!python/unicode '[{"name":"xonotic-v0.8.2","message":"Xonotic
+        0.8.2 release","target":"ef3adb2b7b693d006003e14f2b96e819b25e9c68","commit":{"id":"b0fef534526f470a1b3fc97f61206d454889656c","short_id":"b0fef534","title":"Add
+        the stupid Transifex cronjob here, for reference.","created_at":"2017-03-30T19:23:09.000Z","parent_ids":["3dec554e621255936f59c206d69082280fe314ae"],"message":"Add
+        the stupid Transifex cronjob here, for reference.\n","author_name":"Rudolf
+        Polzer","author_email":"divVerent@xonotic.org","authored_date":"2017-03-30T19:23:09.000Z","committer_name":"Rudolf
+        Polzer","committer_email":"divVerent@xonotic.org","committed_date":"2017-03-30T19:23:09.000Z"},"release":null},{"name":"xonotic-v0.8.1","message":"Xonotic
+        0.8.1 release","target":"f49d73e41289961839dd5095f7a172d64c5a25ba","commit":{"id":"52d1e5f4243cf60dfd2a7ff5ab09772d6a2ed4ee","short_id":"52d1e5f4","title":"Pass
+        the input path.","created_at":"2015-08-25T01:55:38.000Z","parent_ids":["d5c8c7b29411ee2c0fc4936b6e194a57487ca403"],"message":"Pass
+        the input path.\n","author_name":"Rudolf Polzer","author_email":"divverent@xonotic.org","authored_date":"2015-08-25T01:55:38.000Z","committer_name":"Rudolf
+        Polzer","committer_email":"divverent@xonotic.org","committed_date":"2015-08-25T01:55:38.000Z"},"release":null},{"name":"xonotic-v0.8.0","message":"Xonotic
+        0.8.0 release","target":"b511355784ec77fdff46ae777e47443a467cdf01","commit":{"id":"6909a1d4eba0c4e60a898054e89cbb218cec6003","short_id":"6909a1d4","title":"Also
+        load the menu bold font at size 12 as we are using that.","created_at":"2015-01-11T20:34:45.000Z","parent_ids":["9100bb8613faba24f33d163dc49065d65590c431"],"message":"Also
+        load the menu bold font at size 12 as we are using that.\n","author_name":"Rudolf
+        Polzer","author_email":"divverent@xonotic.org","authored_date":"2015-01-11T20:34:45.000Z","committer_name":"Rudolf
+        Polzer","committer_email":"divverent@xonotic.org","committed_date":"2015-01-11T20:34:45.000Z"},"release":null},{"name":"xonotic-v0.7.0","message":"Xonotic
+        Release 0.7\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1.4.10 (GNU/Linux)\n\niQIcBAABAgAGBQJRtHopAAoJEJjEcuNnBxLlpcEQAKhBiw77HOQ34KnrRR6M33V5\nWWuwQGv+rqexcU7tRsEXt927piHZFBUAB/1rEa+FLO4ZVGv0Uu6o84dkhqdt0BTi\nvfPE6psSnegWW2ZbZEBXxFT8aMOOhBvwtXtJCP4DA93GLyvrIO9qcWPZLqOZSxJa\nN31K+UnMrQrUvOyoXH4Otqgud9v8TvESAXartSGu7bYDgVxZrgQYy+wk7GICR8qw\nPbL64Wuz+D+9tyc85kpnk0txBdyfFCNvuACiw4vO+m2Dv6VdYOVaqnK3Ph/IY46M\noyNRFFA1of4P9pHZcHQCbjqcVQ0KGKPalOvvMz4Oiegex8Yl035F8NS60QZ1u/d/\n22V1tjWpZ+awuRWWzYrAT/7yhrYqe+xG1xzVw0P6lZSBrL1R4eRLTg4aLyoZGexD\nmz0SEdKUs+m8h2FZ46zO0niNAmEjmLhhrQHmqVShKN0PwYq+v0oAyw+idc64Fth5\nP7NHIxWbQY+xEQlMC4N/fPBbJM+RWl37Xr89bCmiUE9BkjjKkBR1VkonMMeB+w9A\nL5cqg1BcEqBeFF8MPiVKvYmPMLrQY0YP7E6kBm7Ut3/JJHo9/nW0Ayi3wEGEUVVc\nENeJLVQziuass+t72KN7RoYPBRMMeJ/rGje6Fgk8xRb/J0Ohq+/13WIYrt1atqed\nxcLZgJ9llCedXkbLlClz\n=jwgN\n-----END
+        PGP SIGNATURE-----","target":"3e580da27c1e92dfd7ccd1f3b659250ad89d3a52","commit":{"id":"deb8e4616eb74989291de9e010e02d9f1103c477","short_id":"deb8e461","title":"Merge
+        remote-tracking branch ''origin/matthiaskrgr/website''","created_at":"2013-06-03T18:43:12.000Z","parent_ids":["0b7aa6135e6039a3b7f1a377ec1d719ccbf49de8","2832a9b838e098e78b908c31cee18effb76509ba"],"message":"Merge
+        remote-tracking branch ''origin/matthiaskrgr/website''\n","author_name":"Samual
+        Lenks","author_email":"samual@xonotic.org","authored_date":"2013-06-03T18:43:12.000Z","committer_name":"Samual
+        Lenks","committer_email":"samual@xonotic.org","committed_date":"2013-06-03T18:43:12.000Z"},"release":null},{"name":"xonotic-v0.6.0","message":"Xonotic
+        Release 0.6.0\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1.4.10 (GNU/Linux)\n\niQIcBAABAgAGBQJPWV19AAoJEJjEcuNnBxLlUbMP/3gwmWv976LeFe1zOuRa0Fnd\n3T6ns6mtbUVG0YOJuPTW5iz5SeFbVcpGWvsB4G+NAtnxIlmU9rC3gjqAFk8r3NVn\n9R2piH+r/Jngg/AKJeQy1AMUaNomMiPckRg+MVVrKUX9TZrxTwqCWXBTJrI28Fmz\nVA7auNe9WsoIV/HRQDJ+c2eL7DVOQFk+WmB6/+teelvPNgH8xS63hmwYlDDBukUV\nmefmb/Dbn9kOTAYEGZg9WPhGf/J7RiDbnm/WfBERMLc4bwrNZKg2CgbNv7XM3iSe\nbV7MVRGDGtuu0DorteoMZuc4175vT8rSMI8PlmhqIhY6JDAOVZpi2PzPvjqKHon9\nuXmGf0DCHlm+RzfI2ohl1T/l1w0ZI+d8NjIhQJWH6LEcjg/w9tOh+zUZygSPZGVA\nRmO1i4IekuqsLBG6c09LZgUkCxPHlqQLjQDEp4KTIgB1IE+D5Hq0EFMkJy2aKV1C\nFYeV7BBjYROMKTPgqv6ro2MpdFRVJzZnz5YC11565obY5LYU54FTXQruQ2xkz1jV\nxex4Nmse11SFUiGXOgeq1f5cv5Svt9KyZXlXdJqs8hZw90ezTdUSmS3DozGH8Cwi\ng3j+3dJOANmrkSv9Yb23b1poEUs/CaDKyIQzHT/VISgjpdEy9VosumKeNRVLIV65\n8ODLcyh0UBV6+T2r4dCM\n=5DYl\n-----END
+        PGP SIGNATURE-----","target":"fbd36552ad1dcc3a23547765e3f44cabadbeb61b","commit":{"id":"f67baf3783d4dbc57938035f7cfef2cc601bc3fc","short_id":"f67baf37","title":"fix
+        use of pk3stamp","created_at":"2012-03-08T16:10:26.000Z","parent_ids":["1965f00f4ce067bd527a68f1ee59af9f443cace9"],"message":"fix
+        use of pk3stamp\n","author_name":"Rudolf Polzer","author_email":"divverent@xonotic.org","authored_date":"2012-03-08T16:10:26.000Z","committer_name":"Rudolf
+        Polzer","committer_email":"divverent@xonotic.org","committed_date":"2012-03-08T16:10:26.000Z"},"release":null},{"name":"xonotic-v0.5.0","message":"Xonotic
+        Release 0.5\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1.4.10 (GNU/Linux)\n\niQIcBAABAgAGBQJOZSkjAAoJEJjEcuNnBxLlzegQAJDxzrc7X8h8TfGOgaLtJfes\njKeRrxNad/tRdDZdgzAC+QJk9Q3KlTI24lCNjxcGwNG8NejE8MGxFGVHC3mhX/xv\nGDlCQGuOIbxWzO+1DU2TLydr3aKmo3Czo2+iVXskSmuK5LEqeokdbldIEEMoAE8u\nz+Fo8++zdeDuyBSfG1vTGZd/bv+eSbIS1ONjvy8fQhqv/i6Kvt2EoUuuot1qYuEM\nFQpkJdsJ1ImYEmOwXwwG6ME5AzhFeYmWtqUVigTRo9KxA1wVLg0WfHpTkcz2t48a\nw4COTCzEPcooM/dpUIUOrSTUR0mQmYh6BvxRkbvH3BWCeUCntZrPYGc4g2O/ifoG\n8/ow+vSlSWr5tzEi+MqboV2vPxpr2VTAqy3UbuMWsuGz4ipUQmIrENUes9QALmwF\nyCD0uaDMKt4kzJuI3rBiAG0/EQZ3J4Gr2b4kXz4zmIDhf3eDrKix4GrbT3kfhy4N\nsSXv/WtM4tctYpGaJ1ffZigkaPmrTm1fDbRLxESN4/MTACkEkvp14RsHfW9tfwHc\nB4swZu6a6cdK8R+YuvYr2NP8zXPrvSJCGTi/fZxaIjPeKNXRCoN6LC6jvogtcYTo\nl999GJFFEcVL6416HJ0V/fVF6N6WNXXSBC1wadL7FLuzKYMIXtFQ7TTtPCS05rD7\nTzwXZQtN/MgxbuKf2fph\n=sGXl\n-----END
+        PGP SIGNATURE-----","target":"183e53b49e93208756a5ca91aa80d81c24034b12","commit":{"id":"5b4307c6a17aac239095030c527fbc76f1a0cf23","short_id":"5b4307c6","title":"Merge
+        branch ''master'' of git://de.git.xonotic.org/xonotic/xonotic","created_at":"2011-09-05T11:09:24.000Z","parent_ids":["d6c83468003ff63241b3fcd53c7a64fe814bb0bc","433d27100a4c5a3c282f7b552b2f7cf60f2446ee"],"message":"Merge
+        branch ''master'' of git://de.git.xonotic.org/xonotic/xonotic\n","author_name":"Rudolf
+        Polzer","author_email":"divVerent@xonotic.org","authored_date":"2011-09-05T11:09:24.000Z","committer_name":"Rudolf
+        Polzer","committer_email":"divVerent@xonotic.org","committed_date":"2011-09-05T11:09:24.000Z"},"release":null},{"name":"xonotic-v0.1.0preview","message":"version
+        0.1.0preview\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1.4.11 (GNU/Linux)\n\niEYEABECAAYFAk0TlUwACgkQynwgBNJ2lGu54wCeJUdHdp/u76raZ5HOlgiMKKkS\nT28An2d6/sSJiH/zwZGXxuJSEkTOebMt\n=uMTd\n-----END
+        PGP SIGNATURE-----","target":"697545f5e79060696f3fc2ce9fc1ba745f59e13e","commit":{"id":"14753a9ef566d30edaa5136ea12d17fba98ef5db","short_id":"14753a9e","title":"instead,
+        exclude background_l2 from that hashing stuff","created_at":"2010-12-22T22:34:08.000Z","parent_ids":["fbde4c1592b2f7583f80663c7fbb25db94848c67"],"message":"instead,
+        exclude background_l2 from that hashing stuff\n","author_name":"Rudolf Polzer","author_email":"divverent@alientrap.org","authored_date":"2010-12-22T22:34:08.000Z","committer_name":"Rudolf
+        Polzer","committer_email":"divverent@alientrap.org","committed_date":"2010-12-22T22:34:08.000Z"},"release":null}]'}
+    headers:
+      cache-control: ['max-age=0, private, must-revalidate']
+      content-length: ['7450']
+      content-type: [application/json]
+      date: ['Wed, 22 Aug 2018 15:48:05 GMT']
+      etag: [W/"c35bc5af5464e10985adca1e138cba1c"]
+      link: ['<https://gitlab.com/api/v4/projects/xonotic%2Fxonotic/repository/tags?id=xonotic%2Fxonotic&order_by=updated&page=1&per_page=20&sort=desc>;
+          rel="first", <https://gitlab.com/api/v4/projects/xonotic%2Fxonotic/repository/tags?id=xonotic%2Fxonotic&order_by=updated&page=1&per_page=20&sort=desc>;
+          rel="last"']
+      ratelimit-limit: ['600']
+      ratelimit-observed: ['2']
+      ratelimit-remaining: ['598']
+      ratelimit-reset: ['1534952945']
+      ratelimit-resettime: ['Thu, 22 Aug 2018 15:49:05 GMT']
+      server: [nginx]
+      strict-transport-security: [max-age=31536000]
+      vary: [Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-next-page: ['']
+      x-page: ['1']
+      x-per-page: ['20']
+      x-prev-page: ['']
+      x-request-id: [1abef087-c1e7-46eb-b9d0-8d9659702ff3]
+      x-runtime: ['0.056442']
+      x-total: ['7']
+      x-total-pages: ['1']
+    status: {code: 200, message: OK}
+version: 1
