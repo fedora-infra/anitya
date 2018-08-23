@@ -83,12 +83,6 @@ class BaseBackendTests(AnityaTestCase):
         self.assertEqual(req_exp.get_full_url(), req.get_full_url())
         self.assertEqual(req_exp.header_items(), req.header_items())
 
-    def test_get_header(self):
-        """Assert HTTP header creation"""
-        headers = self.backend.get_header()
-
-        self.assertEqual(self.headers, headers)
-
     def test_expand_subdirs(self):
         """Assert expanding subdirs"""
         exp = "http://ftp.fi.muni.cz/pub/linux/fedora/linux/"

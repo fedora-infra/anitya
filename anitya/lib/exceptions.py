@@ -102,3 +102,21 @@ class InvalidVersion(AnityaException):
             return 'Invalid version "{v}": {e}'.format(v=self.version, e=str(self.exception))
         else:
             return 'Invalid version "{v}"'.format(v=self.version)
+
+
+class RateLimitException(AnityaException):
+    """
+    Raised when the rate limit for requests is reached.
+
+    Args:
+        reset_time (str): Time when limit will be reseted (UTC epoch time).
+    """
+
+    def __init__(self, reset_time):
+        self.reset_time = reset_time
+
+    def get_reset_time(self):
+        return self.reset_time
+
+    def __str__(self):
+        return 'Rate limit was reached. Will be reset in {0} UTC'.format(self.reset_time)

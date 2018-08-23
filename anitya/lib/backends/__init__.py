@@ -36,6 +36,13 @@ import six
 
 REGEX = anitya_config['DEFAULT_REGEX']
 
+# Default headers for requests
+REQUEST_HEADERS = {
+    'User-Agent': 'Anitya %s at upstream-monitoring.org' %
+    pkg_resources.get_distribution('anitya').version,
+    'From': anitya_config.get('ADMIN_EMAIL'),
+    }
+
 _log = logging.getLogger(__name__)
 
 
@@ -207,11 +214,10 @@ class BaseBackend(object):
         :type url: str
         :arg insecure: flag for secure/insecure connection (default False)
         :type insecure: bool
-        :type use_token: bool
         :return: the request object corresponding to the request made
         :return type: Request
         '''
-        headers = self.get_header()
+        headers = REQUEST_HEADERS.copy()
         if '*' in url:
             url = self.expand_subdirs(url)
 
@@ -247,27 +253,6 @@ class BaseBackend(object):
                     url, headers=headers, timeout=60, verify=True)
 
             return resp
-
-    @classmethod
-    def get_header(self):
-        ''' Get HTTP header.
-
-        This method returns predefined header for for Anitya.
-        The header will contain user-agent and e-mail.
-
-        :return: header dictionary
-        :return type: dict
-        '''
-        user_agent = 'Anitya %s at upstream-monitoring.org' % \
-            pkg_resources.get_distribution('anitya').version
-        from_email = anitya_config.get('ADMIN_EMAIL')
-
-        headers = {
-            'User-Agent': user_agent,
-            'From': from_email,
-        }
-
-        return headers
 
 
 def get_versions_by_regex(url, regex, project, insecure=False):
