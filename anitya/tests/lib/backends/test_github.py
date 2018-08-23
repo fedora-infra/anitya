@@ -20,7 +20,7 @@
 #
 
 '''
-anitya tests for the custom backend.
+anitya tests for the github backend.
 '''
 
 import unittest
@@ -29,7 +29,7 @@ import mock
 
 import anitya.lib.backends.github as backend
 from anitya.db import models
-from anitya.lib.exceptions import AnityaPluginException
+from anitya.lib.exceptions import AnityaPluginException, RateLimitException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
 BACKEND = 'GitHub'
@@ -153,89 +153,141 @@ class GithubBackendtests(DatabaseTestCase):
         version = backend.GithubBackend().get_version(project)
         self.assertEqual(u'3.6.0', version)
 
-    def test_prepare_query(self):
-        """ Assert query creation """
-        exp = '''
-        {
-            repository(owner: "foo", name: "bar") {
-                refs (refPrefix: "refs/tags/", last:50,
-                        orderBy:{field:TAG_COMMIT_DATE, direction:ASC}) {
-                    totalCount
-                    edges {
-                        cursor
-                        node {
-                            name
-                            target {
-                                commitUrl
-                            }
-                        }
-                    }
-                }
-            }
-            rateLimit {
-                limit
-                remaining
-                resetAt
-            }
-        }
-        '''
 
-        obs = backend.GithubBackend.prepare_query("foo", "bar")
-        self.assertEqual(exp, obs)
+class JsonTests(unittest.TestCase):
+    """
+    Unit tests for json related functions
+    """
+    def __init__(self, *args, **kwargs):
+        super(JsonTests, self).__init__(*args, **kwargs)
+        self.maxDiff = None
 
     def test_prepare_query_after(self):
         """ Assert query creation with cursor """
         exp = '''
-        {
-            repository(owner: "foo", name: "bar") {
-                refs (refPrefix: "refs/tags/", last:50,
-                        orderBy:{field:TAG_COMMIT_DATE, direction:ASC}, after: "abc") {
-                    totalCount
-                    edges {
-                        cursor
-                        node {
-                            name
-                            target {
-                                commitUrl
-                            }
-                        }
+{
+    repository(owner: "foo", name: "bar") {
+        refs (refPrefix: "refs/tags/", last:50,
+                orderBy:{field:TAG_COMMIT_DATE, direction:ASC}, after: "abc") {
+            totalCount
+            edges {
+                cursor
+                node {
+                    name
+                    target {
+                        commitUrl
                     }
                 }
             }
-            rateLimit {
-                limit
-                remaining
-                resetAt
+        }
+    }
+    rateLimit {
+        limit
+        remaining
+        resetAt
+    }
+}'''
+
+        obs = backend.prepare_query("foo", "bar", "abc")
+        self.assertMultiLineEqual(exp, obs)
+
+    def test_prepare_query(self):
+        """ Assert query creation """
+        exp = '''
+{
+    repository(owner: "foo", name: "bar") {
+        refs (refPrefix: "refs/tags/", last:50,
+                orderBy:{field:TAG_COMMIT_DATE, direction:ASC}) {
+            totalCount
+            edges {
+                cursor
+                node {
+                    name
+                    target {
+                        commitUrl
+                    }
+                }
             }
         }
-        '''
+    }
+    rateLimit {
+        limit
+        remaining
+        resetAt
+    }
+}'''
 
-        obs = backend.GithubBackend.prepare_query("foo", "bar", "abc")
+        obs = backend.prepare_query("foo", "bar")
         self.assertEqual(exp, obs)
 
-    @mock.patch('anitya.lib.backends.github.http_session')
-    def test_call_post(self, mock_http_session):
-        """Assert post request"""
-        url = 'https://www.example.com/'
-        data = '{}'
-        headers = backend.GithubBackend.get_header()
-        backend.GithubBackend.call_url_post(url, data)
+    def test_parse_json(self):
+        """ Assert parsing json"""
+        project = models.Project(
+            name='foobar',
+            homepage='https://foobar.com',
+            version_url='foo/bar',
+            backend=BACKEND,
+        )
+        json = {
+            "errors": [
+                {
+                    "type": "FOO",
+                    "message": "BAR"
+                }
+            ]
+        }
 
-        mock_http_session.post.assert_called_once_with(
-            url, headers=headers, json={'query': '{}'}, timeout=60, verify=True)
+        self.assertRaises(
+            AnityaPluginException,
+            backend.parse_json,
+            json,
+            project
+        )
 
-    @mock.patch('anitya.lib.backends.github.http_session')
-    @mock.patch.dict('anitya.config.config', {'GITHUB_ACCESS_TOKEN': "foobar"})
-    def test_call_post_use_token(self, mock_http_session):
-        """Assert token is used"""
-        url = 'https://www.example.com/'
-        data = '{}'
-        headers = backend.GithubBackend().get_header()
-        headers['Authorization'] = 'bearer foobar'
-        backend.GithubBackend.call_url_post(url, data, use_token=True)
+        # Limit reached
+        json = {
+            "data": {
+                "repository": {
+                    "refs": {
+                        "totalCount": 0
+                    }
+                },
+                "rateLimit": {
+                    "remaining": 0,
+                    "resetAt": "dummy"
+                }
+            }
+        }
+        self.assertRaises(
+            RateLimitException,
+            backend.parse_json,
+            json,
+            project
+        )
 
-        mock_http_session.post.assert_called_once_with(
-            url, headers=headers, json={'query': '{}'}, timeout=60, verify=True)
+        json = {
+            "data": {
+                "repository": {
+                    "refs": {
+                        "totalCount": 1,
+                        "edges": [
+                            {
+                                "node": {
+                                    "name": "1.0"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "rateLimit": {
+                    "remaining": 5000,
+                    "resetAt": "dummy"
+                }
+            }
+        }
+        exp = [u'1.0']
+        obs = backend.parse_json(json, project)
+        self.assertEqual(exp, obs)
 
 
 if __name__ == '__main__':
