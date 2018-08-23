@@ -1,0 +1,74 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+    method: GET
+    uri: http://ftp.fi.muni.cz/pub/linux/fedora/
+  response:
+    body:
+      string: !!binary |
+        PCFET0NUWVBFIGh0bWwgUFVCTElDICItLy9XM0MvL0RURCBYSFRNTCAxLjAgVHJhbnNpdGlvbmFs
+        Ly9FTiIKImh0dHA6Ly93d3cudzMub3JnL1RSL3hodG1sMS9EVEQveGh0bWwxLXRyYW5zaXRpb25h
+        bC5kdGQiPgo8aHRtbCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCI+CiA8aGVh
+        ZD4KICA8dGl0bGU+SW5kZXggb2YgL3B1Yi9saW51eC9mZWRvcmE8L3RpdGxlPgogIDxsaW5rIHJl
+        bD0ic3R5bGVzaGVldCIgaHJlZj0iL2h0dHAvY3NzL2ZpLmNzcyIgdHlwZT0idGV4dC9jc3MiIC8+
+        CiA8L2hlYWQ+CiA8Ym9keT4KICAgICAgICA8ZGl2IGlkPSJoZWFkZXIiPgogICAgICAgICAgICAg
+        IDxzcGFuIGlkPSJjcyI+PC9zcGFuPgogICAgICAgICAgICAgIDxhIGhyZWY9Imh0dHA6Ly93d3cu
+        ZmkubXVuaS5jei8iIGlkPSJsb2dvIiBhY2Nlc3NrZXk9IjEiCiAgICAgICAgICAgICAgICAgID48
+        aW1nIHNyYz0iL2h0dHAvcGljcy1maS9sb2dvLWZpLW11bmkucG5nIiBhbHQ9IkxvZ28gRkkgTVVO
+        SSIgdGl0bGU9Itp2b2Ru7SBzdHLhbmthIiB3aWR0aD0iMTIyIiBoZWlnaHQ9IjEyMyIgCiAgICAg
+        ICAgICAgICAgICAgIC8+PC9hPgogICAgICAgICAgICAgIDxwPjxzdHJvbmc+RmFrdWx0YSBpbmZv
+        cm1hdGlreSBNYXNhcnlrb3Z5IHVuaXZlcnppdHk8L3N0cm9uZz48L3A+CiAgICAgICAgPC9kaXY+
+        CiAgICAgICAgPGRpdiBpZD0iYmcwIj4KICAgICAgICA8ZGl2IGlkPSJiZzEiPgogICAgICAgIDxk
+        aXYgaWQ9ImJnMiI+CiAgICAgICAgICAgIDxkaXYgaWQ9ImJyZWFkY3J1bWIiPgogICAgICAgICAg
+        ICAgICAgPGRpdj4KICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICAgPHA+CiAg
+        ICAgICAgICAgICAgICAgICAgRlRQIHNlcnZlciBGYWt1bHR5IGluZm9ybWF0aWt5CiAgICAgICAg
+        ICAgICAgICA8L3A+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICA8ZGl2IGlkPSJjb250
+        ZW50Ij4KPGgxPmZ0cC5maS5tdW5pLmN6PC9oMT4KPHRhYmxlPjx0cj48dGg+Jm5ic3A7PC90aD48
+        dGg+PGEgaHJlZj0iP0M9TjtPPUQiPk5hbWU8L2E+PC90aD48dGg+PGEgaHJlZj0iP0M9TTtPPUEi
+        Pkxhc3QgbW9kaWZpZWQ8L2E+PC90aD48dGg+PGEgaHJlZj0iP0M9UztPPUEiPlNpemU8L2E+PC90
+        aD48dGg+PGEgaHJlZj0iP0M9RDtPPUEiPkRlc2NyaXB0aW9uPC9hPjwvdGg+PC90cj48dHI+PHRk
+        IHZhbGlnbj0idG9wIj48aW1nIHNyYz0iL1RhbmdvLzI0eDI0L2FjdGlvbnMvZ28tdXAucG5nIiBh
+        bHQ9IltESVJdIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIC8+PC90ZD48dGQ+PGEgaHJlZj0iL3B1
+        Yi9saW51eC8iPlBhcmVudCBEaXJlY3Rvcnk8L2E+PC90ZD48dGQ+Jm5ic3A7PC90ZD48dGQgYWxp
+        Z249InJpZ2h0Ij4gIC0gPC90ZD48dGQ+IDwvdGQ+PC90cj4KPHRyPjx0ZCB2YWxpZ249InRvcCI+
+        PGltZyBzcmM9Ii9UYW5nby8yNHgyNC9wbGFjZXMvZm9sZGVyLnBuZyIgYWx0PSJbRElSXSIgd2lk
+        dGg9IjI0IiBoZWlnaHQ9IjI0IiAvPjwvdGQ+PHRkPjxhIGhyZWY9ImVuY2hpbGFkYS8iPmVuY2hp
+        bGFkYS88L2E+PC90ZD48dGQgYWxpZ249InJpZ2h0Ij4yMi1BdWctMjAxOCAxOTozMiAgPC90ZD48
+        dGQgYWxpZ249InJpZ2h0Ij4gIC0gPC90ZD48dGQ+IDwvdGQ+PC90cj4KPHRyPjx0ZCB2YWxpZ249
+        InRvcCI+PGltZyBzcmM9Ii9UYW5nby8yNHgyNC9wbGFjZXMvZm9sZGVyLnBuZyIgYWx0PSJbRElS
+        XSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiAvPjwvdGQ+PHRkPjxhIGhyZWY9ImVwZWwvIj5lcGVs
+        LzwvYT48L3RkPjx0ZCBhbGlnbj0icmlnaHQiPjIyLUF1Zy0yMDE4IDEzOjUxICA8L3RkPjx0ZCBh
+        bGlnbj0icmlnaHQiPiAgLSA8L3RkPjx0ZD4gPC90ZD48L3RyPgo8dHI+PHRkIHZhbGlnbj0idG9w
+        Ij48aW1nIHNyYz0iL1RhbmdvLzI0eDI0L3BsYWNlcy9mb2xkZXIucG5nIiBhbHQ9IltESVJdIiB3
+        aWR0aD0iMjQiIGhlaWdodD0iMjQiIC8+PC90ZD48dGQ+PGEgaHJlZj0ibGludXgvIj5saW51eC88
+        L2E+PC90ZD48dGQgYWxpZ249InJpZ2h0Ij4yMS1GZWItMjAxOCAyMToyMCAgPC90ZD48dGQgYWxp
+        Z249InJpZ2h0Ij4gIC0gPC90ZD48dGQ+IDwvdGQ+PC90cj4KPC90YWJsZT4KCQk8L2Rpdj4KCTxk
+        aXYgY2xhc3M9ImNsZWFyIj48L2Rpdj4KICAgICA8IS0tIGhvcml6b250YWxuaSBjYXJhIC0tPgog
+        ICAgICAgIDxwPgogICAgICAgIDxjb2RlPgogICAgICAgIGZ0cC1hZG1pbihhdClmaS5tdW5pLmN6
+        CiAgICAgICAgPCEtLSBuYXNsZWR1amljaSBhZHJlc2EgamUgcGFzdCBuYSBzcGFtLCBuZXBvc2ls
+        ZWp0ZSBuYSBuaSB6YWRuZSBlbWFpbHksIG5hIGt0ZXJlIGNoY2V0ZSBkb3N0YXQgb2Rwb3ZlZCAt
+        LT4KICAgICAgICA8YSBocmVmPSJtYWlsdG86aG51c0BmaS5tdW5pLmN6IiBjbGFzcz0iaGlkZGVu
+        Ij5obnVzQGZpLm11bmkuY3o8L2E+CiAgICAgICAgPC9jb2RlPgoJPGEgaHJlZj0iaHR0cDovL3d3
+        dy5saW51eC5jei9zdGF0cy8iPk8gc2VydmVydTwvYT4KICAgIDwvcD4KICAgIDwvZGl2PgogICAg
+        PC9kaXY+CiAgICA8L2Rpdj4KPCEtLQogICAgICAgIDxmb3JtIGFjdGlvbj0iaHR0cDovL2ZhZG1p
+        bi5maS5tdW5pLmN6L25vYXV0aC9jZ2ktYmluL3NlYXJjaC9zZWFyY2guY2dpIiBtZXRob2Q9Imdl
+        dCIgaWQ9InNlYXJjaCI+CiAgICAgICAgICA8aDI+PGEgaWQ9InNlYXJjaC1mb3JtIj48L2E+SGxl
+        ZOFu7TwvaDI+CiAgICAgICAgICA8cD4KICAgICAgICAgICAgPGlucHV0IHR5cGU9InRleHQiIG5h
+        bWU9InEiIGlkPSJ0ZXh0LWYiIG1heGxlbmd0aD0iMjU1IiAvPgogICAgICAgICAgICA8aW5wdXQg
+        dHlwZT0ic3VibWl0IiB2YWx1ZT0iaGxlZGF0IiBpZD0ic3VibWl0LWYiIC8+CiAgICAgICAgICA8
+        L3A+CiAgICAgICAgPC9mb3JtPgotLT4KPC9ib2R5PjwvaHRtbD4K
+    headers:
+      connection: [Keep-Alive]
+      content-type: [text/html;charset=UTF-8]
+      date: ['Thu, 23 Aug 2018 09:39:54 GMT']
+      keep-alive: ['timeout=5, max=100']
+      server: [Apache/2.2.22 (Fedora)]
+      x-clacks-overhead: [GNU Terry Pratchett]
+    status: {code: 200, message: OK}
+version: 1

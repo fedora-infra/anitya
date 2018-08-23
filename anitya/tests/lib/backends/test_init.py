@@ -24,21 +24,22 @@ Unit tests for the anitya.lib.backends module.
 from __future__ import absolute_import, unicode_literals
 
 import re
+import six.moves.urllib.request as urllib2
+
 import unittest
-
 import mock
-
-import pkg_resources
 
 from anitya.config import config
 from anitya.lib import backends
 from anitya.lib.exceptions import AnityaPluginException
+from anitya.tests.base import AnityaTestCase
 import anitya
 
 
-class BaseBackendTests(unittest.TestCase):
+class BaseBackendTests(AnityaTestCase):
 
     def setUp(self):
+        super(BaseBackendTests, self).setUp()
         self.backend = backends.BaseBackend()
         self.headers = {
             'User-Agent': 'Anitya {0} at upstream-monitoring.org'.format(
@@ -65,20 +66,44 @@ class BaseBackendTests(unittest.TestCase):
         insecure_session.get.assert_called_once_with(
             url, headers=self.headers, timeout=60, verify=False)
 
+    @mock.patch('six.moves.urllib.request.urlopen')
+    def test_call_ftp_url(self, mock_urllib):
+        """Assert FTP urls are handled by requests"""
+        url = "ftp://ftp.heanet.ie/debian/"
+        req_exp = urllib2.Request(url)
+        req_exp.add_header('User-Agent', self.headers['User-Agent'])
+        req_exp.add_header('From', self.headers['From'])
+        self.backend.call_url(url)
+
+        mock_urllib.assert_called_once_with(mock.ANY)
+
+        args, kwargs = mock_urllib.call_args
+        req = args[0]
+
+        self.assertEqual(req_exp.get_full_url(), req.get_full_url())
+        self.assertEqual(req_exp.header_items(), req.header_items())
+
     def test_get_header(self):
         """Assert HTTP header creation"""
-        user_agent = 'Anitya %s at upstream-monitoring.org' % \
-            pkg_resources.get_distribution('anitya').version
-        from_email = config.get('ADMIN_EMAIL')
-
-        headers_exp = {
-            'User-Agent': user_agent,
-            'From': from_email,
-        }
-
         headers = self.backend.get_header()
 
-        self.assertEqual(headers_exp, headers)
+        self.assertEqual(self.headers, headers)
+
+    def test_expand_subdirs(self):
+        """Assert expanding subdirs"""
+        exp = "http://ftp.fi.muni.cz/pub/linux/fedora/linux/"
+        url = self.backend.expand_subdirs("http://ftp.fi.muni.cz/pub/linux/fedora/*/")
+
+        self.assertEqual(exp, url)
+
+    @mock.patch('anitya.lib.backends.BaseBackend.call_url',
+                return_value=b'drwxr-xr-x  9 ftp  ftp  4096 Aug 23 09:02 debian\r\n')
+    def test_expand_subdirs_ftp(self, mock_call_url):
+        """Assert expanding subdirs"""
+        exp = "ftp://ftp.heanet.ie/debian/"
+        url = self.backend.expand_subdirs("ftp://ftp.heanet.ie/deb*/")
+
+        self.assertEqual(exp, url)
 
 
 class GetVersionsByRegexTextTests(unittest.TestCase):

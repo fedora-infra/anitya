@@ -98,7 +98,13 @@ class BaseBackend(object):
         text_regex = re.compile(r'^d.+\s(\S+)\s*$', re.I | re.M)
 
         if url_prefix != "":
-            dir_listing = self.call_url(url_prefix).text
+            resp = self.call_url(url_prefix)
+            # When FTP server is called, Response object is not created
+            # and we get binary string instead
+            try:
+                dir_listing = resp.text
+            except AttributeError:
+                dir_listing = resp.decode('utf-8')
             if not dir_listing:
                 return url
             subdirs = []
@@ -213,8 +219,8 @@ class BaseBackend(object):
             socket.setdefaulttimeout(30)
 
             req = urllib2.Request(url)
-            req.add_header('User-Agent', headers.user_agent)
-            req.add_header('From', headers.from_email)
+            req.add_header('User-Agent', headers['User-Agent'])
+            req.add_header('From', headers['From'])
             resp = urllib2.urlopen(req)
             content = resp.read()
 
