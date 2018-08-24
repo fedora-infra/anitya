@@ -23,6 +23,53 @@ import unittest
 from anitya.lib import exceptions
 
 
+class AnityaInvalidMappingTests(unittest.TestCase):
+    """ Tests for :class:`exceptions.AnityaInvalidMappingException`."""
+
+    def test_message(self):
+        """Assert message creation"""
+        pkgname = "foo"
+        distro = "fedora"
+        found_pkgname = "bar"
+        found_distro = "debian"
+        project_id = 1
+        project_name = "Cthulhu"
+        link = "link"
+        exp = 'Could not edit the mapping of {pkgname} on ' \
+            '{distro}, there is already a package {found_pkgname} on ' \
+            '{found_distro} as part of the project <a href="{link}">' \
+            '{project_name}</a>.'.format(
+                pkgname=pkgname,
+                distro=distro,
+                found_pkgname=found_pkgname,
+                found_distro=found_distro,
+                project_id=project_id,
+                project_name=project_name,
+                link=None,
+            )
+        e = exceptions.AnityaInvalidMappingException(
+                pkgname, distro, found_pkgname, found_distro,
+                project_id, project_name)
+        self.assertEqual(exp, e.message)
+
+        exp = 'Could not edit the mapping of {pkgname} on ' \
+            '{distro}, there is already a package {found_pkgname} on ' \
+            '{found_distro} as part of the project <a href="{link}">' \
+            '{project_name}</a>.'.format(
+                pkgname=pkgname,
+                distro=distro,
+                found_pkgname=found_pkgname,
+                found_distro=found_distro,
+                project_id=project_id,
+                project_name=project_name,
+                link=link,
+            )
+        e = exceptions.AnityaInvalidMappingException(
+                pkgname, distro, found_pkgname, found_distro,
+                project_id, project_name, link)
+        self.assertEqual(exp, e.message)
+
+
 class InvalidVersionTests(unittest.TestCase):
     """Tests for :class:`exceptions.InvalidVersion`."""
 
@@ -35,3 +82,22 @@ class InvalidVersionTests(unittest.TestCase):
         """Assert the __str__ method provides a human-readable value including the exception."""
         e = exceptions.InvalidVersion('notaversion', IOError('womp womp'))
         self.assertEqual('Invalid version "notaversion": womp womp', str(e))
+
+
+class RateLimitExceptionTests(unittest.TestCase):
+    """Tests for :class:`exceptions.RateLimitException`."""
+
+    def test_reset_time(self):
+        """Assert the property returns valid value."""
+        time = "2018-08-24T09:36:15Z"
+        exp = time
+        e = exceptions.RateLimitException(time)
+        self.assertEqual(exp, e.reset_time)
+
+    def test_str(self):
+        """Assert the __str__ method provides a human-readable value."""
+        time = "2018-08-24T09:36:15Z"
+        exp = 'Rate limit was reached. Will be reset in "2018-08-24T09:36:15Z".'
+        e = exceptions.RateLimitException(time)
+
+        self.assertEqual(exp, str(e))

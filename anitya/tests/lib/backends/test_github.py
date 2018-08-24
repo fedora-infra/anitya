@@ -67,7 +67,23 @@ class GithubBackendtests(DatabaseTestCase):
 
         project = models.Project(
             name='pkgdb2',
-            homepage='https://github.com/fedora-infra/pkgdb2',
+            homepage='https://github.com/fedora-infra/pkgdb2/',
+            backend=BACKEND,
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        project = models.Project(
+            name='foobar',
+            homepage='https://github.com/foo',
+            backend=BACKEND,
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        project = models.Project(
+            name='foobar',
+            homepage='http://github.com/foo/bar',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -142,6 +158,62 @@ class GithubBackendtests(DatabaseTestCase):
         ]
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
+
+        pid = 4
+        project = models.Project.get(self.session, pid)
+        self.assertRaises(
+            AnityaPluginException,
+            backend.GithubBackend.get_versions,
+            project
+        )
+
+        pid = 5
+        project = models.Project.get(self.session, pid)
+        self.assertRaises(
+            AnityaPluginException,
+            backend.GithubBackend.get_versions,
+            project
+        )
+
+    @mock.patch.dict('anitya.config.config', {'GITHUB_ACCESS_TOKEN': None})
+    def test_get_versions_no_token(self):
+        """ Test the get_versions function of the github backend
+        without specified token.
+        """
+        pid = 1
+        project = models.Project.get(self.session, pid)
+        self.assertRaises(
+            AnityaPluginException,
+            backend.GithubBackend.get_versions,
+            project
+        )
+
+    @mock.patch.dict('anitya.config.config', {'GITHUB_ACCESS_TOKEN': "Not_found"})
+    def test_get_versions_unauthorized(self):
+        """ Test the get_versions function of the github backend
+        with invalid token.
+        """
+        pid = 1
+        project = models.Project.get(self.session, pid)
+        self.assertRaises(
+            AnityaPluginException,
+            backend.GithubBackend.get_versions,
+            project
+        )
+
+    @mock.patch.dict('anitya.config.config', {'GITHUB_ACCESS_TOKEN': "Not_found"})
+    @mock.patch('anitya.lib.backends.github.API_URL', "foobar")
+    def test_get_versions_invalid_url(self):
+        """ Test the get_versions function of the github backend
+        with invalid URL.
+        """
+        pid = 1
+        project = models.Project.get(self.session, pid)
+        self.assertRaises(
+            AnityaPluginException,
+            backend.GithubBackend.get_versions,
+            project
+        )
 
     @mock.patch.dict('anitya.config.config', {'GITHUB_ACCESS_TOKEN': "foobar"})
     def test_plexus_utils(self):
