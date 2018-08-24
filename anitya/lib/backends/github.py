@@ -38,13 +38,17 @@ class GithubBackend(BaseBackend):
         ''' Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
-        :arg Project project: a :class:`anitya.db.models.Project` object whose backend
-            corresponds to the current plugin.
-        :return: the latest version found upstream
-        :return type: str
-        :raise AnityaPluginException: a
-            :class:`anitya.lib.exceptions.AnityaPluginException` exception
-            when the version cannot be retrieved correctly
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: Latest version found upstream
+
+        Raises:
+            AnityaPluginException: A
+                :obj:`anitya.lib.exceptions.AnityaPluginException` exception
+                when the versions cannot be retrieved correctly
 
         '''
         return cls.get_ordered_versions(project)[-1]
@@ -55,13 +59,17 @@ class GithubBackend(BaseBackend):
         of the projects provided, project that relies on the backend of
         this plugin.
 
-        :arg Project project: a :class:`anitya.db.models.Project` object whose backend
-            corresponds to the current plugin.
-        :return: a list of all the possible releases found
-        :return type: list
-        :raise AnityaPluginException: a
-            :class:`anitya.lib.exceptions.AnityaPluginException` exception
-            when the versions cannot be retrieved correctly
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            :obj:`list`: A list of all the possible releases found
+
+        Raises:
+            AnityaPluginException: A
+                :obj:`anitya.lib.exceptions.AnityaPluginException` exception
+                when the versions cannot be retrieved correctly
 
         '''
         owner = None
@@ -112,14 +120,24 @@ class GithubBackend(BaseBackend):
 
 
 def parse_json(json, project):
-    ''' Method for parsing json response
+    ''' Function for parsing json response
 
-    :arg json: json response to parse
-    :type owner: str
-    :arg Project project: a :class:`anitya.db.models.Project` object whose backend
-        corresponds to the current plugin.
-    :return: versions
-    :return type: list
+    Attributes:
+        json (dict): Json dictionary to parse.
+        project (:obj:`anitya.db.models.Project`): Project object whose backend
+            corresponds to the current plugin.
+
+    Returns:
+        :obj:`list`: A list of all the possible releases found.
+
+    Raises:
+        AnityaPluginException: A
+            :obj:`anitya.lib.exceptions.AnityaPluginException` exception
+            when the versions cannot be retrieved correctly.
+        RateLimitException: A
+            :obj:`anitya.lib.exceptions.RateLimitException` exception
+            when rate limit is reached.
+
     '''
     if 'errors' in json:
         error_str = ''
@@ -162,16 +180,17 @@ def parse_json(json, project):
 
 
 def prepare_query(owner, repo, after=''):
-    ''' Method for preparing GraphQL query for specified repository
+    ''' Function for preparing GraphQL query for specified repository
 
-    :arg owner: owner of the repository
-    :type owner: str
-    :arg repo: repository name
-    :type repo: str
-    :arg after: cursor id of the latest received commit
-    :type after: str
-    :return: GraphQL query
-    :return type: str
+    Attributes:
+        owner (str): Owner of the repository.
+        repo (str): Repository name.
+        after (str, optional): Cursor id of the latest received commit.
+            Defaults to empty string.
+
+    Returns:
+        str: GraphQL query.
+
     '''
 
     after_str = ''

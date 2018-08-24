@@ -135,13 +135,17 @@ class BaseBackend(object):
         ''' Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
-        :arg Project project: a :class:`anitya.db.models.Project` object whose backend
-            corresponds to the current plugin.
-        :return: the latest version found upstream
-        :return type: str
-        :raise AnityaPluginException: a
-            :class:`anitya.lib.exceptions.AnityaPluginException` exception
-            when the version cannot be retrieved correctly
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: Latest version found upstream
+
+        Raises:
+            AnityaPluginException: A
+                :obj:`anitya.lib.exceptions.AnityaPluginException` exception
+                when the versions cannot be retrieved correctly
 
         '''
         pass
@@ -152,13 +156,17 @@ class BaseBackend(object):
         of the projects provided, project that relies on the backend of
         this plugin.
 
-        :arg Project project: a :class:`anitya.db.models.Project` object whose backend
-            corresponds to the current plugin.
-        :return: a list of all the possible releases found
-        :return type: list
-        :raise AnityaPluginException: a
-            :class:`anitya.lib.exceptions.AnityaPluginException` exception
-            when the versions cannot be retrieved correctly
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            :obj:`list`: A list of all the possible releases found
+
+        Raises:
+            AnityaPluginException: A
+                :obj:`anitya.lib.exceptions.AnityaPluginException` exception
+                when the versions cannot be retrieved correctly
 
         '''
         pass
@@ -171,15 +179,17 @@ class BaseBackend(object):
         Not all backends may support this.  It can be used to look for updates
         much more quickly than scanning all known projects.
 
-        :return: a list of 4-tuples, containing the project name, homepage, the
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
             backend, and the version.
-        :return type: list
-        :raise AnityaPluginException: a
-            :class:`anitya.lib.exceptions.AnityaPluginException` exception
-            when the version cannot be retrieved correctly
-        :raise NotImplementedError:
-            :class:`NotImplementedError` exception when the backend does not
-            support batch updates.
+
+        Raises:
+            AnityaPluginException: A
+                :obj:`anitya.lib.exceptions.AnityaPluginException` exception
+                when the versions cannot be retrieved correctly
+            NotImplementedError: If backend does not
+                support batch updates.
+
         '''
         raise NotImplementedError()
 
@@ -188,13 +198,17 @@ class BaseBackend(object):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, ordered from the oldest to the newest.
 
-        :arg Project project: a :class:`anitya.db.models.Project` object whose backend
-            corresponds to the current plugin.
-        :return: a list of all the possible releases found
-        :return type: list
-        :raise AnityaPluginException: a
-            :class:`anitya.lib.exceptions.AnityaPluginException` exception
-            when the versions cannot be retrieved correctly
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            :obj:`list`: A sorted list of all the possible releases found
+
+        Raises:
+            AnityaPluginException: A
+                :obj:`anitya.lib.exceptions.AnityaPluginException` exception
+                when the versions cannot be retrieved correctly
 
         '''
         vlist = self.get_versions(project)
@@ -210,12 +224,15 @@ class BaseBackend(object):
         a defined user-agent header thus informing the projects we are
         querying what our intentions are.
 
-        :arg url: the url to request (get).
-        :type url: str
-        :arg insecure: flag for secure/insecure connection (default False)
-        :type insecure: bool
-        :return: the request object corresponding to the request made
-        :return type: Request
+        Attributes:
+            url (str): The url to request (get).
+            insecure (bool, optional): Flag for secure/insecure connection.
+                Defaults to False.
+
+        Returns:
+            In case of FTP url it returns binary encoded string
+            otherwise :obj:`requests.Response` object.
+
         '''
         headers = REQUEST_HEADERS.copy()
         if '*' in url:
