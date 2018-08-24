@@ -84,10 +84,9 @@ class GithubBackend(BaseBackend):
             raise AnityaPluginException(
                 'Project %s was incorrectly set-up' % project.name)
 
-        if url:
+        try:
             (owner, repo) = url.split('/')
-
-        if not (owner or repo):
+        except ValueError:
             raise AnityaPluginException(
                 'Project %s was incorrectly set-up. \
                 Can\'t parse owner and repo' % project.name)
