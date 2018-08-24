@@ -11,6 +11,6 @@ rules:
         - continuous-integration/travis-ci
         - codecov/patch
         - codecov/project
-  merge_strategy:
-    method: rebase
-    rebase_fallback: none
+    merge_strategy:
+      method: rebase
+      rebase_fallback: none
