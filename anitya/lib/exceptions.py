@@ -113,11 +113,7 @@ class RateLimitException(AnityaException):
     """
 
     def __init__(self, reset_time):
-        self._reset_time = reset_time
-
-    @property
-    def reset_time(self):
-        return self._reset_time
+        self.reset_time = reset_time
 
     def __str__(self):
-        return 'Rate limit was reached. Will be reset in "{0}".'.format(self._reset_time)
+        return 'Rate limit was reached. Will be reset in "{0}".'.format(self.reset_time)
