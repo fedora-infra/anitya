@@ -25,6 +25,7 @@ import socket
 # sre_constants contains re exceptions
 import sre_constants
 import six.moves.urllib.request as urllib2
+from six.moves.urllib.error import URLError
 
 import pkg_resources
 import requests
@@ -111,7 +112,7 @@ class BaseBackend(object):
             try:
                 dir_listing = resp.text
             except AttributeError:
-                dir_listing = resp.decode('utf-8')
+                dir_listing = resp
             if not dir_listing:
                 return url
             subdirs = []
@@ -244,8 +245,16 @@ class BaseBackend(object):
             req = urllib2.Request(url)
             req.add_header('User-Agent', headers['User-Agent'])
             req.add_header('From', headers['From'])
-            resp = urllib2.urlopen(req)
-            content = resp.read()
+            try:
+                resp = urllib2.urlopen(req)
+                content = resp.read().decode()
+            except URLError as e:
+                raise AnityaPluginException(
+                        'Could not call "%s" with error: %s' % (
+                            url, e.reason))
+            except UnicodeDecodeError:
+                raise AnityaPluginException(
+                        'FTP response is not unicode: %s' % url)
 
             return content
 

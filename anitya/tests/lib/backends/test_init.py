@@ -23,11 +23,12 @@ Unit tests for the anitya.lib.backends module.
 """
 from __future__ import absolute_import, unicode_literals
 
-import re
-import six.moves.urllib.request as urllib2
-
 import unittest
+import re
+
 import mock
+import six.moves.urllib.request as urllib2
+from six.moves.urllib.error import URLError
 
 from anitya.config import config
 from anitya.lib import backends
@@ -83,6 +84,44 @@ class BaseBackendTests(AnityaTestCase):
         self.assertEqual(req_exp.get_full_url(), req.get_full_url())
         self.assertEqual(req_exp.header_items(), req.header_items())
 
+    @mock.patch('six.moves.urllib.request.urlopen')
+    def test_call_ftp_url_decode(self, mock_urlopen):
+        """Assert decoding is working"""
+        url = "ftp://ftp.heanet.ie/debian/"
+        exp_resp = 'drwxr-xr-x  9 ftp  ftp  4096 Aug 23 09:02 debian\r\n'
+        mc = mock.Mock()
+        mc.read.return_value = b'drwxr-xr-x  9 ftp  ftp  4096 Aug 23 09:02 debian\r\n'
+        mock_urlopen.return_value = mc
+        resp = self.backend.call_url(url)
+
+        self.assertEqual(resp, exp_resp)
+
+    @mock.patch('six.moves.urllib.request.urlopen')
+    def test_call_ftp_url_decode_not_utf(self, mock_urlopen):
+        """Assert decoding is working"""
+        url = "ftp://ftp.heanet.ie/debian/"
+        mc = mock.Mock()
+        mc.read.return_value = b"\x80\x81"
+        mock_urlopen.return_value = mc
+
+        self.assertRaises(
+            AnityaPluginException,
+            self.backend.call_url,
+            url
+        )
+
+    @mock.patch('six.moves.urllib.request.urlopen')
+    def test_call_ftp_url_Exceptions(self, mock_urllib):
+        """Assert FTP urls are handled by requests"""
+        mock_urllib.side_effect = URLError(mock.Mock('not_found'))
+        url = "ftp://example.com"
+
+        self.assertRaises(
+            AnityaPluginException,
+            self.backend.call_url,
+            url
+        )
+
     def test_expand_subdirs(self):
         """Assert expanding subdirs"""
         exp = "http://ftp.fi.muni.cz/pub/linux/fedora/linux/"
@@ -91,7 +130,7 @@ class BaseBackendTests(AnityaTestCase):
         self.assertEqual(exp, url)
 
     @mock.patch('anitya.lib.backends.BaseBackend.call_url',
-                return_value=b'drwxr-xr-x  9 ftp  ftp  4096 Aug 23 09:02 debian\r\n')
+                return_value='drwxr-xr-x  9 ftp  ftp  4096 Aug 23 09:02 debian\r\n')
     def test_expand_subdirs_ftp(self, mock_call_url):
         """Assert expanding subdirs"""
         exp = "ftp://ftp.heanet.ie/debian/"
