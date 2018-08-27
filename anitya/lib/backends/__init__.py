@@ -254,7 +254,7 @@ class BaseBackend(object):
                             url, e.reason))
             except UnicodeDecodeError:
                 raise AnityaPluginException(
-                        'FTP response is not unicode: %s' % url)
+                        'FTP response cannot be decoded with UTF-8: %s' % url)
 
             return content
 

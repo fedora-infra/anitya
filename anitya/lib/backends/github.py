@@ -95,7 +95,7 @@ class GithubBackend(BaseBackend):
 
         try:
             headers = REQUEST_HEADERS.copy()
-            token = config.get('GITHUB_ACCESS_TOKEN')
+            token = config['GITHUB_ACCESS_TOKEN']
             if token:
                 headers['Authorization'] = 'bearer %s' % token
             resp = http_session.post(
@@ -151,9 +151,6 @@ def parse_json(json, project):
 
     _log.debug('Received %s tags for %s' % (total_count, project.name))
 
-    # TODO: Save cursor to project and use it to fetch only newer versions
-    # cursor = json['data']['repository']['refs']['edges']['cursor']
-
     remaining = json['data']['rateLimit']['remaining']
     reset_time = json['data']['rateLimit']['resetAt']
     _log.debug('Github API ratelimit remains %s, will reset at %s UTC' % (
@@ -171,8 +168,6 @@ def parse_json(json, project):
             version = version[len(project.version_prefix):]
         elif version.startswith('v'):
             version = version[1:]
-        # TODO: Save commit url to DB and make versions clickable on frontend
-        # commit_url = edge['node']['target']['commitUrl']
         versions.append(version)
 
     return versions
