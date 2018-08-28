@@ -45,7 +45,7 @@ Documentation
 
 Anitya uses `sphinx <http://www.sphinx-doc.org/>`_ to create its documentation.
 New packages, modules, classes, methods, functions, and attributes all should be
-documented using `"Google style" <http://www.sphinx-doc.org/en/latest/ext/example_google.html>`_
+documented using `"Google style" <http://www.sphinx-doc.org/en/1.7/ext/example_google.html>`_
 docstrings. For historical reasons you may encounter plain reStructuredText-style
 docstrings. Please consider converting them and opening a pull request!
 

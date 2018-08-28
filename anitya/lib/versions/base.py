@@ -17,6 +17,8 @@
 # code or documentation are not subject to the GNU General Public
 # License and may only be used or replicated with the express permission
 # of Red Hat, Inc.
+"""The Anitya versions API."""
+
 from __future__ import unicode_literals
 
 import functools
@@ -59,8 +61,8 @@ class Version(object):
         Returns:
             str: The version string. Sub-classes may return a different type.
             object: Sub-classes may return a special class that represents the
-                version. This must support comparison operations and return
-                a parsed, prefix-stripped version when ``__str__`` is invoked.
+            version. This must support comparison operations and return
+            a parsed, prefix-stripped version when ``__str__`` is invoked.
 
         Raises:
             InvalidVersion: If the version cannot be parsed.
