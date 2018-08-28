@@ -13,7 +13,11 @@ Dependencies
 Features
 --------
 
-* Add GitLab backend. This will use `GitLab API v4
+* Update GitHub backend to `GitHub API v4
+  <https://developer.github.com/v4/>`_ (`#591
+  <https://github.com/release-monitoring/anitya/pull/582>`_).
+
+* Add GitLab backend. This is implemented using `GitLab API v4
   <https://docs.gitlab.com/ee/api/README.html>`_ (`#591
   <https://github.com/release-monitoring/anitya/pull/591>`_).
 
