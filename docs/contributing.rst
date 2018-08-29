@@ -160,5 +160,26 @@ This will also show you all incoming messages from `libraries.io's <https://libr
 SSE feed.
 
 
+Release Guide
+=============
+
+If you are a maintainer and wish to make a release, follow these steps:
+
+1. Add any missing release notes for the release in ``docs/release-notes.rst``.
+
+2. Change the version in ``anitya.app.__version__``. This is used to set the
+   version in the documentation project and the setup.py file.
+
+3. Commit your changes.
+
+4. Tag a release with ``git tag -s v<version>``.
+
+5. Don't forget to ``git push --tags``.
+
+6. Build the Python packages with ``python setup.py sdist bdist_wheel``.
+
+7. Upload the packages with ``twine upload dist/<dists>``.
+
+
 .. _Ansible: https://www.ansible.com/
 .. _Vagrant: https://vagrantup.com/
