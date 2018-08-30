@@ -92,6 +92,24 @@ to the Ansible provisioner inside your `Vagrantfile`::
 
     ansible.extra_vars = { import_production_database: false }
 
+Vagrant is using `PostgreSQL database <https://www.postgresql.org/>`_.
+To work with it use ``psql`` command::
+
+    $ sudo -u postgres psql
+    postgres=#\connect anitya
+
+After this you can use standard `SQL queries
+<https://www.postgresql.org/docs/10/static/tutorial-sql.html>`_ or
+another ``psql`` commands::
+
+    # Show description of tables
+    anitya=\#\dt
+    # Show table description
+    anitya=\#\d users
+
+For additional ``psql`` commands see ``man psql``.
+
+
 Python virtualenv
 -----------------
 
@@ -126,7 +144,7 @@ set to the configuration file's path.
 
 
 Listening for local event announcements
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------
 
 To listen for local event announcements over the Federated Message Bus,
 first start a local relay in the background::

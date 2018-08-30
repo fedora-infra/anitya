@@ -168,6 +168,12 @@ If you prefer graphical representation you can use
 The regular expression ``version.is ([\d\.]*)\.`` can then be provided to
 anitya and used to find the new releases.
 
+.. note::
+    Only the captured groups are used as version, delimited by dot.
+    For example: ``1_2_3`` could be captured by regular expression ``(\d)_(\d)_(\d)``.
+    This will create version ``1.2.3``.
+
+
 Integrating with Anitya
 =======================
 

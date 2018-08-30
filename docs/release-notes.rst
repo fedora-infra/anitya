@@ -14,7 +14,7 @@ Features
 --------
 
 * Update GitHub backend to `GitHub API v4
-  <https://developer.github.com/v4/>`_ (`#591
+  <https://developer.github.com/v4/>`_ (`#582
   <https://github.com/release-monitoring/anitya/pull/582>`_).
 
 * Add GitLab backend. This is implemented using `GitLab API v4
