@@ -213,6 +213,7 @@
         src="{{ url_for('anitya_ui.static', filename='bootstrap-datetimepicker.js') }}">
     </script>
     <script type="text/javascript">
+      $( document ).tooltip();
       $(function() {
         $('#searchbox').autocomplete({
           source: function( request, response ) {
