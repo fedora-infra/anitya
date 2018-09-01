@@ -129,7 +129,8 @@
         "Matched groups will be concatenated by '.'. " + 
         "For example regex '(\d)_(\d)_(\d)' applied to '1_2_3' " +
         "will convert version to '1.2.3'.");
-    $("#insecure").prop('title', "This should be set only when Version URL is HTTP");
+    $("#insecure").prop('title', "This should only be set when the version URL " +
+        "is HTTPS and the host does not have a trusted certificate");
     $("#check_release").prop('title', "Check the release immediately");
     {%- if context == 'Add' -%}
     $("#distro").prop('title', "Distribution where the project is delivered");
