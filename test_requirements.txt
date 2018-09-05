@@ -17,3 +17,4 @@ contextlib2
 # Required to test building the docs
 sphinx==1.5.6
 sphinxcontrib-httpdomain
+sqlalchemy_schemadisplay

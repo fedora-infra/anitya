@@ -2,6 +2,8 @@
 build/
 dist/
 docs/_build/
+docs/images/
+docs/docblocks/
 *egg-info/
 *eggs/
 *.cfg

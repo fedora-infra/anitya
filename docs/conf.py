@@ -41,6 +41,7 @@ from anitya import app
 
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode',
@@ -48,7 +49,10 @@ extensions = [
     'sphinxcontrib.autohttp.flask',
 ]
 
-# Add any paths that contain templates here, relative to this directory.
+autosummary_generate = True
+
+# Add any paths
+# that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
