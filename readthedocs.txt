@@ -14,6 +14,7 @@ social-auth-app-flask-sqlalchemy
 sphinx
 sphinxcontrib-httpdomain
 sqlalchemy >= 0.9
+sqlalchemy_schemadisplay
 straight.plugin
 pytoml
 wtforms

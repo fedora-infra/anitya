@@ -160,3 +160,4 @@ class _AnityaBase(object):
 
 #: The SQLAlchemy declarative base class all models must sub-class.
 Base = declarative.declarative_base(cls=_AnityaBase)
+metadata = Base.metadata

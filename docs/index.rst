@@ -46,3 +46,4 @@ Developer Guide
 
    api
    contributing
+   database

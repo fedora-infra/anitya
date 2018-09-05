@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+"""
+Generate an image of the database schema
+"""
+from sqlalchemy_schemadisplay import create_schema_graph
+
+from anitya.db import meta
+
+
+def write_graph(filename):
+   graph = create_schema_graph(
+       metadata=meta.metadata,
+       show_datatypes=False,
+       show_indexes=False,
+       rankdir='LR',
+       concentrate=False
+   )
+   graph.write_png(filename)
+
+
+if __name__ == '__main__':
+    write_graph('images/database.png')

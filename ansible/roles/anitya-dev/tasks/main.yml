@@ -19,6 +19,7 @@
     - python3-devel
     - redhat-rpm-config
     - rpm-python
+    - python2-sqlalchemy_schemadisplay
 
 # Add various helpful configuration files
 - name: Install a custom bashrc
