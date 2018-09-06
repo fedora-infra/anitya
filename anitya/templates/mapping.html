@@ -59,6 +59,10 @@
 
 {% block jscript %}
 <script type="text/javascript">
+  // Tooltips
+  $("#distro").prop('title', "Official distribution name");
+  $("#package_name").prop('title', "Package name used in the distribution");
+
   $('#choices_url').change(function(){
     var name = $('#package_name').val();
     if (!name){

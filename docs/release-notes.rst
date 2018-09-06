@@ -11,13 +11,24 @@ Dependencies
 * Explicitly depend on ``defusedxml``
 
 Features
-========
+--------
+
+* Update GitHub backend to `GitHub API v4
+  <https://developer.github.com/v4/>`_ (`#582
+  <https://github.com/release-monitoring/anitya/pull/582>`_).
+
+* Add GitLab backend. This is implemented using `GitLab API v4
+  <https://docs.gitlab.com/ee/api/README.html>`_ (`#591
+  <https://github.com/release-monitoring/anitya/pull/591>`_).
 
 * Update CPAN backend to use metacpan.org (`#569
   <https://github.com/release-monitoring/anitya/pull/569>`_).
 
 * Parse XML from CPAN with defusedxml (`#569
   <https://github.com/release-monitoring/anitya/pull/569>`_).
+
+Bug Fixes
+---------
 
 * Change edit message for project, when no edit actually happened (`#579
   <https://github.com/release-monitoring/anitya/pull/579>`_).

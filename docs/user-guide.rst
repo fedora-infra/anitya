@@ -47,6 +47,9 @@ The backends available are:
   `freshmeat.net <http://freshmeat.net/>`_ / `freecode.com <http://freecode.com/>`_
 * ``github.py`` for projects hosted on `github.com <https://github.com/>`_
   using `Github v4 API <https://developer.github.com/v4/>`
+* ``gitlab.py`` for projects hosted on
+  `GitLab server <https://about.gitlab.com/>_`.
+  This backend is using `GitLab API v4 <https://docs.gitlab.com/ee/api/README.html>_`
 * ``gnome.py`` for projects hosted on
   `download.gnome.org <https://download.gnome.org/sources/>`_
 * ``gnu.py`` for projects hosted on `gnu.org <https://www.gnu.org/software/>`_
@@ -97,7 +100,7 @@ The custom backend requires two arguments:
 
           ::
 
-            <package name>(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_](?:minsrc|src|source))?\.(?:tar|t[bglx]z|tbz2|zip)
+            <package name>(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_](?:minsrc|src|source|asc|release))?\.(?:tar|t[bglx]z|tbz2|zip)
 
 
 Project Name
@@ -107,6 +110,10 @@ The project name should match the upstream project name. Duplicate project names
 are allowed as long as the projects are not part of the same ecosystem. That is,
 you can have two projects called ``msgpack``, but you cannot have two projects
 called ``msgpack`` that are both in the ``PyPI`` ecosystem.
+
+.. note::
+    When project is not part of any ecosystem, duplicate projects are detected
+    based on the homepage of project.
 
 
 Version Prefix
@@ -155,8 +162,16 @@ Below is an example on how it can be done::
   >>> re.findall('version.is ([\d\.-]*)\.', text)
   [u'4.4.4']
 
+If you prefer graphical representation you can use
+`Debuggex <https://www.debuggex.com/>`_.
+
 The regular expression ``version.is ([\d\.]*)\.`` can then be provided to
 anitya and used to find the new releases.
+
+.. note::
+    Only the captured groups are used as version, delimited by dot.
+    For example: ``1_2_3`` could be captured by regular expression ``(\d)_(\d)_(\d)``.
+    This will create version ``1.2.3``.
 
 
 Integrating with Anitya

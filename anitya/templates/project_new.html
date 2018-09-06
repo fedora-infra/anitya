@@ -118,7 +118,29 @@
       {%- endautoescape -%}
     {%- endfor %}
 
+  function add_tooltips(){
+    $("#name").prop('title', "Project upstream name");
+    $("#homepage").prop('title', "Project homepage");
+    $("#version_url").prop('title', "URL where to look for new releases");
+    $("#version_prefix").prop('title', "Prefix filled here will be removed " +
+        "from retrieved version. For example version prefix " +
+        "'v' will convert 'v1.2.3' to '1.2.3'.");
+    $("#regex").prop('title', "Python regex to use for version retrieval. " + 
+        "Matched groups will be concatenated by '.'. " + 
+        "For example regex '(\d)_(\d)_(\d)' applied to '1_2_3' " +
+        "will convert version to '1.2.3'.");
+    $("#insecure").prop('title', "This should only be set when the version URL " +
+        "is HTTPS and the host does not have a trusted certificate");
+    $("#check_release").prop('title', "Check the release immediately");
+    {%- if context == 'Add' -%}
+    $("#distro").prop('title', "Distribution where the project is delivered");
+    $("#package_name").prop('title', "Package name in the distribution");
+    {%- endif -%}
+  }
+
   function show_hide(){
+
+    add_tooltips();
 
     if ($('#version_url').parent().find('p')) {
       $('#version_url').parent().find('p').remove()
@@ -140,29 +162,44 @@
     if (str == 'GitHub'){
       $("label[for='version_url']").text('GitHub owner/project');
       $('#version_url_row').show();
+      $("#version_url").prop('title', "Owner/project from GitHub. " +
+        "For example if the project URL is 'https://github.com/fedora-infra/fedocal' " +
+        "this field should contain 'fedora-infra/fedocal'.");
     };
     if (str == 'GitLab'){
       $("label[for='version_url']").text('GitLab project url');
       $('#version_url_row').show();
+      $("#version_url").prop('title', "This field should be filled when " +
+      "homepage doesn't point to GitLab URL.");
     };
     if (str == 'BitBucket'){
       $("label[for='version_url']").text('BitBucket owner/project');
       $('#version_url_row').show();
+      $("#version_url").prop('title', "Owner/project from Bitbucket. " +
+        "For example if the project URL is 'https://bitbucket.org/zzzeek/sqlalchemy' " +
+        "this field should contain 'zzzeek/sqlalchemy'.");
     };
     if (str == 'Packagist'){
       $("label[for='version_url']").text('Packagist owner/group');
       $('#version_url_row').show();
+      $("#version_url").prop('title', "Owner/project from Packagist. " +
+        "For example if the project URL is " +
+        "'https://packagist.org/packages/phpunit/php-code-coverage' " +
+        "this field should contain 'phpunit/php-code-coverage'.");
     };
     if (str == 'Sourceforge'){
       $("label[for='version_url']").text('Sourceforge name');
-      $('#version_url').after(
-      "<p>Use this field if the name used on the rss page of the project "
-      + "differs from the name of the project. </p>" );
+      $('#version_url').prop('title', "Use this field if the name used " +
+        "on the rss page of the project differs from the name of the project." );
       $('#version_url_row').show();
     };
     if (str == 'Maven Central'){
       $("label[for='version_url']").text('Maven groupId:artifactId');
       $('#version_url_row').show();
+      $("#version_url").prop('title', "groupId is reversed domain name of project. " + 
+        "artifactId is project name itself. For example this field contains value " +
+        "'org.apache.maven:maven-core' for 'maven-core' project hosted on " +
+        "'https://maven.apache.org/'.");
     };
     if (str == 'custom'){
       $('#version_url_row').show();

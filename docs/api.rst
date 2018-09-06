@@ -87,3 +87,19 @@ Plugin API
     :members:
     :undoc-members:
     :show-inheritance:
+
+Ecosystem API
+-------------
+
+.. automodule:: anitya.lib.ecosystems
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Versions API
+------------
+
+.. automodule:: anitya.lib.versions.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
