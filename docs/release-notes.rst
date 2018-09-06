@@ -2,8 +2,8 @@
 Release Notes
 =============
 
-master
-======
+v0.13.0
+=======
 
 Dependencies
 ------------
@@ -35,6 +35,9 @@ Bug Fixes
 
 * Fix wrong title on Edit page (`#578
   <https://github.com/release-monitoring/anitya/pull/578>`_).
+
+* Default custom regex is now configurable (`#571
+  <https://github.com/release-monitoring/anitya/pull/571>`_).
 
 v0.12.1
 =======
