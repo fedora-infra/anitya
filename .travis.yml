@@ -1,8 +1,9 @@
-sudo: false
+sudo: true
 language: python
 install:
   - pip install -U setuptools pip
   - pip install tox
+  - sudo apt-get install graphviz
 script:
   - tox
 after_success:
