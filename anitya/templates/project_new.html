@@ -127,22 +127,32 @@
 
   function add_tooltips(){
     $("#name").prop('title', "Project upstream name");
+    $("#name").tooltip()
     $("#homepage").prop('title', "Project homepage");
+    $("#homepage").tooltip()
     $("#version_scheme").prop('title', "Version scheme used for sorting project versions.");
+    $("#version_scheme").tooltip()
     $("#version_url").prop('title', "URL where to look for new releases");
+    $("#version_url").tooltip()
     $("#version_prefix").prop('title', "Prefix filled here will be removed " +
         "from retrieved version. For example version prefix " +
         "'v' will convert 'v1.2.3' to '1.2.3'.");
-    $("#regex").prop('title', "Python regex to use for version retrieval. " + 
-        "Matched groups will be concatenated by '.'. " + 
+    $("#version_prefix").tooltip()
+    $("#regex").prop('title', "Python regex to use for version retrieval. " +
+        "Matched groups will be concatenated by '.'. " +
         "For example regex '(\d)_(\d)_(\d)' applied to '1_2_3' " +
         "will convert version to '1.2.3'.");
+    $("#regex").tooltip()
     $("#insecure").prop('title', "This should only be set when the version URL " +
         "is HTTPS and the host does not have a trusted certificate");
+    $("#insecure").tooltip()
     $("#check_release").prop('title', "Check the release immediately");
+    $("#check_release").tooltip()
     {%- if context == 'Add' -%}
     $("#distro").prop('title', "Distribution where the project is delivered");
+    $("#distro").tooltip()
     $("#package_name").prop('title', "Package name in the distribution");
+    $("#package_name").tooltip()
     {%- endif -%}
   }
 

@@ -19,7 +19,7 @@
     <link href="{{ url_for('anitya_ui.static', filename='css/cnucnu.css') }}" rel="stylesheet" />
     <link href="{{ url_for('anitya_ui.static', filename='css/jquery-ui.min.css') }}" rel="stylesheet" />
     <link href="{{ url_for('anitya_ui.static', filename='css/jquery-ui.theme.min.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('anitya_ui.static', filename='bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />
 
     {% block header %}{% endblock %}
 
@@ -200,21 +200,21 @@
 
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript"
-        src="{{ url_for('anitya_ui.static', filename='js/jquery-1.10.2.min.js')}}"></script>
+        src="{{ url_for('anitya_ui.static', filename='js/jquery-3.3.1.min.js')}}"></script>
     <script type="text/javascript"
-        src="{{ url_for('anitya_ui.static', filename='js/jquery-ui.min.1.11.3.js')}}"></script>
+        src="{{ url_for('anitya_ui.static', filename='js/jquery-ui-1.12.1.min.js')}}"></script>
     <script type="text/javascript"
-        src="{{ url_for('anitya_ui.static', filename='js/bootstrap.min.js') }}">
+        src="{{ url_for('anitya_ui.static', filename='bootstrap/js/bootstrap.min.js') }}">
     </script>
     <script type="text/javascript"
         src="{{ url_for('anitya_ui.static', filename='js/moment.js') }}">
     </script>
     <script type="text/javascript"
-        src="{{ url_for('anitya_ui.static', filename='bootstrap-datetimepicker.js') }}">
+        src="{{ url_for('anitya_ui.static', filename='js/bootstrap-datetimepicker.js') }}">
     </script>
     <script type="text/javascript">
-      $( document ).tooltip();
-      $(function() {
+      $(document).ready(function() {
+        $('[data-toggle]="tooltip"').tooltip();
         $('#searchbox').autocomplete({
           source: function( request, response ) {
             $.getJSON(
