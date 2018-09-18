@@ -38,7 +38,7 @@ class GithubBackend(BaseBackend):
         ''' Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
-        Attributes:
+        Args:
             project (:obj:`anitya.db.models.Project`): Project object whose backend
                 corresponds to the current plugin.
 
@@ -59,7 +59,7 @@ class GithubBackend(BaseBackend):
         of the projects provided, project that relies on the backend of
         this plugin.
 
-        Attributes:
+        Args:
             project (:obj:`anitya.db.models.Project`): Project object whose backend
                 corresponds to the current plugin.
 
@@ -126,7 +126,7 @@ class GithubBackend(BaseBackend):
 def parse_json(json, project):
     ''' Function for parsing json response
 
-    Attributes:
+    Args:
         json (dict): Json dictionary to parse.
         project (:obj:`anitya.db.models.Project`): Project object whose backend
             corresponds to the current plugin.
@@ -181,7 +181,7 @@ def parse_json(json, project):
 def prepare_query(owner, repo, after=''):
     ''' Function for preparing GraphQL query for specified repository
 
-    Attributes:
+    Args:
         owner (str): Owner of the repository.
         repo (str): Repository name.
         after (str, optional): Cursor id of the latest received commit.
