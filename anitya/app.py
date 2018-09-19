@@ -143,11 +143,17 @@ def integrity_error_handler(error):
     # for the user.
     if 'email' in error.params:
         Session.rollback()
-        other_user = models.User.query.filter_by(email=error.params['email']).one()
-        social_auth_user = other_user.social_auth.filter_by(user_id=other_user.id).one()
-        msg = ("Error: There's already an account associated with your email, "
-               "authenticate with {}.".format(social_auth_user.provider))
-        return msg, 400
+        if 'social_auth' in error.params:
+            msg = (
+                "Error: Authentication with authentication provider failed. "
+                "Please try again later...")
+            return msg, 500
+        else:
+            other_user = models.User.query.filter_by(email=error.params['email']).one()
+            social_auth_user = other_user.social_auth.filter_by(user_id=other_user.id).one()
+            msg = ("Error: There's already an account associated with your email, "
+                   "authenticate with {}.".format(social_auth_user.provider))
+            return msg, 400
 
     return 'The server encountered an unexpected error', 500
 
