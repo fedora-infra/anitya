@@ -108,6 +108,20 @@ class IntegrityErrorHandlerTests(base.DatabaseTestCase):
         self.assertEqual(400, errno)
         self.assertEqual(expected_msg, msg)
 
+    def test_no_social_auth(self):
+        """Assert an HTTP 400 is generated from an social_auth IntegrityError."""
+
+        err = IntegrityError('SQL Statement', {
+            'social_auth': 'user',
+            'email': 'user@example.com'}, None)
+        expected_msg = ("Error: Authentication with authentication provider failed. "
+                        "Please try again later...")
+
+        msg, errno = app.integrity_error_handler(err)
+
+        self.assertEqual(500, errno)
+        self.assertEqual(expected_msg, msg)
+
 
 class AuthExceptionHandlerTests(base.DatabaseTestCase):
 

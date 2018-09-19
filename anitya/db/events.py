@@ -17,10 +17,11 @@
 import logging
 
 from sqlalchemy import event
+from sqlalchemy.exc import IntegrityError
 
 from anitya.lib import plugins
 from .meta import Session
-from .models import Project
+from .models import Project, User
 
 
 _log = logging.getLogger(__name__)
@@ -57,3 +58,23 @@ def set_ecosystem(session, flush_context, instances):
                 if new_obj.ecosystem_name not in valid_names:
                     raise ValueError('Invalid ecosystem_name "{}", must be one of {}'.format(
                         new_obj.ecosystem_name, valid_names))
+
+
+@event.listens_for(Session, 'before_flush')
+def check_user(session, flush_context, instances):
+    """
+    An SQLAlchemy event listener that checks if the user has social_auth table.
+
+    Args:
+        session (sqlalchemy.orm.session.Session): The session that is about to be committed.
+        flush_context (sqlalchemy.orm.session.UOWTransaction): Unused.
+        instances (object): deprecated and unused
+
+    Raises:
+        ValueError: If the social_auth table is not associated with this user.
+    """
+    for new_obj in session.new:
+        if isinstance(new_obj, User):
+            if new_obj.social_auth.count() == 0:
+                raise IntegrityError('Missing social_auth table', {
+                    'social_auth': None, 'email': new_obj.email}, None)
