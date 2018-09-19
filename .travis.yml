@@ -14,7 +14,6 @@ env:
     - PYTHONWARNINGS=always::DeprecationWarning
   matrix:
     - TOXENV=lint
-    - TOXENV=docs
     - TOXENV=py27
 matrix:
   include:
@@ -22,3 +21,5 @@ matrix:
       env: TOXENV=py35
     - python: 3.6
       env: TOXENV=py36
+    - python: 3.6
+      env: TOXENV=docs
