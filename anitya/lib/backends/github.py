@@ -88,7 +88,7 @@ class GithubBackend(BaseBackend):
             (owner, repo) = url.split('/')
         except ValueError:
             raise AnityaPluginException(
-                'Project %s was incorrectly set-up. '  % project.name +
+                'Project %s was incorrectly set-up. ' % project.name +
                 'Can\'t parse owner and repo.')
 
         query = prepare_query(owner, repo)
