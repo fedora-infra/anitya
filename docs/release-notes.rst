@@ -2,6 +2,21 @@
 Release Notes
 =============
 
+v0.13.1
+=======
+
+Features
+--------
+
+* Add database schema generation (`#603
+  <https://github.com/release-monitoring/anitya/pull/603>`_).
+
+Bug Fixes
+---------
+
+* Fix cron issues (`#613
+  <https://github.com/release-monitoring/anitya/pull/613>`_).
+
 v0.13.0
 =======
 
