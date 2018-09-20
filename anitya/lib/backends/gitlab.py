@@ -103,4 +103,9 @@ class GitlabBackend(BaseBackend):
         for tag in json:
             tags.append(tag["name"])
 
+        if len(tags) == 0:
+            raise AnityaPluginException(
+                '%s: No upstream version found.' % (
+                    project.name))
+
         return tags

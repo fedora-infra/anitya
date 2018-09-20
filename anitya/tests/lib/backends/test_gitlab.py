@@ -53,7 +53,6 @@ class GitlabBackendtests(DatabaseTestCase):
             backend=BACKEND,
         )
         self.session.add(project)
-        self.session.commit()
 
         project = models.Project(
             name='foobar',
@@ -62,11 +61,17 @@ class GitlabBackendtests(DatabaseTestCase):
             backend=BACKEND,
         )
         self.session.add(project)
-        self.session.commit()
 
         project = models.Project(
             name='xonotic',
             homepage='https://gitlab.com/xonotic/xonotic',
+            backend=BACKEND,
+        )
+        self.session.add(project)
+
+        project = models.Project(
+            name='project_1',
+            homepage='https://gitlab.com/Shukat/project_1',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -132,6 +137,18 @@ class GitlabBackendtests(DatabaseTestCase):
             homepage='',
             backend=BACKEND,
         )
+        self.assertRaises(
+            AnityaPluginException,
+            backend.GitlabBackend.get_versions,
+            project
+        )
+
+    def test_get_versions_no_version_retrieved(self):
+        """ Test the get_versions function of the gitlab backend
+        with project which doesn't have any tag.
+        """
+        pid = 4
+        project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
             backend.GitlabBackend.get_versions,
