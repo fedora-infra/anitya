@@ -22,6 +22,7 @@ import logging
 import unittest
 
 from social_flask_sqlalchemy import models as social_models
+from social_core.exceptions import AuthException
 from sqlalchemy.exc import UnboundExecutionError, IntegrityError
 
 from anitya import app
@@ -106,3 +107,20 @@ class IntegrityErrorHandlerTests(base.DatabaseTestCase):
 
         self.assertEqual(400, errno)
         self.assertEqual(expected_msg, msg)
+
+
+class AuthExceptionHandlerTests(base.DatabaseTestCase):
+
+    def setUp(self):
+        super(AuthExceptionHandlerTests, self).setUp()
+
+    def test_exception_handling(self):
+        """Assert an AuthException results in a 400 error"""
+        err = AuthException('openid', 'Auth error')
+        exp_msg = ("Error: There was error during authentication 'Auth error', "
+                   "please check the provided url.")
+
+        msg, errno = app.auth_error_handler(err)
+
+        self.assertEqual(400, errno)
+        self.assertEqual(exp_msg, msg)
