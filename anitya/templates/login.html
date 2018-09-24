@@ -8,8 +8,8 @@
     {% for name, backend in available_backends.items() %}
       <li>
 	{% if name == 'openid'%}
-          <form role="form" action="{{url_for('anitya_ui.login')}}" method="post">
-            <input name="openid" placeholder="https://id.openid.server">
+          <form role="form" action="{{url_for('social.auth', backend=name)}}" method="post">
+            <input name="openid_identifier" placeholder="https://id.openid.server">
             <span class="pull-right">
                 <button type="submit" class="btn btn-success">
                     <span class="glyphicon glyphicon-plus"></span>

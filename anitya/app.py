@@ -18,6 +18,7 @@ import flask
 from flask_restful import Api
 from flask_login import LoginManager, current_user
 from social_core.backends.utils import load_backends
+from social_core.exceptions import AuthException
 from social_flask.routes import social_auth
 from social_flask_sqlalchemy import models as social_models
 from sqlalchemy.exc import IntegrityError
@@ -81,6 +82,7 @@ def create(config=None):
     app.before_request(global_user)
     app.teardown_request(shutdown_session)
     app.register_error_handler(IntegrityError, integrity_error_handler)
+    app.register_error_handler(AuthException, auth_error_handler)
 
     app.context_processor(inject_variable)
 
@@ -148,3 +150,20 @@ def integrity_error_handler(error):
         return msg, 400
 
     return 'The server encountered an unexpected error', 500
+
+
+def auth_error_handler(error):
+    """
+    Flask error handler for unhandled AuthException errors.
+
+    Args:
+        error (AuthException): The exception to be handled.
+
+    Returns:
+        tuple: A tuple of (message, HTTP error code).
+    """
+    # Because social auth openId backend provides route and raises the exceptions,
+    # this is the simplest way to turn error into nicely formatted error message.
+    msg = ("Error: There was error during authentication '{}', "
+           "please check the provided url.".format(error))
+    return msg, 400
