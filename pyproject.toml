@@ -1,0 +1,37 @@
+[tool.towncrier]
+package = "anitya"
+filename = "docs/release_notes.rst"
+directory = "news/"
+title_format = "{version} ({project_date})"
+issue_format = "{issue}"
+template = "news/_template.rst"
+
+  [[tool.towncrier.type]]
+  directory = "api"
+  name = "API Changes"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "feature"
+  name = "Features"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "bug"
+  name = "Bug Fixes"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "dev"
+  name = "Development Changes"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "other"
+  name = "Other Changes"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "author"
+  name = "Contributors"
+  showcontent = true

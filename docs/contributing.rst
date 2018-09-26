@@ -54,6 +54,30 @@ Python API documentation is automatically generated from the code using Sphinx's
 HTTP REST API documentation is automatically generated from the code using the
 `httpdomain <https://pythonhosted.org/sphinxcontrib-httpdomain/>`_ extension.
 
+Release notes
+-------------
+
+To add entries to the release notes, create a file in the ``news`` directory
+with the ``source.type`` name format, where ``type`` is one of:
+
+* ``feature``: for new features
+* ``bug``: for bug fixes
+* ``api``: for API changes
+* ``dev``: for development-related changes
+* ``author``: for contributor names
+* ``other``: for other changes
+
+And where the ``source`` part of the filename is:
+
+* ``42`` when the change is described in issue ``42``
+* ``PR42`` when the change has been implemented in pull request ``42``, and
+  there is no associated issue
+* ``Cabcdef`` when the change has been implemented in changeset ``abcdef``, and
+  there is no associated issue or pull request.
+* ``username`` for contributors (``author`` extention). It should be the
+  username part of their commits' email address.
+
+A preview of the release notes can be generated with ``towncrier --draft``.
 
 Development Environment
 =======================
@@ -183,10 +207,10 @@ Release Guide
 
 If you are a maintainer and wish to make a release, follow these steps:
 
-1. Add any missing release notes for the release in ``docs/release-notes.rst``.
-
-2. Change the version in ``anitya.app.__version__``. This is used to set the
+1. Change the version in ``anitya.__init__.__version__``. This is used to set the
    version in the documentation project and the setup.py file.
+
+2. Generate the changelog by running ``towncrier``.
 
 3. Commit your changes.
 

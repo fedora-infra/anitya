@@ -18,3 +18,4 @@ sqlalchemy_schemadisplay
 straight.plugin
 pytoml
 wtforms
+towncrier
