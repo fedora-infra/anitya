@@ -25,6 +25,7 @@ Tests for the Flask-RESTful based v2 API
 from __future__ import unicode_literals
 
 import json
+from social_flask_sqlalchemy import models as social_models
 
 from anitya.db import Session, models
 from .base import (DatabaseTestCase, create_project)
@@ -42,12 +43,22 @@ class PackagesResourceGetTests(DatabaseTestCase):
         super(PackagesResourceGetTests, self).setUp()
         self.app = self.flask_app.test_client()
         session = Session()
-        self.user = models.User(email='user@example.com', username='user')
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
         self.api_token = models.ApiToken(user=self.user)
         fedora = models.Distro('Fedora')
         debian = models.Distro('Debian')
         jcline_linux = models.Distro('jcline linux')
-        session.add_all([self.user, self.api_token, fedora, debian, jcline_linux])
+        session.add_all([self.api_token, fedora, debian, jcline_linux])
         session.commit()
 
     def test_no_packages(self):
@@ -341,7 +352,17 @@ class PackagesResourcePostTests(DatabaseTestCase):
         super(PackagesResourcePostTests, self).setUp()
         self.app = self.flask_app.test_client()
         session = Session()
-        self.user = models.User(email='user@example.com', username='user')
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
         self.api_token = models.ApiToken(user=self.user)
         self.project = models.Project(
             name='requests',
@@ -349,7 +370,7 @@ class PackagesResourcePostTests(DatabaseTestCase):
             backend='PyPI',
         )
         self.fedora = models.Distro('Fedora')
-        session.add_all([self.user, self.api_token, self.project, self.fedora])
+        session.add_all([self.api_token, self.project, self.fedora])
         session.commit()
 
         self.auth = {'Authorization': 'Token ' + self.api_token.token}
@@ -510,9 +531,19 @@ class ProjectsResourceGetTests(DatabaseTestCase):
         super(ProjectsResourceGetTests, self).setUp()
         self.app = self.flask_app.test_client()
         session = Session()
-        self.user = models.User(email='user@example.com', username='user')
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
         self.api_token = models.ApiToken(user=self.user)
-        session.add_all([self.user, self.api_token])
+        session.add(self.api_token)
         session.commit()
 
     def test_no_projects(self):
@@ -854,9 +885,19 @@ class ProjectsResourcePostTests(DatabaseTestCase):
         super(ProjectsResourcePostTests, self).setUp()
         self.app = self.flask_app.test_client()
         session = Session()
-        self.user = models.User(email='user@example.com', username='user')
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
         self.api_token = models.ApiToken(user=self.user)
-        session.add_all([self.user, self.api_token])
+        session.add(self.api_token)
         session.commit()
 
         self.auth = {'Authorization': 'Token ' + self.api_token.token}

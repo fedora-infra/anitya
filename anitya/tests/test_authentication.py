@@ -23,8 +23,10 @@ import uuid
 import six
 import mock
 
+from social_flask_sqlalchemy import models as social_models
+
 from anitya import authentication
-from anitya.db import Session, User, ApiToken
+from anitya.db import Session, ApiToken, models
 from anitya.tests.base import DatabaseTestCase
 
 
@@ -35,9 +37,20 @@ class LoadUserFromRequestTests(DatabaseTestCase):
         super(LoadUserFromRequestTests, self).setUp()
         self.app = self.flask_app.test_client()
         session = Session()
-        self.user = User(email='user@example.com', username='user')
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
+
         self.api_token = ApiToken(user=self.user)
-        session.add_all([self.user, self.api_token])
+        session.add(self.api_token)
         session.commit()
 
     def test_success(self):
@@ -73,8 +86,17 @@ class LoadUserFromSessionTests(DatabaseTestCase):
         super(LoadUserFromSessionTests, self).setUp()
 
         session = Session()
-        self.user = User(email='user@example.com', username='user')
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
         session.add(self.user)
+        session.add(user_social_auth)
         session.commit()
 
     def test_success(self):
@@ -100,9 +122,19 @@ class RequireTokenTests(DatabaseTestCase):
         super(RequireTokenTests, self).setUp()
         self.app = self.flask_app.test_client()
         session = Session()
-        self.user = User(email='user@example.com', username='user')
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
         self.api_token = ApiToken(user=self.user)
-        session.add_all([self.user, self.api_token])
+        session.add(self.api_token)
         session.commit()
 
     @mock.patch('flask_login.current_user')
