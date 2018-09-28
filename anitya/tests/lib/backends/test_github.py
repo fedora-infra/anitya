@@ -54,7 +54,6 @@ class GithubBackendtests(DatabaseTestCase):
             backend=BACKEND,
         )
         self.session.add(project)
-        self.session.commit()
 
         project = models.Project(
             name='foobar',
@@ -63,7 +62,6 @@ class GithubBackendtests(DatabaseTestCase):
             backend=BACKEND,
         )
         self.session.add(project)
-        self.session.commit()
 
         project = models.Project(
             name='pkgdb2',
@@ -71,7 +69,6 @@ class GithubBackendtests(DatabaseTestCase):
             backend=BACKEND,
         )
         self.session.add(project)
-        self.session.commit()
 
         project = models.Project(
             name='foobar',
@@ -79,11 +76,17 @@ class GithubBackendtests(DatabaseTestCase):
             backend=BACKEND,
         )
         self.session.add(project)
-        self.session.commit()
 
         project = models.Project(
             name='foobar',
             homepage='http://github.com/foo/bar',
+            backend=BACKEND,
+        )
+        self.session.add(project)
+
+        project = models.Project(
+            name='fpdc',
+            homepage='https://github.com/fedora-infra/fpdc',
             backend=BACKEND,
         )
         self.session.add(project)
@@ -208,6 +211,19 @@ class GithubBackendtests(DatabaseTestCase):
         with invalid URL.
         """
         pid = 1
+        project = models.Project.get(self.session, pid)
+        self.assertRaises(
+            AnityaPluginException,
+            backend.GithubBackend.get_versions,
+            project
+        )
+
+    @mock.patch.dict('anitya.config.config', {'GITHUB_ACCESS_TOKEN': "foobar"})
+    def test_get_versions_no_version_retrieved(self):
+        """ Test the get_versions function of the github backend
+        with project which doesn't have any tag.
+        """
+        pid = 6
         project = models.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,

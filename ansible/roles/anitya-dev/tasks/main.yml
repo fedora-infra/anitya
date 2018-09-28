@@ -4,7 +4,7 @@
   dnf: name={{ item }} state=present
   with_items:
     - git
-    - python-virtualenvwrapper
+    - python3-virtualenvwrapper
     - vim-enhanced
 
 - name: Install anitya system dependencies
@@ -15,11 +15,9 @@
     - libffi-devel
     - openssl-devel
     - postgresql-devel
-    - python2-devel
     - python3-devel
     - redhat-rpm-config
     - rpm-python
-    - python2-sqlalchemy_schemadisplay
 
 # Add various helpful configuration files
 - name: Install a custom bashrc
@@ -38,7 +36,7 @@
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
       source ~/.bashrc && mkvirtualenv anitya -a ~/devel/ &&
-      virtualenv --system-site-packages ~/.virtualenvs/anitya/
+      virtualenv-3 --system-site-packages ~/.virtualenvs/anitya/
   args:
     creates: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya
 
@@ -47,7 +45,6 @@
   pip:
     requirements: "requirements.txt"
     virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
-    virtualenv_python: python2
   args:
     chdir: /home/{{ ansible_env.SUDO_USER }}/devel
 
@@ -56,7 +53,6 @@
   pip:
     name: "psycopg2"
     virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
-    virtualenv_python: python2
   args:
     chdir: /home/{{ ansible_env.SUDO_USER }}/devel
 
@@ -65,7 +61,6 @@
   pip:
     requirements: "test_requirements.txt"
     virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
-    virtualenv_python: python2
   args:
     chdir: /home/{{ ansible_env.SUDO_USER }}/devel
 
@@ -79,7 +74,6 @@
     name: "file:///home/{{ ansible_env.SUDO_USER }}/devel"
     extra_args: "-e"
     virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
-    virtualenv_python: python2
 
 - name: Create user systemd directory
   become_user: "{{ ansible_env.SUDO_USER }}"
