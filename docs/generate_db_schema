@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 Generate an image of the database schema
 """
@@ -8,14 +8,21 @@ from anitya.db import meta
 
 
 def write_graph(filename):
-   graph = create_schema_graph(
+    """
+    Creates graph from database classes using
+    `sqlalchemy_schemadisplay` library.
+
+    Args:
+        filename (str): Output file where image will be written
+    """
+    graph = create_schema_graph(
        metadata=meta.metadata,
        show_datatypes=False,
        show_indexes=False,
        rankdir='LR',
        concentrate=False
-   )
-   graph.write_png(filename)
+    )
+    graph.write_png(filename)
 
 
 if __name__ == '__main__':

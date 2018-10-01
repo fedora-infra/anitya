@@ -29,9 +29,7 @@ from anitya.lib import utilities
 from . import ui, admin, api, api_v2, authentication
 import anitya.lib
 import anitya.mail_logging
-
-
-__version__ = '0.13.1'
+from anitya import __version__
 
 
 def create(config=None):

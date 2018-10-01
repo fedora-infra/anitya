@@ -10,7 +10,7 @@ import re
 
 def get_project_version():
     """Read the declared version of the project from the source code"""
-    version_file = "anitya/app.py"
+    version_file = "anitya/__init__.py"
     with open(version_file, "rb") as f:
         version_pattern = b"^__version__ = '(.+)'$"
         match = re.search(version_pattern, f.read(), re.MULTILINE)

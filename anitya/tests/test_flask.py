@@ -26,6 +26,8 @@ anitya tests for the flask application.
 from six.moves.urllib import parse
 import mock
 
+from social_flask_sqlalchemy import models as social_models
+
 from anitya.db import models, Session
 from anitya.tests.base import (AnityaTestCase, DatabaseTestCase, create_distro, create_project,
                                login_user)
@@ -49,10 +51,18 @@ class SettingsTests(DatabaseTestCase):
         """Set up the Flask testing environnment"""
         super(SettingsTests, self).setUp()
         self.app = self.flask_app.test_client()
-        session = Session()
-        self.user = models.User(email='user@example.com', username='user')
-        session.add(self.user)
-        session.commit()
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        self.session.add(self.user)
+        self.session.add(user_social_auth)
+        self.session.commit()
 
     def test_login_required(self):
         """Assert this view is protected and login is required."""
@@ -148,10 +158,18 @@ class NewProjectTests(DatabaseTestCase):
         """Set up the Flask testing environnment"""
         super(NewProjectTests, self).setUp()
         self.app = self.flask_app.test_client()
-        session = Session()
-        self.user = models.User(email='user@example.com', username='user')
-        session.add(self.user)
-        session.commit()
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        self.session.add(self.user)
+        self.session.add(user_social_auth)
+        self.session.commit()
 
     def test_protected_view(self):
         """Assert this view is protected and login is required."""
@@ -515,10 +533,18 @@ class EditProjectTests(DatabaseTestCase):
         super(EditProjectTests, self).setUp()
         self.app = self.flask_app.test_client()
         # Make a user to login with
-        session = Session()
-        self.user = models.User(email='user@example.com', username='user')
-        session.add(self.user)
-        session.commit()
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        self.session.add(self.user)
+        self.session.add(user_social_auth)
+        self.session.commit()
         create_distro(self.session)
         create_project(self.session)
 
@@ -666,10 +692,18 @@ class MapProjectTests(DatabaseTestCase):
         create_distro(self.session)
         create_project(self.session)
         self.client = self.flask_app.test_client()
-        session = Session()
-        self.user = models.User(email='user@example.com', username='user')
-        session.add(self.user)
-        session.commit()
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        self.session.add(self.user)
+        self.session.add(user_social_auth)
+        self.session.commit()
 
     def test_protected_view(self):
         """Assert this view is protected and login is required."""
@@ -766,7 +800,17 @@ class EditProjectMappingTests(DatabaseTestCase):
 
         # Set up a mapping to edit
         session = Session()
-        self.user = models.User(email='user@example.com', username='user')
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        self.session.add(self.user)
+        self.session.add(user_social_auth)
         self.distro1 = models.Distro(name='CentOS')
         self.distro2 = models.Distro(name='Fedora')
         self.project = models.Project(
@@ -777,7 +821,7 @@ class EditProjectMappingTests(DatabaseTestCase):
         )
         self.package = models.Packages(
             package_name='python_project', distro=self.distro1.name, project=self.project)
-        session.add_all([self.user, self.distro1, self.distro2, self.project, self.package])
+        session.add_all([self.distro1, self.distro2, self.project, self.package])
         session.commit()
         self.client = self.flask_app.test_client()
 

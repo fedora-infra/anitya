@@ -30,9 +30,10 @@ import unittest
 from sqlalchemy.dialects import postgresql, sqlite
 from sqlalchemy.types import CHAR
 from sqlalchemy.exc import IntegrityError
+from social_flask_sqlalchemy import models as social_models
 import six
 
-from anitya.db import models, Session
+from anitya.db import models
 from anitya.lib import versions
 from anitya.tests.base import DatabaseTestCase, create_distro, create_project, create_package
 
@@ -352,60 +353,118 @@ class UserTests(DatabaseTestCase):
 
     def test_user_id(self):
         """Assert Users have a UUID id assigned to them."""
-        session = Session()
-        user = models.User(email='user@example.com', username='user')
-        session.add(user)
-        session.commit()
+        user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=user.id,
+            user=user
+        )
+
+        self.session.add(user)
+        self.session.add(user_social_auth)
+        self.session.commit()
 
         self.assertTrue(isinstance(user.id, UUID))
 
     def test_user_get_id(self):
         """Assert Users implements the Flask-Login API for getting user IDs."""
-        session = Session()
-        user = models.User(email='user@example.com', username='user')
-        session.add(user)
-        session.commit()
+        user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=user.id,
+            user=user
+        )
+
+        self.session.add(user)
+        self.session.add(user_social_auth)
+        self.session.commit()
 
         self.assertEqual(six.text_type(user.id), user.get_id())
 
     def test_user_email_unique(self):
         """Assert User emails have a uniqueness constraint on them."""
-        session = Session()
-        user = models.User(email='user@example.com', username='user')
-        session.add(user)
-        session.commit()
+        user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=user.id,
+            user=user
+        )
 
-        user2 = models.User(email='user@example.com', username='user2')
-        session.add(user2)
-        self.assertRaises(IntegrityError, session.commit)
+        self.session.add(user)
+        self.session.add(user_social_auth)
+        self.session.commit()
+
+        user = models.User(email='user@fedoraproject.org', username='user2')
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=user.id,
+            user=user
+        )
+        self.session.add(user)
+        self.session.add(user_social_auth)
+        self.assertRaises(IntegrityError, self.session.commit)
 
     def test_username_unique(self):
         """Assert User usernames have a uniqueness constraint on them."""
-        session = Session()
-        user = models.User(email='user@example.com', username='user')
-        session.add(user)
-        session.commit()
+        user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=user.id,
+            user=user
+        )
 
-        user2 = models.User(email='user2@example.com', username='user')
-        session.add(user2)
-        self.assertRaises(IntegrityError, session.commit)
+        self.session.add(user)
+        self.session.add(user_social_auth)
+        self.session.commit()
+
+        user = models.User(email='user2@fedoraproject.org', username='user')
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=user.id,
+            user=user
+        )
+        self.session.add(user)
+        self.session.add(user_social_auth)
+        self.assertRaises(IntegrityError, self.session.commit)
 
     def test_default_active(self):
         """Assert User usernames have a uniqueness constraint on them."""
-        session = Session()
-        user = models.User(email='user@example.com', username='user')
-        session.add(user)
-        session.commit()
+        user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=user.id,
+            user=user
+        )
+
+        self.session.add(user)
+        self.session.add(user_social_auth)
+        self.session.commit()
 
         self.assertTrue(user.active)
         self.assertTrue(user.is_active)
 
     def test_not_anonymous(self):
         """Assert User implements the Flask-Login API for authenticated users."""
-        session = Session()
-        user = models.User(email='user@example.com', username='user')
-        session.add(user)
-        session.commit()
+        user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=user.id,
+            user=user
+        )
+
+        self.session.add(user)
+        self.session.add(user_social_auth)
+        self.session.commit()
 
         self.assertFalse(user.is_anonymous)
         self.assertTrue(user.is_authenticated)
@@ -415,21 +474,41 @@ class ApiTokenTests(DatabaseTestCase):
 
     def test_token_default(self):
         """Assert creating an ApiToken generates a random token."""
-        session = Session()
-        user = models.User(email='user@example.com', username='user')
+        user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=user.id,
+            user=user
+        )
+
+        self.session.add(user)
+        self.session.add(user_social_auth)
+
         token = models.ApiToken(user=user)
-        session.add(token)
-        session.commit()
+        self.session.add(token)
+        self.session.commit()
 
         self.assertEqual(40, len(token.token))
 
     def test_user_relationship(self):
         """Assert users have a reference to their tokens."""
-        session = Session()
-        user = models.User(email='user@example.com', username='user')
+        user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=user.id,
+            user=user
+        )
+
+        self.session.add(user)
+        self.session.add(user_social_auth)
+
         token = models.ApiToken(user=user)
-        session.add(token)
-        session.commit()
+        self.session.add(token)
+        self.session.commit()
 
         self.assertEqual(user.api_tokens, [token])
 
