@@ -117,7 +117,7 @@ class AuthExceptionHandlerTests(base.DatabaseTestCase):
     def test_exception_handling(self):
         """Assert an AuthException results in a 400 error"""
         err = AuthException('openid', 'Auth error')
-        exp_msg = ("Error: There was error during authentication 'Auth error', "
+        exp_msg = ("Error: There was an error during authentication 'Auth error', "
                    "please check the provided url.")
 
         msg, errno = app.auth_error_handler(err)
