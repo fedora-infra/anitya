@@ -166,6 +166,6 @@ def auth_error_handler(error):
     """
     # Because social auth openId backend provides route and raises the exceptions,
     # this is the simplest way to turn error into nicely formatted error message.
-    msg = ("Error: There was error during authentication '{}', "
+    msg = ("Error: There was an error during authentication '{}', "
            "please check the provided url.".format(error))
     return msg, 400
