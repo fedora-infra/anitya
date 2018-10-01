@@ -1,5 +1,25 @@
 #!/usr/bin/env python3
 
+"""
+This script is browsing through git commit history (starting at latest tag),
+collects all authors of commits and creates fragment for `towncrier`_ python module.
+
+It's meant to be run before creating a final documentation before new release.
+
+Example:
+    $ python get_authors.py
+
+.. _towncrier:
+   https://github.com/hawkowl/towncrier
+
+(c) 2018 - Copyright Red Hat Inc
+
+Authors:
+    Aurelien Bompard
+    Michal Konecny
+"""
+
+
 from subprocess import check_output
 
 last_tag = check_output(["git", "describe", "--abbrev=0"], universal_newlines=True)

@@ -72,10 +72,8 @@ And where the ``source`` part of the filename is:
 * ``42`` when the change is described in issue ``42``
 * ``PR42`` when the change has been implemented in pull request ``42``, and
   there is no associated issue
-* ``Cabcdef`` when the change has been implemented in changeset ``abcdef``, and
-  there is no associated issue or pull request.
 * ``username`` for contributors (``author`` extention). It should be the
-  username part of their commits' email address.
+  username part of their commit's email address.
 
 A preview of the release notes can be generated with ``towncrier --draft``.
 
