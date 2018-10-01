@@ -239,8 +239,8 @@ def init(db_url, alembic_ini=None, debug=False, create=False):  # pragma: no cov
 
 def create_project(
         session, name, homepage, user_id, backend='custom',
-        version_url=None, version_prefix=None, regex=None,
-        check_release=False, insecure=False):
+        version_scheme='RPM', version_url=None, version_prefix=None,
+        regex=None, check_release=False, insecure=False):
     """ Create the project in the database.
 
     """
@@ -248,6 +248,7 @@ def create_project(
         name=name,
         homepage=homepage,
         backend=backend,
+        version_scheme=version_scheme,
         version_url=version_url,
         regex=regex,
         version_prefix=version_prefix,
@@ -283,7 +284,7 @@ def create_project(
 
 
 def edit_project(
-        session, project, name, homepage, backend, version_url,
+        session, project, name, homepage, backend, version_scheme, version_url,
         version_prefix, regex, insecure, user_id, check_release=False):
     """ Edit a project in the database.
 
@@ -301,6 +302,10 @@ def edit_project(
         old = project.backend
         project.backend = backend
         changes['backend'] = {'old': old, 'new': project.backend}
+    if version_scheme != project.version_scheme:
+        old = project.version_scheme
+        project.version_scheme = version_scheme
+        changes['version_scheme'] = {'old': old, 'new': project.version_scheme}
     if version_url != project.version_url:
         old = project.version_url
         project.version_url = version_url.strip() if version_url else None

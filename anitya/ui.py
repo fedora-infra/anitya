@@ -397,15 +397,18 @@ def new_project():
     a HTTP 400 for invalid forms, a HTTP 409 if the request conflicts with an
     existing project, or a HTTP 302 redirect to the new project.
     """
-    plugins = anitya_plugins.load_plugins(Session)
-    plg_names = [plugin.name for plugin in plugins]
-    form = anitya.forms.ProjectForm(backends=plg_names)
+    backend_plugins = anitya_plugins.load_plugins(Session)
+    plg_names = [plugin.name for plugin in backend_plugins]
+    version_plugins = anitya_plugins.load_plugins(Session, family='versions')
+    version_plg_names = [plugin.name for plugin in version_plugins]
+    form = anitya.forms.ProjectForm(
+        backends=plg_names, version_schemes=version_plg_names)
 
     if flask.request.method == 'GET':
         form.name.data = flask.request.args.get('name', '')
         form.homepage.data = flask.request.args.get('homepage', '')
         form.backend.data = flask.request.args.get('backend', '')
-
+        form.version_scheme.data = flask.request.args.get('version_scheme', '')
         form.distro.data = flask.request.args.get('distro', '')
         form.package_name.data = flask.request.args.get('package_name', '')
         return flask.render_template(
@@ -413,7 +416,7 @@ def new_project():
             context='Add',
             current='Add projects',
             form=form,
-            plugins=plugins,
+            plugins=backend_plugins,
         )
     elif form.validate_on_submit():
         project = None
@@ -423,6 +426,7 @@ def new_project():
                 name=form.name.data.strip(),
                 homepage=form.homepage.data.strip(),
                 backend=form.backend.data.strip(),
+                version_scheme=form.version_scheme.data.strip(),
                 version_url=form.version_url.data.strip() or None,
                 version_prefix=form.version_prefix.data.strip() or None,
                 regex=form.regex.data.strip() or None,
@@ -450,7 +454,7 @@ def new_project():
                 context='Add',
                 current='Add projects',
                 form=form,
-                plugins=plugins
+                plugins=backend_plugins
             ), 409
 
         if project:
@@ -463,7 +467,7 @@ def new_project():
         context='Add',
         current='Add projects',
         form=form,
-        plugins=plugins
+        plugins=backend_plugins
     ), 400
 
 
@@ -475,11 +479,14 @@ def edit_project(project_id):
     if not project:
         flask.abort(404)
 
-    plugins = anitya_plugins.load_plugins(Session)
-    plg_names = [plugin.name for plugin in plugins]
+    backend_plugins = anitya_plugins.load_plugins(Session)
+    plg_names = [plugin.name for plugin in backend_plugins]
+    version_plugins = anitya_plugins.load_plugins(Session, family='versions')
+    version_plg_names = [plugin.name for plugin in version_plugins]
 
     form = anitya.forms.ProjectForm(
         backends=plg_names,
+        version_schemes=version_plg_names,
         obj=project)
 
     if form.validate_on_submit():
@@ -490,6 +497,7 @@ def edit_project(project_id):
                 name=form.name.data.strip(),
                 homepage=form.homepage.data.strip(),
                 backend=form.backend.data.strip(),
+                version_scheme=form.version_scheme.data.strip(),
                 version_url=form.version_url.data.strip(),
                 version_prefix=form.version_prefix.data.strip(),
                 regex=form.regex.data.strip(),
@@ -515,7 +523,7 @@ def edit_project(project_id):
         current='projects',
         form=form,
         project=project,
-        plugins=plugins,
+        plugins=backend_plugins,
     )
 
 

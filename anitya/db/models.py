@@ -360,14 +360,29 @@ class Project(Base):
     @property
     def versions(self):
         ''' Return list of all versions stored, sorted from newest to oldest.
+
+        Returns:
+           :obj:`list` of :obj:`str`: List of versions
+        '''
+        sorted_versions = self.get_sorted_version_objects()
+        return [v.version for v in sorted_versions]
+
+    def get_sorted_version_objects(self):
+        ''' Return list of all version objects stored, sorted from newest to oldest.
+
+        Returns:
+           :obj:`list` of :obj:`anitya.db.models.ProjectVersion`: List of version objects
         '''
         version_class = self.get_version_class()
         versions = [
-            version_class(version=v_obj.version, prefix=self.version_prefix)
+            version_class(
+                version=v_obj.version, prefix=self.version_prefix,
+                created_on=v_obj.created_on
+            )
             for v_obj in self.versions_obj
         ]
         sorted_versions = reversed(sorted(versions))
-        return [v.version for v in sorted_versions]
+        return sorted_versions
 
     def get_version_class(self):
         """
@@ -655,6 +670,7 @@ class ProjectVersion(Base):
         primary_key=True,
     )
     version = sa.Column(sa.String(50), primary_key=True)
+    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
 
     project = sa.orm.relation('Project', backref='versions_obj')
 

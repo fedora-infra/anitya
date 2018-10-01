@@ -28,14 +28,17 @@
             <tr>
               {{ render_field_in_row(form.backend, tabindex=3) }}
             </tr>
+            <tr>
+              {{ render_field_in_row(form.version_scheme, tabindex=4) }}
+            </tr>
             <tr id="version_url_row">
-              {{ render_field_in_row(form.version_url, tabindex=4) }}
+              {{ render_field_in_row(form.version_url, tabindex=5) }}
             </tr>
             <tr id="version_prefix_row">
-              {{ render_field_in_row(form.version_prefix, tabindex=5) }}
+              {{ render_field_in_row(form.version_prefix, tabindex=6) }}
             </tr>
             <tr id="regex_row">
-              {{ render_field_in_row(form.regex, tabindex=6) }}
+              {{ render_field_in_row(form.regex, tabindex=7) }}
             </tr>
             <tr id="default_regex_row">
               <td><label>Default regex:</label></td>
@@ -103,6 +106,7 @@
     var examples = {};
     var more_info = {};
     var default_regex = {};
+    var default_version_plugin = {};
 
     {% for plugin in plugins -%}
       {%- autoescape false -%}
@@ -114,6 +118,9 @@
         {% else %}
         default_regex["{{ plugin.name }}"]="{{ plugin.default_regex }}";
         {% endif -%}
+        {% if plugin.default_version_scheme -%}
+        default_version_plugin["{{ plugin.name }}"]="{{ plugin.default_version_scheme }}";
+        {% endif -%}
 
       {%- endautoescape -%}
     {%- endfor %}
@@ -121,6 +128,7 @@
   function add_tooltips(){
     $("#name").prop('title', "Project upstream name");
     $("#homepage").prop('title', "Project homepage");
+    $("#version_scheme").prop('title', "Version scheme used for sorting project versions.");
     $("#version_url").prop('title', "URL where to look for new releases");
     $("#version_prefix").prop('title', "Prefix filled here will be removed " +
         "from retrieved version. For example version prefix " +
@@ -218,6 +226,9 @@
     var temp = default_regex[str];
     if ($('#name').val()) {
       temp = temp.replace('{project name}', $('#name').val());
+    }
+    if (default_version_plugin[str]) {
+      $('#version_scheme').val("default_version_plugin[str]")
     }
     $('#regex_example_txt').html('<div id="default_regex_txt">' + temp + '</div>');
   };

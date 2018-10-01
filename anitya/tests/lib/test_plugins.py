@@ -46,13 +46,17 @@ EXPECTED_ECOSYSTEMS = {
     "crates.io": "crates.io",
 }
 
+EXPECTED_VERSIONS = [
+    'RPM', 'Date'
+]
+
 
 class VersionPluginsTests(unittest.TestCase):
     """Tests for the version scheme plugins."""
 
     def test_version_plugin_names(self):
         plugin_names = plugins.VERSION_PLUGINS.get_plugin_names()
-        self.assertEqual(['RPM'], plugin_names)
+        self.assertEqual(sorted(EXPECTED_VERSIONS), sorted(plugin_names))
 
     def test_version_plugin_classes(self):
         version_plugins = plugins.VERSION_PLUGINS.get_plugins()
