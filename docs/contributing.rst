@@ -75,6 +75,7 @@ And where the ``source`` part of the filename is:
 * ``username`` for contributors (``author`` extention). It should be the
   username part of their commit's email address.
 
+The text inside the file will be used as entry text.
 A preview of the release notes can be generated with ``towncrier --draft``.
 
 Development Environment
