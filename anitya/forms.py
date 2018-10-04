@@ -2,7 +2,7 @@
 
 """ Forms used in anitya. """
 
-from wtforms import TextField, TextAreaField, validators, SelectField
+from wtforms import StringField, TextAreaField, validators, SelectField
 from wtforms import BooleanField
 
 from anitya.compat import FlaskForm
@@ -13,29 +13,29 @@ class TokenForm(FlaskForm):
     Form for API tokens.
 
     Attributes:
-        description (TextField): The human-readable API token description, useful
+        description (StringField): The human-readable API token description, useful
             for users to describe the token's purpose.
     """
-    description = TextField('Token description', [validators.optional()])
+    description = StringField('Token description', [validators.optional()])
 
 
 class ProjectForm(FlaskForm):
-    name = TextField('Project name', [validators.Required()])
-    homepage = TextField(
-        'Homepage', [validators.Required(), validators.URL()])
+    name = StringField('Project name', [validators.DataRequired()])
+    homepage = StringField(
+        'Homepage', [validators.DataRequired(), validators.URL()])
     backend = SelectField(
         'Backend',
-        [validators.Required()],
+        [validators.DataRequired()],
         choices=[(item, item) for item in []]
     )
-    version_url = TextField('Version URL', [validators.optional()])
-    version_prefix = TextField('Version prefix', [validators.optional()])
-    regex = TextField('Regex', [validators.optional()])
+    version_url = StringField('Version URL', [validators.optional()])
+    version_prefix = StringField('Version prefix', [validators.optional()])
+    regex = StringField('Regex', [validators.optional()])
     insecure = BooleanField(
         'Use insecure connection', [validators.optional()])
 
-    distro = TextField('Distro (optional)', [validators.optional()])
-    package_name = TextField('Package (optional)', [validators.optional()])
+    distro = StringField('Distro (optional)', [validators.optional()])
+    package_name = StringField('Package (optional)', [validators.optional()])
     check_release = BooleanField(
         'Check latest release on submit', [validators.optional()])
 
@@ -52,12 +52,12 @@ class ProjectForm(FlaskForm):
 
 
 class FlagProjectForm(FlaskForm):
-    reason = TextAreaField('Reason for flagging', [validators.Required()])
+    reason = TextAreaField('Reason for flagging', [validators.DataRequired()])
 
 
 class MappingForm(FlaskForm):
-    distro = TextField('Distribution', [validators.Required()])
-    package_name = TextField('Package name', [validators.Required()])
+    distro = StringField('Distribution', [validators.DataRequired()])
+    package_name = StringField('Package name', [validators.DataRequired()])
 
     def __init__(self, *args, **kwargs):
         """ Calls the default constructor and fill in additional information.
@@ -77,4 +77,4 @@ class ConfirmationForm(FlaskForm):
 
 
 class DistroForm(FlaskForm):
-    name = TextField('Distribution name', [validators.Required()])
+    name = StringField('Distribution name', [validators.DataRequired()])

@@ -53,7 +53,7 @@ class XML2Dict(object):
             k, v = self._namespace_split(k, object_dict({'value': v}))
             node_tree[k] = v
         # Save childrens
-        for child in node.getchildren():
+        for child in list(node):
             tag, tree = self._namespace_split(
                 child.tag, self._parse_node(child))
             # the first time, so store it in dict
