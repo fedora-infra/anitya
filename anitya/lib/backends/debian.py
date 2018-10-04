@@ -15,8 +15,8 @@ from anitya.lib.backends import BaseBackend, get_versions_by_regex
 # <name>_<version>.orig.<compression format>. So, for example,
 # reprepro_4.13.1.orig.tar.gz.
 DEBIAN_REGEX = (
-    '%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?i)(?:[-_]'
-    '(?:minsrc|src|source|asc))?\.(?:orig\.)?(?:tar|t[bglx]z|tbz2|zip)'
+    r'(?i)%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?:[-_]'
+    r'(?:minsrc|src|source|asc))?\.(?:orig\.)?(?:tar|t[bglx]z|tbz2|zip)'
 )
 
 
