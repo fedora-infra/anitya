@@ -11,6 +11,9 @@
 
 .. image:: https://codecov.io/gh/release-monitoring/anitya/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/release-monitoring/anitya
+  
+.. image:: https://travis-ci.org/release-monitoring/anitya.svg?branch=master
+  :target: https://travis-ci.org/release-monitoring/anitya
 
 ======
 Anitya
