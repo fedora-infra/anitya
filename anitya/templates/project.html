@@ -37,24 +37,12 @@
         <div class="list-group-item">
           <div class="row">
             <div class="col-md-8">
-                <h4 class="list-group-item-heading">Latest version(s):</h4>
+                <h4 class="list-group-item-heading">Latest version</h4>
                 <div class="list-group-item-text">
                   {% if project.versions %}
-                  <ul>
-                    {% for version in project.versions %}
-                    <li property="doap:release" typeof="doap:Version">
-                      <span property="doap:revision">{{ version }}</span>
-                      {% if is_admin %}
-                      <a href="{{ url_for('anitya_ui.delete_project_version',
-                                    project_id=project.id,
-                                    version=version) }}"
-                         title="Delete this version">[x]</a>
-                      {% endif %}
-                    </li>
-                    {% endfor %}
-                  </ul>
+                    <div property="doap:release" typeof="doap:Version">{{ project.latest_version }}</div>
                   {% else %}
-                  <p id="version_info">No version available for this package</p>
+                    <p id="version_info">No version available for this package</p>
                   {% endif %}
                 </div>
             </div>
@@ -95,6 +83,20 @@
           <h4 class="list-group-item-heading">Backend:</h4>
           <div class="list-group-item-text">
             <p>{{ project.backend }}</p>
+          </div>
+        </div><!-- end list-group-item -->
+
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Ecosystem:</h4>
+          <div class="list-group-item-text">
+            <p>{{ project.ecosystem_name }}</p>
+          </div>
+        </div><!-- end list-group-item -->
+
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Version scheme:</h4>
+          <div class="list-group-item-text">
+            <p>{{ project.get_version_class().name }}</p>
           </div>
         </div><!-- end list-group-item -->
 
@@ -202,6 +204,45 @@
       </span>
     </div>
 
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+            Versions
+        </h3>
+      </div>
+      <span class="list-group-item">
+        {% if project.versions %}
+        <table class="table table-condensed">
+          <tr>
+            <th>Version</th>
+            <th>Retrieved on (UTC)</th>
+            {% if is_admin %}
+            <th>Delete</th>
+            {% endif %}
+          </tr>
+          {% for version in project.get_sorted_version_objects() %}
+          <tr property="doap:release" typeof="doap:Version">
+            <td property="doap:revision">{{ version.version }}</td>
+            {% if version.created_on %}
+            <td>{{ version.created_on.strftime('%Y-%m-%d %H:%M') }}</td>
+            {% else %}
+            <td>Date information unavailable</td>
+            {% endif %}
+            {% if is_admin %}
+            <td>
+              <a href="{{ url_for('anitya_ui.delete_project_version',
+                          project_id=project.id,
+                          version=version.version) }}"
+              title="Delete this version">[x]</a>
+            </td>
+            {% endif %}
+          {% endfor %}
+        </table>
+        {% else %}
+        <p id="version_info">No version available for this package</p>
+        {% endif %}
+      </span>
+    </div>
   </div>
 </div>
 

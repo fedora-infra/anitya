@@ -37,9 +37,10 @@ class Version(object):
 
     name = 'Generic Version'
 
-    def __init__(self, version=None, prefix=None):
+    def __init__(self, version=None, prefix=None, created_on=None):
         self.version = version
         self.prefix = prefix
+        self.created_on = created_on
 
     def __str__(self):
         """

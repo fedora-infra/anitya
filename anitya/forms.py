@@ -30,6 +30,11 @@ class ProjectForm(FlaskForm):
     )
     version_url = StringField('Version URL', [validators.optional()])
     version_prefix = StringField('Version prefix', [validators.optional()])
+    version_scheme = SelectField(
+        'Version scheme',
+        [validators.Required()],
+        choices=[(item, item) for item in []]
+    )
     regex = StringField('Regex', [validators.optional()])
     insecure = BooleanField(
         'Use insecure connection', [validators.optional()])
@@ -48,6 +53,11 @@ class ProjectForm(FlaskForm):
         if 'backends' in kwargs:
             self.backend.choices = [
                 (backend, backend) for backend in sorted(kwargs['backends'])
+            ]
+        if 'version_schemes' in kwargs:
+            self.version_scheme.choices = [
+                (version_scheme, version_scheme)
+                for version_scheme in sorted(kwargs['version_schemes'])
             ]
 
 
