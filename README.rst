@@ -5,7 +5,7 @@
 .. image:: https://img.shields.io/pypi/pyversions/anitya.svg
   :target: https://pypi.org/project/anitya/
 
-.. image:: https://readthedocs.org/projects/docs/badge/?version=latest
+.. image:: https://readthedocs.org/projects/anitya/badge/?version=latest
   :alt: Documentation Status
   :target: https://anitya.readthedocs.io/en/latest/?badge=latest
 
