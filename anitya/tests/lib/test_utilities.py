@@ -19,11 +19,13 @@
 # of Red Hat, Inc.
 """Tests for the :mod:`anitya.lib.utilities` module."""
 
-from sqlalchemy.exc import SQLAlchemyError
 import mock
 
+from sqlalchemy.exc import SQLAlchemyError
+import arrow
+
 from anitya.db import models
-from anitya.lib import utilities, exceptions
+from anitya.lib import utilities, exceptions, plugins
 from anitya.lib.exceptions import AnityaException, ProjectExists
 from anitya.tests.base import (
         DatabaseTestCase, create_distro,
@@ -397,6 +399,78 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         self.assertEqual(len(versions), 3)
         self.assertEqual(versions[0].version, 'v1.0.0')
         self.assertEqual(project.latest_version, '1.0.0')
+
+    @mock.patch(
+        'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
+        return_value=['1.0.0', '0.9.9', '0.9.8'])
+    def test_check_project_check_times(self, mock_method):
+        """ Test if check times are set. """
+        project = utilities.create_project(
+            self.session,
+            name='pypi_and_npm',
+            homepage='https://example.com/not-a-real-npmjs-project',
+            backend='npmjs',
+            user_id='noreply@fedoraproject.org'
+        )
+        last_check_orig = project.last_check
+
+        utilities.check_project_release(
+            project,
+            self.session
+        )
+        next_check = plugins.get_plugin(project.backend).check_interval + project.last_check
+        self.assertTrue(last_check_orig < project.last_check)
+        self.assertEqual(next_check, project.next_check)
+
+    @mock.patch(
+        'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
+        return_value=['1.0.0', '0.9.9', '0.9.8'])
+    def test_check_project_check_times_test(self, mock_method):
+        """ Test if check times aren't set in test mode. """
+        project = utilities.create_project(
+            self.session,
+            name='pypi_and_npm',
+            homepage='https://example.com/not-a-real-npmjs-project',
+            backend='npmjs',
+            user_id='noreply@fedoraproject.org'
+        )
+        last_check_orig = project.last_check
+        next_check_orig = project.next_check
+
+        utilities.check_project_release(
+            project,
+            self.session,
+            test=True
+        )
+        self.assertEqual(last_check_orig, project.last_check)
+        self.assertEqual(next_check_orig, project.next_check)
+
+    def test_check_project_check_times_exception(self):
+        """ Test if check times are set if `exceptions.RateLimitException` is raised. """
+        project = utilities.create_project(
+            self.session,
+            name='pypi_and_npm',
+            homepage='https://example.com/not-a-real-npmjs-project',
+            backend='npmjs',
+            user_id='noreply@fedoraproject.org'
+        )
+        last_check_orig = project.last_check
+        next_check = arrow.get("2008-09-03T20:56:35.450686").naive
+
+        with mock.patch(
+                'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
+                return_value=['1.0.0']) as mock_object:
+            mock_object.side_effect = exceptions.RateLimitException(
+                "2008-09-03T20:56:35.450686"
+            )
+            self.assertRaises(
+                exceptions.RateLimitException,
+                utilities.check_project_release,
+                project,
+                self.session,
+            )
+            self.assertTrue(last_check_orig < project.last_check)
+            self.assertEqual(next_check, project.next_check)
 
 
 class MapProjectTests(DatabaseTestCase):

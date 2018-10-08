@@ -27,6 +27,7 @@ except ImportError:  # pragma: no cover
     random = random.SystemRandom()
     random_choice = random.choice
 import datetime
+import arrow
 import logging
 import time
 import string
@@ -344,6 +345,11 @@ class Project(Base):
 
     latest_version = sa.Column(sa.String(50))
     logs = sa.Column(sa.Text)
+
+    last_check = sa.Column(sa.TIMESTAMP(timezone=True),
+                           default=arrow.utcnow().datetime, index=True)
+    next_check = sa.Column(sa.TIMESTAMP(timezone=True),
+                           default=arrow.utcnow().datetime, index=True)
 
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
                            onupdate=sa.func.current_timestamp())
