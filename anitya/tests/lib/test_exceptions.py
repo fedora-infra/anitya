@@ -20,6 +20,8 @@
 
 import unittest
 
+import arrow
+
 from anitya.lib import exceptions
 
 
@@ -90,14 +92,14 @@ class RateLimitExceptionTests(unittest.TestCase):
     def test_reset_time(self):
         """Assert the property returns valid value."""
         time = "2018-08-24T09:36:15Z"
-        exp = time
+        exp = arrow.get(time)
         e = exceptions.RateLimitException(time)
         self.assertEqual(exp, e.reset_time)
 
     def test_str(self):
         """Assert the __str__ method provides a human-readable value."""
         time = "2018-08-24T09:36:15Z"
-        exp = 'Rate limit was reached. Will be reset in "2018-08-24T09:36:15Z".'
+        exp = 'Rate limit was reached. Will be reset in "2018-08-24T09:36:15+00:00".'
         e = exceptions.RateLimitException(time)
 
         self.assertEqual(exp, str(e))

@@ -22,6 +22,7 @@ Exceptions used by Anitya.
 Authors:
     Pierre-Yves Chibon <pingou@pingoured.fr>
 """
+import arrow
 
 
 class AnityaException(Exception):
@@ -108,12 +109,18 @@ class RateLimitException(AnityaException):
     """
     Raised when the rate limit for requests is reached.
 
-    Args:
-        reset_time (str): Time when limit will be reseted (UTC time encoded in ISO-8601).
+    Attributes:
+        reset_time (`arrow.Arrow`): Time when limit will be reset.
     """
 
     def __init__(self, reset_time):
-        self.reset_time = reset_time
+        """
+        Constructor.
+
+        Arguments:
+            reset_time (str): Time when limit will be reset (UTC time encoded in ISO-8601).
+        """
+        self.reset_time = arrow.get(reset_time)
 
     def __str__(self):
-        return 'Rate limit was reached. Will be reset in "{0}".'.format(self.reset_time)
+        return 'Rate limit was reached. Will be reset in "{0}".'.format(str(self.reset_time))

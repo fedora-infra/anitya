@@ -20,6 +20,7 @@
 """A collection of utilities for the Anitya library."""
 
 import logging
+from datetime import datetime
 
 import sqlalchemy as sa
 from sqlalchemy import create_engine
@@ -67,13 +68,27 @@ def check_project_release(project, session, test=False):
     versions_prefix = []
     max_version = ''
 
+    # don't change actual data during test run
+    if not test:
+        project.last_check = datetime.now()
+        project.next_check = project.last_check + backend.check_interval
+
     try:
         versions_prefix = backend.get_versions(project)
     except exceptions.AnityaPluginException as err:
         _log.exception("AnityaError catched:")
-        project.logs = str(err)
-        session.add(project)
-        session.commit()
+        if not test:
+            project.logs = str(err)
+            session.add(project)
+            session.commit()
+        raise
+    except exceptions.RateLimitException as err:
+        _log.exception("AnityaError catched:")
+        if not test:
+            project.logs = str(err)
+            project.next_check = err.reset_time.to('utc').naive
+            session.add(project)
+            session.commit()
         raise
 
     # Remove prefix

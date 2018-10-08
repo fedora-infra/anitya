@@ -3,6 +3,7 @@
 
 import sys
 import logging
+from datetime import datetime
 # We need to use multiprocessing.dummy, since we use the Pool to run
 # update_project. This in turn uses anitya.lib.backends.BaseBackend.call_url,
 # which utilizes a global requests session. Requests session is not usable
@@ -11,6 +12,7 @@ import logging
 # multiprocessing.dummy.Pool is in fact a Thread pool, which works ok
 # with a global shared requests session.
 import multiprocessing.dummy as multiprocessing
+import sqlAlchemy as sa
 
 from anitya.config import config
 from anitya import db
@@ -51,21 +53,19 @@ def projects_by_feed(session):
 
 def update_project(project_id):
     """ Check for updates on the specified project. """
-    session = utilities.init(config['DB_URL'])
+    session = db.Session()
     project = db.Project.by_id(session, project_id)
     try:
         utilities.check_project_release(project, session),
     except anitya.lib.exceptions.AnityaException as err:
         LOG.info(err)
-    finally:
-        session.get_bind().dispose()
-        session.remove()
 
 
 def main(debug, feed):
     ''' Retrieve all the packages and for each of them update the release
     version.
     '''
+    time = datetime.now()
     db.initialize(config)
     session = db.Session()
     run = db.Run(status='started')
@@ -93,7 +93,13 @@ def main(debug, feed):
         projects = list(projects_by_feed(session))
         session.commit()
     else:
-        projects = db.Project.all(session)
+        # Get all projects, that are ready for check
+        projects = session.query(
+            db.Project
+        ).order_by(
+            sa.func.lower(db.Project.name)
+        ).filter(db.Project.next_check < time).all()
+                    
 
     project_ids = [project.id for project in projects]
 

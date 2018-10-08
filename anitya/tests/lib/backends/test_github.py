@@ -354,7 +354,7 @@ class JsonTests(unittest.TestCase):
                 },
                 "rateLimit": {
                     "remaining": 0,
-                    "resetAt": "dummy"
+                    "resetAt": "2008-09-03T20:56:35.450686"
                 }
             }
         }

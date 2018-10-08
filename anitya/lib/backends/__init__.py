@@ -22,6 +22,7 @@ import fnmatch
 import logging
 import re
 import socket
+from datetime import timedelta
 # sre_constants contains re exceptions
 import sre_constants
 import six.moves.urllib.request as urllib2
@@ -70,6 +71,8 @@ class BaseBackend(object):
             the project is a part of do not define a default version scheme.
             If this is not defined, :data:`anitya.lib.versions.GLOBAL_DEFAULT`
             is used.
+        check_interval (`datetime.timedelta`): Interval which is used for periodic
+            checking for new versions. This could be overriden by backend plugin.
     '''
 
     name = None
@@ -77,6 +80,7 @@ class BaseBackend(object):
     default_regex = None
     more_info = None
     default_version_scheme = None
+    check_interval = timedelta(hours=1)
 
     @classmethod
     def expand_subdirs(self, url, glob_char="*"):
