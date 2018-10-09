@@ -28,8 +28,9 @@ class CustomBackend(BaseBackend):
         'https://subsurface-divelog.org/downloads/',
         'https://www.geany.org/Download/Releases',
     ]
-    more_info = 'More information in the '\
-        '<a href=\'/about#test-your-regex\'>about#test-your-regex</a>'
+    more_info = 'More information in the <a href=\'' \
+        '/static/docs/user-guide.html#regular-expressions\'> '\
+        'user-guide.html#regular-expressions</a>'
     default_regex = REGEX % {'name': '{project name}'}
 
     @classmethod
