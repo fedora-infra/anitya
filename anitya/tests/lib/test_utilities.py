@@ -151,105 +151,13 @@ class EditProjectTests(DatabaseTestCase):
             user_id='noreply@fedoraproject.org',
         )
 
-    def test_edit_project_version_url(self):
-        """
-        Assert that change of project version_url to same url doesn't trigger log
-        """
-        create_project(self.session)
-
-        logs = self.session.query(models.Log).all()
-        project_objs = models.Project.all(self.session)
-        self.assertEqual(len(logs), 3)
-        self.assertEqual(project_objs[0].version_url, 'https://www.geany.org/Download/Releases')
-
-        utilities.edit_project(
-            self.session,
-            project=project_objs[0],
-            name='geany',
-            homepage='https://www.geany.org/',
-            backend=project_objs[0].backend,
-            version_scheme='RPM',
-            version_url='https://www.geany.org/Download/Releases  ',
-            version_prefix=None,
-            regex=project_objs[0].regex,
-            insecure=False,
-            user_id='noreply@fedoraproject.org',
-        )
-
-        logs = self.session.query(models.Log).all()
-        project_objs = models.Project.all(self.session)
-        self.assertEqual(len(logs), 3)
-        self.assertEqual(project_objs[0].version_url, 'https://www.geany.org/Download/Releases')
-
-    def test_edit_project_version_prefix(self):
-        """
-        Assert that when version prefix is changed log message is generated
-        """
-        create_project(self.session)
-
-        logs = self.session.query(models.Log).all()
-        project_objs = models.Project.all(self.session)
-        self.assertEqual(len(logs), 3)
-        self.assertEqual(project_objs[0].version_prefix, None)
-
-        utilities.edit_project(
-            self.session,
-            project=project_objs[0],
-            name='geany',
-            homepage='https://www.geany.org/',
-            backend=project_objs[0].backend,
-            version_scheme='RPM',
-            version_url=project_objs[0].version_url,
-            version_prefix='v',
-            regex=project_objs[0].regex,
-            insecure=False,
-            user_id='noreply@fedoraproject.org',
-        )
-
-        logs = self.session.query(models.Log).all()
-        project_objs = models.Project.all(self.session)
-        self.assertEqual(len(logs), 4)
-        self.assertEqual(project_objs[0].version_prefix, 'v')
-
-    def test_edit_project_regex(self):
-        """
-        Assert that change of project regex to same value doesn't trigger log
-        """
-        create_project(self.session)
-
-        logs = self.session.query(models.Log).all()
-        project_objs = models.Project.all(self.session)
-        self.assertEqual(len(logs), 3)
-        self.assertEqual(project_objs[0].regex, 'DEFAULT')
-
-        utilities.edit_project(
-            self.session,
-            project=project_objs[0],
-            name='geany',
-            homepage='https://www.geany.org/',
-            backend=project_objs[0].backend,
-            version_scheme='RPM',
-            version_url=project_objs[0].version_url,
-            version_prefix=None,
-            regex='DEFAULT  ',
-            insecure=False,
-            user_id='noreply@fedoraproject.org',
-        )
-
-        logs = self.session.query(models.Log).all()
-        project_objs = models.Project.all(self.session)
-        self.assertEqual(len(logs), 3)
-        self.assertEqual(project_objs[0].regex, 'DEFAULT')
-
     def test_edit_project_insecure(self):
         """
         Assert change of project insecure flag
         """
         create_project(self.session)
 
-        logs = self.session.query(models.Log).all()
         project_objs = models.Project.all(self.session)
-        self.assertEqual(len(logs), 3)
         self.assertFalse(project_objs[0].insecure)
 
         utilities.edit_project(
@@ -266,9 +174,7 @@ class EditProjectTests(DatabaseTestCase):
             user_id='noreply@fedoraproject.org',
         )
 
-        logs = self.session.query(models.Log).all()
         project_objs = models.Project.all(self.session)
-        self.assertEqual(len(logs), 4)
         self.assertTrue(project_objs[0].insecure)
 
 

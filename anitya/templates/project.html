@@ -204,11 +204,28 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">
-            Logs
+            Status
         </h3>
       </div>
       <span class="list-group-item">
-            {{ project.logs }}
+        <table class="table table-condensed">
+          <tr>
+            <th>Status</th>
+            <th>Updated</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            {% if project.check_successful is none %}
+            <td>Not updated</td>
+            {% elif not project.check_successful %}
+            <td style="color:red;">Fail</td>
+            {% else %}
+            <td style="color:green;">OK</td>
+            {% endif %}
+            <td>{{ project.last_check.strftime('%Y-%m-%d %H:%M:%S') }} (UTC)</td>
+            <td>{{ project.logs }}</td>
+          </tr>
+        </table>
         <div class="clearfix"></div>
       </span>
     </div>

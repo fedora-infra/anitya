@@ -24,10 +24,10 @@ anitya tests of the models.
 '''
 
 from uuid import uuid4, UUID
-import datetime
 import unittest
 import time
 import mock
+import datetime
 
 from sqlalchemy.dialects import postgresql, sqlite
 from sqlalchemy.types import CHAR
@@ -612,48 +612,6 @@ class DistroTestCase(DatabaseTestCase):
         logs = models.Distro.search(self.session, 'Fed*', page='as')
         self.assertEqual(len(logs), 1)
         self.assertEqual(logs[0].name, 'Fedora')
-
-
-class LogTestCase(DatabaseTestCase):
-    """ Tests for Log model. """
-
-    def test_log_search(self):
-        """ Test the Log.search function. """
-        create_project(self.session)
-
-        logs = models.Log.search(self.session)
-        self.assertEqual(len(logs), 3)
-        self.assertEqual(
-            logs[0].description,
-            'noreply@fedoraproject.org added project: R2spec')
-        self.assertEqual(
-            logs[1].description,
-            'noreply@fedoraproject.org added project: subsurface')
-        self.assertEqual(
-            logs[2].description,
-            'noreply@fedoraproject.org added project: geany')
-
-        logs = models.Log.search(self.session, count=True)
-        self.assertEqual(logs, 3)
-
-        from_date = datetime.datetime.utcnow().date() - datetime.timedelta(days=1)
-        logs = models.Log.search(
-            self.session, from_date=from_date, offset=1, limit=1)
-        self.assertEqual(len(logs), 1)
-        self.assertEqual(
-            logs[0].description,
-            'noreply@fedoraproject.org added project: subsurface')
-
-        logs = models.Log.search(self.session, project_name='subsurface')
-        self.assertEqual(len(logs), 1)
-        self.assertEqual(
-            logs[0].description,
-            'noreply@fedoraproject.org added project: subsurface')
-
-        user = 'noreply@fedoraproject.org'
-        logs = models.Log.search(self.session, user=user)
-        self.assertEqual(len(logs), 3)
-        self.assertEqual(logs[0].user, user)
 
 
 class PackageTestCase(DatabaseTestCase):
