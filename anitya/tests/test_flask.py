@@ -1191,6 +1191,13 @@ class AddDistroTests(DatabaseTestCase):
 
         session.add(self.user)
         session.add(user_social_auth)
+        self.admin = models.User(email='admin@example.com', username='admin')
+        admin_social_auth = social_models.UserSocialAuth(
+            user_id=self.admin.id,
+            user=self.admin
+        )
+
+        session.add_all([admin_social_auth, self.admin])
         session.commit()
 
         self.client = self.flask_app.test_client()

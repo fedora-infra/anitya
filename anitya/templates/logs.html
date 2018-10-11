@@ -36,9 +36,8 @@
     {% if total_page > 1 %}
     <ul class="pagination pagination-sm">
         <li>
-            {% if page > 1%}
-              <a href="{{ url_for('anitya_ui.browse_logs', page=page-1, project=project,
-                user=user, from_date=from_date) }}">
+            {% if page > 1 %}
+              <a href="{{ url_for('anitya_ui.browse_logs', page=page-1) }}">
                 «
               </a>
             {% else %}
@@ -50,8 +49,7 @@
         </li>
         <li>
             {% if page < total_page %}
-              <a href="{{ url_for('anitya_ui.browse_logs', page=page+1, project=project,
-                user=user, from_date=from_date) }}">
+              <a href="{{ url_for('anitya_ui.browse_logs', page=page+1) }}">
                 »
               </a>
             {% else %}
@@ -62,49 +60,32 @@
     {% endif %}
   </div>
 
-  <div class="col-xs-10">
-    <form action="{{url_for('anitya_ui.browse_logs') }}" class="form-inline"
-          role="form" action="GET" id="logs_form">
-      <div class="form-group col-xs-6 col-sm-3">
-        <input type="text" name="project" placeholder="Project name"
-            class="form-control" value="{{ project }}"/>
-      </div>
-      {% if is_admin %}
-      <div class="form-group col-xs-6 col-sm-3">
-        <input type="text" name="user" placeholder="User identifier"
-            class="form-control" value="{{ user.username }}"/>
-      </div>
-      {% endif %}
-      <div class="form-group col-xs-6 col-sm-3">
-        <div class='input-group date' id='datetimepicker'>
-            <input type='text' class="form-control col-sm-6" name="from_date"
-                id="from_date" placeholder="From Date"
-                value="{{ from_date }}"
-                data-date-format="YYYY-MM-DD"/>
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span>
-        </div>
-      </div>
-      <div class="form-group col-xs-6 col-sm-3">
-        <button type="submit" class="btn btn-default" class="form-control">
-          Filter
-        </button>
-      </div>
-    </form>
-  </div>
-
 </div>
 
 <table class="table table-striped logs-table-seperator">
-{% for log in logs %}
     <tr>
-        <td width="240px">
-            {{ log.created_on.strftime('%Y-%m-%d %H:%M:%S') }} (UTC) 
-        </td>
+        <th>Name</th>
+        <th>Updated</th>
+        <th>Status</th>
+        <th>Description</th>
+    </tr>
+{% for project in projects %}
+    <tr>
         <td>
-        {{ log.description }}
+            <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
+              {{ project.name }}</a>
         </td>
+        <td width="240px">
+            {{ project.last_check.strftime('%Y-%m-%d %H:%M:%S') }} (UTC)
+        </td>
+        {% if project.check_successful is none %}
+        <td>Not updated</td>
+        {% elif not project.check_successful %}
+        <td style="color:red;">Fail</td>
+        {% else %}
+        <td style="color:green;">OK</td>
+        {% endif %}
+        <td>{{ project.logs }}</td>
     </tr>
 {% endfor %}
 </table>
@@ -113,11 +94,4 @@
 
 {% block jscript %}
 {{ super() }}
-<script type="text/javascript">
-    $(function () {
-        $('#datetimepicker').datetimepicker({
-            pickTime: false
-        });
-    });
-</script>
 {% endblock %}
