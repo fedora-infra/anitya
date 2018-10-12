@@ -4,6 +4,52 @@ Release Notes
 
 .. towncrier release notes start
 
+0.13.2 (2018-10-12)
+===================
+
+Features
+--------
+
+* Show users their ID on Settings page
+  (`PR#631 <https://github.com/fedora-infra/fedora-messaging/pull/631>`_)
+
+* Add sorting by creation date for versions
+  (`#593 <https://github.com/fedora-infra/fedora-messaging/issues/593>`_)
+
+
+Bug Fixes
+---------
+
+* Can't parse owner/repo on Github backend
+  (`PR#632 <https://github.com/fedora-infra/fedora-messaging/pull/632>`_)
+
+* Login into staging using OpenID not possible
+  (`#616 <https://github.com/fedora-infra/fedora-messaging/issues/616>`_)
+
+
+Development Changes
+-------------------
+
+* Add towncrier for generating release notes
+  (`PR#618 <https://github.com/fedora-infra/fedora-messaging/pull/618>`_)
+
+* Remove deprecations warning
+  (`PR#627 <https://github.com/fedora-infra/fedora-messaging/pull/627>`_)
+
+* Add documentation dependency to vagrant container
+  (`PR#630 <https://github.com/fedora-infra/fedora-messaging/pull/630>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Eli Young
+* Jeremy Cline
+* Michal Konečný
+
+
 v0.13.1
 =======
 
