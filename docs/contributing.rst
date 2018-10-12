@@ -132,6 +132,11 @@ another ``psql`` commands::
 
 For additional ``psql`` commands see ``man psql``.
 
+To run the cron job in Vagrant guest run these commands::
+
+    $ workon anitya
+    $ python files/anitya_cron.py
+
 
 Python virtualenv
 -----------------
@@ -209,17 +214,25 @@ If you are a maintainer and wish to make a release, follow these steps:
 1. Change the version in ``anitya.__init__.__version__``. This is used to set the
    version in the documentation project and the setup.py file.
 
-2. Generate the changelog by running ``towncrier``.
+2. Add any missing news fragments to the ``news`` folder
 
-3. Commit your changes.
+3. Generate the changelog by running ``towncrier``.
 
-4. Tag a release with ``git tag -s v<version>``.
+.. note::
+    If you added any news fragment in the previous step, you might see ``towncrier``
+    complaining about removing them, because they are not committed in git.
+    Just ignore this and remove them manually; release notes will be generated
+    anyway.
 
-5. Don't forget to ``git push --tags``.
+4. Commit your changes.
 
-6. Build the Python packages with ``python setup.py sdist bdist_wheel``.
+5. Tag a release with ``git tag -s <version>``.
 
-7. Upload the packages with ``twine upload dist/<dists>``.
+6. Don't forget to ``git push --tags``.
+
+7. Build the Python packages with ``python setup.py sdist bdist_wheel``.
+
+8. Upload the packages with ``twine upload dist/<dists>``.
 
 
 .. _Ansible: https://www.ansible.com/
