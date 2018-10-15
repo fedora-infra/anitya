@@ -54,6 +54,7 @@ librariesio_platform_whitelist = ['pypi', 'rubygems']
 
 default_regex = "a*b*"
 github_access_token = "foobar"
+legacy_messaging = true
 
 [anitya_log_config]
     version = 1
@@ -171,6 +172,7 @@ class LoadTests(unittest.TestCase):
             'LIBRARIESIO_PLATFORM_WHITELIST': ['pypi', 'rubygems'],
             'DEFAULT_REGEX': 'a*b*',
             'GITHUB_ACCESS_TOKEN': 'foobar',
+            'LEGACY_MESSAGING': True,
         }
         config = anitya_config.load()
         self.assertEqual(sorted(expected_config.keys()), sorted(config.keys()))

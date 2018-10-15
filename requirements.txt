@@ -3,6 +3,7 @@ blinker
 defusedxml
 python-dateutil
 fedmsg[commands,consumers]
+fedora_messaging
 flask-login
 gunicorn
 social-auth-app-flask

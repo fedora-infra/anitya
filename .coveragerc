@@ -2,6 +2,8 @@
 branch = True
 include =
     anitya/*
+    anitya_schema/anitya_schema/*
+
 
 [report]
 fail_under = 88
@@ -13,3 +15,4 @@ omit =
     anitya/tests/*
     anitya/db/migrations
     anitya/db/migrations/*
+    anitya_schema/anitya_schema/tests/*

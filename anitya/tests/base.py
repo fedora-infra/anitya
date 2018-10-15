@@ -23,10 +23,13 @@ Base class for Anitya tests.
 from __future__ import print_function
 
 from contextlib import contextmanager
+import collections
 import unittest
 import os
+import mock
 
 from flask import request_started
+from fedora_messaging import message
 from social_flask_sqlalchemy.models import PSABase
 from sqlalchemy import create_engine, event
 import flask_login
@@ -177,30 +180,31 @@ def create_distro(session):
 
 def create_project(session):
     """ Create some basic projects to work with. """
-    utilities.create_project(
-        session,
+    project = models.Project(
         name='geany',
         homepage='https://www.geany.org/',
+        backend='custom',
         version_url='https://www.geany.org/Download/Releases',
         regex='DEFAULT',
-        user_id='noreply@fedoraproject.org',
     )
+    session.add(project)
 
-    utilities.create_project(
-        session,
+    project = models.Project(
         name='subsurface',
         homepage='https://subsurface-divelog.org/',
+        backend='custom',
         version_url='https://subsurface-divelog.org/downloads/',
         regex='DEFAULT',
-        user_id='noreply@fedoraproject.org',
     )
+    session.add(project)
 
-    utilities.create_project(
-        session,
+    project = models.Project(
         name='R2spec',
         homepage='https://fedorahosted.org/r2spec/',
-        user_id='noreply@fedoraproject.org',
+        backend='custom',
     )
+    session.add(project)
+    session.commit()
 
 
 def create_ecosystem_projects(session):
@@ -208,37 +212,34 @@ def create_ecosystem_projects(session):
 
     Each project name is used in two different ecosystems
     """
-    utilities.create_project(
-        session,
+    project = models.Project(
         name='pypi_and_npm',
         homepage='https://example.com/not-a-real-pypi-project',
         backend='PyPI',
-        user_id='noreply@fedoraproject.org'
     )
+    session.add(project)
 
-    utilities.create_project(
-        session,
+    project = models.Project(
         name='pypi_and_npm',
         homepage='https://example.com/not-a-real-npmjs-project',
         backend='npmjs',
-        user_id='noreply@fedoraproject.org'
     )
+    session.add(project)
 
-    utilities.create_project(
-        session,
+    project = models.Project(
         name='rubygems_and_maven',
         homepage='https://example.com/not-a-real-rubygems-project',
         backend='Rubygems',
-        user_id='noreply@fedoraproject.org'
     )
+    session.add(project)
 
-    utilities.create_project(
-        session,
+    project = models.Project(
         name='rubygems_and_maven',
         homepage='https://example.com/not-a-real-maven-project',
         backend='Maven Central',
-        user_id='noreply@fedoraproject.org'
     )
+    session.add(project)
+    session.commit()
 
 
 def create_package(session):
@@ -262,25 +263,19 @@ def create_package(session):
 
 def create_flagged_project(session):
     """ Create and flag a project. Returns the ProjectFlag. """
-    project = utilities.create_project(
-        session,
+    project = models.Project(
         name='geany',
         homepage='https://www.geany.org/',
         version_url='https://www.geany.org/Download/Releases',
         regex='DEFAULT',
-        user_id='noreply@fedoraproject.org',
     )
-
     session.add(project)
 
-    flag = utilities.flag_project(
-        session,
-        project,
-        "This is a duplicate.",
-        "dgay@redhat.com",
-        "user_openid_id",
+    flag = models.ProjectFlag(
+        project=project,
+        reason="this is a duplicate.",
+        user="dgay@redhat.com",
     )
-
     session.add(flag)
 
     session.commit()

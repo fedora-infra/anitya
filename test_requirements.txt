@@ -1,6 +1,5 @@
 blinker
 coverage
-fedora_messaging
 flake8
 pytest
 pytest-cov
