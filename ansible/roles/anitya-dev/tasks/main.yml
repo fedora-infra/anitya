@@ -80,9 +80,12 @@
 - name: Install Anitya into the virtualenv
   become_user: "{{ ansible_env.SUDO_USER }}"
   pip:
-    name: "file:///home/{{ ansible_env.SUDO_USER }}/devel"
+    name: "{{ item }}"
     extra_args: "-e"
     virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
+  with_items:
+    - "file:///home/{{ ansible_env.SUDO_USER }}/devel"
+    - "file:///home/{{ ansible_env.SUDO_USER }}/devel/anitya_schema"
 
 - name: Create user systemd directory
   become_user: "{{ ansible_env.SUDO_USER }}"
@@ -110,3 +113,4 @@
 
 - import_tasks: db.yml
 - import_tasks: librariesio.yml
+- import_tasks: rabbitmq.yml

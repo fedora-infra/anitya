@@ -45,7 +45,7 @@ def edit_distro(distro_name):
         if name != distro.name:
             utilities.log(
                 Session,
-                distro=distro,
+                distro=distro.__json__(),
                 topic='distro.edit',
                 message=dict(
                     agent=flask.g.user.username,
@@ -89,7 +89,7 @@ def delete_distro(distro_name):
     if form.validate_on_submit():
         utilities.log(
             Session,
-            distro=distro,
+            distro=distro.__json__(),
             topic='distro.remove',
             message=dict(
                 agent=flask.g.user.username,
@@ -129,7 +129,7 @@ def delete_project(project_id):
         if confirm:
             utilities.log(
                 Session,
-                project=project,
+                project=project.__json__(),
                 topic='project.remove',
                 message=dict(
                     agent=flask.g.user.username,
@@ -184,7 +184,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
         if confirm:
             utilities.log(
                 Session,
-                project=project,
+                project=project.__json__(),
                 topic='project.map.remove',
                 message=dict(
                     agent=flask.g.user.username,
@@ -239,7 +239,7 @@ def delete_project_version(project_id, version):
         if confirm:
             utilities.log(
                 Session,
-                project=project,
+                project=project.__json__(),
                 topic='project.version.remove',
                 message=dict(
                     agent=flask.g.user.username,

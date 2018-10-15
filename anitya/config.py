@@ -97,6 +97,7 @@ DEFAULTS = dict(
                   r'(?:minsrc|src|source|asc|release))?\.(?:tar|t[bglx]z|tbz2|zip)',
     # Token for GitHub API
     GITHUB_ACCESS_TOKEN=None,
+    LEGACY_MESSAGING=False,  # If True, publish with fedmsg instead of fedora_messaging
 )
 
 # Start with a basic logging configuration, which will be replaced by any user-

@@ -22,6 +22,7 @@
 import logging
 
 import sqlalchemy as sa
+from fedora_messaging import api, message, exceptions as fm_exceptions
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from sqlalchemy.orm import sessionmaker
@@ -30,6 +31,7 @@ from sqlalchemy.orm.exc import NoResultFound
 import arrow
 
 from . import plugins, exceptions
+from anitya import config
 from anitya.db import models, Base
 
 
@@ -38,19 +40,29 @@ _log = logging.getLogger(__name__)
 
 def fedmsg_publish(*args, **kwargs):  # pragma: no cover
     ''' Try to publish a message on the fedmsg bus. '''
-    # We catch Exception if we want :-p
-    # pylint: disable=W0703
-    # Ignore message about fedmsg import
-    # pylint: disable=F0401
-    kwargs['modname'] = 'anitya'
-    kwargs['cert_prefix'] = 'anitya'
-    kwargs['name'] = 'relay_inbound'
-    kwargs['active'] = True
-    try:
-        import fedmsg
-        fedmsg.publish(*args, **kwargs)
-    except Exception as err:
-        _log.error(str(err))
+    if config.config["LEGACY_MESSAGING"]:
+        # We catch Exception if we want :-p
+        # pylint: disable=W0703
+        # Ignore message about fedmsg import
+        # pylint: disable=F0401
+        kwargs['modname'] = 'anitya'
+        kwargs['cert_prefix'] = 'anitya'
+        kwargs['name'] = 'relay_inbound'
+        kwargs['active'] = True
+        try:
+            import fedmsg
+            fedmsg.publish(*args, **kwargs)
+        except Exception as err:
+            _log.error(str(err))
+    else:
+        try:
+            message_class = message.get_class("anitya." + kwargs["topic"])
+            api.publish(message_class(body=kwargs["msg"]))
+        except (fm_exceptions.ConnectionException, fm_exceptions.PublishException) as err:
+            # For now, continue just logging the error. Once the messaging has
+            # been untangled into SQLAlchemy events, it should probably result
+            # in an exception and the client should try again later.
+            _log.error(str(err))
 
 
 def check_project_release(project, session, test=False):
@@ -130,7 +142,7 @@ def check_project_release(project, session, test=False):
     if publish:
         log(
             session,
-            project=project,
+            project=project.__json__(),
             topic="project.version.update",
             message=dict(
                 project=project.__json__(),
@@ -203,13 +215,6 @@ def log(session, project=None, distro=None, topic=None, message=None):
         distro=distro,
         message=message,
     ))
-
-    models.Log.insert(
-        session,
-        user=message['agent'],
-        project=project,
-        distro=distro,
-        description=final_msg)
 
     return final_msg
 
@@ -293,7 +298,7 @@ def create_project(
 
     log(
         session,
-        project=project,
+        project=project.__json__(),
         topic='project.add',
         message=dict(
             agent=user_id,
@@ -355,7 +360,7 @@ def edit_project(
         if changes:
             log(
                 session,
-                project=project,
+                project=project.__json__(),
                 topic='project.edit',
                 message=dict(
                     agent=user_id,
@@ -412,7 +417,7 @@ def map_project(
 
         log(
             session,
-            distro=distro_obj,
+            distro=distro_obj.__json__(),
             topic='distro.add',
             message=dict(
                 agent=user_id,
@@ -491,8 +496,8 @@ def map_project(
 
     log(
         session,
-        project=project,
-        distro=distro_obj,
+        project=project.__json__(),
+        distro=distro_obj.__json__(),
         topic=topic,
         message=message,
     )
@@ -522,7 +527,7 @@ def flag_project(session, project, reason, user_email, user_id):
 
     log(
         session,
-        project=project,
+        project=project.__json__(),
         topic='project.flag',
         message=dict(
             agent=user_id,

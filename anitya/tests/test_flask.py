@@ -27,7 +27,9 @@ from sqlalchemy.exc import SQLAlchemyError
 from six.moves.urllib import parse
 import mock
 
+import anitya_schema
 from social_flask_sqlalchemy import models as social_models
+from fedora_messaging import message, testing as fml_testing
 
 from anitya import ui
 from anitya.db import models, Session
@@ -205,8 +207,9 @@ class NewProjectTests(DatabaseTestCase):
                     'backend': 'PyPI',
                     'version_scheme': 'Date',
                 }
-                output = c.post(
-                    '/project/new', data=data, follow_redirects=True)
+                with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+                    output = c.post(
+                        '/project/new', data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
                 self.assertTrue(
                     b'<li class="list-group-item list-group-item-default">'
@@ -252,8 +255,9 @@ class NewProjectTests(DatabaseTestCase):
                     'backend': 'PyPI',
                     'version_scheme': 'Date',
                 }
-                output = c.post(
-                    '/project/new', data=data, follow_redirects=True)
+                with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+                    output = c.post(
+                        '/project/new', data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
 
                 # Now try to recreate the same project we did above
@@ -311,8 +315,9 @@ class NewProjectTests(DatabaseTestCase):
                     'csrf_token': output.data.split(
                         b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0],
                 }
-                output = c.post(
-                    '/project/new', data=data, follow_redirects=True)
+                with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+                    output = c.post(
+                        '/project/new', data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
                 self.assertTrue(
                     b'<li class="list-group-item list-group-item-default">'
@@ -322,8 +327,9 @@ class NewProjectTests(DatabaseTestCase):
                 # check_release_on
                 data['name'] += 'xxx'
                 data['check_release'] = 'on'
-                output = c.post(
-                    '/project/new', data=data, follow_redirects=True)
+                with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+                    output = c.post(
+                        '/project/new', data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
                 self.assertTrue(
                     b'<li class="list-group-item list-group-item-default">'
@@ -837,8 +843,9 @@ class EditProjectTests(DatabaseTestCase):
                     'csrf_token': csrf_token,
                 }
 
-                output = c.post(
-                    '/project/1/edit', data=data, follow_redirects=True)
+                with fml_testing.mock_sends(anitya_schema.ProjectEdited):
+                    output = c.post(
+                        '/project/1/edit', data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
                 self.assertTrue(
                     b'<li class="list-group-item list-group-item-default">'
@@ -914,8 +921,9 @@ class EditProjectTests(DatabaseTestCase):
                     'csrf_token': csrf_token,
                     'check_release': 'on',
                 }
-                output = c.post(
-                    '/project/1/edit', data=data, follow_redirects=True)
+                with fml_testing.mock_sends(anitya_schema.ProjectEdited):
+                    output = c.post(
+                        '/project/1/edit', data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
                 self.assertTrue(
                     b'<li class="list-group-item list-group-item-default">'
@@ -992,7 +1000,8 @@ class MapProjectTests(DatabaseTestCase):
                     'csrf_token': csrf_token,
                 }
 
-                output = c.post('/project/1/map', data=data, follow_redirects=True)
+                with fml_testing.mock_sends([anitya_schema.DistroCreated, anitya_schema.ProjectMapCreated]):
+                    output = c.post('/project/1/map', data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
                 self.assertTrue(
                     b'<li class="list-group-item list-group-item-default">'
@@ -1016,7 +1025,8 @@ class MapProjectTests(DatabaseTestCase):
                     'csrf_token': csrf_token,
                 }
 
-                output = c.post('/project/1/map', data=data, follow_redirects=True)
+                with fml_testing.mock_sends([anitya_schema.DistroCreated, anitya_schema.ProjectMapCreated]):
+                    output = c.post('/project/1/map', data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
                 output = c.post('/project/1/map', data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
@@ -1075,7 +1085,8 @@ class EditProjectMappingTests(DatabaseTestCase):
                 'distro': self.distro1.name,
                 'csrf_token': csrf_token,
             }
-            output = self.client.post('/project/1/map/1', data=data, follow_redirects=True)
+            with fml_testing.mock_sends(anitya_schema.ProjectMapEdited):
+                output = self.client.post('/project/1/map/1', data=data, follow_redirects=True)
 
             self.assertEqual(pre_edit_output.status_code, 200)
             self.assertEqual(output.status_code, 200)
@@ -1095,7 +1106,8 @@ class EditProjectMappingTests(DatabaseTestCase):
                 'distro': self.distro2.name,
                 'csrf_token': csrf_token,
             }
-            output = self.client.post('/project/1/map/1', data=data, follow_redirects=True)
+            with fml_testing.mock_sends(anitya_schema.ProjectMapEdited):
+                output = self.client.post('/project/1/map/1', data=data, follow_redirects=True)
 
             self.assertEqual(pre_edit_output.status_code, 200)
             self.assertEqual(output.status_code, 200)

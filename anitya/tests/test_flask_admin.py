@@ -22,9 +22,11 @@
 import mock
 import six
 
+from fedora_messaging import testing as fml_testing
 from social_flask_sqlalchemy import models as social_models
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm.query import Query
+import anitya_schema
 
 from anitya import admin
 from anitya.db import models, Session
@@ -137,7 +139,8 @@ class EditDistroTests(DatabaseTestCase):
                 b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
             data = {'name': 'Top', 'csrf_token': csrf_token}
 
-            output = self.client.post('/distro/Fedora/edit', data=data, follow_redirects=True)
+            with fml_testing.mock_sends(anitya_schema.DistroEdited):
+                output = self.client.post('/distro/Fedora/edit', data=data, follow_redirects=True)
             self.assertEqual(200, output.status_code)
             self.assertEqual(200, self.client.get('/distro/Top/edit').status_code)
 
@@ -228,7 +231,8 @@ class DeleteDistroTests(DatabaseTestCase):
                 b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
             data = {'csrf_token': csrf_token}
 
-            output = self.client.post('/distro/Fedora/delete', data=data, follow_redirects=True)
+            with fml_testing.mock_sends(anitya_schema.DistroDeleted):
+                output = self.client.post('/distro/Fedora/delete', data=data, follow_redirects=True)
             self.assertEqual(200, output.status_code)
             self.assertEqual(404, self.client.get('/distro/Fedora/delete').status_code)
 
@@ -325,8 +329,9 @@ class DeleteProjectTests(DatabaseTestCase):
                 b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
             data = {'confirm': True, 'csrf_token': csrf_token}
 
-            output = self.client.post(
-                '/project/{0}/delete'.format(self.project.id), data=data, follow_redirects=True)
+            with fml_testing.mock_sends(anitya_schema.ProjectDeleted):
+                output = self.client.post(
+                    '/project/{0}/delete'.format(self.project.id), data=data, follow_redirects=True)
 
             self.assertEqual(200, output.status_code)
             self.assertEqual(0, len(models.Project.query.all()))
@@ -432,8 +437,9 @@ class DeleteProjectMappingTests(DatabaseTestCase):
                 b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
             data = {'confirm': True, 'csrf_token': csrf_token}
 
-            output = self.client.post(
-                '/project/1/delete/Fedora/test-project', data=data, follow_redirects=True)
+            with fml_testing.mock_sends(anitya_schema.ProjectMapDeleted):
+                output = self.client.post(
+                    '/project/1/delete/Fedora/test-project', data=data, follow_redirects=True)
 
             self.assertEqual(200, output.status_code)
             self.assertEqual(0, len(models.Packages.query.all()))
@@ -534,7 +540,9 @@ class DeleteProjectVersionTests(DatabaseTestCase):
                 b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
             data = {'confirm': True, 'csrf_token': csrf_token}
 
-            output = self.client.post('/project/1/delete/1.0.0', data=data, follow_redirects=True)
+            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeleted):
+                output = self.client.post(
+                    '/project/1/delete/1.0.0', data=data, follow_redirects=True)
             self.assertEqual(200, output.status_code)
             self.assertEqual(0, len(models.ProjectVersion.query.all()))
 
@@ -800,8 +808,9 @@ class SetFlagStateTests(DatabaseTestCase):
             csrf_token = output.data.split(
                 b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
 
-            output = self.client.post(
-                '/flags/1/set/closed', data={'csrf_token': csrf_token}, follow_redirects=True)
+            with fml_testing.mock_sends(anitya_schema.ProjectFlagSet):
+                output = self.client.post(
+                    '/flags/1/set/closed', data={'csrf_token': csrf_token}, follow_redirects=True)
 
             self.assertEqual(200, output.status_code)
             self.assertTrue(b'Flag 1 set to closed' in output.data)
