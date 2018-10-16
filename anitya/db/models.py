@@ -21,7 +21,7 @@
 try:
     # The Python 3.6+ API
     from secrets import choice as random_choice
-except ImportError:
+except ImportError:  # pragma: no cover
     # Fall back to random with os.urandom
     import random
     random = random.SystemRandom()
@@ -230,7 +230,7 @@ class Packages(Base):
     __tablename__ = 'packages'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    distro = sa.Column(
+    distro_name = sa.Column(
         sa.String(200),
         sa.ForeignKey(
             "distros.name",
@@ -247,19 +247,25 @@ class Packages(Base):
     package_name = sa.Column(sa.String(200))
 
     __table_args__ = (
-        sa.UniqueConstraint('distro', 'package_name'),
+        sa.UniqueConstraint('distro_name', 'package_name'),
     )
 
-    project = sa.orm.relation('Project')
+    project = sa.orm.relationship(
+        'Project', backref=sa.orm.backref('package', cascade='all, delete-orphan')
+    )
+
+    distro = sa.orm.relationship(
+        'Distro', backref=sa.orm.backref('package', cascade='all, delete-orphan')
+    )
 
     def __repr__(self):
         return '<Packages(%s, %s: %s)>' % (
-            self.project_id, self.distro, self.package_name)
+            self.project_id, self.distro_name, self.package_name)
 
     def __json__(self):
         return dict(
             package_name=self.package_name,
-            distro=self.distro,
+            distro=self.distro_name,
         )
 
     @classmethod
@@ -267,26 +273,26 @@ class Packages(Base):
         return session.query(cls).filter_by(id=pkg_id).first()
 
     @classmethod
-    def get(cls, session, project_id, distro, package_name):
+    def get(cls, session, project_id, distro_name, package_name):
         query = session.query(
             cls
         ).filter(
             cls.project_id == project_id
         ).filter(
-            sa.func.lower(cls.distro) == sa.func.lower(distro)
+            sa.func.lower(cls.distro_name) == sa.func.lower(distro_name)
         ).filter(
             cls.package_name == package_name
         )
         return query.first()
 
     @classmethod
-    def by_package_name_distro(cls, session, package_name, distro):
+    def by_package_name_distro(cls, session, package_name, distro_name):
         query = session.query(
             cls
         ).filter(
             cls.package_name == package_name
         ).filter(
-            sa.func.lower(cls.distro) == sa.func.lower(distro)
+            sa.func.lower(cls.distro_name) == sa.func.lower(distro_name)
         )
         return query.first()
 
@@ -343,7 +349,7 @@ class Project(Base):
                            onupdate=sa.func.current_timestamp())
     created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
 
-    packages = sa.orm.relation('Packages')
+    packages = sa.orm.relationship('Packages', cascade='all, delete-orphan')
 
     __table_args__ = (
         sa.UniqueConstraint('name', 'homepage'),
@@ -640,10 +646,6 @@ class Project(Base):
                 sa.func.lower(Packages.distro) == sa.func.lower(distro)
             )
 
-            query2 = query2.filter(
-                sa.func.lower(Packages.distro) == sa.func.lower(distro)
-            )
-
         query = query1.distinct().union(
             query2.distinct()
         ).order_by(
@@ -672,7 +674,9 @@ class ProjectVersion(Base):
     version = sa.Column(sa.String(50), primary_key=True)
     created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
 
-    project = sa.orm.relation('Project', backref='versions_obj')
+    project = sa.orm.relationship(
+        'Project', backref=sa.orm.backref('versions_obj', cascade='all, delete-orphan')
+    )
 
 
 class ProjectFlag(Base):
@@ -695,7 +699,9 @@ class ProjectFlag(Base):
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
                            onupdate=sa.func.current_timestamp())
 
-    project = sa.orm.relation('Project', backref='flags')
+    project = sa.orm.relationship(
+        'Project', backref=sa.orm.backref('flags', cascade='all, delete-orphan')
+    )
 
     def __repr__(self):
         return '<ProjectFlag(%s, %s, %s)>' % (self.project.name, self.user,

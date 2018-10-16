@@ -30,7 +30,7 @@
 
           {% for package in project.packages %}
           <tr>
-            <td>{{ package.distro }}</td>
+            <td>{{ package.distro_name }}</td>
             <td>{{ package.package_name }}</td>
             {% if package.regex %}
             <td>
