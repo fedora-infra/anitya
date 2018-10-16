@@ -35,7 +35,10 @@ import six
 
 from anitya.db import models
 from anitya.lib import versions
-from anitya.tests.base import DatabaseTestCase, create_distro, create_project, create_package
+from anitya.tests.base import (
+    DatabaseTestCase, create_distro,
+    create_project, create_package,
+    create_flagged_project)
 
 
 class ProjectTests(DatabaseTestCase):
@@ -205,6 +208,50 @@ class ProjectTests(DatabaseTestCase):
             backend='foobar'
         )
 
+    def test_project_delete_cascade(self):
+        """ Assert deletion of mapped packages when project is deleted """
+        project = models.Project(
+            name='test',
+            homepage='https://example.com',
+            backend='custom',
+            ecosystem_name='pypi',
+            version_scheme='Invalid',
+        )
+        self.session.add(project)
+
+        package = models.Packages(
+            project_id=1,
+            distro_name='Fedora',
+            package_name='test',
+        )
+        self.session.add(package)
+        self.session.commit()
+
+        projects = self.session.query(models.Project).all()
+        self.assertEqual(len(projects), 1)
+        self.assertEqual(len(projects[0].package), 1)
+
+        self.session.delete(projects[0])
+        self.session.commit()
+
+        projects = self.session.query(models.Project).all()
+        packages = self.session.query(models.Packages).all()
+        self.assertEqual(len(projects), 0)
+        self.assertEqual(len(packages), 0)
+
+        create_flagged_project(self.session)
+        projects = self.session.query(models.Project).all()
+        self.assertEqual(len(projects), 1)
+        self.assertEqual(len(projects[0].flags), 1)
+
+        self.session.delete(projects[0])
+        self.session.commit()
+
+        projects = self.session.query(models.Project).all()
+        packages = self.session.query(models.ProjectFlag).all()
+        self.assertEqual(len(projects), 0)
+        self.assertEqual(len(packages), 0)
+
 
 class DatabaseTestCase(DatabaseTestCase):
     """ Model tests. """
@@ -217,6 +264,44 @@ class DatabaseTestCase(DatabaseTestCase):
         distros = models.Distro.all(self.session)
         self.assertEqual(distros[0].name, 'Debian')
         self.assertEqual(distros[1].name, 'Fedora')
+
+    def test_distro_delete_cascade(self):
+        """ Assert deletion of mapped packages when project is deleted """
+        project = models.Project(
+            name='test',
+            homepage='https://example.com',
+            backend='custom',
+            ecosystem_name='pypi',
+            version_scheme='Invalid',
+        )
+        self.session.add(project)
+
+        distro = models.Distro(
+            name='Fedora',
+        )
+        self.session.add(distro)
+
+        package = models.Packages(
+            project_id=1,
+            distro_name='Fedora',
+            package_name='test',
+        )
+        self.session.add(package)
+        self.session.commit()
+
+        distros = self.session.query(models.Distro).all()
+
+        self.assertEqual(len(distros), 1)
+        self.assertEqual(len(distros[0].package), 1)
+
+        self.session.delete(distros[0])
+        self.session.commit()
+
+        distros = self.session.query(models.Distro).all()
+        packages = self.session.query(models.Packages).all()
+
+        self.assertEqual(len(distros), 0)
+        self.assertEqual(len(packages), 0)
 
     def test_log_search(self):
         """ Test the Log.search function. """
@@ -278,7 +363,7 @@ class DatabaseTestCase(DatabaseTestCase):
 
         pkg = models.Packages.by_id(self.session, 1)
         self.assertEqual(pkg.package_name, 'geany')
-        self.assertEqual(pkg.distro, 'Fedora')
+        self.assertEqual(pkg.distro_name, 'Fedora')
 
     def test_packages__repr__(self):
         """ Test the Packages.__repr__ function. """
