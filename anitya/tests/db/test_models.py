@@ -26,6 +26,7 @@ anitya tests of the models.
 from uuid import uuid4, UUID
 import datetime
 import unittest
+import time
 
 from sqlalchemy.dialects import postgresql, sqlite
 from sqlalchemy.types import CHAR
@@ -39,6 +40,7 @@ from anitya.tests.base import (
     DatabaseTestCase, create_distro,
     create_project, create_package,
     create_flagged_project)
+from anitya.lib import utilities
 
 
 class ProjectTests(DatabaseTestCase):
@@ -178,6 +180,7 @@ class ProjectTests(DatabaseTestCase):
     def test_project_search(self):
         """ Test the Project.search function. """
         create_project(self.session)
+        create_package(self.session)
 
         projects = models.Project.search(self.session, '*', count=True)
         self.assertEqual(projects, 3)
@@ -187,6 +190,27 @@ class ProjectTests(DatabaseTestCase):
 
         projects = models.Project.search(self.session, '*', page='asd')
         self.assertEqual(len(projects), 3)
+
+    def test_project_search_no_pattern(self):
+        """
+        Assert that all projects are returned when
+        no pattern is provided.
+        """
+        create_project(self.session)
+
+        projects = models.Project.search(self.session, '')
+        self.assertEqual(len(projects), 3)
+
+    def test_project_search_by_distro(self):
+        """
+        Assert that only projects with mappings to specific distro
+        are returned when distro is provided.
+        """
+        create_project(self.session)
+        create_package(self.session)
+
+        projects = models.Project.search(self.session, '*', distro='Fedora')
+        self.assertEqual(len(projects), 2)
 
     def test_project_get_or_create(self):
         """ Test the Project.get_or_create function. """
@@ -199,6 +223,11 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual(project.homepage, 'https://test.org')
         self.assertEqual(project.backend, 'custom')
 
+    def test_project_get_or_create_exception(self):
+        """
+        Assert that exception is raised when incorrect
+        backend is provided.
+        """
         self.assertRaises(
             ValueError,
             models.Project.get_or_create,
@@ -252,9 +281,164 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual(len(projects), 0)
         self.assertEqual(len(packages), 0)
 
+    def test_project_get_or_create_get(self):
+        """
+        Assert that project is only returned when existing name
+        is provided.
+        """
+        create_project(self.session)
+        pre_projects = models.Project.search(self.session, '*', count=True)
+        project = models.Project.get_or_create(
+            self.session,
+            name='geany',
+            homepage='https://www.geany.org/')
+        post_projects = models.Project.search(self.session, '*', count=True)
+        self.assertEqual(project.name, 'geany')
+        self.assertEqual(project.homepage, 'https://www.geany.org/')
+        self.assertEqual(pre_projects, post_projects)
 
-class DatabaseTestCase(DatabaseTestCase):
-    """ Model tests. """
+    def test_project_updated_new(self):
+        """
+        Assert that only new projects are returned when status is
+        set to 'new'.
+        """
+        create_project(self.session)
+
+        projects = models.Project.updated(self.session, status='new')
+        self.assertEqual(len(projects), 3)
+        self.assertEqual(projects[0].logs, None)
+
+    def test_project_updated_newer_updated(self):
+        """
+        Assert that only not updated projects are returned when status is
+        set to 'newer_updated'.
+        """
+        create_project(self.session)
+        for project in self.session.query(models.Project).all():
+            project.logs = "something"
+            project.latest_version = None
+        self.session.commit()
+
+        projects = models.Project.updated(self.session, status='never_updated')
+        self.assertEqual(len(projects), 3)
+        self.assertEqual(projects[0].logs, "something")
+
+    def test_project_updated_failed(self):
+        """
+        Assert that only update failed projects are returned when status is
+        set to 'failed'.
+        """
+        create_project(self.session)
+        for project in self.session.query(models.Project).all():
+            project.logs = "No upstream version found"
+        self.session.commit()
+
+        projects = models.Project.updated(self.session, status='failed')
+        self.assertEqual(len(projects), 3)
+        self.assertEqual(projects[0].logs, "No upstream version found")
+
+    def test_project_updated_odd(self):
+        """
+        Assert that only odd updated projects are returned when status is
+        set to 'odd'.
+        """
+        create_project(self.session)
+        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+            project.logs = "Something strange occured"
+        self.session.commit()
+
+        projects = models.Project.updated(self.session, status='odd')
+        self.assertEqual(len(projects), 1)
+        self.assertEqual(projects[0].logs, "Something strange occured")
+
+    def test_project_updated_updated(self):
+        """
+        Assert that only updated projects are returned when status is
+        set to 'updated'.
+        """
+        create_project(self.session)
+        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+            project.logs = "Version retrieved correctly"
+        self.session.commit()
+
+        projects = models.Project.updated(self.session, status='updated')
+        self.assertEqual(len(projects), 1)
+        self.assertEqual(projects[0].logs, "Version retrieved correctly")
+
+    def test_project_updated_incorrect_status(self):
+        """
+        Assert that all projects are returned when incorrect status is used.
+        """
+        create_project(self.session)
+        projects = models.Project.updated(self.session, status='incorrect')
+        self.assertEqual(len(projects), 3)
+
+    def test_project_updated_name_pattern(self):
+        """
+        Assert that correct project is returned when pattern as name is used.
+        """
+        create_project(self.session)
+        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+            project.logs = "Version retrieved correctly"
+        self.session.commit()
+
+        projects = models.Project.updated(self.session, name='gean*')
+        self.assertEqual(len(projects), 1)
+        self.assertEqual(projects[0].name, "geany")
+
+    def test_project_updated_name(self):
+        """
+        Assert that correct project is returned when exact name is used.
+        """
+        create_project(self.session)
+        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+            project.logs = "Version retrieved correctly"
+        self.session.commit()
+
+        projects = models.Project.updated(self.session, name='geany')
+        self.assertEqual(len(projects), 1)
+        self.assertEqual(projects[0].name, "geany")
+
+    def test_project_updated_log_pattern(self):
+        """
+        Assert that correct project is returned when log pattern is used.
+        """
+        create_project(self.session)
+        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+            project.logs = "Version retrieved correctly"
+        self.session.commit()
+
+        projects = models.Project.updated(self.session, log='*retrieved*')
+        self.assertEqual(len(projects), 1)
+        self.assertEqual(projects[0].name, "geany")
+
+    def test_project_updated_log(self):
+        """
+        Assert that log argument is automatically changed to pattern.
+        """
+        create_project(self.session)
+        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+            project.logs = "Version retrieved correctly"
+        self.session.commit()
+
+        projects = models.Project.updated(self.session, log='retrieved')
+        self.assertEqual(len(projects), 1)
+        self.assertEqual(projects[0].name, "geany")
+
+    def test_project_updated_count(self):
+        """
+        Assert that correct count is returned.
+        """
+        create_project(self.session)
+        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+            project.logs = "Version retrieved correctly"
+        self.session.commit()
+        projects = models.Project.updated(self.session, count=True)
+        self.assertEqual(projects, 1)
+
+
+class DistroTestCase(DatabaseTestCase):
+    """ Tests for Distro model. """
 
     def test_init_distro(self):
         """ Test the __init__ function of Distro. """
@@ -303,6 +487,49 @@ class DatabaseTestCase(DatabaseTestCase):
         self.assertEqual(len(distros), 0)
         self.assertEqual(len(packages), 0)
 
+    def test_distro_search_count(self):
+        """ Assert that `Distro.search` returns correct count. """
+        create_distro(self.session)
+
+        logs = models.Distro.search(self.session, '*', count=True)
+        self.assertEqual(logs, 2)
+
+    def test_distro_search_pattern(self):
+        """
+        Assert that `Distro.search` returns correct distribution,
+        when pattern is used.
+        """
+        create_distro(self.session)
+
+        logs = models.Distro.search(self.session, 'Fed*')
+        self.assertEqual(len(logs), 1)
+        self.assertEqual(logs[0].name, 'Fedora')
+
+    def test_distro_search_page(self):
+        """
+        Assert that pagination is working in `Distro.search`.
+        """
+        create_distro(self.session)
+
+        logs = models.Distro.search(self.session, 'Fed*', page=1)
+        self.assertEqual(len(logs), 1)
+        self.assertEqual(logs[0].name, 'Fedora')
+
+    def test_distro_search_incorrect_page(self):
+        """
+        Assert that pagination is automatically adjusted if incorrect value is used
+        in `Distro.search`.
+        """
+        create_distro(self.session)
+
+        logs = models.Distro.search(self.session, 'Fed*', page='as')
+        self.assertEqual(len(logs), 1)
+        self.assertEqual(logs[0].name, 'Fedora')
+
+
+class LogTestCase(DatabaseTestCase):
+    """ Tests for Log model. """
+
     def test_log_search(self):
         """ Test the Log.search function. """
         create_project(self.session)
@@ -336,24 +563,14 @@ class DatabaseTestCase(DatabaseTestCase):
             logs[0].description,
             'noreply@fedoraproject.org added project: subsurface')
 
-    def test_distro_search(self):
-        """ Test the Distro.search function. """
-        create_distro(self.session)
+        user = 'noreply@fedoraproject.org'
+        logs = models.Log.search(self.session, user=user)
+        self.assertEqual(len(logs), 3)
+        self.assertEqual(logs[0].user, user)
 
-        logs = models.Distro.search(self.session, '*', count=True)
-        self.assertEqual(logs, 2)
 
-        logs = models.Distro.search(self.session, 'Fed*')
-        self.assertEqual(len(logs), 1)
-        self.assertEqual(logs[0].name, 'Fedora')
-
-        logs = models.Distro.search(self.session, 'Fed*', page=1)
-        self.assertEqual(len(logs), 1)
-        self.assertEqual(logs[0].name, 'Fedora')
-
-        logs = models.Distro.search(self.session, 'Fed*', page='as')
-        self.assertEqual(len(logs), 1)
-        self.assertEqual(logs[0].name, 'Fedora')
+class PackageTestCase(DatabaseTestCase):
+    """ Tests for Package model. """
 
     def test_packages_by_id(self):
         """ Test the Packages.by_id function. """
@@ -373,6 +590,174 @@ class DatabaseTestCase(DatabaseTestCase):
 
         pkg = models.Packages.by_id(self.session, 1)
         self.assertEqual(str(pkg), '<Packages(1, Fedora: geany)>')
+
+
+class ProjectFlagTestCase(DatabaseTestCase):
+    """ Tests for ProjectFlag model. """
+
+    def test_project_flag__repr__(self):
+        """ Test the ProjectFlag.__repr__ function. """
+        flag = create_flagged_project(self.session)
+
+        self.assertEqual(repr(flag), '<ProjectFlag(geany, dgay@redhat.com, open)>')
+
+    def test_project_flag__json__(self):
+        """ Test the ProjectFlag.__json__ function. """
+        flag = create_flagged_project(self.session)
+        data = {
+            'created_on': time.mktime(flag.created_on.timetuple()),
+            'user': u'dgay@redhat.com',
+            'state': u'open',
+            'project': u'geany',
+            'updated_on': time.mktime(flag.updated_on.timetuple()),
+            'id': 1
+        }
+
+        self.assertEqual(flag.__json__(), data)
+
+        data['reason'] = u'This is a duplicate.'
+        self.assertEqual(flag.__json__(detailed=True), data)
+
+    def test_project_flag_all(self):
+        """ Test the ProjectFlag.all function. """
+        create_flagged_project(self.session)
+
+        flags = models.ProjectFlag.all(self.session)
+        self.assertEqual(len(flags), 1)
+
+    def test_project_flag_search_by_name(self):
+        """
+        Assert that 'ProjectFlag.search' returns correct project
+        if project name is provided.
+        """
+        flag = create_flagged_project(self.session)
+        flag_add = utilities.flag_project(
+            self.session,
+            flag.project,
+            "This is a duplicate.",
+            "cthulhu@redhat.com",
+            "user_openid_id",
+        )
+        flag_add.state = "closed"
+
+        self.session.add(flag_add)
+
+        self.session.commit()
+
+        flags = models.ProjectFlag.search(self.session, project_name="geany")
+        self.assertEqual(len(flags), 2)
+
+    def test_project_flag_search_by_date(self):
+        """
+        Assert that 'ProjectFlag.search' returns correct project
+        if from date is provided.
+        """
+        create_flagged_project(self.session)
+
+        from_date = datetime.datetime.utcnow().date() - datetime.timedelta(days=1)
+        flags = models.ProjectFlag.search(self.session, from_date=from_date)
+        self.assertEqual(len(flags), 1)
+
+    def test_project_flag_search_by_user(self):
+        """
+        Assert that 'ProjectFlag.search' returns correct project
+        if from date is provided.
+        """
+        flag = create_flagged_project(self.session)
+        flag_add = utilities.flag_project(
+            self.session,
+            flag.project,
+            "This is a duplicate.",
+            "cthulhu@redhat.com",
+            "user_openid_id",
+        )
+        flag_add.state = "closed"
+        self.session.add(flag_add)
+        self.session.commit()
+        user = flag.user
+
+        flags = models.ProjectFlag.search(self.session, user=user)
+        self.assertEqual(len(flags), 1)
+
+    def test_project_flag_search_by_state(self):
+        """
+        Assert that 'ProjectFlag.search' returns correct project
+        if state is provided.
+        """
+        flag = create_flagged_project(self.session)
+        flag_add = utilities.flag_project(
+            self.session,
+            flag.project,
+            "This is a duplicate.",
+            "cthulhu@redhat.com",
+            "user_openid_id",
+        )
+        flag_add.state = "closed"
+        self.session.add(flag_add)
+        self.session.commit()
+
+        flags = models.ProjectFlag.search(self.session, state='open')
+        self.assertEqual(len(flags), 1)
+
+    def test_project_flag_search_offset(self):
+        """
+        Assert that 'ProjectFlag.search' returns correct project
+        if offset is set.
+        """
+        flag = create_flagged_project(self.session)
+        flag_add = utilities.flag_project(
+            self.session,
+            flag.project,
+            "This is a duplicate.",
+            "cthulhu@redhat.com",
+            "user_openid_id",
+        )
+        flag_add.state = "closed"
+        self.session.add(flag_add)
+        self.session.commit()
+
+        flags = models.ProjectFlag.search(self.session, offset=1)
+        self.assertEqual(len(flags), 1)
+
+    def test_project_flag_search_limit(self):
+        """
+        Assert that 'ProjectFlag.search' returns correct project
+        if limit is set.
+        """
+        flag = create_flagged_project(self.session)
+        flag_add = utilities.flag_project(
+            self.session,
+            flag.project,
+            "This is a duplicate.",
+            "cthulhu@redhat.com",
+            "user_openid_id",
+        )
+        flag_add.state = "closed"
+        self.session.add(flag_add)
+        self.session.commit()
+
+        flags = models.ProjectFlag.search(self.session, limit=1)
+        self.assertEqual(len(flags), 1)
+
+    def test_project_flag_search_count(self):
+        """
+        Assert that 'ProjectFlag.search' returns correct project
+        if count is set.
+        """
+        flag = create_flagged_project(self.session)
+        flag_add = utilities.flag_project(
+            self.session,
+            flag.project,
+            "This is a duplicate.",
+            "cthulhu@redhat.com",
+            "user_openid_id",
+        )
+        flag_add.state = "closed"
+        self.session.add(flag_add)
+        self.session.commit()
+
+        flags = models.ProjectFlag.search(self.session, count=True)
+        self.assertEqual(flags, 2)
 
 
 class GuidTests(unittest.TestCase):

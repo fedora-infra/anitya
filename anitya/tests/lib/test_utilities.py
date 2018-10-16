@@ -25,7 +25,10 @@ import mock
 from anitya.db import models
 from anitya.lib import utilities, exceptions
 from anitya.lib.exceptions import AnityaException, ProjectExists
-from anitya.tests.base import DatabaseTestCase, create_distro, create_project
+from anitya.tests.base import (
+        DatabaseTestCase, create_distro,
+        create_project, create_flagged_project
+)
 
 
 class CreateProjectTests(DatabaseTestCase):
@@ -103,7 +106,7 @@ class EditProjectTests(DatabaseTestCase):
             name=project_objs[0].name,
             homepage='https://www.geany.org',
             backend='PyPI',
-            version_scheme='Date',
+            version_scheme='RPM',
             version_url=None,
             version_prefix=None,
             regex=None,
@@ -145,6 +148,126 @@ class EditProjectTests(DatabaseTestCase):
             insecure=False,
             user_id='noreply@fedoraproject.org',
         )
+
+    def test_edit_project_version_url(self):
+        """
+        Assert that change of project version_url to same url doesn't trigger log
+        """
+        create_project(self.session)
+
+        logs = self.session.query(models.Log).all()
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(logs), 3)
+        self.assertEqual(project_objs[0].version_url, 'https://www.geany.org/Download/Releases')
+
+        utilities.edit_project(
+            self.session,
+            project=project_objs[0],
+            name='geany',
+            homepage='https://www.geany.org/',
+            backend=project_objs[0].backend,
+            version_scheme='RPM',
+            version_url='https://www.geany.org/Download/Releases  ',
+            version_prefix=None,
+            regex=project_objs[0].regex,
+            insecure=False,
+            user_id='noreply@fedoraproject.org',
+        )
+
+        logs = self.session.query(models.Log).all()
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(logs), 3)
+        self.assertEqual(project_objs[0].version_url, 'https://www.geany.org/Download/Releases')
+
+    def test_edit_project_version_prefix(self):
+        """
+        Assert that when version prefix is changed log message is generated
+        """
+        create_project(self.session)
+
+        logs = self.session.query(models.Log).all()
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(logs), 3)
+        self.assertEqual(project_objs[0].version_prefix, None)
+
+        utilities.edit_project(
+            self.session,
+            project=project_objs[0],
+            name='geany',
+            homepage='https://www.geany.org/',
+            backend=project_objs[0].backend,
+            version_scheme='RPM',
+            version_url=project_objs[0].version_url,
+            version_prefix='v',
+            regex=project_objs[0].regex,
+            insecure=False,
+            user_id='noreply@fedoraproject.org',
+        )
+
+        logs = self.session.query(models.Log).all()
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(logs), 4)
+        self.assertEqual(project_objs[0].version_prefix, 'v')
+
+    def test_edit_project_regex(self):
+        """
+        Assert that change of project regex to same value doesn't trigger log
+        """
+        create_project(self.session)
+
+        logs = self.session.query(models.Log).all()
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(logs), 3)
+        self.assertEqual(project_objs[0].regex, 'DEFAULT')
+
+        utilities.edit_project(
+            self.session,
+            project=project_objs[0],
+            name='geany',
+            homepage='https://www.geany.org/',
+            backend=project_objs[0].backend,
+            version_scheme='RPM',
+            version_url=project_objs[0].version_url,
+            version_prefix=None,
+            regex='DEFAULT  ',
+            insecure=False,
+            user_id='noreply@fedoraproject.org',
+        )
+
+        logs = self.session.query(models.Log).all()
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(logs), 3)
+        self.assertEqual(project_objs[0].regex, 'DEFAULT')
+
+    def test_edit_project_insecure(self):
+        """
+        Assert change of project insecure flag
+        """
+        create_project(self.session)
+
+        logs = self.session.query(models.Log).all()
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(logs), 3)
+        self.assertFalse(project_objs[0].insecure)
+
+        utilities.edit_project(
+            self.session,
+            project=project_objs[0],
+            name='geany',
+            homepage='https://www.geany.org/',
+            backend=project_objs[0].backend,
+            version_scheme='RPM',
+            version_url=project_objs[0].version_url,
+            version_prefix=None,
+            regex=project_objs[0].regex,
+            insecure=True,
+            user_id='noreply@fedoraproject.org',
+        )
+
+        logs = self.session.query(models.Log).all()
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(logs), 4)
+        self.assertTrue(project_objs[0].insecure)
 
 
 class CheckProjectReleaseTests(DatabaseTestCase):
@@ -394,4 +517,115 @@ class MapProjectTests(DatabaseTestCase):
                 distribution='Fedora',
                 user_id='noreply@fedoraproject.org',
                 old_package_name=None,
+            )
+
+    def test_map_project_session_error(self):
+        """ Test SQLAlchemy session error """
+        create_project(self.session)
+        create_distro(self.session)
+
+        project_obj = models.Project.get(self.session, 1)
+        self.assertEqual(project_obj.name, 'geany')
+        self.assertEqual(len(project_obj.packages), 0)
+
+        with mock.patch.object(
+                self.session, 'flush', mock.Mock(side_effect=[SQLAlchemyError(), None])):
+            # With Distro object
+            self.assertRaises(
+                exceptions.AnityaException,
+                utilities.map_project,
+                self.session,
+                project=project_obj,
+                package_name='geany',
+                distribution='Fedora',
+                user_id='noreply@fedoraproject.org',
+                old_package_name=None,
+            )
+
+
+class FlagProjectTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.lib.utilities.flag_project` function."""
+
+    def test_flag_project(self):
+        """ Test flag creation """
+        create_project(self.session)
+
+        project_obj = models.Project.get(self.session, 1)
+        self.assertEqual(len(project_obj.flags), 0)
+
+        utilities.flag_project(
+            self.session,
+            project=project_obj,
+            reason='reason',
+            user_email='noreply@fedoraproject.org',
+            user_id='noreply@fedoraproject.org',
+        )
+
+        project_obj = models.Project.get(self.session, 1)
+        self.assertEqual(len(project_obj.flags), 1)
+        self.assertEqual(project_obj.flags[0].reason, 'reason')
+
+    def test_flag_project_session_error(self):
+        """ Test SQLAlchemy session error """
+        create_project(self.session)
+
+        project_obj = models.Project.get(self.session, 1)
+
+        with mock.patch.object(
+                self.session, 'flush', mock.Mock(side_effect=[SQLAlchemyError(), None])):
+            self.assertRaises(
+                exceptions.AnityaException,
+                utilities.flag_project,
+                self.session,
+                project=project_obj,
+                reason='reason',
+                user_email='noreply@fedoraproject.org',
+                user_id='noreply@fedoraproject.org',
+            )
+
+
+class SetFlagStateTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.lib.utilities.set_flag_state` function."""
+
+    def test_set_flag_state(self):
+        """ Test set state """
+        flag = create_flagged_project(self.session)
+
+        utilities.set_flag_state(
+            self.session,
+            flag=flag,
+            state='closed',
+            user_id='noreply@fedoraproject.org',
+        )
+
+        project_obj = models.Project.get(self.session, 1)
+        self.assertEqual(len(project_obj.flags), 1)
+        self.assertEqual(project_obj.flags[0].state, 'closed')
+
+    def test_set_flag_state_no_change(self):
+        """ Test set state """
+        flag = create_flagged_project(self.session)
+
+        self.assertRaises(
+            exceptions.AnityaException,
+            utilities.set_flag_state,
+            self.session,
+            flag=flag,
+            state='open',
+            user_id='noreply@fedoraproject.org',
+        )
+
+    def test_set_flag_project_session_error(self):
+        """ Test SQLAlchemy session error """
+        flag = create_flagged_project(self.session)
+
+        with mock.patch.object(
+                self.session, 'flush', mock.Mock(side_effect=[SQLAlchemyError(), None])):
+            self.assertRaises(
+                exceptions.AnityaException,
+                utilities.set_flag_state,
+                self.session,
+                flag=flag,
+                state='closed',
+                user_id='noreply@fedoraproject.org',
             )

@@ -23,14 +23,16 @@
 anitya tests for the flask application.
 '''
 
+from sqlalchemy.exc import SQLAlchemyError
 from six.moves.urllib import parse
 import mock
 
 from social_flask_sqlalchemy import models as social_models
 
+from anitya import ui
 from anitya.db import models, Session
 from anitya.tests.base import (AnityaTestCase, DatabaseTestCase, create_distro, create_project,
-                               login_user)
+                               login_user, create_package)
 
 
 class ShutdownSessionTests(AnityaTestCase):
@@ -374,6 +376,10 @@ class FlaskTest(DatabaseTestCase):
 
         self.flask_app.config['TESTING'] = True
         self.app = self.flask_app.test_client()
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
+        session.add(self.user)
+        session.commit()
 
     def test_index(self):
         """ Test the index function. """
@@ -533,6 +539,62 @@ class FlaskTest(DatabaseTestCase):
         self.assertTrue(
             b'<h1>Search projects in Fedora</h1>' in output.data)
 
+    def test_distro_projects_search_pattern(self):
+        """
+        Assert that `anitya.ui.distro_project_search` returns
+        correct project when pattern is used.
+        """
+        create_distro(self.session)
+        create_project(self.session)
+        create_package(self.session)
+
+        output = self.app.get('/distro/Fedora/search/g')
+        self.assertEqual(output.status_code, 200)
+        self.assertEqual(output.data.count(b'<a href="/project/1'), 1)
+
+    def test_distro_projects_search_incorrect(self):
+        """
+        Assert that `anitya.ui.distro_project_search` returns
+        correct project when incorrect page is set.
+        """
+        create_distro(self.session)
+        create_project(self.session)
+        create_package(self.session)
+
+        output = self.app.get('/distro/Fedora/search/?page=ab')
+        self.assertEqual(output.status_code, 200)
+        self.assertEqual(output.data.count(b'<a href="/project/1'), 1)
+
+    def test_distro_projects_search_exact(self):
+        """
+        Assert that `anitya.ui.distro_project_search` returns
+        correct project when exact argument is set.
+        """
+        create_distro(self.session)
+        create_project(self.session)
+        create_package(self.session)
+
+        output = self.app.get('/distro/Fedora/search/?exact=1')
+        self.assertEqual(output.status_code, 200)
+        self.assertEqual(output.data.count(b'<a href="/project/1'), 1)
+
+    def test_distro_projects_search_flash(self):
+        """
+        Assert that `anitya.ui.distro_project_search` shows
+        flash message when redirect happens.
+        """
+        create_distro(self.session)
+        create_project(self.session)
+        create_package(self.session)
+
+        output = self.app.get(
+            '/distro/Fedora/search/geany*', follow_redirects=True)
+        self.assertEqual(output.status_code, 200)
+        expected = b'<li class="list-group-item list-group-item-default">' \
+            b'Only one result matching with an ' \
+            b'exact match, redirecting</li>'
+        self.assertTrue(expected in output.data)
+
     def test_projects_search(self):
         """ Test the projects_search function. """
         create_distro(self.session)
@@ -540,7 +602,7 @@ class FlaskTest(DatabaseTestCase):
 
         output = self.app.get('/projects/search/g')
         self.assertEqual(output.status_code, 200)
-        self.assertEqual(output.data.count(b'<a href="/project/'), 1)
+        self.assertEqual(output.data.count(b'<a href="/project/1'), 1)
 
         output = self.app.get('/projects/search/g*')
         self.assertEqual(output.status_code, 200)
@@ -550,9 +612,14 @@ class FlaskTest(DatabaseTestCase):
                   </a>"""
         self.assertTrue(expected in output.data)
 
-        self.assertEqual(output.data.count(b'<a href="/project/'), 1)
+        self.assertEqual(output.data.count(b'<a href="/project/1'), 1)
 
         output = self.app.get('/projects/search/?page=ab')
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(expected in output.data)
+        self.assertEqual(output.data.count(b'<a href="/project/'), 3)
+
+        output = self.app.get('/projects/search/?exact=1')
         self.assertEqual(output.status_code, 200)
         self.assertTrue(expected in output.data)
         self.assertEqual(output.data.count(b'<a href="/project/'), 3)
@@ -564,6 +631,125 @@ class FlaskTest(DatabaseTestCase):
         expected = b'<li class="list-group-item list-group-item-default">' \
             b'Only one result matching with an ' \
             b'exact match, redirecting</li>'
+        self.assertTrue(expected in output.data)
+
+    def test_logout_redirect(self):
+        """Assert the logout logouts user"""
+        with login_user(self.flask_app, self.user):
+            output = self.app.get('/logout')
+            self.assertEqual(output.status_code, 302)
+            self.assertEqual(
+                output.headers['Location'],
+                'http://localhost/'
+            )
+
+    def test_logout(self):
+        """Assert the logout logouts user"""
+        login_user(self.flask_app, self.user)
+        output = self.app.get('/logout', follow_redirects=True)
+        output = self.app.get('/project/new', follow_redirects=False)
+        self.assertEqual(output.status_code, 302)
+        self.assertEqual('/login/', parse.urlparse(output.location).path)
+
+    def test_projects_search_by_name(self):
+        """ Test the project_name function. """
+        create_project(self.session)
+
+        output = self.app.get('/project/geany')
+        self.assertEqual(output.status_code, 301)
+        self.assertEqual(
+            output.headers['Location'],
+            'http://localhost/project/geany/'
+        )
+
+    def test_projects_search_by_name_slash(self):
+        """ Assert that `anitya.ui.project_name` renders
+        page with correct project. """
+        create_project(self.session)
+
+        output = self.app.get('/project/geany/')
+        self.assertEqual(output.status_code, 200)
+        expected = b'<h1>Project: geany</h1>'
+        self.assertTrue(expected in output.data)
+
+    def test_projects_search_by_name_incorrect_page(self):
+        """
+        Assert that `anitya.ui.project_name` automatically
+        converts incorrect page value.
+        """
+        create_project(self.session)
+        expected = b'<h1>Project: geany</h1>'
+
+        output = self.app.get('/project/geany/?page=ab')
+        self.assertEqual(output.status_code, 200)
+        self.assertTrue(expected in output.data)
+
+    def test_projects_search_by_name_pattern(self):
+        """
+        Assert that `anitya.ui.project_name` renders correct
+        project if pattern name is provided.
+        """
+        create_project(self.session)
+        project = models.Project(
+            name='geany_project',
+            homepage='https://example.com/geany_project',
+            backend='PyPI',
+            ecosystem_name='pypi',
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        output = self.app.get('/project/geany*/')
+        self.assertEqual(output.status_code, 200)
+        self.assertEqual(output.data.count(b'<a href="/project/'), 2)
+
+    def test_projects_updated(self):
+        """
+        Assert that `anitya.ui.project_updated` renders
+        correct projects.
+        """
+        create_project(self.session)
+
+        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+            project.logs = "Version retrieved correctly"
+        self.session.commit()
+
+        output = self.app.get('/projects/updates/')
+        self.assertEqual(output.status_code, 200)
+        self.assertEqual(output.data.count(b'<a href="/project/1'), 1)
+
+    def test_projects_updated_incorrect_page(self):
+        """
+        Assert that `anitya.ui.project_updated` automatically
+        changes incorrect page.
+        """
+        create_project(self.session)
+        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+            project.logs = "Version retrieved correctly"
+        self.session.commit()
+
+        output = self.app.get('/projects/updates/?page=ab')
+        self.assertEqual(output.status_code, 200)
+        self.assertEqual(output.data.count(b'<a href="/project/1'), 1)
+
+    def test_projects_updated_incorrect_status(self):
+        """
+        Assert that `anitya.ui.project_updated` shows flash message
+        when incorrect status is provided.
+        """
+        create_project(self.session)
+        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+            project.logs = "Version retrieved correctly"
+        self.session.commit()
+
+        output = self.app.get('/projects/updates/status')
+        expected = b'<li class="list-group-item list-group-item-warning">' \
+            b'status is invalid, you should use one of: ' \
+            b'new, updated, failed, never_updated, odd; using default: ' \
+            b'`updated`</li><li class="list-group-item list-group-item-default">' \
+            b'Returning all the projects regardless of how/if their version was ' \
+            b'retrieved correctly</li>'
+        self.assertEqual(output.status_code, 200)
         self.assertTrue(expected in output.data)
 
 
@@ -956,6 +1142,27 @@ class EditProjectMappingTests(DatabaseTestCase):
             output = self.client.post('/project/42/map/1', data={})
             self.assertEqual(output.status_code, 404)
 
+    def test_anitya_exception(self):
+        """Assert handling of exception."""
+        with mock.patch.object(
+                self.session, 'flush', mock.Mock(side_effect=[SQLAlchemyError(), None])):
+            with login_user(self.flask_app, self.user):
+                pre_edit_output = self.client.get('/project/1/map/1')
+                csrf_token = pre_edit_output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {
+                    'package_name': self.project.name,
+                    'distro': self.distro2.name,
+                    'csrf_token': csrf_token,
+                }
+                output = self.client.post('/project/1/map/1', data=data, follow_redirects=True)
+
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(
+                    b'Could not add the mapping of python_project to Fedora, '
+                    b'please inform an admin.'
+                    in output.data)
+
 
 class AddDistroTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.add_distro` view function."""
@@ -1022,3 +1229,75 @@ class AddDistroTests(DatabaseTestCase):
             self.assertEqual(200, output.status_code)
             self.assertTrue(b'Distribution added' in create_output.data)
             self.assertTrue(b'Could not add this distro' in dup_output.data)
+
+
+class FlagProjecTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.ui.flag_project` view."""
+
+    def setUp(self):
+        super(FlagProjecTests, self).setUp()
+
+        create_project(self.session)
+        session = Session()
+        self.user = models.User(email='user@example.com', username='user')
+        session.add(self.user)
+        session.commit()
+        self.client = self.flask_app.test_client()
+
+    def test_flag_project(self):
+        """ Assert flaging project."""
+        with login_user(self.flask_app, self.user):
+            pre_edit_output = self.client.get('/project/1/flag')
+            csrf_token = pre_edit_output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {
+                'reason': 'Unfit for humanity',
+                'csrf_token': csrf_token,
+            }
+            output = self.client.post('/project/1/flag', data=data, follow_redirects=True)
+
+            self.assertEqual(output.status_code, 200)
+            flags = self.session.query(models.ProjectFlag).all()
+            self.assertEqual(len(flags), 1)
+            self.assertEqual(flags[0].project_id, 1)
+
+    def test_invalid_project(self):
+        """ Assert abort with invalid project."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/project/99/flag')
+            self.assertEqual(output.status_code, 404)
+
+    def test_anitya_exception(self):
+        """Assert handling of exception."""
+        with mock.patch.object(
+                self.session, 'flush', mock.Mock(side_effect=[SQLAlchemyError(), None])):
+            with login_user(self.flask_app, self.user):
+                pre_edit_output = self.client.get('/project/1/flag')
+                csrf_token = pre_edit_output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {
+                    'reason': 'Unfit for humanity',
+                    'csrf_token': csrf_token,
+                }
+                output = self.client.post('/project/1/flag', data=data, follow_redirects=True)
+
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(
+                    b'Could not flag this project.'
+                    in output.data)
+
+
+class UiTests(DatabaseTestCase):
+    """Tests for the functions in `anitya.ui` class."""
+
+    def test_format_examples(self):
+        """ Assert format examples testing. """
+        output = ui.format_examples(['http://example.com'])
+
+        self.assertEqual(output, "<a href='http://example.com'>http://example.com</a> ")
+
+    def test_format_examples_none(self):
+        """ Assert format examples testing. """
+        output = ui.format_examples(None)
+
+        self.assertEqual(output, "")
