@@ -66,7 +66,10 @@ class FlagProjectForm(FlaskForm):
 
 
 class MappingForm(FlaskForm):
-    distro = StringField('Distribution', [validators.DataRequired()])
+    distro = SelectField(
+        'Distribution',
+        [validators.DataRequired()],
+        choices=[])
     package_name = StringField('Package name', [validators.DataRequired()])
 
     def __init__(self, *args, **kwargs):
@@ -80,6 +83,12 @@ class MappingForm(FlaskForm):
             self.package_name.data = package.package_name
             self.version_url.data = package.version_url
             self.regex.data = package.regex
+
+        if 'distros' in kwargs:
+            self.distro.choices = [
+                (distro, distro)
+                for distro in sorted(kwargs['distros'], key=lambda s: s.lower())
+            ]
 
 
 class ConfirmationForm(FlaskForm):
