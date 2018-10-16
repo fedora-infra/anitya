@@ -9,50 +9,58 @@
   <h1>Project: {{ project.name }}</h1>
 </div>
 
-<div class="row">
 
+{% if package %}
+<form method="POST" action="{{ url_for('anitya_ui.edit_project_mapping',
+    project_id=project.id, pkg_id=package.id) }}" >
+{% else %}
+<form method="POST" action="{{ url_for('anitya_ui.map_project', project_id=project.id) }}" >
+{% endif %}
+  {{ form.csrf_token }}
+  <div class="row">
+    <div class="col-md-6">
+      <div class="list-group">
+        <span class="list-group-item">
+          <table class="table table-condensed">
+            <tr>
+              {{ render_field_in_row(form.distro) }}
+              <td></td>
+            </tr>
+
+            <tr>
+              {{ render_field_in_row(form.package_name) }}
+              <td></td>
+            </tr>
+         </table>
+        </span>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-success">
     {% if package %}
-    <form method="POST" action="{{ url_for('anitya_ui.edit_project_mapping',
-        project_id=project.id, pkg_id=package.id) }}" >
+    <span class="glyphicon glyphicon-refresh"></span>
+    Edit mapping
     {% else %}
-    <form method="POST" action="{{ url_for('anitya_ui.map_project', project_id=project.id) }}" >
+    <span class="glyphicon glyphicon-plus"></span>
+    Add mapping to project
     {% endif %}
-      {{ form.csrf_token }}
-      <table id="input_table">
+  </button>
 
-        <tr>
-          {{ render_field_in_row(form.distro) }}
-          <td></td>
-        </tr>
-
-        <tr>
-          {{ render_field_in_row(form.package_name) }}
-          <td></td>
-        </tr>
-
-      </table>
-
-      <div class="clearfix"></div>
-
-      <button type="submit" class="btn btn-success">
-        {% if package %}
-        <span class="glyphicon glyphicon-refresh"></span>
-        Edit mapping
-        {% else %}
-        <span class="glyphicon glyphicon-plus"></span>
-        Add mapping project
-        {% endif %}
-      </button>
-
-      <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
-        <button type="button" class="btn btn-danger">
-          <span class="glyphicon glyphicon-ban-circle"></span>
-          Cancel
-        </button>
-      </a>
-
-    </form>
-
+  <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
+    <button type="button" class="btn btn-danger">
+      <span class="glyphicon glyphicon-ban-circle"></span>
+      Cancel
+    </button>
+  </a>
+</form>
+<br/>
+<div class="row">
+  <div class="col-md-6">
+    <p>
+      Missing your favorite distribution?<br\>
+      You can add it through <a href="{{ url_for('anitya_ui.distros') }}">distros</a>
+    </p>
+  </div>
 </div>
 
 {% endblock %}

@@ -5,6 +5,7 @@ from math import ceil
 from flask_login import login_required, logout_user
 import flask
 import six.moves.urllib.parse as urlparse
+from sqlalchemy.exc import SQLAlchemyError
 
 from anitya.db import Session, models
 from anitya.lib import utilities, exceptions, plugins as anitya_plugins
@@ -283,6 +284,45 @@ def distro(distroname):
         total_page=total_page,
         projects_count=projects_count,
         page=page)
+
+
+@ui_blueprint.route('/distro/add', methods=['GET', 'POST'])
+@login_required
+def add_distro():
+
+    form = anitya.forms.DistroForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+
+        distro = models.Distro(name)
+
+        utilities.log(
+            Session,
+            distro=distro,
+            topic='distro.add',
+            message=dict(
+                agent=flask.g.user.username,
+                distro=distro.name,
+            )
+        )
+
+        try:
+            Session.add(distro)
+            Session.commit()
+            flask.flash('Distribution added')
+        except SQLAlchemyError:
+            Session.rollback()
+            flask.flash(
+                'Could not add this distro, already exists?', 'error')
+        return flask.redirect(
+            flask.url_for('anitya_ui.distros')
+        )
+
+    return flask.render_template(
+        'distro_add.html',
+        current='distros',
+        form=form)
 
 
 @ui_blueprint.route('/projects/search')
@@ -572,7 +612,13 @@ def map_project(project_id):
     if not project:
         flask.abort(404)
 
-    form = anitya.forms.MappingForm()
+    # Get all available distros name
+    distros = models.Distro.all(Session)
+    distro_names = []
+    for distro in distros:
+        distro_names.append(distro.name)
+
+    form = anitya.forms.MappingForm(distros=distro_names)
 
     if flask.request.method == 'GET':
         form.package_name.data = flask.request.args.get(
@@ -620,7 +666,13 @@ def edit_project_mapping(project_id, pkg_id):
     if not package:
         flask.abort(404)
 
-    form = anitya.forms.MappingForm(obj=package)
+    # Get all available distros name
+    distros = models.Distro.all(Session)
+    distro_names = []
+    for distro in distros:
+        distro_names.append(distro.name)
+
+    form = anitya.forms.MappingForm(obj=package, distros=distro_names)
 
     if form.validate_on_submit():
 

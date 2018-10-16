@@ -5,7 +5,6 @@ from math import ceil
 import logging
 
 import flask
-from sqlalchemy.exc import SQLAlchemyError
 
 from anitya.lib import utilities
 from anitya.db import models, Session
@@ -25,48 +24,6 @@ def is_admin(user=None):
     user = user or flask.g.user
     if user.is_authenticated:
         return user.admin
-
-
-@ui_blueprint.route('/distro/add', methods=['GET', 'POST'])
-@login_required
-def add_distro():
-
-    if not is_admin():
-        flask.abort(401)
-
-    form = anitya.forms.DistroForm()
-
-    if form.validate_on_submit():
-        name = form.name.data
-
-        distro = models.Distro(name)
-
-        utilities.log(
-            Session,
-            distro=distro,
-            topic='distro.add',
-            message=dict(
-                agent=flask.g.user.username,
-                distro=distro.name,
-            )
-        )
-
-        try:
-            Session.add(distro)
-            Session.commit()
-            flask.flash('Distribution added')
-        except SQLAlchemyError:
-            Session.rollback()
-            flask.flash(
-                'Could not add this distro, already exists?', 'error')
-        return flask.redirect(
-            flask.url_for('anitya_ui.distros')
-        )
-
-    return flask.render_template(
-        'distro_add.html',
-        current='distros',
-        form=form)
 
 
 @ui_blueprint.route('/distro/<distro_name>/edit', methods=['GET', 'POST'])
