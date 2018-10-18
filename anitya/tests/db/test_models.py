@@ -107,6 +107,36 @@ class ProjectTests(DatabaseTestCase):
         )
         self.assertEqual('pypi', project.__json__()['ecosystem'])
 
+    def get_sorted_version_objects(self):
+        """ Assert that sorted versions are included in the list returned from
+        :data:`Project.get_sorted_version_objects`.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.com',
+            backend='custom',
+            ecosystem_name='pypi',
+            version_scheme='Date'
+        )
+        version_first = models.ProjectVersion(
+            project_id=project.id,
+            version='1.0',
+        )
+        version_second = models.ProjectVersion(
+            project_id=project.id,
+            version='0.8',
+        )
+        self.session.add(project)
+        self.session.add(version_first)
+        self.session.add(version_second)
+        self.session.commit()
+
+        versions = project.get_sorted_version_objects()
+
+        self.assertEqual(len(versions), 2)
+        self.assertEqual(versions[0].version, version_second.version)
+        self.assertEqual(versions[1].version, version_first.version)
+
     def test_get_version_class(self):
         project = models.Project(
             name='test',

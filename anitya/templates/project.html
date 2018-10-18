@@ -273,7 +273,7 @@
         dataType: 'json',
         success: function(res) {
           if (test) {
-              alert('Version found: ' + res.version);
+              alert('Versions found: \n' + res.version.join(', '));
           } else {
             if (res.version) {
               output = res.version;

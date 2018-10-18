@@ -147,6 +147,112 @@ class EditProjectTests(DatabaseTestCase):
         )
 
 
+class CheckProjectReleaseTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.lib.utilities.check_project_release` function."""
+
+    @mock.patch('anitya.db.models.Project')
+    def test_check_project_release_no_backend(self, mock_project):
+        """ Test the check_project_release function for Project. """
+        m_project = mock_project.return_value
+        m_project.backend.return_value = 'dummy'
+        self.assertRaises(
+            AnityaException,
+            utilities.check_project_release,
+            m_project,
+            self.session
+        )
+
+    @mock.patch(
+        'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
+        return_value=['1.0.0', '0.9.9', '0.9.8'])
+    def test_check_project_release_backend(self, mock_method):
+        """ Test the check_project_release function for Project. """
+        project = utilities.create_project(
+            self.session,
+            name='pypi_and_npm',
+            homepage='https://example.com/not-a-real-npmjs-project',
+            backend='npmjs',
+            user_id='noreply@fedoraproject.org'
+        )
+        versions = utilities.check_project_release(
+            project,
+            self.session,
+            test=True
+        )
+        self.assertEqual(versions, ['1.0.0', '0.9.9', '0.9.8'])
+
+    @mock.patch(
+        'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
+        mock.Mock(side_effect=exceptions.AnityaPluginException("")))
+    def test_check_project_release_plugin_exception(self):
+        """ Test the check_project_release function for Project. """
+        project = utilities.create_project(
+            self.session,
+            name='pypi_and_npm',
+            homepage='https://example.com/not-a-real-npmjs-project',
+            backend='npmjs',
+            user_id='noreply@fedoraproject.org'
+        )
+        self.assertRaises(
+            exceptions.AnityaPluginException,
+            utilities.check_project_release,
+            project,
+            self.session,
+        )
+
+    @mock.patch(
+        'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
+        return_value=['1.0.0'])
+    def test_check_project_release_no_new_version(self, mock_method):
+        """ Test the check_project_release function for Project. """
+        project = utilities.create_project(
+            self.session,
+            name='pypi_and_npm',
+            homepage='https://example.com/not-a-real-npmjs-project',
+            backend='npmjs',
+            user_id='noreply@fedoraproject.org',
+        )
+        project.latest_version = '1.0.0'
+        version = models.ProjectVersion(
+            version='1.0.0',
+            project_id=project.id
+        )
+        self.session.add(version)
+        self.session.commit()
+
+        utilities.check_project_release(
+            project,
+            self.session
+        )
+
+        self.assertEqual(project.latest_version, '1.0.0')
+        self.assertEqual(
+            project.logs,
+            'No new version found'
+        )
+
+    @mock.patch(
+        'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
+        return_value=['1.0.0', '0.9.9', '0.9.8'])
+    def test_check_project_release_new_version(self, mock_method):
+        """ Test the check_project_release function for Project. """
+        project = utilities.create_project(
+            self.session,
+            name='pypi_and_npm',
+            homepage='https://example.com/not-a-real-npmjs-project',
+            backend='npmjs',
+            user_id='noreply@fedoraproject.org',
+            version_scheme='RPM',
+        )
+        utilities.check_project_release(
+            project,
+            self.session
+        )
+        versions = project.get_sorted_version_objects()
+        self.assertEqual(len(versions), 3)
+        self.assertEqual(versions[0].version, '1.0.0')
+
+
 class MapProjectTests(DatabaseTestCase):
     """Tests for the :func:`anitya.lib.utilities.map_project` function."""
 
