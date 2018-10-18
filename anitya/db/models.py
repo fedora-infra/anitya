@@ -381,7 +381,7 @@ class Project(Base):
             )
             for v_obj in self.versions_obj
         ]
-        sorted_versions = reversed(sorted(versions))
+        sorted_versions = list(reversed(sorted(versions)))
         return sorted_versions
 
     def get_version_class(self):
