@@ -237,9 +237,22 @@ class GithubBackendtests(DatabaseTestCase):
         project = models.Project(
             version_url='codehaus-plexus/plexus-archiver',
             version_prefix='plexus-archiver-',
+            backend=BACKEND,
         )
         version = backend.GithubBackend().get_version(project)
         self.assertEqual(u'3.6.0', version)
+
+    @mock.patch.dict('anitya.config.config', {'GITHUB_ACCESS_TOKEN': "foobar"})
+    def test_gargoyle(self):
+        """ Regression test for issue #642 """
+        project = models.Project(
+            version_url='garglk/garglk',
+            version_prefix='stable-',
+            version_scheme='Date',
+            backend=BACKEND,
+        )
+        version = backend.GithubBackend().get_version(project)
+        self.assertEqual(u'2011.1', version)
 
 
 class JsonTests(unittest.TestCase):
