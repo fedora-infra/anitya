@@ -1,6 +1,6 @@
 [tool.towncrier]
 package = "anitya"
-filename = "docs/release_notes.rst"
+filename = "docs/release-notes.rst"
 directory = "news/"
 title_format = "{version} ({project_date})"
 issue_format = "{issue}"
