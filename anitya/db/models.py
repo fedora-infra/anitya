@@ -983,6 +983,31 @@ class User(Base):
         """
         return six.text_type(self.id)
 
+    def to_dict(self):
+        """
+        Creates json compatible dict from `User`.
+
+        Returns:
+            dict: `User` object transformed to dictionary.
+        """
+        social_auth = []
+        for soc_auth in self.social_auth.all():
+            social_auth.append(
+                dict(
+                    provider=soc_auth.provider,
+                    extra_data=soc_auth.extra_data,
+                    uid=soc_auth.uid,
+                )
+            )
+
+        return dict(
+            id=str(self.id),
+            email=self.email,
+            username=self.username,
+            active=self.active,
+            social_auth=social_auth,
+        )
+
 
 def _api_token_generator(charset=string.ascii_letters + string.digits, length=40):
     """

@@ -68,7 +68,7 @@ setup(
     ],
     packages=find_packages(exclude=['anitya.tests', 'anitya.tests.*']),
     include_package_data=True,
-    scripts=['files/anitya_cron.py'],
+    scripts=['files/anitya_cron.py', 'anitya/sar.py'],
     install_requires=get_requirements(),
     test_suite='anitya.tests',
     entry_points="""
