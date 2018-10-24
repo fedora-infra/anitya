@@ -1077,6 +1077,37 @@ class UserTests(DatabaseTestCase):
             self.assertTrue(user.is_admin)
             self.assertTrue(user.admin)
 
+    def test_to_dict(self):
+        """ Assert the correct dictionary is returned. """
+        user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=user.id,
+            user=user,
+            provider='FAS',
+        )
+        user_social_auth.set_extra_data({'wookie': 'too hairy'})
+        self.session.add(user_social_auth)
+        self.session.add(user)
+        self.session.commit()
+
+        expected = {
+            "id": str(user.id),
+            "email": user.email,
+            "username": user.username,
+            "active": user.active,
+            "social_auth": [{
+                "provider": user_social_auth.provider,
+                "extra_data": user_social_auth.extra_data,
+                "uid": user_social_auth.uid,
+                }],
+        }
+
+        json = user.to_dict()
+        self.assertEqual(json, expected)
+
 
 class ApiTokenTests(DatabaseTestCase):
 
