@@ -52,7 +52,7 @@ class StackageBackend(BaseBackend):
         url = 'https://www.stackage.org/package/%(name)s' % {
             'name': project.name}
 
-        regex = '<span class="version"><a href="https://www.stackage.org/'\
-            'lts-[\d.]*/package/%s">([\d.]*)</a></span>' % project.name
+        regex = r'<span class="version"><a href="https://www.stackage.org/'\
+            r'lts-[\d.]*/package/%s">([\d.]*)</a></span>' % project.name
 
         return get_versions_by_regex(url, regex, project)

@@ -605,7 +605,7 @@ class Project(Base):
         )
 
         if pattern:
-            pattern = pattern.replace('_', '\_')
+            pattern = pattern.replace('_', r'\_')
             if '*' in pattern:
                 pattern = pattern.replace('*', '%')
             if '%' in pattern:

@@ -93,8 +93,8 @@ DEFAULTS = dict(
     SOCIAL_AUTH_LOGIN_REDIRECT_URL='/',
     SOCIAL_AUTH_LOGIN_ERROR_URL='/login-error/',
     LIBRARIESIO_PLATFORM_WHITELIST=[],
-    DEFAULT_REGEX='(?i)%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?:[-_]'\
-                  '(?:minsrc|src|source|asc|release))?\.(?:tar|t[bglx]z|tbz2|zip)',
+    DEFAULT_REGEX=r'(?i)%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?)(?:[-_]'\
+                  r'(?:minsrc|src|source|asc|release))?\.(?:tar|t[bglx]z|tbz2|zip)',
     # Token for GitHub API
     GITHUB_ACCESS_TOKEN=None,
 )
