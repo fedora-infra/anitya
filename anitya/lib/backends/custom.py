@@ -71,7 +71,7 @@ class CustomBackend(BaseBackend):
             regex = REGEX_ALIASES.get(project.regex, project.regex)
 
         if '%(name)' in regex:
-            regex = regex % {'name': project.name.replace('+', '\+')}
+            regex = regex % {'name': project.name.replace('+', r'\+')}
 
         return get_versions_by_regex(
             url, regex, project, insecure=project.insecure)

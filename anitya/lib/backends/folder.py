@@ -74,7 +74,7 @@ class FolderBackend(BaseBackend):
             req = req.text
 
         try:
-            regex = REGEX % {'name': project.name.replace('+', '\+')}
+            regex = REGEX % {'name': project.name.replace('+', r'\+')}
             versions = get_versions_by_regex_for_text(
                 req, url, regex, project)
         except AnityaPluginException:

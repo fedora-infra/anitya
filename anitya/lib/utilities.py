@@ -390,7 +390,7 @@ def map_project(
         session.add(distro_obj)
         try:
             session.flush()
-        except SQLAlchemyError as err:  # pragma: no cover
+        except SQLAlchemyError:  # pragma: no cover
             # We cannot test this situation
             session.rollback()
             raise exceptions.AnityaException(

@@ -115,7 +115,7 @@ class RpmVersion(Version):
     name = u'RPM'
 
     _rc_upstream_regex = re.compile(
-        "(.*?)\.?(-?(rc|pre|beta|alpha|dev)([0-9]*))", re.I)
+        r"(.*?)\.?(-?(rc|pre|beta|alpha|dev)([0-9]*))", re.I)
 
     @classmethod
     def split_rc(cls, version):
