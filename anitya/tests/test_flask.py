@@ -758,7 +758,7 @@ class MapProjectTests(DatabaseTestCase):
                     b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
                 data = {
                     'package_name': 'geany',
-                    'distro': 'CentOS',
+                    'distro': 'Fedora',
                     'csrf_token': csrf_token,
                 }
 
@@ -782,7 +782,7 @@ class MapProjectTests(DatabaseTestCase):
                     b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
                 data = {
                     'package_name': 'geany',
-                    'distro': 'CentOS',
+                    'distro': 'Fedora',
                     'csrf_token': csrf_token,
                 }
 
@@ -793,7 +793,7 @@ class MapProjectTests(DatabaseTestCase):
                 self.assertTrue(
                     b'<li class="list-group-item list-group-item-danger">'
                     b'Could not edit the mapping of geany on '
-                    b'CentOS, there is already a package geany on CentOS '
+                    b'Fedora, there is already a package geany on Fedora '
                     b'as part of the project <a href="/project/1/">geany'
                     b'</a>.</li>'
                     in output.data)
@@ -919,3 +919,70 @@ class EditProjectMappingTests(DatabaseTestCase):
         with login_user(self.flask_app, self.user):
             output = self.client.post('/project/42/map/1', data={})
             self.assertEqual(output.status_code, 404)
+
+
+class AddDistroTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.add_distro` view function."""
+
+    def setUp(self):
+        super(AddDistroTests, self).setUp()
+
+        # Add a regular user and an admin user
+        session = Session()
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
+        session.commit()
+
+        self.client = self.flask_app.test_client()
+
+    def test_no_csrf_token(self):
+        """Assert submitting without a CSRF token, no change is made."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.post('/distro/add', data={'name': 'Fedora'})
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(0, models.Distro.query.count())
+
+    def test_invalid_csrf_token(self):
+        """Assert submitting with an invalid CSRF token, no change is made."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.post('/distro/add', data={'csrf_token': 'abc', 'name': 'Fedora'})
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(0, models.Distro.query.count())
+
+    def test_add_distro(self):
+        """Assert admins can add distributions."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/distro/add')
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {'name': 'Fedora', 'csrf_token': csrf_token}
+
+            output = self.client.post('/distro/add', data=data, follow_redirects=True)
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'Distribution added' in output.data)
+
+    def test_duplicate_distro(self):
+        """Assert trying to create a duplicate distribution results in HTTP 409."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/distro/add')
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+            data = {'name': 'Fedora', 'csrf_token': csrf_token}
+
+            create_output = self.client.post('/distro/add', data=data, follow_redirects=True)
+            self.assertEqual(200, output.status_code)
+            dup_output = self.client.post('/distro/add', data=data, follow_redirects=True)
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'Distribution added' in create_output.data)
+            self.assertTrue(b'Could not add this distro' in dup_output.data)
