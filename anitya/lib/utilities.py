@@ -64,11 +64,12 @@ def check_project_release(project, session, test=False):
             'No backend was found for "%s"' % project.backend)
 
     publish = False
-    up_version = None
+    versions = []
     max_version = None
+    old_version = None
 
     try:
-        up_version = backend.get_version(project)
+        versions = backend.get_versions(project)
     except exceptions.AnityaPluginException as err:
         _log.exception("AnityaError catched:")
         project.logs = str(err)
@@ -77,33 +78,32 @@ def check_project_release(project, session, test=False):
         raise
 
     if test:
-        return up_version
+        return versions
 
-    p_version = project.latest_version or ''
+    # There is always at least one version retrieved,
+    # otherwise this backend raises exception
+    project.logs = 'Version retrieved correctly'
 
-    if up_version:
-        project.logs = 'Version retrieved correctly'
+    p_versions = project.get_sorted_version_objects()
+    if p_versions:
+        old_version = p_versions[0].version
 
-    if up_version and up_version not in project.versions:
-        publish = True
-        project.versions_obj.append(
-            models.ProjectVersion(
-                project_id=project.id,
-                version=up_version
+    for version in versions:
+        if version not in project.versions:
+            project.versions_obj.append(
+                models.ProjectVersion(
+                    project_id=project.id,
+                    version=version
+                )
             )
-        )
 
-    odd_change = False
-    if up_version and up_version != p_version:
-        version_class = project.get_version_class()
-        max_version = max(up_version, p_version, key=version_class)
-        if project.latest_version and max_version != up_version:
-            odd_change = True
-            project.logs = 'Something strange occured, we found that this '\
-                'project has released a version "%s" while we had the latest '\
-                'version at "%s"' % (up_version, project.latest_version)
-        else:
-            project.latest_version = up_version
+    sorted_versions = project.get_sorted_version_objects()
+    max_version = sorted_versions[0].version
+    if project.latest_version != max_version:
+        project.latest_version = max_version
+        publish = True
+    else:
+        project.logs = 'No new version found'
 
     if publish:
         log(
@@ -112,12 +112,11 @@ def check_project_release(project, session, test=False):
             topic="project.version.update",
             message=dict(
                 project=project.__json__(),
-                upstream_version=up_version,
-                old_version=p_version,
+                upstream_version=max_version,
+                old_version=old_version,
                 packages=[pkg.__json__() for pkg in project.packages],
                 versions=project.versions,
                 agent='anitya',
-                odd_change=odd_change,
             ),
         )
 
