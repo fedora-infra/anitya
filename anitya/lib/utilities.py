@@ -64,12 +64,11 @@ def check_project_release(project, session, test=False):
             'No backend was found for "%s"' % project.backend)
 
     publish = False
-    versions = []
-    max_version = None
-    old_version = None
+    versions_prefix = []
+    max_version = ''
 
     try:
-        versions = backend.get_versions(project)
+        versions_prefix = backend.get_versions(project)
     except exceptions.AnityaPluginException as err:
         _log.exception("AnityaError catched:")
         project.logs = str(err)
@@ -77,28 +76,32 @@ def check_project_release(project, session, test=False):
         session.commit()
         raise
 
+    # Remove prefix
+    version_class = project.get_version_class()
+    versions = [version_class(
+        version=v, prefix=project.version_prefix) for v in versions_prefix]
+
     if test:
-        return versions
+        return [v.parse() for v in versions]
 
     # There is always at least one version retrieved,
     # otherwise this backend raises exception
     project.logs = 'Version retrieved correctly'
 
     p_versions = project.get_sorted_version_objects()
-    if p_versions:
-        old_version = p_versions[0].version
-
+    old_version = project.latest_version or ''
     for version in versions:
-        if version not in project.versions:
+        if version not in p_versions:
             project.versions_obj.append(
                 models.ProjectVersion(
                     project_id=project.id,
-                    version=version
+                    version=version.version
                 )
             )
 
     sorted_versions = project.get_sorted_version_objects()
-    max_version = sorted_versions[0].version
+    if sorted_versions:
+        max_version = sorted_versions[0].version
     if project.latest_version != max_version:
         project.latest_version = max_version
         publish = True

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014  Red Hat, Inc.
+# Copyright © 2018  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions
@@ -121,13 +121,13 @@ class GithubBackendtests(DatabaseTestCase):
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [
-            u'0.1.0', u'0.1.1', u'0.1.2', u'0.2.0',
-            u'0.3.0', u'0.3.1', u'0.4.0', u'0.4.1',
-            u'0.4.2', u'0.4.3', u'0.4.5', u'.0.4.6',
-            u'0.4.7', u'0.5.0', u'0.5.1', u'0.6.0',
-            u'0.6.1', u'0.6.2', u'0.6.3', u'0.7',
-            u'0.7.1', u'0.8', u'0.9', u'0.9.1',
-            u'0.9.2', u'0.9.3', u'0.10', u'0.11',
+            u'v.0.4.6', u'v0.1.0', u'v0.1.1', u'v0.1.2',
+            u'v0.2.0', u'v0.3.0', u'v0.3.1', u'v0.4.0',
+            u'v0.4.1', u'v0.4.2', u'v0.4.3', u'v0.4.5',
+            u'v0.4.7', u'v0.5.0', u'v0.5.1', u'v0.6.0',
+            u'v0.6.1', u'v0.6.2', u'v0.6.3', u'v0.7',
+            u'v0.7.1', u'v0.8', u'v0.9', u'v0.9.1',
+            u'v0.9.2', u'v0.9.3', u'0.10', u'0.11',
             u'0.11.1', u'0.12', u'0.13', u'0.13.1',
             u'0.13.2', u'0.13.3', u'0.14', u'0.15',
             u'0.15.1', u'0.16'
@@ -239,7 +239,7 @@ class GithubBackendtests(DatabaseTestCase):
             version_prefix='plexus-archiver-',
         )
         version = backend.GithubBackend().get_version(project)
-        self.assertEqual(u'3.6.0', version)
+        self.assertEqual(u'plexus-archiver-3.6.0', version)
 
 
 class JsonTests(unittest.TestCase):

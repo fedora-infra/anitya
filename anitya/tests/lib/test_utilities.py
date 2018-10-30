@@ -252,6 +252,27 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         self.assertEqual(len(versions), 3)
         self.assertEqual(versions[0].version, '1.0.0')
 
+    @mock.patch(
+        'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
+        return_value=['v1.0.0', 'v0.9.9', 'v0.9.8'])
+    def test_check_project_release_prefix_remove(self, mock_method):
+        """ Test the check_project_release function for Project. """
+        project = utilities.create_project(
+            self.session,
+            name='pypi_and_npm',
+            homepage='https://example.com/not-a-real-npmjs-project',
+            backend='npmjs',
+            user_id='noreply@fedoraproject.org',
+            version_scheme='RPM',
+        )
+        versions = utilities.check_project_release(
+            project,
+            self.session,
+            test=True
+        )
+        self.assertEqual(len(versions), 3)
+        self.assertEqual(versions[0], '1.0.0')
+
 
 class MapProjectTests(DatabaseTestCase):
     """Tests for the :func:`anitya.lib.utilities.map_project` function."""
