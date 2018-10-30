@@ -214,7 +214,8 @@ class BaseBackend(object):
         '''
         vlist = self.get_versions(project)
         version_class = project.get_version_class()
-        sorted_versions = sorted([version_class(version=v) for v in vlist])
+        sorted_versions = sorted(
+            [version_class(version=v, prefix=project.version_prefix) for v in vlist])
         return [v.version for v in sorted_versions]
 
     @classmethod
@@ -319,10 +320,6 @@ def get_versions_by_regex_for_text(text, url, regex, project):
         if type(version) == tuple:
             version = ".".join([v for v in version if not v == ""])
 
-        # Strip the version_prefix early
-        if project.version_prefix is not None and \
-                version.startswith(project.version_prefix):
-            version = version[len(project.version_prefix):]
         upstream_versions[index] = version
 
         if " " in version:
