@@ -23,7 +23,7 @@ def is_admin(user=None):
     '''
     user = user or flask.g.user
     if user.is_authenticated:
-        return user.admin
+        return user.is_admin
 
 
 @ui_blueprint.route('/distro/<distro_name>/edit', methods=['GET', 'POST'])
@@ -463,4 +463,195 @@ def set_flag_state(flag_id, state):
 
     return flask.redirect(
         flask.url_for('anitya_ui.browse_flags')
+    )
+
+
+@ui_blueprint.route('/users', methods=['GET'])
+@login_required
+def browse_users():
+
+    if not is_admin():
+        flask.abort(401)
+
+    user_id = flask.request.args.get('user_id', None)
+    username = flask.request.args.get('username', None)
+    email = flask.request.args.get('email', None)
+    admin = flask.request.args.get('admin', None)
+    active = flask.request.args.get('active', None)
+    limit = flask.request.args.get('limit', 50)
+    page = flask.request.args.get('page', 1)
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+
+    if admin:
+        if admin.upper() == "TRUE":
+            admin = True
+        elif admin.upper() == "FALSE":
+            admin = False
+        else:
+            admin = None
+
+    if active:
+        if active.upper() == "TRUE":
+            active = True
+        elif active.upper() == "FALSE":
+            active = False
+        else:
+            active = None
+
+    try:
+        limit = int(limit)
+    except ValueError:
+        limit = 50
+        flask.flash('Incorrect limit provided, using default', 'errors')
+
+    offset = 0
+    if page is not None and limit is not None and limit > 0:
+        offset = (page - 1) * limit
+
+    users = []
+    cnt_users = 0
+    try:
+        users_query = Session.query(
+            models.User)
+
+        if user_id:
+            users_query = users_query.filter_by(id=user_id)
+
+        if username:
+            users_query = users_query.filter_by(username=username)
+
+        if email:
+            users_query = users_query.filter_by(email=email)
+
+        if admin is not None:
+            users_query = users_query.filter_by(admin=admin)
+
+        if active is not None:
+            users_query = users_query.filter_by(active=active)
+
+        if offset > 0:
+            users_query = users_query.offset(offset)
+        if limit > 0:
+            users_query = users_query.limit(limit)
+
+        users = users_query.all()
+        cnt_users = users_query.count()
+    except Exception as err:
+        _log.exception(err)
+        flask.flash(err, 'errors')
+
+    try:
+        total_page = int(ceil(cnt_users / float(limit)))
+    except ZeroDivisionError:
+        total_page = 1
+
+    form = anitya.forms.ConfirmationForm()
+
+    return flask.render_template(
+        'users.html',
+        current='users',
+        users=users,
+        cnt_users=cnt_users,
+        total_page=total_page,
+        form=form,
+        page=page,
+        username=username or '',
+        email=email or '',
+        user_id=user_id or '',
+        admin=admin,
+        active=active
+    )
+
+
+@ui_blueprint.route('/users/<user_id>/admin/<state>', methods=['POST'])
+@login_required
+def set_user_admin_state(user_id, state):
+
+    if not is_admin():
+        flask.abort(401)
+
+    if state.upper() == "TRUE":
+        state = True
+    elif state.upper() == "FALSE":
+        state = False
+    else:
+        flask.abort(422)
+
+    try:
+        user = Session.query(models.User).filter(
+            models.User.id == user_id).one()
+    except Exception as err:
+        _log.exception(err)
+        user = None
+
+    if not user:
+        flask.abort(404)
+
+    form = anitya.forms.ConfirmationForm()
+
+    if form.validate_on_submit():
+        try:
+            user.admin = state
+            Session.add(user)
+            Session.commit()
+            if state:
+                flask.flash('User {0} is now admin'.format(user.username))
+            else:
+                flask.flash('User {0} is not admin anymore'.format(user.username))
+        except Exception as err:
+            _log.exception(err)
+            flask.flash(str(err), 'errors')
+            Session.rollback()
+
+    return flask.redirect(
+        flask.url_for('anitya_ui.browse_users')
+    )
+
+
+@ui_blueprint.route('/users/<user_id>/active/<state>', methods=['POST'])
+@login_required
+def set_user_active_state(user_id, state):
+
+    if not is_admin():
+        flask.abort(401)
+
+    if state.upper() == "TRUE":
+        state = True
+    elif state.upper() == "FALSE":
+        state = False
+    else:
+        flask.abort(422)
+
+    try:
+        user = Session.query(models.User).filter(
+            models.User.id == user_id).one()
+    except Exception as err:
+        _log.exception(err)
+        user = None
+
+    if not user:
+        flask.abort(404)
+
+    form = anitya.forms.ConfirmationForm()
+
+    if form.validate_on_submit():
+        try:
+            user.active = state
+            Session.add(user)
+            Session.commit()
+            if state:
+                flask.flash('User {0} is no longer banned'.format(user.username))
+            else:
+                flask.flash('User {0} is banned'.format(user.username))
+        except Exception as err:
+            _log.exception(err)
+            flask.flash(str(err), 'errors')
+            Session.rollback()
+
+    return flask.redirect(
+        flask.url_for('anitya_ui.browse_users')
     )

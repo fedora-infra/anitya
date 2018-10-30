@@ -1,0 +1,141 @@
+{% extends "master.html" %}
+
+{% block title %}Users · Anitya{% endblock %}
+
+{% block body %}
+
+<div class="page-header">
+    <h1>Users</h1>
+</div>
+
+<div class="row show-grid">
+    <div class="col-sm-4">
+        {% if total_page > 1 %}
+        <ul class="pagination pagination-sm">
+            <li>
+                {% if page > 1%}
+                <a href="{{ url_for('anitya_ui.browse_users', page=page-1) }}">
+                    «
+                </a>
+                {% else %}
+                <a> « </a>
+                {% endif %}
+            </li>
+            <li>
+                <a> {{ page }} / {{ total_page }} </a>
+            </li>
+            <li>
+                {% if page < total_page %}
+                <a href="{{ url_for('anitya_ui.browse_users', page=page+1) }}">
+                    »
+                </a>
+                {% else %}
+                <a> » </a>
+                {% endif %}
+            </li>
+        </ul>
+        {% endif %}
+    </div>
+
+    <div class="col-xs-10">
+        <form action="{{ url_for('anitya_ui.browse_users') }}" class="form-inline"
+              role="form" action="GET" id="users_form">
+            <div class="form-group col-xs-6 col-sm-3">
+                <input type="text" name="user_id" placeholder="User Id"
+                       class="form-control" value="{{ user_id }}" />
+            </div>
+            <div class="form-group col-xs-6 col-sm-3">
+                <input type="text" name="username" placeholder="Username"
+                       class="form-control" value="{{ username }}"/>
+            </div>
+            <div class="form-group col-xs-6 col-sm-3">
+                <input type="text" name="email" placeholder="User e-mail"
+                       class="form-control" value="{{ email }}"/>
+            </div>
+            <div class="form-group col-xs-6 col-sm-2">
+                <select name="admin" class="form-control">
+                    <option value="True" {% if admin %}selected="selected"{% endif %}>Admins</option>
+                    <option value="False" {% if not admin %}selected="selected"{% endif %}>Basic users</option>
+                    <option value="None" {% if admin == None %}selected="selected"{% endif %}>All</option>
+                </select>
+            </div>
+            <div class="form-group col-xs-6 col-sm-1">
+                <select name="active" class="form-control">
+                    <option value="True" {% if active %}selected="selected"{% endif %}>Active</option>
+                    <option value="False" {% if not active %}selected="selected"{% endif %}>Inactive</option>
+                    <option value="None" {% if active == None %}selected="selected"{% endif %}>All</option>
+                </select>
+            </div>
+            <div class="form-group col-xs-6 col-sm-1">
+                <button type="submit" class="btn btn-default" class="form-control">
+                    Filter
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+<table id="user_list" class="table">
+    <tr>
+        <th>User Id</th>
+        <th>Username</th>
+        <th>E-mail</th>
+        <th>Admin</th>
+        <th>Active</th>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.is_admin }}</td>
+        <td>{{ user.is_active }}</td>
+        <td>
+            {% if user.is_admin %}
+            <form method="POST" action="{{ url_for('anitya_ui.set_user_admin_state',
+                user_id=user.id, state=False) }}">
+                <button type="submit" class="btn btn-danger btn-sm pull-right inline"
+                        id="user_btn">
+                    Revoke admin
+                </button>
+                {% else %}
+                <form method="POST" action="{{ url_for('anitya_ui.set_user_admin_state',
+                user_id=user.id, state=True) }}">
+                    <button type="submit" class="btn btn-success btn-sm pull-right inline"
+                            id="user_btn">
+                        Promote admin
+                    </button>
+                    {% endif %}
+                    {{ form.csrf_token }}
+                </form>
+
+        </td>
+        <td>
+            {% if user.is_active %}
+            <form method="POST" action="{{ url_for('anitya_ui.set_user_active_state',
+                user_id=user.id, state=False) }}">
+                <button type="submit" class="btn btn-danger btn-sm pull-right inline"
+                        id="user_btn">
+                    Ban
+                </button>
+                {% else %}
+                <form method="POST" action="{{ url_for('anitya_ui.set_user_active_state',
+                user_id=user.id, state=True) }}">
+                    <button type="submit" class="btn btn-success btn-sm pull-right inline"
+                            id="user_btn">
+                        Remove ban
+                    </button>
+                    {% endif %}
+                    {{ form.csrf_token }}
+                </form>
+
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -27,6 +27,7 @@ from uuid import uuid4, UUID
 import datetime
 import unittest
 import time
+import mock
 
 from sqlalchemy.dialects import postgresql, sqlite
 from sqlalchemy.types import CHAR
@@ -1034,6 +1035,47 @@ class UserTests(DatabaseTestCase):
 
         self.assertFalse(user.is_anonymous)
         self.assertTrue(user.is_authenticated)
+
+    def test_default_admin(self):
+        """Assert default value for admin flag."""
+        user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=user.id,
+            user=user
+        )
+
+        self.session.add(user)
+        self.session.add(user_social_auth)
+        self.session.commit()
+
+        self.assertFalse(user.admin)
+        self.assertFalse(user.is_admin)
+
+    def test_is_admin_configured(self):
+        """Assert default value for admin flag."""
+        user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+            admin=False,
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=user.id,
+            user=user
+        )
+        self.session.add(user)
+        self.session.add(user_social_auth)
+        self.session.commit()
+
+        mock_dict = mock.patch.dict(
+            'anitya.config.config', {'ANITYA_WEB_ADMINS': [six.text_type(user.id)]})
+
+        with mock_dict:
+            self.assertFalse(user.admin)
+            self.assertTrue(user.is_admin)
+            self.assertTrue(user.admin)
 
 
 class ApiTokenTests(DatabaseTestCase):
