@@ -907,6 +907,8 @@ class User(Base):
         username (str): The user's username, as retrieved from third-party authentication.
         active (bool): Indicates whether the user is active. If false, users will not be
             able to log in.
+        admin (bool): Determine if this user is an administrator. If True the user is
+            administrator.
         social_auth (sqlalchemy.orm.dynamic.AppenderQuery): The list of
             :class:`social_flask_sqlalchemy.models.UserSocialAuth` entries for this user.
     """
@@ -918,16 +920,21 @@ class User(Base):
     email = sa.Column(sa.String(256), nullable=False, index=True, unique=True)
     username = sa.Column(sa.String(256), nullable=False, index=True, unique=True)
     active = sa.Column(sa.Boolean, default=True)
+    admin = sa.Column(sa.Boolean, default=False)
 
     @property
-    def admin(self):
+    def is_admin(self):
         """
-        Determine if this user is an administrator.
+        Determine if this user is an administrator. Set admin flag
+        if the user is preconfigured.
 
         Returns:
             bool: True if the user is an administrator.
         """
-        return six.text_type(self.id) in anitya_config.get('ANITYA_WEB_ADMINS', [])
+        if not self.admin:
+            if six.text_type(self.id) in anitya_config.get('ANITYA_WEB_ADMINS', []):
+                self.admin = True
+        return self.admin
 
     @property
     def is_active(self):

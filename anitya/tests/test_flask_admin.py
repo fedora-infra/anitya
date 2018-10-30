@@ -23,6 +23,8 @@ import mock
 import six
 
 from social_flask_sqlalchemy import models as social_models
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm.query import Query
 
 from anitya import admin
 from anitya.db import models, Session
@@ -803,3 +805,563 @@ class SetFlagStateTests(DatabaseTestCase):
 
             self.assertEqual(200, output.status_code)
             self.assertTrue(b'Flag 1 set to closed' in output.data)
+
+
+class BrowseUsersTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.browse_users` view function."""
+
+    def setUp(self):
+        super(BrowseUsersTests, self).setUp()
+        session = Session()
+
+        # Add a regular user and an admin user
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
+        self.admin = models.User(email='admin@example.com', username='admin', admin=True)
+        admin_social_auth = social_models.UserSocialAuth(
+            user_id=self.admin.id,
+            user=self.admin
+        )
+
+        session.add_all(
+            [admin_social_auth, self.admin])
+        session.commit()
+
+        self.client = self.flask_app.test_client()
+
+    def test_non_admin_get(self):
+        """Assert non-admin users can't see users."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/users')
+            self.assertEqual(401, output.status_code)
+
+    def test_admin_get(self):
+        """Assert admin users can see the users."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users')
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'admin@example.com' in output.data)
+            self.assertTrue(b'user@fedoraproject.org' in output.data)
+
+    def test_pages(self):
+        """Assert admin users can see the users."""
+        with login_user(self.flask_app, self.admin):
+            page_one = self.client.get('/users?limit=1&page=1')
+
+            self.assertEqual(200, page_one.status_code)
+            self.assertTrue(b'user@fedoraproject.org' in page_one.data)
+            self.assertFalse(b'admin@example.com' in page_one.data)
+
+    def test_pagination_offset(self):
+        """Assert offset is calculated when page is > 1."""
+        with login_user(self.flask_app, self.admin):
+            page = self.client.get('/users?limit=1&page=2')
+
+            self.assertEqual(200, page.status_code)
+            self.assertFalse(b'user@fedoraproject.org' in page.data)
+            self.assertTrue(b'admin@example.com' in page.data)
+
+    def test_pagination_limit_zero(self):
+        """Assert limit is not used when set to 0."""
+        with login_user(self.flask_app, self.admin):
+            page = self.client.get('/users?limit=0&page=1')
+
+            self.assertEqual(200, page.status_code)
+            self.assertTrue(b'user@fedoraproject.org' in page.data)
+            self.assertTrue(b'admin@example.com' in page.data)
+
+    def test_pagination_limit_negative(self):
+        """Assert limit is not used when set to negative value."""
+        with login_user(self.flask_app, self.admin):
+            page = self.client.get('/users?limit=-1')
+
+            self.assertEqual(200, page.status_code)
+            self.assertTrue(b'user@fedoraproject.org' in page.data)
+            self.assertTrue(b'admin@example.com' in page.data)
+
+    def test_pagination_invalid_page(self):
+        """Assert pagination returns first page on invalid value."""
+        with login_user(self.flask_app, self.admin):
+            page_one = self.client.get('/users?limit=1&page=dummy')
+
+            self.assertEqual(200, page_one.status_code)
+            self.assertTrue(b'user@fedoraproject.org' in page_one.data)
+            self.assertFalse(b'admin@example.com' in page_one.data)
+
+    def test_pagination_invalid_limit(self):
+        """Assert pagination sets limit to default value on invalid input value."""
+        with login_user(self.flask_app, self.admin):
+            page_one = self.client.get('/users?limit=dummy&page=1')
+
+            self.assertEqual(200, page_one.status_code)
+            self.assertTrue(b'user@fedoraproject.org' in page_one.data)
+            self.assertTrue(b'admin@example.com' in page_one.data)
+
+    def test_filter_user_id(self):
+        """Assert filter by user_id works."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users?user_id={}'.format(six.text_type(self.admin.id)))
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'admin@example.com' in output.data)
+            self.assertFalse(b'user@fedoraproject.org' in output.data)
+
+    def test_filter_user_id_wrong(self):
+        """Assert filter by wrong user_id returns nothing."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users?user_id=dummy')
+
+            self.assertEqual(200, output.status_code)
+            self.assertFalse(b'admin@example.com' in output.data)
+            self.assertFalse(b'user@fedoraproject.org' in output.data)
+
+    def test_filter_username(self):
+        """Assert filter by username works."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users?username={}'.format(self.admin.username))
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'admin@example.com' in output.data)
+            self.assertFalse(b'user@fedoraproject.org' in output.data)
+
+    def test_filter_username_wrong(self):
+        """Assert filter by wrong username returns nothing."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users?username=dummy')
+
+            self.assertEqual(200, output.status_code)
+            self.assertFalse(b'admin@example.com' in output.data)
+            self.assertFalse(b'user@fedoraproject.org' in output.data)
+
+    def test_filter_email(self):
+        """Assert filter by email works."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users?email={}'.format(self.admin.email))
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'admin@example.com' in output.data)
+            self.assertFalse(b'user@fedoraproject.org' in output.data)
+
+    def test_filter_email_wrong(self):
+        """Assert filter by wrong email returns nothing."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users?email=dummy')
+
+            self.assertEqual(200, output.status_code)
+            self.assertFalse(b'admin@example.com' in output.data)
+            self.assertFalse(b'user@fedoraproject.org' in output.data)
+
+    def test_filter_admin_true(self):
+        """Assert filter by admin flag works."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users?admin=True')
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'admin@example.com' in output.data)
+            self.assertFalse(b'user@fedoraproject.org' in output.data)
+
+    def test_filter_admin_false(self):
+        """Assert filter by admin flag works."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users?admin=False')
+
+            self.assertEqual(200, output.status_code)
+            self.assertFalse(b'admin@example.com' in output.data)
+            self.assertTrue(b'user@fedoraproject.org' in output.data)
+
+    def test_filter_admin_wrong(self):
+        """Assert filter by wrong admin flag returns everything."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users?admin=dummy')
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'admin@example.com' in output.data)
+            self.assertTrue(b'user@fedoraproject.org' in output.data)
+
+    def test_filter_active_true(self):
+        """Assert filter by active flag works."""
+        # Add a inactive user
+        user = models.User(
+            email='inactive@fedoraproject.org',
+            username='inactive',
+            active=False
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        self.session.add(user)
+        self.session.add(user_social_auth)
+        self.session.commit()
+
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users?active=True')
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'admin@example.com' in output.data)
+            self.assertTrue(b'user@fedoraproject.org' in output.data)
+            self.assertFalse(b'inactive@fedoraproject.org' in output.data)
+
+    def test_filter_active_false(self):
+        """Assert filter by active flag works."""
+        # Add a inactive user
+        user = models.User(
+            email='inactive@fedoraproject.org',
+            username='inactive',
+            active=False
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        self.session.add(user)
+        self.session.add(user_social_auth)
+        self.session.commit()
+
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users?active=False')
+
+            self.assertEqual(200, output.status_code)
+            self.assertFalse(b'admin@example.com' in output.data)
+            self.assertFalse(b'user@fedoraproject.org' in output.data)
+            self.assertTrue(b'inactive@fedoraproject.org' in output.data)
+
+    def test_filter_active_wrong(self):
+        """Assert filter by wrong active flag returns everything."""
+        # Add a inactive user
+        user = models.User(
+            email='inactive@fedoraproject.org',
+            username='inactive',
+            active=False
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        self.session.add(user)
+        self.session.add(user_social_auth)
+        self.session.commit()
+
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users?active=dummy')
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'admin@example.com' in output.data)
+            self.assertTrue(b'user@fedoraproject.org' in output.data)
+            self.assertTrue(b'inactive@fedoraproject.org' in output.data)
+
+    def test_sql_exception(self):
+        """ Assert that SQL exception is handled correctly."""
+        with mock.patch.object(
+                Query, 'filter_by', mock.Mock(side_effect=[SQLAlchemyError("SQLError"), None])):
+            with login_user(self.flask_app, self.admin):
+                output = self.client.get('/users?user_id=dummy')
+
+                self.assertEqual(200, output.status_code)
+                self.assertTrue(b'SQLError' in output.data)
+                self.assertFalse(b'admin@example.com' in output.data)
+                self.assertFalse(b'user@fedoraproject.org' in output.data)
+
+
+class SetUserAdminStateTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.set_user_admin_state` view function."""
+
+    def setUp(self):
+        super(SetUserAdminStateTests, self).setUp()
+        session = Session()
+
+        # Add a regular user and an admin user
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
+        self.admin = models.User(email='admin@example.com', username='admin', admin=True)
+        admin_social_auth = social_models.UserSocialAuth(
+            user_id=self.admin.id,
+            user=self.admin
+        )
+        session.add_all(
+            [admin_social_auth, self.admin])
+        session.commit()
+
+        self.client = self.flask_app.test_client()
+
+    def test_non_admin_post(self):
+        """Assert non-admin users can't set flags."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.post('/users/{}/admin/True'.format(
+                six.text_type(self.user.id)
+            ))
+            self.assertEqual(401, output.status_code)
+
+    def test_bad_state(self):
+        """Assert an invalid state results in HTTP 422."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post('/users/{}/admin/wrong'.format(
+                six.text_type(self.user.id)
+            ))
+            self.assertEqual(422, output.status_code)
+
+    def test_missing_state(self):
+        """Assert an missing state results in HTTP 404."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post('/users/{}/admin/'.format(
+                six.text_type(self.user.id)
+            ))
+            self.assertEqual(404, output.status_code)
+
+    def test_missing(self):
+        """Assert trying to set the state of a non-existent user results in HTTP 404."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post('/users/42/admin/true')
+            self.assertEqual(404, output.status_code)
+
+    def test_set_admin(self):
+        """Assert that admin flag is set correctly."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users')
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+
+            output = self.client.post(
+                '/users/{}/admin/True'.format(
+                    six.text_type(self.user.id)
+                ), data={'csrf_token': csrf_token}, follow_redirects=True)
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'User user is now admin' in output.data)
+            self.assertTrue(self.user.admin)
+
+    def test_sql_exception(self):
+        """ Assert that SQL exception is handled correctly."""
+        with mock.patch.object(
+                self.session, 'add', mock.Mock(side_effect=[SQLAlchemyError("SQLError"), None])):
+            with login_user(self.flask_app, self.admin):
+                output = self.client.get('/users')
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+
+                output = self.client.post(
+                    '/users/{}/admin/True'.format(
+                        six.text_type(self.user.id)
+                    ), data={'csrf_token': csrf_token}, follow_redirects=True)
+
+                self.assertEqual(200, output.status_code)
+                self.assertTrue(b'SQLError' in output.data)
+                self.assertFalse(self.user.admin)
+
+    def test_form_not_valid(self):
+        """ Assert that invalid form will do nothing."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users')
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+
+            with mock.patch('anitya.forms.ConfirmationForm') as mock_form:
+                mock_form.return_value.validate_on_submit.return_value = False
+                output = self.client.post(
+                    '/users/{}/admin/True'.format(
+                        six.text_type(self.user.id)
+                    ), data={'csrf_token': csrf_token}, follow_redirects=True)
+
+                self.assertEqual(200, output.status_code)
+                self.assertTrue(b'admin@example.com' in output.data)
+                self.assertTrue(b'user@fedoraproject.org' in output.data)
+                self.assertFalse(self.user.admin)
+
+    def test_remove_admin(self):
+        """Assert that admin flag is removed correctly."""
+        self.user.admin = True
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users')
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+
+            self.assertTrue(self.user.admin)
+            output = self.client.post(
+                '/users/{}/admin/False'.format(
+                    six.text_type(self.user.id)
+                ), data={'csrf_token': csrf_token}, follow_redirects=True)
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'User user is not admin anymore' in output.data)
+            self.assertFalse(self.user.admin)
+
+    def test_remove_admin_current_user(self):
+        """Assert that admin flag is removed correctly."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users')
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+
+            output = self.client.post(
+                '/users/{}/admin/False'.format(
+                    six.text_type(self.admin.id)
+                ), data={'csrf_token': csrf_token}, follow_redirects=True)
+
+            self.assertEqual(401, output.status_code)
+            self.assertFalse(self.admin.admin)
+
+
+class SetUserActiveStateTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.set_user_admin_state` view function."""
+
+    def setUp(self):
+        super(SetUserActiveStateTests, self).setUp()
+        session = Session()
+
+        # Add a regular user and an admin user
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
+
+        # Add inactive user
+        self.inactive_user = models.User(
+            email='inactive@fedoraproject.org',
+            username='inactive_user',
+            active=False
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        session.add(self.inactive_user)
+        session.add(user_social_auth)
+        self.admin = models.User(email='admin@example.com', username='admin', admin=True)
+        admin_social_auth = social_models.UserSocialAuth(
+            user_id=self.admin.id,
+            user=self.admin
+        )
+        session.add_all(
+            [admin_social_auth, self.admin])
+        session.commit()
+
+        self.client = self.flask_app.test_client()
+
+    def test_non_admin_post(self):
+        """Assert non-admin users can't set flags."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.post('/users/{}/active/True'.format(
+                six.text_type(self.user.id)
+            ))
+            self.assertEqual(401, output.status_code)
+
+    def test_bad_state(self):
+        """Assert an invalid state results in HTTP 422."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post('/users/{}/active/wrong'.format(
+                six.text_type(self.user.id)
+            ))
+            self.assertEqual(422, output.status_code)
+
+    def test_missing_state(self):
+        """Assert an missing state results in HTTP 404."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post('/users/{}/active/'.format(
+                six.text_type(self.user.id)
+            ))
+            self.assertEqual(404, output.status_code)
+
+    def test_missing(self):
+        """Assert trying to set the state of a non-existent user results in HTTP 404."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post('/users/42/active/true')
+            self.assertEqual(404, output.status_code)
+
+    def test_sql_exception(self):
+        """ Assert that SQL exception is handled correctly."""
+        with mock.patch.object(
+                self.session, 'add', mock.Mock(side_effect=[SQLAlchemyError("SQLError"), None])):
+            with login_user(self.flask_app, self.admin):
+                output = self.client.get('/users')
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+
+                output = self.client.post(
+                    '/users/{}/active/False'.format(
+                        six.text_type(self.user.id)
+                    ), data={'csrf_token': csrf_token}, follow_redirects=True)
+
+                self.assertEqual(200, output.status_code)
+                self.assertTrue(b'SQLError' in output.data)
+                self.assertTrue(self.user.active)
+
+    def test_form_not_valid(self):
+        """ Assert that invalid form will do nothing."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users')
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+
+            with mock.patch('anitya.forms.ConfirmationForm') as mock_form:
+                mock_form.return_value.validate_on_submit.return_value = False
+                output = self.client.post(
+                    '/users/{}/active/False'.format(
+                        six.text_type(self.user.id)
+                    ), data={'csrf_token': csrf_token}, follow_redirects=True)
+
+                self.assertEqual(200, output.status_code)
+                self.assertTrue(b'admin@example.com' in output.data)
+                self.assertTrue(b'user@fedoraproject.org' in output.data)
+                self.assertTrue(self.user.active)
+
+    def test_set_active(self):
+        """Assert that active flag is set correctly."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users')
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+
+            output = self.client.post(
+                '/users/{}/active/True'.format(
+                    six.text_type(self.inactive_user.id)
+                ), data={'csrf_token': csrf_token}, follow_redirects=True)
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'User inactive_user is no longer banned' in output.data)
+            self.assertTrue(self.inactive_user.active)
+
+    def test_ban(self):
+        """Assert that active flag is removed correctly."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/users')
+            csrf_token = output.data.split(
+                b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+
+            output = self.client.post(
+                '/users/{}/active/False'.format(
+                    six.text_type(self.user.id)
+                ), data={'csrf_token': csrf_token}, follow_redirects=True)
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'User user is banned' in output.data)
+            self.assertFalse(self.user.active)
