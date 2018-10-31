@@ -355,7 +355,7 @@ class DeleteProjectMappingTests(DatabaseTestCase):
         )
         self.distro = models.Distro(name='Fedora')
         self.package = models.Packages(
-            distro=self.distro.name, project=self.project, package_name='test-project')
+            distro_name=self.distro.name, project=self.project, package_name='test-project')
 
         # Add a regular user and an admin user
         session = Session()

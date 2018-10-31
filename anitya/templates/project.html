@@ -138,7 +138,7 @@
 
                 {% for package in project.packages %}
                 <tr>
-                  <td>{{ package.distro }}</td>
+                  <td>{{ package.distro_name }}</td>
                   <td>{{ package.package_name }}</td>
                   <td>
                     <a href="{{
@@ -156,7 +156,7 @@
                     <a href="{{
                       url_for('anitya_ui.delete_project_mapping',
                               project_id=project.id,
-                              distro_name=package.distro,
+                              distro_name=package.distro_name,
                               pkg_name=package.package_name) }}">
                       <button type="submit" class="btn btn-warning btn-sm pull-right"
                           tabindex=7>

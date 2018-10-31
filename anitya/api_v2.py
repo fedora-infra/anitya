@@ -127,14 +127,14 @@ class PackagesResource(Resource):
         distro = args.pop('distribution')
         name = args.pop('name')
         if distro:
-            q = q.filter_by(distro=distro)
+            q = q.filter_by(distro_name=distro)
         if name:
             q = q.filter_by(package_name=name)
         page = q.paginate(order_by=models.Packages.package_name, **args)
         return {
             u'items': [
                 {
-                    u'distribution': package.distro,
+                    u'distribution': package.distro_name,
                     u'name': package.package_name,
                     u'project': package.project.name,
                     u'ecosystem': package.project.ecosystem_name,
@@ -229,7 +229,7 @@ class PackagesResource(Resource):
 
         try:
             package = models.Packages(
-                distro=distro.name,
+                distro_name=distro.name,
                 project=project,
                 package_name=args.package_name,
             )

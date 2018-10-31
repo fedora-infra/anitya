@@ -245,14 +245,14 @@ def create_package(session):
     """ Create some basic packages to work with. """
     package = models.Packages(
         project_id=1,
-        distro='Fedora',
+        distro_name='Fedora',
         package_name='geany',
     )
     session.add(package)
 
     package = models.Packages(
         project_id=2,
-        distro='Fedora',
+        distro_name='Fedora',
         package_name='subsurface',
     )
     session.add(package)
