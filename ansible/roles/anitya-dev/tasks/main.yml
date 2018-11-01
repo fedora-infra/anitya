@@ -37,7 +37,7 @@
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
       source ~/.bashrc && mkvirtualenv anitya -a ~/devel/ &&
-      virtualenv-3 --system-site-packages ~/.virtualenvs/anitya/
+      virtualenv --python=/usr/bin/python3 --system-site-packages ~/.virtualenvs/anitya/
   args:
     creates: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya
 
