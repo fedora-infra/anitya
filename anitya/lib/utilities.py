@@ -377,6 +377,15 @@ def map_project(
 
     if not distro_obj:
         distro_obj = models.Distro(name=distribution)
+        session.add(distro_obj)
+        try:
+            session.flush()
+        except SQLAlchemyError:
+            session.rollback()
+            raise exceptions.AnityaException(
+                'Could not add the distribution %s to the database, '
+                'please inform an admin.' % distribution, 'errors')
+
         log(
             session,
             distro=distro_obj,
@@ -404,10 +413,12 @@ def map_project(
     # See if the new mapping would clash with an existing mapping
     try:
         other_pkg = models.Packages.query.filter_by(
-            distro=distribution, package_name=package_name).one()
+            distro_name=distribution, package_name=package_name).one()
     except NoResultFound:
         other_pkg = None
-    if other_pkg:
+    # Only raise exception if the package is already associated
+    # to project
+    if other_pkg and other_pkg.project:
         raise exceptions.AnityaInvalidMappingException(
             pkgname, distro, package_name, distribution,
             other_pkg.project.id, other_pkg.project.name)
@@ -417,7 +428,7 @@ def map_project(
         topic = 'project.map.new'
         if not other_pkg:
             pkg = models.Packages(
-                distro=distro_obj.name,
+                distro_name=distro_obj.name,
                 project_id=project.id,
                 package_name=package_name
             )
@@ -427,8 +438,8 @@ def map_project(
     else:
         topic = 'project.map.update'
         edited = []
-        if pkg.distro != distro_obj.name:
-            pkg.distro = distro_obj.name
+        if pkg.distro_name != distro_obj.name:
+            pkg.distro_name = distro_obj.name
             edited.append('distribution')
         if pkg.package_name != package_name:
             pkg.package_name = package_name
@@ -437,9 +448,8 @@ def map_project(
     session.add(pkg)
     try:
         session.flush()
-    except SQLAlchemyError as err:  # pragma: no cover
+    except SQLAlchemyError as err:
         _log.exception(err)
-        # We cannot test this situation
         session.rollback()
         raise exceptions.AnityaException(
             'Could not add the mapping of %s to %s, please inform an '

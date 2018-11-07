@@ -4,7 +4,6 @@ from math import ceil
 
 from flask_login import login_required, logout_user
 import flask
-import six.moves.urllib.parse as urlparse
 from sqlalchemy.exc import SQLAlchemyError
 
 from anitya.db import Session, models
@@ -26,17 +25,6 @@ def get_extended_pattern(pattern):
     if not pattern.endswith('*'):
         pattern += '*'
     return pattern
-
-
-def is_safe_url(target):
-    """ Checks that the target url is safe and sending to the current
-    website not some other malicious one.
-    """
-    ref_url = urlparse.urlparse(flask.request.host_url)
-    test_url = urlparse.urlparse(
-        urlparse.urljoin(flask.request.host_url, target))
-    return test_url.scheme in ('http', 'https') and \
-        ref_url.netloc == test_url.netloc
 
 
 @ui_blueprint.route('/')
@@ -497,10 +485,9 @@ def new_project():
                 plugins=backend_plugins
             ), 409
 
-        if project:
-            return flask.redirect(
-                flask.url_for('anitya_ui.project', project_id=project.id)
-            )
+        return flask.redirect(
+            flask.url_for('anitya_ui.project', project_id=project.id)
+        )
 
     return flask.render_template(
         'project_new.html',
@@ -684,7 +671,7 @@ def edit_project_mapping(project_id, pkg_id):
                 distribution=form.distro.data,
                 user_id=flask.g.user.username,
                 old_package_name=package.package_name,
-                old_distro_name=package.distro,
+                old_distro_name=package.distro_name,
             )
 
             Session.commit()

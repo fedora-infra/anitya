@@ -86,11 +86,11 @@ class PackagesResourceGetTests(DatabaseTestCase):
             backend='PyPI',
         )
         fedora_package = models.Packages(
-            distro='Fedora', project=project, package_name='python-requests')
+            distro_name='Fedora', project=project, package_name='python-requests')
         debian_package = models.Packages(
-            distro='Debian', project=project, package_name='python-requests')
+            distro_name='Debian', project=project, package_name='python-requests')
         jcline_package = models.Packages(
-            distro='jcline linux', project=project, package_name='requests')
+            distro_name='jcline linux', project=project, package_name='requests')
         Session.add_all([project, fedora_package, debian_package, jcline_package])
         Session.commit()
 
@@ -134,11 +134,11 @@ class PackagesResourceGetTests(DatabaseTestCase):
             backend='PyPI',
         )
         fedora_package = models.Packages(
-            distro='Fedora', project=project, package_name='python-requests')
+            distro_name='Fedora', project=project, package_name='python-requests')
         debian_package = models.Packages(
-            distro='Debian', project=project, package_name='python-requests')
+            distro_name='Debian', project=project, package_name='python-requests')
         jcline_package = models.Packages(
-            distro='jcline linux', project=project, package_name='requests')
+            distro_name='jcline linux', project=project, package_name='requests')
         Session.add_all([project, fedora_package, debian_package, jcline_package])
         Session.commit()
 
@@ -185,9 +185,9 @@ class PackagesResourceGetTests(DatabaseTestCase):
             backend='PyPI',
         )
         fedora_package = models.Packages(
-            distro='Fedora', project=project, package_name='python-requests')
+            distro_name='Fedora', project=project, package_name='python-requests')
         debian_package = models.Packages(
-            distro='Debian', project=project, package_name='python-requests')
+            distro_name='Debian', project=project, package_name='python-requests')
         Session.add_all([project, fedora_package, debian_package])
         Session.commit()
         output = self.app.get('/api/v2/packages/?items_per_page=1')
@@ -218,9 +218,9 @@ class PackagesResourceGetTests(DatabaseTestCase):
             backend='PyPI',
         )
         fedora_package = models.Packages(
-            distro='Fedora', project=project, package_name='python-requests')
+            distro_name='Fedora', project=project, package_name='python-requests')
         debian_package = models.Packages(
-            distro='Debian', project=project, package_name='python-requests')
+            distro_name='Debian', project=project, package_name='python-requests')
         Session.add_all([project, fedora_package, debian_package])
         Session.commit()
         output = self.app.get('/api/v2/packages/?items_per_page=1&page=2')
@@ -251,9 +251,9 @@ class PackagesResourceGetTests(DatabaseTestCase):
             backend='PyPI',
         )
         fedora_package = models.Packages(
-            distro='Fedora', project=project, package_name='python-requests')
+            distro_name='Fedora', project=project, package_name='python-requests')
         debian_package = models.Packages(
-            distro='Debian', project=project, package_name='python-requests')
+            distro_name='Debian', project=project, package_name='python-requests')
         Session.add_all([project, fedora_package, debian_package])
         Session.commit()
         fedora = self.app.get('/api/v2/packages/?distribution=Fedora')

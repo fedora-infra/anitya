@@ -280,7 +280,7 @@ class MapProjectTests(DatabaseTestCase):
         self.assertEqual(project_obj.name, 'geany')
         self.assertEqual(len(project_obj.packages), 1)
         self.assertEqual(project_obj.packages[0].package_name, 'geany')
-        self.assertEqual(project_obj.packages[0].distro, 'CentOS')
+        self.assertEqual(project_obj.packages[0].distro_name, 'CentOS')
 
         # Map `geany` project to CentOS, exactly the same way
         utilities.map_project(
@@ -297,9 +297,9 @@ class MapProjectTests(DatabaseTestCase):
         self.assertEqual(project_obj.name, 'geany')
         self.assertEqual(len(project_obj.packages), 2)
         self.assertEqual(project_obj.packages[0].package_name, 'geany')
-        self.assertEqual(project_obj.packages[0].distro, 'CentOS')
+        self.assertEqual(project_obj.packages[0].distro_name, 'CentOS')
         self.assertEqual(project_obj.packages[1].package_name, 'geany2')
-        self.assertEqual(project_obj.packages[1].distro, 'CentOS')
+        self.assertEqual(project_obj.packages[1].distro_name, 'CentOS')
 
         # Edit the mapping of the `geany` project to Fedora
         utilities.map_project(
@@ -318,9 +318,9 @@ class MapProjectTests(DatabaseTestCase):
         self.assertEqual(len(project_obj.packages), 2)
         pkgs = sorted(project_obj.packages, key=lambda x: x.package_name)
         self.assertEqual(pkgs[0].package_name, 'geany2')
-        self.assertEqual(pkgs[0].distro, 'CentOS')
+        self.assertEqual(pkgs[0].distro_name, 'CentOS')
         self.assertEqual(pkgs[1].package_name, 'geany3')
-        self.assertEqual(pkgs[1].distro, 'Fedora')
+        self.assertEqual(pkgs[1].distro_name, 'Fedora')
 
         # Edit the mapping of the `geany` project to Fedora
         project_obj = models.Project.get(self.session, 2)
@@ -336,3 +336,62 @@ class MapProjectTests(DatabaseTestCase):
             distribution='CentOS',
             user_id='noreply@fedoraproject.org',
         )
+
+    def test_map_project_no_project_for_package(self):
+        """ Test package duplicity when package is not associated to project """
+        create_distro(self.session)
+        create_project(self.session)
+
+        pkg = models.Packages(
+            distro_name='Fedora',
+            project_id=None,
+            package_name='geany'
+        )
+        self.session.add(pkg)
+        self.session.commit()
+
+        distro_objs = self.session.query(models.Distro).all()
+        project_obj = models.Project.get(self.session, 1)
+        self.assertEqual(project_obj.name, 'geany')
+        self.assertEqual(len(project_obj.packages), 0)
+        self.assertEqual(distro_objs[0].name, 'Fedora')
+
+        utilities.map_project(
+            self.session,
+            project=project_obj,
+            package_name='geany',
+            distribution='Fedora',
+            user_id='noreply@fedoraproject.org',
+            old_package_name=None,
+        )
+        self.session.commit()
+
+        project_obj = models.Project.get(self.session, 1)
+        packages = self.session.query(models.Packages).all()
+        self.assertEqual(project_obj.name, 'geany')
+        self.assertEqual(len(project_obj.packages), 1)
+        self.assertEqual(len(packages), 1)
+        self.assertEqual(project_obj.packages[0].package_name, 'geany')
+        self.assertEqual(project_obj.packages[0].distro_name, 'Fedora')
+
+    def test_map_project_session_error_no_distro(self):
+        """ Test SQLAlchemy session error """
+        create_project(self.session)
+
+        project_obj = models.Project.get(self.session, 1)
+        self.assertEqual(project_obj.name, 'geany')
+        self.assertEqual(len(project_obj.packages), 0)
+
+        with mock.patch.object(
+                self.session, 'flush', mock.Mock(side_effect=[SQLAlchemyError(), None])):
+            # Without existing Distro object
+            self.assertRaises(
+                exceptions.AnityaException,
+                utilities.map_project,
+                self.session,
+                project=project_obj,
+                package_name='geany',
+                distribution='Fedora',
+                user_id='noreply@fedoraproject.org',
+                old_package_name=None,
+            )

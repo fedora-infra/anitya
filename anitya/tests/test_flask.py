@@ -328,6 +328,42 @@ class NewProjectTests(DatabaseTestCase):
                     b'Project created</li>' in output.data)
                 patched.assert_called_once_with(mock.ANY, mock.ANY)
 
+    def test_new_project_distro_mapping(self):
+        """Assert an authenticated user can create a new project with distro mapping"""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get('/project/new', follow_redirects=False)
+                self.assertEqual(output.status_code, 200)
+
+                self.assertTrue(b'<h1>Add project</h1>' in output.data)
+                self.assertTrue(
+                    b'<td><label for="regex">Regex</label></td>' in output.data)
+
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
+                data = {
+                    'csrf_token': csrf_token,
+                    'name': 'repo_manager',
+                    'homepage': 'https://pypi.python.org/pypi/repo_manager',
+                    'backend': 'PyPI',
+                    'version_scheme': 'Date',
+                    'distro': 'Fedora',
+                    'package_name': 'repo_manager',
+                }
+                output = c.post(
+                    '/project/new', data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(
+                    b'<li class="list-group-item list-group-item-default">'
+                    b'Project created</li>' in output.data)
+                self.assertTrue(
+                    b'<h1>Project: repo_manager</h1>' in output.data)
+            projects = models.Project.all(self.session)
+            self.assertEqual(len(projects), 1)
+            self.assertEqual(len(projects[0].package), 1)
+            distros = self.session.query(models.Distro).all()
+            self.assertEqual(len(distros), 1)
+
 
 class FlaskTest(DatabaseTestCase):
     """ Flask tests. """
@@ -829,8 +865,8 @@ class EditProjectMappingTests(DatabaseTestCase):
             ecosystem_name='pypi',
         )
         self.package = models.Packages(
-            package_name='python_project', distro=self.distro1.name, project=self.project)
-        session.add_all([self.distro1, self.distro2, self.project, self.package])
+            package_name='python_project', distro_name=self.distro1.name, project=self.project)
+        session.add_all([self.user, self.distro1, self.distro2, self.project, self.package])
         session.commit()
         self.client = self.flask_app.test_client()
 
@@ -872,7 +908,7 @@ class EditProjectMappingTests(DatabaseTestCase):
 
             packages = models.Packages.query.all()
             self.assertEqual(1, len(packages))
-            self.assertEqual(self.distro2.name, packages[0].distro)
+            self.assertEqual(self.distro2.name, packages[0].distro_name)
 
     def test_clashing_package_name(self):
         """Assert two projects can't map to the same package name in a distro."""
@@ -885,7 +921,7 @@ class EditProjectMappingTests(DatabaseTestCase):
             ecosystem_name='pypi',
         )
         best_package = models.Packages(
-            package_name='best_project', distro=self.distro1.name, project=best_project)
+            package_name='best_project', distro_name=self.distro1.name, project=best_project)
         session.add_all([best_project, best_package])
         session.commit()
 

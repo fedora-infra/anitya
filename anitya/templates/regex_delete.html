@@ -11,14 +11,14 @@
     <form method="POST" action="{{
         url_for('anitya_ui.delete_project_mapping',
                 project_id=project.id,
-                distro_name=package.distro,
+                distro_name=package.distro_name,
                 pkg_name=package.package_name) }}" >
       {{ form.csrf_token }}
       <table id="input_table">
         <tr>
           <th>Linux distribution</th>
           <td>
-            {{ package.distro }}
+            {{ package.distro_name }}
           </td>
         </tr>
         <tr>
