@@ -179,7 +179,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
             self.session,
             test=True
         )
-        self.assertEqual(versions, ['1.0.0', '0.9.9', '0.9.8'])
+        self.assertEqual(versions, ['0.9.8', '0.9.9', '1.0.0'])
 
     @mock.patch(
         'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
@@ -271,7 +271,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
             test=True
         )
         self.assertEqual(len(versions), 3)
-        self.assertEqual(versions[0], '1.0.0')
+        self.assertEqual(versions[0], '0.9.8')
 
 
 class MapProjectTests(DatabaseTestCase):

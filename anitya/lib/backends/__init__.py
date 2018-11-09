@@ -213,9 +213,7 @@ class BaseBackend(object):
 
         '''
         vlist = self.get_versions(project)
-        version_class = project.get_version_class()
-        sorted_versions = sorted(
-            [version_class(version=v, prefix=project.version_prefix) for v in vlist])
+        sorted_versions = project.create_version_objects(vlist)
         return [v.version for v in sorted_versions]
 
     @classmethod

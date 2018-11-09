@@ -77,12 +77,10 @@ def check_project_release(project, session, test=False):
         raise
 
     # Remove prefix
-    version_class = project.get_version_class()
-    versions = [version_class(
-        version=v, prefix=project.version_prefix) for v in versions_prefix]
+    versions = project.create_version_objects(versions_prefix)
 
     if test:
-        return [v.parse() for v in versions]
+        return [str(v) for v in versions]
 
     # There is always at least one version retrieved,
     # otherwise this backend raises exception
