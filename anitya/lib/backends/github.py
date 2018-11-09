@@ -120,14 +120,7 @@ class GithubBackend(BaseBackend):
                 '%s: No upstream version found.' % (
                     project.name))
 
-        # Versions retrieved from the github must be reversed,
-        # othervise the sorting mechanism will think the oldest
-        # is the newest.
-        # Hovewer, this will only happen if the information the
-        # sorting algorithm needs is missing.
-        # For example: Date version scheme before the version is
-        # saved to database.
-        return list(reversed(versions))
+        return versions
 
 
 def parse_json(json, project):
