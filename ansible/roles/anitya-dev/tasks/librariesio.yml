@@ -2,9 +2,11 @@
 
 - name: Install sse2fedmsg
   become_user: "{{ ansible_env.SUDO_USER }}"
-  pip: name={{ item }} virtualenv=/home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
-  with_items:
-      - sse2fedmsg
+  pip:
+    name: [
+            sse2fedmsg
+          ]
+    virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
 
 - name: Create the ~/.fedmsg.d directory
   become_user: "{{ ansible_env.SUDO_USER }}"
