@@ -247,12 +247,11 @@ class GithubBackendtests(DatabaseTestCase):
         """ Regression test for issue #642 """
         project = models.Project(
             version_url='garglk/garglk',
-            version_prefix='stable-',
             version_scheme='Date',
             backend=BACKEND,
         )
         version = backend.GithubBackend().get_version(project)
-        self.assertEqual(u'2011.1', version)
+        self.assertEqual(u'stable-2011.1', version)
 
 
 class JsonTests(unittest.TestCase):
