@@ -94,6 +94,71 @@ class SourceforgeBackendtests(DatabaseTestCase):
             project
         )
 
+    def test_get_version_url(self):
+        """
+        Assert that correct url is returned.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            version_url='test_name',
+            backend=BACKEND,
+        )
+        exp = 'https://sourceforge.net/projects/test_name/rss?limit=200'
+
+        obs = backend.SourceforgeBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_missing_version_url(self):
+        """
+        Assert that correct url is returned when project version url
+        is missing.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            backend=BACKEND,
+        )
+        exp = 'https://sourceforge.net/projects/test/rss?limit=200'
+
+        obs = backend.SourceforgeBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_version_url_plus(self):
+        """
+        Assert that correct url is returned when project version url
+        contains '+'.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            version_url='test+name',
+            backend=BACKEND,
+        )
+        exp = r'https://sourceforge.net/projects/test\+name/rss?limit=200'
+
+        obs = backend.SourceforgeBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_project_name_plus(self):
+        """
+        Assert that correct url is returned when project name
+        contains '+'.
+        """
+        project = models.Project(
+            name='test+',
+            homepage='https://example.org',
+            backend=BACKEND,
+        )
+        exp = r'https://sourceforge.net/projects/test\+/rss?limit=200'
+
+        obs = backend.SourceforgeBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_get_versions(self):
         """ Test the get_versions function of the sourceforge backend. """
         pid = 1

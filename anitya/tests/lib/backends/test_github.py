@@ -115,6 +115,87 @@ class GithubBackendtests(DatabaseTestCase):
         obs = backend.GithubBackend.get_version(project)
         self.assertEqual(obs, exp)
 
+    def test_get_version_url_project_version_url(self):
+        """
+        Assert that correct url is returned when project version url is specified.
+        """
+        project = models.Project(
+            name='test',
+            homepage='http://example.org',
+            version_url='test/test',
+            backend=BACKEND,
+        )
+        exp = 'https://github.com/test/test/tags'
+
+        obs = backend.GithubBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_project_homepage_only(self):
+        """
+        Assert that correct url is returned when only
+        project homepage is specified.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://github.com/test/test',
+            backend=BACKEND,
+        )
+        exp = 'https://github.com/test/test/tags'
+
+        obs = backend.GithubBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_project_wrong_homepage(self):
+        """
+        Assert that empty url is returned when
+        project homepage is wrong.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            backend=BACKEND,
+        )
+        exp = ''
+
+        obs = backend.GithubBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_homepage_slash(self):
+        """
+        Assert that correct url is returned when
+        project homepage ends with '/'.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://github.com/test/test/',
+            backend=BACKEND,
+        )
+        exp = 'https://github.com/test/test/tags'
+
+        obs = backend.GithubBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_version_url_slash(self):
+        """
+        Assert that correct url is returned when
+        version url ends with '/'.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.com',
+            version_url='test/test/',
+            backend=BACKEND,
+        )
+        exp = 'https://github.com/test/test/tags'
+
+        obs = backend.GithubBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     @mock.patch.dict('anitya.config.config', {'GITHUB_ACCESS_TOKEN': "foobar"})
     def test_get_versions(self):
         """ Test the get_versions function of the github backend. """

@@ -94,6 +94,88 @@ class BitBucketBackendtests(DatabaseTestCase):
         obs = backend.BitBucketBackend.get_version(project)
         self.assertEqual(obs, exp)
 
+    def test_get_version_url_only_homepage(self):
+        """
+        Assert that correct url is returned when only
+        homepage is specified.
+        """
+        project = models.Project(
+            name='cherrypy',
+            homepage='https://bitbucket.org/cherrypy/cherrypy',
+            backend=BACKEND,
+        )
+        exp = 'https://bitbucket.org/cherrypy/cherrypy/downloads?tab=tags'
+
+        obs = backend.BitBucketBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_project_version_url(self):
+        """
+        Assert that correct url is returned when
+        version_url is specified.
+        """
+        project = models.Project(
+            name='cherrypy',
+            homepage='https://example.org',
+            version_url='https://bitbucket.org/cherrypy/cherrypy',
+            backend=BACKEND,
+        )
+        exp = 'https://bitbucket.org/cherrypy/cherrypy/downloads?tab=tags'
+
+        obs = backend.BitBucketBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_slash_homepage(self):
+        """
+        Assert that correct url is returned when
+        homepage ends with /.
+        """
+        project = models.Project(
+            name='cherrypy',
+            homepage='https://bitbucket.org/cherrypy/cherrypy/',
+            backend=BACKEND,
+        )
+        exp = 'https://bitbucket.org/cherrypy/cherrypy/downloads?tab=tags'
+
+        obs = backend.BitBucketBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_slash_version_url(self):
+        """
+        Assert that correct url is returned when
+        version_url ends with /.
+        """
+        project = models.Project(
+            name='cherrypy',
+            homepage='https://example.org',
+            version_url='https://bitbucket.org/cherrypy/cherrypy/',
+            backend=BACKEND,
+        )
+        exp = 'https://bitbucket.org/cherrypy/cherrypy/downloads?tab=tags'
+
+        obs = backend.BitBucketBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_wrong_homepage(self):
+        """
+        Assert that correct url is returned when wrong
+        homepage is provided.
+        """
+        project = models.Project(
+            name='cherrypy',
+            homepage='https://wrong.org',
+            backend=BACKEND,
+        )
+        exp = ''
+
+        obs = backend.BitBucketBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_get_versions(self):
         """ Test the get_versions function of the BitBucket backend. """
         pid = 1

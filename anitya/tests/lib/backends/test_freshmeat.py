@@ -94,6 +94,19 @@ class FreshmeatBackendtests(DatabaseTestCase):
             project
         )
 
+    def test_get_version_url(self):
+        """ Assert that correct url is returned. """
+        project = models.Project(
+            name='test',
+            homepage='http://example.org',
+            backend=BACKEND,
+        )
+        exp = 'http://freshmeat.net/projects/test'
+
+        obs = backend.FreshmeatBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_get_versions(self):
         """ Test the get_versions function of the debian backend. """
         pid = 1

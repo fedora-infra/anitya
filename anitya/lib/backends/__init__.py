@@ -156,6 +156,20 @@ class BaseBackend(object):
         pass
 
     @classmethod
+    def get_version_url(cls, project):  # pragma: no cover
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        pass
+
+    @classmethod
     def get_versions(self, project):  # pragma: no cover
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of

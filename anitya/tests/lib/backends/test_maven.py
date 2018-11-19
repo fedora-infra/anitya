@@ -101,6 +101,70 @@ class MavenBackendTest(DatabaseTestCase):
         obs = MavenBackend.get_version(project)
         self.assertEqual(obs, exp)
 
+    def test_get_version_url_homepage(self):
+        """
+        Assert that correct url is returned when project homepage is specified.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://repo1.maven.org/maven2/test/test',
+            backend=BACKEND,
+        )
+        exp = project.homepage
+
+        obs = MavenBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_project_version_url(self):
+        """
+        Assert that correct url is returned when project version_url
+        is specified.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            version_url='test:test',
+            backend=BACKEND,
+        )
+        exp = 'https://repo1.maven.org/maven2/test/test/'
+
+        obs = MavenBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_contains_dot(self):
+        """
+        Assert that correct url is returned when project version_url
+        contains '.'.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            version_url='test.test:test',
+            backend=BACKEND,
+        )
+        exp = 'https://repo1.maven.org/maven2/test/test/test/'
+
+        obs = MavenBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_wrong_homepage(self):
+        """
+        Assert that empty url is returned when wrong homepage is specified.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            backend=BACKEND,
+        )
+        exp = ''
+
+        obs = MavenBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_maven_get_versions(self):
         project = models.Project(
             backend=BACKEND,

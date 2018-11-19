@@ -92,6 +92,21 @@ class NpmjsBackendtests(DatabaseTestCase):
         obs = backend.NpmjsBackend.get_version(project)
         self.assertEqual(obs, exp)
 
+    def test_get_version_url(self):
+        """
+        Assert that correct url is returned.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            backend=BACKEND,
+        )
+        exp = 'https://registry.npmjs.org/test'
+
+        obs = backend.NpmjsBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_get_versions(self):
         """ Test the get_versions function of the npmjs backend. """
         pid = 1

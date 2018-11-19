@@ -97,6 +97,20 @@ class FolderBackendtests(DatabaseTestCase):
         obs = backend.FolderBackend.get_version(project)
         self.assertEqual(obs, exp)
 
+    def test_get_version_url(self):
+        """ Assert that correct url is returned. """
+        project = models.Project(
+            name='test',
+            homepage='http://example.org',
+            version_url='http://example.org/releases',
+            backend=BACKEND,
+        )
+        exp = project.version_url
+
+        obs = backend.FolderBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_folder_get_versions_insecure(self):
         """Assert projects with insecure=True get the URL insecurely"""
         pid = 2

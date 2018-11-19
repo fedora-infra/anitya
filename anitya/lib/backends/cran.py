@@ -93,6 +93,22 @@ class CranBackend(BaseBackend):
         return data['Version']
 
     @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        url = 'https://crandb.r-pkg.org/{name}/all'.format(name=project.name)
+
+        return url
+
+    @classmethod
     def get_versions(cls, project):
         """
         Retrieve all the versions (that can be found) of the provided project from this backend.
@@ -108,7 +124,7 @@ class CranBackend(BaseBackend):
                 format.
 
         """
-        url = 'https://crandb.r-pkg.org/{name}/all'.format(name=project.name)
+        url = cls.get_version_url(project)
 
         try:
             response = cls.call_url(url)

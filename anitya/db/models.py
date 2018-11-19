@@ -401,6 +401,18 @@ class Project(Base):
 
         return versions
 
+    def get_version_url(self):
+        ''' Returns full version url, which is used by backend.
+
+        Returns:
+            str: Version url or empty string if backend is not specified
+        '''
+        if not self.backend:
+            return ""
+
+        backend = BACKEND_PLUGINS.get_plugin(self.backend)
+        return backend.get_version_url(self)
+
     def get_sorted_version_objects(self):
         ''' Return list of all version objects stored, sorted from newest to oldest.
 

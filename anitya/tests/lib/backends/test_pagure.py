@@ -78,6 +78,21 @@ class PagureBackendtests(DatabaseTestCase):
             project
         )
 
+    def test_get_version_url(self):
+        """
+        Assert that correct url is returned.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            backend=BACKEND,
+        )
+        exp = 'https://pagure.io/api/0/test/git/tags'
+
+        obs = backend.PagureBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_pagure_get_versions(self):
         """ Test the get_versions function of the pagure backend. """
         pid = 1

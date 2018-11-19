@@ -61,6 +61,33 @@ class GitlabBackend(BaseBackend):
         return cls.get_ordered_versions(project)[-1]
 
     @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        tokens = []
+        url = ''
+        url_template = '%(hostname)s/api/v4/projects/%(owner)s%%2F%(repo)s/repository/tags'
+        if project.version_url:
+            tokens = project.version_url.split('/')
+        elif project.homepage:
+            tokens = project.homepage.split('/')
+
+        if len(tokens) == 5:
+            url = url_template % {'hostname': tokens[0] + '//' + tokens[2],
+                                  'owner': tokens[3],
+                                  'repo': tokens[4]}
+
+        return url
+
+    @classmethod
     def get_versions(cls, project):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
@@ -75,18 +102,10 @@ class GitlabBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url_template = '%(hostname)s/api/v4/projects/%(owner)s%%2F%(repo)s/repository/tags'
-        if project.version_url:
-            tokens = project.version_url.split('/')
-        elif project.homepage:
-            tokens = project.homepage.split('/')
-        else:
+        url = cls.get_version_url(project)
+        if not url:
             raise AnityaPluginException(
                 'Project %s was incorrectly set-up' % project.name)
-
-        url = url_template % {'hostname': tokens[0] + '//' + tokens[2],
-                              'owner': tokens[3],
-                              'repo': tokens[4]}
 
         resp = cls.call_url(url)
 
