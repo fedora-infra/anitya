@@ -147,7 +147,7 @@ class CratesBackend(BaseBackend):
             AnityaPluginException: If the URL was unreachable or the response
                 was in an unexpected format.
         """
-        url = 'https://crates.io/api/v1/crates/{}/versions'.format(project.name)
+        url = cls.get_version_url(project)
         try:
             req = cls.call_url(url)
             req.raise_for_status()
@@ -177,6 +177,22 @@ class CratesBackend(BaseBackend):
                 was in an unexpected format.
         """
         return cls._get_versions(project)[0]['num']
+
+    @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        url = 'https://crates.io/api/v1/crates/{}/versions'.format(project.name)
+
+        return url
 
     @classmethod
     def get_versions(cls, project):

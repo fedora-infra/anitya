@@ -60,6 +60,32 @@ class GithubBackend(BaseBackend):
         return cls.get_ordered_versions(project)[-1]
 
     @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        url = ''
+        if project.version_url:
+            url = project.version_url
+        elif project.homepage.startswith('https://github.com'):
+            url = project.homepage.replace('https://github.com/', '')
+
+        if url.endswith('/'):
+            url = url[:-1]
+
+        if url:
+            url = "https://github.com/{}/tags".format(url)
+
+        return url
+
+    @classmethod
     def get_versions(cls, project):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
@@ -80,12 +106,10 @@ class GithubBackend(BaseBackend):
         '''
         owner = None
         repo = None
-        if project.version_url:
-            url = project.version_url
-        elif project.homepage.startswith('https://github.com'):
-            url = project.homepage.replace('https://github.com/', '')
-            if url.endswith('/'):
-                url = url[:-1]
+        url = cls.get_version_url(project)
+        if url:
+            url = url.replace('https://github.com/', '')
+            url = url.replace('/tags', '')
         else:
             raise AnityaPluginException(
                 'Project %s was incorrectly set-up' % project.name)

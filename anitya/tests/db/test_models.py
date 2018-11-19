@@ -179,6 +179,26 @@ class ProjectTests(DatabaseTestCase):
 
         self.assertEqual(len(versions), 0)
 
+    def test_get_version_url_no_backend(self):
+        """ Assert that empty string is returned when backend is not specified. """
+        project = models.Project(
+            name='test',
+            homepage='https://example.com',
+            ecosystem_name='pypi',
+        )
+        self.assertEqual('', project.get_version_url())
+
+    def test_get_version_url(self):
+        """ Assert that correct url is returned. """
+        project = models.Project(
+            name='test',
+            homepage='https://example.com',
+            backend='custom',
+            version_url='https://example.com/releases',
+            ecosystem_name='pypi'
+        )
+        self.assertEqual(project.version_url, project.get_version_url())
+
     def get_sorted_version_objects(self):
         """ Assert that sorted versions are included in the list returned from
         :data:`Project.get_sorted_version_objects`.

@@ -42,6 +42,22 @@ class PagureBackend(BaseBackend):
             return versions[-1]
 
     @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        url = 'https://pagure.io/api/0/%s/git/tags' % project.name
+
+        return url
+
+    @classmethod
     def get_versions(cls, project):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
@@ -56,7 +72,7 @@ class PagureBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url = 'https://pagure.io/api/0/%s/git/tags' % project.name
+        url = cls.get_version_url(project)
         try:
             req = cls.call_url(url)
         except Exception as err:  # pragma: no cover

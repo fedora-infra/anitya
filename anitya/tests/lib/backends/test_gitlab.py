@@ -99,6 +99,55 @@ class GitlabBackendtests(DatabaseTestCase):
         obs = backend.GitlabBackend.get_version(project)
         self.assertEqual(obs, exp)
 
+    def test_get_version_url_project_version_url(self):
+        """
+        Assert that correct url is returned when
+        project version url is specified.
+        """
+        project = models.Project(
+            name='test',
+            homepage='http://example.org',
+            version_url='https://gitlab.com/test/test',
+            backend=BACKEND,
+        )
+        exp = 'https://gitlab.com/api/v4/projects/test%2Ftest/repository/tags'
+
+        obs = backend.GitlabBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_project_homepage_only(self):
+        """
+        Assert that correct url is returned when only
+        project homepage is specified.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://gitlab.com/test/test',
+            backend=BACKEND,
+        )
+        exp = 'https://gitlab.com/api/v4/projects/test%2Ftest/repository/tags'
+
+        obs = backend.GitlabBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_project_wrong_homepage(self):
+        """
+        Assert that empty url is returned when
+        project homepage is wrong.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            backend=BACKEND,
+        )
+        exp = ''
+
+        obs = backend.GitlabBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_get_versions(self):
         """ Test the get_versions function of the gitlab backend. """
         pid = 1

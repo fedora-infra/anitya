@@ -38,7 +38,7 @@ class PypiBackend(BaseBackend):
             when the version cannot be retrieved correctly
 
         '''
-        url = 'https://pypi.org/pypi/%s/json' % project.name
+        url = cls.get_version_url(project)
         try:
             req = cls.call_url(url)
         except Exception:  # pragma: no cover
@@ -50,6 +50,22 @@ class PypiBackend(BaseBackend):
             raise AnityaPluginException('No JSON returned by %s' % url)
 
         return data['info']['version']
+
+    @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        url = 'https://pypi.org/pypi/%s/json' % project.name
+
+        return url
 
     @classmethod
     def get_versions(cls, project):
@@ -66,7 +82,7 @@ class PypiBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url = 'https://pypi.org/pypi/%s/json' % project.name
+        url = cls.get_version_url(project)
         try:
             req = cls.call_url(url)
         except Exception:  # pragma: no cover
