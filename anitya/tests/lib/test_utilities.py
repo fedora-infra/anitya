@@ -265,13 +265,15 @@ class CheckProjectReleaseTests(DatabaseTestCase):
             user_id='noreply@fedoraproject.org',
             version_scheme='RPM',
         )
-        versions = utilities.check_project_release(
+        utilities.check_project_release(
             project,
-            self.session,
-            test=True
+            self.session
         )
+
+        versions = project.get_sorted_version_objects()
         self.assertEqual(len(versions), 3)
-        self.assertEqual(versions[0], '0.9.8')
+        self.assertEqual(versions[0].version, 'v1.0.0')
+        self.assertEqual(project.latest_version, '1.0.0')
 
 
 class MapProjectTests(DatabaseTestCase):
