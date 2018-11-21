@@ -99,7 +99,7 @@ def check_project_release(project, session, test=False):
 
     sorted_versions = project.get_sorted_version_objects()
     if sorted_versions:
-        max_version = sorted_versions[0].version
+        max_version = sorted_versions[0].parse()
     if project.latest_version != max_version:
         project.latest_version = max_version
         publish = True
