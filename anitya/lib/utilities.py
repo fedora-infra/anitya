@@ -117,6 +117,7 @@ def check_project_release(project, session, test=False):
                 old_version=old_version,
                 packages=[pkg.__json__() for pkg in project.packages],
                 versions=project.versions,
+                ecosystem=project.ecosystem_name,
                 agent='anitya',
             ),
         )
@@ -162,14 +163,15 @@ def log(session, project=None, distro=None, topic=None, message=None):
         'project.remove': '%(agent)s removed the project: %(project)s',
         'project.map.new': '%(agent)s mapped the name of %(project)s in '
                            '%(distro)s as %(new)s',
-        'project.map.update': '%(agent)s update the name of %(project)s in '
+        'project.map.update': '%(agent)s updated the name of %(project)s in '
                               '%(distro)s from: %(prev)s to: %(new)s',
         'project.map.remove': '%(agent)s removed the mapping of %(project)s '
                               'in %(distro)s',
         'project.version.remove': '%(agent)s removed the version %(version)s '
-                                  'of %(project)s ',
+                                  'of %(project)s',
         'project.version.update': 'new version: %(upstream_version)s found'
                                   ' for project %(project.name)s '
+                                  'in ecosystem %(ecosystem)s '
                                   '(project id: %(project.id)s).',
     }
     substitutions = _construct_substitutions(message)

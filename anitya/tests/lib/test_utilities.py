@@ -652,3 +652,311 @@ class SetFlagStateTests(DatabaseTestCase):
                 state='closed',
                 user_id='noreply@fedoraproject.org',
             )
+
+
+class LogTests(DatabaseTestCase):
+    """ Tests for `anitya.lib.utilities.log` function. """
+
+    def test_log_distro_add(self):
+        """ Assert that 'distro.add' topic is handled correctly. """
+        project = models.Project(
+            name='test'
+        )
+        distro = models.Distro(
+            name='Fedora'
+        )
+        exp = "anitya added the distro named: Fedora"
+        message = {
+            'agent': 'anitya',
+            'distro': 'Fedora'
+        }
+        final_msg = utilities.log(
+            self.session, project=project, distro=distro,
+            topic='distro.add', message=message
+        )
+
+        self.assertEqual(final_msg, exp)
+
+    def test_log_distro_edit(self):
+        """ Assert that 'distro.edit' topic is handled correctly. """
+        project = models.Project(
+            name='test'
+        )
+        distro = models.Distro(
+            name='Fedora'
+        )
+        exp = "anitya edited distro name from: Dummy to: Fedora"
+        message = {
+            'agent': 'anitya',
+            'old': 'Dummy',
+            'new': 'Fedora'
+        }
+        final_msg = utilities.log(
+            self.session, project=project, distro=distro,
+            topic='distro.edit', message=message
+        )
+
+        self.assertEqual(final_msg, exp)
+
+    def test_log_distro_remove(self):
+        """ Assert that 'distro.remove' topic is handled correctly. """
+        project = models.Project(
+            name='test'
+        )
+        distro = models.Distro(
+            name='Fedora'
+        )
+        exp = "anitya deleted the distro named: Fedora"
+        message = {
+            'agent': 'anitya',
+            'distro': 'Fedora'
+        }
+        final_msg = utilities.log(
+            self.session, project=project, distro=distro,
+            topic='distro.remove', message=message
+        )
+
+        self.assertEqual(final_msg, exp)
+
+    def test_log_project_add(self):
+        """ Assert that 'project.add' topic is handled correctly. """
+        project = models.Project(
+            name='test'
+        )
+        distro = models.Distro(
+            name='Fedora'
+        )
+        exp = "anitya added project: test"
+        message = {
+            'agent': 'anitya',
+            'project': 'test'
+        }
+        final_msg = utilities.log(
+            self.session, project=project, distro=distro,
+            topic='project.add', message=message
+        )
+
+        self.assertEqual(final_msg, exp)
+
+    def test_log_project_add_tried(self):
+        """ Assert that 'project.add.tried' topic is handled correctly. """
+        project = models.Project(
+            name='test'
+        )
+        distro = models.Distro(
+            name='Fedora'
+        )
+        exp = "anitya tried to add an already existing project: test"
+        message = {
+            'agent': 'anitya',
+            'project': 'test'
+        }
+        final_msg = utilities.log(
+            self.session, project=project, distro=distro,
+            topic='project.add.tried', message=message
+        )
+
+        self.assertEqual(final_msg, exp)
+
+    def test_log_project_edit(self):
+        """ Assert that 'project.edit' topic is handled correctly. """
+        project = models.Project(
+            name='test'
+        )
+        distro = models.Distro(
+            name='Fedora'
+        )
+        message = {
+            'agent': 'anitya',
+            'project': 'test',
+            'changes': {
+                'name': {
+                    'old': 'dummy',
+                    'new': 'test'
+                }
+            }
+        }
+        exp = "anitya edited the project: test fields: " \
+              "{}".format(message['changes'])
+        final_msg = utilities.log(
+            self.session, project=project, distro=distro,
+            topic='project.edit', message=message
+        )
+
+        self.assertEqual(final_msg, exp)
+
+    def test_log_project_flag(self):
+        """ Assert that 'project.flag' topic is handled correctly. """
+        project = models.Project(
+            name='test'
+        )
+        distro = models.Distro(
+            name='Fedora'
+        )
+        exp = "anitya flagged the project: test with reason: reason"
+        message = {
+            'agent': 'anitya',
+            'project': 'test',
+            'reason': 'reason'
+        }
+        final_msg = utilities.log(
+            self.session, project=project, distro=distro,
+            topic='project.flag', message=message
+        )
+
+        self.assertEqual(final_msg, exp)
+
+    def test_log_project_flag_set(self):
+        """ Assert that 'project.flag.set' topic is handled correctly. """
+        project = models.Project(
+            name='test'
+        )
+        distro = models.Distro(
+            name='Fedora'
+        )
+        exp = "anitya set flag test to open"
+        message = {
+            'agent': 'anitya',
+            'flag': 'test',
+            'state': 'open'
+        }
+        final_msg = utilities.log(
+            self.session, project=project, distro=distro,
+            topic='project.flag.set', message=message
+        )
+
+        self.assertEqual(final_msg, exp)
+
+    def test_log_project_remove(self):
+        """ Assert that 'project.remove' topic is handled correctly. """
+        project = models.Project(
+            name='test'
+        )
+        distro = models.Distro(
+            name='Fedora'
+        )
+        exp = "anitya removed the project: test"
+        message = {
+            'agent': 'anitya',
+            'project': 'test',
+        }
+        final_msg = utilities.log(
+            self.session, project=project, distro=distro,
+            topic='project.remove', message=message
+        )
+
+        self.assertEqual(final_msg, exp)
+
+    def test_log_project_map_new(self):
+        """ Assert that 'project.map.new' topic is handled correctly. """
+        project = models.Project(
+            name='test'
+        )
+        distro = models.Distro(
+            name='Fedora'
+        )
+        exp = "anitya mapped the name of test in Fedora as test_package"
+        message = {
+            'agent': 'anitya',
+            'project': 'test',
+            'distro': 'Fedora',
+            'new': 'test_package'
+        }
+        final_msg = utilities.log(
+            self.session, project=project, distro=distro,
+            topic='project.map.new', message=message
+        )
+
+        self.assertEqual(final_msg, exp)
+
+    def test_log_project_map_update(self):
+        """ Assert that 'project.map.update' topic is handled correctly. """
+        project = models.Project(
+            name='test'
+        )
+        distro = models.Distro(
+            name='Fedora'
+        )
+        exp = "anitya updated the name of test in Fedora from: test_old" \
+              " to: test_new"
+        message = {
+            'agent': 'anitya',
+            'project': 'test',
+            'distro': 'Fedora',
+            'prev': 'test_old',
+            'new': 'test_new'
+        }
+        final_msg = utilities.log(
+            self.session, project=project, distro=distro,
+            topic='project.map.update', message=message
+        )
+
+        self.assertEqual(final_msg, exp)
+
+    def test_log_project_map_remove(self):
+        """ Assert that 'project.map.remove' topic is handled correctly. """
+        project = models.Project(
+            name='test'
+        )
+        distro = models.Distro(
+            name='Fedora'
+        )
+        exp = "anitya removed the mapping of test in Fedora"
+        message = {
+            'agent': 'anitya',
+            'project': 'test',
+            'distro': 'Fedora',
+        }
+        final_msg = utilities.log(
+            self.session, project=project, distro=distro,
+            topic='project.map.remove', message=message
+        )
+
+        self.assertEqual(final_msg, exp)
+
+    def test_log_project_version_remove(self):
+        """ Assert that 'project.version.remove' topic is handled correctly. """
+        project = models.Project(
+            name='test'
+        )
+        distro = models.Distro(
+            name='Fedora'
+        )
+        exp = "anitya removed the version 1.0.0 of test"
+        message = {
+            'agent': 'anitya',
+            'project': 'test',
+            'version': '1.0.0',
+        }
+        final_msg = utilities.log(
+            self.session, project=project, distro=distro,
+            topic='project.version.remove', message=message
+        )
+
+        self.assertEqual(final_msg, exp)
+
+    def test_log_project_version_update(self):
+        """ Assert that 'project.version.update' topic is handled correctly. """
+        project = models.Project(
+            name='test'
+        )
+        distro = models.Distro(
+            name='Fedora'
+        )
+        exp = "new version: 1.0.0 found for project test " \
+              "in ecosystem pypi (project id: 1)."
+        message = {
+            'agent': 'anitya',
+            'upstream_version': '1.0.0',
+            'ecosystem': 'pypi',
+            'project': {
+                'name': 'test',
+                'id': '1'
+            }
+        }
+        final_msg = utilities.log(
+            self.session, project=project, distro=distro,
+            topic='project.version.update', message=message
+        )
+
+        self.assertEqual(final_msg, exp)
