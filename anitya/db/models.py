@@ -371,7 +371,29 @@ class Project(Base):
            :obj:`list` of :obj:`str`: List of versions
         '''
         sorted_versions = self.get_sorted_version_objects()
-        return [v.version for v in sorted_versions]
+        return [str(v) for v in sorted_versions]
+
+    def create_version_objects(self, versions):
+        """
+        Creates sorted list of version objects defined by `self.version_class` from versions list.
+
+        Args:
+            versions (list(str)): List of versions that are not associated with the project.
+
+        Returns:
+            list(`anitya.lib.versions.Base`): List of version objects defined by
+                `self.version_class`.
+        """
+        version_class = self.get_version_class()
+        versions = sorted([
+            version_class(
+                version=version, prefix=self.version_prefix,
+                created_on=datetime.datetime.utcnow()
+            )
+            for version in versions
+        ])
+
+        return versions
 
     def get_sorted_version_objects(self):
         ''' Return list of all version objects stored, sorted from newest to oldest.

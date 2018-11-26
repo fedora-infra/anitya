@@ -1,24 +1,32 @@
 ---
 
 - name: Install helpful development packages
-  dnf: name={{ item }} state=present
-  with_items:
-    - git
-    - python3-virtualenvwrapper
-    - vim-enhanced
+  dnf:
+    name: [
+           git,
+           python3-virtualenvwrapper,
+           vim-enhanced,
+           python-devel,
+           python35,
+           python36,
+           python37
+          ]
+    state: present
 
 - name: Install anitya system dependencies
-  dnf: name={{ item }} state=present
-  with_items:
-    - gcc
-    - graphviz
-    - make
-    - libffi-devel
-    - openssl-devel
-    - postgresql-devel
-    - python3-devel
-    - redhat-rpm-config
-    - rpm-python
+  dnf:
+    name: [
+           gcc,
+           graphviz,
+           make,
+           libffi-devel,
+           openssl-devel,
+           postgresql-devel,
+           python3-devel,
+           redhat-rpm-config,
+           rpm-python
+          ]
+    state: present
 
 # Add various helpful configuration files
 - name: Install a custom bashrc
@@ -37,7 +45,7 @@
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
       source ~/.bashrc && mkvirtualenv anitya -a ~/devel/ &&
-      virtualenv-3 --system-site-packages ~/.virtualenvs/anitya/
+      virtualenv --python=/usr/bin/python3 --system-site-packages ~/.virtualenvs/anitya/
   args:
     creates: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya
 

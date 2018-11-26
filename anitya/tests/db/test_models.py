@@ -112,6 +112,72 @@ class ProjectTests(DatabaseTestCase):
         )
         self.assertEqual('pypi', project.__json__()['ecosystem'])
 
+    def test_create_version_objects_RPM(self):
+        """
+        Assert that the correct version objects list is returned (RPM version scheme).
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.com',
+            backend='custom',
+            version_scheme='RPM',
+            version_prefix='test-'
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        versions_list = ['test-0.1.0', 'test-0.2.0', 'test-0.3.0']
+
+        versions = project.create_version_objects(versions_list)
+
+        self.assertEqual(len(versions), 3)
+        self.assertEqual(str(versions[0]), '0.1.0')
+        self.assertEqual(str(versions[1]), '0.2.0')
+        self.assertEqual(str(versions[2]), '0.3.0')
+
+    def test_create_version_objects_Date(self):
+        """
+        Assert that the correct version objects list is returned (Date version scheme).
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.com',
+            backend='custom',
+            version_scheme='Date',
+            version_prefix='test-'
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        versions_list = ['test-0.1.0', 'test-0.2.0', 'test-0.3.0']
+
+        versions = project.create_version_objects(versions_list)
+
+        self.assertEqual(len(versions), 3)
+        self.assertEqual(str(versions[0]), '0.1.0')
+        self.assertEqual(str(versions[1]), '0.2.0')
+        self.assertEqual(str(versions[2]), '0.3.0')
+
+    def test_create_version_objects_empty(self):
+        """
+        Assert that the `create_version_objects` method returns nothing on empty list.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.com',
+            backend='custom',
+            version_scheme='Date',
+            version_prefix='test-'
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        versions_list = []
+
+        versions = project.create_version_objects(versions_list)
+
+        self.assertEqual(len(versions), 0)
+
     def get_sorted_version_objects(self):
         """ Assert that sorted versions are included in the list returned from
         :data:`Project.get_sorted_version_objects`.

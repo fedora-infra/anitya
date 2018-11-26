@@ -157,33 +157,6 @@ class GetVersionsByRegexTextTests(unittest.TestCase):
             text, 'url', regex, mock_project)
         self.assertEqual(sorted(['0.0.1', '0.0.2', '1.0.0']), sorted(versions))
 
-    def test_get_versions_by_regex_for_text_prefix(self):
-        """Assert prefixes are stripped from regex matches"""
-        text = """
-        some release: v0.0.1
-        some other release: v0.0.2
-        The best release: v1.0.0
-        """
-        regex = r'v\d\.\d\.\d'
-        mock_project = mock.Mock(version_prefix='v')
-        versions = backends.get_versions_by_regex_for_text(
-            text, 'url', regex, mock_project)
-        self.assertEqual(sorted(['0.0.1', '0.0.2', '1.0.0']), sorted(versions))
-
-    def test_get_versions_by_regex_for_text_slice_prefix(self):
-        """Assert prefixes are sliced rather than lstripped"""
-        text = """
-        some release: version-v0.0.1-dev
-        some other release: version-v0.0.2-dev
-        The best release: version-v1.0.0
-        """
-        regex = r'[\w]*-v\d\.\d\.\d-?[\w]*'
-        mock_project = mock.Mock(version_prefix='version-')
-        versions = backends.get_versions_by_regex_for_text(
-            text, 'url', regex, mock_project)
-        self.assertEqual(
-            sorted(['v0.0.1-dev', 'v0.0.2-dev', 'v1.0.0']), sorted(versions))
-
     def test_get_versions_by_regex_for_text_tuples(self):
         """Assert regex that result in tuples are joined into a string"""
         text = """

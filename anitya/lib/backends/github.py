@@ -168,11 +168,6 @@ def parse_json(json, project):
 
     for edge in json['data']['repository']['refs']['edges']:
         version = edge['node']['name']
-        if project.version_prefix is not None and \
-                version.startswith(project.version_prefix):
-            version = version[len(project.version_prefix):]
-        elif version.startswith('v'):
-            version = version[1:]
         versions.append(version)
 
     return versions
