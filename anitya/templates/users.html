@@ -100,18 +100,18 @@
                 user_id=user.id, state=False) }}">
                 <button type="submit" class="btn btn-danger btn-sm pull-right inline"
                         id="user_btn">
-                    Revoke admin
+                    Revoke admin permissions
                 </button>
-                {% else %}
-                <form method="POST" action="{{ url_for('anitya_ui.set_user_admin_state',
-                user_id=user.id, state=True) }}">
-                    <button type="submit" class="btn btn-success btn-sm pull-right inline"
-                            id="user_btn">
-                        Promote admin
-                    </button>
-                    {% endif %}
-                    {{ form.csrf_token }}
-                </form>
+            {% else %}
+            <form method="POST" action="{{ url_for('anitya_ui.set_user_admin_state',
+            user_id=user.id, state=True) }}">
+                <button type="submit" class="btn btn-success btn-sm pull-right inline"
+                        id="user_btn">
+                    Give admin permissions
+                </button>
+                {% endif %}
+                {{ form.csrf_token }}
+            </form>
 
         </td>
         <td>
@@ -122,16 +122,16 @@
                         id="user_btn">
                     Ban
                 </button>
-                {% else %}
-                <form method="POST" action="{{ url_for('anitya_ui.set_user_active_state',
-                user_id=user.id, state=True) }}">
-                    <button type="submit" class="btn btn-success btn-sm pull-right inline"
-                            id="user_btn">
-                        Remove ban
-                    </button>
-                    {% endif %}
-                    {{ form.csrf_token }}
-                </form>
+            {% else %}
+            <form method="POST" action="{{ url_for('anitya_ui.set_user_active_state',
+            user_id=user.id, state=True) }}">
+                <button type="submit" class="btn btn-success btn-sm pull-right inline"
+                        id="user_btn">
+                    Remove ban
+                </button>
+                {% endif %}
+                {{ form.csrf_token }}
+            </form>
 
         </td>
     </tr>

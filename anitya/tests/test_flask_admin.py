@@ -1130,7 +1130,7 @@ class SetUserAdminStateTests(DatabaseTestCase):
             ))
             self.assertEqual(404, output.status_code)
 
-    def test_missing(self):
+    def test_missing_user(self):
         """Assert trying to set the state of a non-existent user results in HTTP 404."""
         with login_user(self.flask_app, self.admin):
             output = self.client.post('/users/42/admin/true')
@@ -1291,7 +1291,7 @@ class SetUserActiveStateTests(DatabaseTestCase):
             ))
             self.assertEqual(404, output.status_code)
 
-    def test_missing(self):
+    def test_missing_user(self):
         """Assert trying to set the state of a non-existent user results in HTTP 404."""
         with login_user(self.flask_app, self.admin):
             output = self.client.post('/users/42/active/true')
