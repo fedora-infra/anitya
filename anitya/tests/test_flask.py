@@ -376,10 +376,18 @@ class FlaskTest(DatabaseTestCase):
 
         self.flask_app.config['TESTING'] = True
         self.app = self.flask_app.test_client()
-        session = Session()
-        self.user = models.User(email='user@example.com', username='user')
-        session.add(self.user)
-        session.commit()
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        self.session.add(self.user)
+        self.session.add(user_social_auth)
+        self.session.commit()
 
     def test_index(self):
         """ Test the index function. """
@@ -1238,10 +1246,18 @@ class FlagProjecTests(DatabaseTestCase):
         super(FlagProjecTests, self).setUp()
 
         create_project(self.session)
-        session = Session()
-        self.user = models.User(email='user@example.com', username='user')
-        session.add(self.user)
-        session.commit()
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        self.session.add(self.user)
+        self.session.add(user_social_auth)
+        self.session.commit()
         self.client = self.flask_app.test_client()
 
     def test_flag_project(self):
