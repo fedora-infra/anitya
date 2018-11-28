@@ -997,8 +997,8 @@ class BrowseUsersTests(DatabaseTestCase):
             active=False
         )
         user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id,
-            user=self.user
+            user_id=user.id,
+            user=user
         )
 
         self.session.add(user)
@@ -1022,8 +1022,8 @@ class BrowseUsersTests(DatabaseTestCase):
             active=False
         )
         user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id,
-            user=self.user
+            user_id=user.id,
+            user=user
         )
 
         self.session.add(user)
@@ -1047,8 +1047,8 @@ class BrowseUsersTests(DatabaseTestCase):
             active=False
         )
         user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id,
-            user=self.user
+            user_id=user.id,
+            user=user
         )
 
         self.session.add(user)
@@ -1250,8 +1250,8 @@ class SetUserActiveStateTests(DatabaseTestCase):
             active=False
         )
         user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id,
-            user=self.user
+            user_id=self.inactive_user.id,
+            user=self.inactive_user
         )
 
         session.add(self.inactive_user)
