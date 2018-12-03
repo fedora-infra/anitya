@@ -222,7 +222,7 @@
           </tr>
           {% for version in project.get_sorted_version_objects() %}
           <tr property="doap:release" typeof="doap:Version">
-            <td property="doap:revision">{{ version.version }}</td>
+            <td property="doap:revision">{{ version.parse() }}</td>
             {% if version.created_on %}
             <td>{{ version.created_on.strftime('%Y-%m-%d %H:%M') }}</td>
             {% else %}
