@@ -347,9 +347,9 @@ class Project(Base):
     logs = sa.Column(sa.Text)
 
     last_check = sa.Column(sa.TIMESTAMP(timezone=True),
-                           default=arrow.utcnow().datetime, index=True)
+                           default=lambda: arrow.utcnow().datetime, index=True)
     next_check = sa.Column(sa.TIMESTAMP(timezone=True),
-                           default=arrow.utcnow().datetime, index=True)
+                           default=lambda: arrow.utcnow().datetime, index=True)
 
     updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
                            onupdate=sa.func.current_timestamp())
