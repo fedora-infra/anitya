@@ -281,6 +281,7 @@
               output = res.error;
             }
             $('#version_info').html("Latest versions: " + output);
+            window.location.reload(false);
           }
           $(btn).show(); $(btn + "-spinner").hide();
         },
