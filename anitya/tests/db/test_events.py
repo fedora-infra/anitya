@@ -22,8 +22,6 @@
 
 from anitya.db import models, Session
 from anitya.tests.base import DatabaseTestCase
-from sqlalchemy.exc import IntegrityError
-from social_flask_sqlalchemy import models as social_models
 
 
 class SetEcosystemTests(DatabaseTestCase):
@@ -68,36 +66,3 @@ class SetEcosystemTests(DatabaseTestCase):
 
         Session.add(project)
         self.assertRaises(ValueError, Session.commit)
-
-
-class CheckUserTests(DatabaseTestCase):
-    """ Tests for `anitya.db.events.check_user` functioni. """
-
-    def test_check_user_no_social_auth(self):
-        """ Assert `sqlalchemy.exc.IntegrityError` is raised when social_auth is missing. """
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
-
-        self.session.add(user)
-        self.assertRaises(IntegrityError, self.session.commit)
-
-    def test_check_user_with_social_auth(self):
-        """ Assert user is created. """
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
-
-        self.session.add(user)
-        self.session.add(user_social_auth)
-        self.session.commit()
-
-        user = self.session.query(models.User).one()
-
-        self.assertTrue(len(user.social_auth.all()), 1)
