@@ -12,7 +12,8 @@ from datetime import datetime
 # multiprocessing.dummy.Pool is in fact a Thread pool, which works ok
 # with a global shared requests session.
 import multiprocessing.dummy as multiprocessing
-import sqlAlchemy as sa
+import sqlalchemy as sa
+import arrow
 
 from anitya.config import config
 from anitya import db
@@ -65,7 +66,7 @@ def main(debug, feed):
     ''' Retrieve all the packages and for each of them update the release
     version.
     '''
-    time = datetime.now()
+    time = arrow.utcnow().datetime
     db.initialize(config)
     session = db.Session()
     run = db.Run(status='started')
@@ -94,12 +95,9 @@ def main(debug, feed):
         session.commit()
     else:
         # Get all projects, that are ready for check
-        projects = session.query(
-            db.Project
-        ).order_by(
+        projects = db.Project.query.order_by(
             sa.func.lower(db.Project.name)
         ).filter(db.Project.next_check < time).all()
-                    
 
     project_ids = [project.id for project in projects]
 

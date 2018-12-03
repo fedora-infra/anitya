@@ -20,7 +20,6 @@
 """A collection of utilities for the Anitya library."""
 
 import logging
-from datetime import datetime
 
 import sqlalchemy as sa
 from sqlalchemy import create_engine
@@ -28,6 +27,7 @@ from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm.exc import NoResultFound
+import arrow
 
 from . import plugins, exceptions
 from anitya.db import models, Base
@@ -70,7 +70,7 @@ def check_project_release(project, session, test=False):
 
     # don't change actual data during test run
     if not test:
-        project.last_check = datetime.now()
+        project.last_check = arrow.utcnow().datetime
         project.next_check = project.last_check + backend.check_interval
 
     try:
@@ -86,7 +86,7 @@ def check_project_release(project, session, test=False):
         _log.exception("AnityaError catched:")
         if not test:
             project.logs = str(err)
-            project.next_check = err.reset_time.to('utc').naive
+            project.next_check = err.reset_time.to('utc').datetime
             session.add(project)
             session.commit()
         raise
