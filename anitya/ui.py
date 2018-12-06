@@ -308,7 +308,8 @@ def add_distro():
         )
 
     return flask.render_template(
-        'distro_add.html',
+        'distro_add_edit.html',
+        context='Add',
         current='distros',
         form=form)
 
