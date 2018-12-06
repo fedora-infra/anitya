@@ -1,15 +1,23 @@
 {% extends "master.html" %}
 {% from "functions.html" import render_field_in_row %}
 
-{% block title %}Add Distribution · Anitya{% endblock %}
+{% block title %}{{ context }} Distribution · Anitya{% endblock %}
 
 {% block body %}
 
 <div class="page-header">
+  {% if context == 'Add' -%}
   <h1>Add a new disribution</h1>
+  {%- elif context == 'Edit' -%}
+  <h1>Edit disribution: {{ distro.name }}</h1>
+  {%- endif %}
 </div>
 
+{% if context == 'Add' -%}
 <form id="distro" method="POST" action="{{ url_for('anitya_ui.add_distro') }}" >
+{%- elif context == 'Edit' -%}
+<form method="POST" action="{{ url_for('anitya_ui.edit_distro', distro_name=distro.name) }}" >
+{%- endif %}
   <div class="row">
     <div class="col-md-6">
       <div class="list-group">
@@ -26,7 +34,11 @@
   </div>
   <button type="submit" class="btn btn-success" tabindex=2>
     <span class="glyphicon glyphicon-plus"></span>
+    {% if context == 'Add' -%}
     Add distribution
+    {%- elif context == 'Edit' -%}
+    Submit
+    {%- endif %}
   </button>
   <a href="{{ url_for('anitya_ui.distros') }}">
     <button type="button" class="btn btn-danger" tabindex=3>
@@ -36,6 +48,7 @@
   </a>
   {{ form.csrf_token }}
 </form>
+{% if context == 'Add' -%}
 <br/>
 <div class="row">
   <div class="col-md-6" id="info_field">
@@ -47,6 +60,7 @@
     </div>
   </div>
 </div>
+{%- endif %}
 {% endblock %}
 
 {% block jscript %}
@@ -82,22 +96,24 @@
     }
 
     $(document).ready(function(){
-      check_name();
-      $("#name").prop('title', "Official distribution name");
-      $("#name").focusout(function() {
-        check_name()
-      });
-      $("#distro").submit(function( event ) {
-        if ($('#info_field_list').html()) {
-          var items = [];
-          $("#info_field li").each(function(index) {
-            items.push($(this).text());
-          });
-          response = confirm("Are you sure you want to create this distro?\n\n" +
-            "There are distro(s) with similar name(s):\n" + items.join("\r\n"));
-          return response;
-        }
-      });
+      if ({{ context }} == 'Add') {
+        check_name();
+        ("#name").prop('title', "Official distribution name");
+        ("#name").focusout(function() {
+         check_name()
+        );
+        ("#distro").submit(function( event ) {
+         if ($('#info_field_list').html()) {
+           var items = [];
+           $("#info_field li").each(function(index) {
+             items.push($(this).text());
+           });
+           response = confirm("Are you sure you want to create this distro?\n\n" +
+             "There are distro(s) with similar name(s):\n" + items.join("\r\n"));
+           return response;
+         }
+        );
+      }
     });
 </script>
 {% endblock %}

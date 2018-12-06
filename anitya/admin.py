@@ -65,7 +65,8 @@ def edit_distro(distro_name):
         )
 
     return flask.render_template(
-        'distro_edit.html',
+        'distro_add_edit.html',
+        context='Edit',
         current='distros',
         distro=distro,
         form=form)
