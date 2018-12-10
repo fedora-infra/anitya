@@ -3,7 +3,7 @@
 
 import sys
 import logging
-from datetime import datetime
+from threading import Lock
 # We need to use multiprocessing.dummy, since we use the Pool to run
 # update_project. This in turn uses anitya.lib.backends.BaseBackend.call_url,
 # which utilizes a global requests session. Requests session is not usable
@@ -22,6 +22,19 @@ import anitya
 import anitya.lib.exceptions
 
 LOG = logging.getLogger('anitya')
+
+"""
+This dictionary is used for backend blacklisting.
+Once backend is blacklisted any following project
+with this backend is not checked, but instead rescheduled
+to ratelimit reset time.
+The dict will contain backend as key and reset time as value.
+"""
+blacklist_dict = {}
+"""
+Lock for the blacklist_dict variable.
+"""
+blacklist_lock = Lock()
 
 
 def indexed_listings():
@@ -56,8 +69,26 @@ def update_project(project_id):
     """ Check for updates on the specified project. """
     session = db.Session()
     project = db.Project.by_id(session, project_id)
+    with blacklist_lock:
+        if project.backend in blacklist_dict:
+            LOG.info(
+                "Backend is blacklisted. Rescheduling to {}".format(
+                    blacklist_dict[project.backend]
+                )
+            )
+            project.next_check = blacklist_dict[project.backend]
+            session.add(project)
+            session.commit()
+            blacklist_lock.release()
+            return
     try:
         utilities.check_project_release(project, session),
+    except anitya.lib.exceptions.RateLimitException as err:
+        with blacklist_lock:
+            LOG.debug("Rate limit threshold reached. Adding {} to blacklist.".format(
+                project.backend
+            ))
+            blacklist_dict[project.backend] = err.reset_time.to('utc').datetime
     except anitya.lib.exceptions.AnityaException as err:
         LOG.info(err)
 

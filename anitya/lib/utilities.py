@@ -75,18 +75,18 @@ def check_project_release(project, session, test=False):
 
     try:
         versions_prefix = backend.get_versions(project)
-    except exceptions.AnityaPluginException as err:
-        _log.exception("AnityaError catched:")
-        if not test:
-            project.logs = str(err)
-            session.add(project)
-            session.commit()
-        raise
     except exceptions.RateLimitException as err:
         _log.exception("AnityaError catched:")
         if not test:
             project.logs = str(err)
             project.next_check = err.reset_time.to('utc').datetime
+            session.add(project)
+            session.commit()
+        raise
+    except exceptions.AnityaPluginException as err:
+        _log.exception("AnityaError catched:")
+        if not test:
+            project.logs = str(err)
             session.add(project)
             session.commit()
         raise
