@@ -103,14 +103,16 @@ def check_project_release(project, session, test=False):
 
     p_versions = project.get_sorted_version_objects()
     old_version = project.latest_version or ''
+    version_column_len = models.ProjectVersion.version.property.columns[0].type.length
     for version in versions:
         if version not in p_versions:
-            project.versions_obj.append(
-                models.ProjectVersion(
-                    project_id=project.id,
-                    version=version.version
+            if len(version.version) < version_column_len:
+                project.versions_obj.append(
+                    models.ProjectVersion(
+                        project_id=project.id,
+                        version=version.version
+                    )
                 )
-            )
 
     sorted_versions = project.get_sorted_version_objects()
     if sorted_versions:

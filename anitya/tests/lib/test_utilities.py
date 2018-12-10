@@ -472,6 +472,36 @@ class CheckProjectReleaseTests(DatabaseTestCase):
             self.assertTrue(last_check_orig < project.last_check)
             self.assertEqual(next_check, project.next_check)
 
+    @mock.patch.dict('anitya.config.config', {'GITHUB_ACCESS_TOKEN': "foobar"})
+    def test_check_project_version_too_long(self):
+        """
+        Regression test for https://github.com/release-monitoring/anitya/issues/674
+        Crash when version is too long
+        """
+        project = models.Project(
+            name='daiquiri',
+            homepage='https://github.com/jd/daiquiri',
+            backend='GitHub',
+            version_scheme='RPM',
+            version_url='jd/daiquiri',
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        utilities.check_project_release(
+            project,
+            self.session
+        )
+
+        versions = project.versions
+        self.assertEqual(len(versions), 18)
+        self.assertFalse(
+            'remove-circular-dependency-ad4f7bc7-2ab4-43b8-afac-36ff0e2ee796' in versions
+        )
+        self.assertFalse(
+            'remove-circular-dependency-7bbe4a64-3514-4f6e-9c03-9dc8bcf4def7' in versions
+        )
+
 
 class MapProjectTests(DatabaseTestCase):
     """Tests for the :func:`anitya.lib.utilities.map_project` function."""

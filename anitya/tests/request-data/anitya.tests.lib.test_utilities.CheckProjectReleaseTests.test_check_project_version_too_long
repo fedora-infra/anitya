@@ -1,0 +1,68 @@
+interactions:
+- request:
+    body: '{"query": "\n{\n    repository(owner: \"jd\", name: \"daiquiri\") {\n        refs
+      (refPrefix: \"refs/tags/\", last:50,\n                orderBy:{field:TAG_COMMIT_DATE,
+      direction:ASC}) {\n            totalCount\n            edges {\n                cursor\n                node
+      {\n                    name\n                    target {\n                        commitUrl\n                    }\n                }\n            }\n        }\n    }\n    rateLimit
+      {\n        limit\n        remaining\n        resetAt\n    }\n}"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [bearer foobar]
+      Connection: [keep-alive]
+      Content-Length: ['524']
+      Content-Type: [application/json]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.13.2 at upstream-monitoring.org]
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6VXTW8cNwz9L3PO2CRFfXBvQdFDgbpFAefQFj1QEuVsanvd9biBEeS/l4tciswk
+        lwEWmJ2RNPP0+PhIfZq6LjodPk1nezo9H5fT+fXL3Xi+XJfTovc/nF4el+lA+Gayfmc+8Oenqb2c
+        n0/n6TDd/Da9mR5P3S7zH/XBrxNcwRX640XPd+ZLffrp4eG4vDvf++j7ZXl6Plxf3x2X9y/1yoeu
+        P/Trrsd/Xo7n4/WXqdcUsjBG7lACZIqdWs5ihBZQoRu2kkppZfr8+fOb/+O528ZDO/FISKRmkLAM
+        1ppGSKajRrXhcGCEWrGlEFd4Pm7jCTvx5OyfaxGsN+kGyDSoE1G0bloKQ8m5pS5f4/nl7TYe3okn
+        5aFFPFI2Wogsjk56AasRIWDiMZy2EtIKz6Z+8Ap24slQsfaupUsyZr9LmSRlEy7OVY+DClSuKzyb
+        +sHdelbQpMpYmjMyKATJHSiNnp2Y4EqqzSlqY4VnQz/Ozm5+/KM2sFMy6SQjyQgCLTKXkQA86VIL
+        TLF9jefXDf1c8OzNd1HMoTDL0FxSr67qAbmxIoOk4bGCkgbZCs+Gfjxau/nRHDw8pVNWKokaOkXQ
+        emtdw/CMG4NUSfRrPDe3mwTRbkCxdrTYkT3r2Yxzc3rcfRrU4YEKmbTHWFeCvrn9cZ3xeEW7I+aU
+        UG9FNMUW3HsquCkLIuMoSqE3ixV9YM3QT9uA9lp0GKaJRRr2MHI07Ix8+bH1gdZyyqAYwxrQzRag
+        sDtkyTqAaqPoeR6xOB5LTblldP2UWAYJ5bTy6JvbDVE/fzwu7f28nOan18WelzmgQADJM0cLM3PV
+        uSLWOWa3GfR9Qhk7TbTU6ntQHO7hrn3WQUMRU0nuHoFLx5KbO8ma0XdrRp9eQ56J6/AldR5YeWYY
+        MmuVOrNSriIG7jo7QWPO3dsGKVJUqvWA3K26GGIFhMzktRK9TK1B//4N0BlKiZ70M6iBQ4U4S0Gc
+        RcjbgUZFZC/ToHlwpcixd7n0FW493XNJQvFaEZz2DFhkI5naN0DrUMJmNjdil4cvnwVQZ8qWvTBS
+        xLQXdMLglBZvw4jdtF0aqZFGd+ySK4s1iTXHsiGPjSJ7tofTv472eG4v93qeuz3ZY7fH9jrnWo09
+        tefg7555JJulQZjF7cfLpod35J2igVAzNHOzbx7aOtzuOZAUjiqerELobifAa9H8veb/O1vRziPX
+        5omgF/2HWmYPVJtDGgOMzLKkvVspmTXSpXxKjI2xFnBF9SLkugcL3jerjnVUPmxWLt5tgxy6e1Hz
+        9gd6VnBLSZ5QFtU7suhdqkCRFvNa2x82K1fcDchQsiU/U9TOObVOkL069EaDvQFKkF224PX+Euy/
+        /HgxnXWxn49+grmcZe6//IneJfmIPejx8fh4Nx288sjlwbMtb33iRJ4aM9KMcItwgHKI8sfljf8B
+        4pgXr3UNAAA=
+    headers:
+      Access-Control-Allow-Origin: ['*']
+      Access-Control-Expose-Headers: ['ETag, Link, Location, Retry-After, X-GitHub-OTP,
+          X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes,
+          X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type']
+      Cache-Control: [no-cache]
+      Content-Encoding: [gzip]
+      Content-Security-Policy: [default-src 'none']
+      Content-Type: [application/json; charset=utf-8]
+      Date: ['Mon, 10 Dec 2018 09:08:59 GMT']
+      Referrer-Policy: ['origin-when-cross-origin, strict-origin-when-cross-origin']
+      Server: [GitHub.com]
+      Status: [200 OK]
+      Strict-Transport-Security: [max-age=31536000; includeSubdomains; preload]
+      Transfer-Encoding: [chunked]
+      X-Accepted-OAuth-Scopes: [repo]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [deny]
+      X-GitHub-Media-Type: [github.v4; format=json]
+      X-GitHub-Request-Id: ['9796:4F27:3487036:6B403C3:5C0E2D2B']
+      X-OAuth-Scopes: [public_repo]
+      X-RateLimit-Limit: ['5000']
+      X-RateLimit-Remaining: ['4999']
+      X-RateLimit-Reset: ['1544436539']
+      X-XSS-Protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1
