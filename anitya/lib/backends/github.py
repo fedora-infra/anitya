@@ -16,6 +16,12 @@ import logging
 
 API_URL = 'https://api.github.com/graphql'
 
+"""
+Rate limit threshold (percent)
+10 percent of limit is left for users
+"""
+RATE_LIMIT_THRESHOLD = 0.1
+
 _log = logging.getLogger(__name__)
 
 
@@ -140,9 +146,23 @@ def parse_json(json, project):
             when the versions cannot be retrieved correctly.
         RateLimitException: A
             :obj:`anitya.lib.exceptions.RateLimitException` exception
-            when rate limit is reached.
+            when rate limit threshold is reached.
 
     '''
+    # We need to check limit first,
+    # because exceeding the limit will also return error
+    try:
+        limit = json['data']['rateLimit']['limit']
+        remaining = json['data']['rateLimit']['remaining']
+        reset_time = json['data']['rateLimit']['resetAt']
+        _log.debug('Github API ratelimit remains %s, will reset at %s UTC' % (
+            remaining, reset_time))
+
+        if (remaining/limit) <= RATE_LIMIT_THRESHOLD:
+            raise RateLimitException(reset_time)
+    except KeyError:
+        _log.info('Github API ratelimit key is missing. Checking for errors.')
+
     if 'errors' in json:
         error_str = ''
         for error in json['errors']:
@@ -155,14 +175,6 @@ def parse_json(json, project):
     total_count = json['data']['repository']['refs']['totalCount']
 
     _log.debug('Received %s tags for %s' % (total_count, project.name))
-
-    remaining = json['data']['rateLimit']['remaining']
-    reset_time = json['data']['rateLimit']['resetAt']
-    _log.debug('Github API ratelimit remains %s, will reset at %s UTC' % (
-            remaining, reset_time))
-
-    if remaining == 0:
-        raise RateLimitException(reset_time)
 
     versions = []
 
