@@ -113,6 +113,10 @@ def check_project_release(project, session, test=False):
                         version=version.version
                     )
                 )
+            else:
+                _log.info("Version '{}' was skipped. Reason: too long.".format(
+                    version.version
+                    ))
 
     sorted_versions = project.get_sorted_version_objects()
     if sorted_versions:
