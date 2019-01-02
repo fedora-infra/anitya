@@ -14,6 +14,16 @@
   
 .. image:: https://travis-ci.org/release-monitoring/anitya.svg?branch=master
   :target: https://travis-ci.org/release-monitoring/anitya
+  
+.. image:: https://img.shields.io/lgtm/alerts/g/release-monitoring/anitya.svg?logo=lgtm&logoWidth=18
+  :target: https://lgtm.com/projects/g/release-monitoring/anitya/alerts/
+
+.. image:: https://img.shields.io/lgtm/grade/javascript/g/release-monitoring/anitya.svg?logo=lgtm&logoWidth=18
+  :target: https://lgtm.com/projects/g/release-monitoring/anitya/context:javascript
+  
+.. image:: https://img.shields.io/lgtm/grade/python/g/release-monitoring/anitya.svg?logo=lgtm&logoWidth=18
+  :target: https://lgtm.com/projects/g/release-monitoring/anitya/context:python
+  
 
 ======
 Anitya
