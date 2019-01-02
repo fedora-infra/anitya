@@ -140,6 +140,7 @@ def check_project_release(project, session, test=False):
                 versions=project.versions,
                 ecosystem=project.ecosystem_name,
                 agent='anitya',
+                odd_change=False
             ),
         )
 
