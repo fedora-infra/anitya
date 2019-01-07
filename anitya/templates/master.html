@@ -137,7 +137,14 @@
                 </a>
               </li>
             {%- endif -%}
-            <li><a href="{{url_for('anitya_ui.settings')}}">Settings</a></li>
+
+            {%- if current == 'settings' -%}
+            <li class="active">
+            {%- else -%}
+            <li>
+            {%- endif -%}
+              <a href="{{url_for('anitya_ui.settings')}}">settings</a>
+	    </li>
             <li>
               <a href="{{url_for('anitya_ui.logout')}}">
                 <span class="glyphicon glyphicon-log-out"></span>
