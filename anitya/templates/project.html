@@ -243,6 +243,7 @@
             <th>Version</th>
             <th>Retrieved on (UTC)</th>
             {% if is_admin %}
+            <th>Raw version</th>
             <th>Delete</th>
             {% endif %}
           </tr>
@@ -255,6 +256,7 @@
             <td>Date information unavailable</td>
             {% endif %}
             {% if is_admin %}
+            <td>{{ version.version }}</td>
             <td>
               <a href="{{ url_for('anitya_ui.delete_project_version',
                           project_id=project.id,
