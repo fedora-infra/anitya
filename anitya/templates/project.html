@@ -100,6 +100,15 @@
           </div>
         </div><!-- end list-group-item -->
 
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Version check url:</h4>
+          <div class="list-group-item-text">
+            <p><a href="{{ project.get_version_url() }}">
+              {{ project.get_version_url() }}
+            </a></p>
+          </div>
+        </div><!-- end list-group-item -->
+
       {% if is_admin %}
         <div class="list-group-item">
           <h4 class="list-group-item-heading">Whoah..</h4>

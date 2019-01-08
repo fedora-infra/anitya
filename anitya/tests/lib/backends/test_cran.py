@@ -65,6 +65,19 @@ class CranBackendTests(DatabaseTestCase):
         obs = backend.CranBackend.get_version(project)
         self.assertEqual(obs, '0.3-2')
 
+    def test_get_version_url(self):
+        """ Assert that correct url is returned. """
+        project = models.Project(
+            name='test',
+            homepage='http://example.org',
+            backend=BACKEND,
+        )
+        exp = 'https://crandb.r-pkg.org/test/all'
+
+        obs = backend.CranBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_get_versions_missing_project(self):
         """Assert an AnityaPluginException is raised for projects that result in 404."""
         project = models.Project(

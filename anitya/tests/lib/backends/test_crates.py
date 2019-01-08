@@ -70,6 +70,19 @@ class CratesBackendTests(DatabaseTestCase):
             project
         )
 
+    def test_get_version_url(self):
+        """ Assert that correct url is returned. """
+        project = models.Project(
+            name='test',
+            homepage='http://example.org',
+            backend='crates.io',
+        )
+        exp = 'https://crates.io/api/v1/crates/test/versions'
+
+        obs = crates.CratesBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_get_versions(self):
         """Test the get_versions function of the crates backend."""
         expected_versions = ['0.2.1', '0.2.0', '0.1.1', '0.1.0']

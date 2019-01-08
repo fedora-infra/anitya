@@ -24,8 +24,7 @@ def use_gnome_cache_json(project):
     file if there is one.
     '''
     output = []
-    url = 'https://download.gnome.org/sources/%(name)s/cache.json' % {
-        'name': project.name}
+    url = GnomeBackend.get_version_url(project) + "cache.json"
     req = BaseBackend.call_url(url)
     data = req.json()
     for item in data:
@@ -39,8 +38,7 @@ def use_gnome_regex(project):
     ''' Try retrieving the specified project's versions a regular expression.
     '''
     output = []
-    url = 'https://download.gnome.org/sources/%(name)s/' % {
-        'name': project.name}
+    url = GnomeBackend.get_version_url(project)
     output = get_versions_by_regex(url, REGEX, project)
     return output
 
@@ -73,6 +71,23 @@ class GnomeBackend(BaseBackend):
 
         '''
         return cls.get_ordered_versions(project)[-1]
+
+    @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        url = 'https://download.gnome.org/sources/%(name)s/' % {
+            'name': project.name}
+
+        return url
 
     @classmethod
     def get_versions(cls, project):
