@@ -16,12 +16,13 @@ import logging.handlers
 
 import flask
 from flask_restful import Api
-from flask_login import LoginManager, current_user
+from flask_login import LoginManager, current_user, user_logged_in
 from social_core.backends.utils import load_backends
 from social_core.exceptions import AuthException
 from social_flask.routes import social_auth
 from social_flask_sqlalchemy import models as social_models
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import NoResultFound
 
 from anitya.config import config as anitya_config
 from anitya.db import Session, initialize as initialize_db, models
@@ -86,6 +87,9 @@ def create(config=None):
 
     app.context_processor(inject_variable)
 
+    # subscribe to signals
+    user_logged_in.connect(when_user_log_in, app)
+
     if app.config.get('EMAIL_ERRORS'):
         # If email logging is configured, set up the anitya logger with an email
         # handler for any ERROR-level logs.
@@ -143,17 +147,21 @@ def integrity_error_handler(error):
     # for the user.
     if 'email' in error.params:
         Session.rollback()
-        if 'social_auth' in error.params:
-            msg = (
-                "Error: Authentication with authentication provider failed. "
-                "Please try again later...")
-            return msg, 500
-        else:
-            other_user = models.User.query.filter_by(email=error.params['email']).one()
+        other_user = models.User.query.filter_by(email=error.params['email']).one()
+        try:
             social_auth_user = other_user.social_auth.filter_by(user_id=other_user.id).one()
             msg = ("Error: There's already an account associated with your email, "
                    "authenticate with {}.".format(social_auth_user.provider))
             return msg, 400
+        # This error happens only if there is account without provider info
+        except NoResultFound:
+            Session.delete(other_user)
+            Session.commit()
+            msg = (
+                "Error: There was already an existing account with missing provider. "
+                "So we removed it. "
+                "Please try to log in again.")
+            return msg, 500
 
     return 'The server encountered an unexpected error', 500
 
@@ -173,3 +181,22 @@ def auth_error_handler(error):
     msg = ("Error: There was an error during authentication '{}', "
            "please check the provided url.".format(error))
     return msg, 400
+
+
+def when_user_log_in(sender, user):
+    """
+    This catches the signal when user is logged in.
+    It checks if the user has associated entry in user_social_auth.
+
+    Args:
+        sender (flask.Flask): Current app object that emitted signal.
+            Not used by this method.
+        user (models.User): User that is logging in.
+
+    Raises:
+        sqlalchemy.exc.IntegrityError: When user_social_auth table entry is
+        missing.
+    """
+    if user.social_auth.count() == 0:
+        raise IntegrityError('Missing social_auth table', {
+            'social_auth': None, 'email': user.email}, None)

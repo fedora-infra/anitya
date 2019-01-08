@@ -145,9 +145,9 @@ Anitya can also be run in a Python virtualenv. For Fedora::
 
     $ git clone https://github.com/release-monitoring/anitya.git
     $ cd anitya
-    $ sudo dnf install python3-virtualenv
-    $ virtualenv-3 anitya-env
-    $ source anitya-env/bin/activate
+    $ sudo dnf install python3-virtualenvwrapper
+    $ mkvirtualenv anitya
+    $ workon anitya
 
 Issuing that last command should change your prompt to indicate that you are
 operating in an active virtualenv.

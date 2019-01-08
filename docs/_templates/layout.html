@@ -1,0 +1,19 @@
+<!--
+	Overriding Alabaster Theme to replace link to static page source
+	with a link to GitHub. Using instructions from official guide.
+
+	https://www.sphinx-doc.org/en/master/templating.html#jinja-sphinx-templating-primer
+-->
+{% extends "!layout.html" %}
+{%- block footer %}
+    <div class="footer" style="text-align: center">
+      &copy;{{ copyright }}.|
+      Powered by <a href="http://sphinx-doc.org/">Sphinx {{ sphinx_version }}</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster {{ alabaster_version }}</a>
+      (<a href="https://github.com/release-monitoring/anitya/tree/master/docs/_templates">customized</a>)
+      |
+      <a href="https://github.com/release-monitoring/anitya/tree/master/docs/{{ pagename + ".rst"|e }}"
+          rel="nofollow">{{ _('View source') }}</a>
+    </div>
+{%- endblock %}
+
