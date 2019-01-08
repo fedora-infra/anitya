@@ -69,7 +69,10 @@ def logout():
 @login_required
 def settings():
     """The user's settings, currently only the API token page."""
-    return flask.render_template('settings.html', form=anitya.forms.TokenForm())
+    return flask.render_template(
+        'settings.html',
+        current='settings',
+        form=anitya.forms.TokenForm())
 
 
 @ui_blueprint.route('/settings/tokens/new', methods=('POST',))
