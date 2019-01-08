@@ -1,1 +1,0 @@
-Show URL for version check on project UI
