@@ -95,6 +95,38 @@ class PackagistBackendtests(DatabaseTestCase):
         obs = backend.PackagistBackend.get_version(project)
         self.assertEqual(obs, exp)
 
+    def test_get_version_url(self):
+        """
+        Assert that correct url is returned.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            version_url='test',
+            backend=BACKEND,
+        )
+        exp = 'https://packagist.org/packages/test/test.json'
+
+        obs = backend.PackagistBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_missing_version_url(self):
+        """
+        Assert that correct url is returned when project
+        version url is missing.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            backend=BACKEND,
+        )
+        exp = ''
+
+        obs = backend.PackagistBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_packagist_get_versions(self):
         """ Test the get_versions function of the packagist backend. """
         pid = 1
@@ -127,6 +159,22 @@ class PackagistBackendtests(DatabaseTestCase):
         exp = ['dev-master', '1.0.3', '1.0.4', '1.0.5']
         obs = backend.PackagistBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
+
+    def test_packagist_get_versions_missing_version_url(self):
+        """
+        Assert that exception is raised when project version url is missing.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            backend=BACKEND,
+        )
+
+        self.assertRaises(
+            AnityaPluginException,
+            backend.PackagistBackend.get_versions,
+            project
+        )
 
 
 if __name__ == '__main__':

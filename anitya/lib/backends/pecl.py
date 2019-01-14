@@ -61,6 +61,28 @@ class PeclBackend(BaseBackend):
         return cls.get_versions(project)[0]
 
     @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        name = project.name.lower()
+        url_template = 'https://pecl.php.net/rest/r/%(name)s/allreleases.xml'
+
+        if '-' in name:
+            name = name.replace('-', '_')
+
+        url = url_template % {'name': name}
+
+        return url
+
+    @classmethod
     def get_versions(cls, project):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
@@ -75,19 +97,9 @@ class PeclBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url_template = 'https://pecl.php.net/rest/r/%(name)s/allreleases.xml'
-
-        url = url_template % {'name': project.name.lower()}
+        url = cls.get_version_url(project)
         versions = []
-        try:
-            versions = _get_versions(url)
-        except AnityaPluginException:
-            pass
-
-        if not versions and '-' in project.name:
-            pname = project.name.lower().replace('-', '_')
-            url = url_template % {'name': pname}
-            versions = _get_versions(url)
+        versions = _get_versions(url)
 
         if not versions:
             raise AnityaPluginException(

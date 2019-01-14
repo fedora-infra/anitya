@@ -145,9 +145,9 @@ Anitya can also be run in a Python virtualenv. For Fedora::
 
     $ git clone https://github.com/release-monitoring/anitya.git
     $ cd anitya
-    $ sudo dnf install python3-virtualenv
-    $ virtualenv-3 anitya-env
-    $ source anitya-env/bin/activate
+    $ sudo dnf install python3-virtualenvwrapper
+    $ mkvirtualenv anitya
+    $ workon anitya
 
 Issuing that last command should change your prompt to indicate that you are
 operating in an active virtualenv.
@@ -214,25 +214,33 @@ If you are a maintainer and wish to make a release, follow these steps:
 1. Change the version in ``anitya.__init__.__version__``. This is used to set the
    version in the documentation project and the setup.py file.
 
-2. Add any missing news fragments to the ``news`` folder
+2. Add any missing news fragments to the ``news`` folder.
 
-3. Generate the changelog by running ``towncrier``.
+3. Get authors of commits by ``python get-authors.py``.
+
+.. note::
+   This script must be executed in ``news`` folder, because it
+   creates files in current working directory.
+
+4. Generate the changelog by running ``towncrier``.
 
 .. note::
     If you added any news fragment in the previous step, you might see ``towncrier``
     complaining about removing them, because they are not committed in git.
-    Just ignore this and remove them manually; release notes will be generated
+    Just ignore this and remove all of them manually; release notes will be generated
     anyway.
 
-4. Commit your changes.
+5. Remove every remaining news fragment from ``news`` folder.
 
-5. Tag a release with ``git tag -s <version>``.
+5. Commit your changes.
 
-6. Don't forget to ``git push --tags``.
+6. Tag a release with ``git tag -s <version>``.
 
-7. Build the Python packages with ``python setup.py sdist bdist_wheel``.
+7. Don't forget to ``git push --tags``.
 
-8. Upload the packages with ``twine upload dist/<dists>``.
+8. Build the Python packages with ``python setup.py sdist bdist_wheel``.
+
+9. Upload the packages with ``twine upload dist/<dists>``.
 
 
 .. _Ansible: https://www.ansible.com/

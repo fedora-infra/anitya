@@ -78,6 +78,21 @@ class HackageBackendtests(DatabaseTestCase):
             project
         )
 
+    def test_get_version_url(self):
+        """
+        Assert that correct url is returned.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            backend=BACKEND,
+        )
+        exp = 'https://www.stackage.org/package/test'
+
+        obs = backend.StackageBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_get_versions(self):
         """ Test the get_versions function of the Stackage backend. """
         pid = 1

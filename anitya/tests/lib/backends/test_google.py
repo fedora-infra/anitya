@@ -62,6 +62,19 @@ class GoogleBackendtests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
+    def test_get_version_url(self):
+        """ Assert that correct url is returned. """
+        project = models.Project(
+            name='test',
+            homepage='http://example.org',
+            backend=BACKEND,
+        )
+        exp = 'https://code.google.com/p/test/downloads/list?sort=releasedate'
+
+        obs = backend.GoogleBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_cpan_get_version(self):
         """ Test the get_version function of the custom backend. """
         pid = 1

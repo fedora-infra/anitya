@@ -80,6 +80,7 @@ def check_project_release(project, session, test=False):
         if not test:
             project.logs = str(err)
             project.next_check = err.reset_time.to('utc').datetime
+            project.check_successful = False
             session.add(project)
             session.commit()
         raise
@@ -87,6 +88,7 @@ def check_project_release(project, session, test=False):
         _log.exception("AnityaError catched:")
         if not test:
             project.logs = str(err)
+            project.check_successful = False
             session.add(project)
             session.commit()
         raise
@@ -100,6 +102,7 @@ def check_project_release(project, session, test=False):
     # There is always at least one version retrieved,
     # otherwise this backend raises exception
     project.logs = 'Version retrieved correctly'
+    project.check_successful = True
 
     p_versions = project.get_sorted_version_objects()
     old_version = project.latest_version or ''
@@ -166,9 +169,9 @@ def _construct_substitutions(msg):
 def log(session, project=None, distro=None, topic=None, message=None):
     """ Take a partial fedmsg topic and message.
 
-    Publish the message and log it in the db.
+    Publish the message.
     """
-    # A big lookup of fedmsg topics to models.Log template strings.
+    # A big lookup of fedmsg topics to log template strings.
     templates = {
         'distro.add': '%(agent)s added the distro named: %(distro)s',
         'distro.edit': '%(agent)s edited distro name from: %(old)s to: '
@@ -204,13 +207,6 @@ def log(session, project=None, distro=None, topic=None, message=None):
         distro=distro,
         message=message,
     ))
-
-    models.Log.insert(
-        session,
-        user=message['agent'],
-        project=project,
-        distro=distro,
-        description=final_msg)
 
     return final_msg
 

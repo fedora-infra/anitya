@@ -24,10 +24,10 @@ anitya tests of the models.
 '''
 
 from uuid import uuid4, UUID
-import datetime
 import unittest
 import time
 import mock
+import datetime
 
 from sqlalchemy.dialects import postgresql, sqlite
 from sqlalchemy.types import CHAR
@@ -178,6 +178,26 @@ class ProjectTests(DatabaseTestCase):
         versions = project.create_version_objects(versions_list)
 
         self.assertEqual(len(versions), 0)
+
+    def test_get_version_url_no_backend(self):
+        """ Assert that empty string is returned when backend is not specified. """
+        project = models.Project(
+            name='test',
+            homepage='https://example.com',
+            ecosystem_name='pypi',
+        )
+        self.assertEqual('', project.get_version_url())
+
+    def test_get_version_url(self):
+        """ Assert that correct url is returned. """
+        project = models.Project(
+            name='test',
+            homepage='https://example.com',
+            backend='custom',
+            version_url='https://example.com/releases',
+            ecosystem_name='pypi'
+        )
+        self.assertEqual(project.version_url, project.get_version_url())
 
     def get_sorted_version_objects(self):
         """ Assert that sorted versions are included in the list returned from
@@ -592,48 +612,6 @@ class DistroTestCase(DatabaseTestCase):
         logs = models.Distro.search(self.session, 'Fed*', page='as')
         self.assertEqual(len(logs), 1)
         self.assertEqual(logs[0].name, 'Fedora')
-
-
-class LogTestCase(DatabaseTestCase):
-    """ Tests for Log model. """
-
-    def test_log_search(self):
-        """ Test the Log.search function. """
-        create_project(self.session)
-
-        logs = models.Log.search(self.session)
-        self.assertEqual(len(logs), 3)
-        self.assertEqual(
-            logs[0].description,
-            'noreply@fedoraproject.org added project: R2spec')
-        self.assertEqual(
-            logs[1].description,
-            'noreply@fedoraproject.org added project: subsurface')
-        self.assertEqual(
-            logs[2].description,
-            'noreply@fedoraproject.org added project: geany')
-
-        logs = models.Log.search(self.session, count=True)
-        self.assertEqual(logs, 3)
-
-        from_date = datetime.datetime.utcnow().date() - datetime.timedelta(days=1)
-        logs = models.Log.search(
-            self.session, from_date=from_date, offset=1, limit=1)
-        self.assertEqual(len(logs), 1)
-        self.assertEqual(
-            logs[0].description,
-            'noreply@fedoraproject.org added project: subsurface')
-
-        logs = models.Log.search(self.session, project_name='subsurface')
-        self.assertEqual(len(logs), 1)
-        self.assertEqual(
-            logs[0].description,
-            'noreply@fedoraproject.org added project: subsurface')
-
-        user = 'noreply@fedoraproject.org'
-        logs = models.Log.search(self.session, user=user)
-        self.assertEqual(len(logs), 3)
-        self.assertEqual(logs[0].user, user)
 
 
 class PackageTestCase(DatabaseTestCase):

@@ -70,6 +70,21 @@ class PypiBackendtests(DatabaseTestCase):
         obs = backend.PypiBackend.get_version(project)
         self.assertEqual(obs, '1.1.2')
 
+    def test_get_version_url(self):
+        """
+        Assert that correct url is returned.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            backend=BACKEND,
+        )
+        exp = 'https://pypi.org/pypi/test/json'
+
+        obs = backend.PypiBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_pypi_get_versions(self):
         """ Test the get_versions function of the pypi backend. """
         project = models.Project(

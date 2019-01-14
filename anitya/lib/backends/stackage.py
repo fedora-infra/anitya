@@ -37,6 +37,23 @@ class StackageBackend(BaseBackend):
         return cls.get_ordered_versions(project)[-1]
 
     @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        url = 'https://www.stackage.org/package/%(name)s' % {
+            'name': project.name}
+
+        return url
+
+    @classmethod
     def get_versions(cls, project):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
@@ -49,8 +66,7 @@ class StackageBackend(BaseBackend):
             :class:`anitya.lib.exceptions.AnityaPluginException` exception
             when the versions cannot be retrieved correctly
         '''
-        url = 'https://www.stackage.org/package/%(name)s' % {
-            'name': project.name}
+        url = cls.get_version_url(project)
 
         regex = r'<span class="version"><a href="https://www.stackage.org/'\
             r'lts-[\d.]*/package/%s">([\d.]*)</a></span>' % project.name

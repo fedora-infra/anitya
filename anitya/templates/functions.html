@@ -1,5 +1,9 @@
-{% macro render_field_in_row(field, after="") %}
-    <td>{{ field.label }}</td>
+{% macro render_field_in_row(field, after="", docs="") %}
+    <td>
+      {%- if docs -%}<a href="{{ docs }}">{%- endif -%}
+      {{ field.label }}
+      {%- if docs -%}</a>{%- endif -%}
+    </td>
     <td>
       {{ field(**kwargs)|safe }}
     </td>

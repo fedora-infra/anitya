@@ -92,6 +92,19 @@ class GnomeBackendtests(DatabaseTestCase):
         obs = backend.GnomeBackend.get_version(project)
         self.assertEqual(obs, exp)
 
+    def test_get_version_url(self):
+        """ Assert that correct url is returned. """
+        project = models.Project(
+            name='test',
+            homepage='http://example.org',
+            backend=BACKEND,
+        )
+        exp = 'https://download.gnome.org/sources/test/'
+
+        obs = backend.GnomeBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_custom_get_versions(self):
         """ Test the get_versions function of the gnome backend. """
         pid = 1

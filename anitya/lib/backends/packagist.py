@@ -44,6 +44,29 @@ class PackagistBackend(BaseBackend):
         return cls.get_ordered_versions(project)[-1]
 
     @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        url = ''
+        url_template = 'https://packagist.org/packages/%(user)s/%(name)s.json'
+
+        if project.version_url:
+            url = url_template % {
+                'name': project.name,
+                'user': project.version_url,
+            }
+
+        return url
+
+    @classmethod
     def get_versions(cls, project):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
@@ -58,12 +81,11 @@ class PackagistBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url_template = 'https://packagist.org/packages/%(user)s/%(name)s.json'
-
-        url = url_template % {
-            'name': project.name,
-            'user': project.version_url,
-        }
+        url = cls.get_version_url(project)
+        if not url:
+            raise AnityaPluginException('Project {} is not correctly set-up.'.format(
+                project.name
+            ))
 
         try:
             req = cls.call_url(url)

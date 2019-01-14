@@ -47,6 +47,35 @@ class MavenBackend(BaseBackend):
         return cls.get_ordered_versions(project)[-1]
 
     @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        if MAVEN_HOMEPAGE_RE.match(project.homepage):
+            url = project.homepage
+        else:
+            coordinates = project.version_url or project.name
+            match = COORDINATES_RE.match(coordinates)
+            if not match:
+                return ''
+            group_id = match.group(1)
+            artifact_id = match.group(2)
+            url = 'https://repo1.maven.org/maven2/{group_id}/{artifact_id}/' \
+                .format(
+                    group_id=group_id.replace('.', '/'),
+                    artifact_id=artifact_id,
+                )
+
+        return url
+
+    @classmethod
     def get_versions(cls, project):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
@@ -61,21 +90,9 @@ class MavenBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        if MAVEN_HOMEPAGE_RE.match(project.homepage):
-            url = project.homepage
-        else:
-            coordinates = project.version_url or project.name
-            match = COORDINATES_RE.match(coordinates)
-            if not match:
-                raise AnityaPluginException(
-                    "Aritfact needs to be in format groupId:artifactId")
-
-            group_id = match.group(1)
-            artifact_id = match.group(2)
-            url = 'https://repo1.maven.org/maven2/{group_id}/{artifact_id}/'\
-                  .format(
-                      group_id=group_id.replace('.', '/'),
-                      artifact_id=artifact_id,
-                  )
+        url = cls.get_version_url(project)
+        if not url:
+            raise AnityaPluginException(
+                "Aritfact needs to be in format groupId:artifactId")
 
         return get_versions_by_regex(url, VERSION_REGEX, project)

@@ -45,6 +45,36 @@ class BitBucketBackend(BaseBackend):
         return cls.get_ordered_versions(project)[-1]
 
     @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        url_template = 'https://bitbucket.org/%(version_url)s/' \
+                       'downloads?tab=tags'
+        url = ''
+        if project.version_url:
+            url = project.version_url.replace(
+                'https://bitbucket.org/', '')
+        elif project.homepage.startswith('https://bitbucket.org'):
+            url = project.homepage.replace(
+                'https://bitbucket.org/', '')
+
+        if url.endswith('/'):
+            url = url[:-1]
+
+        if url:
+            url = url_template % {'version_url': url}
+
+        return url
+
+    @classmethod
     def get_versions(cls, project):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
@@ -59,18 +89,8 @@ class BitBucketBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        if project.version_url:
-            url_template = 'https://bitbucket.org/%(version_url)s/'\
-                'downloads?tab=tags'
-            version_url = project.version_url.replace(
-                'https://bitbucket.org/', '')
-            url = url_template % {'version_url': version_url}
-        elif project.homepage.startswith('https://bitbucket.org'):
-            url = project.homepage
-            if url.endswith('/'):
-                url = project.homepage[:1]
-            url += '/downloads?tab=tags'
-        else:
+        url = cls.get_version_url(project)
+        if not url:
             raise AnityaPluginException(
                 'Project %s was incorrectly set-up' % project.name)
 
