@@ -74,8 +74,11 @@ class Version(object):
             version = self.version[len(self.prefix):]
 
         # Many projects prefix their tags with 'v', so strip it if it's present
-        if v_prefix.match(version):
-            version = version[1:]
+        try:
+            if v_prefix.match(version):
+                version = version[1:]
+        except TypeError:
+            raise InvalidVersion(version)
 
         return version
 

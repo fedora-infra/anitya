@@ -50,6 +50,14 @@ class VersionTests(unittest.TestCase):
         version.parse = mock.Mock(side_effect=exceptions.InvalidVersion('boop'))
         self.assertEqual('v1.0.0', str(version))
 
+    def test_str_parse_error_none(self):
+        """Assert __str__ calls parse throws InvalidVersion when version is None"""
+        version = base.Version(version=None)
+        self.assertRaises(
+            exceptions.InvalidVersion,
+            version.parse,
+        )
+
     def test_parse_no_v(self):
         """Assert parsing a version sans leading 'v' works."""
         version = base.Version(version='1.0.0')

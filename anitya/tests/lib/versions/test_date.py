@@ -38,18 +38,18 @@ class DateVersionTests(unittest.TestCase):
         self.assertEqual('Date', date.DateVersion.name)
 
     def test_eq_no_equal(self):
-        version_old = date.DateVersion(created_on=datetime.now())
-        version_new = date.DateVersion(created_on=datetime.now())
+        version_old = date.DateVersion(version="1.0.0")
+        version_new = date.DateVersion(version="1.0.1")
 
         self.assertFalse(version_old == version_new)
 
     def test_eq_equal(self):
-        version_date = date.DateVersion(created_on=datetime.now())
+        version_date = date.DateVersion(version="1.0.0")
 
         self.assertTrue(version_date == version_date)
 
     def test_eq_value_missing(self):
-        version_date = date.DateVersion(created_on=datetime.now())
+        version_date = date.DateVersion(version="1.0.0")
         version_no_date = date.DateVersion()
 
         self.assertFalse(version_date == version_no_date)
@@ -79,8 +79,8 @@ class DateVersionTests(unittest.TestCase):
         self.assertFalse(version_date < version_no_date)
 
     def test_le(self):
-        version_old = date.DateVersion(created_on=datetime.now())
-        version_new = date.DateVersion(created_on=datetime.now())
+        version_old = date.DateVersion(version="1.0.0", created_on=datetime.now())
+        version_new = date.DateVersion(version="1.0.1", created_on=datetime.now())
 
         self.assertTrue(version_old <= version_new)
         self.assertTrue(version_old <= version_old)

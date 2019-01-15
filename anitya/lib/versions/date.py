@@ -35,15 +35,6 @@ class DateVersion(Version):
 
     name = u'Date'
 
-    def __eq__(self, other):
-        """
-        Compare two versions for equality by date created.
-
-        Returns:
-            bool: True if the ```created_on``` attributes are equal.
-        """
-        return self.created_on == other.created_on
-
     def __lt__(self, other):
         """
         Compare two versions by date created.
