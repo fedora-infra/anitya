@@ -39,7 +39,7 @@
 
     <div class="col-xs-10">
         <form action="{{ url_for('anitya_ui.browse_users') }}" class="form-inline"
-              role="form" action="GET" id="users_form">
+              role="form" id="users_form">
             <div class="form-group col-xs-6 col-sm-3">
                 <input type="text" name="user_id" placeholder="User Id"
                        class="form-control" value="{{ user_id }}" />
@@ -67,7 +67,7 @@
                 </select>
             </div>
             <div class="form-group col-xs-6 col-sm-1">
-                <button type="submit" class="btn btn-default" class="form-control">
+                <button type="submit" class="btn btn-default form-control">
                     Filter
                 </button>
             </div>
