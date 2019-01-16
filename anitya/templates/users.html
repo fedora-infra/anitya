@@ -98,15 +98,13 @@
             {% if user.is_admin %}
             <form method="POST" action="{{ url_for('anitya_ui.set_user_admin_state',
                 user_id=user.id, state=False) }}">
-                <button type="submit" class="btn btn-danger btn-sm pull-right inline"
-                        id="user_btn">
+                <button type="submit" class="btn btn-danger btn-sm pull-right inline">
                     Revoke admin permissions
                 </button>
             {% else %}
             <form method="POST" action="{{ url_for('anitya_ui.set_user_admin_state',
             user_id=user.id, state=True) }}">
-                <button type="submit" class="btn btn-success btn-sm pull-right inline"
-                        id="user_btn">
+                <button type="submit" class="btn btn-success btn-sm pull-right inline">
                     Give admin permissions
                 </button>
                 {% endif %}
@@ -118,15 +116,13 @@
             {% if user.is_active %}
             <form method="POST" action="{{ url_for('anitya_ui.set_user_active_state',
                 user_id=user.id, state=False) }}">
-                <button type="submit" class="btn btn-danger btn-sm pull-right inline"
-                        id="user_btn">
+                <button type="submit" class="btn btn-danger btn-sm pull-right inline">
                     Ban
                 </button>
             {% else %}
             <form method="POST" action="{{ url_for('anitya_ui.set_user_active_state',
             user_id=user.id, state=True) }}">
-                <button type="submit" class="btn btn-success btn-sm pull-right inline"
-                        id="user_btn">
+                <button type="submit" class="btn btn-success btn-sm pull-right inline">
                     Remove ban
                 </button>
                 {% endif %}
