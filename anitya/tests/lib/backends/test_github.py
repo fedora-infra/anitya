@@ -323,17 +323,6 @@ class GithubBackendtests(DatabaseTestCase):
         version = backend.GithubBackend().get_version(project)
         self.assertEqual(u'plexus-archiver-3.6.0', version)
 
-    @mock.patch.dict('anitya.config.config', {'GITHUB_ACCESS_TOKEN': "foobar"})
-    def test_gargoyle(self):
-        """ Regression test for issue #642 """
-        project = models.Project(
-            version_url='garglk/garglk',
-            version_scheme='Date',
-            backend=BACKEND,
-        )
-        version = backend.GithubBackend().get_version(project)
-        self.assertEqual(u'stable-2011.1', version)
-
 
 class JsonTests(unittest.TestCase):
     """

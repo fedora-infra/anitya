@@ -203,7 +203,7 @@ class NewProjectTests(DatabaseTestCase):
                     'name': 'repo_manager',
                     'homepage': 'https://pypi.python.org/pypi/repo_manager',
                     'backend': 'PyPI',
-                    'version_scheme': 'Date',
+                    'version_scheme': 'RPM',
                 }
                 output = c.post(
                     '/project/new', data=data, follow_redirects=True)
@@ -226,7 +226,7 @@ class NewProjectTests(DatabaseTestCase):
                     'name': 'repo_manager',
                     'homepage': 'https://pypi.python.org/pypi/repo_manager',
                     'backend': 'PyPI',
-                    'version_scheme': 'Date',
+                    'version_scheme': 'RPM',
                 }
                 output = c.post(
                     '/project/new', data=data, follow_redirects=True)
@@ -250,7 +250,7 @@ class NewProjectTests(DatabaseTestCase):
                     'name': 'requests',
                     'homepage': 'https://pypi.python.org/pypi/requests',
                     'backend': 'PyPI',
-                    'version_scheme': 'Date',
+                    'version_scheme': 'RPM',
                 }
                 output = c.post(
                     '/project/new', data=data, follow_redirects=True)
@@ -285,7 +285,7 @@ class NewProjectTests(DatabaseTestCase):
                     'name': 'fedocal',
                     'homepage': 'pypi/fedocal',
                     'backend': 'PyPI',
-                    'version_scheme': 'Date',
+                    'version_scheme': 'RPM',
                     'csrf_token': csrf_token,
                 }
                 output = c.post(
@@ -307,7 +307,7 @@ class NewProjectTests(DatabaseTestCase):
                     'name': 'repo_manager',
                     'homepage': 'https://pypi.python.org/pypi/repo_manager',
                     'backend': 'PyPI',
-                    'version_scheme': 'Date',
+                    'version_scheme': 'RPM',
                     'csrf_token': output.data.split(
                         b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0],
                 }
@@ -348,7 +348,7 @@ class NewProjectTests(DatabaseTestCase):
                     'name': 'repo_manager',
                     'homepage': 'https://pypi.python.org/pypi/repo_manager',
                     'backend': 'PyPI',
-                    'version_scheme': 'Date',
+                    'version_scheme': 'RPM',
                     'distro': 'Fedora',
                     'package_name': 'repo_manager',
                 }
@@ -809,7 +809,7 @@ class EditProjectTests(DatabaseTestCase):
                 'name': 'repo_manager',
                 'homepage': 'https://pypi.python.org/pypi/repo_manager',
                 'backend': 'PyPI',
-                'version_scheme': 'Date',
+                'version_scheme': 'RPM',
             }
 
             output = self.app.post('/project/1/edit', data=data)
@@ -833,7 +833,7 @@ class EditProjectTests(DatabaseTestCase):
                     'name': 'repo_manager',
                     'homepage': 'https://pypi.python.org/pypi/repo_manager',
                     'backend': 'PyPI',
-                    'version_scheme': 'Date',
+                    'version_scheme': 'RPM',
                     'csrf_token': csrf_token,
                 }
 
@@ -882,7 +882,7 @@ class EditProjectTests(DatabaseTestCase):
                     'name': 'R2spec',
                     'homepage': 'https://fedorahosted.org/r2spec/',
                     'backend': 'folder',
-                    'version_scheme': 'Date',
+                    'version_scheme': 'RPM',
                     'csrf_token': csrf_token,
                 }
 
@@ -910,7 +910,7 @@ class EditProjectTests(DatabaseTestCase):
                     'name': 'repo_manager',
                     'homepage': 'https://pypi.python.org/pypi/repo_manager',
                     'backend': 'PyPI',
-                    'version_scheme': 'Date',
+                    'version_scheme': 'RPM',
                     'csrf_token': csrf_token,
                     'check_release': 'on',
                 }
