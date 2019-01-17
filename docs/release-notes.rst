@@ -4,6 +4,45 @@ Release Notes
 
 .. towncrier release notes start
 
+0.14.1 (2019-01-17)
+===================
+
+Features
+--------
+
+* Show raw version on project page for admins
+  (`PR#696 <https://github.com/fedora-infra/fedora-messaging/pull/696>`_)
+
+
+Bug Fixes
+---------
+
+* Libraries.io consumer is replacing topic_prefix for Anitya
+  (`PR#704 <https://github.com/fedora-infra/fedora-messaging/pull/704>`_)
+
+* Release unlocked lock in cronjob
+  (`PR#708 <https://github.com/fedora-infra/fedora-messaging/pull/708>`_)
+
+* Comparing by dates created version duplicates
+  (`#702 <https://github.com/fedora-infra/fedora-messaging/issues/702>`_)
+
+
+Development Changes
+-------------------
+
+* Remove Date version scheme
+  (`PR#707 <https://github.com/fedora-infra/fedora-messaging/pull/707>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Anatoli Babenia
+* Michal Konečný
+
+
 0.14.0 (2019-01-08)
 ===================
 
