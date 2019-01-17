@@ -79,7 +79,6 @@ def update_project(project_id):
             project.next_check = blacklist_dict[project.backend]
             session.add(project)
             session.commit()
-            blacklist_lock.release()
             return
     try:
         utilities.check_project_release(project, session),
