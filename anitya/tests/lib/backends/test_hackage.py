@@ -78,6 +78,19 @@ class HackageBackendtests(DatabaseTestCase):
             project
         )
 
+    def test_get_version_url(self):
+        """ Assert that correct url is returned. """
+        project = models.Project(
+            name='test',
+            homepage='http://example.org',
+            backend=BACKEND,
+        )
+        exp = 'https://hackage.haskell.org/package/test'
+
+        obs = backend.HackageBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_get_versions(self):
         """ Test the get_versions function of the custom backend. """
         pid = 1

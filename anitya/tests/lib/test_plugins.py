@@ -47,7 +47,7 @@ EXPECTED_ECOSYSTEMS = {
 }
 
 EXPECTED_VERSIONS = [
-    'RPM', 'Date'
+    'RPM'
 ]
 
 

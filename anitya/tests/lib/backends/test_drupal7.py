@@ -92,6 +92,52 @@ class Drupal7Backendtests(DatabaseTestCase):
         obs = backend.Drupal7Backend.get_version(project)
         self.assertEqual(obs, exp)
 
+    def test_get_version_url(self):
+        """ Assert that correct url is returned. """
+        project = models.Project(
+            name='test',
+            homepage='http://example.org',
+            version_url='http://example.org/releases',
+            backend=BACKEND,
+        )
+        exp = 'https://updates.drupal.org/release-history/test/7.x'
+
+        obs = backend.Drupal7Backend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_drupal7_prefix(self):
+        """
+        Assert that correct url is returned when project name has 'drupal7:' prefix.
+        """
+        project = models.Project(
+            name='drupal7:test',
+            homepage='http://example.org',
+            version_url='http://example.org/releases',
+            backend=BACKEND,
+        )
+        exp = 'https://updates.drupal.org/release-history/test/7.x'
+
+        obs = backend.Drupal7Backend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_contains_dash(self):
+        """
+        Assert that correct url is returned when project name contains '-'.
+        """
+        project = models.Project(
+            name='te-st',
+            homepage='http://example.org',
+            version_url='http://example.org/releases',
+            backend=BACKEND,
+        )
+        exp = 'https://updates.drupal.org/release-history/te_st/7.x'
+
+        obs = backend.Drupal7Backend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_get_versions(self):
         """ Test the get_versions function of the debian backend. """
         pid = 1

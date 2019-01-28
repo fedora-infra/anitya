@@ -115,6 +115,87 @@ class GithubBackendtests(DatabaseTestCase):
         obs = backend.GithubBackend.get_version(project)
         self.assertEqual(obs, exp)
 
+    def test_get_version_url_project_version_url(self):
+        """
+        Assert that correct url is returned when project version url is specified.
+        """
+        project = models.Project(
+            name='test',
+            homepage='http://example.org',
+            version_url='test/test',
+            backend=BACKEND,
+        )
+        exp = 'https://github.com/test/test/tags'
+
+        obs = backend.GithubBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_project_homepage_only(self):
+        """
+        Assert that correct url is returned when only
+        project homepage is specified.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://github.com/test/test',
+            backend=BACKEND,
+        )
+        exp = 'https://github.com/test/test/tags'
+
+        obs = backend.GithubBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_project_wrong_homepage(self):
+        """
+        Assert that empty url is returned when
+        project homepage is wrong.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.org',
+            backend=BACKEND,
+        )
+        exp = ''
+
+        obs = backend.GithubBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_homepage_slash(self):
+        """
+        Assert that correct url is returned when
+        project homepage ends with '/'.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://github.com/test/test/',
+            backend=BACKEND,
+        )
+        exp = 'https://github.com/test/test/tags'
+
+        obs = backend.GithubBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_version_url_slash(self):
+        """
+        Assert that correct url is returned when
+        version url ends with '/'.
+        """
+        project = models.Project(
+            name='test',
+            homepage='https://example.com',
+            version_url='test/test/',
+            backend=BACKEND,
+        )
+        exp = 'https://github.com/test/test/tags'
+
+        obs = backend.GithubBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     @mock.patch.dict('anitya.config.config', {'GITHUB_ACCESS_TOKEN': "foobar"})
     def test_get_versions(self):
         """ Test the get_versions function of the github backend. """
@@ -242,17 +323,6 @@ class GithubBackendtests(DatabaseTestCase):
         version = backend.GithubBackend().get_version(project)
         self.assertEqual(u'plexus-archiver-3.6.0', version)
 
-    @mock.patch.dict('anitya.config.config', {'GITHUB_ACCESS_TOKEN': "foobar"})
-    def test_gargoyle(self):
-        """ Regression test for issue #642 """
-        project = models.Project(
-            version_url='garglk/garglk',
-            version_scheme='Date',
-            backend=BACKEND,
-        )
-        version = backend.GithubBackend().get_version(project)
-        self.assertEqual(u'stable-2011.1', version)
-
 
 class JsonTests(unittest.TestCase):
     """
@@ -353,6 +423,7 @@ class JsonTests(unittest.TestCase):
                     }
                 },
                 "rateLimit": {
+                    "limit": 5000,
                     "remaining": 0,
                     "resetAt": "2008-09-03T20:56:35.450686"
                 }
@@ -380,6 +451,7 @@ class JsonTests(unittest.TestCase):
                     }
                 },
                 "rateLimit": {
+                    "limit": 5000,
                     "remaining": 5000,
                     "resetAt": "dummy"
                 }
@@ -388,6 +460,38 @@ class JsonTests(unittest.TestCase):
         exp = [u'1.0']
         obs = backend.parse_json(json, project)
         self.assertEqual(exp, obs)
+
+    def test_parse_json_threshold_reach(self):
+        """
+        Assert that exception is thrown when
+        rate limit threshold is reached.
+        """
+        project = models.Project(
+            name='foobar',
+            homepage='https://foobar.com',
+            version_url='foo/bar',
+            backend=BACKEND,
+        )
+        json = {
+            "data": {
+                "repository": {
+                    "refs": {
+                        "totalCount": 0
+                    }
+                },
+                "rateLimit": {
+                    "limit": 5000,
+                    "remaining": 500,
+                    "resetAt": "2008-09-03T20:56:35.450686"
+                }
+            }
+        }
+        self.assertRaises(
+            RateLimitException,
+            backend.parse_json,
+            json,
+            project
+        )
 
 
 if __name__ == '__main__':

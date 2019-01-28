@@ -16,6 +16,12 @@ import logging
 
 API_URL = 'https://api.github.com/graphql'
 
+"""
+Rate limit threshold (percent)
+10 percent of limit is left for users
+"""
+RATE_LIMIT_THRESHOLD = 0.1
+
 _log = logging.getLogger(__name__)
 
 
@@ -54,6 +60,32 @@ class GithubBackend(BaseBackend):
         return cls.get_ordered_versions(project)[-1]
 
     @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        url = ''
+        if project.version_url:
+            url = project.version_url
+        elif project.homepage.startswith('https://github.com'):
+            url = project.homepage.replace('https://github.com/', '')
+
+        if url.endswith('/'):
+            url = url[:-1]
+
+        if url:
+            url = "https://github.com/{}/tags".format(url)
+
+        return url
+
+    @classmethod
     def get_versions(cls, project):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
@@ -74,12 +106,10 @@ class GithubBackend(BaseBackend):
         '''
         owner = None
         repo = None
-        if project.version_url:
-            url = project.version_url
-        elif project.homepage.startswith('https://github.com'):
-            url = project.homepage.replace('https://github.com/', '')
-            if url.endswith('/'):
-                url = url[:-1]
+        url = cls.get_version_url(project)
+        if url:
+            url = url.replace('https://github.com/', '')
+            url = url.replace('/tags', '')
         else:
             raise AnityaPluginException(
                 'Project %s was incorrectly set-up' % project.name)
@@ -140,9 +170,23 @@ def parse_json(json, project):
             when the versions cannot be retrieved correctly.
         RateLimitException: A
             :obj:`anitya.lib.exceptions.RateLimitException` exception
-            when rate limit is reached.
+            when rate limit threshold is reached.
 
     '''
+    # We need to check limit first,
+    # because exceeding the limit will also return error
+    try:
+        limit = json['data']['rateLimit']['limit']
+        remaining = json['data']['rateLimit']['remaining']
+        reset_time = json['data']['rateLimit']['resetAt']
+        _log.debug('Github API ratelimit remains %s, will reset at %s UTC' % (
+            remaining, reset_time))
+
+        if (remaining/limit) <= RATE_LIMIT_THRESHOLD:
+            raise RateLimitException(reset_time)
+    except KeyError:
+        _log.info('Github API ratelimit key is missing. Checking for errors.')
+
     if 'errors' in json:
         error_str = ''
         for error in json['errors']:
@@ -155,14 +199,6 @@ def parse_json(json, project):
     total_count = json['data']['repository']['refs']['totalCount']
 
     _log.debug('Received %s tags for %s' % (total_count, project.name))
-
-    remaining = json['data']['rateLimit']['remaining']
-    reset_time = json['data']['rateLimit']['resetAt']
-    _log.debug('Github API ratelimit remains %s, will reset at %s UTC' % (
-            remaining, reset_time))
-
-    if remaining == 0:
-        raise RateLimitException(reset_time)
 
     versions = []
 

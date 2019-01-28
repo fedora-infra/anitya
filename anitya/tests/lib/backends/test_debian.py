@@ -94,6 +94,36 @@ class DebianBackendtests(DatabaseTestCase):
         obs = backend.DebianBackend.get_version(project)
         self.assertEqual(obs, exp)
 
+    def test_get_version_url(self):
+        """ Assert that correct url is returned. """
+        project = models.Project(
+            name='test',
+            homepage='http://example.org',
+            version_url='http://example.org/releases',
+            backend=BACKEND,
+        )
+        exp = 'http://ftp.debian.org/debian/pool/main/t/test/'
+
+        obs = backend.DebianBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_lib_prefix(self):
+        """
+        Assert that correct url is returned when name contains lib prefix.
+        """
+        project = models.Project(
+            name='libtest',
+            homepage='http://example.org',
+            version_url='http://example.org/releases',
+            backend=BACKEND,
+        )
+        exp = 'http://ftp.debian.org/debian/pool/main/libt/libtest/'
+
+        obs = backend.DebianBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_get_versions(self):
         """ Test the get_versions function of the debian backend. """
         pid = 1

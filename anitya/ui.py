@@ -69,7 +69,10 @@ def logout():
 @login_required
 def settings():
     """The user's settings, currently only the API token page."""
-    return flask.render_template('settings.html', form=anitya.forms.TokenForm())
+    return flask.render_template(
+        'settings.html',
+        current='settings',
+        form=anitya.forms.TokenForm())
 
 
 @ui_blueprint.route('/settings/tokens/new', methods=('POST',))
@@ -218,6 +221,42 @@ def projects_updated(status='updated'):
         status=status,
         name=name,
         log=log,
+    )
+
+
+@ui_blueprint.route('/logs')
+@login_required
+def browse_logs():
+
+    refresh = flask.request.args.get('refresh', False)
+    page = flask.request.args.get('page', 1)
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+
+    if page < 1:
+        page = 1
+
+    page_obj = models.Project.query.paginate(
+        page=page,
+        order_by=models.Project.last_check.desc()
+    )
+
+    projects = page_obj.items
+
+    cnt_projects = page_obj.total_items
+
+    total_page = int(ceil(cnt_projects / float(page_obj.items_per_page)))
+
+    return flask.render_template(
+        'logs.html',
+        current='logs',
+        refresh=refresh,
+        projects=projects,
+        total_page=total_page,
+        page=page,
     )
 
 

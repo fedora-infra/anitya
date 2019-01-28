@@ -117,6 +117,7 @@ class LibrariesioConsumer(FedmsgConsumer):
         initialize(config.config)
 
         super(LibrariesioConsumer, self).__init__(hub)
+        hub.config['topic_prefix'] = "org.release-monitoring"
 
     def consume(self, message):
         """

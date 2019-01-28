@@ -42,6 +42,23 @@ class RubygemsBackend(BaseBackend):
         return cls.get_ordered_versions(project)[-1]
 
     @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        url = 'https://rubygems.org/api/v1/versions/%(name)s/latest.json' % {
+            'name': project.name}
+
+        return url
+
+    @classmethod
     def get_versions(cls, project):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
@@ -56,8 +73,7 @@ class RubygemsBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url = 'https://rubygems.org/api/v1/versions/%(name)s/latest.json' % {
-            'name': project.name}
+        url = cls.get_version_url(project)
 
         try:
             req = cls.call_url(url)

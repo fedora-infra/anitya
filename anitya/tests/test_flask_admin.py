@@ -559,91 +559,6 @@ class DeleteProjectVersionTests(DatabaseTestCase):
             self.assertEqual(1, len(models.ProjectVersion.query.all()))
 
 
-class BrowseLogsTests(DatabaseTestCase):
-    """Tests for the :func:`anitya.admin.browse_logs` view function."""
-
-    def setUp(self):
-        super(BrowseLogsTests, self).setUp()
-        session = Session()
-
-        # Add a regular user and an admin user
-        self.user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id,
-            user=self.user
-        )
-
-        session.add(self.user)
-        session.add(user_social_auth)
-        self.admin = models.User(email='admin@example.com', username='admin')
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id,
-            user=self.admin
-        )
-
-        self.user_log = models.Log(
-            user='user@fedoraproject.org',
-            project='relational_db',
-            distro='Fedora',
-            description='This is a log',
-        )
-        self.admin_log = models.Log(
-            user='admin',
-            project='best_project',
-            distro='CentOS',
-            description='This is also a log',
-        )
-
-        session.add_all([admin_social_auth, self.admin, self.user_log, self.admin_log])
-        session.commit()
-
-        mock_config = mock.patch.dict(
-            models.anitya_config, {'ANITYA_WEB_ADMINS': [six.text_type(self.admin.id)]})
-        mock_config.start()
-        self.addCleanup(mock_config.stop)
-
-        self.client = self.flask_app.test_client()
-
-    def test_non_admin_get(self):
-        """Assert non-admin users get only their own logs."""
-        with login_user(self.flask_app, self.user):
-            output = self.client.get('/logs')
-
-            self.assertEqual(200, output.status_code)
-            self.assertTrue(b'This is a log' in output.data)
-            self.assertFalse(b'This is also a log' in output.data)
-
-    def test_admin_get(self):
-        """Assert admin users can get everyone's logs."""
-        with login_user(self.flask_app, self.admin):
-            output = self.client.get('/logs')
-
-            self.assertEqual(200, output.status_code)
-            self.assertTrue(b'This is a log' in output.data)
-            self.assertTrue(b'This is also a log' in output.data)
-
-    def test_from_date(self):
-        """Assert logs can be filtered via a from_date."""
-        with login_user(self.flask_app, self.admin):
-            output = self.client.get('/logs?from_date=2017-07-19')
-
-            self.assertEqual(200, output.status_code)
-            self.assertTrue(b'This is a log' in output.data)
-            self.assertTrue(b'This is also a log' in output.data)
-
-    def test_from_date_future(self):
-        """Assert when the from_date doesn't include logs, none are returned."""
-        with login_user(self.flask_app, self.admin):
-            output = self.client.get('/logs?from_date=2500-07-01')
-
-            self.assertEqual(200, output.status_code)
-            self.assertFalse(b'This is a log' in output.data)
-            self.assertFalse(b'This is also a log' in output.data)
-
-
 class BrowseFlagsTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.browse_flags` view function."""
 
@@ -1374,3 +1289,64 @@ class SetUserActiveStateTests(DatabaseTestCase):
             self.assertEqual(200, output.status_code)
             self.assertTrue(b'User user is banned' in output.data)
             self.assertFalse(self.user.active)
+
+
+class BrowseLogsTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.browse_logs` view function."""
+
+    def setUp(self):
+        super(BrowseLogsTests, self).setUp()
+        session = Session()
+        # Add a regular user and an admin user
+        self.user = models.User(
+            email='user@fedoraproject.org',
+            username='user',
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id,
+            user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
+
+        self.admin = models.User(email='admin@example.com', username='admin')
+        admin_social_auth = social_models.UserSocialAuth(
+            user_id=self.admin.id,
+            user=self.admin
+        )
+
+        session.add_all([admin_social_auth, self.admin])
+        session.commit()
+
+        self.client = self.flask_app.test_client()
+
+    def test_get_logs(self):
+        """Assert logs are shown."""
+        project = models.Project(
+            name='best_project',
+            homepage='https://example.com/best_project',
+            backend='PyPI',
+            ecosystem_name='pypi',
+            check_successful=True,
+            logs='Everything allright',
+        )
+
+        self.session.add(project)
+        self.session.commit()
+
+        with login_user(self.flask_app, self.user):
+            output = self.client.get('/logs')
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'best_project' in output.data)
+            self.assertTrue(b'OK' in output.data)
+            self.assertTrue(b'Everything allright' in output.data)
+
+    def test_incorrect_page(self):
+        """Assert exception is handled correctly."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get('/logs?page=a')
+
+            self.assertEqual(200, output.status_code)
+            self.assertTrue(b'/logs?page=1' in output.data)

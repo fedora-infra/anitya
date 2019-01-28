@@ -80,7 +80,7 @@
         </div><!-- end list-group-item -->
 
         <div class="list-group-item">
-          <h4 class="list-group-item-heading">Backend:</h4>
+          <h4 class="list-group-item-heading"><a href="{{ url_for('anitya_ui.static', filename='docs/user-guide.html') }}#backends">Backend</a>:</h4>
           <div class="list-group-item-text">
             <p>{{ project.backend }}</p>
           </div>
@@ -97,6 +97,15 @@
           <h4 class="list-group-item-heading">Version scheme:</h4>
           <div class="list-group-item-text">
             <p>{{ project.get_version_class().name }}</p>
+          </div>
+        </div><!-- end list-group-item -->
+
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Version check url:</h4>
+          <div class="list-group-item-text">
+            <p><a href="{{ project.get_version_url() }}">
+              {{ project.get_version_url() }}
+            </a></p>
           </div>
         </div><!-- end list-group-item -->
 
@@ -195,11 +204,28 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">
-            Logs
+            Status
         </h3>
       </div>
       <span class="list-group-item">
-            {{ project.logs }}
+        <table class="table table-condensed">
+          <tr>
+            <th>Status</th>
+            <th>Updated</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            {% if project.check_successful is none %}
+            <td>Not updated</td>
+            {% elif not project.check_successful %}
+            <td style="color:red;">Fail</td>
+            {% else %}
+            <td style="color:green;">OK</td>
+            {% endif %}
+            <td>{{ project.last_check.strftime('%Y-%m-%d %H:%M:%S') }} (UTC)</td>
+            <td>{{ project.logs }}</td>
+          </tr>
+        </table>
         <div class="clearfix"></div>
       </span>
     </div>
@@ -217,6 +243,7 @@
             <th>Version</th>
             <th>Retrieved on (UTC)</th>
             {% if is_admin %}
+            <th>Raw version</th>
             <th>Delete</th>
             {% endif %}
           </tr>
@@ -229,6 +256,7 @@
             <td>Date information unavailable</td>
             {% endif %}
             {% if is_admin %}
+            <td>{{ version.version }}</td>
             <td>
               <a href="{{ url_for('anitya_ui.delete_project_version',
                           project_id=project.id,

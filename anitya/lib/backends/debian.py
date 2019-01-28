@@ -50,6 +50,30 @@ class DebianBackend(BaseBackend):
         return cls.get_ordered_versions(project)[-1]
 
     @classmethod
+    def get_version_url(cls, project):
+        ''' Method called to retrieve the url used to check for new version
+        of the project provided, project that relies on the backend of this plugin.
+
+        Attributes:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                corresponds to the current plugin.
+
+        Returns:
+            str: url used for version checking
+        '''
+        url_template = 'http://ftp.debian.org/debian/pool/main/' \
+                       '%(short)s/%(name)s/'
+
+        if project.name.startswith('lib'):
+            short = project.name[:4]
+        else:
+            short = project.name[0]
+
+        url = url_template % {'short': short, 'name': project.name}
+
+        return url
+
+    @classmethod
     def get_versions(cls, project):
         ''' Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
@@ -64,15 +88,7 @@ class DebianBackend(BaseBackend):
             when the versions cannot be retrieved correctly
 
         '''
-        url_template = 'http://ftp.debian.org/debian/pool/main/'\
-            '%(short)s/%(name)s/'
-
-        if project.name.startswith('lib'):
-            short = project.name[:4]
-        else:
-            short = project.name[0]
-
-        url = url_template % {'short': short, 'name': project.name}
+        url = cls.get_version_url(project)
         regex = DEBIAN_REGEX % {'name': project.name}
 
         return get_versions_by_regex(url, regex, project)

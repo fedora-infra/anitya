@@ -1,16 +1,14 @@
-rules:
-  default:
-    protection:
-      required_pull_request_reviews:
-        dismiss_stale_reviews: true
-        require_code_owner_reviews: true
-        required_approving_review_count: 1
-      required_status_checks:
-        strict: true
-        contexts:
-        - continuous-integration/travis-ci
-        - codecov/patch
-        - codecov/project
-    merge_strategy:
+pull_request_rules:
+- actions:
+    merge:
       method: rebase
-      rebase_fallback: none
+      rebase_fallback: null
+      strict: true
+  conditions:
+  - label!=no-mergify
+  - '#approved-reviews-by>=1'
+  - status-success=continuous-integration/travis-ci/pr
+  - status-success=codecov/patch
+  - status-success=codecov/project
+  name: default
+

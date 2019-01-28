@@ -93,6 +93,14 @@ class LibrariesioConsumerTests(DatabaseTestCase):
 
         self.assertEqual([u'anitya.prod.sse2fedmsg.librariesio'], consumer.topic)
 
+    def test_prefix_setup(self):
+        """Assert that topic_prefix is changed after initialization."""
+        mock_hub = mock.Mock(config={'environment': 'dev', 'topic_prefix': 'anitya'})
+        self.assertEqual(mock_hub.config['topic_prefix'], 'anitya')
+        LibrariesioConsumer(mock_hub)
+
+        self.assertEqual(mock_hub.config['topic_prefix'], 'org.release-monitoring')
+
     @mock.patch('anitya.librariesio_consumer._log')
     def test_no_ecosystem(self, mock_log):
         """Assert that messages about platforms we don't support are handled gracefully"""
