@@ -29,7 +29,7 @@ import mock
 
 import anitya_schema
 from social_flask_sqlalchemy import models as social_models
-from fedora_messaging import message, testing as fml_testing
+from fedora_messaging import testing as fml_testing
 
 from anitya import ui
 from anitya.db import models, Session
@@ -868,6 +868,10 @@ class EditProjectTests(DatabaseTestCase):
                     b'name="csrf_token" type="hidden" value="')[1].split(b'">')[0]
                 data = {
                     'csrf_token': csrf_token,
+                    'name': 'geany',
+                    'homepage': 'https://www.geany.org/',
+                    'backend': 'custom',
+                    'version_scheme': 'RPM',
                 }
 
                 output = c.post(
@@ -1000,7 +1004,7 @@ class MapProjectTests(DatabaseTestCase):
                     'csrf_token': csrf_token,
                 }
 
-                with fml_testing.mock_sends([anitya_schema.DistroCreated, anitya_schema.ProjectMapCreated]):
+                with fml_testing.mock_sends(anitya_schema.ProjectMapCreated):
                     output = c.post('/project/1/map', data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
                 self.assertTrue(
@@ -1025,7 +1029,7 @@ class MapProjectTests(DatabaseTestCase):
                     'csrf_token': csrf_token,
                 }
 
-                with fml_testing.mock_sends([anitya_schema.DistroCreated, anitya_schema.ProjectMapCreated]):
+                with fml_testing.mock_sends(anitya_schema.ProjectMapCreated):
                     output = c.post('/project/1/map', data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
                 output = c.post('/project/1/map', data=data, follow_redirects=True)
@@ -1228,7 +1232,8 @@ class AddDistroTests(DatabaseTestCase):
             self.assertEqual(200, output.status_code)
             self.assertEqual(0, models.Distro.query.count())
 
-    def test_add_distro(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_add_distro(self, mock_method):
         """Assert admins can add distributions."""
         with login_user(self.flask_app, self.user):
             output = self.client.get('/distro/add')
@@ -1241,7 +1246,8 @@ class AddDistroTests(DatabaseTestCase):
             self.assertEqual(200, output.status_code)
             self.assertTrue(b'Distribution added' in output.data)
 
-    def test_duplicate_distro(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_duplicate_distro(self, mock_method):
         """Assert trying to create a duplicate distribution results in HTTP 409."""
         with login_user(self.flask_app, self.user):
             output = self.client.get('/distro/add')
