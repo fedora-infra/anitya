@@ -11,27 +11,27 @@ Features
 --------
 
 * Show raw version on project page for admins
-  (`PR#696 <https://github.com/fedora-infra/fedora-messaging/pull/696>`_)
+  (`PR#696 <https://github.com/release-monitoring/anitya/pull/696>`_)
 
 
 Bug Fixes
 ---------
 
 * Libraries.io consumer is replacing topic_prefix for Anitya
-  (`PR#704 <https://github.com/fedora-infra/fedora-messaging/pull/704>`_)
+  (`PR#704 <https://github.com/release-monitoring/anitya/pull/704>`_)
 
 * Release unlocked lock in cronjob
-  (`PR#708 <https://github.com/fedora-infra/fedora-messaging/pull/708>`_)
+  (`PR#708 <https://github.com/release-monitoring/anitya/pull/708>`_)
 
 * Comparing by dates created version duplicates
-  (`#702 <https://github.com/fedora-infra/fedora-messaging/issues/702>`_)
+  (`#702 <https://github.com/release-monitoring/anitya/issues/702>`_)
 
 
 Development Changes
 -------------------
 
 * Remove Date version scheme
-  (`PR#707 <https://github.com/fedora-infra/fedora-messaging/pull/707>`_)
+  (`PR#707 <https://github.com/release-monitoring/anitya/pull/707>`_)
 
 
 Contributors
@@ -50,91 +50,91 @@ Features
 --------
 
 * Add delete cascade on DB models
-  (`PR#608 <https://github.com/fedora-infra/fedora-messaging/pull/608>`_)
+  (`PR#608 <https://github.com/release-monitoring/anitya/pull/608>`_)
 
 * Logs table is replaced by simple status on project
-  (`PR#635 <https://github.com/fedora-infra/fedora-messaging/pull/635>`_)
+  (`PR#635 <https://github.com/release-monitoring/anitya/pull/635>`_)
 
 * Update form for adding new distributions
-  (`PR#639 <https://github.com/fedora-infra/fedora-messaging/pull/639>`_)
+  (`PR#639 <https://github.com/release-monitoring/anitya/pull/639>`_)
 
 * Refresh page after full check
-  (`PR#670 <https://github.com/fedora-infra/fedora-messaging/pull/670>`_)
+  (`PR#670 <https://github.com/release-monitoring/anitya/pull/670>`_)
 
 * Show URL for version check on project UI
-  (`#549 <https://github.com/fedora-infra/fedora-messaging/issues/549>`_)
+  (`#549 <https://github.com/release-monitoring/anitya/issues/549>`_)
 
 * Link to backend info from project view and edit pages
-  (`#556 <https://github.com/fedora-infra/fedora-messaging/issues/556>`_)
+  (`#556 <https://github.com/release-monitoring/anitya/issues/556>`_)
 
 * Retrieve all versions, not only the newest one
-  (`#595 <https://github.com/fedora-infra/fedora-messaging/issues/595>`_)
+  (`#595 <https://github.com/release-monitoring/anitya/issues/595>`_)
 
 * Add rate limit handling
-  (`#600 <https://github.com/fedora-infra/fedora-messaging/issues/600>`_)
+  (`#600 <https://github.com/release-monitoring/anitya/issues/600>`_)
 
 * Basic user management UI for admins
-  (`#621 <https://github.com/fedora-infra/fedora-messaging/issues/621>`_)
+  (`#621 <https://github.com/release-monitoring/anitya/issues/621>`_)
 
 * Rate limit enhancements
-  (`#665 <https://github.com/fedora-infra/fedora-messaging/issues/665>`_)
+  (`#665 <https://github.com/release-monitoring/anitya/issues/665>`_)
 
 * Add ecosystem information to project.version.update fedmsg topic.
-  (`#666 <https://github.com/fedora-infra/fedora-messaging/issues/666>`_)
+  (`#666 <https://github.com/release-monitoring/anitya/issues/666>`_)
 
 
 Bug Fixes
 ---------
 
 * Fix unhandled exception in GitLab backend
-  (`PR#663 <https://github.com/fedora-infra/fedora-messaging/pull/663>`_)
+  (`PR#663 <https://github.com/release-monitoring/anitya/pull/663>`_)
 
 * Can't rename mapping for gstreamer
-  (`#598 <https://github.com/fedora-infra/fedora-messaging/issues/598>`_)
+  (`#598 <https://github.com/release-monitoring/anitya/issues/598>`_)
 
 * Source map error: request failed with status 404 for various javascript packages
-  (`#606 <https://github.com/fedora-infra/fedora-messaging/issues/606>`_)
+  (`#606 <https://github.com/release-monitoring/anitya/issues/606>`_)
 
 * about#test-your-regex link is broken
-  (`#628 <https://github.com/fedora-infra/fedora-messaging/issues/628>`_)
+  (`#628 <https://github.com/release-monitoring/anitya/issues/628>`_)
 
 * Github backend returns reversed list
-  (`#642 <https://github.com/fedora-infra/fedora-messaging/issues/642>`_)
+  (`#642 <https://github.com/release-monitoring/anitya/issues/642>`_)
 
 * Version prefix not working in GitLab backend
-  (`#644 <https://github.com/fedora-infra/fedora-messaging/issues/644>`_)
+  (`#644 <https://github.com/release-monitoring/anitya/issues/644>`_)
 
 * Latest version on Project UI is shown with prefix
-  (`#662 <https://github.com/fedora-infra/fedora-messaging/issues/662>`_)
+  (`#662 <https://github.com/release-monitoring/anitya/issues/662>`_)
 
 * Crash when version is too long
-  (`#674 <https://github.com/fedora-infra/fedora-messaging/issues/674>`_)
+  (`#674 <https://github.com/release-monitoring/anitya/issues/674>`_)
 
 
 Development Changes
 -------------------
 
 * Add python 3.7 to tox tests
-  (`PR#650 <https://github.com/fedora-infra/fedora-messaging/pull/650>`_)
+  (`PR#650 <https://github.com/release-monitoring/anitya/pull/650>`_)
 
 * Update Vagrantfile to use Fedora 29 image
-  (`PR#653 <https://github.com/fedora-infra/fedora-messaging/pull/653>`_)
+  (`PR#653 <https://github.com/release-monitoring/anitya/pull/653>`_)
 
 * Drop support for python 2.7 and python 3.5
-  (`PR#672 <https://github.com/fedora-infra/fedora-messaging/pull/672>`_)
+  (`PR#672 <https://github.com/release-monitoring/anitya/pull/672>`_)
 
 
 Other Changes
 -------------
 
 * Update contribution guide
-  (`PR#636 <https://github.com/fedora-infra/fedora-messaging/pull/636>`_)
+  (`PR#636 <https://github.com/release-monitoring/anitya/pull/636>`_)
 
 * Add GDPR SAR script
-  (`PR#649 <https://github.com/fedora-infra/fedora-messaging/pull/649>`_)
+  (`PR#649 <https://github.com/release-monitoring/anitya/pull/649>`_)
 
 * Add supported versions of python to setup script
-  (`PR#651 <https://github.com/fedora-infra/fedora-messaging/pull/651>`_)
+  (`PR#651 <https://github.com/release-monitoring/anitya/pull/651>`_)
 
 
 Contributors
@@ -155,33 +155,33 @@ Features
 --------
 
 * Show users their ID on Settings page
-  (`PR#631 <https://github.com/fedora-infra/fedora-messaging/pull/631>`_)
+  (`PR#631 <https://github.com/release-monitoring/anitya/pull/631>`_)
 
 * Add sorting by creation date for versions
-  (`#593 <https://github.com/fedora-infra/fedora-messaging/issues/593>`_)
+  (`#593 <https://github.com/release-monitoring/anitya/issues/593>`_)
 
 
 Bug Fixes
 ---------
 
 * Can't parse owner/repo on Github backend
-  (`PR#632 <https://github.com/fedora-infra/fedora-messaging/pull/632>`_)
+  (`PR#632 <https://github.com/release-monitoring/anitya/pull/632>`_)
 
 * Login into staging using OpenID not possible
-  (`#616 <https://github.com/fedora-infra/fedora-messaging/issues/616>`_)
+  (`#616 <https://github.com/release-monitoring/anitya/issues/616>`_)
 
 
 Development Changes
 -------------------
 
 * Add towncrier for generating release notes
-  (`PR#618 <https://github.com/fedora-infra/fedora-messaging/pull/618>`_)
+  (`PR#618 <https://github.com/release-monitoring/anitya/pull/618>`_)
 
 * Remove deprecations warning
-  (`PR#627 <https://github.com/fedora-infra/fedora-messaging/pull/627>`_)
+  (`PR#627 <https://github.com/release-monitoring/anitya/pull/627>`_)
 
 * Add documentation dependency to vagrant container
-  (`PR#630 <https://github.com/fedora-infra/fedora-messaging/pull/630>`_)
+  (`PR#630 <https://github.com/release-monitoring/anitya/pull/630>`_)
 
 
 Contributors
