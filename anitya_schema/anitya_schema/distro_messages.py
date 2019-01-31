@@ -56,12 +56,12 @@ class DistroCreated(message.Message):
     @property
     def summary(self):
         """Return a short summary of the message."""
-        return "A new distribution, {}, was added to Anitya.".format(self.name)
+        return "A new distribution, {}, was added to release-monitoring.".format(self.name)
 
     @property
     def name(self):
         """The new distribution's name."""
-        return self._body["distro"]["name"]
+        return self.body["distro"]["name"]
 
 
 class DistroEdited(message.Message):
@@ -106,24 +106,24 @@ class DistroEdited(message.Message):
 
     def __str__(self):
         """Return a complete human-readable representation of the message"""
-        return str(self)
+        return self.summary
 
     @property
     def summary(self):
         """Return a short summary of the message."""
-        return "The name of the {} distribution changed to {}".format(
+        return "The name of the {} distribution changed to {}.".format(
             self.old_name, self.new_name
         )
 
     @property
     def new_name(self):
         """The distribution's new name."""
-        return self._body["message"]["new"]
+        return self.body["message"]["new"]
 
     @property
     def old_name(self):
         """The distribution's old name."""
-        return self._body["message"]["old"]
+        return self.body["message"]["old"]
 
 
 class DistroDeleted(message.Message):
@@ -162,16 +162,16 @@ class DistroDeleted(message.Message):
 
     def __str__(self):
         """Return a complete human-readable representation of the message"""
-        return str(self)
+        return self.summary
 
     @property
     def summary(self):
         """Return a short summary of the message."""
-        return "The {} distribution was removed from release-monitoring".format(
+        return "The {} distribution was removed from release-monitoring.".format(
             self.name
         )
 
     @property
     def name(self):
         """The distribution's new name."""
-        return self._body["message"]["distro"]
+        return self.body["message"]["distro"]
