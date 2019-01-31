@@ -74,6 +74,13 @@ And where the ``source`` part of the filename is:
   there is no associated issue
 * ``username`` for contributors (``author`` extention). It should be the
   username part of their commit's email address.
+  
+For example:
+
+If this PR is solving bug 714 the file inside ``news`` should be called ``714.bug``
+and the content of the file would be:
+``Javascript error on add project page``
+Matching the issue title.
 
 The text inside the file will be used as entry text.
 A preview of the release notes can be generated with ``towncrier --draft``.
