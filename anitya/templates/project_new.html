@@ -8,6 +8,7 @@
 <div class="page-header">
   <h1>{{ context }} project</h1>
 </div>
+
 {% if context == 'Add' -%}
 <form method="POST" action="{{ url_for('anitya_ui.new_project') }}" >
 {%- elif context == 'Edit' -%}
@@ -74,6 +75,7 @@
     <span class="glyphicon glyphicon-plus"></span>
     Submit
   </button>
+  
   {%- if context == 'Add' -%}
   <a href="{{ url_for('anitya_ui.projects') }}">
   {%- elif context == 'Edit' -%}
@@ -113,11 +115,13 @@
 
         examples["{{ plugin.name }}"]="{{ plugin.examples | format_examples }}";
         more_info["{{ plugin.name }}"]="{{ plugin.more_info}}";
+       
         {% if plugin.default_regex -%}
         default_regex["{{ plugin.name }}"]="{{ plugin.default_regex.replace('\\', '\\\\') }}";
         {% else %}
         default_regex["{{ plugin.name }}"]="{{ plugin.default_regex }}";
         {% endif -%}
+        
         {% if plugin.default_version_scheme -%}
         default_version_plugin["{{ plugin.name }}"]="{{ plugin.default_version_scheme }}";
         {% endif -%}
@@ -127,32 +131,33 @@
 
   function add_tooltips(){
     $("#name").prop('title', "Project upstream name");
-    $("#name").tooltip()
+    $("#name").tooltip();
     $("#homepage").prop('title', "Project homepage");
-    $("#homepage").tooltip()
+    $("#homepage").tooltip();
     $("#version_scheme").prop('title', "Version scheme used for sorting project versions.");
-    $("#version_scheme").tooltip()
+    $("#version_scheme").tooltip();
     $("#version_url").prop('title', "URL where to look for new releases");
-    $("#version_url").tooltip()
+    $("#version_url").tooltip();
     $("#version_prefix").prop('title', "Prefix filled here will be removed " +
         "from retrieved version. For example version prefix " +
         "'v' will convert 'v1.2.3' to '1.2.3'.");
-    $("#version_prefix").tooltip()
+    $("#version_prefix").tooltip();
     $("#regex").prop('title', "Python regex to use for version retrieval. " +
         "Matched groups will be concatenated by '.'. " +
         "For example regex '(\d)_(\d)_(\d)' applied to '1_2_3' " +
         "will convert version to '1.2.3'.");
-    $("#regex").tooltip()
+    $("#regex").tooltip();
     $("#insecure").prop('title', "This should only be set when the version URL " +
         "is HTTPS and the host does not have a trusted certificate");
-    $("#insecure").tooltip()
+    $("#insecure").tooltip();
     $("#check_release").prop('title', "Check the release immediately");
     $("#check_release").tooltip();
+    
     {%- if context == 'Add' -%}
     $("#distro").prop('title', "Distribution where the project is delivered");
-    $("#distro").tooltip()
+    $("#distro").tooltip();
     $("#package_name").prop('title', "Package name in the distribution");
-    $("#package_name").tooltip()
+    $("#package_name").tooltip();
     {%- endif -%}
   }
 
@@ -161,7 +166,7 @@
     add_tooltips();
 
     if ($('#version_url').parent().find('p')) {
-      $('#version_url').parent().find('p').remove()
+      $('#version_url').parent().find('p').remove();
     }
 
     $('#regex_row').hide();
@@ -238,7 +243,7 @@
       temp = temp.replace('{project name}', $('#name').val());
     }
     if (default_version_plugin[str]) {
-      $('#version_scheme').val("default_version_plugin[str]")
+      $('#version_scheme').val("default_version_plugin[str]");
     }
     $('#regex_example_txt').html('<div id="default_regex_txt">' + temp + '</div>');
   };
@@ -303,6 +308,7 @@
 
   $('body').bind('keyup', function(event) {
     if (event.which == 27) { // esc
+      
       {% if context == 'Add' %}
       window.location.replace("{{ url_for('anitya_ui.projects') }}");
       {% elif context == 'Edit' %}
