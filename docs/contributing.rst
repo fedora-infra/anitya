@@ -80,7 +80,9 @@ For example:
 If this PR is solving bug 714 the file inside ``news`` should be called ``714.bug``
 and the content of the file would be:
 
+
 ``Javascript error on add project page``
+
 
 Matching the issue title.
 
