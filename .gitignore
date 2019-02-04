@@ -28,3 +28,4 @@ anitya/static/docs/
 .pytest_cache/
 coverage.xml
 htmlcov
+pip-wheel-metadata/

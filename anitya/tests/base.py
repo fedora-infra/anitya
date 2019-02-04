@@ -23,13 +23,10 @@ Base class for Anitya tests.
 from __future__ import print_function
 
 from contextlib import contextmanager
-import collections
 import unittest
 import os
-import mock
 
 from flask import request_started
-from fedora_messaging import message
 from social_flask_sqlalchemy.models import PSABase
 from sqlalchemy import create_engine, event
 import flask_login
@@ -37,7 +34,6 @@ import vcr
 
 from anitya import app, config
 from anitya.db import models, Base, Session
-from anitya.lib import utilities
 
 
 engine = None
@@ -183,6 +179,7 @@ def create_project(session):
     project = models.Project(
         name='geany',
         homepage='https://www.geany.org/',
+        version_scheme='RPM',
         backend='custom',
         version_url='https://www.geany.org/Download/Releases',
         regex='DEFAULT',

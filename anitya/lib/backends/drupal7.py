@@ -97,6 +97,6 @@ class Drupal7Backend(BaseBackend):
         try:
             versions = get_versions_by_regex(url, regex, project)
         except AnityaPluginException as err:
-                raise err
+            raise err
 
         return versions

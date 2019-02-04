@@ -637,7 +637,7 @@ class ProjectFlagTestCase(DatabaseTestCase):
 
         self.assertEqual(flag.__json__(), data)
 
-        data['reason'] = u'This is a duplicate.'
+        data['reason'] = u'this is a duplicate.'
         self.assertEqual(flag.__json__(detailed=True), data)
 
     def test_project_flag_all(self):
