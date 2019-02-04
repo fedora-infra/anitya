@@ -667,7 +667,8 @@ class SetFlagStateTests(DatabaseTestCase):
 class LogTests(DatabaseTestCase):
     """ Tests for `anitya.lib.utilities.log` function. """
 
-    def test_log_distro_add(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_log_distro_add(self, mock_method):
         """ Assert that 'distro.add' topic is handled correctly. """
         project = models.Project(
             name='test'
@@ -685,9 +686,17 @@ class LogTests(DatabaseTestCase):
             topic='distro.add', message=message
         )
 
+        mock_method.assert_called_with(
+            topic='distro.add', msg=dict(
+                project=project,
+                distro=distro,
+                message=message
+            )
+        )
         self.assertEqual(final_msg, exp)
 
-    def test_log_distro_edit(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_log_distro_edit(self, mock_method):
         """ Assert that 'distro.edit' topic is handled correctly. """
         project = models.Project(
             name='test'
@@ -706,9 +715,17 @@ class LogTests(DatabaseTestCase):
             topic='distro.edit', message=message
         )
 
+        mock_method.assert_called_with(
+            topic='distro.edit', msg=dict(
+                project=project,
+                distro=distro,
+                message=message
+            )
+        )
         self.assertEqual(final_msg, exp)
 
-    def test_log_distro_remove(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_log_distro_remove(self, mock_method):
         """ Assert that 'distro.remove' topic is handled correctly. """
         project = models.Project(
             name='test'
@@ -726,9 +743,17 @@ class LogTests(DatabaseTestCase):
             topic='distro.remove', message=message
         )
 
+        mock_method.assert_called_with(
+            topic='distro.remove', msg=dict(
+                project=project,
+                distro=distro,
+                message=message
+            )
+        )
         self.assertEqual(final_msg, exp)
 
-    def test_log_project_add(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_log_project_add(self, mock_method):
         """ Assert that 'project.add' topic is handled correctly. """
         project = models.Project(
             name='test'
@@ -746,9 +771,17 @@ class LogTests(DatabaseTestCase):
             topic='project.add', message=message
         )
 
+        mock_method.assert_called_with(
+            topic='project.add', msg=dict(
+                project=project,
+                distro=distro,
+                message=message
+            )
+        )
         self.assertEqual(final_msg, exp)
 
-    def test_log_project_add_tried(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_log_project_add_tried(self, mock_method):
         """ Assert that 'project.add.tried' topic is handled correctly. """
         project = models.Project(
             name='test'
@@ -766,9 +799,17 @@ class LogTests(DatabaseTestCase):
             topic='project.add.tried', message=message
         )
 
+        mock_method.assert_called_with(
+            topic='project.add.tried', msg=dict(
+                project=project,
+                distro=distro,
+                message=message
+            )
+        )
         self.assertEqual(final_msg, exp)
 
-    def test_log_project_edit(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_log_project_edit(self, mock_method):
         """ Assert that 'project.edit' topic is handled correctly. """
         project = models.Project(
             name='test'
@@ -793,9 +834,17 @@ class LogTests(DatabaseTestCase):
             topic='project.edit', message=message
         )
 
+        mock_method.assert_called_with(
+            topic='project.edit', msg=dict(
+                project=project,
+                distro=distro,
+                message=message
+            )
+        )
         self.assertEqual(final_msg, exp)
 
-    def test_log_project_flag(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_log_project_flag(self, mock_method):
         """ Assert that 'project.flag' topic is handled correctly. """
         project = models.Project(
             name='test'
@@ -814,9 +863,17 @@ class LogTests(DatabaseTestCase):
             topic='project.flag', message=message
         )
 
+        mock_method.assert_called_with(
+            topic='project.flag', msg=dict(
+                project=project,
+                distro=distro,
+                message=message
+            )
+        )
         self.assertEqual(final_msg, exp)
 
-    def test_log_project_flag_set(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_log_project_flag_set(self, mock_method):
         """ Assert that 'project.flag.set' topic is handled correctly. """
         project = models.Project(
             name='test'
@@ -835,9 +892,17 @@ class LogTests(DatabaseTestCase):
             topic='project.flag.set', message=message
         )
 
+        mock_method.assert_called_with(
+            topic='project.flag.set', msg=dict(
+                project=project,
+                distro=distro,
+                message=message
+            )
+        )
         self.assertEqual(final_msg, exp)
 
-    def test_log_project_remove(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_log_project_remove(self, mock_method):
         """ Assert that 'project.remove' topic is handled correctly. """
         project = models.Project(
             name='test'
@@ -855,9 +920,17 @@ class LogTests(DatabaseTestCase):
             topic='project.remove', message=message
         )
 
+        mock_method.assert_called_with(
+            topic='project.remove', msg=dict(
+                project=project,
+                distro=distro,
+                message=message
+            )
+        )
         self.assertEqual(final_msg, exp)
 
-    def test_log_project_map_new(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_log_project_map_new(self, mock_method):
         """ Assert that 'project.map.new' topic is handled correctly. """
         project = models.Project(
             name='test'
@@ -877,9 +950,17 @@ class LogTests(DatabaseTestCase):
             topic='project.map.new', message=message
         )
 
+        mock_method.assert_called_with(
+            topic='project.map.new', msg=dict(
+                project=project,
+                distro=distro,
+                message=message
+            )
+        )
         self.assertEqual(final_msg, exp)
 
-    def test_log_project_map_update(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_log_project_map_update(self, mock_method):
         """ Assert that 'project.map.update' topic is handled correctly. """
         project = models.Project(
             name='test'
@@ -901,9 +982,17 @@ class LogTests(DatabaseTestCase):
             topic='project.map.update', message=message
         )
 
+        mock_method.assert_called_with(
+            topic='project.map.update', msg=dict(
+                project=project,
+                distro=distro,
+                message=message
+            )
+        )
         self.assertEqual(final_msg, exp)
 
-    def test_log_project_map_remove(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_log_project_map_remove(self, mock_method):
         """ Assert that 'project.map.remove' topic is handled correctly. """
         project = models.Project(
             name='test'
@@ -922,9 +1011,17 @@ class LogTests(DatabaseTestCase):
             topic='project.map.remove', message=message
         )
 
+        mock_method.assert_called_with(
+            topic='project.map.remove', msg=dict(
+                project=project,
+                distro=distro,
+                message=message
+            )
+        )
         self.assertEqual(final_msg, exp)
 
-    def test_log_project_version_remove(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_log_project_version_remove(self, mock_method):
         """ Assert that 'project.version.remove' topic is handled correctly. """
         project = models.Project(
             name='test'
@@ -943,9 +1040,17 @@ class LogTests(DatabaseTestCase):
             topic='project.version.remove', message=message
         )
 
+        mock_method.assert_called_with(
+            topic='project.version.remove', msg=dict(
+                project=project,
+                distro=distro,
+                message=message
+            )
+        )
         self.assertEqual(final_msg, exp)
 
-    def test_log_project_version_update(self):
+    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    def test_log_project_version_update(self, mock_method):
         """ Assert that 'project.version.update' topic is handled correctly. """
         project = models.Project(
             name='test'
@@ -969,4 +1074,11 @@ class LogTests(DatabaseTestCase):
             topic='project.version.update', message=message
         )
 
+        mock_method.assert_called_with(
+            topic='project.version.update', msg=dict(
+                project=project,
+                distro=distro,
+                message=message
+            )
+        )
         self.assertEqual(final_msg, exp)
