@@ -67,33 +67,7 @@ class ProjectCreated(message.Message):
                 },
                 "required": ["agent", "project"],
             },
-            "project": {
-                "type": "object",
-                "properties": {
-                    "backend": {"type": "string"},
-                    "created_on": {"type": "number"},
-                    "homepage": {"type": "string"},
-                    "id": {"type": "integer"},
-                    "name": {"type": "string"},
-                    "regex": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "updated_on": {"type": "number"},
-                    "version": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "version_url": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "versions": {"type": "array"},
-                },
-                "required": [
-                    "backend",
-                    "created_on",
-                    "homepage",
-                    "id",
-                    "name",
-                    "regex",
-                    "updated_on",
-                    "version",
-                    "version_url",
-                    "versions",
-                ],
-            },
+            "project": project_schema,
         },
     }
 
@@ -112,7 +86,7 @@ class ProjectCreated(message.Message):
     @property
     def name(self):
         """The name of the project that was created."""
-        return self._body["project"]["name"]
+        return self.body["project"]["name"]
 
 
 class ProjectEdited(message.Message):
@@ -135,33 +109,7 @@ class ProjectEdited(message.Message):
                 },
                 "required": ["agent", "project"],
             },
-            "project": {
-                "type": "object",
-                "properties": {
-                    "backend": {"type": "string"},
-                    "created_on": {"type": "number"},
-                    "homepage": {"type": "string"},
-                    "id": {"type": "integer"},
-                    "name": {"type": "string"},
-                    "regex": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "updated_on": {"type": "number"},
-                    "version": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "version_url": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "versions": {"type": "array"},
-                },
-                "required": [
-                    "backend",
-                    "created_on",
-                    "homepage",
-                    "id",
-                    "name",
-                    "regex",
-                    "updated_on",
-                    "version",
-                    "version_url",
-                    "versions",
-                ],
-            },
+            "project": project_schema
         },
     }
 
@@ -175,12 +123,12 @@ class ProjectEdited(message.Message):
     @property
     def summary(self):
         """Return a summary of the message."""
-        return "A new project, {}, was added to release-monitoring.".format(self.name)
+        return "A project, {}, was edited in release-monitoring.".format(self.name)
 
     @property
     def name(self):
-        """The name of the project that was created."""
-        return self._body["project"]["name"]
+        """The name of the project that was edited."""
+        return self.body["project"]["name"]
 
 
 class ProjectDeleted(message.Message):
@@ -203,33 +151,7 @@ class ProjectDeleted(message.Message):
                 },
                 "required": ["agent", "project"],
             },
-            "project": {
-                "type": "object",
-                "properties": {
-                    "backend": {"type": "string"},
-                    "created_on": {"type": "number"},
-                    "homepage": {"type": "string"},
-                    "id": {"type": "integer"},
-                    "name": {"type": "string"},
-                    "regex": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "updated_on": {"type": "number"},
-                    "version": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "version_url": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "versions": {"type": "array"},
-                },
-                "required": [
-                    "backend",
-                    "created_on",
-                    "homepage",
-                    "id",
-                    "name",
-                    "regex",
-                    "updated_on",
-                    "version",
-                    "version_url",
-                    "versions",
-                ],
-            },
+            "project": project_schema
         },
     }
 
@@ -247,8 +169,8 @@ class ProjectDeleted(message.Message):
 
     @property
     def name(self):
-        """The name of the project that was created."""
-        return self._body["project"]["name"]
+        """The name of the project that was deleted."""
+        return self.body["project"]["name"]
 
 
 class ProjectFlag(message.Message):
@@ -271,35 +193,26 @@ class ProjectFlag(message.Message):
                 },
                 "required": ["agent", "project", "packages"],
             },
-            "project": {
-                "type": "object",
-                "properties": {
-                    "backend": {"type": "string"},
-                    "created_on": {"type": "number"},
-                    "homepage": {"type": "string"},
-                    "id": {"type": "integer"},
-                    "name": {"type": "string"},
-                    "regex": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "updated_on": {"type": "number"},
-                    "version": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "version_url": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "versions": {"type": "array"},
-                },
-                "required": [
-                    "backend",
-                    "created_on",
-                    "homepage",
-                    "id",
-                    "name",
-                    "regex",
-                    "updated_on",
-                    "version",
-                    "version_url",
-                    "versions",
-                ],
-            },
+            "project": project_schema,
         },
     }
+
+    def __str__(self):
+        """
+        Return a complete human-readable representation of the message, which
+        in this case is equivalent to the summary.
+        """
+        return self.summary
+
+    @property
+    def summary(self):
+        """Return a summary of the message."""
+        return "A flag was created on project {} in release-monitoring.".format(self.name)
+
+    @property
+    def name(self):
+        """The name of the project that was flagged."""
+        return self.body["project"]["name"]
 
 
 class ProjectFlagSet(message.Message):
@@ -326,6 +239,28 @@ class ProjectFlagSet(message.Message):
         },
     }
 
+    def __str__(self):
+        """
+        Return a complete human-readable representation of the message, which
+        in this case is equivalent to the summary.
+        """
+        return self.summary
+
+    @property
+    def summary(self):
+        """Return a summary of the message."""
+        return "A flag '{}' was {} in release-monitoring.".format(self.flag, self.state)
+
+    @property
+    def state(self):
+        """The new state of the flag."""
+        return self.body["message"]["state"]
+
+    @property
+    def flag(self):
+        """The id of the flag."""
+        return self.body["message"]["flag"]
+
 
 class ProjectMapCreated(message.Message):
     topic = "org.release-monitoring.prod.anitya.project.map.new"
@@ -350,35 +285,26 @@ class ProjectMapCreated(message.Message):
                 },
                 "required": ["agent", "distro", "project", "new"],
             },
-            "project": {
-                "type": "object",
-                "properties": {
-                    "backend": {"type": "string"},
-                    "created_on": {"type": "number"},
-                    "homepage": {"type": "string"},
-                    "id": {"type": "integer"},
-                    "name": {"type": "string"},
-                    "regex": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "updated_on": {"type": "number"},
-                    "version": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "version_url": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "versions": {"type": "array"},
-                },
-                "required": [
-                    "backend",
-                    "created_on",
-                    "homepage",
-                    "id",
-                    "name",
-                    "regex",
-                    "updated_on",
-                    "version",
-                    "version_url",
-                    "versions",
-                ],
-            },
+            "project": project_schema,
         },
     }
+
+    def __str__(self):
+        """
+        Return a complete human-readable representation of the message, which
+        in this case is equivalent to the summary.
+        """
+        return self.summary
+
+    @property
+    def summary(self):
+        """Return a summary of the message."""
+        return "A new mapping was created for project {} in release-monitoring.".format(self.name)
+
+    @property
+    def name(self):
+        """The name of the project, where new mapping was created."""
+        return self.body["project"]["name"]
 
 
 class ProjectMapEdited(message.Message):
@@ -406,35 +332,27 @@ class ProjectMapEdited(message.Message):
                 },
                 "required": ["agent", "distro", "edited", "new", "prev", "project"],
             },
-            "project": {
-                "type": "object",
-                "properties": {
-                    "backend": {"type": "string"},
-                    "created_on": {"type": "number"},
-                    "homepage": {"type": "string"},
-                    "id": {"type": "integer"},
-                    "name": {"type": "string"},
-                    "regex": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "updated_on": {"type": "number"},
-                    "version": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "version_url": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "versions": {"type": "array"},
-                },
-                "required": [
-                    "backend",
-                    "created_on",
-                    "homepage",
-                    "id",
-                    "name",
-                    "regex",
-                    "updated_on",
-                    "version",
-                    "version_url",
-                    "versions",
-                ],
-            },
+            "project": project_schema,
         },
     }
+
+    def __str__(self):
+        """
+        Return a complete human-readable representation of the message, which
+        in this case is equivalent to the summary.
+        """
+        return self.summary
+
+    @property
+    def summary(self):
+        """Return a summary of the message."""
+        return "A mapping for project {} was edited in release-monitoring.".format(
+            self.name)
+
+    @property
+    def name(self):
+        """The name of the project, where mapping was edited."""
+        return self.body["project"]["name"]
 
 
 class ProjectMapDeleted(message.Message):
@@ -455,38 +373,30 @@ class ProjectMapDeleted(message.Message):
                 },
                 "required": ["agent", "distro", "project"],
             },
-            "project": {
-                "type": "object",
-                "properties": {
-                    "backend": {"type": "string"},
-                    "created_on": {"type": "number"},
-                    "homepage": {"type": "string"},
-                    "id": {"type": "integer"},
-                    "name": {"type": "string"},
-                    "regex": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "updated_on": {"type": "number"},
-                    "version": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "version_url": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                    "versions": {"type": "array"},
-                },
-                "required": [
-                    "backend",
-                    "created_on",
-                    "homepage",
-                    "id",
-                    "name",
-                    "regex",
-                    "updated_on",
-                    "version",
-                    "version_url",
-                    "versions",
-                ],
-            },
+            "project": project_schema,
         },
     }
 
+    def __str__(self):
+        """
+        Return a complete human-readable representation of the message, which
+        in this case is equivalent to the summary.
+        """
+        return self.summary
 
-class ProjectVersionUpdate(message.Message):
+    @property
+    def summary(self):
+        """Return a summary of the message."""
+        return "A mapping for project {} was deleted in release-monitoring.".format(
+            self.name)
+
+    @property
+    def name(self):
+        """The name of the project, where mapping was deleted."""
+        return self.body["project"]["name"]
+
+
+class ProjectVersionUpdated(message.Message):
     topic = "org.release-monitoring.prod.anitya.project.version.update"
     body_schema = {
         "id": "https://fedoraproject.org/jsonschema/anitya.project.version.update.json",
@@ -520,6 +430,29 @@ class ProjectVersionUpdate(message.Message):
         },
     }
 
+    def __str__(self):
+        """
+        Return a complete human-readable representation of the message, which
+        in this case is equivalent to the summary.
+        """
+        return self.summary
+
+    @property
+    def summary(self):
+        """Return a summary of the message."""
+        return "A new version '{}' was found for project {} in release-monitoring.".format(
+            self.version, self.name)
+
+    @property
+    def name(self):
+        """The name of the project for which new version was found."""
+        return self.body["project"]["name"]
+
+    @property
+    def version(self):
+        """The version that was found."""
+        return self.body["message"]["upstream_version"]
+
 
 class ProjectVersionDeleted(message.Message):
     topic = "org.release-monitoring.prod.anitya.project.version.remove"
@@ -542,3 +475,26 @@ class ProjectVersionDeleted(message.Message):
             "project": project_schema,
         },
     }
+
+    def __str__(self):
+        """
+        Return a complete human-readable representation of the message, which
+        in this case is equivalent to the summary.
+        """
+        return self.summary
+
+    @property
+    def summary(self):
+        """Return a summary of the message."""
+        return "A version '{}' was deleted in project {} in release-monitoring.".format(
+            self.version, self.name)
+
+    @property
+    def name(self):
+        """The name of the project for which new version was found."""
+        return self.body["project"]["name"]
+
+    @property
+    def version(self):
+        """The version that was deleted."""
+        return self.body["message"]["version"]
