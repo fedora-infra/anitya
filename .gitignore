@@ -21,7 +21,6 @@ anitya-env
 .idea/
 .vagrant/
 *.retry
-Vagrantfile
 anitya.db
 client_secrets.json
 oidc_credentials.json
