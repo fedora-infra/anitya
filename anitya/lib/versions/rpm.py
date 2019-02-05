@@ -45,6 +45,7 @@ except ImportError:
     #   considered greater (newer).
 
     import warnings
+
     warnings.warn("Failed to import 'rpm', emulating RPM label comparisons")
 
     try:
@@ -53,7 +54,7 @@ except ImportError:
         from itertools import izip_longest as zip_longest
 
     _subfield_pattern = re.compile(
-        r'(?P<junk>[^a-zA-Z0-9]*)((?P<text>[a-zA-Z]+)|(?P<num>[0-9]+))'
+        r"(?P<junk>[^a-zA-Z0-9]*)((?P<text>[a-zA-Z]+)|(?P<num>[0-9]+))"
     )
 
     def _iter_rpm_subfields(field):
@@ -63,11 +64,11 @@ except ImportError:
         Numeric subfields are yielded as (1, int_value)
         """
         for subfield in _subfield_pattern.finditer(field):
-            text = subfield.group('text')
+            text = subfield.group("text")
             if text is not None:
                 yield (0, text)
             else:
-                yield (1, int(subfield.group('num')))
+                yield (1, int(subfield.group("num")))
 
     def _compare_rpm_field(lhs, rhs):
         # Short circuit for exact matches (including both being None)
@@ -112,10 +113,11 @@ class RpmVersion(Version):
     back to a pure Python implementation if they are not installed.
     """
 
-    name = u'RPM'
+    name = "RPM"
 
     _rc_upstream_regex = re.compile(
-        r"(.*?)\.?(-?(rc|pre|beta|alpha|dev)([0-9]*))", re.I)
+        r"(.*?)\.?(-?(rc|pre|beta|alpha|dev)([0-9]*))", re.I
+    )
 
     @classmethod
     def split_rc(cls, version):
@@ -145,7 +147,7 @@ class RpmVersion(Version):
         This recognizes versions containing "rc", "pre", "beta", "alpha", and
         "dev" as being pre-release versions.
         """
-        return self.split_rc(self.parse())[1] != ''
+        return self.split_rc(self.parse())[1] != ""
 
     def __eq__(self, other):
         """

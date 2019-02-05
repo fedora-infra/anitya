@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for the pypi backend.
-'''
+"""
 
 import anitya.lib.backends.pypi as backend
 from anitya.db import models
@@ -29,7 +29,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
 
-BACKEND = 'PyPI'
+BACKEND = "PyPI"
 
 
 class PypiBackendtests(DatabaseTestCase):
@@ -44,42 +44,36 @@ class PypiBackendtests(DatabaseTestCase):
     def test_get_version_missing_project(self):
         """Assert an AnityaPluginException is raised for projects that result in 404."""
         project = models.Project(
-            name='repo_manager_fake',
-            homepage='https://pypi.org/project/repo_manager_fake/',
+            name="repo_manager_fake",
+            homepage="https://pypi.org/project/repo_manager_fake/",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         self.assertRaises(
-            AnityaPluginException,
-            backend.PypiBackend.get_version,
-            project
+            AnityaPluginException, backend.PypiBackend.get_version, project
         )
 
     def test_pypi_get_version(self):
         """ Test the get_version function of the pypi backend. """
         project = models.Project(
-            name='chai',
-            homepage='https://pypi.org/project/chai/',
-            backend=BACKEND,
+            name="chai", homepage="https://pypi.org/project/chai/", backend=BACKEND
         )
         self.session.add(project)
         self.session.commit()
 
         obs = backend.PypiBackend.get_version(project)
-        self.assertEqual(obs, '1.1.2')
+        self.assertEqual(obs, "1.1.2")
 
     def test_get_version_url(self):
         """
         Assert that correct url is returned.
         """
         project = models.Project(
-            name='test',
-            homepage='https://example.org',
-            backend=BACKEND,
+            name="test", homepage="https://example.org", backend=BACKEND
         )
-        exp = 'https://pypi.org/pypi/test/json'
+        exp = "https://pypi.org/pypi/test/json"
 
         obs = backend.PypiBackend.get_version_url(project)
 
@@ -88,13 +82,13 @@ class PypiBackendtests(DatabaseTestCase):
     def test_pypi_get_versions(self):
         """ Test the get_versions function of the pypi backend. """
         project = models.Project(
-            name='repo_manager',
-            homepage='https://pypi.org/project/repo_manager/',
+            name="repo_manager",
+            homepage="https://pypi.org/project/repo_manager/",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
-        exp = ['0.1.0']
+        exp = ["0.1.0"]
 
         obs = backend.PypiBackend.get_versions(project)
         self.assertEqual(obs, exp)
@@ -105,13 +99,15 @@ class PypiBackendtests(DatabaseTestCase):
         items = list(generator)
 
         self.assertEqual(
-            items[0], ('simplemdx', 'https://pypi.org/project/simplemdx/', 'PyPI', '0.1.2'))
+            items[0],
+            ("simplemdx", "https://pypi.org/project/simplemdx/", "PyPI", "0.1.2"),
+        )
         self.assertEqual(
             items[1],
             (
-                'tapioca-trustwave-appscanner',
-                'https://pypi.org/project/tapioca-trustwave-appscanner/',
-                'PyPI',
-                '0.3'
-            )
+                "tapioca-trustwave-appscanner",
+                "https://pypi.org/project/tapioca-trustwave-appscanner/",
+                "PyPI",
+                "0.3",
+            ),
         )

@@ -26,7 +26,7 @@ from .models import Project
 _log = logging.getLogger(__name__)
 
 
-@event.listens_for(Session, 'before_flush')
+@event.listens_for(Session, "before_flush")
 def set_ecosystem(session, flush_context, instances):
     """
     An SQLAlchemy event listener that sets the ecosystem for a project if it's null.
@@ -42,18 +42,27 @@ def set_ecosystem(session, flush_context, instances):
     for new_obj in session.new:
         if isinstance(new_obj, Project):
             if new_obj.ecosystem_name is None:
-                ecosystems = [e for e in plugins.ECOSYSTEM_PLUGINS.get_plugins()
-                              if e.default_backend == new_obj.backend]
+                ecosystems = [
+                    e
+                    for e in plugins.ECOSYSTEM_PLUGINS.get_plugins()
+                    if e.default_backend == new_obj.backend
+                ]
                 if ecosystems:
                     new_obj.ecosystem_name = ecosystems[0].name
                 else:
                     new_obj.ecosystem_name = new_obj.homepage
-                _log.info('Settings the ecosystem on %r to %s by default',
-                          new_obj, new_obj.ecosystem_name)
+                _log.info(
+                    "Settings the ecosystem on %r to %s by default",
+                    new_obj,
+                    new_obj.ecosystem_name,
+                )
             else:
                 # Validate the field
                 valid_names = [e.name for e in plugins.ECOSYSTEM_PLUGINS.get_plugins()]
                 valid_names.append(new_obj.homepage)
                 if new_obj.ecosystem_name not in valid_names:
-                    raise ValueError('Invalid ecosystem_name "{}", must be one of {}'.format(
-                        new_obj.ecosystem_name, valid_names))
+                    raise ValueError(
+                        'Invalid ecosystem_name "{}", must be one of {}'.format(
+                            new_obj.ecosystem_name, valid_names
+                        )
+                    )

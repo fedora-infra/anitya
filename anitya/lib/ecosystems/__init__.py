@@ -13,7 +13,7 @@
 
 
 class BaseEcosystem(object):
-    '''
+    """
     The base class that all the different ecosystems should extend.
 
     Attributes:
@@ -26,7 +26,7 @@ class BaseEcosystem(object):
             use.
         aliases (list): A list of alternate names for this ecosystem. These
             should be lowercase.
-    '''
+    """
 
     name = None
     default_backend = None

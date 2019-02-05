@@ -33,20 +33,20 @@ _log = logging.getLogger(__name__)
 
 
 class GitlabBackend(BaseBackend):
-    ''' The custom class for projects hosted on gitlab.
+    """ The custom class for projects hosted on gitlab.
 
     This backend allows to specify a version_url and owner, name of the repository.
-    '''
+    """
 
-    name = 'GitLab'
+    name = "GitLab"
     examples = [
-        'https://gitlab.gnome.org/GNOME/gnome-video-arcade',
-        'https://gitlab.com/xonotic/xonotic',
+        "https://gitlab.gnome.org/GNOME/gnome-video-arcade",
+        "https://gitlab.com/xonotic/xonotic",
     ]
 
     @classmethod
     def get_version(cls, project):
-        ''' Method called to retrieve the latest version of the projects
+        """ Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
         :arg Project project: a :class:`anitya.db.models.Project` object whose backend
@@ -57,12 +57,12 @@ class GitlabBackend(BaseBackend):
             :class:`anitya.lib.exceptions.AnityaPluginException` exception
             when the version cannot be retrieved correctly
 
-        '''
+        """
         return cls.get_ordered_versions(project)[-1]
 
     @classmethod
     def get_version_url(cls, project):
-        ''' Method called to retrieve the url used to check for new version
+        """ Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
 
         Attributes:
@@ -71,25 +71,29 @@ class GitlabBackend(BaseBackend):
 
         Returns:
             str: url used for version checking
-        '''
+        """
         tokens = []
-        url = ''
-        url_template = '%(hostname)s/api/v4/projects/%(owner)s%%2F%(repo)s/repository/tags'
+        url = ""
+        url_template = (
+            "%(hostname)s/api/v4/projects/%(owner)s%%2F%(repo)s/repository/tags"
+        )
         if project.version_url:
-            tokens = project.version_url.split('/')
+            tokens = project.version_url.split("/")
         elif project.homepage:
-            tokens = project.homepage.split('/')
+            tokens = project.homepage.split("/")
 
         if len(tokens) == 5:
-            url = url_template % {'hostname': tokens[0] + '//' + tokens[2],
-                                  'owner': tokens[3],
-                                  'repo': tokens[4]}
+            url = url_template % {
+                "hostname": tokens[0] + "//" + tokens[2],
+                "owner": tokens[3],
+                "repo": tokens[4],
+            }
 
         return url
 
     @classmethod
     def get_versions(cls, project):
-        ''' Method called to retrieve all the versions (that can be found)
+        """ Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
         this plugin.
 
@@ -101,11 +105,12 @@ class GitlabBackend(BaseBackend):
             :class:`anitya.lib.exceptions.AnityaPluginException` exception
             when the versions cannot be retrieved correctly
 
-        '''
+        """
         url = cls.get_version_url(project)
         if not url:
             raise AnityaPluginException(
-                'Project %s was incorrectly set-up' % project.name)
+                "Project %s was incorrectly set-up" % project.name
+            )
 
         resp = cls.call_url(url)
 
@@ -113,10 +118,11 @@ class GitlabBackend(BaseBackend):
             json = resp.json()
         else:
             raise AnityaPluginException(
-                '%s: Server responded with status "%s": "%s"' % (
-                    project.name, resp.status_code, resp.reason))
+                '%s: Server responded with status "%s": "%s"'
+                % (project.name, resp.status_code, resp.reason)
+            )
 
-        _log.debug('Received %d tags for %s' % (len(json), project.name))
+        _log.debug("Received %d tags for %s" % (len(json), project.name))
 
         tags = []
         for tag in json:
@@ -124,7 +130,7 @@ class GitlabBackend(BaseBackend):
 
         if len(tags) == 0:
             raise AnityaPluginException(
-                '%s: No upstream version found.' % (
-                    project.name))
+                "%s: No upstream version found." % (project.name)
+            )
 
         return tags

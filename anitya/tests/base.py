@@ -57,13 +57,15 @@ def login_user(app, user):
         user (models.User): The user to log in. Note that this user must be committed to the
             database as it needs a ``user.id`` value.
     """
+
     def handler(sender, **kwargs):
         flask_login.login_user(user)
+
     with request_started.connected_to(handler, app):
         yield
 
 
-def _configure_db(db_uri='sqlite://'):
+def _configure_db(db_uri="sqlite://"):
     """Creates and configures a database engine for the tests to use.
 
     Args:
@@ -73,7 +75,7 @@ def _configure_db(db_uri='sqlite://'):
     global engine
     engine = create_engine(db_uri)
 
-    if db_uri.startswith('sqlite://'):
+    if db_uri.startswith("sqlite://"):
         # Necessary to get nested transactions working with SQLite. See:
         # https://docs.sqlalchemy.org/en/latest/dialects/sqlite.html\
         # #serializable-isolation-savepoints-transactional-ddl
@@ -87,9 +89,9 @@ def _configure_db(db_uri='sqlite://'):
         @event.listens_for(engine, "begin")
         def begin_event(conn):
             """Emit our own 'BEGIN' instead of letting pysqlite do it."""
-            conn.execute('BEGIN')
+            conn.execute("BEGIN")
 
-    @event.listens_for(Session, 'after_transaction_end')
+    @event.listens_for(Session, "after_transaction_end")
     def restart_savepoint(session, transaction):
         """Allow tests to call rollback on the session."""
         if transaction.nested and not transaction._parent.nested:
@@ -106,12 +108,13 @@ class AnityaTestCase(unittest.TestCase):
         This simply starts recording a VCR on start-up and stops on tearDown.
         """
         self.config = config.config.copy()
-        self.config['TESTING'] = True
+        self.config["TESTING"] = True
         self.flask_app = app.create(self.config)
 
         cwd = os.path.dirname(os.path.realpath(__file__))
         my_vcr = vcr.VCR(
-            cassette_library_dir=os.path.join(cwd, 'request-data/'), record_mode='once')
+            cassette_library_dir=os.path.join(cwd, "request-data/"), record_mode="once"
+        )
         self.vcr = my_vcr.use_cassette(self.id())
         self.vcr.__enter__()
         self.addCleanup(self.vcr.__exit__, None, None, None)
@@ -161,14 +164,10 @@ class DatabaseTestCase(AnityaTestCase):
 
 def create_distro(session):
     """ Create some basic distro for testing. """
-    distro = models.Distro(
-        name='Fedora',
-    )
+    distro = models.Distro(name="Fedora")
     session.add(distro)
 
-    distro = models.Distro(
-        name='Debian',
-    )
+    distro = models.Distro(name="Debian")
     session.add(distro)
 
     session.commit()
@@ -177,28 +176,26 @@ def create_distro(session):
 def create_project(session):
     """ Create some basic projects to work with. """
     project = models.Project(
-        name='geany',
-        homepage='https://www.geany.org/',
-        version_scheme='RPM',
-        backend='custom',
-        version_url='https://www.geany.org/Download/Releases',
-        regex='DEFAULT',
+        name="geany",
+        homepage="https://www.geany.org/",
+        version_scheme="RPM",
+        backend="custom",
+        version_url="https://www.geany.org/Download/Releases",
+        regex="DEFAULT",
     )
     session.add(project)
 
     project = models.Project(
-        name='subsurface',
-        homepage='https://subsurface-divelog.org/',
-        backend='custom',
-        version_url='https://subsurface-divelog.org/downloads/',
-        regex='DEFAULT',
+        name="subsurface",
+        homepage="https://subsurface-divelog.org/",
+        backend="custom",
+        version_url="https://subsurface-divelog.org/downloads/",
+        regex="DEFAULT",
     )
     session.add(project)
 
     project = models.Project(
-        name='R2spec',
-        homepage='https://fedorahosted.org/r2spec/',
-        backend='custom',
+        name="R2spec", homepage="https://fedorahosted.org/r2spec/", backend="custom"
     )
     session.add(project)
     session.commit()
@@ -210,30 +207,30 @@ def create_ecosystem_projects(session):
     Each project name is used in two different ecosystems
     """
     project = models.Project(
-        name='pypi_and_npm',
-        homepage='https://example.com/not-a-real-pypi-project',
-        backend='PyPI',
+        name="pypi_and_npm",
+        homepage="https://example.com/not-a-real-pypi-project",
+        backend="PyPI",
     )
     session.add(project)
 
     project = models.Project(
-        name='pypi_and_npm',
-        homepage='https://example.com/not-a-real-npmjs-project',
-        backend='npmjs',
+        name="pypi_and_npm",
+        homepage="https://example.com/not-a-real-npmjs-project",
+        backend="npmjs",
     )
     session.add(project)
 
     project = models.Project(
-        name='rubygems_and_maven',
-        homepage='https://example.com/not-a-real-rubygems-project',
-        backend='Rubygems',
+        name="rubygems_and_maven",
+        homepage="https://example.com/not-a-real-rubygems-project",
+        backend="Rubygems",
     )
     session.add(project)
 
     project = models.Project(
-        name='rubygems_and_maven',
-        homepage='https://example.com/not-a-real-maven-project',
-        backend='Maven Central',
+        name="rubygems_and_maven",
+        homepage="https://example.com/not-a-real-maven-project",
+        backend="Maven Central",
     )
     session.add(project)
     session.commit()
@@ -241,17 +238,11 @@ def create_ecosystem_projects(session):
 
 def create_package(session):
     """ Create some basic packages to work with. """
-    package = models.Packages(
-        project_id=1,
-        distro_name='Fedora',
-        package_name='geany',
-    )
+    package = models.Packages(project_id=1, distro_name="Fedora", package_name="geany")
     session.add(package)
 
     package = models.Packages(
-        project_id=2,
-        distro_name='Fedora',
-        package_name='subsurface',
+        project_id=2, distro_name="Fedora", package_name="subsurface"
     )
     session.add(package)
 
@@ -261,17 +252,15 @@ def create_package(session):
 def create_flagged_project(session):
     """ Create and flag a project. Returns the ProjectFlag. """
     project = models.Project(
-        name='geany',
-        homepage='https://www.geany.org/',
-        version_url='https://www.geany.org/Download/Releases',
-        regex='DEFAULT',
+        name="geany",
+        homepage="https://www.geany.org/",
+        version_url="https://www.geany.org/Download/Releases",
+        regex="DEFAULT",
     )
     session.add(project)
 
     flag = models.ProjectFlag(
-        project=project,
-        reason="this is a duplicate.",
-        user="dgay@redhat.com",
+        project=project, reason="this is a duplicate.", user="dgay@redhat.com"
     )
     session.add(flag)
 
@@ -279,5 +268,5 @@ def create_flagged_project(session):
     return flag
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main(verbosity=2)

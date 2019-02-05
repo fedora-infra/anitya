@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for the custom backend.
-'''
+"""
 
 import unittest
 
@@ -31,7 +31,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
 
-BACKEND = 'Google code'
+BACKEND = "Google code"
 
 
 class GoogleBackendtests(DatabaseTestCase):
@@ -47,17 +47,15 @@ class GoogleBackendtests(DatabaseTestCase):
     def create_project(self):
         """ Create some basic projects to work with. """
         project = models.Project(
-            name='arduino',
-            homepage='https://code.google.com/p/arduino/',
+            name="arduino",
+            homepage="https://code.google.com/p/arduino/",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name='foo',
-            homepage='https://code.google.com/p/foo',
-            backend=BACKEND,
+            name="foo", homepage="https://code.google.com/p/foo", backend=BACKEND
         )
         self.session.add(project)
         self.session.commit()
@@ -65,11 +63,9 @@ class GoogleBackendtests(DatabaseTestCase):
     def test_get_version_url(self):
         """ Assert that correct url is returned. """
         project = models.Project(
-            name='test',
-            homepage='http://example.org',
-            backend=BACKEND,
+            name="test", homepage="http://example.org", backend=BACKEND
         )
-        exp = 'https://code.google.com/p/test/downloads/list?sort=releasedate'
+        exp = "https://code.google.com/p/test/downloads/list?sort=releasedate"
 
         obs = backend.GoogleBackend.get_version_url(project)
 
@@ -79,16 +75,14 @@ class GoogleBackendtests(DatabaseTestCase):
         """ Test the get_version function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '0023'
+        exp = "0023"
         obs = backend.GoogleBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.GoogleBackend.get_version,
-            project
+            AnityaPluginException, backend.GoogleBackend.get_version, project
         )
 
     def test_cpan_get_versions(self):
@@ -96,20 +90,30 @@ class GoogleBackendtests(DatabaseTestCase):
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [
-            '1.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '0017',
-            '0018', '0019', '0020', '0021', '0022', '0023']
+            "1.0",
+            "1.0.1",
+            "1.0.2",
+            "1.0.3",
+            "1.0.4",
+            "1.0.5",
+            "0017",
+            "0018",
+            "0019",
+            "0020",
+            "0021",
+            "0022",
+            "0023",
+        ]
         obs = backend.GoogleBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.GoogleBackend.get_version,
-            project
+            AnityaPluginException, backend.GoogleBackend.get_version, project
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(GoogleBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)

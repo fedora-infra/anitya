@@ -31,8 +31,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '3fae8239eeec'
-down_revision = 'feeaa70ead67'
+revision = "3fae8239eeec"
+down_revision = "feeaa70ead67"
 
 
 class GUID(TypeDecorator):
@@ -41,6 +41,7 @@ class GUID(TypeDecorator):
 
     If PostgreSQL is being used, use its native UUID type, otherwise use a CHAR(32) type.
     """
+
     impl = CHAR
 
     def load_dialect_impl(self, dialect):
@@ -54,7 +55,7 @@ class GUID(TypeDecorator):
             sqlalchemy.types.TypeEngine: Either a PostgreSQL UUID or a CHAR(32) on other
                 dialects.
         """
-        if dialect.name == 'postgresql':
+        if dialect.name == "postgresql":
             return dialect.type_descriptor(UUID())
         else:
             return dialect.type_descriptor(CHAR(32))
@@ -75,7 +76,7 @@ class GUID(TypeDecorator):
         """
         if value is None:
             return value
-        elif dialect.name == 'postgresql':
+        elif dialect.name == "postgresql":
             return str(value)
         else:
             if not isinstance(value, uuid.UUID):
@@ -104,16 +105,16 @@ class GUID(TypeDecorator):
 def upgrade():
     """Create the ``tokens`` table."""
     op.create_table(
-        'tokens',
-        sa.Column('token', sa.String(length=40), nullable=False),
-        sa.Column('created', sa.DateTime(), nullable=False),
-        sa.Column('user_id', GUID(), nullable=False),
-        sa.Column('description', sa.Text(), nullable=True),
-        sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-        sa.PrimaryKeyConstraint('token')
+        "tokens",
+        sa.Column("token", sa.String(length=40), nullable=False),
+        sa.Column("created", sa.DateTime(), nullable=False),
+        sa.Column("user_id", GUID(), nullable=False),
+        sa.Column("description", sa.Text(), nullable=True),
+        sa.ForeignKeyConstraint(["user_id"], ["users.id"]),
+        sa.PrimaryKeyConstraint("token"),
     )
 
 
 def downgrade():
     """Drop the ``tokens`` table."""
-    op.drop_table('tokens')
+    op.drop_table("tokens")

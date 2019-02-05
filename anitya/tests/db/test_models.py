@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests of the models.
-'''
+"""
 
 from uuid import uuid4, UUID
 import unittest
@@ -38,9 +38,12 @@ import six
 from anitya.db import models
 from anitya.lib import versions
 from anitya.tests.base import (
-    DatabaseTestCase, create_distro,
-    create_project, create_package,
-    create_flagged_project)
+    DatabaseTestCase,
+    create_distro,
+    create_project,
+    create_package,
+    create_flagged_project,
+)
 from anitya.lib import utilities
 
 
@@ -53,99 +56,100 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual(3, models.Project.all(self.session, count=True))
 
         projects = models.Project.all(self.session)
-        self.assertEqual(projects[0].name, 'geany')
-        self.assertEqual(projects[1].name, 'R2spec')
-        self.assertEqual(projects[2].name, 'subsurface')
+        self.assertEqual(projects[0].name, "geany")
+        self.assertEqual(projects[1].name, "R2spec")
+        self.assertEqual(projects[2].name, "subsurface")
 
     def test_validate_backend(self):
         project = models.Project(
-            name='test',
-            homepage='https://example.com',
-            backend='custom',
+            name="test", homepage="https://example.com", backend="custom"
         )
         self.session.add(project)
         self.session.commit()
         self.assertEqual(1, self.session.query(models.Project).count())
-        self.assertEqual('custom', self.session.query(models.Project).one().backend)
+        self.assertEqual("custom", self.session.query(models.Project).one().backend)
 
     def test_validate_backend_bad(self):
         self.assertRaises(
             ValueError,
             models.Project,
-            name='test',
-            homepage='https://example.com',
-            backend='Nope',
+            name="test",
+            homepage="https://example.com",
+            backend="Nope",
         )
 
     def test_default_ecosystem_is_homepage(self):
         project = models.Project(
-            name='test',
-            homepage='https://example.com',
-            backend='custom',
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
             ecosystem_name=None,
         )
         self.session.add(project)
         self.session.commit()
         self.assertEqual(1, self.session.query(models.Project).count())
         self.assertEqual(
-            'https://example.com',
-            self.session.query(models.Project).one().ecosystem_name)
+            "https://example.com",
+            self.session.query(models.Project).one().ecosystem_name,
+        )
 
     def test_validate_ecosystem_good(self):
         project = models.Project(
-            name='test',
-            homepage='https://example.com',
-            backend='custom',
-            ecosystem_name='pypi',
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
+            ecosystem_name="pypi",
         )
         self.session.add(project)
         self.session.commit()
         self.assertEqual(1, self.session.query(models.Project).count())
-        self.assertEqual('pypi', self.session.query(models.Project).one().ecosystem_name)
+        self.assertEqual(
+            "pypi", self.session.query(models.Project).one().ecosystem_name
+        )
 
     def test_ecosystem_in_json(self):
         """Assert the ecosystem is included in the dict returned from ``__json__``"""
         project = models.Project(
-            name='test',
-            homepage='https://example.com',
-            backend='custom',
-            ecosystem_name='pypi',
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
+            ecosystem_name="pypi",
         )
-        self.assertEqual('pypi', project.__json__()['ecosystem'])
+        self.assertEqual("pypi", project.__json__()["ecosystem"])
 
     def test_create_version_objects_RPM(self):
         """
         Assert that the correct version objects list is returned (RPM version scheme).
         """
         project = models.Project(
-            name='test',
-            homepage='https://example.com',
-            backend='custom',
-            version_scheme='RPM',
-            version_prefix='test-'
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
+            version_scheme="RPM",
+            version_prefix="test-",
         )
         self.session.add(project)
         self.session.commit()
 
-        versions_list = ['test-0.1.0', 'test-0.2.0', 'test-0.3.0']
+        versions_list = ["test-0.1.0", "test-0.2.0", "test-0.3.0"]
 
         versions = project.create_version_objects(versions_list)
 
         self.assertEqual(len(versions), 3)
-        self.assertEqual(str(versions[0]), '0.1.0')
-        self.assertEqual(str(versions[1]), '0.2.0')
-        self.assertEqual(str(versions[2]), '0.3.0')
+        self.assertEqual(str(versions[0]), "0.1.0")
+        self.assertEqual(str(versions[1]), "0.2.0")
+        self.assertEqual(str(versions[2]), "0.3.0")
 
     def test_create_version_objects_empty(self):
         """
         Assert that the `create_version_objects` method returns nothing on empty list.
         """
         project = models.Project(
-            name='test',
-            homepage='https://example.com',
-            backend='custom',
-            version_scheme='RPM',
-            version_prefix='test-'
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
+            version_scheme="RPM",
+            version_prefix="test-",
         )
         self.session.add(project)
         self.session.commit()
@@ -159,20 +163,18 @@ class ProjectTests(DatabaseTestCase):
     def test_get_version_url_no_backend(self):
         """ Assert that empty string is returned when backend is not specified. """
         project = models.Project(
-            name='test',
-            homepage='https://example.com',
-            ecosystem_name='pypi',
+            name="test", homepage="https://example.com", ecosystem_name="pypi"
         )
-        self.assertEqual('', project.get_version_url())
+        self.assertEqual("", project.get_version_url())
 
     def test_get_version_url(self):
         """ Assert that correct url is returned. """
         project = models.Project(
-            name='test',
-            homepage='https://example.com',
-            backend='custom',
-            version_url='https://example.com/releases',
-            ecosystem_name='pypi'
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
+            version_url="https://example.com/releases",
+            ecosystem_name="pypi",
         )
         self.assertEqual(project.version_url, project.get_version_url())
 
@@ -181,20 +183,14 @@ class ProjectTests(DatabaseTestCase):
         :data:`Project.get_sorted_version_objects`.
         """
         project = models.Project(
-            name='test',
-            homepage='https://example.com',
-            backend='custom',
-            ecosystem_name='pypi',
-            version_scheme='RPM'
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
+            ecosystem_name="pypi",
+            version_scheme="RPM",
         )
-        version_first = models.ProjectVersion(
-            project_id=project.id,
-            version='1.0',
-        )
-        version_second = models.ProjectVersion(
-            project_id=project.id,
-            version='0.8',
-        )
+        version_first = models.ProjectVersion(project_id=project.id, version="1.0")
+        version_second = models.ProjectVersion(project_id=project.id, version="0.8")
         self.session.add(project)
         self.session.add(version_first)
         self.session.add(version_second)
@@ -208,22 +204,22 @@ class ProjectTests(DatabaseTestCase):
 
     def test_get_version_class(self):
         project = models.Project(
-            name='test',
-            homepage='https://example.com',
-            backend='custom',
-            ecosystem_name='pypi',
-            version_scheme='RPM',
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
+            ecosystem_name="pypi",
+            version_scheme="RPM",
         )
         version_class = project.get_version_class()
         self.assertEqual(version_class, versions.RpmVersion)
 
     def test_get_version_class_missing(self):
         project = models.Project(
-            name='test',
-            homepage='https://example.com',
-            backend='custom',
-            ecosystem_name='pypi',
-            version_scheme='Invalid',
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
+            ecosystem_name="pypi",
+            version_scheme="Invalid",
         )
         version_class = project.get_version_class()
         self.assertEqual(version_class, None)
@@ -238,7 +234,7 @@ class ProjectTests(DatabaseTestCase):
         projects = models.Project.all(self.session, page=2)
         self.assertEqual(len(projects), 0)
 
-        projects = models.Project.all(self.session, page='asd')
+        projects = models.Project.all(self.session, page="asd")
         self.assertEqual(len(projects), 3)
 
     def test_project_search(self):
@@ -246,13 +242,13 @@ class ProjectTests(DatabaseTestCase):
         create_project(self.session)
         create_package(self.session)
 
-        projects = models.Project.search(self.session, '*', count=True)
+        projects = models.Project.search(self.session, "*", count=True)
         self.assertEqual(projects, 3)
 
-        projects = models.Project.search(self.session, '*', page=2)
+        projects = models.Project.search(self.session, "*", page=2)
         self.assertEqual(len(projects), 0)
 
-        projects = models.Project.search(self.session, '*', page='asd')
+        projects = models.Project.search(self.session, "*", page="asd")
         self.assertEqual(len(projects), 3)
 
     def test_project_search_no_pattern(self):
@@ -262,7 +258,7 @@ class ProjectTests(DatabaseTestCase):
         """
         create_project(self.session)
 
-        projects = models.Project.search(self.session, '')
+        projects = models.Project.search(self.session, "")
         self.assertEqual(len(projects), 3)
 
     def test_project_search_by_distro(self):
@@ -273,19 +269,17 @@ class ProjectTests(DatabaseTestCase):
         create_project(self.session)
         create_package(self.session)
 
-        projects = models.Project.search(self.session, '*', distro='Fedora')
+        projects = models.Project.search(self.session, "*", distro="Fedora")
         self.assertEqual(len(projects), 2)
 
     def test_project_get_or_create(self):
         """ Test the Project.get_or_create function. """
         project = models.Project.get_or_create(
-            self.session,
-            name='test',
-            homepage='https://test.org',
-            backend='custom')
-        self.assertEqual(project.name, 'test')
-        self.assertEqual(project.homepage, 'https://test.org')
-        self.assertEqual(project.backend, 'custom')
+            self.session, name="test", homepage="https://test.org", backend="custom"
+        )
+        self.assertEqual(project.name, "test")
+        self.assertEqual(project.homepage, "https://test.org")
+        self.assertEqual(project.backend, "custom")
 
     def test_project_get_or_create_exception(self):
         """
@@ -296,26 +290,24 @@ class ProjectTests(DatabaseTestCase):
             ValueError,
             models.Project.get_or_create,
             self.session,
-            name='test_project',
-            homepage='https://project.test.org',
-            backend='foobar'
+            name="test_project",
+            homepage="https://project.test.org",
+            backend="foobar",
         )
 
     def test_project_delete_cascade(self):
         """ Assert deletion of mapped packages when project is deleted """
         project = models.Project(
-            name='test',
-            homepage='https://example.com',
-            backend='custom',
-            ecosystem_name='pypi',
-            version_scheme='Invalid',
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
+            ecosystem_name="pypi",
+            version_scheme="Invalid",
         )
         self.session.add(project)
 
         package = models.Packages(
-            project_id=1,
-            distro_name='Fedora',
-            package_name='test',
+            project_id=1, distro_name="Fedora", package_name="test"
         )
         self.session.add(package)
         self.session.commit()
@@ -351,14 +343,13 @@ class ProjectTests(DatabaseTestCase):
         is provided.
         """
         create_project(self.session)
-        pre_projects = models.Project.search(self.session, '*', count=True)
+        pre_projects = models.Project.search(self.session, "*", count=True)
         project = models.Project.get_or_create(
-            self.session,
-            name='geany',
-            homepage='https://www.geany.org/')
-        post_projects = models.Project.search(self.session, '*', count=True)
-        self.assertEqual(project.name, 'geany')
-        self.assertEqual(project.homepage, 'https://www.geany.org/')
+            self.session, name="geany", homepage="https://www.geany.org/"
+        )
+        post_projects = models.Project.search(self.session, "*", count=True)
+        self.assertEqual(project.name, "geany")
+        self.assertEqual(project.homepage, "https://www.geany.org/")
         self.assertEqual(pre_projects, post_projects)
 
     def test_project_updated_new(self):
@@ -368,7 +359,7 @@ class ProjectTests(DatabaseTestCase):
         """
         create_project(self.session)
 
-        projects = models.Project.updated(self.session, status='new')
+        projects = models.Project.updated(self.session, status="new")
         self.assertEqual(len(projects), 3)
         self.assertEqual(projects[0].logs, None)
 
@@ -383,7 +374,7 @@ class ProjectTests(DatabaseTestCase):
             project.latest_version = None
         self.session.commit()
 
-        projects = models.Project.updated(self.session, status='never_updated')
+        projects = models.Project.updated(self.session, status="never_updated")
         self.assertEqual(len(projects), 3)
         self.assertEqual(projects[0].logs, "something")
 
@@ -397,7 +388,7 @@ class ProjectTests(DatabaseTestCase):
             project.logs = "No upstream version found"
         self.session.commit()
 
-        projects = models.Project.updated(self.session, status='failed')
+        projects = models.Project.updated(self.session, status="failed")
         self.assertEqual(len(projects), 3)
         self.assertEqual(projects[0].logs, "No upstream version found")
 
@@ -407,11 +398,13 @@ class ProjectTests(DatabaseTestCase):
         set to 'odd'.
         """
         create_project(self.session)
-        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+        for project in self.session.query(models.Project).filter(
+            models.Project.id == 1
+        ):
             project.logs = "Something strange occured"
         self.session.commit()
 
-        projects = models.Project.updated(self.session, status='odd')
+        projects = models.Project.updated(self.session, status="odd")
         self.assertEqual(len(projects), 1)
         self.assertEqual(projects[0].logs, "Something strange occured")
 
@@ -421,11 +414,13 @@ class ProjectTests(DatabaseTestCase):
         set to 'updated'.
         """
         create_project(self.session)
-        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+        for project in self.session.query(models.Project).filter(
+            models.Project.id == 1
+        ):
             project.logs = "Version retrieved correctly"
         self.session.commit()
 
-        projects = models.Project.updated(self.session, status='updated')
+        projects = models.Project.updated(self.session, status="updated")
         self.assertEqual(len(projects), 1)
         self.assertEqual(projects[0].logs, "Version retrieved correctly")
 
@@ -434,7 +429,7 @@ class ProjectTests(DatabaseTestCase):
         Assert that all projects are returned when incorrect status is used.
         """
         create_project(self.session)
-        projects = models.Project.updated(self.session, status='incorrect')
+        projects = models.Project.updated(self.session, status="incorrect")
         self.assertEqual(len(projects), 3)
 
     def test_project_updated_name_pattern(self):
@@ -442,11 +437,13 @@ class ProjectTests(DatabaseTestCase):
         Assert that correct project is returned when pattern as name is used.
         """
         create_project(self.session)
-        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+        for project in self.session.query(models.Project).filter(
+            models.Project.id == 1
+        ):
             project.logs = "Version retrieved correctly"
         self.session.commit()
 
-        projects = models.Project.updated(self.session, name='gean*')
+        projects = models.Project.updated(self.session, name="gean*")
         self.assertEqual(len(projects), 1)
         self.assertEqual(projects[0].name, "geany")
 
@@ -455,11 +452,13 @@ class ProjectTests(DatabaseTestCase):
         Assert that correct project is returned when exact name is used.
         """
         create_project(self.session)
-        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+        for project in self.session.query(models.Project).filter(
+            models.Project.id == 1
+        ):
             project.logs = "Version retrieved correctly"
         self.session.commit()
 
-        projects = models.Project.updated(self.session, name='geany')
+        projects = models.Project.updated(self.session, name="geany")
         self.assertEqual(len(projects), 1)
         self.assertEqual(projects[0].name, "geany")
 
@@ -468,11 +467,13 @@ class ProjectTests(DatabaseTestCase):
         Assert that correct project is returned when log pattern is used.
         """
         create_project(self.session)
-        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+        for project in self.session.query(models.Project).filter(
+            models.Project.id == 1
+        ):
             project.logs = "Version retrieved correctly"
         self.session.commit()
 
-        projects = models.Project.updated(self.session, log='*retrieved*')
+        projects = models.Project.updated(self.session, log="*retrieved*")
         self.assertEqual(len(projects), 1)
         self.assertEqual(projects[0].name, "geany")
 
@@ -481,11 +482,13 @@ class ProjectTests(DatabaseTestCase):
         Assert that log argument is automatically changed to pattern.
         """
         create_project(self.session)
-        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+        for project in self.session.query(models.Project).filter(
+            models.Project.id == 1
+        ):
             project.logs = "Version retrieved correctly"
         self.session.commit()
 
-        projects = models.Project.updated(self.session, log='retrieved')
+        projects = models.Project.updated(self.session, log="retrieved")
         self.assertEqual(len(projects), 1)
         self.assertEqual(projects[0].name, "geany")
 
@@ -494,7 +497,9 @@ class ProjectTests(DatabaseTestCase):
         Assert that correct count is returned.
         """
         create_project(self.session)
-        for project in self.session.query(models.Project).filter(models.Project.id == 1):
+        for project in self.session.query(models.Project).filter(
+            models.Project.id == 1
+        ):
             project.logs = "Version retrieved correctly"
         self.session.commit()
         projects = models.Project.updated(self.session, count=True)
@@ -510,29 +515,25 @@ class DistroTestCase(DatabaseTestCase):
         self.assertEqual(2, models.Distro.all(self.session, count=True))
 
         distros = models.Distro.all(self.session)
-        self.assertEqual(distros[0].name, 'Debian')
-        self.assertEqual(distros[1].name, 'Fedora')
+        self.assertEqual(distros[0].name, "Debian")
+        self.assertEqual(distros[1].name, "Fedora")
 
     def test_distro_delete_cascade(self):
         """ Assert deletion of mapped packages when project is deleted """
         project = models.Project(
-            name='test',
-            homepage='https://example.com',
-            backend='custom',
-            ecosystem_name='pypi',
-            version_scheme='Invalid',
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
+            ecosystem_name="pypi",
+            version_scheme="Invalid",
         )
         self.session.add(project)
 
-        distro = models.Distro(
-            name='Fedora',
-        )
+        distro = models.Distro(name="Fedora")
         self.session.add(distro)
 
         package = models.Packages(
-            project_id=1,
-            distro_name='Fedora',
-            package_name='test',
+            project_id=1, distro_name="Fedora", package_name="test"
         )
         self.session.add(package)
         self.session.commit()
@@ -555,7 +556,7 @@ class DistroTestCase(DatabaseTestCase):
         """ Assert that `Distro.search` returns correct count. """
         create_distro(self.session)
 
-        logs = models.Distro.search(self.session, '*', count=True)
+        logs = models.Distro.search(self.session, "*", count=True)
         self.assertEqual(logs, 2)
 
     def test_distro_search_pattern(self):
@@ -565,9 +566,9 @@ class DistroTestCase(DatabaseTestCase):
         """
         create_distro(self.session)
 
-        logs = models.Distro.search(self.session, 'Fed*')
+        logs = models.Distro.search(self.session, "Fed*")
         self.assertEqual(len(logs), 1)
-        self.assertEqual(logs[0].name, 'Fedora')
+        self.assertEqual(logs[0].name, "Fedora")
 
     def test_distro_search_page(self):
         """
@@ -575,9 +576,9 @@ class DistroTestCase(DatabaseTestCase):
         """
         create_distro(self.session)
 
-        logs = models.Distro.search(self.session, 'Fed*', page=1)
+        logs = models.Distro.search(self.session, "Fed*", page=1)
         self.assertEqual(len(logs), 1)
-        self.assertEqual(logs[0].name, 'Fedora')
+        self.assertEqual(logs[0].name, "Fedora")
 
     def test_distro_search_incorrect_page(self):
         """
@@ -586,9 +587,9 @@ class DistroTestCase(DatabaseTestCase):
         """
         create_distro(self.session)
 
-        logs = models.Distro.search(self.session, 'Fed*', page='as')
+        logs = models.Distro.search(self.session, "Fed*", page="as")
         self.assertEqual(len(logs), 1)
-        self.assertEqual(logs[0].name, 'Fedora')
+        self.assertEqual(logs[0].name, "Fedora")
 
 
 class PackageTestCase(DatabaseTestCase):
@@ -601,8 +602,8 @@ class PackageTestCase(DatabaseTestCase):
         create_package(self.session)
 
         pkg = models.Packages.by_id(self.session, 1)
-        self.assertEqual(pkg.package_name, 'geany')
-        self.assertEqual(pkg.distro_name, 'Fedora')
+        self.assertEqual(pkg.package_name, "geany")
+        self.assertEqual(pkg.distro_name, "Fedora")
 
     def test_packages__repr__(self):
         """ Test the Packages.__repr__ function. """
@@ -611,7 +612,7 @@ class PackageTestCase(DatabaseTestCase):
         create_package(self.session)
 
         pkg = models.Packages.by_id(self.session, 1)
-        self.assertEqual(str(pkg), '<Packages(1, Fedora: geany)>')
+        self.assertEqual(str(pkg), "<Packages(1, Fedora: geany)>")
 
 
 class ProjectFlagTestCase(DatabaseTestCase):
@@ -621,23 +622,23 @@ class ProjectFlagTestCase(DatabaseTestCase):
         """ Test the ProjectFlag.__repr__ function. """
         flag = create_flagged_project(self.session)
 
-        self.assertEqual(repr(flag), '<ProjectFlag(geany, dgay@redhat.com, open)>')
+        self.assertEqual(repr(flag), "<ProjectFlag(geany, dgay@redhat.com, open)>")
 
     def test_project_flag__json__(self):
         """ Test the ProjectFlag.__json__ function. """
         flag = create_flagged_project(self.session)
         data = {
-            'created_on': time.mktime(flag.created_on.timetuple()),
-            'user': u'dgay@redhat.com',
-            'state': u'open',
-            'project': u'geany',
-            'updated_on': time.mktime(flag.updated_on.timetuple()),
-            'id': 1
+            "created_on": time.mktime(flag.created_on.timetuple()),
+            "user": u"dgay@redhat.com",
+            "state": u"open",
+            "project": u"geany",
+            "updated_on": time.mktime(flag.updated_on.timetuple()),
+            "id": 1,
         }
 
         self.assertEqual(flag.__json__(), data)
 
-        data['reason'] = u'this is a duplicate.'
+        data["reason"] = u"this is a duplicate."
         self.assertEqual(flag.__json__(detailed=True), data)
 
     def test_project_flag_all(self):
@@ -718,7 +719,7 @@ class ProjectFlagTestCase(DatabaseTestCase):
         self.session.add(flag_add)
         self.session.commit()
 
-        flags = models.ProjectFlag.search(self.session, state='open')
+        flags = models.ProjectFlag.search(self.session, state="open")
         self.assertEqual(len(flags), 1)
 
     def test_project_flag_search_offset(self):
@@ -822,7 +823,7 @@ class GuidTests(unittest.TestCase):
         result = guid.process_bind_param(uuid, dialect)
 
         self.assertEqual(32, len(result))
-        self.assertEqual(str(uuid).replace('-', ''), result)
+        self.assertEqual(str(uuid).replace("-", ""), result)
 
     def test_process_bind_param_str_other(self):
         """Assert UUIDs with other dialects are hex-encoded strings of length 32."""
@@ -833,7 +834,7 @@ class GuidTests(unittest.TestCase):
         result = guid.process_bind_param(str(uuid), dialect)
 
         self.assertEqual(32, len(result))
-        self.assertEqual(str(uuid).replace('-', ''), result)
+        self.assertEqual(str(uuid).replace("-", ""), result)
 
     def test_process_bind_param_none(self):
         """Assert UUIDs with other dialects are hex-encoded strings of length 32."""
@@ -865,24 +866,17 @@ class GuidTests(unittest.TestCase):
         guid = models.GUID()
         uuid = uuid4()
 
-        result = guid.process_result_value(str(uuid).replace('-', ''), sqlite.dialect())
+        result = guid.process_result_value(str(uuid).replace("-", ""), sqlite.dialect())
 
         self.assertTrue(isinstance(result, UUID))
         self.assertEqual(uuid, result)
 
 
 class UserTests(DatabaseTestCase):
-
     def test_user_id(self):
         """Assert Users have a UUID id assigned to them."""
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user@fedoraproject.org", username="user")
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
         self.session.add(user_social_auth)
@@ -892,14 +886,8 @@ class UserTests(DatabaseTestCase):
 
     def test_user_get_id(self):
         """Assert Users implements the Flask-Login API for getting user IDs."""
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user@fedoraproject.org", username="user")
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
         self.session.add(user_social_auth)
@@ -909,62 +897,38 @@ class UserTests(DatabaseTestCase):
 
     def test_user_email_unique(self):
         """Assert User emails have a uniqueness constraint on them."""
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user@fedoraproject.org", username="user")
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
         self.session.add(user_social_auth)
         self.session.commit()
 
-        user = models.User(email='user@fedoraproject.org', username='user2')
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user@fedoraproject.org", username="user2")
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
         self.session.add(user)
         self.session.add(user_social_auth)
         self.assertRaises(IntegrityError, self.session.commit)
 
     def test_username_unique(self):
         """Assert User usernames have a uniqueness constraint on them."""
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user@fedoraproject.org", username="user")
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
         self.session.add(user_social_auth)
         self.session.commit()
 
-        user = models.User(email='user2@fedoraproject.org', username='user')
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user2@fedoraproject.org", username="user")
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
         self.session.add(user)
         self.session.add(user_social_auth)
         self.assertRaises(IntegrityError, self.session.commit)
 
     def test_default_active(self):
         """Assert User usernames have a uniqueness constraint on them."""
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user@fedoraproject.org", username="user")
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
         self.session.add(user_social_auth)
@@ -975,14 +939,8 @@ class UserTests(DatabaseTestCase):
 
     def test_not_anonymous(self):
         """Assert User implements the Flask-Login API for authenticated users."""
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user@fedoraproject.org", username="user")
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
         self.session.add(user_social_auth)
@@ -993,14 +951,8 @@ class UserTests(DatabaseTestCase):
 
     def test_default_admin(self):
         """Assert default value for admin flag."""
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user@fedoraproject.org", username="user")
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
         self.session.add(user_social_auth)
@@ -1011,21 +963,15 @@ class UserTests(DatabaseTestCase):
 
     def test_is_admin_configured(self):
         """Assert default value for admin flag."""
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-            admin=False,
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user@fedoraproject.org", username="user", admin=False)
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
         self.session.add(user)
         self.session.add(user_social_auth)
         self.session.commit()
 
         mock_dict = mock.patch.dict(
-            'anitya.config.config', {'ANITYA_WEB_ADMINS': [six.text_type(user.id)]})
+            "anitya.config.config", {"ANITYA_WEB_ADMINS": [six.text_type(user.id)]}
+        )
 
         with mock_dict:
             self.assertFalse(user.admin)
@@ -1034,16 +980,11 @@ class UserTests(DatabaseTestCase):
 
     def test_to_dict(self):
         """ Assert the correct dictionary is returned. """
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
+        user = models.User(email="user@fedoraproject.org", username="user")
         user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user,
-            provider='FAS',
+            user_id=user.id, user=user, provider="FAS"
         )
-        user_social_auth.set_extra_data({'wookie': 'too hairy'})
+        user_social_auth.set_extra_data({"wookie": "too hairy"})
         self.session.add(user_social_auth)
         self.session.add(user)
         self.session.commit()
@@ -1053,11 +994,13 @@ class UserTests(DatabaseTestCase):
             "email": user.email,
             "username": user.username,
             "active": user.active,
-            "social_auth": [{
-                "provider": user_social_auth.provider,
-                "extra_data": user_social_auth.extra_data,
-                "uid": user_social_auth.uid,
-                }],
+            "social_auth": [
+                {
+                    "provider": user_social_auth.provider,
+                    "extra_data": user_social_auth.extra_data,
+                    "uid": user_social_auth.uid,
+                }
+            ],
         }
 
         json = user.to_dict()
@@ -1065,17 +1008,10 @@ class UserTests(DatabaseTestCase):
 
 
 class ApiTokenTests(DatabaseTestCase):
-
     def test_token_default(self):
         """Assert creating an ApiToken generates a random token."""
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user@fedoraproject.org", username="user")
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
         self.session.add(user_social_auth)
@@ -1088,14 +1024,8 @@ class ApiTokenTests(DatabaseTestCase):
 
     def test_user_relationship(self):
         """Assert users have a reference to their tokens."""
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user@fedoraproject.org", username="user")
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
         self.session.add(user_social_auth)
@@ -1107,5 +1037,5 @@ class ApiTokenTests(DatabaseTestCase):
         self.assertEqual(user.api_tokens, [token])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main(verbosity=2)

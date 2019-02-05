@@ -24,8 +24,8 @@ from . import BaseEcosystem
 
 
 class CratesEcosystem(BaseEcosystem):
-    ''' The crates.io ecosystem class. '''
+    """ The crates.io ecosystem class. """
 
-    name = 'crates.io'
-    default_backend = 'crates.io'
-    aliases = ['Cargo']
+    name = "crates.io"
+    default_backend = "crates.io"
+    aliases = ["Cargo"]

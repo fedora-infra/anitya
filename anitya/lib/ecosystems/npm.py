@@ -11,7 +11,7 @@ from . import BaseEcosystem
 
 
 class NpmEcosystem(BaseEcosystem):
-    ''' The npm ecosystem class'''
+    """ The npm ecosystem class"""
 
     name = "npm"
     default_backend = "npmjs"

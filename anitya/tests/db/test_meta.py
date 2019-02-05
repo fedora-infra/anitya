@@ -26,27 +26,26 @@ from anitya.tests.base import DatabaseTestCase, create_project
 
 
 class InitalizeTests(unittest.TestCase):
-
-    @mock.patch('anitya.db.meta.create_engine')
-    @mock.patch('anitya.db.meta.Session')
+    @mock.patch("anitya.db.meta.create_engine")
+    @mock.patch("anitya.db.meta.Session")
     def test_initialize(self, mock_session, mock_create_engine):
-        config = {'DB_URL': 'postgresql://postgres:pass@localhost/mydb'}
+        config = {"DB_URL": "postgresql://postgres:pass@localhost/mydb"}
         engine = meta.initialize(config)
-        mock_create_engine.assert_called_once_with(config['DB_URL'], echo=False)
+        mock_create_engine.assert_called_once_with(config["DB_URL"], echo=False)
         self.assertEqual(engine, mock_create_engine.return_value)
         mock_session.configure.assert_called_once_with(bind=engine)
 
-    @mock.patch('anitya.db.meta.create_engine')
-    @mock.patch('anitya.db.meta.event.listen')
-    @mock.patch('anitya.db.meta.Session')
+    @mock.patch("anitya.db.meta.create_engine")
+    @mock.patch("anitya.db.meta.event.listen")
+    @mock.patch("anitya.db.meta.Session")
     def test_initalize_sqlite(self, mock_session, mock_listen, mock_create_engine):
-        config = {'DB_URL': 'sqlite://', 'SQL_DEBUG': True}
+        config = {"DB_URL": "sqlite://", "SQL_DEBUG": True}
         engine = meta.initialize(config)
-        mock_create_engine.assert_called_once_with(config['DB_URL'], echo=True)
+        mock_create_engine.assert_called_once_with(config["DB_URL"], echo=True)
         mock_session.configure.assert_called_once_with(bind=engine)
         self.assertEqual(1, mock_listen.call_count)
         self.assertEqual(engine, mock_listen.call_args_list[0][0][0])
-        self.assertEqual('connect', mock_listen.call_args_list[0][0][1])
+        self.assertEqual("connect", mock_listen.call_args_list[0][0][1])
 
 
 class BaseQueryPaginateTests(DatabaseTestCase):
@@ -64,9 +63,9 @@ class BaseQueryPaginateTests(DatabaseTestCase):
         self.assertEqual(3, page.total_items)
         self.assertEqual(25, page.items_per_page)
         # Default ordering is just by id
-        self.assertEqual(page.items[0].name, 'geany')
-        self.assertEqual(page.items[1].name, 'subsurface')
-        self.assertEqual(page.items[2].name, 'R2spec')
+        self.assertEqual(page.items[0].name, "geany")
+        self.assertEqual(page.items[1].name, "subsurface")
+        self.assertEqual(page.items[2].name, "R2spec")
 
     def test_multiple_pages(self):
         """Assert multiple pages work with pagination."""
@@ -76,13 +75,13 @@ class BaseQueryPaginateTests(DatabaseTestCase):
         self.assertEqual(1, page.page)
         self.assertEqual(3, page.total_items)
         self.assertEqual(2, page.items_per_page)
-        self.assertEqual(page.items[0].name, 'geany')
-        self.assertEqual(page.items[1].name, 'subsurface')
+        self.assertEqual(page.items[0].name, "geany")
+        self.assertEqual(page.items[1].name, "subsurface")
 
         self.assertEqual(2, page2.page)
         self.assertEqual(3, page2.total_items)
         self.assertEqual(2, page2.items_per_page)
-        self.assertEqual(page2.items[0].name, 'R2spec')
+        self.assertEqual(page2.items[0].name, "R2spec")
 
     def test_no_results(self):
         """Assert an empty page is returned when page * items_per_page > total_items."""
@@ -110,30 +109,32 @@ class BaseQueryPaginateTests(DatabaseTestCase):
         self.assertEqual(1, page.page)
         self.assertEqual(3, page.total_items)
         self.assertEqual(25, page.items_per_page)
-        self.assertEqual(page.items[0].name, 'R2spec')
-        self.assertEqual(page.items[1].name, 'geany')
-        self.assertEqual(page.items[2].name, 'subsurface')
+        self.assertEqual(page.items[0].name, "R2spec")
+        self.assertEqual(page.items[1].name, "geany")
+        self.assertEqual(page.items[2].name, "subsurface")
 
     def test_as_dict(self):
         expected_dict = {
-            u'items_per_page': 1,
-            u'page': 1,
-            u'total_items': 3,
-            u'items': [{
-                'id': 3,
-                'backend': u'custom',
-                'name': u'R2spec',
-                'homepage': u'https://fedorahosted.org/r2spec/',
-                'ecosystem': u'https://fedorahosted.org/r2spec/',
-                'regex': None,
-                'version': None,
-                'version_url': None,
-                'versions': [],
-            }],
+            u"items_per_page": 1,
+            u"page": 1,
+            u"total_items": 3,
+            u"items": [
+                {
+                    "id": 3,
+                    "backend": u"custom",
+                    "name": u"R2spec",
+                    "homepage": u"https://fedorahosted.org/r2spec/",
+                    "ecosystem": u"https://fedorahosted.org/r2spec/",
+                    "regex": None,
+                    "version": None,
+                    "version_url": None,
+                    "versions": [],
+                }
+            ],
         }
         create_project(self.session)
         page = self.query.paginate(order_by=models.Project.name, items_per_page=1)
         actual_dict = page.as_dict()
-        actual_dict['items'][0].pop('updated_on')
-        actual_dict['items'][0].pop('created_on')
+        actual_dict["items"][0].pop("updated_on")
+        actual_dict["items"][0].pop("created_on")
         self.assertEqual(expected_dict, actual_dict)

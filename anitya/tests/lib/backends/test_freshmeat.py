@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for the custom backend.
-'''
+"""
 
 import unittest
 
@@ -31,7 +31,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
 
-BACKEND = 'Freshmeat'
+BACKEND = "Freshmeat"
 
 
 class FreshmeatBackendtests(DatabaseTestCase):
@@ -47,24 +47,22 @@ class FreshmeatBackendtests(DatabaseTestCase):
     def create_project(self):
         """ Create some basic projects to work with. """
         project = models.Project(
-            name='atmail',
-            homepage='http://freecode.com/projects/atmail',
+            name="atmail",
+            homepage="http://freecode.com/projects/atmail",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name='foo',
-            homepage='http://freecode.com/projects/foo',
-            backend=BACKEND,
+            name="foo", homepage="http://freecode.com/projects/foo", backend=BACKEND
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name='awstats',
-            homepage='http://freecode.com/projects/awstats',
+            name="awstats",
+            homepage="http://freecode.com/projects/awstats",
             backend=BACKEND,
         )
         self.session.add(project)
@@ -74,34 +72,28 @@ class FreshmeatBackendtests(DatabaseTestCase):
         """ Test the get_version function of the freshmeat backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '7'
+        exp = "7"
         obs = backend.FreshmeatBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.FreshmeatBackend.get_version,
-            project
+            AnityaPluginException, backend.FreshmeatBackend.get_version, project
         )
 
         pid = 3
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.FreshmeatBackend.get_version,
-            project
+            AnityaPluginException, backend.FreshmeatBackend.get_version, project
         )
 
     def test_get_version_url(self):
         """ Assert that correct url is returned. """
         project = models.Project(
-            name='test',
-            homepage='http://example.org',
-            backend=BACKEND,
+            name="test", homepage="http://example.org", backend=BACKEND
         )
-        exp = 'http://freshmeat.net/projects/test'
+        exp = "http://freshmeat.net/projects/test"
 
         obs = backend.FreshmeatBackend.get_version_url(project)
 
@@ -111,27 +103,23 @@ class FreshmeatBackendtests(DatabaseTestCase):
         """ Test the get_versions function of the debian backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = ['6.3.5', '6.5.0', '6.6.0', '6.30.3', '7']
+        exp = ["6.3.5", "6.5.0", "6.6.0", "6.30.3", "7"]
         obs = backend.FreshmeatBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.FreshmeatBackend.get_versions,
-            project
+            AnityaPluginException, backend.FreshmeatBackend.get_versions, project
         )
 
         pid = 3
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.FreshmeatBackend.get_versions,
-            project
+            AnityaPluginException, backend.FreshmeatBackend.get_versions, project
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FreshmeatBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)

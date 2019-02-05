@@ -109,11 +109,8 @@ from anitya.lib.exceptions import AnityaPluginException
 class CratesBackend(BaseBackend):
     """The crates class for projects hosted on crates.io."""
 
-    name = 'crates.io'
-    examples = [
-        'https://crates.io/crates/clap',
-        'https://crates.io/crates/serde',
-    ]
+    name = "crates.io"
+    examples = ["https://crates.io/crates/clap", "https://crates.io/crates/serde"]
 
     @classmethod
     def _get_versions(cls, project):
@@ -153,12 +150,13 @@ class CratesBackend(BaseBackend):
             req.raise_for_status()
             data = req.json()
         except requests.RequestException as e:
-            raise AnityaPluginException('Could not contact {url}: '
-                                        '{reason!r}'.format(url=url, reason=e))
+            raise AnityaPluginException(
+                "Could not contact {url}: " "{reason!r}".format(url=url, reason=e)
+            )
         except ValueError as e:
-            raise AnityaPluginException('Failed to decode JSON: {!r}'.format(e))
+            raise AnityaPluginException("Failed to decode JSON: {!r}".format(e))
 
-        return data['versions']
+        return data["versions"]
 
     @classmethod
     def get_version(cls, project):
@@ -176,11 +174,11 @@ class CratesBackend(BaseBackend):
             AnityaPluginException: If the URL was unreachable or the response
                 was in an unexpected format.
         """
-        return cls._get_versions(project)[0]['num']
+        return cls._get_versions(project)[0]["num"]
 
     @classmethod
     def get_version_url(cls, project):
-        ''' Method called to retrieve the url used to check for new version
+        """ Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
 
         Attributes:
@@ -189,8 +187,8 @@ class CratesBackend(BaseBackend):
 
         Returns:
             str: url used for version checking
-        '''
-        url = 'https://crates.io/api/v1/crates/{}/versions'.format(project.name)
+        """
+        url = "https://crates.io/api/v1/crates/{}/versions".format(project.name)
 
         return url
 
@@ -210,7 +208,7 @@ class CratesBackend(BaseBackend):
             AnityaPluginException: If the URL was unreachable or the response
                 was in an unexpected format.
         """
-        return [v['num'] for v in cls._get_versions(project)]
+        return [v["num"] for v in cls._get_versions(project)]
 
     @classmethod
     def get_ordered_versions(cls, project):

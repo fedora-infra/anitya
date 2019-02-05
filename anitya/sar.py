@@ -38,26 +38,26 @@ import sys
 from anitya.config import config
 from anitya import db
 
-_log = logging.getLogger('anitya')
+_log = logging.getLogger("anitya")
 
 
 def main():
-    '''
+    """
     Retrieve database entry for user.
-    '''
+    """
     db.initialize(config)
     _log.setLevel(logging.DEBUG)
-    sar_username = os.getenv('SAR_USERNAME')
-    sar_email = os.getenv('SAR_EMAIL')
+    sar_username = os.getenv("SAR_USERNAME")
+    sar_email = os.getenv("SAR_EMAIL")
 
     users = []
 
     if sar_email:
-        _log.debug('Find users by e-mail {}'.format(sar_email))
+        _log.debug("Find users by e-mail {}".format(sar_email))
         users = users + db.User.query.filter_by(email=sar_email).all()
 
     if sar_username:
-        _log.debug('Find users by username {}'.format(sar_username))
+        _log.debug("Find users by username {}".format(sar_username))
         users = users + db.User.query.filter_by(username=sar_username).all()
 
     users_list = []
@@ -67,7 +67,7 @@ def main():
     json.dump(users_list, sys.stdout)
 
 
-if __name__ == '__main__':
-    _log.info('SAR script start')
+if __name__ == "__main__":
+    _log.info("SAR script start")
     main()
-    _log.info('SAR script end')
+    _log.info("SAR script end")

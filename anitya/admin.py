@@ -18,15 +18,15 @@ _log = logging.getLogger(__name__)
 
 
 def is_admin(user=None):
-    ''' Check if the provided user, or the user logged in are recognized
+    """ Check if the provided user, or the user logged in are recognized
     as being admins.
-    '''
+    """
     user = user or flask.g.user
     if user.is_authenticated:
         return user.is_admin
 
 
-@ui_blueprint.route('/distro/<distro_name>/edit', methods=['GET', 'POST'])
+@ui_blueprint.route("/distro/<distro_name>/edit", methods=["GET", "POST"])
 @login_required
 def edit_distro(distro_name):
 
@@ -46,33 +46,28 @@ def edit_distro(distro_name):
             utilities.log(
                 Session,
                 distro=distro.__json__(),
-                topic='distro.edit',
-                message=dict(
-                    agent=flask.g.user.username,
-                    old=distro.name,
-                    new=name,
-                )
+                topic="distro.edit",
+                message=dict(agent=flask.g.user.username, old=distro.name, new=name),
             )
 
             distro.name = name
 
             Session.add(distro)
             Session.commit()
-            message = 'Distribution edited'
+            message = "Distribution edited"
             flask.flash(message)
-        return flask.redirect(
-            flask.url_for('anitya_ui.distros')
-        )
+        return flask.redirect(flask.url_for("anitya_ui.distros"))
 
     return flask.render_template(
-        'distro_add_edit.html',
-        context='Edit',
-        current='distros',
+        "distro_add_edit.html",
+        context="Edit",
+        current="distros",
         distro=distro,
-        form=form)
+        form=form,
+    )
 
 
-@ui_blueprint.route('/distro/<distro_name>/delete', methods=['GET', 'POST'])
+@ui_blueprint.route("/distro/<distro_name>/delete", methods=["GET", "POST"])
 @login_required
 def delete_distro(distro_name):
     """ Delete a distro """
@@ -90,26 +85,21 @@ def delete_distro(distro_name):
         utilities.log(
             Session,
             distro=distro.__json__(),
-            topic='distro.remove',
-            message=dict(
-                agent=flask.g.user.username,
-                distro=distro.name,
-            )
+            topic="distro.remove",
+            message=dict(agent=flask.g.user.username, distro=distro.name),
         )
 
         Session.delete(distro)
         Session.commit()
-        flask.flash('Distro %s has been removed' % distro_name)
-        return flask.redirect(flask.url_for('anitya_ui.distros'))
+        flask.flash("Distro %s has been removed" % distro_name)
+        return flask.redirect(flask.url_for("anitya_ui.distros"))
 
     return flask.render_template(
-        'distro_delete.html',
-        current='distros',
-        distro=distro,
-        form=form)
+        "distro_delete.html", current="distros", distro=distro, form=form
+    )
 
 
-@ui_blueprint.route('/project/<project_id>/delete', methods=['GET', 'POST'])
+@ui_blueprint.route("/project/<project_id>/delete", methods=["GET", "POST"])
 @login_required
 def delete_project(project_id):
 
@@ -123,18 +113,15 @@ def delete_project(project_id):
     project_name = project.name
 
     form = anitya.forms.ConfirmationForm()
-    confirm = flask.request.form.get('confirm', False)
+    confirm = flask.request.form.get("confirm", False)
 
     if form.validate_on_submit():
         if confirm:
             utilities.log(
                 Session,
                 project=project.__json__(),
-                topic='project.remove',
-                message=dict(
-                    agent=flask.g.user.username,
-                    project=project.name,
-                )
+                topic="project.remove",
+                message=dict(agent=flask.g.user.username, project=project.name),
             )
 
             for version in project.versions_obj:
@@ -142,22 +129,21 @@ def delete_project(project_id):
 
             Session.delete(project)
             Session.commit()
-            flask.flash('Project %s has been removed' % project_name)
-            return flask.redirect(flask.url_for('anitya_ui.projects'))
+            flask.flash("Project %s has been removed" % project_name)
+            return flask.redirect(flask.url_for("anitya_ui.projects"))
         else:
             return flask.redirect(
-                flask.url_for('anitya_ui.project', project_id=project.id))
+                flask.url_for("anitya_ui.project", project_id=project.id)
+            )
 
     return flask.render_template(
-        'project_delete.html',
-        current='projects',
-        project=project,
-        form=form)
+        "project_delete.html", current="projects", project=project, form=form
+    )
 
 
 @ui_blueprint.route(
-    '/project/<project_id>/delete/<distro_name>/<pkg_name>',
-    methods=['GET', 'POST'])
+    "/project/<project_id>/delete/<distro_name>/<pkg_name>", methods=["GET", "POST"]
+)
 @login_required
 def delete_project_mapping(project_id, distro_name, pkg_name):
 
@@ -169,8 +155,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
     if not distro:
         flask.abort(404)
 
-    package = models.Packages.get(
-        Session, project.id, distro.name, pkg_name)
+    package = models.Packages.get(Session, project.id, distro.name, pkg_name)
     if not package:
         flask.abort(404)
 
@@ -178,38 +163,37 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
         flask.abort(401)
 
     form = anitya.forms.ConfirmationForm()
-    confirm = flask.request.form.get('confirm', False)
+    confirm = flask.request.form.get("confirm", False)
 
     if form.validate_on_submit():
         if confirm:
             utilities.log(
                 Session,
                 project=project.__json__(),
-                topic='project.map.remove',
+                topic="project.map.remove",
                 message=dict(
                     agent=flask.g.user.username,
                     project=project.name,
                     distro=distro.name,
-                )
+                ),
             )
 
             Session.delete(package)
             Session.commit()
 
-            flask.flash('Mapping for %s has been removed' % project.name)
-        return flask.redirect(
-            flask.url_for('anitya_ui.project', project_id=project.id))
+            flask.flash("Mapping for %s has been removed" % project.name)
+        return flask.redirect(flask.url_for("anitya_ui.project", project_id=project.id))
 
     return flask.render_template(
-        'regex_delete.html',
-        current='projects',
+        "regex_delete.html",
+        current="projects",
         project=project,
         package=package,
-        form=form)
+        form=form,
+    )
 
 
-@ui_blueprint.route(
-    '/project/<project_id>/delete/<version>', methods=['GET', 'POST'])
+@ui_blueprint.route("/project/<project_id>/delete/<version>", methods=["GET", "POST"])
 @login_required
 def delete_project_version(project_id, version):
 
@@ -225,27 +209,24 @@ def delete_project_version(project_id, version):
 
     if version_obj is None:
         flask.abort(
-            404,
-            'Version %s not found for project %s' % (version, project.name)
+            404, "Version %s not found for project %s" % (version, project.name)
         )
 
     if not is_admin():
         flask.abort(401)
 
     form = anitya.forms.ConfirmationForm()
-    confirm = flask.request.form.get('confirm', False)
+    confirm = flask.request.form.get("confirm", False)
 
     if form.validate_on_submit():
         if confirm:
             utilities.log(
                 Session,
                 project=project.__json__(),
-                topic='project.version.remove',
+                topic="project.version.remove",
                 message=dict(
-                    agent=flask.g.user.username,
-                    project=project.name,
-                    version=version,
-                )
+                    agent=flask.g.user.username, project=project.name, version=version
+                ),
             )
 
             # Delete the record of the version for this project
@@ -256,32 +237,32 @@ def delete_project_version(project_id, version):
                 Session.add(project)
             Session.commit()
 
-            flask.flash('Version for %s has been removed' % version)
-        return flask.redirect(
-            flask.url_for('anitya_ui.project', project_id=project.id))
+            flask.flash("Version for %s has been removed" % version)
+        return flask.redirect(flask.url_for("anitya_ui.project", project_id=project.id))
 
     return flask.render_template(
-        'version_delete.html',
-        current='projects',
+        "version_delete.html",
+        current="projects",
         project=project,
         version=version,
-        form=form)
+        form=form,
+    )
 
 
-@ui_blueprint.route('/flags')
+@ui_blueprint.route("/flags")
 @login_required
 def browse_flags():
 
     if not is_admin():
         flask.abort(401)
 
-    from_date = flask.request.args.get('from_date', None)
-    state = flask.request.args.get('state', 'open')
-    project = flask.request.args.get('project', None)
-    flags_for_user = flask.request.args.get('user', None)
-    refresh = flask.request.args.get('refresh', False)
-    limit = flask.request.args.get('limit', 50)
-    page = flask.request.args.get('page', 1)
+    from_date = flask.request.args.get("from_date", None)
+    state = flask.request.args.get("state", "open")
+    project = flask.request.args.get("project", None)
+    flags_for_user = flask.request.args.get("user", None)
+    refresh = flask.request.args.get("refresh", False)
+    limit = flask.request.args.get("limit", 50)
+    page = flask.request.args.get("page", 1)
 
     try:
         page = int(page)
@@ -292,14 +273,13 @@ def browse_flags():
         int(limit)
     except ValueError:
         limit = 50
-        flask.flash('Incorrect limit provided, using default', 'errors')
+        flask.flash("Incorrect limit provided, using default", "errors")
 
     if from_date:
         try:
             from_date = parser.parse(from_date)
         except (ValueError, TypeError):
-            flask.flash(
-                'Incorrect from_date provided, using default', 'errors')
+            flask.flash("Incorrect from_date provided, using default", "errors")
             from_date = None
 
     if from_date:
@@ -328,40 +308,40 @@ def browse_flags():
             state=state or None,
             from_date=from_date,
             user=flags_for_user or None,
-            count=True
+            count=True,
         )
     except Exception as err:
         _log.exception(err)
-        flask.flash(err, 'errors')
+        flask.flash(err, "errors")
 
     total_page = int(ceil(cnt_flags / float(limit)))
 
     form = anitya.forms.ConfirmationForm()
 
     return flask.render_template(
-        'flags.html',
-        current='flags',
+        "flags.html",
+        current="flags",
         refresh=refresh,
         flags=flags,
         cnt_flags=cnt_flags,
         total_page=total_page,
         form=form,
         page=page,
-        project=project or '',
-        from_date=from_date or '',
-        flags_for_user=flags_for_user or '',
-        state=state or ''
+        project=project or "",
+        from_date=from_date or "",
+        flags_for_user=flags_for_user or "",
+        state=state or "",
     )
 
 
-@ui_blueprint.route('/flags/<flag_id>/set/<state>', methods=['POST'])
+@ui_blueprint.route("/flags/<flag_id>/set/<state>", methods=["POST"])
 @login_required
 def set_flag_state(flag_id, state):
 
     if not is_admin():
         flask.abort(401)
 
-    if state not in ('open', 'closed'):
+    if state not in ("open", "closed"):
         flask.abort(422)
 
     flag = models.ProjectFlag.get(Session, flag_id)
@@ -374,34 +354,29 @@ def set_flag_state(flag_id, state):
     if form.validate_on_submit():
         try:
             utilities.set_flag_state(
-                Session,
-                flag=flag,
-                state=state,
-                user_id=flask.g.user.username,
+                Session, flag=flag, state=state, user_id=flask.g.user.username
             )
-            flask.flash('Flag {0} set to {1}'.format(flag.id, state))
+            flask.flash("Flag {0} set to {1}".format(flag.id, state))
         except anitya.lib.exceptions.AnityaException as err:
-            flask.flash(str(err), 'errors')
+            flask.flash(str(err), "errors")
 
-    return flask.redirect(
-        flask.url_for('anitya_ui.browse_flags')
-    )
+    return flask.redirect(flask.url_for("anitya_ui.browse_flags"))
 
 
-@ui_blueprint.route('/users', methods=['GET'])
+@ui_blueprint.route("/users", methods=["GET"])
 @login_required
 def browse_users():
 
     if not is_admin():
         flask.abort(401)
 
-    user_id = flask.request.args.get('user_id', None)
-    username = flask.request.args.get('username', None)
-    email = flask.request.args.get('email', None)
-    admin = flask.request.args.get('admin', None)
-    active = flask.request.args.get('active', None)
-    limit = flask.request.args.get('limit', 50)
-    page = flask.request.args.get('page', 1)
+    user_id = flask.request.args.get("user_id", None)
+    username = flask.request.args.get("username", None)
+    email = flask.request.args.get("email", None)
+    admin = flask.request.args.get("admin", None)
+    active = flask.request.args.get("active", None)
+    limit = flask.request.args.get("limit", 50)
+    page = flask.request.args.get("page", 1)
 
     try:
         page = int(page)
@@ -428,7 +403,7 @@ def browse_users():
         limit = int(limit)
     except ValueError:
         limit = 50
-        flask.flash('Incorrect limit provided, using default', 'errors')
+        flask.flash("Incorrect limit provided, using default", "errors")
 
     offset = 0
     if page is not None and limit is not None and limit > 0:
@@ -437,8 +412,7 @@ def browse_users():
     users = []
     cnt_users = 0
     try:
-        users_query = Session.query(
-            models.User)
+        users_query = Session.query(models.User)
 
         if user_id:
             users_query = users_query.filter_by(id=user_id)
@@ -464,7 +438,7 @@ def browse_users():
         cnt_users = users_query.count()
     except Exception as err:
         _log.exception(err)
-        flask.flash(err, 'errors')
+        flask.flash(err, "errors")
 
     try:
         total_page = int(ceil(cnt_users / float(limit)))
@@ -474,22 +448,22 @@ def browse_users():
     form = anitya.forms.ConfirmationForm()
 
     return flask.render_template(
-        'users.html',
-        current='users',
+        "users.html",
+        current="users",
         users=users,
         cnt_users=cnt_users,
         total_page=total_page,
         form=form,
         page=page,
-        username=username or '',
-        email=email or '',
-        user_id=user_id or '',
+        username=username or "",
+        email=email or "",
+        user_id=user_id or "",
         admin=admin,
-        active=active
+        active=active,
     )
 
 
-@ui_blueprint.route('/users/<user_id>/admin/<state>', methods=['POST'])
+@ui_blueprint.route("/users/<user_id>/admin/<state>", methods=["POST"])
 @login_required
 def set_user_admin_state(user_id, state):
 
@@ -504,8 +478,7 @@ def set_user_admin_state(user_id, state):
         flask.abort(422)
 
     try:
-        user = Session.query(models.User).filter(
-            models.User.id == user_id).one()
+        user = Session.query(models.User).filter(models.User.id == user_id).one()
     except Exception as err:
         _log.exception(err)
         user = None
@@ -521,20 +494,18 @@ def set_user_admin_state(user_id, state):
             Session.add(user)
             Session.commit()
             if state:
-                flask.flash('User {0} is now admin'.format(user.username))
+                flask.flash("User {0} is now admin".format(user.username))
             else:
-                flask.flash('User {0} is not admin anymore'.format(user.username))
+                flask.flash("User {0} is not admin anymore".format(user.username))
         except Exception as err:
             _log.exception(err)
-            flask.flash(str(err), 'errors')
+            flask.flash(str(err), "errors")
             Session.rollback()
 
-    return flask.redirect(
-        flask.url_for('anitya_ui.browse_users')
-    )
+    return flask.redirect(flask.url_for("anitya_ui.browse_users"))
 
 
-@ui_blueprint.route('/users/<user_id>/active/<state>', methods=['POST'])
+@ui_blueprint.route("/users/<user_id>/active/<state>", methods=["POST"])
 @login_required
 def set_user_active_state(user_id, state):
 
@@ -549,8 +520,7 @@ def set_user_active_state(user_id, state):
         flask.abort(422)
 
     try:
-        user = Session.query(models.User).filter(
-            models.User.id == user_id).one()
+        user = Session.query(models.User).filter(models.User.id == user_id).one()
     except Exception as err:
         _log.exception(err)
         user = None
@@ -566,14 +536,12 @@ def set_user_active_state(user_id, state):
             Session.add(user)
             Session.commit()
             if state:
-                flask.flash('User {0} is no longer banned'.format(user.username))
+                flask.flash("User {0} is no longer banned".format(user.username))
             else:
-                flask.flash('User {0} is banned'.format(user.username))
+                flask.flash("User {0} is banned".format(user.username))
         except Exception as err:
             _log.exception(err)
-            flask.flash(str(err), 'errors')
+            flask.flash(str(err), "errors")
             Session.rollback()
 
-    return flask.redirect(
-        flask.url_for('anitya_ui.browse_users')
-    )
+    return flask.redirect(flask.url_for("anitya_ui.browse_users"))

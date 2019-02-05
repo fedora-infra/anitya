@@ -38,7 +38,7 @@ def _page_validator(arg):
     """
     arg = int(arg)
     if arg < 1:
-        raise ValueError(_('Value must be greater than or equal to 1.'))
+        raise ValueError(_("Value must be greater than or equal to 1."))
     return arg
 
 
@@ -59,9 +59,9 @@ def _items_per_page_validator(arg):
     """
     arg = int(arg)
     if arg < 1:
-        raise ValueError(_('Value must be greater than or equal to 1.'))
+        raise ValueError(_("Value must be greater than or equal to 1."))
     if arg > 250:
-        raise ValueError(_('Value must be less than or equal to 250.'))
+        raise ValueError(_("Value must be less than or equal to 250."))
     return arg
 
 
@@ -118,30 +118,34 @@ class PackagesResource(Resource):
         :statuscode 400: If one or more of the query arguments is invalid.
         """
         parser = _BASE_ARG_PARSER.copy()
-        parser.add_argument('page', type=_page_validator, location='args')
-        parser.add_argument('items_per_page', type=_items_per_page_validator, location='args')
-        parser.add_argument('distribution', type=str, location='args')
-        parser.add_argument('name', type=str, location='args')
+        parser.add_argument("page", type=_page_validator, location="args")
+        parser.add_argument(
+            "items_per_page", type=_items_per_page_validator, location="args"
+        )
+        parser.add_argument("distribution", type=str, location="args")
+        parser.add_argument("name", type=str, location="args")
         args = parser.parse_args(strict=True)
         q = models.Packages.query
-        distro = args.pop('distribution')
-        name = args.pop('name')
+        distro = args.pop("distribution")
+        name = args.pop("name")
         if distro:
             q = q.filter_by(distro_name=distro)
         if name:
             q = q.filter_by(package_name=name)
         page = q.paginate(order_by=models.Packages.package_name, **args)
         return {
-            u'items': [
+            u"items": [
                 {
-                    u'distribution': package.distro_name,
-                    u'name': package.package_name,
-                    u'project': package.project.name,
-                    u'ecosystem': package.project.ecosystem_name,
-                } for package in page.items],
-            u'page': page.page,
-            u'items_per_page': page.items_per_page,
-            u'total_items': page.total_items,
+                    u"distribution": package.distro_name,
+                    u"name": package.package_name,
+                    u"project": package.project.name,
+                    u"ecosystem": package.project.ecosystem_name,
+                }
+                for package in page.items
+            ],
+            u"page": page.page,
+            u"items_per_page": page.items_per_page,
+            u"total_items": page.total_items,
         }
 
     @authentication.require_token
@@ -197,49 +201,63 @@ class PackagesResource(Resource):
         :statuscode 401: When your access token is missing or invalid
         :statuscode 409: When the package already exists.
         """
-        distribution_help = _('The name of the distribution that contains this package.')
-        package_name_help = _('The name of the package in the distribution repository.')
-        project_name_help = _('The project name in Anitya.')
+        distribution_help = _(
+            "The name of the distribution that contains this package."
+        )
+        package_name_help = _("The name of the package in the distribution repository.")
+        project_name_help = _("The project name in Anitya.")
         project_ecosystem_help = _(
-            'The ecosystem the project is a part of. If it\'s not part of an ecosystem,'
-            ' use the homepage used in the Anitya project.')
+            "The ecosystem the project is a part of. If it's not part of an ecosystem,"
+            " use the homepage used in the Anitya project."
+        )
 
         parser = _BASE_ARG_PARSER.copy()
-        parser.add_argument('distribution', type=str, help=distribution_help, required=True)
         parser.add_argument(
-            'package_name', type=str, help=package_name_help, required=True)
+            "distribution", type=str, help=distribution_help, required=True
+        )
         parser.add_argument(
-            'project_name', type=str, help=project_name_help, required=True)
+            "package_name", type=str, help=package_name_help, required=True
+        )
         parser.add_argument(
-            'project_ecosystem', type=str, help=project_ecosystem_help, required=True)
+            "project_name", type=str, help=project_name_help, required=True
+        )
+        parser.add_argument(
+            "project_ecosystem", type=str, help=project_ecosystem_help, required=True
+        )
         args = parser.parse_args(strict=True)
         try:
             project = models.Project.query.filter_by(
-                name=args.project_name, ecosystem_name=args.project_ecosystem).one()
+                name=args.project_name, ecosystem_name=args.project_ecosystem
+            ).one()
         except NoResultFound:
-            return {
-                'error': 'Project "{}" in ecosystem "{}" not found'.format(
-                    args.project_name, args.project_ecosystem)
-            }, 400
+            return (
+                {
+                    "error": 'Project "{}" in ecosystem "{}" not found'.format(
+                        args.project_name, args.project_ecosystem
+                    )
+                },
+                400,
+            )
 
         try:
             distro = models.Distro.query.filter_by(name=args.distribution).one()
         except NoResultFound:
-            return {'error': 'Distribution "{}" not found'.format(args.distribution)}, 400
+            return (
+                {"error": 'Distribution "{}" not found'.format(args.distribution)},
+                400,
+            )
 
         try:
             package = models.Packages(
-                distro_name=distro.name,
-                project=project,
-                package_name=args.package_name,
+                distro_name=distro.name, project=project, package_name=args.package_name
             )
 
             Session.add(package)
             Session.commit()
-            return {u'distribution': distro.name, u'name': package.package_name}, 201
+            return {u"distribution": distro.name, u"name": package.package_name}, 201
         except IntegrityError:
             Session.rollback()
-            return {'error': 'package already exists in distribution'}, 409
+            return {"error": "package already exists in distribution"}, 409
 
 
 class ProjectsResource(Resource):
@@ -313,20 +331,23 @@ class ProjectsResource(Resource):
         :statuscode 400: If one or more of the query arguments is invalid.
         """
         parser = _BASE_ARG_PARSER.copy()
-        parser.add_argument('page', type=_page_validator, location='args')
-        parser.add_argument('items_per_page', type=_items_per_page_validator, location='args')
-        parser.add_argument('ecosystem', type=str, location='args')
-        parser.add_argument('name', type=str, location='args')
+        parser.add_argument("page", type=_page_validator, location="args")
+        parser.add_argument(
+            "items_per_page", type=_items_per_page_validator, location="args"
+        )
+        parser.add_argument("ecosystem", type=str, location="args")
+        parser.add_argument("name", type=str, location="args")
         args = parser.parse_args(strict=True)
-        ecosystem = args.pop('ecosystem')
-        name = args.pop('name')
+        ecosystem = args.pop("ecosystem")
+        name = args.pop("name")
         q = models.Project.query
         if ecosystem:
             q = q.filter_by(ecosystem_name=ecosystem)
         if name:
             q = q.filter_by(name=name)
         projects_page = q.paginate(
-            order_by=(models.Project.name, models.Project.ecosystem_name), **args)
+            order_by=(models.Project.name, models.Project.ecosystem_name), **args
+        )
         return projects_page.as_dict()
 
     @authentication.require_token
@@ -402,41 +423,44 @@ class ProjectsResource(Resource):
                          problem.
         :statuscode 409: When the project already exists.
         """
-        name_help = _('The project name')
-        homepage_help = _('The project homepage URL')
-        backend_help = _('The project backend (github, folder, etc.)')
-        version_url_help = _('The URL to fetch when determining the project '
-                             'version (defaults to null)')
-        version_prefix_help = _('The project version prefix, if any. For '
-                                'example, some projects prefix with "v"')
-        regex_help = _('The regex to use when searching the version_url page')
-        insecure_help = _('When retrieving the versions via HTTPS, do not '
-                          'validate the certificate (defaults to false)')
-        check_release_help = _('Check the release immediately after creating '
-                               'the project.')
+        name_help = _("The project name")
+        homepage_help = _("The project homepage URL")
+        backend_help = _("The project backend (github, folder, etc.)")
+        version_url_help = _(
+            "The URL to fetch when determining the project "
+            "version (defaults to null)"
+        )
+        version_prefix_help = _(
+            "The project version prefix, if any. For "
+            'example, some projects prefix with "v"'
+        )
+        regex_help = _("The regex to use when searching the version_url page")
+        insecure_help = _(
+            "When retrieving the versions via HTTPS, do not "
+            "validate the certificate (defaults to false)"
+        )
+        check_release_help = _(
+            "Check the release immediately after creating " "the project."
+        )
 
         parser = _BASE_ARG_PARSER.copy()
-        parser.add_argument('name', type=str, help=name_help, required=True)
+        parser.add_argument("name", type=str, help=name_help, required=True)
+        parser.add_argument("homepage", type=str, help=homepage_help, required=True)
+        parser.add_argument("backend", type=str, help=backend_help, required=True)
         parser.add_argument(
-            'homepage', type=str, help=homepage_help, required=True)
+            "version_url", type=str, help=version_url_help, default=None
+        )
         parser.add_argument(
-            'backend', type=str, help=backend_help, required=True)
-        parser.add_argument(
-            'version_url', type=str, help=version_url_help, default=None)
-        parser.add_argument(
-            'version_prefix', type=str, help=version_prefix_help, default=None)
-        parser.add_argument('regex', type=str, help=regex_help, default=None)
-        parser.add_argument(
-            'insecure', type=bool, help=insecure_help, default=False)
-        parser.add_argument(
-            'check_release', type=bool, help=check_release_help)
+            "version_prefix", type=str, help=version_prefix_help, default=None
+        )
+        parser.add_argument("regex", type=str, help=regex_help, default=None)
+        parser.add_argument("insecure", type=bool, help=insecure_help, default=False)
+        parser.add_argument("check_release", type=bool, help=check_release_help)
         args = parser.parse_args(strict=True)
 
         try:
             project = utilities.create_project(
-                Session,
-                user_id=flask_login.current_user.email,
-                **args
+                Session, user_id=flask_login.current_user.email, **args
             )
             Session.commit()
             return project.__json__(), 201

@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for the folder backend.
-'''
+"""
 
 import unittest
 
@@ -33,7 +33,7 @@ from anitya.lib.exceptions import AnityaPluginException  # NOQA
 from anitya.tests.base import DatabaseTestCase, create_distro  # NOQA
 
 
-BACKEND = 'folder'
+BACKEND = "folder"
 
 
 class FolderBackendtests(DatabaseTestCase):
@@ -49,17 +49,17 @@ class FolderBackendtests(DatabaseTestCase):
     def create_project(self):
         """ Create some basic projects to work with. """
         project = models.Project(
-            name='gnash',
-            homepage='https://www.gnu.org/software/gnash/',
-            version_url='https://ftp.gnu.org/pub/gnu/gnash/',
+            name="gnash",
+            homepage="https://www.gnu.org/software/gnash/",
+            version_url="https://ftp.gnu.org/pub/gnu/gnash/",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name='fake',
-            homepage='https://pypi.python.org/pypi/repo_manager_fake',
+            name="fake",
+            homepage="https://pypi.python.org/pypi/repo_manager_fake",
             backend=BACKEND,
             insecure=True,
         )
@@ -67,9 +67,9 @@ class FolderBackendtests(DatabaseTestCase):
         self.session.commit()
 
         project = models.Project(
-            name='subsurface',
-            homepage='https://subsurface-divelog.org/',
-            version_url='https://subsurface-divelog.org/downloads/',
+            name="subsurface",
+            homepage="https://subsurface-divelog.org/",
+            version_url="https://subsurface-divelog.org/downloads/",
             backend=BACKEND,
         )
         self.session.add(project)
@@ -79,30 +79,28 @@ class FolderBackendtests(DatabaseTestCase):
         """ Test the get_version function of the folder backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '0.8.10'
+        exp = "0.8.10"
         obs = backend.FolderBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.FolderBackend.get_version,
-            project
+            AnityaPluginException, backend.FolderBackend.get_version, project
         )
 
         pid = 3
         project = models.Project.get(self.session, pid)
-        exp = '4.7.7'
+        exp = "4.7.7"
         obs = backend.FolderBackend.get_version(project)
         self.assertEqual(obs, exp)
 
     def test_get_version_url(self):
         """ Assert that correct url is returned. """
         project = models.Project(
-            name='test',
-            homepage='http://example.org',
-            version_url='http://example.org/releases',
+            name="test",
+            homepage="http://example.org",
+            version_url="http://example.org/releases",
             backend=BACKEND,
         )
         exp = project.version_url
@@ -116,12 +114,10 @@ class FolderBackendtests(DatabaseTestCase):
         pid = 2
         project = models.Project.get(self.session, pid)
 
-        with mock.patch('anitya.lib.backends.BaseBackend.call_url') as m_call:
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
             m_call.side_effect = backend.BaseBackend.call_url
             self.assertRaises(
-                AnityaPluginException,
-                backend.FolderBackend.get_versions,
-                project
+                AnityaPluginException, backend.FolderBackend.get_versions, project
             )
             m_call.assert_called_with(project.version_url, insecure=True)
 
@@ -130,9 +126,19 @@ class FolderBackendtests(DatabaseTestCase):
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [
-            u'0.7.1', u'0.7.2', u'0.8.0', u'0.8.1', u'0.8.2', u'0.8.3',
-            u'0.8.4', u'0.8.5', u'0.8.6', u'0.8.7', u'0.8.8', u'0.8.9',
-            u'0.8.10'
+            u"0.7.1",
+            u"0.7.2",
+            u"0.8.0",
+            u"0.8.1",
+            u"0.8.2",
+            u"0.8.3",
+            u"0.8.4",
+            u"0.8.5",
+            u"0.8.6",
+            u"0.8.7",
+            u"0.8.8",
+            u"0.8.9",
+            u"0.8.10",
         ]
         obs = backend.FolderBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -140,24 +146,47 @@ class FolderBackendtests(DatabaseTestCase):
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.FolderBackend.get_version,
-            project
+            AnityaPluginException, backend.FolderBackend.get_version, project
         )
 
         pid = 3
         project = models.Project.get(self.session, pid)
         exp = [
-            u'3.1.1', u'4.0', u'4.0.1', u'4.0.2', u'4.0.3', u'4.1', u'4.2',
-            u'4.3', u'4.4.0', u'4.4.1', u'4.4.2',
-            u'4.5.0', u'4.5.1', u'4.5.2', u'4.5.3', u'4.5.4', u'4.5.5', u'4.5.6',
-            u'4.6.0', u'4.6.1', u'4.6.2', u'4.6.3', u'4.6.4',
-            u'4.7.1', u'4.7.2', u'4.7.3', u'4.7.4', u'4.7.5', u'4.7.6', u'4.7.7',
+            u"3.1.1",
+            u"4.0",
+            u"4.0.1",
+            u"4.0.2",
+            u"4.0.3",
+            u"4.1",
+            u"4.2",
+            u"4.3",
+            u"4.4.0",
+            u"4.4.1",
+            u"4.4.2",
+            u"4.5.0",
+            u"4.5.1",
+            u"4.5.2",
+            u"4.5.3",
+            u"4.5.4",
+            u"4.5.5",
+            u"4.5.6",
+            u"4.6.0",
+            u"4.6.1",
+            u"4.6.2",
+            u"4.6.3",
+            u"4.6.4",
+            u"4.7.1",
+            u"4.7.2",
+            u"4.7.3",
+            u"4.7.4",
+            u"4.7.5",
+            u"4.7.6",
+            u"4.7.7",
         ]
         obs = backend.FolderBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FolderBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)

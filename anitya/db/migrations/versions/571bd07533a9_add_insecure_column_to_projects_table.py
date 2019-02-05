@@ -10,23 +10,24 @@ from alembic import op
 import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
-revision = '571bd07533a9'
+revision = "571bd07533a9"
 down_revision = None
 
 
 def upgrade():
-    ''' Add the `insecure` column on the projects table. '''
+    """ Add the `insecure` column on the projects table. """
     op.add_column(
-        'projects',
+        "projects",
         sa.Column(
-            'insecure',
+            "insecure",
             sa.Boolean,
             default=False,
             server_default="FALSE",
-            nullable=False)
+            nullable=False,
+        ),
     )
 
 
 def downgrade():
-    ''' Drop the `insecure` column of the projects table. '''
-    op.drop_column('projects', 'insecure')
+    """ Drop the `insecure` column of the projects table. """
+    op.drop_column("projects", "insecure")

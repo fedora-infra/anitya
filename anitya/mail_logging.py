@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 Mail handler for logging.
-'''
+"""
 import logging
 import logging.handlers
 
@@ -73,7 +73,7 @@ class ContextInjector(logging.Filter):  # pragma: no cover
 
         record.host = current_hostname
         record.proc = current_process
-        record.pid = '-'
+        record.pid = "-"
         if not isinstance(current_process, str):
             record.pid = current_process.pid
             # Be compatible with python-psutil 1.0 and 2.0, 3.0
@@ -89,10 +89,10 @@ class ContextInjector(logging.Filter):  # pragma: no cover
 
         record.callstack = self.format_callstack()
 
-        record.url = '-'
-        record.args = '-'
-        record.form = '-'
-        record.username = '-'
+        record.url = "-"
+        record.args = "-"
+        record.form = "-"
+        record.username = "-"
         try:
             record.url = flask.request.url
         except RuntimeError:
@@ -103,13 +103,12 @@ class ContextInjector(logging.Filter):  # pragma: no cover
             pass
         try:
             record.form = dict(flask.request.form)
-            if 'csrf_token' in record.form:
-                record.form['csrf_token'] = 'Was present, is cleaned up'
+            if "csrf_token" in record.form:
+                record.form["csrf_token"] = "Was present, is cleaned up"
         except RuntimeError:
             pass
         try:
-            record.username = "%s -- %s" % (
-                flask.g.user.id, flask.g.user.email)
+            record.username = "%s -- %s" % (flask.g.user.id, flask.g.user.email)
         except Exception:
             pass
 
@@ -120,9 +119,9 @@ class ContextInjector(logging.Filter):  # pragma: no cover
         """ Format the callstack to find out the stack trace. """
         ind = 0
         for ind, frame in enumerate(f[0] for f in inspect.stack()):
-            if '__name__' not in frame.f_globals:
+            if "__name__" not in frame.f_globals:
                 continue
-            modname = frame.f_globals['__name__'].split('.')[0]
+            modname = frame.f_globals["__name__"].split(".")[0]
             if modname != "logging":
                 break
 
@@ -186,10 +185,8 @@ def get_mail_handler(smtp_server, mail_admin):
     """ Set up the handler sending emails for big exception
     """
     mail_handler = logging.handlers.SMTPHandler(
-        smtp_server,
-        'nobody@fedoraproject.org',
-        mail_admin,
-        'Anitya (server) error')
+        smtp_server, "nobody@fedoraproject.org", mail_admin, "Anitya (server) error"
+    )
     mail_handler.setFormatter(logging.Formatter(MSG_FORMAT))
     mail_handler.setLevel(logging.ERROR)
     mail_handler.addFilter(ContextInjector())

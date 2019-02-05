@@ -25,43 +25,40 @@ from anitya.tests.base import DatabaseTestCase
 
 
 class SetEcosystemTests(DatabaseTestCase):
-
     def test_set_manually(self):
         """Assert the ecosystem can be set manually."""
         project = models.Project(
-            name='requests',
-            homepage='https://pypi.org/requests',
-            ecosystem_name='crates.io',
-            backend='PyPI',
+            name="requests",
+            homepage="https://pypi.org/requests",
+            ecosystem_name="crates.io",
+            backend="PyPI",
         )
 
         Session.add(project)
         Session.commit()
 
         project = models.Project.query.all()[0]
-        self.assertEqual('crates.io', project.ecosystem_name)
+        self.assertEqual("crates.io", project.ecosystem_name)
 
     def test_set_automatically(self):
         """Assert the ecosystem gets set automatically based on the backend."""
         project = models.Project(
-            name='requests',
-            homepage='https://pypi.org/requests',
-            backend='PyPI',
+            name="requests", homepage="https://pypi.org/requests", backend="PyPI"
         )
 
         Session.add(project)
         Session.commit()
 
         project = models.Project.query.all()[0]
-        self.assertEqual('pypi', project.ecosystem_name)
+        self.assertEqual("pypi", project.ecosystem_name)
 
     def test_invalid(self):
         """Assert invalid ecosystems raise an exception."""
         project = models.Project(
-            name='requests',
-            homepage='https://pypi.org/requests',
-            backend='PyPI',
-            ecosystem_name='invalid_ecosystem',
+            name="requests",
+            homepage="https://pypi.org/requests",
+            backend="PyPI",
+            ecosystem_name="invalid_ecosystem",
         )
 
         Session.add(project)

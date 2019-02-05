@@ -58,20 +58,21 @@ def initialize(config):
     """
     #: The SQLAlchemy database engine. This is constructed using the value of
     #: ``DB_URL`` in :mod:`anitya.config``.
-    engine = create_engine(config['DB_URL'], echo=config.get('SQL_DEBUG', False))
+    engine = create_engine(config["DB_URL"], echo=config.get("SQL_DEBUG", False))
     # Source: https://docs.sqlalchemy.org/en/latest/dialects/sqlite.html#foreign-key-support
-    if config['DB_URL'].startswith('sqlite:'):
+    if config["DB_URL"].startswith("sqlite:"):
         event.listen(
             engine,
-            'connect',
-            lambda db_con, con_record: db_con.execute('PRAGMA foreign_keys=ON')
+            "connect",
+            lambda db_con, con_record: db_con.execute("PRAGMA foreign_keys=ON"),
         )
     Session.configure(bind=engine)
     return engine
 
 
 _Page = collections.namedtuple(
-    '_Page', ('items', 'page', 'items_per_page', 'total_items'))
+    "_Page", ("items", "page", "items_per_page", "total_items")
+)
 
 
 class Page(_Page):
@@ -94,10 +95,10 @@ class Page(_Page):
                 the ``__json__`` method defined on the item objects.
         """
         return {
-            u'items': [item.__json__() for item in self.items],
-            u'page': self.page,
-            u'items_per_page': self.items_per_page,
-            u'total_items': self.total_items,
+            "items": [item.__json__() for item in self.items],
+            "page": self.page,
+            "items_per_page": self.items_per_page,
+            "total_items": self.total_items,
         }
 
 
@@ -129,9 +130,9 @@ class BaseQuery(sa_query.Query):
             items_per_page = 25
 
         if page < 1:
-            raise ValueError('page must be 1 or greater.')
+            raise ValueError("page must be 1 or greater.")
         if items_per_page < 1:
-            raise ValueError('items_per_page must be 1 or greater.')
+            raise ValueError("items_per_page must be 1 or greater.")
 
         if not isinstance(order_by, tuple):
             order_by = (order_by,)
@@ -140,7 +141,11 @@ class BaseQuery(sa_query.Query):
         total_items = q.count()
         items = q.limit(items_per_page).offset(items_per_page * (page - 1)).all()
         return Page(
-            items=items, page=page, total_items=total_items, items_per_page=items_per_page)
+            items=items,
+            page=page,
+            total_items=total_items,
+            items_per_page=items_per_page,
+        )
 
 
 class _AnityaBase(object):

@@ -28,11 +28,11 @@ import anitya
 import anitya.lib.plugins
 
 
-api_blueprint = flask.Blueprint('anitya_apiv1', __name__)
+api_blueprint = flask.Blueprint("anitya_apiv1", __name__)
 
 
-@api_blueprint.route('/api/')
-@api_blueprint.route('/api')
+@api_blueprint.route("/api/")
+@api_blueprint.route("/api")
 def api():
     """
     Retrieve the HTML information page.
@@ -40,14 +40,14 @@ def api():
     :deprecated: in Anitya 0.12 in favor of simple Sphinx documentation.
     :statuscode 302: A redirect to the HTML documentation.
     """
-    new_url = flask.url_for('static', filename='docs/api.html')
+    new_url = flask.url_for("static", filename="docs/api.html")
     return flask.redirect(new_url)
 
 
-@api_blueprint.route('/api/version/')
-@api_blueprint.route('/api/version')
+@api_blueprint.route("/api/version/")
+@api_blueprint.route("/api/version")
 def api_version():
-    '''
+    """
     Display the api version information.
 
     ::
@@ -64,14 +64,14 @@ def api_version():
           "version": "1.0"
         }
 
-    '''
-    return flask.jsonify({'version': anitya.__api_version__})
+    """
+    return flask.jsonify({"version": anitya.__api_version__})
 
 
-@api_blueprint.route('/api/projects/')
-@api_blueprint.route('/api/projects')
+@api_blueprint.route("/api/projects/")
+@api_blueprint.route("/api/projects")
 def api_projects():
-    '''
+    """
     Lists all the projects registered in Anitya.
 
     This API accepts GET query strings::
@@ -133,15 +133,15 @@ def api_projects():
         "total": 2
       }
 
-    '''
+    """
 
-    pattern = flask.request.args.get('pattern', None)
-    homepage = flask.request.args.get('homepage', None)
-    distro = flask.request.args.get('distro', None)
+    pattern = flask.request.args.get("pattern", None)
+    homepage = flask.request.args.get("homepage", None)
+    distro = flask.request.args.get("distro", None)
 
     if pattern and homepage:
-        err = 'pattern and homepage are mutually exclusive.  Specify only one.'
-        output = {'output': 'notok', 'error': [err]}
+        err = "pattern and homepage are mutually exclusive.  Specify only one."
+        output = {"output": "notok", "error": [err]}
         jsonout = flask.jsonify(output)
         jsonout.status_code = 400
         return jsonout
@@ -149,29 +149,25 @@ def api_projects():
     if homepage is not None:
         project_objs = models.Project.by_homepage(Session, homepage)
     elif pattern or distro:
-        if pattern and '*' not in pattern:
-            pattern += '*'
-        project_objs = models.Project.search(
-            Session, pattern=pattern, distro=distro)
+        if pattern and "*" not in pattern:
+            pattern += "*"
+        project_objs = models.Project.search(Session, pattern=pattern, distro=distro)
     else:
         project_objs = models.Project.all(Session)
 
     projects = [project.__json__() for project in project_objs]
 
-    output = {
-        'total': len(projects),
-        'projects': projects
-    }
+    output = {"total": len(projects), "projects": projects}
 
     jsonout = flask.jsonify(output)
     jsonout.status_code = 200
     return jsonout
 
 
-@api_blueprint.route('/api/packages/wiki/')
-@api_blueprint.route('/api/packages/wiki')
+@api_blueprint.route("/api/packages/wiki/")
+@api_blueprint.route("/api/packages/wiki")
 def api_packages_wiki_list():
-    '''
+    """
     List all packages in mediawiki format.
 
     :deprecated: in Anitya 0.12 due to lack of pagination resulting in
@@ -191,29 +187,27 @@ def api_packages_wiki_list():
 
       * 2ping None https://www.finnie.org/software/2ping
       * 3proxy None https://www.3proxy.ru/download/
-    '''
+    """
 
     project_objs = models.Project.all(Session)
 
     projects = []
     for project in project_objs:
         for package in project.packages:
-            tmp = '* {name} {regex} {version_url}'.format(
+            tmp = "* {name} {regex} {version_url}".format(
                 name=package.package_name,
                 regex=project.regex,
-                version_url=project.version_url)
+                version_url=project.version_url,
+            )
             projects.append(tmp)
 
-    return flask.Response(
-        "\n".join(projects),
-        content_type="text/plain;charset=UTF-8"
-    )
+    return flask.Response("\n".join(projects), content_type="text/plain;charset=UTF-8")
 
 
-@api_blueprint.route('/api/projects/names/')
-@api_blueprint.route('/api/projects/names')
+@api_blueprint.route("/api/projects/names/")
+@api_blueprint.route("/api/projects/names")
 def api_projects_names():
-    '''
+    """
     Lists the names of all the projects registered in anitya.
 
     :query str pattern: pattern to use to restrict the list of names returned.
@@ -254,35 +248,31 @@ def api_projects_names():
             ],
             "total": 10
         }
-    '''
+    """
 
-    pattern = flask.request.args.get('pattern', None)
+    pattern = flask.request.args.get("pattern", None)
 
-    if pattern and '*' not in pattern:
-        pattern += '*'
+    if pattern and "*" not in pattern:
+        pattern += "*"
 
     if pattern:
-        project_objs = models.Project.search(
-            Session, pattern=pattern)
+        project_objs = models.Project.search(Session, pattern=pattern)
     else:
         project_objs = models.Project.all(Session)
 
     projects = [project.name for project in project_objs]
 
-    output = {
-        'total': len(projects),
-        'projects': projects
-    }
+    output = {"total": len(projects), "projects": projects}
 
     jsonout = flask.jsonify(output)
     jsonout.status_code = 200
     return jsonout
 
 
-@api_blueprint.route('/api/distro/names/')
-@api_blueprint.route('/api/distro/names')
+@api_blueprint.route("/api/distro/names/")
+@api_blueprint.route("/api/distro/names")
 def api_distro_names():
-    '''
+    """
     Lists the names of all the distributions registered in anitya.
 
     :query pattern: pattern to use to restrict the list of distributions returned.
@@ -315,34 +305,30 @@ def api_distro_names():
             ],
             "total": 3
         }
-    '''
+    """
 
-    pattern = flask.request.args.get('pattern', None)
+    pattern = flask.request.args.get("pattern", None)
 
-    if pattern and '*' not in pattern:
-        pattern += '*'
+    if pattern and "*" not in pattern:
+        pattern += "*"
 
     if pattern:
-        distro_objs = models.Distro.search(
-            Session, pattern=pattern)
+        distro_objs = models.Distro.search(Session, pattern=pattern)
     else:
         distro_objs = models.Distro.all(Session)
 
     distros = [distro.name for distro in distro_objs]
 
-    output = {
-        'total': len(distros),
-        'distro': distros
-    }
+    output = {"total": len(distros), "distro": distros}
 
     jsonout = flask.jsonify(output)
     jsonout.status_code = 200
     return jsonout
 
 
-@api_blueprint.route('/api/version/get', methods=['POST'])
+@api_blueprint.route("/api/version/get", methods=["POST"])
 def api_get_version():
-    '''
+    """
     Forces anitya to retrieve the latest version available from a project
     upstream.
 
@@ -379,35 +365,34 @@ def api_get_version():
         ]
       }
 
-    '''
+    """
 
-    project_id = flask.request.form.get('id', None)
-    test = flask.request.form.get('test', False)
+    project_id = flask.request.form.get("id", None)
+    test = flask.request.form.get("test", False)
     httpcode = 200
 
     if not project_id:
         errors = []
         if not project_id:
-            errors.append('No project id specified')
-        output = {'output': 'notok', 'error': errors}
+            errors.append("No project id specified")
+        output = {"output": "notok", "error": errors}
         httpcode = 400
     else:
 
-        project = models.Project.get(
-            Session, project_id=project_id)
+        project = models.Project.get(Session, project_id=project_id)
 
         if not project:
-            output = {'output': 'notok', 'error': 'No such project'}
+            output = {"output": "notok", "error": "No such project"}
             httpcode = 404
         else:
             try:
                 version = utilities.check_project_release(project, Session, test=test)
                 if version:
-                    output = {'version': version}
+                    output = {"version": version}
                 else:
                     output = project.__json__(detailed=True)
             except anitya.lib.exceptions.AnityaException as err:
-                output = {'output': 'notok', 'error': [str(err)]}
+                output = {"output": "notok", "error": [str(err)]}
                 httpcode = 400
 
     jsonout = flask.jsonify(output)
@@ -415,10 +400,10 @@ def api_get_version():
     return jsonout
 
 
-@api_blueprint.route('/api/project/<int:project_id>/', methods=['GET'])
-@api_blueprint.route('/api/project/<int:project_id>', methods=['GET'])
+@api_blueprint.route("/api/project/<int:project_id>/", methods=["GET"])
+@api_blueprint.route("/api/project/<int:project_id>", methods=["GET"])
 def api_get_project(project_id):
-    '''
+    """
     Retrieves a specific project using its identifier in anitya.
 
     ::
@@ -454,12 +439,12 @@ def api_get_project(project_id):
         ]
       }
 
-    '''
+    """
 
     project = models.Project.get(Session, project_id=project_id)
 
     if not project:
-        output = {'output': 'notok', 'error': 'no such project'}
+        output = {"output": "notok", "error": "no such project"}
         httpcode = 404
     else:
         output = project.__json__(detailed=True)
@@ -470,10 +455,10 @@ def api_get_project(project_id):
     return jsonout
 
 
-@api_blueprint.route('/api/project/<distro>/<path:package_name>/', methods=['GET'])
-@api_blueprint.route('/api/project/<distro>/<path:package_name>', methods=['GET'])
+@api_blueprint.route("/api/project/<distro>/<path:package_name>/", methods=["GET"])
+@api_blueprint.route("/api/project/<distro>/<path:package_name>", methods=["GET"])
 def api_get_project_distro(distro, package_name):
-    '''
+    """
     Retrieves a project in a distribution via the name of the distribution
     and the name of the package in said distribution.
 
@@ -511,22 +496,20 @@ def api_get_project_distro(distro, package_name):
         ]
       }
 
-    '''
-    package_name = package_name.rstrip('/')
+    """
+    package_name = package_name.rstrip("/")
 
-    package = models.Packages.by_package_name_distro(
-        Session, package_name, distro)
+    package = models.Packages.by_package_name_distro(Session, package_name, distro)
 
     if not package:
         output = {
-            'output': 'notok',
-            'error': 'No package "%s" found in distro "%s"' % (
-                package_name, distro)}
+            "output": "notok",
+            "error": 'No package "%s" found in distro "%s"' % (package_name, distro),
+        }
         httpcode = 404
 
     else:
-        project = models.Project.get(
-            Session, project_id=package.project.id)
+        project = models.Project.get(Session, project_id=package.project.id)
 
         output = project.__json__(detailed=True)
         httpcode = 200
@@ -536,10 +519,10 @@ def api_get_project_distro(distro, package_name):
     return jsonout
 
 
-@api_blueprint.route('/api/by_ecosystem/<ecosystem>/<project_name>/', methods=['GET'])
-@api_blueprint.route('/api/by_ecosystem/<ecosystem>/<project_name>', methods=['GET'])
+@api_blueprint.route("/api/by_ecosystem/<ecosystem>/<project_name>/", methods=["GET"])
+@api_blueprint.route("/api/by_ecosystem/<ecosystem>/<project_name>", methods=["GET"])
 def api_get_project_ecosystem(ecosystem, project_name):
-    '''
+    """
     Retrieves a project in an ecosystem via the name of the ecosystem
     and the name of the project as registered with Anitya.
 
@@ -589,16 +572,16 @@ def api_get_project_ecosystem(ecosystem, project_name):
             "1.10.0"
           ]
         }
-    '''
+    """
 
-    project = models.Project.by_name_and_ecosystem(
-        Session, project_name, ecosystem)
+    project = models.Project.by_name_and_ecosystem(Session, project_name, ecosystem)
 
     if not project:
         output = {
-            'output': 'notok',
-            'error': 'No project "%s" found in ecosystem "%s"' % (
-                project_name, ecosystem)}
+            "output": "notok",
+            "error": 'No project "%s" found in ecosystem "%s"'
+            % (project_name, ecosystem),
+        }
         httpcode = 404
 
     else:

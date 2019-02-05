@@ -68,13 +68,13 @@ def create(config=None):
     login_manager = LoginManager()
     login_manager.user_loader(authentication.load_user_from_session)
     login_manager.request_loader(authentication.load_user_from_request)
-    login_manager.login_view = '/login/'
+    login_manager.login_view = "/login/"
     login_manager.init_app(app)
 
     # Register the v2 API resources
     app.api = Api(app)
-    app.api.add_resource(api_v2.ProjectsResource, '/api/v2/projects/')
-    app.api.add_resource(api_v2.PackagesResource, '/api/v2/packages/')
+    app.api.add_resource(api_v2.ProjectsResource, "/api/v2/projects/")
+    app.api.add_resource(api_v2.PackagesResource, "/api/v2/packages/")
 
     # Register all the view blueprints
     app.register_blueprint(ui.ui_blueprint)
@@ -90,14 +90,16 @@ def create(config=None):
     # subscribe to signals
     user_logged_in.connect(when_user_log_in, app)
 
-    if app.config.get('EMAIL_ERRORS'):
+    if app.config.get("EMAIL_ERRORS"):
         # If email logging is configured, set up the anitya logger with an email
         # handler for any ERROR-level logs.
-        _anitya_log = logging.getLogger('anitya')
-        _anitya_log.addHandler(anitya.mail_logging.get_mail_handler(
-            smtp_server=app.config.get('SMTP_SERVER'),
-            mail_admin=app.config.get('ADMIN_EMAIL')
-        ))
+        _anitya_log = logging.getLogger("anitya")
+        _anitya_log.addHandler(
+            anitya.mail_logging.get_mail_handler(
+                smtp_server=app.config.get("SMTP_SERVER"),
+                mail_admin=app.config.get("ADMIN_EMAIL"),
+            )
+        )
 
     return app
 
@@ -108,17 +110,17 @@ def global_user():
 
 
 def shutdown_session(exception=None):
-    ''' Remove the DB session at the end of each request. '''
+    """ Remove the DB session at the end of each request. """
     Session.remove()
 
 
 def inject_variable():
-    ''' Inject into all templates variables that we would like to have all
+    """ Inject into all templates variables that we would like to have all
     the time.
-    '''
-    justedit = flask.session.get('justedit', False)
+    """
+    justedit = flask.session.get("justedit", False)
     if justedit:  # pragma: no cover
-        flask.session['justedit'] = None
+        flask.session["justedit"] = None
 
     cron_status = utilities.get_last_cron(Session)
 
@@ -128,7 +130,9 @@ def inject_variable():
         justedit=justedit,
         cron_status=cron_status,
         user=current_user,
-        available_backends=load_backends(anitya_config['SOCIAL_AUTH_AUTHENTICATION_BACKENDS']),
+        available_backends=load_backends(
+            anitya_config["SOCIAL_AUTH_AUTHENTICATION_BACKENDS"]
+        ),
     )
 
 
@@ -145,13 +149,17 @@ def integrity_error_handler(error):
     # Because social auth provides the route and raises the exception, this is
     # the simplest way to turn the error into a nicely formatted error message
     # for the user.
-    if 'email' in error.params:
+    if "email" in error.params:
         Session.rollback()
-        other_user = models.User.query.filter_by(email=error.params['email']).one()
+        other_user = models.User.query.filter_by(email=error.params["email"]).one()
         try:
-            social_auth_user = other_user.social_auth.filter_by(user_id=other_user.id).one()
-            msg = ("Error: There's already an account associated with your email, "
-                   "authenticate with {}.".format(social_auth_user.provider))
+            social_auth_user = other_user.social_auth.filter_by(
+                user_id=other_user.id
+            ).one()
+            msg = (
+                "Error: There's already an account associated with your email, "
+                "authenticate with {}.".format(social_auth_user.provider)
+            )
             return msg, 400
         # This error happens only if there is account without provider info
         except NoResultFound:
@@ -160,10 +168,11 @@ def integrity_error_handler(error):
             msg = (
                 "Error: There was already an existing account with missing provider. "
                 "So we removed it. "
-                "Please try to log in again.")
+                "Please try to log in again."
+            )
             return msg, 500
 
-    return 'The server encountered an unexpected error', 500
+    return "The server encountered an unexpected error", 500
 
 
 def auth_error_handler(error):
@@ -178,8 +187,10 @@ def auth_error_handler(error):
     """
     # Because social auth openId backend provides route and raises the exceptions,
     # this is the simplest way to turn error into nicely formatted error message.
-    msg = ("Error: There was an error during authentication '{}', "
-           "please check the provided url.".format(error))
+    msg = (
+        "Error: There was an error during authentication '{}', "
+        "please check the provided url.".format(error)
+    )
     return msg, 400
 
 
@@ -198,5 +209,8 @@ def when_user_log_in(sender, user):
         missing.
     """
     if user.social_auth.count() == 0:
-        raise IntegrityError('Missing social_auth table', {
-            'social_auth': None, 'email': user.email}, None)
+        raise IntegrityError(
+            "Missing social_auth table",
+            {"social_auth": None, "email": user.email},
+            None,
+        )

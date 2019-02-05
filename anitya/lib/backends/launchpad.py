@@ -13,21 +13,18 @@ from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
 
 
 class LaunchpadBackend(BaseBackend):
-    ''' The custom class for projects hosted on launchpad.net.
+    """ The custom class for projects hosted on launchpad.net.
 
     This backend allows to specify a version_url and a regex that will
     be used to retrieve the version information.
-    '''
+    """
 
-    name = 'Launchpad'
-    examples = [
-        'https://launchpad.net/terminator/',
-        'https://launchpad.net/exaile',
-    ]
+    name = "Launchpad"
+    examples = ["https://launchpad.net/terminator/", "https://launchpad.net/exaile"]
 
     @classmethod
     def get_version(cls, project):
-        ''' Method called to retrieve the latest version of the projects
+        """ Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
         :arg Project project: a :class:`anitya.db.models.Project` object whose backend
@@ -38,12 +35,12 @@ class LaunchpadBackend(BaseBackend):
             :class:`anitya.lib.exceptions.AnityaPluginException` exception
             when the version cannot be retrieved correctly
 
-        '''
+        """
         return cls.get_ordered_versions(project)[-1]
 
     @classmethod
     def get_version_url(cls, project):
-        ''' Method called to retrieve the url used to check for new version
+        """ Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
 
         Attributes:
@@ -52,15 +49,14 @@ class LaunchpadBackend(BaseBackend):
 
         Returns:
             str: url used for version checking
-        '''
-        url = 'https://launchpad.net/%(name)s/+download' % {
-            'name': project.name}
+        """
+        url = "https://launchpad.net/%(name)s/+download" % {"name": project.name}
 
         return url
 
     @classmethod
     def get_versions(cls, project):
-        ''' Method called to retrieve all the versions (that can be found)
+        """ Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
         this plugin.
 
@@ -72,9 +68,9 @@ class LaunchpadBackend(BaseBackend):
             :class:`anitya.lib.exceptions.AnityaPluginException` exception
             when the versions cannot be retrieved correctly
 
-        '''
+        """
         url = cls.get_version_url(project)
 
-        regex = REGEX % {'name': project.name}
+        regex = REGEX % {"name": project.name}
 
         return get_versions_by_regex(url, regex, project)

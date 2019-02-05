@@ -19,17 +19,22 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for the flask API.
-'''
+"""
 
 import json
 import unittest
 
 from anitya.db import models
 from anitya.lib.backends import REGEX
-from anitya.tests.base import (DatabaseTestCase, create_distro, create_project,
-                               create_package, create_ecosystem_projects)
+from anitya.tests.base import (
+    DatabaseTestCase,
+    create_distro,
+    create_project,
+    create_package,
+    create_ecosystem_projects,
+)
 
 
 # Py3 compatibility: UTF-8 decoding and JSON decoding may be separate steps
@@ -44,28 +49,30 @@ class AnityaWebAPItests(DatabaseTestCase):
         """ Set up the environnment, ran before every tests. """
         super(AnityaWebAPItests, self).setUp()
 
-        self.flask_app.config['TESTING'] = True
+        self.flask_app.config["TESTING"] = True
         self.app = self.flask_app.test_client()
 
     def test_api_docs_no_slash(self):
         """Assert the legacy /api endpoint redirects to docs."""
-        output = self.app.get('/api')
+        output = self.app.get("/api")
         self.assertEqual(302, output.status_code)
         self.assertEqual(
-            'http://localhost/static/docs/api.html', output.headers['Location'])
+            "http://localhost/static/docs/api.html", output.headers["Location"]
+        )
 
     def test_api_docs_with_slash(self):
         """Assert the legacy /api/ endpoint redirects to docs."""
-        output = self.app.get('/api/')
+        output = self.app.get("/api/")
         self.assertEqual(302, output.status_code)
         self.assertEqual(
-            'http://localhost/static/docs/api.html', output.headers['Location'])
+            "http://localhost/static/docs/api.html", output.headers["Location"]
+        )
 
     def test_api_projects(self):
         """ Test the api_projects function of the API. """
         create_distro(self.session)
 
-        output = self.app.get('/api/projects')
+        output = self.app.get("/api/projects")
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
@@ -74,13 +81,13 @@ class AnityaWebAPItests(DatabaseTestCase):
 
         create_project(self.session)
 
-        output = self.app.get('/api/projects/')
+        output = self.app.get("/api/projects/")
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        for key in range(len(data['projects'])):
-            del(data['projects'][key]['created_on'])
-            del(data['projects'][key]['updated_on'])
+        for key in range(len(data["projects"])):
+            del (data["projects"][key]["created_on"])
+            del (data["projects"][key]["updated_on"])
 
         exp = {
             "projects": [
@@ -93,7 +100,7 @@ class AnityaWebAPItests(DatabaseTestCase):
                     "regex": "DEFAULT",
                     "version": None,
                     "version_url": "https://www.geany.org/Download/Releases",
-                    "versions": []
+                    "versions": [],
                 },
                 {
                     "id": 3,
@@ -104,7 +111,7 @@ class AnityaWebAPItests(DatabaseTestCase):
                     "regex": None,
                     "version": None,
                     "version_url": None,
-                    "versions": []
+                    "versions": [],
                 },
                 {
                     "id": 2,
@@ -115,21 +122,48 @@ class AnityaWebAPItests(DatabaseTestCase):
                     "regex": "DEFAULT",
                     "version": None,
                     "version_url": "https://subsurface-divelog.org/downloads/",
-                    "versions": []
+                    "versions": [],
+                },
+            ],
+            "total": 3,
+        }
+
+        self.assertEqual(data, exp)
+
+        output = self.app.get("/api/projects/?pattern=ge")
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        for key in range(len(data["projects"])):
+            del (data["projects"][key]["created_on"])
+            del (data["projects"][key]["updated_on"])
+
+        exp = {
+            "projects": [
+                {
+                    "id": 1,
+                    "backend": "custom",
+                    "homepage": "https://www.geany.org/",
+                    "ecosystem": "https://www.geany.org/",
+                    "name": "geany",
+                    "regex": "DEFAULT",
+                    "version": None,
+                    "version_url": "https://www.geany.org/Download/Releases",
+                    "versions": [],
                 }
             ],
-            "total": 3
+            "total": 1,
         }
 
         self.assertEqual(data, exp)
 
-        output = self.app.get('/api/projects/?pattern=ge')
+        output = self.app.get("/api/projects/?homepage=https://www.geany.org/")
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        for key in range(len(data['projects'])):
-            del(data['projects'][key]['created_on'])
-            del(data['projects'][key]['updated_on'])
+        for key in range(len(data["projects"])):
+            del (data["projects"][key]["created_on"])
+            del (data["projects"][key]["updated_on"])
 
         exp = {
             "projects": [
@@ -143,65 +177,40 @@ class AnityaWebAPItests(DatabaseTestCase):
                     "version": None,
                     "version_url": "https://www.geany.org/Download/Releases",
                     "versions": [],
-                },
+                }
             ],
-            "total": 1
+            "total": 1,
         }
 
         self.assertEqual(data, exp)
 
-        output = self.app.get('/api/projects/?homepage=https://www.geany.org/')
-        self.assertEqual(output.status_code, 200)
-        data = _read_json(output)
-
-        for key in range(len(data['projects'])):
-            del(data['projects'][key]['created_on'])
-            del(data['projects'][key]['updated_on'])
-
-        exp = {
-            "projects": [
-                {
-                    "id": 1,
-                    "backend": "custom",
-                    "homepage": "https://www.geany.org/",
-                    "ecosystem": "https://www.geany.org/",
-                    "name": "geany",
-                    "regex": "DEFAULT",
-                    "version": None,
-                    "version_url": "https://www.geany.org/Download/Releases",
-                    "versions": [],
-                },
-            ],
-            "total": 1
-        }
-
-        self.assertEqual(data, exp)
-
-        output = self.app.get('/api/projects/?pattern=foo&homepage=bar')
+        output = self.app.get("/api/projects/?pattern=foo&homepage=bar")
         self.assertEqual(output.status_code, 400)
 
     def test_api_packages_wiki_list(self):
         """ Test the api_packages_wiki_list function of the API. """
         create_distro(self.session)
-        output = self.app.get('/api/packages/wiki/')
+        output = self.app.get("/api/packages/wiki/")
         self.assertEqual(output.status_code, 200)
 
-        self.assertEqual(output.data, b'')
+        self.assertEqual(output.data, b"")
 
         create_project(self.session)
         create_package(self.session)
 
-        output = self.app.get('/api/packages/wiki/')
+        output = self.app.get("/api/packages/wiki/")
         self.assertEqual(output.status_code, 200)
 
-        exp = b"* geany DEFAULT https://www.geany.org/Download/Releases\n"\
+        exp = (
+            b"* geany DEFAULT https://www.geany.org/Download/Releases\n"
             b"* subsurface DEFAULT https://subsurface-divelog.org/downloads/"
+        )
         self.assertEqual(output.data, exp)
 
     def test_api_projects_names(self):
         """ Test the api_projects_names function of the API. """
         create_distro(self.session)
-        output = self.app.get('/api/projects/names')
+        output = self.app.get("/api/projects/names")
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
@@ -211,37 +220,25 @@ class AnityaWebAPItests(DatabaseTestCase):
         create_project(self.session)
         create_package(self.session)
 
-        output = self.app.get('/api/projects/names/')
+        output = self.app.get("/api/projects/names/")
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        exp = {
-            "projects": [
-                "geany",
-                "R2spec",
-                "subsurface"
-            ],
-            "total": 3
-        }
+        exp = {"projects": ["geany", "R2spec", "subsurface"], "total": 3}
         self.assertEqual(data, exp)
 
-        output = self.app.get('/api/projects/names/?pattern=ge')
+        output = self.app.get("/api/projects/names/?pattern=ge")
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        exp = {
-            "projects": [
-                "geany"
-            ],
-            "total": 1
-        }
+        exp = {"projects": ["geany"], "total": 1}
         self.assertEqual(data, exp)
 
     def test_api_get_version(self):
         """ Test the api_get_version function of the API. """
         create_distro(self.session)
 
-        output = self.app.post('/api/version/get')
+        output = self.app.post("/api/version/get")
         self.assertEqual(output.status_code, 400)
         data = _read_json(output)
 
@@ -251,8 +248,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         create_project(self.session)
         create_package(self.session)
 
-        data = {'id': 10}
-        output = self.app.post('/api/version/get', data=data)
+        data = {"id": 10}
+        output = self.app.post("/api/version/get", data=data)
         self.assertEqual(output.status_code, 404)
         data = _read_json(output)
 
@@ -265,8 +262,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        data = {'id': 1}
-        output = self.app.post('/api/version/get', data=data)
+        data = {"id": 1}
+        output = self.app.post("/api/version/get", data=data)
         self.assertEqual(output.status_code, 400)
         data = _read_json(output)
 
@@ -274,9 +271,9 @@ class AnityaWebAPItests(DatabaseTestCase):
             "error": [
                 "geany: no upstream version found. "
                 "- https://www.geany.org/Down - "
-                " " + REGEX % ({'name': 'geany'})
+                " " + REGEX % ({"name": "geany"})
             ],
-            "output": "notok"
+            "output": "notok",
         }
 
         self.assertEqual(data, exp)
@@ -286,12 +283,12 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        data = {'id': 1}
-        output = self.app.post('/api/version/get', data=data)
+        data = {"id": 1}
+        output = self.app.post("/api/version/get", data=data)
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
-        del(data['created_on'])
-        del(data['updated_on'])
+        del (data["created_on"])
+        del (data["updated_on"])
 
         exp = {
             "id": 1,
@@ -303,12 +300,7 @@ class AnityaWebAPItests(DatabaseTestCase):
             "version": "1.33",
             "version_url": "https://www.geany.org/Download/Releases",
             "versions": ["1.33"],
-            "packages": [
-                {
-                  "distro": "Fedora",
-                  "package_name": "geany"
-                }
-            ],
+            "packages": [{"distro": "Fedora", "package_name": "geany"}],
         }
 
         self.assertEqual(data, exp)
@@ -316,10 +308,10 @@ class AnityaWebAPItests(DatabaseTestCase):
     def test_api_get_project(self):
         """ Test the api_get_project function of the API. """
         create_distro(self.session)
-        output = self.app.get('/api/project/')
+        output = self.app.get("/api/project/")
         self.assertEqual(output.status_code, 404)
 
-        output = self.app.get('/api/project/10')
+        output = self.app.get("/api/project/10")
         self.assertEqual(output.status_code, 404)
         data = _read_json(output)
 
@@ -329,15 +321,15 @@ class AnityaWebAPItests(DatabaseTestCase):
         create_project(self.session)
         create_package(self.session)
 
-        output = self.app.get('/api/project/10')
+        output = self.app.get("/api/project/10")
         self.assertEqual(output.status_code, 404)
 
-        output = self.app.get('/api/project/1')
+        output = self.app.get("/api/project/1")
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        del(data['created_on'])
-        del(data['updated_on'])
+        del (data["created_on"])
+        del (data["updated_on"])
 
         exp = {
             "id": 1,
@@ -345,16 +337,11 @@ class AnityaWebAPItests(DatabaseTestCase):
             "homepage": "https://www.geany.org/",
             "ecosystem": "https://www.geany.org/",
             "name": "geany",
-            "regex": 'DEFAULT',
+            "regex": "DEFAULT",
             "version": None,
-            "version_url": 'https://www.geany.org/Download/Releases',
+            "version_url": "https://www.geany.org/Download/Releases",
             "versions": [],
-            "packages": [
-                {
-                  "distro": "Fedora",
-                  "package_name": "geany"
-                }
-            ],
+            "packages": [{"distro": "Fedora", "package_name": "geany"}],
         }
 
         self.assertEqual(exp, data)
@@ -362,36 +349,35 @@ class AnityaWebAPItests(DatabaseTestCase):
     def test_api_get_project_distro(self):
         """ Test the api_get_project_distro function of the API. """
         create_distro(self.session)
-        output = self.app.get('/api/project/Fedora/geany')
+        output = self.app.get("/api/project/Fedora/geany")
         self.assertEqual(output.status_code, 404)
         data = _read_json(output)
 
         exp = {
-            "error": "No package \"geany\" found in distro \"Fedora\"",
-            "output": "notok"
+            "error": 'No package "geany" found in distro "Fedora"',
+            "output": "notok",
         }
         self.assertEqual(data, exp)
 
         create_project(self.session)
         create_package(self.session)
 
-        output = self.app.get('/api/project/Fedora/gnome-terminal/')
+        output = self.app.get("/api/project/Fedora/gnome-terminal/")
         self.assertEqual(output.status_code, 404)
         data = _read_json(output)
 
         exp = {
-            "error": "No package \"gnome-terminal\" found in distro "
-                     "\"Fedora\"",
-            "output": "notok"
+            "error": 'No package "gnome-terminal" found in distro ' '"Fedora"',
+            "output": "notok",
         }
         self.assertEqual(data, exp)
 
-        output = self.app.get('/api/project/Fedora/geany/')
+        output = self.app.get("/api/project/Fedora/geany/")
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        del(data['created_on'])
-        del(data['updated_on'])
+        del (data["created_on"])
+        del (data["updated_on"])
 
         exp = {
             "id": 1,
@@ -399,16 +385,11 @@ class AnityaWebAPItests(DatabaseTestCase):
             "homepage": "https://www.geany.org/",
             "ecosystem": "https://www.geany.org/",
             "name": "geany",
-            "regex": 'DEFAULT',
+            "regex": "DEFAULT",
             "version": None,
-            "version_url": 'https://www.geany.org/Download/Releases',
+            "version_url": "https://www.geany.org/Download/Releases",
             "versions": [],
-            "packages": [
-                {
-                  "distro": "Fedora",
-                  "package_name": "geany"
-                }
-            ],
+            "packages": [{"distro": "Fedora", "package_name": "geany"}],
         }
 
         self.assertEqual(data, exp)
@@ -416,34 +397,34 @@ class AnityaWebAPItests(DatabaseTestCase):
     def test_api_get_project_by_ecosystem(self):
         """ Test the api_get_project_ecosystem function of the API. """
         create_distro(self.session)
-        output = self.app.get('/api/by_ecosystem/pypi/pypi_and_npm')
+        output = self.app.get("/api/by_ecosystem/pypi/pypi_and_npm")
         self.assertEqual(output.status_code, 404)
         data = _read_json(output)
 
         exp = {
             "error": 'No project "pypi_and_npm" found in ecosystem "pypi"',
-            "output": "notok"
+            "output": "notok",
         }
         self.assertEqual(data, exp)
 
         create_ecosystem_projects(self.session)
 
-        output = self.app.get('/api/by_ecosystem/pypi/not-a-project')
+        output = self.app.get("/api/by_ecosystem/pypi/not-a-project")
         self.assertEqual(output.status_code, 404)
         data = _read_json(output)
 
         exp = {
             "error": 'No project "not-a-project" found in ecosystem "pypi"',
-            "output": "notok"
+            "output": "notok",
         }
         self.assertEqual(data, exp)
 
-        output = self.app.get('/api/by_ecosystem/pypi/pypi_and_npm')
+        output = self.app.get("/api/by_ecosystem/pypi/pypi_and_npm")
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        del(data['created_on'])
-        del(data['updated_on'])
+        del (data["created_on"])
+        del (data["updated_on"])
 
         exp = {
             "id": 1,
@@ -461,6 +442,6 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.assertEqual(data, exp)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(AnityaWebAPItests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)

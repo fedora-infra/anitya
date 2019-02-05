@@ -14,9 +14,9 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 
-'''
+"""
 anitya tests for the CRAN backend.
-'''
+"""
 
 import anitya.lib.backends.cran as backend
 from anitya.db import models
@@ -24,7 +24,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
 
-BACKEND = 'CRAN (R)'
+BACKEND = "CRAN (R)"
 
 
 class CranBackendTests(DatabaseTestCase):
@@ -39,40 +39,36 @@ class CranBackendTests(DatabaseTestCase):
     def test_get_version_missing_project(self):
         """Assert an AnityaPluginException is raised for projects that result in 404."""
         project = models.Project(
-            name='non-existent-name-that-cannot-exist',
-            homepage='https://cran.r-project.org/web/packages/non-existent-name-that-cannot-exist/',
+            name="non-existent-name-that-cannot-exist",
+            homepage="https://cran.r-project.org/web/packages/non-existent-name-that-cannot-exist/",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         self.assertRaises(
-            AnityaPluginException,
-            backend.CranBackend.get_version,
-            project
+            AnityaPluginException, backend.CranBackend.get_version, project
         )
 
     def test_get_version(self):
         """Test the get_version function of the CRAN backend."""
         project = models.Project(
-            name='whisker',
-            homepage='https://github.com/edwindj/whisker',
+            name="whisker",
+            homepage="https://github.com/edwindj/whisker",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         obs = backend.CranBackend.get_version(project)
-        self.assertEqual(obs, '0.3-2')
+        self.assertEqual(obs, "0.3-2")
 
     def test_get_version_url(self):
         """ Assert that correct url is returned. """
         project = models.Project(
-            name='test',
-            homepage='http://example.org',
-            backend=BACKEND,
+            name="test", homepage="http://example.org", backend=BACKEND
         )
-        exp = 'https://crandb.r-pkg.org/test/all'
+        exp = "https://crandb.r-pkg.org/test/all"
 
         obs = backend.CranBackend.get_version_url(project)
 
@@ -81,43 +77,46 @@ class CranBackendTests(DatabaseTestCase):
     def test_get_versions_missing_project(self):
         """Assert an AnityaPluginException is raised for projects that result in 404."""
         project = models.Project(
-            name='non-existent-name-that-cannot-exist',
-            homepage='https://cran.r-project.org/web/packages/non-existent-name-that-cannot-exist/',
+            name="non-existent-name-that-cannot-exist",
+            homepage="https://cran.r-project.org/web/packages/non-existent-name-that-cannot-exist/",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         self.assertRaises(
-            AnityaPluginException,
-            backend.CranBackend.get_versions,
-            project
+            AnityaPluginException, backend.CranBackend.get_versions, project
         )
 
     def test_get_versions(self):
         """ Test the get_versions function of the CRAN backend. """
         project = models.Project(
-            name='whisker',
-            homepage='https://github.com/edwindj/whisker',
+            name="whisker",
+            homepage="https://github.com/edwindj/whisker",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         obs = backend.CranBackend.get_ordered_versions(project)
-        self.assertEqual(obs, ['0.1', '0.3-2'])
+        self.assertEqual(obs, ["0.1", "0.3-2"])
 
     def test_check_feed(self):
         """ Test the check_feed method of the CRAN backend. """
         generator = backend.CranBackend.check_feed()
         items = list(generator)
 
-        self.assertEqual(items[0], (
-            'xtractomatic',
-            'https://github.com/rmendels/xtractomatic',
-            'CRAN (R)', '3.4.2'))
-        self.assertEqual(items[1], (
-            'FedData',
-            'https://github.com/ropensci/FedData',
-            'CRAN (R)', '2.5.2'))
+        self.assertEqual(
+            items[0],
+            (
+                "xtractomatic",
+                "https://github.com/rmendels/xtractomatic",
+                "CRAN (R)",
+                "3.4.2",
+            ),
+        )
+        self.assertEqual(
+            items[1],
+            ("FedData", "https://github.com/ropensci/FedData", "CRAN (R)", "2.5.2"),
+        )
         # etc...

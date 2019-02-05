@@ -23,6 +23,7 @@ import logging
 import re
 import socket
 from datetime import timedelta
+
 # sre_constants contains re exceptions
 import sre_constants
 import urllib.request as urllib
@@ -36,14 +37,14 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.lib.versions import RpmVersion
 import six
 
-REGEX = anitya_config['DEFAULT_REGEX']
+REGEX = anitya_config["DEFAULT_REGEX"]
 
 # Default headers for requests
 REQUEST_HEADERS = {
-    'User-Agent': 'Anitya %s at release-monitoring.org' %
-    pkg_resources.get_distribution('anitya').version,
-    'From': anitya_config.get('ADMIN_EMAIL'),
-    }
+    "User-Agent": "Anitya %s at release-monitoring.org"
+    % pkg_resources.get_distribution("anitya").version,
+    "From": anitya_config.get("ADMIN_EMAIL"),
+}
 
 _log = logging.getLogger(__name__)
 
@@ -54,7 +55,7 @@ http_session = requests.session()
 
 
 class BaseBackend(object):
-    '''
+    """
     The base class that all the different backends should extend.
 
     Attributes:
@@ -73,7 +74,7 @@ class BaseBackend(object):
             is used.
         check_interval (`datetime.timedelta`): Interval which is used for periodic
             checking for new versions. This could be overriden by backend plugin.
-    '''
+    """
 
     name = None
     examples = None
@@ -84,7 +85,7 @@ class BaseBackend(object):
 
     @classmethod
     def expand_subdirs(self, url, glob_char="*"):
-        ''' Expand dirs containing ``glob_char`` in the given URL with the latest
+        """ Expand dirs containing ``glob_char`` in the given URL with the latest
         Example URL: ``https://www.example.com/foo/*/``
 
         The globbing char can be bundled with other characters enclosed within
@@ -93,7 +94,7 @@ class BaseBackend(object):
         Code originally from Till Maas as part of
         `cnucnu <https://fedorapeople.org/cgit/till/public_git/cnucnu.git/>`_
 
-        '''
+        """
         glob_pattern = "/([^/]*%s[^/]*)/" % re.escape(glob_char)
         glob_match = re.search(glob_pattern, url)
         if not glob_match:
@@ -101,13 +102,13 @@ class BaseBackend(object):
         glob_str = glob_match.group(1)
 
         # url until first slash before glob_match
-        url_prefix = url[0:glob_match.start() + 1]
+        url_prefix = url[0 : glob_match.start() + 1]
 
         # everything after the slash after glob_match
-        url_suffix = url[glob_match.end():]
+        url_suffix = url[glob_match.end() :]
 
         html_regex = re.compile(r'\bhref\s*=\s*["\']([^"\'/]+)/["\']', re.I)
-        text_regex = re.compile(r'^d.+\s(\S+)\s*$', re.I | re.M)
+        text_regex = re.compile(r"^d.+\s(\S+)\s*$", re.I | re.M)
 
         if url_prefix != "":
             resp = self.call_url(url_prefix)
@@ -123,8 +124,7 @@ class BaseBackend(object):
             regex = url.startswith("ftp://") and text_regex or html_regex
             for match in regex.finditer(dir_listing):
                 subdir = match.group(1)
-                if subdir not in (".", "..") \
-                        and fnmatch.fnmatch(subdir, glob_str):
+                if subdir not in (".", "..") and fnmatch.fnmatch(subdir, glob_str):
                     subdirs.append(subdir)
             if not subdirs:
                 return url
@@ -137,7 +137,7 @@ class BaseBackend(object):
 
     @classmethod
     def get_version(self, project):  # pragma: no cover
-        ''' Method called to retrieve the latest version of the projects
+        """ Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
         Attributes:
@@ -152,12 +152,12 @@ class BaseBackend(object):
                 :obj:`anitya.lib.exceptions.AnityaPluginException` exception
                 when the versions cannot be retrieved correctly
 
-        '''
+        """
         pass
 
     @classmethod
     def get_version_url(cls, project):  # pragma: no cover
-        ''' Method called to retrieve the url used to check for new version
+        """ Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
 
         Attributes:
@@ -166,12 +166,12 @@ class BaseBackend(object):
 
         Returns:
             str: url used for version checking
-        '''
+        """
         pass
 
     @classmethod
     def get_versions(self, project):  # pragma: no cover
-        ''' Method called to retrieve all the versions (that can be found)
+        """ Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
         this plugin.
 
@@ -187,12 +187,12 @@ class BaseBackend(object):
                 :obj:`anitya.lib.exceptions.AnityaPluginException` exception
                 when the versions cannot be retrieved correctly
 
-        '''
+        """
         pass
 
     @classmethod
     def check_feed(self):
-        ''' Method called to retrieve the latest uploads to a given backend,
+        """ Method called to retrieve the latest uploads to a given backend,
         via, for example, RSS or an API.
 
         Not all backends may support this.  It can be used to look for updates
@@ -209,12 +209,12 @@ class BaseBackend(object):
             NotImplementedError: If backend does not
                 support batch updates.
 
-        '''
+        """
         raise NotImplementedError()
 
     @classmethod
     def get_ordered_versions(self, project):
-        ''' Method called to retrieve all the versions (that can be found)
+        """ Method called to retrieve all the versions (that can be found)
         of the projects provided, ordered from the oldest to the newest.
 
         Attributes:
@@ -229,14 +229,14 @@ class BaseBackend(object):
                 :obj:`anitya.lib.exceptions.AnityaPluginException` exception
                 when the versions cannot be retrieved correctly
 
-        '''
+        """
         vlist = self.get_versions(project)
         sorted_versions = project.create_version_objects(vlist)
         return [v.version for v in sorted_versions]
 
     @classmethod
     def call_url(self, url, insecure=False):
-        ''' Dedicated method to query a URL.
+        """ Dedicated method to query a URL.
 
         It is important to use this method as it allows to query them with
         a defined user-agent header thus informing the projects we are
@@ -251,28 +251,29 @@ class BaseBackend(object):
             In case of FTP url it returns binary encoded string
             otherwise :obj:`requests.Response` object.
 
-        '''
+        """
         headers = REQUEST_HEADERS.copy()
-        if '*' in url:
+        if "*" in url:
             url = self.expand_subdirs(url)
 
-        if url.startswith('ftp://') or url.startswith('ftps://'):
+        if url.startswith("ftp://") or url.startswith("ftps://"):
             socket.setdefaulttimeout(30)
 
             req = urllib.Request(url)
-            req.add_header('User-Agent', headers['User-Agent'])
-            req.add_header('From', headers['From'])
+            req.add_header("User-Agent", headers["User-Agent"])
+            req.add_header("From", headers["From"])
             try:
                 # Ignore this bandit issue, the url is checked above
                 resp = urllib.urlopen(req)  # nosec
                 content = resp.read().decode()
             except URLError as e:
                 raise AnityaPluginException(
-                        'Could not call "%s" with error: %s' % (
-                            url, e.reason))
+                    'Could not call "%s" with error: %s' % (url, e.reason)
+                )
             except UnicodeDecodeError:
                 raise AnityaPluginException(
-                        'FTP response cannot be decoded with UTF-8: %s' % url)
+                    "FTP response cannot be decoded with UTF-8: %s" % url
+                )
 
             return content
 
@@ -290,28 +291,27 @@ class BaseBackend(object):
             # accident. This can be removed in requests-3.0.
             if insecure:
                 with requests.Session() as r_session:
-                    resp = r_session.get(
-                        url, headers=headers, timeout=60, verify=False)
+                    resp = r_session.get(url, headers=headers, timeout=60, verify=False)
             else:
-                resp = http_session.get(
-                    url, headers=headers, timeout=60, verify=True)
+                resp = http_session.get(url, headers=headers, timeout=60, verify=True)
 
             return resp
 
 
 def get_versions_by_regex(url, regex, project, insecure=False):
-    ''' For the provided url, return all the version retrieved via the
+    """ For the provided url, return all the version retrieved via the
     specified regular expression.
 
-    '''
+    """
 
     try:
         req = BaseBackend.call_url(url, insecure=insecure)
     except Exception as err:
-        _log.debug('%s ERROR: %s' % (project.name, str(err)))
+        _log.debug("%s ERROR: %s" % (project.name, str(err)))
         raise AnityaPluginException(
-            'Could not call : "%s" of "%s", with error: %s' % (
-                url, project.name, str(err)))
+            'Could not call : "%s" of "%s", with error: %s'
+            % (url, project.name, str(err))
+        )
 
     if not isinstance(req, six.string_types):
         req = req.text
@@ -320,16 +320,15 @@ def get_versions_by_regex(url, regex, project, insecure=False):
 
 
 def get_versions_by_regex_for_text(text, url, regex, project):
-    ''' For the provided text, return all the version retrieved via the
+    """ For the provided text, return all the version retrieved via the
     specified regular expression.
 
-    '''
+    """
 
     try:
         upstream_versions = list(set(re.findall(regex, text)))
     except sre_constants.error:  # pragma: no cover
-        raise AnityaPluginException(
-            "%s: invalid regular expression" % project.name)
+        raise AnityaPluginException("%s: invalid regular expression" % project.name)
 
     for index, version in enumerate(upstream_versions):
 
@@ -341,12 +340,13 @@ def get_versions_by_regex_for_text(text, url, regex, project):
 
         if " " in version:
             raise AnityaPluginException(
-                "%s: invalid upstream version:>%s< - %s - %s " % (
-                    project.name, version, url, regex))
+                "%s: invalid upstream version:>%s< - %s - %s "
+                % (project.name, version, url, regex)
+            )
     if len(upstream_versions) == 0:
         raise AnityaPluginException(
             "%(name)s: no upstream version found. - %(url)s -  "
-            "%(regex)s" % {
-                'name': project.name, 'url': url, 'regex': regex})
+            "%(regex)s" % {"name": project.name, "url": url, "regex": regex}
+        )
 
     return upstream_versions

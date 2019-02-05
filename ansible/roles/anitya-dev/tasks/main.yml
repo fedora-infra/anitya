@@ -9,7 +9,8 @@
            python-devel,
            python35,
            python36,
-           python37
+           python37,
+           python3-black
           ]
     state: present
 

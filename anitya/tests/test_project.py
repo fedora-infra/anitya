@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for the Project object.
-'''
+"""
 
 import unittest
 
@@ -38,19 +38,19 @@ class Projecttests(DatabaseTestCase):
         self.assertEqual(3, models.Project.all(self.session, count=True))
 
         projects = models.Project.all(self.session)
-        self.assertEqual(projects[0].name, 'geany')
-        self.assertEqual(projects[1].name, 'R2spec')
-        self.assertEqual(projects[2].name, 'subsurface')
+        self.assertEqual(projects[0].name, "geany")
+        self.assertEqual(projects[1].name, "R2spec")
+        self.assertEqual(projects[2].name, "subsurface")
 
     def test_project_by_name(self):
         """ Test the by_name function of Project. """
         create_project(self.session)
 
-        project = models.Project.by_name(self.session, 'geany')
-        self.assertEqual(project[0].name, 'geany')
-        self.assertEqual(project[0].homepage, 'https://www.geany.org/')
+        project = models.Project.by_name(self.session, "geany")
+        self.assertEqual(project[0].name, "geany")
+        self.assertEqual(project[0].homepage, "https://www.geany.org/")
 
-        project = models.Project.by_name(self.session, 'terminal')
+        project = models.Project.by_name(self.session, "terminal")
         self.assertEqual(project, [])
 
     def test_project_by_id(self):
@@ -58,20 +58,20 @@ class Projecttests(DatabaseTestCase):
         create_project(self.session)
 
         project = models.Project.by_id(self.session, 1)
-        self.assertEqual(project.name, 'geany')
-        self.assertEqual(project.homepage, 'https://www.geany.org/')
+        self.assertEqual(project.name, "geany")
+        self.assertEqual(project.homepage, "https://www.geany.org/")
 
         project = models.Project.get(self.session, 1)
-        self.assertEqual(project.name, 'geany')
-        self.assertEqual(project.homepage, 'https://www.geany.org/')
+        self.assertEqual(project.name, "geany")
+        self.assertEqual(project.homepage, "https://www.geany.org/")
 
         project = models.Project.by_id(self.session, 2)
-        self.assertEqual(project.name, 'subsurface')
-        self.assertEqual(project.homepage, 'https://subsurface-divelog.org/')
+        self.assertEqual(project.name, "subsurface")
+        self.assertEqual(project.homepage, "https://subsurface-divelog.org/")
 
         project = models.Project.get(self.session, 2)
-        self.assertEqual(project.name, 'subsurface')
-        self.assertEqual(project.homepage, 'https://subsurface-divelog.org/')
+        self.assertEqual(project.name, "subsurface")
+        self.assertEqual(project.homepage, "https://subsurface-divelog.org/")
 
         project = models.Project.by_id(self.session, 10)
         self.assertEqual(project, None)
@@ -80,19 +80,19 @@ class Projecttests(DatabaseTestCase):
         """ Test the by_homepage function of Project. """
         create_project(self.session)
 
-        projects = models.Project.by_homepage(
-            self.session, 'https://www.geany.org/')
+        projects = models.Project.by_homepage(self.session, "https://www.geany.org/")
         self.assertEqual(len(projects), 1)
-        self.assertEqual(projects[0].name, 'geany')
-        self.assertEqual(projects[0].homepage, 'https://www.geany.org/')
+        self.assertEqual(projects[0].name, "geany")
+        self.assertEqual(projects[0].homepage, "https://www.geany.org/")
 
         projects = models.Project.by_homepage(
-            self.session, 'https://subsurface-divelog.org/')
+            self.session, "https://subsurface-divelog.org/"
+        )
         self.assertEqual(len(projects), 1)
-        self.assertEqual(projects[0].name, 'subsurface')
-        self.assertEqual(projects[0].homepage, 'https://subsurface-divelog.org/')
+        self.assertEqual(projects[0].name, "subsurface")
+        self.assertEqual(projects[0].homepage, "https://subsurface-divelog.org/")
 
-        project = models.Project.by_homepage(self.session, 'terminal')
+        project = models.Project.by_homepage(self.session, "terminal")
         self.assertEqual(project, [])
 
     def test_project_all(self):
@@ -100,11 +100,10 @@ class Projecttests(DatabaseTestCase):
         create_project(self.session)
 
         projects = models.Project.all(self.session)
-        self.assertEqual(projects[0].name, 'geany')
-        self.assertEqual(projects[0].homepage, 'https://www.geany.org/')
-        self.assertEqual(projects[1].name, 'R2spec')
-        self.assertEqual(
-            projects[1].homepage, 'https://fedorahosted.org/r2spec/')
+        self.assertEqual(projects[0].name, "geany")
+        self.assertEqual(projects[0].homepage, "https://www.geany.org/")
+        self.assertEqual(projects[1].name, "R2spec")
+        self.assertEqual(projects[1].homepage, "https://fedorahosted.org/r2spec/")
 
         projects = models.Project.all(self.session, page=3)
         self.assertEqual(projects, [])
@@ -113,22 +112,22 @@ class Projecttests(DatabaseTestCase):
         """ Test the search function of Project. """
         create_project(self.session)
 
-        projects = models.Project.search(self.session, 'gea')
+        projects = models.Project.search(self.session, "gea")
         self.assertEqual(projects, [])
 
-        projects = models.Project.search(self.session, 'gea*')
-        self.assertEqual(projects[0].name, 'geany')
-        self.assertEqual(projects[0].homepage, 'https://www.geany.org/')
+        projects = models.Project.search(self.session, "gea*")
+        self.assertEqual(projects[0].name, "geany")
+        self.assertEqual(projects[0].homepage, "https://www.geany.org/")
 
     def test_distro_repr(self):
         """ Test the __repr__ function of Project. """
         create_project(self.session)
 
-        obs = '<Project(geany, https://www.geany.org/)>'
+        obs = "<Project(geany, https://www.geany.org/)>"
         project = models.Project.by_id(self.session, 1)
         self.assertEqual(str(project), obs)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(Projecttests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)

@@ -38,42 +38,44 @@ import anitya
 
 
 class BaseBackendTests(AnityaTestCase):
-
     def setUp(self):
         super(BaseBackendTests, self).setUp()
         self.backend = backends.BaseBackend()
         self.headers = {
-            'User-Agent': 'Anitya {0} at release-monitoring.org'.format(
-                anitya.app.__version__),
-            'From': config.get('ADMIN_EMAIL'),
+            "User-Agent": "Anitya {0} at release-monitoring.org".format(
+                anitya.app.__version__
+            ),
+            "From": config.get("ADMIN_EMAIL"),
         }
 
-    @mock.patch('anitya.lib.backends.http_session')
+    @mock.patch("anitya.lib.backends.http_session")
     def test_call_http_url(self, mock_http_session):
         """Assert HTTP urls are handled by requests"""
-        url = 'https://www.example.com/'
+        url = "https://www.example.com/"
         self.backend.call_url(url)
 
         mock_http_session.get.assert_called_once_with(
-            url, headers=self.headers, timeout=60, verify=True)
+            url, headers=self.headers, timeout=60, verify=True
+        )
 
-    @mock.patch('anitya.lib.backends.requests.Session')
+    @mock.patch("anitya.lib.backends.requests.Session")
     def test_call_insecure_http_url(self, mock_session):
         """Assert HTTP urls are handled by requests"""
-        url = 'https://www.example.com/'
+        url = "https://www.example.com/"
         self.backend.call_url(url, insecure=True)
 
         insecure_session = mock_session.return_value.__enter__.return_value
         insecure_session.get.assert_called_once_with(
-            url, headers=self.headers, timeout=60, verify=False)
+            url, headers=self.headers, timeout=60, verify=False
+        )
 
-    @mock.patch('urllib.request.urlopen')
+    @mock.patch("urllib.request.urlopen")
     def test_call_ftp_url(self, mock_urllib):
         """Assert FTP urls are handled by requests"""
         url = "ftp://ftp.heanet.ie/debian/"
         req_exp = urllib.Request(url)
-        req_exp.add_header('User-Agent', self.headers['User-Agent'])
-        req_exp.add_header('From', self.headers['From'])
+        req_exp.add_header("User-Agent", self.headers["User-Agent"])
+        req_exp.add_header("From", self.headers["From"])
         self.backend.call_url(url)
 
         mock_urllib.assert_called_once_with(mock.ANY)
@@ -84,19 +86,19 @@ class BaseBackendTests(AnityaTestCase):
         self.assertEqual(req_exp.get_full_url(), req.get_full_url())
         self.assertEqual(req_exp.header_items(), req.header_items())
 
-    @mock.patch('urllib.request.urlopen')
+    @mock.patch("urllib.request.urlopen")
     def test_call_ftp_url_decode(self, mock_urlopen):
         """Assert decoding is working"""
         url = "ftp://ftp.heanet.ie/debian/"
-        exp_resp = 'drwxr-xr-x  9 ftp  ftp  4096 Aug 23 09:02 debian\r\n'
+        exp_resp = "drwxr-xr-x  9 ftp  ftp  4096 Aug 23 09:02 debian\r\n"
         mc = mock.Mock()
-        mc.read.return_value = b'drwxr-xr-x  9 ftp  ftp  4096 Aug 23 09:02 debian\r\n'
+        mc.read.return_value = b"drwxr-xr-x  9 ftp  ftp  4096 Aug 23 09:02 debian\r\n"
         mock_urlopen.return_value = mc
         resp = self.backend.call_url(url)
 
         self.assertEqual(resp, exp_resp)
 
-    @mock.patch('urllib.request.urlopen')
+    @mock.patch("urllib.request.urlopen")
     def test_call_ftp_url_decode_not_utf(self, mock_urlopen):
         """Assert decoding is working"""
         url = "ftp://ftp.heanet.ie/debian/"
@@ -104,23 +106,15 @@ class BaseBackendTests(AnityaTestCase):
         mc.read.return_value = b"\x80\x81"
         mock_urlopen.return_value = mc
 
-        self.assertRaises(
-            AnityaPluginException,
-            self.backend.call_url,
-            url
-        )
+        self.assertRaises(AnityaPluginException, self.backend.call_url, url)
 
-    @mock.patch('urllib.request.urlopen')
+    @mock.patch("urllib.request.urlopen")
     def test_call_ftp_url_Exceptions(self, mock_urllib):
         """Assert FTP urls are handled by requests"""
-        mock_urllib.side_effect = URLError(mock.Mock('not_found'))
+        mock_urllib.side_effect = URLError(mock.Mock("not_found"))
         url = "ftp://example.com"
 
-        self.assertRaises(
-            AnityaPluginException,
-            self.backend.call_url,
-            url
-        )
+        self.assertRaises(AnityaPluginException, self.backend.call_url, url)
 
     def test_expand_subdirs(self):
         """Assert expanding subdirs"""
@@ -129,8 +123,10 @@ class BaseBackendTests(AnityaTestCase):
 
         self.assertEqual(exp, url)
 
-    @mock.patch('anitya.lib.backends.BaseBackend.call_url',
-                return_value='drwxr-xr-x  9 ftp  ftp  4096 Aug 23 09:02 debian\r\n')
+    @mock.patch(
+        "anitya.lib.backends.BaseBackend.call_url",
+        return_value="drwxr-xr-x  9 ftp  ftp  4096 Aug 23 09:02 debian\r\n",
+    )
     def test_expand_subdirs_ftp(self, mock_call_url):
         """Assert expanding subdirs"""
         exp = "ftp://ftp.heanet.ie/debian/"
@@ -151,11 +147,12 @@ class GetVersionsByRegexTextTests(unittest.TestCase):
         some other release: 0.0.2
         The best release: 1.0.0
         """
-        regex = r'\d\.\d\.\d'
-        mock_project = mock.Mock(version_prefix='')
+        regex = r"\d\.\d\.\d"
+        mock_project = mock.Mock(version_prefix="")
         versions = backends.get_versions_by_regex_for_text(
-            text, 'url', regex, mock_project)
-        self.assertEqual(sorted(['0.0.1', '0.0.2', '1.0.0']), sorted(versions))
+            text, "url", regex, mock_project
+        )
+        self.assertEqual(sorted(["0.0.1", "0.0.2", "1.0.0"]), sorted(versions))
 
     def test_get_versions_by_regex_for_text_tuples(self):
         """Assert regex that result in tuples are joined into a string"""
@@ -164,28 +161,29 @@ class GetVersionsByRegexTextTests(unittest.TestCase):
         some other release: 0.0.2
         The best release: 1.0.0
         """
-        regex = r'(\d)\.(\d)\.(\d)'
-        mock_project = mock.Mock(version_prefix='')
+        regex = r"(\d)\.(\d)\.(\d)"
+        mock_project = mock.Mock(version_prefix="")
         versions = backends.get_versions_by_regex_for_text(
-            text, 'url', regex, mock_project)
-        self.assertEqual(sorted(['0.0.1', '0.0.2', '1.0.0']), sorted(versions))
+            text, "url", regex, mock_project
+        )
+        self.assertEqual(sorted(["0.0.1", "0.0.2", "1.0.0"]), sorted(versions))
         # Demonstrate that the regex does result in an iterable
-        self.assertEqual(3, len(re.findall(regex, '0.0.1')[0]))
+        self.assertEqual(3, len(re.findall(regex, "0.0.1")[0]))
 
     def test_get_versions_by_regex_for_text_no_versions(self):
         """Assert an exception is raised if no matches are found"""
         text = "This text doesn't have a release!"
-        regex = r'(\d)\.(\d)\.(\d)'
-        mock_project = mock.Mock(version_prefix='')
+        regex = r"(\d)\.(\d)\.(\d)"
+        mock_project = mock.Mock(version_prefix="")
         self.assertRaises(
             AnityaPluginException,
             backends.get_versions_by_regex_for_text,
             text,
-            'url',
+            "url",
             regex,
-            mock_project
+            mock_project,
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

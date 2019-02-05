@@ -46,4 +46,4 @@ from .rpm import RpmVersion  # noqa: F401
 
 #: The default version scheme to use when the project itself, its ecosystem,
 #: and its backend all have no version scheme set.
-GLOBAL_DEFAULT = 'RPM'
+GLOBAL_DEFAULT = "RPM"

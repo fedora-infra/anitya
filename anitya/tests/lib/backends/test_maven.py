@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for the Maven backend.
-'''
+"""
 
 import unittest
 
@@ -31,7 +31,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
 
-BACKEND = 'Maven Central'
+BACKEND = "Maven Central"
 
 
 class MavenBackendTest(DatabaseTestCase):
@@ -45,59 +45,52 @@ class MavenBackendTest(DatabaseTestCase):
 
     def assert_plexus_version(self, **kwargs):
         project = models.Project(backend=BACKEND, **kwargs)
-        exp = '1.3.8'
+        exp = "1.3.8"
         obs = MavenBackend.get_version(project)
         self.assertEqual(obs, exp)
 
     def assert_invalid(self, **kwargs):
         project = models.Project(backend=BACKEND, **kwargs)
-        self.assertRaises(
-            AnityaPluginException,
-            MavenBackend.get_version,
-            project
-        )
+        self.assertRaises(AnityaPluginException, MavenBackend.get_version, project)
 
     def test_maven_nonexistent(self):
-        self.assert_invalid(
-            name='foo',
-            homepage='https://example.com',
-        )
+        self.assert_invalid(name="foo", homepage="https://example.com")
 
     def test_maven_coordinates_in_version_url(self):
         self.assert_plexus_version(
-            name='plexus-maven-plugin',
-            version_url='org.codehaus.plexus:plexus-maven-plugin',
-            homepage='https://plexus.codehaus.org/',
+            name="plexus-maven-plugin",
+            version_url="org.codehaus.plexus:plexus-maven-plugin",
+            homepage="https://plexus.codehaus.org/",
         )
 
     def test_maven_coordinates_in_name(self):
         self.assert_plexus_version(
-            name='org.codehaus.plexus:plexus-maven-plugin',
-            homepage='https://plexus.codehaus.org/',
+            name="org.codehaus.plexus:plexus-maven-plugin",
+            homepage="https://plexus.codehaus.org/",
         )
 
     def test_maven_bad_coordinates(self):
         self.assert_invalid(
-            name='plexus-maven-plugin',
-            homepage='https://plexus.codehaus.org/',
-            version_url='plexus-maven-plugin',
+            name="plexus-maven-plugin",
+            homepage="https://plexus.codehaus.org/",
+            version_url="plexus-maven-plugin",
         )
 
     def test_maven_get_version_by_url(self):
         self.assert_plexus_version(
-            name='plexus-maven-plugin',
-            homepage='https://repo1.maven.org/maven2/'
-                     'org/codehaus/plexus/plexus-maven-plugin/',
+            name="plexus-maven-plugin",
+            homepage="https://repo1.maven.org/maven2/"
+            "org/codehaus/plexus/plexus-maven-plugin/",
         )
 
     def test_dots_in_artifact_id(self):
         project = models.Project(
             backend=BACKEND,
-            name='felix-gogo-shell',
-            homepage='https://www.apache.org/dist/felix/',
-            version_url='org.apache.felix:org.apache.felix.gogo.shell',
+            name="felix-gogo-shell",
+            homepage="https://www.apache.org/dist/felix/",
+            version_url="org.apache.felix:org.apache.felix.gogo.shell",
         )
-        exp = '1.0.0'
+        exp = "1.0.0"
         obs = MavenBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -106,8 +99,8 @@ class MavenBackendTest(DatabaseTestCase):
         Assert that correct url is returned when project homepage is specified.
         """
         project = models.Project(
-            name='test',
-            homepage='https://repo1.maven.org/maven2/test/test',
+            name="test",
+            homepage="https://repo1.maven.org/maven2/test/test",
             backend=BACKEND,
         )
         exp = project.homepage
@@ -122,12 +115,12 @@ class MavenBackendTest(DatabaseTestCase):
         is specified.
         """
         project = models.Project(
-            name='test',
-            homepage='https://example.org',
-            version_url='test:test',
+            name="test",
+            homepage="https://example.org",
+            version_url="test:test",
             backend=BACKEND,
         )
-        exp = 'https://repo1.maven.org/maven2/test/test/'
+        exp = "https://repo1.maven.org/maven2/test/test/"
 
         obs = MavenBackend.get_version_url(project)
 
@@ -139,12 +132,12 @@ class MavenBackendTest(DatabaseTestCase):
         contains '.'.
         """
         project = models.Project(
-            name='test',
-            homepage='https://example.org',
-            version_url='test.test:test',
+            name="test",
+            homepage="https://example.org",
+            version_url="test.test:test",
             backend=BACKEND,
         )
-        exp = 'https://repo1.maven.org/maven2/test/test/test/'
+        exp = "https://repo1.maven.org/maven2/test/test/test/"
 
         obs = MavenBackend.get_version_url(project)
 
@@ -155,11 +148,9 @@ class MavenBackendTest(DatabaseTestCase):
         Assert that empty url is returned when wrong homepage is specified.
         """
         project = models.Project(
-            name='test',
-            homepage='https://example.org',
-            backend=BACKEND,
+            name="test", homepage="https://example.org", backend=BACKEND
         )
-        exp = ''
+        exp = ""
 
         obs = MavenBackend.get_version_url(project)
 
@@ -168,17 +159,31 @@ class MavenBackendTest(DatabaseTestCase):
     def test_maven_get_versions(self):
         project = models.Project(
             backend=BACKEND,
-            name='plexus-maven-plugin',
-            version_url='org.codehaus.plexus:plexus-maven-plugin',
-            homepage='https://plexus.codehaus.org/',
+            name="plexus-maven-plugin",
+            version_url="org.codehaus.plexus:plexus-maven-plugin",
+            homepage="https://plexus.codehaus.org/",
         )
-        exp = ['1.1-alpha-7', '1.1', '1.1.1', '1.1.2', '1.1.3', '1.2', '1.3',
-               '1.3.1', '1.3.2', '1.3.3', '1.3.4', '1.3.5', '1.3.6', '1.3.7',
-               '1.3.8']
+        exp = [
+            "1.1-alpha-7",
+            "1.1",
+            "1.1.1",
+            "1.1.2",
+            "1.1.3",
+            "1.2",
+            "1.3",
+            "1.3.1",
+            "1.3.2",
+            "1.3.3",
+            "1.3.4",
+            "1.3.5",
+            "1.3.6",
+            "1.3.7",
+            "1.3.8",
+        ]
         obs = MavenBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(MavenBackendTest)
     unittest.TextTestRunner(verbosity=2).run(SUITE)

@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for the pagure backend.
-'''
+"""
 
 import unittest
 
@@ -31,7 +31,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
 
-BACKEND = 'pagure'
+BACKEND = "pagure"
 
 
 class PagureBackendtests(DatabaseTestCase):
@@ -47,17 +47,13 @@ class PagureBackendtests(DatabaseTestCase):
     def create_project(self):
         """ Create some basic projects to work with. """
         project = models.Project(
-            name='pagure',
-            homepage='https://pagure.io/pagure',
-            backend=BACKEND,
+            name="pagure", homepage="https://pagure.io/pagure", backend=BACKEND
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name='fake',
-            homepage='https://pagure.io/fake',
-            backend=BACKEND,
+            name="fake", homepage="https://pagure.io/fake", backend=BACKEND
         )
         self.session.add(project)
         self.session.commit()
@@ -66,16 +62,14 @@ class PagureBackendtests(DatabaseTestCase):
         """ Test the get_version function of the pagure backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '0.1.16'
+        exp = "0.1.16"
         obs = backend.PagureBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.PagureBackend.get_version,
-            project
+            AnityaPluginException, backend.PagureBackend.get_version, project
         )
 
     def test_get_version_url(self):
@@ -83,11 +77,9 @@ class PagureBackendtests(DatabaseTestCase):
         Assert that correct url is returned.
         """
         project = models.Project(
-            name='test',
-            homepage='https://example.org',
-            backend=BACKEND,
+            name="test", homepage="https://example.org", backend=BACKEND
         )
-        exp = 'https://pagure.io/api/0/test/git/tags'
+        exp = "https://pagure.io/api/0/test/git/tags"
 
         obs = backend.PagureBackend.get_version_url(project)
 
@@ -98,21 +90,34 @@ class PagureBackendtests(DatabaseTestCase):
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [
-            '0.1', '0.1.1', '0.1.10', '0.1.11', '0.1.12', '0.1.13', '0.1.14',
-            '0.1.15', '0.1.16', '0.1.2', '0.1.3', '0.1.4', '0.1.5', '0.1.6',
-            '0.1.7', '0.1.8', '0.1.9']
+            "0.1",
+            "0.1.1",
+            "0.1.10",
+            "0.1.11",
+            "0.1.12",
+            "0.1.13",
+            "0.1.14",
+            "0.1.15",
+            "0.1.16",
+            "0.1.2",
+            "0.1.3",
+            "0.1.4",
+            "0.1.5",
+            "0.1.6",
+            "0.1.7",
+            "0.1.8",
+            "0.1.9",
+        ]
         obs = backend.PagureBackend.get_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.PagureBackend.get_versions,
-            project
+            AnityaPluginException, backend.PagureBackend.get_versions, project
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(PagureBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)

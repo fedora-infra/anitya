@@ -23,6 +23,13 @@ Alembic migrations, and a scoped session object configured from :mod:`anitya.con
 
 from .meta import initialize, Session, Base, Page, BaseQuery  # noqa: F401
 from .models import (  # noqa: F401
-    Distro, Packages, Project, ProjectVersion, ProjectFlag, Run, User, ApiToken
+    Distro,
+    Packages,
+    Project,
+    ProjectVersion,
+    ProjectFlag,
+    Run,
+    User,
+    ApiToken,
 )
 from .events import set_ecosystem  # noqa: F401
