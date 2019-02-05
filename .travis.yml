@@ -14,6 +14,7 @@ env:
     - PYTHONWARNINGS=always::DeprecationWarning
   matrix:
     - TOXENV=lint
+    - TOXENV=bandit
 matrix:
   include:
     - python: 3.6
