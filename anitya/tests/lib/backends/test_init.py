@@ -27,8 +27,8 @@ import unittest
 import re
 
 import mock
-import six.moves.urllib.request as urllib2
-from six.moves.urllib.error import URLError
+import urllib.request as urllib
+from urllib.error import URLError
 
 from anitya.config import config
 from anitya.lib import backends
@@ -67,11 +67,11 @@ class BaseBackendTests(AnityaTestCase):
         insecure_session.get.assert_called_once_with(
             url, headers=self.headers, timeout=60, verify=False)
 
-    @mock.patch('six.moves.urllib.request.urlopen')
+    @mock.patch('urllib.request.urlopen')
     def test_call_ftp_url(self, mock_urllib):
         """Assert FTP urls are handled by requests"""
         url = "ftp://ftp.heanet.ie/debian/"
-        req_exp = urllib2.Request(url)
+        req_exp = urllib.Request(url)
         req_exp.add_header('User-Agent', self.headers['User-Agent'])
         req_exp.add_header('From', self.headers['From'])
         self.backend.call_url(url)
@@ -84,7 +84,7 @@ class BaseBackendTests(AnityaTestCase):
         self.assertEqual(req_exp.get_full_url(), req.get_full_url())
         self.assertEqual(req_exp.header_items(), req.header_items())
 
-    @mock.patch('six.moves.urllib.request.urlopen')
+    @mock.patch('urllib.request.urlopen')
     def test_call_ftp_url_decode(self, mock_urlopen):
         """Assert decoding is working"""
         url = "ftp://ftp.heanet.ie/debian/"
@@ -96,7 +96,7 @@ class BaseBackendTests(AnityaTestCase):
 
         self.assertEqual(resp, exp_resp)
 
-    @mock.patch('six.moves.urllib.request.urlopen')
+    @mock.patch('urllib.request.urlopen')
     def test_call_ftp_url_decode_not_utf(self, mock_urlopen):
         """Assert decoding is working"""
         url = "ftp://ftp.heanet.ie/debian/"
@@ -110,7 +110,7 @@ class BaseBackendTests(AnityaTestCase):
             url
         )
 
-    @mock.patch('six.moves.urllib.request.urlopen')
+    @mock.patch('urllib.request.urlopen')
     def test_call_ftp_url_Exceptions(self, mock_urllib):
         """Assert FTP urls are handled by requests"""
         mock_urllib.side_effect = URLError(mock.Mock('not_found'))

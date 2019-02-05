@@ -25,8 +25,8 @@ import socket
 from datetime import timedelta
 # sre_constants contains re exceptions
 import sre_constants
-import six.moves.urllib.request as urllib2
-from six.moves.urllib.error import URLError
+import urllib.request as urllib
+from urllib.error import URLError
 
 import pkg_resources
 import requests
@@ -259,11 +259,12 @@ class BaseBackend(object):
         if url.startswith('ftp://') or url.startswith('ftps://'):
             socket.setdefaulttimeout(30)
 
-            req = urllib2.Request(url)
+            req = urllib.Request(url)
             req.add_header('User-Agent', headers['User-Agent'])
             req.add_header('From', headers['From'])
             try:
-                resp = urllib2.urlopen(req)
+                # Ignore this bandit issue, the url is checked above
+                resp = urllib.urlopen(req)  # nosec
                 content = resp.read().decode()
             except URLError as e:
                 raise AnityaPluginException(
