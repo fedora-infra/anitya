@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for the custom backend.
-'''
+"""
 
 import unittest
 
@@ -31,7 +31,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
 
-BACKEND = 'PEAR'
+BACKEND = "PEAR"
 
 
 class PearBackendtests(DatabaseTestCase):
@@ -47,17 +47,15 @@ class PearBackendtests(DatabaseTestCase):
     def create_project(self):
         """ Create some basic projects to work with. """
         project = models.Project(
-            name='PHP-UML',
-            homepage='https://pear.php.net/package/PHP_UML',
+            name="PHP-UML",
+            homepage="https://pear.php.net/package/PHP_UML",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name='foo',
-            homepage='https://pear.php.net/package/foo',
-            backend=BACKEND,
+            name="foo", homepage="https://pear.php.net/package/foo", backend=BACKEND
         )
         self.session.add(project)
         self.session.commit()
@@ -66,16 +64,14 @@ class PearBackendtests(DatabaseTestCase):
         """ Test the get_version function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '1.6.2'
+        exp = "1.6.2"
         obs = backend.PearBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.PearBackend.get_version,
-            project
+            AnityaPluginException, backend.PearBackend.get_version, project
         )
 
     def test_get_version_url(self):
@@ -83,11 +79,9 @@ class PearBackendtests(DatabaseTestCase):
         Assert that correct url is returned.
         """
         project = models.Project(
-            name='test',
-            homepage='https://example.org',
-            backend=BACKEND,
+            name="test", homepage="https://example.org", backend=BACKEND
         )
-        exp = 'https://pear.php.net/rest/r/test/allreleases.xml'
+        exp = "https://pear.php.net/rest/r/test/allreleases.xml"
 
         obs = backend.PearBackend.get_version_url(project)
 
@@ -98,11 +92,9 @@ class PearBackendtests(DatabaseTestCase):
         Assert that correct url is returned when project name contains '-'.
         """
         project = models.Project(
-            name='te-st',
-            homepage='https://example.org',
-            backend=BACKEND,
+            name="te-st", homepage="https://example.org", backend=BACKEND
         )
-        exp = 'https://pear.php.net/rest/r/te_st/allreleases.xml'
+        exp = "https://pear.php.net/rest/r/te_st/allreleases.xml"
 
         obs = backend.PearBackend.get_version_url(project)
 
@@ -113,18 +105,31 @@ class PearBackendtests(DatabaseTestCase):
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [
-            '0.4.2', '0.4.4', '0.5.0', '0.5.1', '0.5.2', '0.5.3', '1.0.0',
-            '1.0.1', '1.5.0', '1.5.1', '1.5.2', '1.5.3', '1.5.4', '1.5.5',
-            '1.6.0', '1.6.1', '1.6.2']
+            "0.4.2",
+            "0.4.4",
+            "0.5.0",
+            "0.5.1",
+            "0.5.2",
+            "0.5.3",
+            "1.0.0",
+            "1.0.1",
+            "1.5.0",
+            "1.5.1",
+            "1.5.2",
+            "1.5.3",
+            "1.5.4",
+            "1.5.5",
+            "1.6.0",
+            "1.6.1",
+            "1.6.2",
+        ]
         obs = backend.PearBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.PearBackend.get_version,
-            project
+            AnityaPluginException, backend.PearBackend.get_version, project
         )
 
     def test_pear_check_feed(self):
@@ -132,15 +137,22 @@ class PearBackendtests(DatabaseTestCase):
         generator = backend.PearBackend.check_feed()
         items = list(generator)
 
-        self.assertEqual(items[0], (
-            'File_Therion', 'https://pear.php.net/package/File_Therion',
-            'PEAR', '0.1.0'))
-        self.assertEqual(items[1], (
-            'Net_URL2', 'https://pear.php.net/package/Net_URL2',
-            'PEAR', '2.1.2'))
+        self.assertEqual(
+            items[0],
+            (
+                "File_Therion",
+                "https://pear.php.net/package/File_Therion",
+                "PEAR",
+                "0.1.0",
+            ),
+        )
+        self.assertEqual(
+            items[1],
+            ("Net_URL2", "https://pear.php.net/package/Net_URL2", "PEAR", "2.1.2"),
+        )
         # etc...
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(PearBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)

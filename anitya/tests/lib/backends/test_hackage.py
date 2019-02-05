@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for the custom backend.
-'''
+"""
 
 import unittest
 
@@ -31,7 +31,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
 
-BACKEND = 'Hackage'
+BACKEND = "Hackage"
 
 
 class HackageBackendtests(DatabaseTestCase):
@@ -47,16 +47,16 @@ class HackageBackendtests(DatabaseTestCase):
     def create_project(self):
         """ Create some basic projects to work with. """
         project = models.Project(
-            name='Biobase',
-            homepage='https://hackage.haskell.org/package/Biobase',
+            name="Biobase",
+            homepage="https://hackage.haskell.org/package/Biobase",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name='non-existent-package-that-does-not-exist',
-            homepage='https://hackage.haskell.org/package/non-existent-package-that-does-not-exist',
+            name="non-existent-package-that-does-not-exist",
+            homepage="https://hackage.haskell.org/package/non-existent-package-that-does-not-exist",
             backend=BACKEND,
         )
         self.session.add(project)
@@ -66,26 +66,22 @@ class HackageBackendtests(DatabaseTestCase):
         """ Test the get_version function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '0.3.1.1'
+        exp = "0.3.1.1"
         obs = backend.HackageBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.HackageBackend.get_version,
-            project
+            AnityaPluginException, backend.HackageBackend.get_version, project
         )
 
     def test_get_version_url(self):
         """ Assert that correct url is returned. """
         project = models.Project(
-            name='test',
-            homepage='http://example.org',
-            backend=BACKEND,
+            name="test", homepage="http://example.org", backend=BACKEND
         )
-        exp = 'https://hackage.haskell.org/package/test'
+        exp = "https://hackage.haskell.org/package/test"
 
         obs = backend.HackageBackend.get_version_url(project)
 
@@ -95,19 +91,17 @@ class HackageBackendtests(DatabaseTestCase):
         """ Test the get_versions function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = ['0.3.1.1']
+        exp = ["0.3.1.1"]
         obs = backend.HackageBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.HackageBackend.get_version,
-            project
+            AnityaPluginException, backend.HackageBackend.get_version, project
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(HackageBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)

@@ -14,8 +14,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a52d2fe99d4f'
-down_revision = '8040ef9a9dda'
+revision = "a52d2fe99d4f"
+down_revision = "8040ef9a9dda"
 
 
 class GUID(TypeDecorator):
@@ -24,6 +24,7 @@ class GUID(TypeDecorator):
 
     If PostgreSQL is being used, use its native UUID type, otherwise use a CHAR(32) type.
     """
+
     impl = CHAR
 
     def load_dialect_impl(self, dialect):
@@ -37,7 +38,7 @@ class GUID(TypeDecorator):
             sqlalchemy.types.TypeEngine: Either a PostgreSQL UUID or a CHAR(32) on other
                 dialects.
         """
-        if dialect.name == 'postgresql':
+        if dialect.name == "postgresql":
             return dialect.type_descriptor(UUID())
         else:
             return dialect.type_descriptor(CHAR(32))
@@ -58,7 +59,7 @@ class GUID(TypeDecorator):
         """
         if value is None:
             return value
-        elif dialect.name == 'postgresql':
+        elif dialect.name == "postgresql":
             return str(value)
         else:
             if not isinstance(value, uuid.UUID):
@@ -87,19 +88,19 @@ class GUID(TypeDecorator):
 def upgrade():
     """Add a "users" table."""
     op.create_table(
-        'users',
-        sa.Column('id', GUID(), nullable=False),
-        sa.Column('email', sa.String(length=256), nullable=False),
-        sa.Column('username', sa.String(length=256), nullable=False),
-        sa.Column('active', sa.Boolean(), nullable=False),
-        sa.PrimaryKeyConstraint('id')
+        "users",
+        sa.Column("id", GUID(), nullable=False),
+        sa.Column("email", sa.String(length=256), nullable=False),
+        sa.Column("username", sa.String(length=256), nullable=False),
+        sa.Column("active", sa.Boolean(), nullable=False),
+        sa.PrimaryKeyConstraint("id"),
     )
-    op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
-    op.create_index(op.f('ix_users_username'), 'users', ['username'], unique=True)
+    op.create_index(op.f("ix_users_email"), "users", ["email"], unique=True)
+    op.create_index(op.f("ix_users_username"), "users", ["username"], unique=True)
 
 
 def downgrade():
     """Drop the "users" table."""
-    op.drop_index(op.f('ix_users_username'), table_name='users')
-    op.drop_index(op.f('ix_users_email'), table_name='users')
-    op.drop_table('users')
+    op.drop_index(op.f("ix_users_username"), table_name="users")
+    op.drop_index(op.f("ix_users_email"), table_name="users")
+    op.drop_table("users")

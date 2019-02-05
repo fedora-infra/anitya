@@ -28,14 +28,14 @@ from anitya.lib.exceptions import InvalidVersion
 
 
 #: A regular expression to determine if the version string contains a 'v' prefix.
-v_prefix = re.compile(r'v\d.*')
+v_prefix = re.compile(r"v\d.*")
 
 
 @functools.total_ordering
 class Version(object):
     """The base class for versions."""
 
-    name = 'Generic Version'
+    name = "Generic Version"
 
     def __init__(self, version=None, prefix=None, created_on=None):
         self.version = version
@@ -71,7 +71,7 @@ class Version(object):
         # If there's a prefix set on the project, strip it if it's present
         version = self.version
         if self.prefix and self.version.startswith(self.prefix):
-            version = self.version[len(self.prefix):]
+            version = self.version[len(self.prefix) :]
 
         # Many projects prefix their tags with 'v', so strip it if it's present
         if v_prefix.match(version):

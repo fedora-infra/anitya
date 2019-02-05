@@ -77,21 +77,25 @@ def load_user_from_request(request):
         User: The user associated with the API token, if it exists. Otherwise
             ``None`` is returned.
     """
-    api_key = request.headers.get('Authorization')
+    api_key = request.headers.get("Authorization")
     if api_key:
-        _log.debug('Attempting to authenticate via user-provided "Authorization" header')
+        _log.debug(
+            'Attempting to authenticate via user-provided "Authorization" header'
+        )
         try:
             key_type, key_value = api_key.split()
         except ValueError:
             return
-        if key_type.lower() == 'token':
+        if key_type.lower() == "token":
             try:
                 api_token = ApiToken.query.filter_by(token=key_value).one()
-                _log.debug('Successfully authenticated user "%s" via API token',
-                           api_token.user.id)
+                _log.debug(
+                    'Successfully authenticated user "%s" via API token',
+                    api_token.user.id,
+                )
                 return api_token.user
             except NoResultFound:
-                _log.debug('Failed to authenticate user via API token')
+                _log.debug("Failed to authenticate user via API token")
                 return
 
 
@@ -109,14 +113,15 @@ def require_token(f):
         callable: A callable that aborts with an HTTP 401 if the current user is
             not authenticated.
     """
+
     @wraps(f)
     def _authenticated_api_access(*args, **kwds):
         if not flask_login.current_user.is_authenticated:
             error_details = {
-                'error': 'authentication_required',
-                'error_description': 'Authentication is required to access this API.',
+                "error": "authentication_required",
+                "error_description": "Authentication is required to access this API.",
             }
-            return (error_details, 401, {'WWW-Authenticate': 'Token'})
+            return (error_details, 401, {"WWW-Authenticate": "Token"})
         else:
             return f(*args, **kwds)
 

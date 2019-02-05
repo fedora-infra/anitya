@@ -37,10 +37,11 @@ class AnityaInvalidMappingTests(unittest.TestCase):
         project_id = 1
         project_name = "Cthulhu"
         link = "link"
-        exp = 'Could not edit the mapping of {pkgname} on ' \
-            '{distro}, there is already a package {found_pkgname} on ' \
-            '{found_distro} as part of the project <a href="{link}">' \
-            '{project_name}</a>.'.format(
+        exp = (
+            "Could not edit the mapping of {pkgname} on "
+            "{distro}, there is already a package {found_pkgname} on "
+            '{found_distro} as part of the project <a href="{link}">'
+            "{project_name}</a>.".format(
                 pkgname=pkgname,
                 distro=distro,
                 found_pkgname=found_pkgname,
@@ -49,15 +50,17 @@ class AnityaInvalidMappingTests(unittest.TestCase):
                 project_name=project_name,
                 link=None,
             )
+        )
         e = exceptions.AnityaInvalidMappingException(
-                pkgname, distro, found_pkgname, found_distro,
-                project_id, project_name)
+            pkgname, distro, found_pkgname, found_distro, project_id, project_name
+        )
         self.assertEqual(exp, e.message)
 
-        exp = 'Could not edit the mapping of {pkgname} on ' \
-            '{distro}, there is already a package {found_pkgname} on ' \
-            '{found_distro} as part of the project <a href="{link}">' \
-            '{project_name}</a>.'.format(
+        exp = (
+            "Could not edit the mapping of {pkgname} on "
+            "{distro}, there is already a package {found_pkgname} on "
+            '{found_distro} as part of the project <a href="{link}">'
+            "{project_name}</a>.".format(
                 pkgname=pkgname,
                 distro=distro,
                 found_pkgname=found_pkgname,
@@ -66,9 +69,10 @@ class AnityaInvalidMappingTests(unittest.TestCase):
                 project_name=project_name,
                 link=link,
             )
+        )
         e = exceptions.AnityaInvalidMappingException(
-                pkgname, distro, found_pkgname, found_distro,
-                project_id, project_name, link)
+            pkgname, distro, found_pkgname, found_distro, project_id, project_name, link
+        )
         self.assertEqual(exp, e.message)
 
 
@@ -77,12 +81,12 @@ class InvalidVersionTests(unittest.TestCase):
 
     def test_str(self):
         """Assert the __str__ method provides a human-readable value."""
-        e = exceptions.InvalidVersion('notaversion')
+        e = exceptions.InvalidVersion("notaversion")
         self.assertEqual('Invalid version "notaversion"', str(e))
 
     def test_str_with_wrapped_exception(self):
         """Assert the __str__ method provides a human-readable value including the exception."""
-        e = exceptions.InvalidVersion('notaversion', IOError('womp womp'))
+        e = exceptions.InvalidVersion("notaversion", IOError("womp womp"))
         self.assertEqual('Invalid version "notaversion": womp womp', str(e))
 
 

@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for GDPR SAR script.
-'''
+"""
 
 import pytest
 import mock
@@ -42,50 +42,34 @@ class SARTests(DatabaseTestCase):
         """ Use capsys fixture as part of this class. """
         self.capsys = capsys
 
-    @mock.patch.dict('os.environ', {'SAR_EMAIL': 'user@fedoraproject.org'})
+    @mock.patch.dict("os.environ", {"SAR_EMAIL": "user@fedoraproject.org"})
     def test_main_email(self):
         """
         Assert that correct user data are dumped when providing
         e-mail.
         """
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-            active=True,
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user@fedoraproject.org", username="user", active=True)
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user_social_auth)
         self.session.add(user)
 
-        user2 = models.User(
-            email='user2@email.org',
-            username='user2',
-            active=True,
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user2.id,
-            user=user2
-        )
+        user2 = models.User(email="user2@email.org", username="user2", active=True)
+        user_social_auth = social_models.UserSocialAuth(user_id=user2.id, user=user2)
 
         self.session.add(user_social_auth)
         self.session.add(user2)
         self.session.commit()
 
-        exp = [{
-            'id': str(user.id),
-            'username': user.username,
-            'email': user.email,
-            'active': user.active,
-            'social_auth': [{
-                'uid': None,
-                'provider': None,
-                'extra_data': None
-            }]
-        }]
+        exp = [
+            {
+                "id": str(user.id),
+                "username": user.username,
+                "email": user.email,
+                "active": user.active,
+                "social_auth": [{"uid": None, "provider": None, "extra_data": None}],
+            }
+        ]
 
         sar.main()
 
@@ -95,49 +79,32 @@ class SARTests(DatabaseTestCase):
 
         self.assertEqual(exp, obs)
 
-    @mock.patch.dict('os.environ', {'SAR_USERNAME': 'user'})
+    @mock.patch.dict("os.environ", {"SAR_USERNAME": "user"})
     def test_main_username(self):
         """
         Assert that correct user data are dumped when providing
         username.
         """
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-            active=True,
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user@fedoraproject.org", username="user", active=True)
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user_social_auth)
         self.session.add(user)
 
-        user2 = models.User(
-            email='user2@email.org',
-            username='user2',
-            active=True,
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user2.id,
-            user=user2
-        )
+        user2 = models.User(email="user2@email.org", username="user2", active=True)
+        user_social_auth = social_models.UserSocialAuth(user_id=user2.id, user=user2)
 
         self.session.add(user_social_auth)
         self.session.add(user2)
         self.session.commit()
 
-        exp = [{
-            'id': str(user.id),
-            'username': user.username,
-            'email': user.email,
-            'active': user.active,
-            'social_auth': [{
-                'uid': None,
-                'provider': None,
-                'extra_data': None
-            }]
+        exp = [
+            {
+                "id": str(user.id),
+                "username": user.username,
+                "email": user.email,
+                "active": user.active,
+                "social_auth": [{"uid": None, "provider": None, "extra_data": None}],
             }
         ]
 
@@ -153,28 +120,14 @@ class SARTests(DatabaseTestCase):
         """
         Assert that correct user data are dumped when nothing is provided.
         """
-        user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-            active=True,
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user.id,
-            user=user
-        )
+        user = models.User(email="user@fedoraproject.org", username="user", active=True)
+        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user_social_auth)
         self.session.add(user)
 
-        user2 = models.User(
-            email='user2@email.org',
-            username='user2',
-            active=True,
-        )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=user2.id,
-            user=user2
-        )
+        user2 = models.User(email="user2@email.org", username="user2", active=True)
+        user_social_auth = social_models.UserSocialAuth(user_id=user2.id, user=user2)
 
         self.session.add(user_social_auth)
         self.session.add(user2)
@@ -184,4 +137,4 @@ class SARTests(DatabaseTestCase):
 
         out, err = self.capsys.readouterr()
 
-        self.assertEqual('[]', out)
+        self.assertEqual("[]", out)

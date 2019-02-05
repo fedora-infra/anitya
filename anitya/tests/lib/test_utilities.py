@@ -28,8 +28,10 @@ from anitya.db import models
 from anitya.lib import utilities, exceptions, plugins
 from anitya.lib.exceptions import AnityaException, ProjectExists
 from anitya.tests.base import (
-        DatabaseTestCase, create_distro,
-        create_project, create_flagged_project
+    DatabaseTestCase,
+    create_distro,
+    create_project,
+    create_flagged_project,
 )
 
 
@@ -43,47 +45,48 @@ class CreateProjectTests(DatabaseTestCase):
 
         utilities.create_project(
             self.session,
-            name='geany',
-            homepage='https://www.geany.org/',
-            version_url='https://www.geany.org/Download/Releases',
-            regex='DEFAULT',
-            user_id='noreply@fedoraproject.org',
+            name="geany",
+            homepage="https://www.geany.org/",
+            version_url="https://www.geany.org/Download/Releases",
+            regex="DEFAULT",
+            user_id="noreply@fedoraproject.org",
         )
 
         project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 1)
-        self.assertEqual(project_objs[0].name, 'geany')
-        self.assertEqual(project_objs[0].homepage, 'https://www.geany.org/')
+        self.assertEqual(project_objs[0].name, "geany")
+        self.assertEqual(project_objs[0].homepage, "https://www.geany.org/")
 
         self.assertRaises(
             ProjectExists,
             utilities.create_project,
             self.session,
-            name='geany',
-            homepage='https://www.geany.org/',
-            version_url='https://www.geany.org/Download/Releases',
-            regex='DEFAULT',
-            user_id='noreply@fedoraproject.org',
+            name="geany",
+            homepage="https://www.geany.org/",
+            version_url="https://www.geany.org/Download/Releases",
+            regex="DEFAULT",
+            user_id="noreply@fedoraproject.org",
         )
 
         project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 1)
-        self.assertEqual(project_objs[0].name, 'geany')
-        self.assertEqual(project_objs[0].homepage, 'https://www.geany.org/')
+        self.assertEqual(project_objs[0].name, "geany")
+        self.assertEqual(project_objs[0].homepage, "https://www.geany.org/")
 
     def test_create_project_general_error(self):
         """Assert general SQLAlchemy exceptions result in AnityaException."""
         with mock.patch.object(
-                self.session, 'flush', mock.Mock(side_effect=[SQLAlchemyError(), None])):
+            self.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
+        ):
             self.assertRaises(
                 AnityaException,
                 utilities.create_project,
                 self.session,
-                name='geany',
-                homepage='https://www.geany.org/',
-                version_url='https://www.geany.org/Download/Releases',
-                regex='DEFAULT',
-                user_id='noreply@fedoraproject.org',
+                name="geany",
+                homepage="https://www.geany.org/",
+                version_url="https://www.geany.org/Download/Releases",
+                regex="DEFAULT",
+                user_id="noreply@fedoraproject.org",
             )
 
 
@@ -97,29 +100,30 @@ class EditProjectTests(DatabaseTestCase):
 
         project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 3)
-        self.assertEqual(project_objs[0].name, 'geany')
-        self.assertEqual(project_objs[0].homepage, 'https://www.geany.org/')
-        self.assertEqual(project_objs[1].name, 'R2spec')
-        self.assertEqual(project_objs[2].name, 'subsurface')
+        self.assertEqual(project_objs[0].name, "geany")
+        self.assertEqual(project_objs[0].homepage, "https://www.geany.org/")
+        self.assertEqual(project_objs[1].name, "R2spec")
+        self.assertEqual(project_objs[2].name, "subsurface")
 
         utilities.edit_project(
             self.session,
             project=project_objs[0],
             name=project_objs[0].name,
-            homepage='https://www.geany.org',
-            backend='PyPI',
-            version_scheme='RPM',
+            homepage="https://www.geany.org",
+            backend="PyPI",
+            version_scheme="RPM",
             version_url=None,
             version_prefix=None,
             regex=None,
             insecure=False,
-            user_id='noreply@fedoraproject.org')
+            user_id="noreply@fedoraproject.org",
+        )
 
         project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 3)
-        self.assertEqual(project_objs[0].name, 'geany')
-        self.assertEqual(project_objs[0].homepage, 'https://www.geany.org')
-        self.assertEqual(project_objs[0].backend, 'PyPI')
+        self.assertEqual(project_objs[0].name, "geany")
+        self.assertEqual(project_objs[0].homepage, "https://www.geany.org")
+        self.assertEqual(project_objs[0].backend, "PyPI")
 
     def test_edit_project_creating_duplicate(self):
         """
@@ -130,25 +134,25 @@ class EditProjectTests(DatabaseTestCase):
 
         project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 3)
-        self.assertEqual(project_objs[0].name, 'geany')
-        self.assertEqual(project_objs[0].homepage, 'https://www.geany.org/')
-        self.assertEqual(project_objs[1].name, 'R2spec')
-        self.assertEqual(project_objs[2].name, 'subsurface')
+        self.assertEqual(project_objs[0].name, "geany")
+        self.assertEqual(project_objs[0].homepage, "https://www.geany.org/")
+        self.assertEqual(project_objs[1].name, "R2spec")
+        self.assertEqual(project_objs[2].name, "subsurface")
 
         self.assertRaises(
             AnityaException,
             utilities.edit_project,
             self.session,
             project=project_objs[2],
-            name='geany',
-            homepage='https://www.geany.org/',
+            name="geany",
+            homepage="https://www.geany.org/",
             backend=project_objs[2].backend,
             version_scheme=project_objs[2].version_scheme,
             version_url=project_objs[2].version_url,
             version_prefix=None,
             regex=project_objs[2].regex,
             insecure=False,
-            user_id='noreply@fedoraproject.org',
+            user_id="noreply@fedoraproject.org",
         )
 
     def test_edit_project_insecure(self):
@@ -163,15 +167,15 @@ class EditProjectTests(DatabaseTestCase):
         utilities.edit_project(
             self.session,
             project=project_objs[0],
-            name='geany',
-            homepage='https://www.geany.org/',
+            name="geany",
+            homepage="https://www.geany.org/",
             backend=project_objs[0].backend,
-            version_scheme='RPM',
+            version_scheme="RPM",
             version_url=project_objs[0].version_url,
             version_prefix=None,
             regex=project_objs[0].regex,
             insecure=True,
-            user_id='noreply@fedoraproject.org',
+            user_id="noreply@fedoraproject.org",
         )
 
         project_objs = models.Project.all(self.session)
@@ -181,48 +185,43 @@ class EditProjectTests(DatabaseTestCase):
 class CheckProjectReleaseTests(DatabaseTestCase):
     """Tests for the :func:`anitya.lib.utilities.check_project_release` function."""
 
-    @mock.patch('anitya.db.models.Project')
+    @mock.patch("anitya.db.models.Project")
     def test_check_project_release_no_backend(self, mock_project):
         """ Test the check_project_release function for Project. """
         m_project = mock_project.return_value
-        m_project.backend.return_value = 'dummy'
+        m_project.backend.return_value = "dummy"
         self.assertRaises(
-            AnityaException,
-            utilities.check_project_release,
-            m_project,
-            self.session
+            AnityaException, utilities.check_project_release, m_project, self.session
         )
 
     @mock.patch(
-        'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
-        return_value=['1.0.0', '0.9.9', '0.9.8'])
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+        return_value=["1.0.0", "0.9.9", "0.9.8"],
+    )
     def test_check_project_release_backend(self, mock_method):
         """ Test the check_project_release function for Project. """
         project = utilities.create_project(
             self.session,
-            name='pypi_and_npm',
-            homepage='https://example.com/not-a-real-npmjs-project',
-            backend='npmjs',
-            user_id='noreply@fedoraproject.org'
+            name="pypi_and_npm",
+            homepage="https://example.com/not-a-real-npmjs-project",
+            backend="npmjs",
+            user_id="noreply@fedoraproject.org",
         )
-        versions = utilities.check_project_release(
-            project,
-            self.session,
-            test=True
-        )
-        self.assertEqual(versions, ['0.9.8', '0.9.9', '1.0.0'])
+        versions = utilities.check_project_release(project, self.session, test=True)
+        self.assertEqual(versions, ["0.9.8", "0.9.9", "1.0.0"])
 
     @mock.patch(
-        'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
-        mock.Mock(side_effect=exceptions.AnityaPluginException("")))
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+        mock.Mock(side_effect=exceptions.AnityaPluginException("")),
+    )
     def test_check_project_release_plugin_exception(self):
         """ Test the check_project_release function for Project. """
         project = utilities.create_project(
             self.session,
-            name='pypi_and_npm',
-            homepage='https://example.com/not-a-real-npmjs-project',
-            backend='npmjs',
-            user_id='noreply@fedoraproject.org'
+            name="pypi_and_npm",
+            homepage="https://example.com/not-a-real-npmjs-project",
+            backend="npmjs",
+            user_id="noreply@fedoraproject.org",
         )
         self.assertRaises(
             exceptions.AnityaPluginException,
@@ -232,122 +231,106 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         )
 
     @mock.patch(
-        'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
-        return_value=['1.0.0'])
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions", return_value=["1.0.0"]
+    )
     def test_check_project_release_no_new_version(self, mock_method):
         """ Test the check_project_release function for Project. """
         project = utilities.create_project(
             self.session,
-            name='pypi_and_npm',
-            homepage='https://example.com/not-a-real-npmjs-project',
-            backend='npmjs',
-            user_id='noreply@fedoraproject.org',
+            name="pypi_and_npm",
+            homepage="https://example.com/not-a-real-npmjs-project",
+            backend="npmjs",
+            user_id="noreply@fedoraproject.org",
         )
-        project.latest_version = '1.0.0'
-        version = models.ProjectVersion(
-            version='1.0.0',
-            project_id=project.id
-        )
+        project.latest_version = "1.0.0"
+        version = models.ProjectVersion(version="1.0.0", project_id=project.id)
         self.session.add(version)
         self.session.commit()
 
-        utilities.check_project_release(
-            project,
-            self.session
-        )
+        utilities.check_project_release(project, self.session)
 
-        self.assertEqual(project.latest_version, '1.0.0')
-        self.assertEqual(
-            project.logs,
-            'No new version found'
-        )
+        self.assertEqual(project.latest_version, "1.0.0")
+        self.assertEqual(project.logs, "No new version found")
 
     @mock.patch(
-        'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
-        return_value=['1.0.0', '0.9.9', '0.9.8'])
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+        return_value=["1.0.0", "0.9.9", "0.9.8"],
+    )
     def test_check_project_release_new_version(self, mock_method):
         """ Test the check_project_release function for Project. """
         project = utilities.create_project(
             self.session,
-            name='pypi_and_npm',
-            homepage='https://example.com/not-a-real-npmjs-project',
-            backend='npmjs',
-            user_id='noreply@fedoraproject.org',
-            version_scheme='RPM',
+            name="pypi_and_npm",
+            homepage="https://example.com/not-a-real-npmjs-project",
+            backend="npmjs",
+            user_id="noreply@fedoraproject.org",
+            version_scheme="RPM",
         )
-        utilities.check_project_release(
-            project,
-            self.session
-        )
+        utilities.check_project_release(project, self.session)
         versions = project.get_sorted_version_objects()
         self.assertEqual(len(versions), 3)
-        self.assertEqual(versions[0].version, '1.0.0')
+        self.assertEqual(versions[0].version, "1.0.0")
 
     @mock.patch(
-        'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
-        return_value=['v1.0.0', 'v0.9.9', 'v0.9.8'])
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+        return_value=["v1.0.0", "v0.9.9", "v0.9.8"],
+    )
     def test_check_project_release_prefix_remove(self, mock_method):
         """ Test the check_project_release function for Project. """
         project = utilities.create_project(
             self.session,
-            name='pypi_and_npm',
-            homepage='https://example.com/not-a-real-npmjs-project',
-            backend='npmjs',
-            user_id='noreply@fedoraproject.org',
-            version_scheme='RPM',
+            name="pypi_and_npm",
+            homepage="https://example.com/not-a-real-npmjs-project",
+            backend="npmjs",
+            user_id="noreply@fedoraproject.org",
+            version_scheme="RPM",
         )
-        utilities.check_project_release(
-            project,
-            self.session
-        )
+        utilities.check_project_release(project, self.session)
 
         versions = project.get_sorted_version_objects()
         self.assertEqual(len(versions), 3)
-        self.assertEqual(versions[0].version, 'v1.0.0')
-        self.assertEqual(project.latest_version, '1.0.0')
+        self.assertEqual(versions[0].version, "v1.0.0")
+        self.assertEqual(project.latest_version, "1.0.0")
 
     @mock.patch(
-        'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
-        return_value=['1.0.0', '0.9.9', '0.9.8'])
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+        return_value=["1.0.0", "0.9.9", "0.9.8"],
+    )
     def test_check_project_check_times(self, mock_method):
         """ Test if check times are set. """
         project = utilities.create_project(
             self.session,
-            name='pypi_and_npm',
-            homepage='https://example.com/not-a-real-npmjs-project',
-            backend='npmjs',
-            user_id='noreply@fedoraproject.org'
+            name="pypi_and_npm",
+            homepage="https://example.com/not-a-real-npmjs-project",
+            backend="npmjs",
+            user_id="noreply@fedoraproject.org",
         )
         last_check_orig = project.last_check
 
-        utilities.check_project_release(
-            project,
-            self.session
+        utilities.check_project_release(project, self.session)
+        next_check = (
+            plugins.get_plugin(project.backend).check_interval + project.last_check
         )
-        next_check = plugins.get_plugin(project.backend).check_interval + project.last_check
         self.assertTrue(last_check_orig < project.last_check)
         self.assertEqual(next_check, project.next_check)
 
     @mock.patch(
-        'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
-        return_value=['1.0.0', '0.9.9', '0.9.8'])
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+        return_value=["1.0.0", "0.9.9", "0.9.8"],
+    )
     def test_check_project_check_times_test(self, mock_method):
         """ Test if check times aren't set in test mode. """
         project = utilities.create_project(
             self.session,
-            name='pypi_and_npm',
-            homepage='https://example.com/not-a-real-npmjs-project',
-            backend='npmjs',
-            user_id='noreply@fedoraproject.org'
+            name="pypi_and_npm",
+            homepage="https://example.com/not-a-real-npmjs-project",
+            backend="npmjs",
+            user_id="noreply@fedoraproject.org",
         )
         last_check_orig = project.last_check
         next_check_orig = project.next_check
 
-        utilities.check_project_release(
-            project,
-            self.session,
-            test=True
-        )
+        utilities.check_project_release(project, self.session, test=True)
         self.assertEqual(last_check_orig, project.last_check)
         self.assertEqual(next_check_orig, project.next_check)
 
@@ -355,17 +338,18 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         """ Test if check times are set if `exceptions.RateLimitException` is raised. """
         project = utilities.create_project(
             self.session,
-            name='pypi_and_npm',
-            homepage='https://example.com/not-a-real-npmjs-project',
-            backend='npmjs',
-            user_id='noreply@fedoraproject.org'
+            name="pypi_and_npm",
+            homepage="https://example.com/not-a-real-npmjs-project",
+            backend="npmjs",
+            user_id="noreply@fedoraproject.org",
         )
         last_check_orig = project.last_check
         next_check = arrow.get("2008-09-03T20:56:35.450686").naive
 
         with mock.patch(
-                'anitya.lib.backends.npmjs.NpmjsBackend.get_versions',
-                return_value=['1.0.0']) as mock_object:
+            "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+            return_value=["1.0.0"],
+        ) as mock_object:
             mock_object.side_effect = exceptions.RateLimitException(
                 "2008-09-03T20:56:35.450686"
             )
@@ -378,34 +362,33 @@ class CheckProjectReleaseTests(DatabaseTestCase):
             self.assertTrue(last_check_orig < project.last_check)
             self.assertEqual(next_check, project.next_check)
 
-    @mock.patch.dict('anitya.config.config', {'GITHUB_ACCESS_TOKEN': "foobar"})
+    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
     def test_check_project_version_too_long(self):
         """
         Regression test for https://github.com/release-monitoring/anitya/issues/674
         Crash when version is too long
         """
         project = models.Project(
-            name='daiquiri',
-            homepage='https://github.com/jd/daiquiri',
-            backend='GitHub',
-            version_scheme='RPM',
-            version_url='jd/daiquiri',
+            name="daiquiri",
+            homepage="https://github.com/jd/daiquiri",
+            backend="GitHub",
+            version_scheme="RPM",
+            version_url="jd/daiquiri",
         )
         self.session.add(project)
         self.session.commit()
 
-        utilities.check_project_release(
-            project,
-            self.session
-        )
+        utilities.check_project_release(project, self.session)
 
         versions = project.versions
         self.assertEqual(len(versions), 18)
         self.assertFalse(
-            'remove-circular-dependency-ad4f7bc7-2ab4-43b8-afac-36ff0e2ee796' in versions
+            "remove-circular-dependency-ad4f7bc7-2ab4-43b8-afac-36ff0e2ee796"
+            in versions
         )
         self.assertFalse(
-            'remove-circular-dependency-7bbe4a64-3514-4f6e-9c03-9dc8bcf4def7' in versions
+            "remove-circular-dependency-7bbe4a64-3514-4f6e-9c03-9dc8bcf4def7"
+            in versions
         )
 
 
@@ -418,69 +401,69 @@ class MapProjectTests(DatabaseTestCase):
         create_project(self.session)
 
         project_obj = models.Project.get(self.session, 1)
-        self.assertEqual(project_obj.name, 'geany')
+        self.assertEqual(project_obj.name, "geany")
         self.assertEqual(len(project_obj.packages), 0)
 
         # Map `geany` project to CentOS
         utilities.map_project(
             self.session,
             project=project_obj,
-            package_name='geany',
-            distribution='CentOS',
-            user_id='noreply@fedoraproject.org',
+            package_name="geany",
+            distribution="CentOS",
+            user_id="noreply@fedoraproject.org",
             old_package_name=None,
         )
         self.session.commit()
 
         project_obj = models.Project.get(self.session, 1)
-        self.assertEqual(project_obj.name, 'geany')
+        self.assertEqual(project_obj.name, "geany")
         self.assertEqual(len(project_obj.packages), 1)
-        self.assertEqual(project_obj.packages[0].package_name, 'geany')
-        self.assertEqual(project_obj.packages[0].distro_name, 'CentOS')
+        self.assertEqual(project_obj.packages[0].package_name, "geany")
+        self.assertEqual(project_obj.packages[0].distro_name, "CentOS")
 
         # Map `geany` project to CentOS, exactly the same way
         utilities.map_project(
             self.session,
             project=project_obj,
-            package_name='geany2',
-            distribution='CentOS',
-            user_id='noreply@fedoraproject.org',
+            package_name="geany2",
+            distribution="CentOS",
+            user_id="noreply@fedoraproject.org",
             old_package_name=None,
         )
         self.session.commit()
 
         project_obj = models.Project.get(self.session, 1)
-        self.assertEqual(project_obj.name, 'geany')
+        self.assertEqual(project_obj.name, "geany")
         self.assertEqual(len(project_obj.packages), 2)
-        self.assertEqual(project_obj.packages[0].package_name, 'geany')
-        self.assertEqual(project_obj.packages[0].distro_name, 'CentOS')
-        self.assertEqual(project_obj.packages[1].package_name, 'geany2')
-        self.assertEqual(project_obj.packages[1].distro_name, 'CentOS')
+        self.assertEqual(project_obj.packages[0].package_name, "geany")
+        self.assertEqual(project_obj.packages[0].distro_name, "CentOS")
+        self.assertEqual(project_obj.packages[1].package_name, "geany2")
+        self.assertEqual(project_obj.packages[1].distro_name, "CentOS")
 
         # Edit the mapping of the `geany` project to Fedora
         utilities.map_project(
             self.session,
             project=project_obj,
-            package_name='geany3',
-            distribution='Fedora',
-            user_id='noreply@fedoraproject.org',
-            old_package_name='geany',
-            old_distro_name='CentOS',
+            package_name="geany3",
+            distribution="Fedora",
+            user_id="noreply@fedoraproject.org",
+            old_package_name="geany",
+            old_distro_name="CentOS",
         )
         self.session.commit()
 
         project_obj = models.Project.get(self.session, 1)
-        self.assertEqual(project_obj.name, 'geany')
+        self.assertEqual(project_obj.name, "geany")
         self.assertEqual(len(project_obj.packages), 2)
         pkgs = sorted(project_obj.packages, key=lambda x: x.package_name)
-        self.assertEqual(pkgs[0].package_name, 'geany2')
-        self.assertEqual(pkgs[0].distro_name, 'CentOS')
-        self.assertEqual(pkgs[1].package_name, 'geany3')
-        self.assertEqual(pkgs[1].distro_name, 'Fedora')
+        self.assertEqual(pkgs[0].package_name, "geany2")
+        self.assertEqual(pkgs[0].distro_name, "CentOS")
+        self.assertEqual(pkgs[1].package_name, "geany3")
+        self.assertEqual(pkgs[1].distro_name, "Fedora")
 
         # Edit the mapping of the `geany` project to Fedora
         project_obj = models.Project.get(self.session, 2)
-        self.assertEqual(project_obj.name, 'subsurface')
+        self.assertEqual(project_obj.name, "subsurface")
         self.assertEqual(len(project_obj.packages), 0)
 
         self.assertRaises(
@@ -488,9 +471,9 @@ class MapProjectTests(DatabaseTestCase):
             utilities.map_project,
             self.session,
             project=project_obj,
-            package_name='geany2',
-            distribution='CentOS',
-            user_id='noreply@fedoraproject.org',
+            package_name="geany2",
+            distribution="CentOS",
+            user_id="noreply@fedoraproject.org",
         )
 
     def test_map_project_no_project_for_package(self):
@@ -499,56 +482,55 @@ class MapProjectTests(DatabaseTestCase):
         create_project(self.session)
 
         pkg = models.Packages(
-            distro_name='Fedora',
-            project_id=None,
-            package_name='geany'
+            distro_name="Fedora", project_id=None, package_name="geany"
         )
         self.session.add(pkg)
         self.session.commit()
 
         distro_objs = self.session.query(models.Distro).all()
         project_obj = models.Project.get(self.session, 1)
-        self.assertEqual(project_obj.name, 'geany')
+        self.assertEqual(project_obj.name, "geany")
         self.assertEqual(len(project_obj.packages), 0)
-        self.assertEqual(distro_objs[0].name, 'Fedora')
+        self.assertEqual(distro_objs[0].name, "Fedora")
 
         utilities.map_project(
             self.session,
             project=project_obj,
-            package_name='geany',
-            distribution='Fedora',
-            user_id='noreply@fedoraproject.org',
+            package_name="geany",
+            distribution="Fedora",
+            user_id="noreply@fedoraproject.org",
             old_package_name=None,
         )
         self.session.commit()
 
         project_obj = models.Project.get(self.session, 1)
         packages = self.session.query(models.Packages).all()
-        self.assertEqual(project_obj.name, 'geany')
+        self.assertEqual(project_obj.name, "geany")
         self.assertEqual(len(project_obj.packages), 1)
         self.assertEqual(len(packages), 1)
-        self.assertEqual(project_obj.packages[0].package_name, 'geany')
-        self.assertEqual(project_obj.packages[0].distro_name, 'Fedora')
+        self.assertEqual(project_obj.packages[0].package_name, "geany")
+        self.assertEqual(project_obj.packages[0].distro_name, "Fedora")
 
     def test_map_project_session_error_no_distro(self):
         """ Test SQLAlchemy session error """
         create_project(self.session)
 
         project_obj = models.Project.get(self.session, 1)
-        self.assertEqual(project_obj.name, 'geany')
+        self.assertEqual(project_obj.name, "geany")
         self.assertEqual(len(project_obj.packages), 0)
 
         with mock.patch.object(
-                self.session, 'flush', mock.Mock(side_effect=[SQLAlchemyError(), None])):
+            self.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
+        ):
             # Without existing Distro object
             self.assertRaises(
                 exceptions.AnityaException,
                 utilities.map_project,
                 self.session,
                 project=project_obj,
-                package_name='geany',
-                distribution='Fedora',
-                user_id='noreply@fedoraproject.org',
+                package_name="geany",
+                distribution="Fedora",
+                user_id="noreply@fedoraproject.org",
                 old_package_name=None,
             )
 
@@ -558,20 +540,21 @@ class MapProjectTests(DatabaseTestCase):
         create_distro(self.session)
 
         project_obj = models.Project.get(self.session, 1)
-        self.assertEqual(project_obj.name, 'geany')
+        self.assertEqual(project_obj.name, "geany")
         self.assertEqual(len(project_obj.packages), 0)
 
         with mock.patch.object(
-                self.session, 'flush', mock.Mock(side_effect=[SQLAlchemyError(), None])):
+            self.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
+        ):
             # With Distro object
             self.assertRaises(
                 exceptions.AnityaException,
                 utilities.map_project,
                 self.session,
                 project=project_obj,
-                package_name='geany',
-                distribution='Fedora',
-                user_id='noreply@fedoraproject.org',
+                package_name="geany",
+                distribution="Fedora",
+                user_id="noreply@fedoraproject.org",
                 old_package_name=None,
             )
 
@@ -589,14 +572,14 @@ class FlagProjectTests(DatabaseTestCase):
         utilities.flag_project(
             self.session,
             project=project_obj,
-            reason='reason',
-            user_email='noreply@fedoraproject.org',
-            user_id='noreply@fedoraproject.org',
+            reason="reason",
+            user_email="noreply@fedoraproject.org",
+            user_id="noreply@fedoraproject.org",
         )
 
         project_obj = models.Project.get(self.session, 1)
         self.assertEqual(len(project_obj.flags), 1)
-        self.assertEqual(project_obj.flags[0].reason, 'reason')
+        self.assertEqual(project_obj.flags[0].reason, "reason")
 
     def test_flag_project_session_error(self):
         """ Test SQLAlchemy session error """
@@ -605,15 +588,16 @@ class FlagProjectTests(DatabaseTestCase):
         project_obj = models.Project.get(self.session, 1)
 
         with mock.patch.object(
-                self.session, 'flush', mock.Mock(side_effect=[SQLAlchemyError(), None])):
+            self.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
+        ):
             self.assertRaises(
                 exceptions.AnityaException,
                 utilities.flag_project,
                 self.session,
                 project=project_obj,
-                reason='reason',
-                user_email='noreply@fedoraproject.org',
-                user_id='noreply@fedoraproject.org',
+                reason="reason",
+                user_email="noreply@fedoraproject.org",
+                user_id="noreply@fedoraproject.org",
             )
 
 
@@ -625,15 +609,12 @@ class SetFlagStateTests(DatabaseTestCase):
         flag = create_flagged_project(self.session)
 
         utilities.set_flag_state(
-            self.session,
-            flag=flag,
-            state='closed',
-            user_id='noreply@fedoraproject.org',
+            self.session, flag=flag, state="closed", user_id="noreply@fedoraproject.org"
         )
 
         project_obj = models.Project.get(self.session, 1)
         self.assertEqual(len(project_obj.flags), 1)
-        self.assertEqual(project_obj.flags[0].state, 'closed')
+        self.assertEqual(project_obj.flags[0].state, "closed")
 
     def test_set_flag_state_no_change(self):
         """ Test set state """
@@ -644,8 +625,8 @@ class SetFlagStateTests(DatabaseTestCase):
             utilities.set_flag_state,
             self.session,
             flag=flag,
-            state='open',
-            user_id='noreply@fedoraproject.org',
+            state="open",
+            user_id="noreply@fedoraproject.org",
         )
 
     def test_set_flag_project_session_error(self):
@@ -653,432 +634,334 @@ class SetFlagStateTests(DatabaseTestCase):
         flag = create_flagged_project(self.session)
 
         with mock.patch.object(
-                self.session, 'flush', mock.Mock(side_effect=[SQLAlchemyError(), None])):
+            self.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
+        ):
             self.assertRaises(
                 exceptions.AnityaException,
                 utilities.set_flag_state,
                 self.session,
                 flag=flag,
-                state='closed',
-                user_id='noreply@fedoraproject.org',
+                state="closed",
+                user_id="noreply@fedoraproject.org",
             )
 
 
 class LogTests(DatabaseTestCase):
     """ Tests for `anitya.lib.utilities.log` function. """
 
-    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
     def test_log_distro_add(self, mock_method):
         """ Assert that 'distro.add' topic is handled correctly. """
-        project = models.Project(
-            name='test'
-        )
-        distro = models.Distro(
-            name='Fedora'
-        )
+        project = models.Project(name="test")
+        distro = models.Distro(name="Fedora")
         exp = "anitya added the distro named: Fedora"
-        message = {
-            'agent': 'anitya',
-            'distro': 'Fedora'
-        }
+        message = {"agent": "anitya", "distro": "Fedora"}
         final_msg = utilities.log(
-            self.session, project=project, distro=distro,
-            topic='distro.add', message=message
+            self.session,
+            project=project,
+            distro=distro,
+            topic="distro.add",
+            message=message,
         )
 
         mock_method.assert_called_with(
-            topic='distro.add', msg=dict(
-                project=project,
-                distro=distro,
-                message=message
-            )
+            topic="distro.add",
+            msg=dict(project=project, distro=distro, message=message),
         )
         self.assertEqual(final_msg, exp)
 
-    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
     def test_log_distro_edit(self, mock_method):
         """ Assert that 'distro.edit' topic is handled correctly. """
-        project = models.Project(
-            name='test'
-        )
-        distro = models.Distro(
-            name='Fedora'
-        )
+        project = models.Project(name="test")
+        distro = models.Distro(name="Fedora")
         exp = "anitya edited distro name from: Dummy to: Fedora"
-        message = {
-            'agent': 'anitya',
-            'old': 'Dummy',
-            'new': 'Fedora'
-        }
+        message = {"agent": "anitya", "old": "Dummy", "new": "Fedora"}
         final_msg = utilities.log(
-            self.session, project=project, distro=distro,
-            topic='distro.edit', message=message
+            self.session,
+            project=project,
+            distro=distro,
+            topic="distro.edit",
+            message=message,
         )
 
         mock_method.assert_called_with(
-            topic='distro.edit', msg=dict(
-                project=project,
-                distro=distro,
-                message=message
-            )
+            topic="distro.edit",
+            msg=dict(project=project, distro=distro, message=message),
         )
         self.assertEqual(final_msg, exp)
 
-    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
     def test_log_distro_remove(self, mock_method):
         """ Assert that 'distro.remove' topic is handled correctly. """
-        project = models.Project(
-            name='test'
-        )
-        distro = models.Distro(
-            name='Fedora'
-        )
+        project = models.Project(name="test")
+        distro = models.Distro(name="Fedora")
         exp = "anitya deleted the distro named: Fedora"
-        message = {
-            'agent': 'anitya',
-            'distro': 'Fedora'
-        }
+        message = {"agent": "anitya", "distro": "Fedora"}
         final_msg = utilities.log(
-            self.session, project=project, distro=distro,
-            topic='distro.remove', message=message
+            self.session,
+            project=project,
+            distro=distro,
+            topic="distro.remove",
+            message=message,
         )
 
         mock_method.assert_called_with(
-            topic='distro.remove', msg=dict(
-                project=project,
-                distro=distro,
-                message=message
-            )
+            topic="distro.remove",
+            msg=dict(project=project, distro=distro, message=message),
         )
         self.assertEqual(final_msg, exp)
 
-    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
     def test_log_project_add(self, mock_method):
         """ Assert that 'project.add' topic is handled correctly. """
-        project = models.Project(
-            name='test'
-        )
-        distro = models.Distro(
-            name='Fedora'
-        )
+        project = models.Project(name="test")
+        distro = models.Distro(name="Fedora")
         exp = "anitya added project: test"
-        message = {
-            'agent': 'anitya',
-            'project': 'test'
-        }
+        message = {"agent": "anitya", "project": "test"}
         final_msg = utilities.log(
-            self.session, project=project, distro=distro,
-            topic='project.add', message=message
+            self.session,
+            project=project,
+            distro=distro,
+            topic="project.add",
+            message=message,
         )
 
         mock_method.assert_called_with(
-            topic='project.add', msg=dict(
-                project=project,
-                distro=distro,
-                message=message
-            )
+            topic="project.add",
+            msg=dict(project=project, distro=distro, message=message),
         )
         self.assertEqual(final_msg, exp)
 
-    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
     def test_log_project_add_tried(self, mock_method):
         """ Assert that 'project.add.tried' topic is handled correctly. """
-        project = models.Project(
-            name='test'
-        )
-        distro = models.Distro(
-            name='Fedora'
-        )
+        project = models.Project(name="test")
+        distro = models.Distro(name="Fedora")
         exp = "anitya tried to add an already existing project: test"
-        message = {
-            'agent': 'anitya',
-            'project': 'test'
-        }
+        message = {"agent": "anitya", "project": "test"}
         final_msg = utilities.log(
-            self.session, project=project, distro=distro,
-            topic='project.add.tried', message=message
+            self.session,
+            project=project,
+            distro=distro,
+            topic="project.add.tried",
+            message=message,
         )
 
         mock_method.assert_called_with(
-            topic='project.add.tried', msg=dict(
-                project=project,
-                distro=distro,
-                message=message
-            )
+            topic="project.add.tried",
+            msg=dict(project=project, distro=distro, message=message),
         )
         self.assertEqual(final_msg, exp)
 
-    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
     def test_log_project_edit(self, mock_method):
         """ Assert that 'project.edit' topic is handled correctly. """
-        project = models.Project(
-            name='test'
-        )
-        distro = models.Distro(
-            name='Fedora'
-        )
+        project = models.Project(name="test")
+        distro = models.Distro(name="Fedora")
         message = {
-            'agent': 'anitya',
-            'project': 'test',
-            'changes': {
-                'name': {
-                    'old': 'dummy',
-                    'new': 'test'
-                }
-            }
+            "agent": "anitya",
+            "project": "test",
+            "changes": {"name": {"old": "dummy", "new": "test"}},
         }
-        exp = "anitya edited the project: test fields: " \
-              "{}".format(message['changes'])
+        exp = "anitya edited the project: test fields: " "{}".format(message["changes"])
         final_msg = utilities.log(
-            self.session, project=project, distro=distro,
-            topic='project.edit', message=message
+            self.session,
+            project=project,
+            distro=distro,
+            topic="project.edit",
+            message=message,
         )
 
         mock_method.assert_called_with(
-            topic='project.edit', msg=dict(
-                project=project,
-                distro=distro,
-                message=message
-            )
+            topic="project.edit",
+            msg=dict(project=project, distro=distro, message=message),
         )
         self.assertEqual(final_msg, exp)
 
-    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
     def test_log_project_flag(self, mock_method):
         """ Assert that 'project.flag' topic is handled correctly. """
-        project = models.Project(
-            name='test'
-        )
-        distro = models.Distro(
-            name='Fedora'
-        )
+        project = models.Project(name="test")
+        distro = models.Distro(name="Fedora")
         exp = "anitya flagged the project: test with reason: reason"
-        message = {
-            'agent': 'anitya',
-            'project': 'test',
-            'reason': 'reason'
-        }
+        message = {"agent": "anitya", "project": "test", "reason": "reason"}
         final_msg = utilities.log(
-            self.session, project=project, distro=distro,
-            topic='project.flag', message=message
+            self.session,
+            project=project,
+            distro=distro,
+            topic="project.flag",
+            message=message,
         )
 
         mock_method.assert_called_with(
-            topic='project.flag', msg=dict(
-                project=project,
-                distro=distro,
-                message=message
-            )
+            topic="project.flag",
+            msg=dict(project=project, distro=distro, message=message),
         )
         self.assertEqual(final_msg, exp)
 
-    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
     def test_log_project_flag_set(self, mock_method):
         """ Assert that 'project.flag.set' topic is handled correctly. """
-        project = models.Project(
-            name='test'
-        )
-        distro = models.Distro(
-            name='Fedora'
-        )
+        project = models.Project(name="test")
+        distro = models.Distro(name="Fedora")
         exp = "anitya set flag test to open"
-        message = {
-            'agent': 'anitya',
-            'flag': 'test',
-            'state': 'open'
-        }
+        message = {"agent": "anitya", "flag": "test", "state": "open"}
         final_msg = utilities.log(
-            self.session, project=project, distro=distro,
-            topic='project.flag.set', message=message
+            self.session,
+            project=project,
+            distro=distro,
+            topic="project.flag.set",
+            message=message,
         )
 
         mock_method.assert_called_with(
-            topic='project.flag.set', msg=dict(
-                project=project,
-                distro=distro,
-                message=message
-            )
+            topic="project.flag.set",
+            msg=dict(project=project, distro=distro, message=message),
         )
         self.assertEqual(final_msg, exp)
 
-    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
     def test_log_project_remove(self, mock_method):
         """ Assert that 'project.remove' topic is handled correctly. """
-        project = models.Project(
-            name='test'
-        )
-        distro = models.Distro(
-            name='Fedora'
-        )
+        project = models.Project(name="test")
+        distro = models.Distro(name="Fedora")
         exp = "anitya removed the project: test"
-        message = {
-            'agent': 'anitya',
-            'project': 'test',
-        }
+        message = {"agent": "anitya", "project": "test"}
         final_msg = utilities.log(
-            self.session, project=project, distro=distro,
-            topic='project.remove', message=message
+            self.session,
+            project=project,
+            distro=distro,
+            topic="project.remove",
+            message=message,
         )
 
         mock_method.assert_called_with(
-            topic='project.remove', msg=dict(
-                project=project,
-                distro=distro,
-                message=message
-            )
+            topic="project.remove",
+            msg=dict(project=project, distro=distro, message=message),
         )
         self.assertEqual(final_msg, exp)
 
-    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
     def test_log_project_map_new(self, mock_method):
         """ Assert that 'project.map.new' topic is handled correctly. """
-        project = models.Project(
-            name='test'
-        )
-        distro = models.Distro(
-            name='Fedora'
-        )
+        project = models.Project(name="test")
+        distro = models.Distro(name="Fedora")
         exp = "anitya mapped the name of test in Fedora as test_package"
         message = {
-            'agent': 'anitya',
-            'project': 'test',
-            'distro': 'Fedora',
-            'new': 'test_package'
+            "agent": "anitya",
+            "project": "test",
+            "distro": "Fedora",
+            "new": "test_package",
         }
         final_msg = utilities.log(
-            self.session, project=project, distro=distro,
-            topic='project.map.new', message=message
+            self.session,
+            project=project,
+            distro=distro,
+            topic="project.map.new",
+            message=message,
         )
 
         mock_method.assert_called_with(
-            topic='project.map.new', msg=dict(
-                project=project,
-                distro=distro,
-                message=message
-            )
+            topic="project.map.new",
+            msg=dict(project=project, distro=distro, message=message),
         )
         self.assertEqual(final_msg, exp)
 
-    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
     def test_log_project_map_update(self, mock_method):
         """ Assert that 'project.map.update' topic is handled correctly. """
-        project = models.Project(
-            name='test'
-        )
-        distro = models.Distro(
-            name='Fedora'
-        )
-        exp = "anitya updated the name of test in Fedora from: test_old" \
-              " to: test_new"
+        project = models.Project(name="test")
+        distro = models.Distro(name="Fedora")
+        exp = "anitya updated the name of test in Fedora from: test_old" " to: test_new"
         message = {
-            'agent': 'anitya',
-            'project': 'test',
-            'distro': 'Fedora',
-            'prev': 'test_old',
-            'new': 'test_new'
+            "agent": "anitya",
+            "project": "test",
+            "distro": "Fedora",
+            "prev": "test_old",
+            "new": "test_new",
         }
         final_msg = utilities.log(
-            self.session, project=project, distro=distro,
-            topic='project.map.update', message=message
+            self.session,
+            project=project,
+            distro=distro,
+            topic="project.map.update",
+            message=message,
         )
 
         mock_method.assert_called_with(
-            topic='project.map.update', msg=dict(
-                project=project,
-                distro=distro,
-                message=message
-            )
+            topic="project.map.update",
+            msg=dict(project=project, distro=distro, message=message),
         )
         self.assertEqual(final_msg, exp)
 
-    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
     def test_log_project_map_remove(self, mock_method):
         """ Assert that 'project.map.remove' topic is handled correctly. """
-        project = models.Project(
-            name='test'
-        )
-        distro = models.Distro(
-            name='Fedora'
-        )
+        project = models.Project(name="test")
+        distro = models.Distro(name="Fedora")
         exp = "anitya removed the mapping of test in Fedora"
-        message = {
-            'agent': 'anitya',
-            'project': 'test',
-            'distro': 'Fedora',
-        }
+        message = {"agent": "anitya", "project": "test", "distro": "Fedora"}
         final_msg = utilities.log(
-            self.session, project=project, distro=distro,
-            topic='project.map.remove', message=message
+            self.session,
+            project=project,
+            distro=distro,
+            topic="project.map.remove",
+            message=message,
         )
 
         mock_method.assert_called_with(
-            topic='project.map.remove', msg=dict(
-                project=project,
-                distro=distro,
-                message=message
-            )
+            topic="project.map.remove",
+            msg=dict(project=project, distro=distro, message=message),
         )
         self.assertEqual(final_msg, exp)
 
-    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
     def test_log_project_version_remove(self, mock_method):
         """ Assert that 'project.version.remove' topic is handled correctly. """
-        project = models.Project(
-            name='test'
-        )
-        distro = models.Distro(
-            name='Fedora'
-        )
+        project = models.Project(name="test")
+        distro = models.Distro(name="Fedora")
         exp = "anitya removed the version 1.0.0 of test"
-        message = {
-            'agent': 'anitya',
-            'project': 'test',
-            'version': '1.0.0',
-        }
+        message = {"agent": "anitya", "project": "test", "version": "1.0.0"}
         final_msg = utilities.log(
-            self.session, project=project, distro=distro,
-            topic='project.version.remove', message=message
+            self.session,
+            project=project,
+            distro=distro,
+            topic="project.version.remove",
+            message=message,
         )
 
         mock_method.assert_called_with(
-            topic='project.version.remove', msg=dict(
-                project=project,
-                distro=distro,
-                message=message
-            )
+            topic="project.version.remove",
+            msg=dict(project=project, distro=distro, message=message),
         )
         self.assertEqual(final_msg, exp)
 
-    @mock.patch('anitya.lib.utilities.fedmsg_publish')
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
     def test_log_project_version_update(self, mock_method):
         """ Assert that 'project.version.update' topic is handled correctly. """
-        project = models.Project(
-            name='test'
+        project = models.Project(name="test")
+        distro = models.Distro(name="Fedora")
+        exp = (
+            "new version: 1.0.0 found for project test "
+            "in ecosystem pypi (project id: 1)."
         )
-        distro = models.Distro(
-            name='Fedora'
-        )
-        exp = "new version: 1.0.0 found for project test " \
-              "in ecosystem pypi (project id: 1)."
         message = {
-            'agent': 'anitya',
-            'upstream_version': '1.0.0',
-            'ecosystem': 'pypi',
-            'project': {
-                'name': 'test',
-                'id': '1'
-            }
+            "agent": "anitya",
+            "upstream_version": "1.0.0",
+            "ecosystem": "pypi",
+            "project": {"name": "test", "id": "1"},
         }
         final_msg = utilities.log(
-            self.session, project=project, distro=distro,
-            topic='project.version.update', message=message
+            self.session,
+            project=project,
+            distro=distro,
+            topic="project.version.update",
+            message=message,
         )
 
         mock_method.assert_called_with(
-            topic='project.version.update', msg=dict(
-                project=project,
-                distro=distro,
-                message=message
-            )
+            topic="project.version.update",
+            msg=dict(project=project, distro=distro, message=message),
         )
         self.assertEqual(final_msg, exp)

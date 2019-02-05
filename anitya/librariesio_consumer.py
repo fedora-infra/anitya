@@ -101,23 +101,22 @@ class LibrariesioConsumer(FedmsgConsumer):
         config_key (str): A string that must be set to `True` in the fedmsg
             configuration to enable this consumer.
     """
-    topic = [
-        'sse2fedmsg.librariesio',
-    ]
 
-    config_key = 'anitya.libraryio.enabled'
+    topic = ["sse2fedmsg.librariesio"]
+
+    config_key = "anitya.libraryio.enabled"
 
     def __init__(self, hub):
         # If we're in development mode, add the dev versions of the topics so
         # local playback with fedmsg-dg-replay works as expected.
-        prefix, env = hub.config['topic_prefix'], hub.config['environment']
-        self.topic = ['.'.join([prefix, env, topic]) for topic in self.topic]
-        _log.info('Subscribing to the following fedmsg topics: %r', self.topic)
+        prefix, env = hub.config["topic_prefix"], hub.config["environment"]
+        self.topic = [".".join([prefix, env, topic]) for topic in self.topic]
+        _log.info("Subscribing to the following fedmsg topics: %r", self.topic)
 
         initialize(config.config)
 
         super(LibrariesioConsumer, self).__init__(hub)
-        hub.config['topic_prefix'] = "org.release-monitoring"
+        hub.config["topic_prefix"] = "org.release-monitoring"
 
     def consume(self, message):
         """
@@ -139,55 +138,85 @@ class LibrariesioConsumer(FedmsgConsumer):
         Args:
             message (dict): The fedmsg to process.
         """
-        librariesio_msg = message['body']['msg']['data']
-        name = librariesio_msg['name']
-        platform = librariesio_msg['platform'].lower()
-        version = librariesio_msg['version']
-        homepage = librariesio_msg['package_manager_url']
+        librariesio_msg = message["body"]["msg"]["data"]
+        name = librariesio_msg["name"]
+        platform = librariesio_msg["platform"].lower()
+        version = librariesio_msg["version"]
+        homepage = librariesio_msg["package_manager_url"]
         for ecosystem in plugins.ECOSYSTEM_PLUGINS.get_plugins():
             if platform == ecosystem.name or platform in ecosystem.aliases:
                 break
         else:
-            _log.debug('Dropped librariesio update to %s for %s (%s) since it is on the '
-                       'unsupported %s platform', version, name, homepage, platform)
+            _log.debug(
+                "Dropped librariesio update to %s for %s (%s) since it is on the "
+                "unsupported %s platform",
+                version,
+                name,
+                homepage,
+                platform,
+            )
             return
 
         session = Session()
         project = models.Project.by_name_and_ecosystem(session, name, ecosystem.name)
-        if project is None and platform in config.config['LIBRARIESIO_PLATFORM_WHITELIST']:
+        if (
+            project is None
+            and platform in config.config["LIBRARIESIO_PLATFORM_WHITELIST"]
+        ):
             try:
                 project = utilities.create_project(
                     session,
                     name,
                     homepage,
-                    'anitya',
+                    "anitya",
                     backend=ecosystem.default_backend,
                     check_release=True,
                 )
-                _log.info('Discovered new project at version %s via libraries.io: %r',
-                          version, project)
+                _log.info(
+                    "Discovered new project at version %s via libraries.io: %r",
+                    version,
+                    project,
+                )
             except exceptions.AnityaException as e:
-                _log.error('A new project was discovered via libraries.io, %r, '
-                           'but we failed with "%s"', project, str(e))
+                _log.error(
+                    "A new project was discovered via libraries.io, %r, "
+                    'but we failed with "%s"',
+                    project,
+                    str(e),
+                )
         elif project is None:
-            _log.info('Discovered new project, %s, on the %s platform, but anitya is '
-                      'configured to not create the project', name, platform)
+            _log.info(
+                "Discovered new project, %s, on the %s platform, but anitya is "
+                "configured to not create the project",
+                name,
+                platform,
+            )
         else:
-            _log.info('libraries.io has found an update (version %s) for project %r',
-                      version, project)
+            _log.info(
+                "libraries.io has found an update (version %s) for project %r",
+                version,
+                project,
+            )
             # This will fetch the version, emit fedmsgs, add log entries, and
             # commit the transaction.
             try:
                 utilities.check_project_release(project, session)
             except exceptions.AnityaPluginException as e:
-                _log.warning('libraries.io found an update for %r, but we failed with %s',
-                             project, str(e))
+                _log.warning(
+                    "libraries.io found an update for %r, but we failed with %s",
+                    project,
+                    str(e),
+                )
 
         # Refresh the project object that was committed by either
         # ``create_project`` or ``check_project_release`` above
         project = models.Project.by_name_and_ecosystem(session, name, ecosystem.name)
         if project and project.latest_version != version:
-            _log.info('libraries.io found %r had a latest version of %s, but Anitya found %s',
-                      project, version, project.latest_version)
+            _log.info(
+                "libraries.io found %r had a latest version of %s, but Anitya found %s",
+                project,
+                version,
+                project.latest_version,
+            )
 
         Session.remove()

@@ -90,139 +90,142 @@ class LoadTests(unittest.TestCase):
 
     maxDiff = None
 
-    @mock.patch('anitya.config.open', mock.mock_open(read_data='Ni!'))
-    @mock.patch('anitya.config._log', autospec=True)
-    @mock.patch('anitya.config.os.path.exists', return_value=True)
+    @mock.patch("anitya.config.open", mock.mock_open(read_data="Ni!"))
+    @mock.patch("anitya.config._log", autospec=True)
+    @mock.patch("anitya.config.os.path.exists", return_value=True)
     def test_bad_config_file(self, mock_exists, mock_log):
         config = anitya_config.load()
         self.assertEqual(anitya_config.DEFAULTS, config)
-        mock_exists.assert_called_once_with('/etc/anitya/anitya.toml')
+        mock_exists.assert_called_once_with("/etc/anitya/anitya.toml")
         mock_log.info.assert_called_once_with(
-            'Loading Anitya configuration from /etc/anitya/anitya.toml')
-        error = 'Failed to parse /etc/anitya/anitya.toml: <string>(1, 1): msg'
+            "Loading Anitya configuration from /etc/anitya/anitya.toml"
+        )
+        error = "Failed to parse /etc/anitya/anitya.toml: <string>(1, 1): msg"
         self.assertEqual(error, mock_log.error.call_args_list[0][0][0])
 
-    @mock.patch('anitya.config.open', mock.mock_open(read_data=partial_config))
-    @mock.patch('anitya.config._log', autospec=True)
-    @mock.patch('anitya.config.os.path.exists', return_value=True)
+    @mock.patch("anitya.config.open", mock.mock_open(read_data=partial_config))
+    @mock.patch("anitya.config._log", autospec=True)
+    @mock.patch("anitya.config.os.path.exists", return_value=True)
     def test_partial_config_file(self, mock_exists, mock_log):
         config = anitya_config.load()
-        self.assertNotEqual('muchsecretverysafe', anitya_config.DEFAULTS['SECRET_KEY'])
-        self.assertEqual('muchsecretverysafe', config['SECRET_KEY'])
-        mock_exists.assert_called_once_with('/etc/anitya/anitya.toml')
+        self.assertNotEqual("muchsecretverysafe", anitya_config.DEFAULTS["SECRET_KEY"])
+        self.assertEqual("muchsecretverysafe", config["SECRET_KEY"])
+        mock_exists.assert_called_once_with("/etc/anitya/anitya.toml")
         mock_log.info.assert_called_once_with(
-            'Loading Anitya configuration from /etc/anitya/anitya.toml')
+            "Loading Anitya configuration from /etc/anitya/anitya.toml"
+        )
         self.assertEqual(0, mock_log.warning.call_count)
 
-    @mock.patch('anitya.config.open', mock.mock_open(read_data=full_config))
-    @mock.patch('anitya.config._log', autospec=True)
-    @mock.patch('anitya.config.os.path.exists', return_value=True)
+    @mock.patch("anitya.config.open", mock.mock_open(read_data=full_config))
+    @mock.patch("anitya.config._log", autospec=True)
+    @mock.patch("anitya.config.os.path.exists", return_value=True)
     def test_full_config_file(self, mock_exists, mock_log):
         expected_config = {
-            'SECRET_KEY': 'very_secret',
-            'PERMANENT_SESSION_LIFETIME': timedelta(seconds=3600),
-            'DB_URL': 'sqlite:////var/tmp/anitya-dev.sqlite',
-            'ANITYA_WEB_ADMINS': ['http://pingou.id.fedoraproject.org'],
-            'ADMIN_EMAIL': 'admin@fedoraproject.org',
-            'ANITYA_LOG_CONFIG': {
-                'version': 1,
-                'disable_existing_loggers': True,
-                'formatters': {
-                    'simple': {
-                        'format': '[%(name)s %(levelname)s] %(message)s',
-                    },
+            "SECRET_KEY": "very_secret",
+            "PERMANENT_SESSION_LIFETIME": timedelta(seconds=3600),
+            "DB_URL": "sqlite:////var/tmp/anitya-dev.sqlite",
+            "ANITYA_WEB_ADMINS": ["http://pingou.id.fedoraproject.org"],
+            "ADMIN_EMAIL": "admin@fedoraproject.org",
+            "ANITYA_LOG_CONFIG": {
+                "version": 1,
+                "disable_existing_loggers": True,
+                "formatters": {
+                    "simple": {"format": "[%(name)s %(levelname)s] %(message)s"}
                 },
-                'handlers': {
-                    'console': {
-                        'class': 'logging.StreamHandler',
-                        'formatter': 'simple',
-                        'stream': 'ext://sys.stdout',
+                "handlers": {
+                    "console": {
+                        "class": "logging.StreamHandler",
+                        "formatter": "simple",
+                        "stream": "ext://sys.stdout",
                     }
                 },
-                'loggers': {
-                    'anitya': {
-                        'level': 'WARNING',
-                        'propagate': False,
-                        'handlers': ['console'],
-                    },
+                "loggers": {
+                    "anitya": {
+                        "level": "WARNING",
+                        "propagate": False,
+                        "handlers": ["console"],
+                    }
                 },
-                'root': {
-                    'level': 'ERROR',
-                    'handlers': ['console'],
-                },
+                "root": {"level": "ERROR", "handlers": ["console"]},
             },
-            'SMTP_SERVER': 'smtp.example.com',
-            'EMAIL_ERRORS': False,
-            'BLACKLISTED_USERS': ['http://sometroublemaker.id.fedoraproject.org'],
-            'SESSION_PROTECTION': 'strong',
-            'SOCIAL_AUTH_AUTHENTICATION_BACKENDS': [
-                'social_core.backends.fedora.FedoraOpenId',
-                'social_core.backends.yahoo.YahooOpenId',
-                'social_core.backends.open_id.OpenIdAuth',
-                'social_core.backends.google_openidconnect.GoogleOpenIdConnect',
-                'social_core.backends.github.GithubOAuth2',
+            "SMTP_SERVER": "smtp.example.com",
+            "EMAIL_ERRORS": False,
+            "BLACKLISTED_USERS": ["http://sometroublemaker.id.fedoraproject.org"],
+            "SESSION_PROTECTION": "strong",
+            "SOCIAL_AUTH_AUTHENTICATION_BACKENDS": [
+                "social_core.backends.fedora.FedoraOpenId",
+                "social_core.backends.yahoo.YahooOpenId",
+                "social_core.backends.open_id.OpenIdAuth",
+                "social_core.backends.google_openidconnect.GoogleOpenIdConnect",
+                "social_core.backends.github.GithubOAuth2",
             ],
-            'SOCIAL_AUTH_STORAGE': 'social_flask_sqlalchemy.models.FlaskStorage',
-            'SOCIAL_AUTH_USER_MODEL': 'anitya.db.models.User',
+            "SOCIAL_AUTH_STORAGE": "social_flask_sqlalchemy.models.FlaskStorage",
+            "SOCIAL_AUTH_USER_MODEL": "anitya.db.models.User",
             # Force the application to require HTTPS on authentication redirects.
-            'SOCIAL_AUTH_REDIRECT_IS_HTTPS': True,
-            'SOCIAL_AUTH_LOGIN_URL': '/login/',
-            'SOCIAL_AUTH_LOGIN_REDIRECT_URL': '/',
-            'SOCIAL_AUTH_LOGIN_ERROR_URL': '/login-error/',
-            'LIBRARIESIO_PLATFORM_WHITELIST': ['pypi', 'rubygems'],
-            'DEFAULT_REGEX': 'a*b*',
-            'GITHUB_ACCESS_TOKEN': 'foobar',
-            'LEGACY_MESSAGING': True,
+            "SOCIAL_AUTH_REDIRECT_IS_HTTPS": True,
+            "SOCIAL_AUTH_LOGIN_URL": "/login/",
+            "SOCIAL_AUTH_LOGIN_REDIRECT_URL": "/",
+            "SOCIAL_AUTH_LOGIN_ERROR_URL": "/login-error/",
+            "LIBRARIESIO_PLATFORM_WHITELIST": ["pypi", "rubygems"],
+            "DEFAULT_REGEX": "a*b*",
+            "GITHUB_ACCESS_TOKEN": "foobar",
+            "LEGACY_MESSAGING": True,
         }
         config = anitya_config.load()
         self.assertEqual(sorted(expected_config.keys()), sorted(config.keys()))
         for key in expected_config:
             self.assertEqual(expected_config[key], config[key])
-        mock_exists.assert_called_once_with('/etc/anitya/anitya.toml')
+        mock_exists.assert_called_once_with("/etc/anitya/anitya.toml")
         mock_log.info.assert_called_once_with(
-            'Loading Anitya configuration from /etc/anitya/anitya.toml')
+            "Loading Anitya configuration from /etc/anitya/anitya.toml"
+        )
         self.assertEqual(0, mock_log.warning.call_count)
 
-    @mock.patch('anitya.config.open', mock.mock_open(read_data=partial_config))
-    @mock.patch.dict('anitya.config.os.environ', {'ANITYA_WEB_CONFIG': '/my/config'})
-    @mock.patch('anitya.config._log', autospec=True)
-    @mock.patch('anitya.config.os.path.exists', return_value=True)
+    @mock.patch("anitya.config.open", mock.mock_open(read_data=partial_config))
+    @mock.patch.dict("anitya.config.os.environ", {"ANITYA_WEB_CONFIG": "/my/config"})
+    @mock.patch("anitya.config._log", autospec=True)
+    @mock.patch("anitya.config.os.path.exists", return_value=True)
     def test_custom_config_file(self, mock_exists, mock_log):
         config = anitya_config.load()
-        self.assertNotEqual('muchsecretverysafe', anitya_config.DEFAULTS['SECRET_KEY'])
-        self.assertEqual('muchsecretverysafe', config['SECRET_KEY'])
-        mock_exists.assert_called_once_with('/my/config')
+        self.assertNotEqual("muchsecretverysafe", anitya_config.DEFAULTS["SECRET_KEY"])
+        self.assertEqual("muchsecretverysafe", config["SECRET_KEY"])
+        mock_exists.assert_called_once_with("/my/config")
         mock_log.info.assert_called_once_with(
-            'Loading Anitya configuration from /my/config')
+            "Loading Anitya configuration from /my/config"
+        )
         self.assertEqual(0, mock_log.warning.call_count)
 
-    @mock.patch('anitya.config.open', mock.mock_open(read_data=empty_config))
-    @mock.patch('anitya.config._log', autospec=True)
-    @mock.patch('anitya.config.os.path.exists', return_value=True)
+    @mock.patch("anitya.config.open", mock.mock_open(read_data=empty_config))
+    @mock.patch("anitya.config._log", autospec=True)
+    @mock.patch("anitya.config.os.path.exists", return_value=True)
     def test_empty_config_file(self, mock_exists, mock_log):
         """Assert loading the config with an empty file that exists works."""
         config = anitya_config.load()
         self.assertEqual(anitya_config.DEFAULTS, config)
-        mock_exists.assert_called_once_with('/etc/anitya/anitya.toml')
+        mock_exists.assert_called_once_with("/etc/anitya/anitya.toml")
         mock_log.info.assert_called_once_with(
-            'Loading Anitya configuration from /etc/anitya/anitya.toml')
+            "Loading Anitya configuration from /etc/anitya/anitya.toml"
+        )
         mock_log.warning.assert_called_once_with(
-            'SECRET_KEY is not configured, falling back to the default. '
-            'This is NOT safe for production deployments!')
+            "SECRET_KEY is not configured, falling back to the default. "
+            "This is NOT safe for production deployments!"
+        )
 
-    @mock.patch('anitya.config._log', autospec=True)
-    @mock.patch('anitya.config.os.path.exists', return_value=False)
+    @mock.patch("anitya.config._log", autospec=True)
+    @mock.patch("anitya.config.os.path.exists", return_value=False)
     def test_missing_config_file(self, mock_exists, mock_log):
         """Assert loading the config with a missing file works."""
         config = anitya_config.load()
         self.assertEqual(anitya_config.DEFAULTS, config)
-        mock_exists.assert_called_once_with('/etc/anitya/anitya.toml')
+        mock_exists.assert_called_once_with("/etc/anitya/anitya.toml")
         mock_log.info.assert_called_once_with(
-            'The Anitya configuration file, /etc/anitya/anitya.toml, does not exist.')
+            "The Anitya configuration file, /etc/anitya/anitya.toml, does not exist."
+        )
         mock_log.warning.assert_called_once_with(
-            'SECRET_KEY is not configured, falling back to the default. '
-            'This is NOT safe for production deployments!')
+            "SECRET_KEY is not configured, falling back to the default. "
+            "This is NOT safe for production deployments!"
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main(verbosity=2)

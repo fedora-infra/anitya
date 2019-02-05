@@ -10,21 +10,17 @@ from alembic import op
 import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
-revision = '2925648d8cc3'
-down_revision = '571bd07533a9'
+revision = "2925648d8cc3"
+down_revision = "571bd07533a9"
 
 
 def upgrade():
-    ''' Add the `version_prefix` column on the projects table. '''
+    """ Add the `version_prefix` column on the projects table. """
     op.add_column(
-        'projects',
-        sa.Column(
-            'version_prefix',
-            sa.String(200),
-            nullable=True)
+        "projects", sa.Column("version_prefix", sa.String(200), nullable=True)
     )
 
 
 def downgrade():
-    ''' Drop the `version_prefix` column of the projects table. '''
-    op.drop_column('projects', 'version_prefix')
+    """ Drop the `version_prefix` column of the projects table. """
+    op.drop_column("projects", "version_prefix")

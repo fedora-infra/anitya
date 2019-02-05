@@ -9,16 +9,13 @@ from alembic import op
 
 
 # revision identifiers, used by Alembic.
-revision = 'c8735fa14a0a'
-down_revision = '34b9bb5fa388'
+revision = "c8735fa14a0a"
+down_revision = "34b9bb5fa388"
 
 
 def upgrade():
-    ''' Rename column `distro` in packages table. '''
-    op.alter_column(
-        'packages',
-        'distro',
-        new_column_name='distro_name')
+    """ Rename column `distro` in packages table. """
+    op.alter_column("packages", "distro", new_column_name="distro_name")
 
 
 def downgrade():

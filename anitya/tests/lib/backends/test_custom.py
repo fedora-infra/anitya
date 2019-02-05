@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for the custom backend.
-'''
+"""
 
 import unittest
 
@@ -30,7 +30,7 @@ from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
-BACKEND = 'custom'
+BACKEND = "custom"
 
 
 class CustomBackendtests(DatabaseTestCase):
@@ -46,29 +46,29 @@ class CustomBackendtests(DatabaseTestCase):
     def create_project(self):
         """ Create some basic projects to work with. """
         project = models.Project(
-            name='geany',
-            homepage='https://www.geany.org/',
-            version_url='https://www.geany.org/Download/Releases',
-            regex='DEFAULT',
+            name="geany",
+            homepage="https://www.geany.org/",
+            version_url="https://www.geany.org/Download/Releases",
+            regex="DEFAULT",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name='fake',
-            homepage='https://pypi.python.org/pypi/repo_manager_fake',
-            regex='DEFAULT',
+            name="fake",
+            homepage="https://pypi.python.org/pypi/repo_manager_fake",
+            regex="DEFAULT",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name='subsurface',
-            homepage='https://subsurface-divelog.org/',
-            version_url='https://subsurface-divelog.org/downloads/',
-            regex='DEFAULT',
+            name="subsurface",
+            homepage="https://subsurface-divelog.org/",
+            version_url="https://subsurface-divelog.org/downloads/",
+            regex="DEFAULT",
             backend=BACKEND,
         )
         self.session.add(project)
@@ -78,30 +78,28 @@ class CustomBackendtests(DatabaseTestCase):
         """ Test the get_version function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '1.33'
+        exp = "1.33"
         obs = backend.CustomBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.CustomBackend.get_version,
-            project
+            AnityaPluginException, backend.CustomBackend.get_version, project
         )
 
         pid = 3
         project = models.Project.get(self.session, pid)
-        exp = '4.7.7'
+        exp = "4.7.7"
         obs = backend.CustomBackend.get_version(project)
         self.assertEqual(obs, exp)
 
     def test_get_version_url(self):
         """ Assert that correct url is returned. """
         project = models.Project(
-            name='test',
-            homepage='http://example.org',
-            version_url='http://example.org/releases',
+            name="test",
+            homepage="http://example.org",
+            version_url="http://example.org/releases",
             backend=BACKEND,
         )
         exp = project.version_url
@@ -114,31 +112,54 @@ class CustomBackendtests(DatabaseTestCase):
         """ Test the get_versions function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = ['1.33']
+        exp = ["1.33"]
         obs = backend.CustomBackend.get_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.CustomBackend.get_version,
-            project
+            AnityaPluginException, backend.CustomBackend.get_version, project
         )
 
         pid = 3
         project = models.Project.get(self.session, pid)
         exp = [
-            u'3.1.1', u'4.0', u'4.0.1', u'4.0.2', u'4.0.3',
-            u'4.1', u'4.2', u'4.3', u'4.4.0', u'4.4.1', u'4.4.2',
-            u'4.5.0', u'4.5.1', u'4.5.2', u'4.5.3', u'4.5.4', u'4.5.5', u'4.5.6',
-            u'4.6.0', u'4.6.1', u'4.6.2', u'4.6.3', u'4.6.4',
-            u'4.7.1', u'4.7.2', u'4.7.3', u'4.7.4', u'4.7.5', u'4.7.6', u'4.7.7',
+            u"3.1.1",
+            u"4.0",
+            u"4.0.1",
+            u"4.0.2",
+            u"4.0.3",
+            u"4.1",
+            u"4.2",
+            u"4.3",
+            u"4.4.0",
+            u"4.4.1",
+            u"4.4.2",
+            u"4.5.0",
+            u"4.5.1",
+            u"4.5.2",
+            u"4.5.3",
+            u"4.5.4",
+            u"4.5.5",
+            u"4.5.6",
+            u"4.6.0",
+            u"4.6.1",
+            u"4.6.2",
+            u"4.6.3",
+            u"4.6.4",
+            u"4.7.1",
+            u"4.7.2",
+            u"4.7.3",
+            u"4.7.4",
+            u"4.7.5",
+            u"4.7.6",
+            u"4.7.7",
         ]
         obs = backend.CustomBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(CustomBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)

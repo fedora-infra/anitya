@@ -10,21 +10,15 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b13662e5d288'
-down_revision = 'ac10bf3f974c'
+revision = "b13662e5d288"
+down_revision = "ac10bf3f974c"
 
 
 def upgrade():
     """ Add 'admin' flag to users table. """
-    op.add_column(
-        'users',
-        sa.Column(
-            'admin',
-            sa.Boolean,
-            default=False)
-    )
+    op.add_column("users", sa.Column("admin", sa.Boolean, default=False))
 
 
 def downgrade():
     """ Drop 'admin' flag from users table. """
-    op.drop_column('users', 'admin')
+    op.drop_column("users", "admin")

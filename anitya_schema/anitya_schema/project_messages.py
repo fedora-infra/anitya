@@ -109,7 +109,7 @@ class ProjectEdited(message.Message):
                 },
                 "required": ["agent", "project"],
             },
-            "project": project_schema
+            "project": project_schema,
         },
     }
 
@@ -151,7 +151,7 @@ class ProjectDeleted(message.Message):
                 },
                 "required": ["agent", "project"],
             },
-            "project": project_schema
+            "project": project_schema,
         },
     }
 
@@ -207,7 +207,9 @@ class ProjectFlag(message.Message):
     @property
     def summary(self):
         """Return a summary of the message."""
-        return "A flag was created on project {} in release-monitoring.".format(self.name)
+        return "A flag was created on project {} in release-monitoring.".format(
+            self.name
+        )
 
     @property
     def name(self):
@@ -299,7 +301,9 @@ class ProjectMapCreated(message.Message):
     @property
     def summary(self):
         """Return a summary of the message."""
-        return "A new mapping was created for project {} in release-monitoring.".format(self.name)
+        return "A new mapping was created for project {} in release-monitoring.".format(
+            self.name
+        )
 
     @property
     def name(self):
@@ -347,7 +351,8 @@ class ProjectMapEdited(message.Message):
     def summary(self):
         """Return a summary of the message."""
         return "A mapping for project {} was edited in release-monitoring.".format(
-            self.name)
+            self.name
+        )
 
     @property
     def name(self):
@@ -388,7 +393,8 @@ class ProjectMapDeleted(message.Message):
     def summary(self):
         """Return a summary of the message."""
         return "A mapping for project {} was deleted in release-monitoring.".format(
-            self.name)
+            self.name
+        )
 
     @property
     def name(self):
@@ -441,7 +447,8 @@ class ProjectVersionUpdated(message.Message):
     def summary(self):
         """Return a summary of the message."""
         return "A new version '{}' was found for project {} in release-monitoring.".format(
-            self.version, self.name)
+            self.version, self.name
+        )
 
     @property
     def name(self):
@@ -487,7 +494,8 @@ class ProjectVersionDeleted(message.Message):
     def summary(self):
         """Return a summary of the message."""
         return "A version '{}' was deleted in project {} in release-monitoring.".format(
-            self.version, self.name)
+            self.version, self.name
+        )
 
     @property
     def name(self):

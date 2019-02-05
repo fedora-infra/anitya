@@ -20,23 +20,26 @@ _log = logging.getLogger(__name__)
 
 
 def use_gnome_cache_json(project):
-    ''' Try retrieving the specified project's versions using the cache.json
+    """ Try retrieving the specified project's versions using the cache.json
     file if there is one.
-    '''
+    """
     output = []
     url = GnomeBackend.get_version_url(project) + "cache.json"
     req = BaseBackend.call_url(url)
     data = req.json()
     for item in data:
-        if isinstance(item, dict) and project.name in item \
-                and isinstance(item[project.name], list):
+        if (
+            isinstance(item, dict)
+            and project.name in item
+            and isinstance(item[project.name], list)
+        ):
             output = item[project.name]
     return output
 
 
 def use_gnome_regex(project):
-    ''' Try retrieving the specified project's versions a regular expression.
-    '''
+    """ Try retrieving the specified project's versions a regular expression.
+    """
     output = []
     url = GnomeBackend.get_version_url(project)
     output = get_versions_by_regex(url, REGEX, project)
@@ -44,21 +47,21 @@ def use_gnome_regex(project):
 
 
 class GnomeBackend(BaseBackend):
-    ''' The custom class for project hosted by the GNOME project.
+    """ The custom class for project hosted by the GNOME project.
 
     This backend allows to specify a version_url and a regex that will
     be used to retrieve the version information.
-    '''
+    """
 
-    name = 'GNOME'
+    name = "GNOME"
     examples = [
-        'https://download.gnome.org/sources/control-center/',
-        'https://download.gnome.org/sources/evolution-caldav/',
+        "https://download.gnome.org/sources/control-center/",
+        "https://download.gnome.org/sources/evolution-caldav/",
     ]
 
     @classmethod
     def get_version(cls, project):
-        ''' Method called to retrieve the latest version of the projects
+        """ Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
         :arg Project project: a :class:`anitya.db.models.Project` object whose backend
@@ -69,12 +72,12 @@ class GnomeBackend(BaseBackend):
             :class:`anitya.lib.exceptions.AnityaPluginException` exception
             when the version cannot be retrieved correctly
 
-        '''
+        """
         return cls.get_ordered_versions(project)[-1]
 
     @classmethod
     def get_version_url(cls, project):
-        ''' Method called to retrieve the url used to check for new version
+        """ Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
 
         Attributes:
@@ -83,15 +86,14 @@ class GnomeBackend(BaseBackend):
 
         Returns:
             str: url used for version checking
-        '''
-        url = 'https://download.gnome.org/sources/%(name)s/' % {
-            'name': project.name}
+        """
+        url = "https://download.gnome.org/sources/%(name)s/" % {"name": project.name}
 
         return url
 
     @classmethod
     def get_versions(cls, project):
-        ''' Method called to retrieve all the versions (that can be found)
+        """ Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
         this plugin.
 
@@ -103,7 +105,7 @@ class GnomeBackend(BaseBackend):
             :class:`anitya.lib.exceptions.AnityaPluginException` exception
             when the versions cannot be retrieved correctly
 
-        '''
+        """
 
         output = []
         try:

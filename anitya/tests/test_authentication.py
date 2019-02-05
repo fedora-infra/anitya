@@ -37,13 +37,9 @@ class LoadUserFromRequestTests(DatabaseTestCase):
         super(LoadUserFromRequestTests, self).setUp()
         self.app = self.flask_app.test_client()
         session = Session()
-        self.user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
+        self.user = models.User(email="user@fedoraproject.org", username="user")
         user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id,
-            user=self.user
+            user_id=self.user.id, user=self.user
         )
 
         session.add(self.user)
@@ -56,14 +52,14 @@ class LoadUserFromRequestTests(DatabaseTestCase):
     def test_success(self):
         """Assert that users can authenticate via the 'Authorization' header."""
         mock_request = mock.Mock()
-        mock_request.headers = {'Authorization': 'token ' + self.api_token.token}
+        mock_request.headers = {"Authorization": "token " + self.api_token.token}
         user = authentication.load_user_from_request(mock_request)
         self.assertEqual(self.user, user)
 
     def test_no_token_in_db(self):
         """Assert that an invalid token results in a User of ``None``."""
         mock_request = mock.Mock()
-        mock_request.headers = {'Authorization': 'token ' 'myinvalidtoken'}
+        mock_request.headers = {"Authorization": "token " "myinvalidtoken"}
         self.assertEqual(None, authentication.load_user_from_request(mock_request))
 
     def test_no_header(self):
@@ -74,8 +70,8 @@ class LoadUserFromRequestTests(DatabaseTestCase):
 
     def test_unkown_auth_type(self):
         """Assert that unknown authentication types are rejected."""
-        mock_request = mock.Mock(spec='werkzeug.wrappers.Request')
-        mock_request.headers = {'Authorization': 'Basic ' + self.api_token.token}
+        mock_request = mock.Mock(spec="werkzeug.wrappers.Request")
+        mock_request.headers = {"Authorization": "Basic " + self.api_token.token}
         self.assertEqual(None, authentication.load_user_from_request(mock_request))
 
 
@@ -86,13 +82,9 @@ class LoadUserFromSessionTests(DatabaseTestCase):
         super(LoadUserFromSessionTests, self).setUp()
 
         session = Session()
-        self.user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
+        self.user = models.User(email="user@fedoraproject.org", username="user")
         user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id,
-            user=self.user
+            user_id=self.user.id, user=self.user
         )
 
         session.add(self.user)
@@ -111,7 +103,7 @@ class LoadUserFromSessionTests(DatabaseTestCase):
 
     def test_incorrect_type(self):
         """Assert ``None`` is returned when the user ID isn't a UUID."""
-        loaded_user = authentication.load_user_from_session('Not a UUID')
+        loaded_user = authentication.load_user_from_session("Not a UUID")
         self.assertTrue(loaded_user is None)
 
 
@@ -122,13 +114,9 @@ class RequireTokenTests(DatabaseTestCase):
         super(RequireTokenTests, self).setUp()
         self.app = self.flask_app.test_client()
         session = Session()
-        self.user = models.User(
-            email='user@fedoraproject.org',
-            username='user',
-        )
+        self.user = models.User(email="user@fedoraproject.org", username="user")
         user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id,
-            user=self.user
+            user_id=self.user.id, user=self.user
         )
 
         session.add(self.user)
@@ -137,29 +125,29 @@ class RequireTokenTests(DatabaseTestCase):
         session.add(self.api_token)
         session.commit()
 
-    @mock.patch('flask_login.current_user')
+    @mock.patch("flask_login.current_user")
     def test_unauthenticated(self, mock_current_user):
         """Assert decorated functions return HTTP 401 when no user is logged in."""
         mock_current_user.is_authenticated = False
         error_details = {
-            'error': 'authentication_required',
-            'error_description': 'Authentication is required to access this API.',
+            "error": "authentication_required",
+            "error_description": "Authentication is required to access this API.",
         }
-        expected_response = (error_details, 401, {'WWW-Authenticate': 'Token'})
+        expected_response = (error_details, 401, {"WWW-Authenticate": "Token"})
 
         @authentication.require_token
         def test_func():
-            return 'This should not happen!'
+            return "This should not happen!"
 
         self.assertEqual(expected_response, test_func())
 
-    @mock.patch('flask_login.current_user')
+    @mock.patch("flask_login.current_user")
     def test_authenticated(self, mock_current_user):
         """Assert decorated functions return the function's result when a user is logged in."""
         mock_current_user.is_authenticated = True
 
         @authentication.require_token
         def test_func():
-            return 'Carry on!'
+            return "Carry on!"
 
-        self.assertEqual('Carry on!', test_func())
+        self.assertEqual("Carry on!", test_func())

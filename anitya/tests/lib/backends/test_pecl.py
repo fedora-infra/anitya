@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for the custom backend.
-'''
+"""
 
 import unittest
 
@@ -31,7 +31,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
 
-BACKEND = 'PECL'
+BACKEND = "PECL"
 
 
 class PeclBackendtests(DatabaseTestCase):
@@ -47,17 +47,15 @@ class PeclBackendtests(DatabaseTestCase):
     def create_project(self):
         """ Create some basic projects to work with. """
         project = models.Project(
-            name='inotify',
-            homepage='https://pecl.php.net/package/inotify',
+            name="inotify",
+            homepage="https://pecl.php.net/package/inotify",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name='foo',
-            homepage='https://pecl.php.net/package/foo',
-            backend=BACKEND,
+            name="foo", homepage="https://pecl.php.net/package/foo", backend=BACKEND
         )
         self.session.add(project)
         self.session.commit()
@@ -66,16 +64,14 @@ class PeclBackendtests(DatabaseTestCase):
         """ Test the get_version function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '0.1.6'
+        exp = "0.1.6"
         obs = backend.PeclBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.PeclBackend.get_version,
-            project
+            AnityaPluginException, backend.PeclBackend.get_version, project
         )
 
     def test_get_version_url(self):
@@ -83,11 +79,9 @@ class PeclBackendtests(DatabaseTestCase):
         Assert that correct url is returned.
         """
         project = models.Project(
-            name='test',
-            homepage='https://example.org',
-            backend=BACKEND,
+            name="test", homepage="https://example.org", backend=BACKEND
         )
-        exp = 'https://pecl.php.net/rest/r/test/allreleases.xml'
+        exp = "https://pecl.php.net/rest/r/test/allreleases.xml"
 
         obs = backend.PeclBackend.get_version_url(project)
 
@@ -98,11 +92,9 @@ class PeclBackendtests(DatabaseTestCase):
         Assert that correct url is returned when project name contains '-'.
         """
         project = models.Project(
-            name='te-st',
-            homepage='https://example.org',
-            backend=BACKEND,
+            name="te-st", homepage="https://example.org", backend=BACKEND
         )
-        exp = 'https://pecl.php.net/rest/r/te_st/allreleases.xml'
+        exp = "https://pecl.php.net/rest/r/te_st/allreleases.xml"
 
         obs = backend.PeclBackend.get_version_url(project)
 
@@ -112,16 +104,14 @@ class PeclBackendtests(DatabaseTestCase):
         """ Test the get_versions function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = ['0.1.2', '0.1.3', '0.1.4', '0.1.5', '0.1.6']
+        exp = ["0.1.2", "0.1.3", "0.1.4", "0.1.5", "0.1.6"]
         obs = backend.PeclBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.PeclBackend.get_version,
-            project
+            AnityaPluginException, backend.PeclBackend.get_version, project
         )
 
     def test_pecl_check_feed(self):
@@ -129,14 +119,16 @@ class PeclBackendtests(DatabaseTestCase):
         generator = backend.PeclBackend.check_feed()
         items = list(generator)
 
-        self.assertEqual(items[0], (
-            'rrd', 'https://pecl.php.net/package/rrd', 'PECL', '2.0.1'))
-        self.assertEqual(items[1], (
-            'libsodium', 'https://pecl.php.net/package/libsodium',
-            'PECL', '1.0.6'))
+        self.assertEqual(
+            items[0], ("rrd", "https://pecl.php.net/package/rrd", "PECL", "2.0.1")
+        )
+        self.assertEqual(
+            items[1],
+            ("libsodium", "https://pecl.php.net/package/libsodium", "PECL", "1.0.6"),
+        )
         # etc...
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(PeclBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)

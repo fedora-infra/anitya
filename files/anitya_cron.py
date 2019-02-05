@@ -4,6 +4,7 @@
 import sys
 import logging
 from threading import Lock
+
 # We need to use multiprocessing.dummy, since we use the Pool to run
 # update_project. This in turn uses anitya.lib.backends.BaseBackend.call_url,
 # which utilizes a global requests session. Requests session is not usable
@@ -21,7 +22,7 @@ from anitya.lib import utilities
 import anitya
 import anitya.lib.exceptions
 
-LOG = logging.getLogger('anitya')
+LOG = logging.getLogger("anitya")
 
 """
 This dictionary is used for backend blacklisting.
@@ -57,8 +58,7 @@ def projects_by_feed(session):
     If a new entry is noticed and we don't have a project for it, add it.
     """
     for name, homepage, backend, version in indexed_listings():
-        project = db.Project.get_or_create(
-            session, name, homepage, backend)
+        project = db.Project.get_or_create(session, name, homepage, backend)
         if project.latest_version == version:
             LOG.debug("Project %s is already up to date." % project.name)
         else:
@@ -84,28 +84,31 @@ def update_project(project_id):
         utilities.check_project_release(project, session),
     except anitya.lib.exceptions.RateLimitException as err:
         with blacklist_lock:
-            LOG.debug("Rate limit threshold reached. Adding {} to blacklist.".format(
-                project.backend
-            ))
-            blacklist_dict[project.backend] = err.reset_time.to('utc').datetime
+            LOG.debug(
+                "Rate limit threshold reached. Adding {} to blacklist.".format(
+                    project.backend
+                )
+            )
+            blacklist_dict[project.backend] = err.reset_time.to("utc").datetime
     except anitya.lib.exceptions.AnityaException as err:
         LOG.info(err)
 
 
 def main(debug, feed):
-    ''' Retrieve all the packages and for each of them update the release
+    """ Retrieve all the packages and for each of them update the release
     version.
-    '''
+    """
     time = arrow.utcnow().datetime
     db.initialize(config)
     session = db.Session()
-    run = db.Run(status='started')
+    run = db.Run(status="started")
     session.add(run)
     session.commit()
     LOG.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
 
     if debug:
         # Console handler
@@ -115,7 +118,7 @@ def main(debug, feed):
         LOG.addHandler(chand)
 
     # Save the logs in a file
-    fhand = logging.FileHandler('/var/tmp/anitya_cron.log')
+    fhand = logging.FileHandler("/var/tmp/anitya_cron.log")
     fhand.setLevel(logging.INFO)
     fhand.setFormatter(formatter)
     LOG.addHandler(fhand)
@@ -125,23 +128,25 @@ def main(debug, feed):
         session.commit()
     else:
         # Get all projects, that are ready for check
-        projects = db.Project.query.order_by(
-            sa.func.lower(db.Project.name)
-        ).filter(db.Project.next_check < time).all()
+        projects = (
+            db.Project.query.order_by(sa.func.lower(db.Project.name))
+            .filter(db.Project.next_check < time)
+            .all()
+        )
 
     project_ids = [project.id for project in projects]
 
-    N = config.get('CRON_POOL', 10)
+    N = config.get("CRON_POOL", 10)
     LOG.info("Launching pool (%i) to update %i projects", N, len(project_ids))
     p = multiprocessing.Pool(N)
     p.map(update_project, project_ids)
 
-    run = db.Run(status='ended')
+    run = db.Run(status="ended")
     session.add(run)
     session.commit()
 
 
-if __name__ == '__main__':
-    debug = '--debug' in sys.argv
-    feed = '--check-feed' in sys.argv
+if __name__ == "__main__":
+    debug = "--debug" in sys.argv
+    feed = "--check-feed" in sys.argv
     main(debug=debug, feed=feed)

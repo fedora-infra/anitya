@@ -13,21 +13,21 @@ from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
 
 
 class GoogleBackend(BaseBackend):
-    ''' The custom class for projects hosted on Google code.
+    """ The custom class for projects hosted on Google code.
 
     This backend allows to specify a version_url and a regex that will
     be used to retrieve the version information.
-    '''
+    """
 
-    name = 'Google code'
+    name = "Google code"
     examples = [
-        'https://code.google.com/p/abcde/',
-        'https://code.google.com/p/arduino/',
+        "https://code.google.com/p/abcde/",
+        "https://code.google.com/p/arduino/",
     ]
 
     @classmethod
     def get_version(cls, project):
-        ''' Method called to retrieve the latest version of the projects
+        """ Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
         :arg Project project: a :class:`anitya.db.models.Project` object whose backend
@@ -38,12 +38,12 @@ class GoogleBackend(BaseBackend):
             :class:`anitya.lib.exceptions.AnityaPluginException` exception
             when the version cannot be retrieved correctly
 
-        '''
+        """
         return cls.get_ordered_versions(project)[-1]
 
     @classmethod
     def get_version_url(cls, project):
-        ''' Method called to retrieve the url used to check for new version
+        """ Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
 
         Attributes:
@@ -52,15 +52,17 @@ class GoogleBackend(BaseBackend):
 
         Returns:
             str: url used for version checking
-        '''
-        url = 'https://code.google.com/p/%(name)s/downloads/list' \
-              '?sort=releasedate' % {'name': project.name.lower()}
+        """
+        url = (
+            "https://code.google.com/p/%(name)s/downloads/list"
+            "?sort=releasedate" % {"name": project.name.lower()}
+        )
 
         return url
 
     @classmethod
     def get_versions(cls, project):
-        ''' Method called to retrieve all the versions (that can be found)
+        """ Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
         this plugin.
 
@@ -72,9 +74,9 @@ class GoogleBackend(BaseBackend):
             :class:`anitya.lib.exceptions.AnityaPluginException` exception
             when the versions cannot be retrieved correctly
 
-        '''
+        """
         url = cls.get_version_url(project)
 
-        regex = REGEX % {'name': project.name}
+        regex = REGEX % {"name": project.name}
 
         return get_versions_by_regex(url, regex, project)

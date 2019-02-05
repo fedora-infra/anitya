@@ -26,27 +26,39 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '34b9bb5fa388'
-down_revision = '3fae8239eeec'
+revision = "34b9bb5fa388"
+down_revision = "3fae8239eeec"
 
 
 def upgrade():
     """Make the ecosystem_name non-nullable after setting null instances to the homepage."""
-    op.execute("""
+    op.execute(
+        """
         UPDATE projects
         SET ecosystem_name=homepage
         WHERE ecosystem_name IS NULL
-    """)
+    """
+    )
     op.alter_column(
-        'projects', 'ecosystem_name', existing_type=sa.VARCHAR(length=200), nullable=False)
+        "projects",
+        "ecosystem_name",
+        existing_type=sa.VARCHAR(length=200),
+        nullable=False,
+    )
 
 
 def downgrade():
     """Make the ecosystem_name nullable."""
     op.alter_column(
-        'projects', 'ecosystem_name', existing_type=sa.VARCHAR(length=200), nullable=True)
-    op.execute("""
+        "projects",
+        "ecosystem_name",
+        existing_type=sa.VARCHAR(length=200),
+        nullable=True,
+    )
+    op.execute(
+        """
         UPDATE projects
         SET ecosystem_name=NULL
         WHERE ecosystem_name=homepage
-    """)
+    """
+    )

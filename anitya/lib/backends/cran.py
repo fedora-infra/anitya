@@ -47,10 +47,10 @@ from anitya.lib.exceptions import AnityaPluginException
 class CranBackend(BaseBackend):
     """The custom class for projects hosted on CRAN."""
 
-    name = 'CRAN (R)'
+    name = "CRAN (R)"
     examples = [
-        'https://cran.r-project.org/web/packages/tidyverse/',
-        'https://cran.r-project.org/web/packages/devtools/',
+        "https://cran.r-project.org/web/packages/tidyverse/",
+        "https://cran.r-project.org/web/packages/devtools/",
     ]
 
     @classmethod
@@ -69,32 +69,33 @@ class CranBackend(BaseBackend):
                 format.
 
         """
-        url = 'https://crandb.r-pkg.org/{name}'.format(name=project.name)
+        url = "https://crandb.r-pkg.org/{name}".format(name=project.name)
 
         try:
             response = cls.call_url(url)
         except requests.RequestException as e:  # pragma: no cover
-            raise AnityaPluginException('Could not contact {}: {}'.format(url, str(e)))
+            raise AnityaPluginException("Could not contact {}: {}".format(url, str(e)))
 
         if response.status_code != 200:
             raise AnityaPluginException(
-                'Failed to download from {}: {} {}'.format(url,
-                                                           response.status_code,
-                                                           response.reason))
+                "Failed to download from {}: {} {}".format(
+                    url, response.status_code, response.reason
+                )
+            )
 
         try:
             data = response.json()
         except json.JSONDecodeError:  # pragma: no cover
-            raise AnityaPluginException('No JSON returned by {}'.format(url))
+            raise AnityaPluginException("No JSON returned by {}".format(url))
 
-        if 'error' in data or 'Version' not in data:  # pragma: no cover
-            raise AnityaPluginException('No versions found at {}'.format(url))
+        if "error" in data or "Version" not in data:  # pragma: no cover
+            raise AnityaPluginException("No versions found at {}".format(url))
 
-        return data['Version']
+        return data["Version"]
 
     @classmethod
     def get_version_url(cls, project):
-        ''' Method called to retrieve the url used to check for new version
+        """ Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
 
         Attributes:
@@ -103,8 +104,8 @@ class CranBackend(BaseBackend):
 
         Returns:
             str: url used for version checking
-        '''
-        url = 'https://crandb.r-pkg.org/{name}/all'.format(name=project.name)
+        """
+        url = "https://crandb.r-pkg.org/{name}/all".format(name=project.name)
 
         return url
 
@@ -129,23 +130,24 @@ class CranBackend(BaseBackend):
         try:
             response = cls.call_url(url)
         except requests.RequestException as e:  # pragma: no cover
-            raise AnityaPluginException('Could not contact {}: {}'.format(url, str(e)))
+            raise AnityaPluginException("Could not contact {}: {}".format(url, str(e)))
 
         if response.status_code != 200:
             raise AnityaPluginException(
-                'Failed to download from {}: {} {}'.format(url,
-                                                           response.status_code,
-                                                           response.reason))
+                "Failed to download from {}: {} {}".format(
+                    url, response.status_code, response.reason
+                )
+            )
 
         try:
             data = response.json()
         except json.JSONDecodeError:  # pragma: no cover
-            raise AnityaPluginException('No JSON returned by {}'.format(url))
+            raise AnityaPluginException("No JSON returned by {}".format(url))
 
-        if 'error' in data or 'versions' not in data:  # pragma: no cover
-            raise AnityaPluginException('No versions found at {}'.format(url))
+        if "error" in data or "versions" not in data:  # pragma: no cover
+            raise AnityaPluginException("No versions found at {}".format(url))
 
-        return list(data['versions'].keys())
+        return list(data["versions"].keys())
 
     @classmethod
     def check_feed(cls):
@@ -165,27 +167,30 @@ class CranBackend(BaseBackend):
                 format.
         """
 
-        url = 'https://crandb.r-pkg.org/-/pkgreleases?descending=true&limit=50'
+        url = "https://crandb.r-pkg.org/-/pkgreleases?descending=true&limit=50"
 
         try:
             response = cls.call_url(url)
         except requests.RequestException as e:  # pragma: no cover
-            raise AnityaPluginException('Could not contact {}: {}'.format(url, str(e)))
+            raise AnityaPluginException("Could not contact {}: {}".format(url, str(e)))
 
         if response.status_code != 200:  # pragma: no cover
             raise AnityaPluginException(
-                'Failed to download from {}: {} {}'.format(url,
-                                                           response.status_code,
-                                                           response.reason))
+                "Failed to download from {}: {} {}".format(
+                    url, response.status_code, response.reason
+                )
+            )
 
         try:
             data = response.json()
         except json.JSONDecodeError:  # pragma: no cover
-            raise AnityaPluginException('No JSON returned by {}'.format(url))
+            raise AnityaPluginException("No JSON returned by {}".format(url))
 
         for item in data:
-            name = item['name']
-            package = item['package']
-            homepage = package.get('URL', 'https://cran.r-project.org/web/packages/' + name)
-            version = package['Version']
+            name = item["name"]
+            package = item["package"]
+            homepage = package.get(
+                "URL", "https://cran.r-project.org/web/packages/" + name
+            )
+            version = package["Version"]
             yield name, homepage, cls.name, version

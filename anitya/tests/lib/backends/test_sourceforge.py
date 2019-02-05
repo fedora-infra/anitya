@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for the custom backend.
-'''
+"""
 
 import unittest
 
@@ -31,7 +31,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
 
-BACKEND = 'Sourceforge'
+BACKEND = "Sourceforge"
 
 
 class SourceforgeBackendtests(DatabaseTestCase):
@@ -47,24 +47,24 @@ class SourceforgeBackendtests(DatabaseTestCase):
     def create_project(self):
         """ Create some basic projects to work with. """
         project = models.Project(
-            name='filezilla',
-            homepage='https://sourceforge.net/projects/filezilla/',
+            name="filezilla",
+            homepage="https://sourceforge.net/projects/filezilla/",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name='foobar',
-            homepage='https://sourceforge.net/projects/foobar',
+            name="foobar",
+            homepage="https://sourceforge.net/projects/foobar",
             backend=BACKEND,
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name='file-folder-ren',
-            homepage='https://sourceforge.net/projects/file-folder-ren/',
+            name="file-folder-ren",
+            homepage="https://sourceforge.net/projects/file-folder-ren/",
             backend=BACKEND,
         )
         self.session.add(project)
@@ -74,24 +74,20 @@ class SourceforgeBackendtests(DatabaseTestCase):
         """ Test the get_version function of the sourceforge backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '3.31.0'
+        exp = "3.31.0"
         obs = backend.SourceforgeBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.SourceforgeBackend.get_version,
-            project
+            AnityaPluginException, backend.SourceforgeBackend.get_version, project
         )
 
         pid = 3
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.SourceforgeBackend.get_version,
-            project
+            AnityaPluginException, backend.SourceforgeBackend.get_version, project
         )
 
     def test_get_version_url(self):
@@ -99,12 +95,12 @@ class SourceforgeBackendtests(DatabaseTestCase):
         Assert that correct url is returned.
         """
         project = models.Project(
-            name='test',
-            homepage='https://example.org',
-            version_url='test_name',
+            name="test",
+            homepage="https://example.org",
+            version_url="test_name",
             backend=BACKEND,
         )
-        exp = 'https://sourceforge.net/projects/test_name/rss?limit=200'
+        exp = "https://sourceforge.net/projects/test_name/rss?limit=200"
 
         obs = backend.SourceforgeBackend.get_version_url(project)
 
@@ -116,11 +112,9 @@ class SourceforgeBackendtests(DatabaseTestCase):
         is missing.
         """
         project = models.Project(
-            name='test',
-            homepage='https://example.org',
-            backend=BACKEND,
+            name="test", homepage="https://example.org", backend=BACKEND
         )
-        exp = 'https://sourceforge.net/projects/test/rss?limit=200'
+        exp = "https://sourceforge.net/projects/test/rss?limit=200"
 
         obs = backend.SourceforgeBackend.get_version_url(project)
 
@@ -132,12 +126,12 @@ class SourceforgeBackendtests(DatabaseTestCase):
         contains '+'.
         """
         project = models.Project(
-            name='test',
-            homepage='https://example.org',
-            version_url='test+name',
+            name="test",
+            homepage="https://example.org",
+            version_url="test+name",
             backend=BACKEND,
         )
-        exp = r'https://sourceforge.net/projects/test\+name/rss?limit=200'
+        exp = r"https://sourceforge.net/projects/test\+name/rss?limit=200"
 
         obs = backend.SourceforgeBackend.get_version_url(project)
 
@@ -149,11 +143,9 @@ class SourceforgeBackendtests(DatabaseTestCase):
         contains '+'.
         """
         project = models.Project(
-            name='test+',
-            homepage='https://example.org',
-            backend=BACKEND,
+            name="test+", homepage="https://example.org", backend=BACKEND
         )
-        exp = r'https://sourceforge.net/projects/test\+/rss?limit=200'
+        exp = r"https://sourceforge.net/projects/test\+/rss?limit=200"
 
         obs = backend.SourceforgeBackend.get_version_url(project)
 
@@ -164,10 +156,19 @@ class SourceforgeBackendtests(DatabaseTestCase):
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [
-            u'3.25.0', u'3.25.1', u'3.25.2',
-            u'3.26.0', u'3.26.1', u'3.26.2',
-            u'3.27.0', u'3.27.0.1', u'3.27.1',
-            u'3.28.0', u'3.29.0', u'3.30.0', u'3.31.0',
+            u"3.25.0",
+            u"3.25.1",
+            u"3.25.2",
+            u"3.26.0",
+            u"3.26.1",
+            u"3.26.2",
+            u"3.27.0",
+            u"3.27.0.1",
+            u"3.27.1",
+            u"3.28.0",
+            u"3.29.0",
+            u"3.30.0",
+            u"3.31.0",
         ]
         obs = backend.SourceforgeBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -175,21 +176,16 @@ class SourceforgeBackendtests(DatabaseTestCase):
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.SourceforgeBackend.get_versions,
-            project
+            AnityaPluginException, backend.SourceforgeBackend.get_versions, project
         )
 
         pid = 3
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.SourceforgeBackend.get_versions,
-            project
+            AnityaPluginException, backend.SourceforgeBackend.get_versions, project
         )
 
 
-if __name__ == '__main__':
-    SUITE = unittest.TestLoader().loadTestsFromTestCase(
-        SourceforgeBackendtests)
+if __name__ == "__main__":
+    SUITE = unittest.TestLoader().loadTestsFromTestCase(SourceforgeBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)

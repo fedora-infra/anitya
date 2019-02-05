@@ -43,14 +43,12 @@ class CratesBackendTests(DatabaseTestCase):
     def create_project(self):
         """Create some basic projects to work with."""
         project1 = models.Project(
-            name='itoa',
-            homepage='https://crates.io/crates/itoa',
-            backend='crates.io',
+            name="itoa", homepage="https://crates.io/crates/itoa", backend="crates.io"
         )
         project2 = models.Project(
-            name='pleasedontmakethisprojectitllbreakmytests',
-            homepage='https://crates.io/crates/somenonsensehomepage',
-            backend='crates.io',
+            name="pleasedontmakethisprojectitllbreakmytests",
+            homepage="https://crates.io/crates/somenonsensehomepage",
+            backend="crates.io",
         )
         self.session.add(project1)
         self.session.add(project2)
@@ -59,25 +57,21 @@ class CratesBackendTests(DatabaseTestCase):
     def test_get_version(self):
         """Test the get_version function of the crates backend."""
         project = models.Project.by_id(self.session, 1)
-        self.assertEqual('0.2.1', crates.CratesBackend.get_version(project))
+        self.assertEqual("0.2.1", crates.CratesBackend.get_version(project))
 
     def test_get_version_missing(self):
         """Assert an exception is raised if a project doesn't exist and get_version is called"""
         project = models.Project.get(self.session, 2)
         self.assertRaises(
-            AnityaPluginException,
-            crates.CratesBackend.get_version,
-            project
+            AnityaPluginException, crates.CratesBackend.get_version, project
         )
 
     def test_get_version_url(self):
         """ Assert that correct url is returned. """
         project = models.Project(
-            name='test',
-            homepage='http://example.org',
-            backend='crates.io',
+            name="test", homepage="http://example.org", backend="crates.io"
         )
-        exp = 'https://crates.io/api/v1/crates/test/versions'
+        exp = "https://crates.io/api/v1/crates/test/versions"
 
         obs = crates.CratesBackend.get_version_url(project)
 
@@ -85,25 +79,27 @@ class CratesBackendTests(DatabaseTestCase):
 
     def test_get_versions(self):
         """Test the get_versions function of the crates backend."""
-        expected_versions = ['0.2.1', '0.2.0', '0.1.1', '0.1.0']
+        expected_versions = ["0.2.1", "0.2.0", "0.1.1", "0.1.0"]
         project = models.Project.by_id(self.session, 1)
         self.assertEqual(expected_versions, crates.CratesBackend.get_versions(project))
 
     def test_get_ordered_versions(self):
         """Test the get_ordered_versions function of the crates backend. """
-        expected_versions = ['0.2.1', '0.2.0', '0.1.1', '0.1.0']
+        expected_versions = ["0.2.1", "0.2.0", "0.1.1", "0.1.0"]
         project = models.Project.by_id(self.session, 1)
-        self.assertEqual(expected_versions, crates.CratesBackend.get_ordered_versions(project))
+        self.assertEqual(
+            expected_versions, crates.CratesBackend.get_ordered_versions(project)
+        )
 
-    @mock.patch('anitya.lib.backends.crates.CratesBackend.call_url')
+    @mock.patch("anitya.lib.backends.crates.CratesBackend.call_url")
     def test__get_versions_no_json(self, mock_call_url):
         """Assert we handle getting non-JSON responses gracefully"""
         mock_call_url.return_value.json.side_effect = ValueError
         project = models.Project.by_id(self.session, 1)
         with self.assertRaises(AnityaPluginException) as context_manager:
             crates.CratesBackend._get_versions(project)
-            self.assertIn('Failed to decode JSON', str(context_manager.exception))
+            self.assertIn("Failed to decode JSON", str(context_manager.exception))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main(verbosity=2)

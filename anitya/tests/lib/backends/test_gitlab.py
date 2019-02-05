@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 Anitya tests for the GitLab backend.
-'''
+"""
 
 import unittest
 
@@ -31,7 +31,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
 
-BACKEND = 'GitLab'
+BACKEND = "GitLab"
 
 
 class GitlabBackendtests(DatabaseTestCase):
@@ -47,31 +47,31 @@ class GitlabBackendtests(DatabaseTestCase):
     def create_project(self):
         """ Create some basic projects to work with. """
         project = models.Project(
-            name='gnome-video-arcade',
-            homepage='https://gitlab.gnome.org/GNOME/gnome-video-arcade',
-            version_url='https://gitlab.gnome.org/GNOME/gnome-video-arcade',
+            name="gnome-video-arcade",
+            homepage="https://gitlab.gnome.org/GNOME/gnome-video-arcade",
+            version_url="https://gitlab.gnome.org/GNOME/gnome-video-arcade",
             backend=BACKEND,
         )
         self.session.add(project)
 
         project = models.Project(
-            name='foobar',
-            homepage='https://gitlab.com/foo/bar',
-            version_url='https://gitlab.com/foo/bar',
+            name="foobar",
+            homepage="https://gitlab.com/foo/bar",
+            version_url="https://gitlab.com/foo/bar",
             backend=BACKEND,
         )
         self.session.add(project)
 
         project = models.Project(
-            name='xonotic',
-            homepage='https://gitlab.com/xonotic/xonotic',
+            name="xonotic",
+            homepage="https://gitlab.com/xonotic/xonotic",
             backend=BACKEND,
         )
         self.session.add(project)
 
         project = models.Project(
-            name='project_1',
-            homepage='https://gitlab.com/Shukat/project_1',
+            name="project_1",
+            homepage="https://gitlab.com/Shukat/project_1",
             backend=BACKEND,
         )
         self.session.add(project)
@@ -81,21 +81,19 @@ class GitlabBackendtests(DatabaseTestCase):
         """ Test the get_version function of the gitlab backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '0.8.8'
+        exp = "0.8.8"
         obs = backend.GitlabBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.GitlabBackend.get_version,
-            project
+            AnityaPluginException, backend.GitlabBackend.get_version, project
         )
 
         pid = 3
         project = models.Project.get(self.session, pid)
-        exp = 'xonotic-v0.8.2'
+        exp = "xonotic-v0.8.2"
         obs = backend.GitlabBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -105,12 +103,12 @@ class GitlabBackendtests(DatabaseTestCase):
         project version url is specified.
         """
         project = models.Project(
-            name='test',
-            homepage='http://example.org',
-            version_url='https://gitlab.com/test/test',
+            name="test",
+            homepage="http://example.org",
+            version_url="https://gitlab.com/test/test",
             backend=BACKEND,
         )
-        exp = 'https://gitlab.com/api/v4/projects/test%2Ftest/repository/tags'
+        exp = "https://gitlab.com/api/v4/projects/test%2Ftest/repository/tags"
 
         obs = backend.GitlabBackend.get_version_url(project)
 
@@ -122,11 +120,9 @@ class GitlabBackendtests(DatabaseTestCase):
         project homepage is specified.
         """
         project = models.Project(
-            name='test',
-            homepage='https://gitlab.com/test/test',
-            backend=BACKEND,
+            name="test", homepage="https://gitlab.com/test/test", backend=BACKEND
         )
-        exp = 'https://gitlab.com/api/v4/projects/test%2Ftest/repository/tags'
+        exp = "https://gitlab.com/api/v4/projects/test%2Ftest/repository/tags"
 
         obs = backend.GitlabBackend.get_version_url(project)
 
@@ -138,11 +134,9 @@ class GitlabBackendtests(DatabaseTestCase):
         project homepage is wrong.
         """
         project = models.Project(
-            name='test',
-            homepage='https://example.org',
-            backend=BACKEND,
+            name="test", homepage="https://example.org", backend=BACKEND
         )
-        exp = ''
+        exp = ""
 
         obs = backend.GitlabBackend.get_version_url(project)
 
@@ -153,11 +147,26 @@ class GitlabBackendtests(DatabaseTestCase):
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [
-            u'0.6.1', u'0.6.1.1', u'0.6.2', u'0.6.3',
-            u'0.6.4', u'0.6.5', u'0.6.6', u'0.6.7',
-            u'0.6.8', u'0.7.0', u'0.7.1', u'0.8.0',
-            u'0.8.1', u'0.8.2', u'0.8.3', u'0.8.4',
-            u'0.8.5', u'0.8.6', u'0.8.7', u'0.8.8'
+            u"0.6.1",
+            u"0.6.1.1",
+            u"0.6.2",
+            u"0.6.3",
+            u"0.6.4",
+            u"0.6.5",
+            u"0.6.6",
+            u"0.6.7",
+            u"0.6.8",
+            u"0.7.0",
+            u"0.7.1",
+            u"0.8.0",
+            u"0.8.1",
+            u"0.8.2",
+            u"0.8.3",
+            u"0.8.4",
+            u"0.8.5",
+            u"0.8.6",
+            u"0.8.7",
+            u"0.8.8",
         ]
         obs = backend.GitlabBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -165,31 +174,26 @@ class GitlabBackendtests(DatabaseTestCase):
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.GitlabBackend.get_versions,
-            project
+            AnityaPluginException, backend.GitlabBackend.get_versions, project
         )
 
         pid = 3
         project = models.Project.get(self.session, pid)
         exp = [
-            u'xonotic-v0.1.0preview', u'xonotic-v0.5.0',
-            u'xonotic-v0.6.0', u'xonotic-v0.7.0',
-            u'xonotic-v0.8.0', u'xonotic-v0.8.1',
-            u'xonotic-v0.8.2'
+            u"xonotic-v0.1.0preview",
+            u"xonotic-v0.5.0",
+            u"xonotic-v0.6.0",
+            u"xonotic-v0.7.0",
+            u"xonotic-v0.8.0",
+            u"xonotic-v0.8.1",
+            u"xonotic-v0.8.2",
         ]
         obs = backend.GitlabBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
-        project = models.Project(
-            name='foobar',
-            homepage='',
-            backend=BACKEND,
-        )
+        project = models.Project(name="foobar", homepage="", backend=BACKEND)
         self.assertRaises(
-            AnityaPluginException,
-            backend.GitlabBackend.get_versions,
-            project
+            AnityaPluginException, backend.GitlabBackend.get_versions, project
         )
 
     def test_get_versions_no_version_retrieved(self):
@@ -199,12 +203,10 @@ class GitlabBackendtests(DatabaseTestCase):
         pid = 4
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.GitlabBackend.get_versions,
-            project
+            AnityaPluginException, backend.GitlabBackend.get_versions, project
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(GitlabBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)

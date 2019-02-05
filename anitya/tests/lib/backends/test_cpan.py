@@ -19,9 +19,9 @@
 # of Red Hat, Inc.
 #
 
-'''
+"""
 anitya tests for the custom backend.
-'''
+"""
 
 import unittest
 
@@ -31,7 +31,7 @@ from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
 
-BACKEND = 'CPAN (perl)'
+BACKEND = "CPAN (perl)"
 
 
 class CpanBackendtests(DatabaseTestCase):
@@ -47,17 +47,13 @@ class CpanBackendtests(DatabaseTestCase):
     def create_project(self):
         """ Create some basic projects to work with. """
         project = models.Project(
-            name='SOAP',
-            homepage='http://search.cpan.org/dist/SOAP/',
-            backend=BACKEND,
+            name="SOAP", homepage="http://search.cpan.org/dist/SOAP/", backend=BACKEND
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name='foo',
-            homepage='http://search.cpan.org/dist/foo/',
-            backend=BACKEND,
+            name="foo", homepage="http://search.cpan.org/dist/foo/", backend=BACKEND
         )
         self.session.add(project)
         self.session.commit()
@@ -66,26 +62,22 @@ class CpanBackendtests(DatabaseTestCase):
         """ Test the get_version function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = '0.28'
+        exp = "0.28"
         obs = backend.CpanBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.CpanBackend.get_version,
-            project
+            AnityaPluginException, backend.CpanBackend.get_version, project
         )
 
     def test_get_version_url(self):
         """ Assert that correct url is returned. """
         project = models.Project(
-            name='test',
-            homepage='http://example.org',
-            backend=BACKEND,
+            name="test", homepage="http://example.org", backend=BACKEND
         )
-        exp = 'https://metacpan.org/release/test/'
+        exp = "https://metacpan.org/release/test/"
 
         obs = backend.CpanBackend.get_version_url(project)
 
@@ -95,16 +87,14 @@ class CpanBackendtests(DatabaseTestCase):
         """ Test the get_versions function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = ['0.28']
+        exp = ["0.28"]
         obs = backend.CpanBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(
-            AnityaPluginException,
-            backend.CpanBackend.get_version,
-            project
+            AnityaPluginException, backend.CpanBackend.get_version, project
         )
 
     def test_cpan_check_feed(self):
@@ -112,15 +102,27 @@ class CpanBackendtests(DatabaseTestCase):
         generator = backend.CpanBackend.check_feed()
         items = list(generator)
 
-        self.assertEqual(items[0], (
-            'URI-Fast', 'https://metacpan.org/release/URI-Fast/',
-            'CPAN (perl)', '0.38_06'))
-        self.assertEqual(items[1], (
-            'Model-Envoy', 'https://metacpan.org/release/Model-Envoy/',
-            'CPAN (perl)', '0.2.4'))
+        self.assertEqual(
+            items[0],
+            (
+                "URI-Fast",
+                "https://metacpan.org/release/URI-Fast/",
+                "CPAN (perl)",
+                "0.38_06",
+            ),
+        )
+        self.assertEqual(
+            items[1],
+            (
+                "Model-Envoy",
+                "https://metacpan.org/release/Model-Envoy/",
+                "CPAN (perl)",
+                "0.2.4",
+            ),
+        )
         # etc...
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(CpanBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)

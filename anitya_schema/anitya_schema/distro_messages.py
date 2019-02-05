@@ -56,7 +56,9 @@ class DistroCreated(message.Message):
     @property
     def summary(self):
         """Return a short summary of the message."""
-        return "A new distribution, {}, was added to release-monitoring.".format(self.name)
+        return "A new distribution, {}, was added to release-monitoring.".format(
+            self.name
+        )
 
     @property
     def name(self):

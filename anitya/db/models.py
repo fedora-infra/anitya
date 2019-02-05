@@ -24,6 +24,7 @@ try:
 except ImportError:  # pragma: no cover
     # Fall back to random with os.urandom
     import random
+
     random = random.SystemRandom()
     random_choice = random.choice
 import datetime
@@ -52,8 +53,8 @@ DEFAULT_PAGE_LIMIT = 50
 
 
 def _paginate_query(query, page):
-    ''' Paginate a given query to returned the specified page (if any).
-    '''
+    """ Paginate a given query to returned the specified page (if any).
+    """
     if page:
         try:
             page = int(page)
@@ -69,12 +70,12 @@ def _paginate_query(query, page):
 
 
 class Distro(Base):
-    __tablename__ = 'distros'
+    __tablename__ = "distros"
 
     name = sa.Column(sa.String(200), primary_key=True)
 
     def __init__(self, name):
-        ''' Constructor. '''
+        """ Constructor. """
         self.name = name
 
     def __json__(self):
@@ -82,9 +83,7 @@ class Distro(Base):
 
     @classmethod
     def by_name(cls, session, name):
-        query = session.query(
-            cls
-        ).filter(
+        query = session.query(cls).filter(
             sa.func.lower(cls.name) == sa.func.lower(name)
         )
 
@@ -105,20 +104,17 @@ class Distro(Base):
 
     @classmethod
     def search(cls, session, pattern, page=None, count=False):
-        ''' Search the distribuutions by their name '''
+        """ Search the distribuutions by their name """
 
-        if '*' in pattern:
-            pattern = pattern.replace('*', '%')
+        if "*" in pattern:
+            pattern = pattern.replace("*", "%")
 
-        query = session.query(
-            cls
-        ).filter(
-            sa.or_(
-                sa.func.lower(cls.name).like(sa.func.lower(pattern)),
-            )
-        ).order_by(
-            cls.name
-        ).distinct()
+        query = (
+            session.query(cls)
+            .filter(sa.or_(sa.func.lower(cls.name).like(sa.func.lower(pattern))))
+            .order_by(cls.name)
+            .distinct()
+        )
 
         query = _paginate_query(query, page)
 
@@ -131,55 +127,45 @@ class Distro(Base):
     def get_or_create(cls, session, name):
         distro = cls.by_name(session, name)
         if not distro:
-            distro = cls(
-                name=name
-            )
+            distro = cls(name=name)
             session.add(distro)
             session.flush()
         return distro
 
 
 class Packages(Base):
-    __tablename__ = 'packages'
+    __tablename__ = "packages"
 
     id = sa.Column(sa.Integer, primary_key=True)
     distro_name = sa.Column(
         sa.String(200),
-        sa.ForeignKey(
-            "distros.name",
-            ondelete="cascade",
-            onupdate="cascade"))
+        sa.ForeignKey("distros.name", ondelete="cascade", onupdate="cascade"),
+    )
     project_id = sa.Column(
-        sa.Integer,
-        sa.ForeignKey(
-            "projects.id",
-            ondelete="cascade",
-            onupdate="cascade")
+        sa.Integer, sa.ForeignKey("projects.id", ondelete="cascade", onupdate="cascade")
     )
 
     package_name = sa.Column(sa.String(200))
 
-    __table_args__ = (
-        sa.UniqueConstraint('distro_name', 'package_name'),
-    )
+    __table_args__ = (sa.UniqueConstraint("distro_name", "package_name"),)
 
     project = sa.orm.relationship(
-        'Project', backref=sa.orm.backref('package', cascade='all, delete-orphan')
+        "Project", backref=sa.orm.backref("package", cascade="all, delete-orphan")
     )
 
     distro = sa.orm.relationship(
-        'Distro', backref=sa.orm.backref('package', cascade='all, delete-orphan')
+        "Distro", backref=sa.orm.backref("package", cascade="all, delete-orphan")
     )
 
     def __repr__(self):
-        return '<Packages(%s, %s: %s)>' % (
-            self.project_id, self.distro_name, self.package_name)
+        return "<Packages(%s, %s: %s)>" % (
+            self.project_id,
+            self.distro_name,
+            self.package_name,
+        )
 
     def __json__(self):
-        return dict(
-            package_name=self.package_name,
-            distro=self.distro_name,
-        )
+        return dict(package_name=self.package_name, distro=self.distro_name)
 
     @classmethod
     def by_id(cls, session, pkg_id):
@@ -187,25 +173,20 @@ class Packages(Base):
 
     @classmethod
     def get(cls, session, project_id, distro_name, package_name):
-        query = session.query(
-            cls
-        ).filter(
-            cls.project_id == project_id
-        ).filter(
-            sa.func.lower(cls.distro_name) == sa.func.lower(distro_name)
-        ).filter(
-            cls.package_name == package_name
+        query = (
+            session.query(cls)
+            .filter(cls.project_id == project_id)
+            .filter(sa.func.lower(cls.distro_name) == sa.func.lower(distro_name))
+            .filter(cls.package_name == package_name)
         )
         return query.first()
 
     @classmethod
     def by_package_name_distro(cls, session, package_name, distro_name):
-        query = session.query(
-            cls
-        ).filter(
-            cls.package_name == package_name
-        ).filter(
-            sa.func.lower(cls.distro_name) == sa.func.lower(distro_name)
+        query = (
+            session.query(cls)
+            .filter(cls.package_name == package_name)
+            .filter(sa.func.lower(cls.distro_name) == sa.func.lower(distro_name))
         )
         return query.first()
 
@@ -244,13 +225,14 @@ class Project(Base):
             If this is null, a default will be used. See the :mod:`anitya.lib.versions`
             documentation for more information.
     """
-    __tablename__ = 'projects'
+
+    __tablename__ = "projects"
 
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.String(200), nullable=False, index=True)
     homepage = sa.Column(sa.String(200), nullable=False)
 
-    backend = sa.Column(sa.String(200), default='custom')
+    backend = sa.Column(sa.String(200), default="custom")
     ecosystem_name = sa.Column(sa.String(200), nullable=False, index=True)
     version_url = sa.Column(sa.String(200), nullable=True)
     regex = sa.Column(sa.String(200), nullable=True)
@@ -262,24 +244,28 @@ class Project(Base):
     logs = sa.Column(sa.Text)
     check_successful = sa.Column(sa.Boolean, default=None, index=True)
 
-    last_check = sa.Column(sa.TIMESTAMP(timezone=True),
-                           default=lambda: arrow.utcnow().datetime, index=True)
-    next_check = sa.Column(sa.TIMESTAMP(timezone=True),
-                           default=lambda: arrow.utcnow().datetime, index=True)
-
-    updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
-                           onupdate=sa.func.current_timestamp())
-    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
-
-    packages = sa.orm.relationship('Packages', cascade='all, delete-orphan')
-
-    __table_args__ = (
-        sa.UniqueConstraint('name', 'homepage'),
-        sa.UniqueConstraint('name', 'ecosystem_name',
-                            name="UNIQ_PROJECT_NAME_PER_ECOSYSTEM"),
+    last_check = sa.Column(
+        sa.TIMESTAMP(timezone=True), default=lambda: arrow.utcnow().datetime, index=True
+    )
+    next_check = sa.Column(
+        sa.TIMESTAMP(timezone=True), default=lambda: arrow.utcnow().datetime, index=True
     )
 
-    @validates('backend')
+    updated_on = sa.Column(
+        sa.DateTime, server_default=sa.func.now(), onupdate=sa.func.current_timestamp()
+    )
+    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+
+    packages = sa.orm.relationship("Packages", cascade="all, delete-orphan")
+
+    __table_args__ = (
+        sa.UniqueConstraint("name", "homepage"),
+        sa.UniqueConstraint(
+            "name", "ecosystem_name", name="UNIQ_PROJECT_NAME_PER_ECOSYSTEM"
+        ),
+    )
+
+    @validates("backend")
     def validate_backend(self, key, value):
         if value not in BACKEND_PLUGINS.get_plugin_names():
             raise ValueError('Backend "{}" is not supported.'.format(value))
@@ -287,11 +273,11 @@ class Project(Base):
 
     @property
     def versions(self):
-        ''' Return list of all versions stored, sorted from newest to oldest.
+        """ Return list of all versions stored, sorted from newest to oldest.
 
         Returns:
            :obj:`list` of :obj:`str`: List of versions
-        '''
+        """
         sorted_versions = self.get_sorted_version_objects()
         return [str(v) for v in sorted_versions]
 
@@ -307,22 +293,25 @@ class Project(Base):
                 `self.version_class`.
         """
         version_class = self.get_version_class()
-        versions = sorted([
-            version_class(
-                version=version, prefix=self.version_prefix,
-                created_on=datetime.datetime.utcnow()
-            )
-            for version in versions
-        ])
+        versions = sorted(
+            [
+                version_class(
+                    version=version,
+                    prefix=self.version_prefix,
+                    created_on=datetime.datetime.utcnow(),
+                )
+                for version in versions
+            ]
+        )
 
         return versions
 
     def get_version_url(self):
-        ''' Returns full version url, which is used by backend.
+        """ Returns full version url, which is used by backend.
 
         Returns:
             str: Version url or empty string if backend is not specified
-        '''
+        """
         if not self.backend:
             return ""
 
@@ -330,16 +319,17 @@ class Project(Base):
         return backend.get_version_url(self)
 
     def get_sorted_version_objects(self):
-        ''' Return list of all version objects stored, sorted from newest to oldest.
+        """ Return list of all version objects stored, sorted from newest to oldest.
 
         Returns:
            :obj:`list` of :obj:`anitya.db.models.ProjectVersion`: List of version objects
-        '''
+        """
         version_class = self.get_version_class()
         versions = [
             version_class(
-                version=v_obj.version, prefix=self.version_prefix,
-                created_on=v_obj.created_on
+                version=v_obj.version,
+                prefix=self.version_prefix,
+                created_on=v_obj.created_on,
             )
             for v_obj in self.versions_obj
         ]
@@ -379,7 +369,7 @@ class Project(Base):
         return VERSION_PLUGINS.get_plugin(version_scheme)
 
     def __repr__(self):
-        return '<Project(%s, %s)>' % (self.name, self.homepage)
+        return "<Project(%s, %s)>" % (self.name, self.homepage)
 
     def __json__(self, detailed=False):
         output = dict(
@@ -391,17 +381,21 @@ class Project(Base):
             version_url=self.version_url,
             version=self.latest_version,
             versions=self.versions,
-            created_on=time.mktime(self.created_on.timetuple()) if self.created_on else None,
-            updated_on=time.mktime(self.updated_on.timetuple()) if self.updated_on else None,
+            created_on=time.mktime(self.created_on.timetuple())
+            if self.created_on
+            else None,
+            updated_on=time.mktime(self.updated_on.timetuple())
+            if self.updated_on
+            else None,
             ecosystem=self.ecosystem_name,
         )
         if detailed:
-            output['packages'] = [pkg.__json__() for pkg in self.packages]
+            output["packages"] = [pkg.__json__() for pkg in self.packages]
 
         return output
 
     @classmethod
-    def get_or_create(cls, session, name, homepage, backend='custom'):
+    def get_or_create(cls, session, name, homepage, backend="custom"):
         project = cls.by_name_and_homepage(session, name, homepage)
         if not project:
             project = cls(name=name, homepage=homepage, backend=backend)
@@ -425,12 +419,8 @@ class Project(Base):
 
     @classmethod
     def by_name_and_homepage(cls, session, name, homepage):
-        query = session.query(
-            cls
-        ).filter(
-            cls.name == name
-        ).filter(
-            cls.homepage == homepage
+        query = (
+            session.query(cls).filter(cls.name == name).filter(cls.homepage == homepage)
         )
         return query.first()
 
@@ -445,11 +435,7 @@ class Project(Base):
 
     @classmethod
     def all(cls, session, page=None, count=False):
-        query = session.query(
-            Project
-        ).order_by(
-            sa.func.lower(Project.name)
-        )
+        query = session.query(Project).order_by(sa.func.lower(Project.name))
 
         query = _paginate_query(query, page)
 
@@ -460,14 +446,11 @@ class Project(Base):
 
     @classmethod
     def by_distro(cls, session, distro, page=None, count=False):
-        query = session.query(
-            Project
-        ).filter(
-            Project.id == Packages.project_id
-        ).filter(
-            sa.func.lower(Packages.distro) == sa.func.lower(distro)
-        ).order_by(
-            sa.func.lower(Project.name)
+        query = (
+            session.query(Project)
+            .filter(Project.id == Packages.project_id)
+            .filter(sa.func.lower(Packages.distro) == sa.func.lower(distro))
+            .order_by(sa.func.lower(Project.name))
         )
 
         query = _paginate_query(query, page)
@@ -479,9 +462,9 @@ class Project(Base):
 
     @classmethod
     def updated(
-            cls, session, status='updated', name=None, log=None,
-            page=None, count=False):
-        ''' Method used to retrieve projects according to their logs and
+        cls, session, status="updated", name=None, log=None, page=None, count=False
+    ):
+        """ Method used to retrieve projects according to their logs and
         how they performed at the last cron job.
 
         :kwarg status: used to filter the projects based on how they
@@ -494,62 +477,51 @@ class Project(Base):
         :kwarg count: A boolean used to return either the list of entries
             matching the criterias or just the COUNT of entries
 
-        '''
+        """
 
-        query = session.query(
-            Project
-        ).order_by(
-            sa.func.lower(Project.name)
-        )
+        query = session.query(Project).order_by(sa.func.lower(Project.name))
 
-        if status == 'updated':
+        if status == "updated":
             query = query.filter(
-                Project.logs.isnot(None),
-                Project.logs == 'Version retrieved correctly',
+                Project.logs.isnot(None), Project.logs == "Version retrieved correctly"
             )
-        elif status == 'failed':
+        elif status == "failed":
             query = query.filter(
                 Project.logs.isnot(None),
-                Project.logs != 'Version retrieved correctly',
-                ~Project.logs.ilike('Something strange occured%'),
+                Project.logs != "Version retrieved correctly",
+                ~Project.logs.ilike("Something strange occured%"),
             )
-        elif status == 'odd':
+        elif status == "odd":
             query = query.filter(
                 Project.logs.isnot(None),
-                Project.logs != 'Version retrieved correctly',
-                Project.logs.ilike('Something strange occured%'),
+                Project.logs != "Version retrieved correctly",
+                Project.logs.ilike("Something strange occured%"),
             )
 
-        elif status == 'new':
-            query = query.filter(
-                Project.logs.is_(None),
-            )
-        elif status == 'never_updated':
+        elif status == "new":
+            query = query.filter(Project.logs.is_(None))
+        elif status == "never_updated":
             query = query.filter(
                 Project.logs.isnot(None),
-                Project.logs != 'Version retrieved correctly',
+                Project.logs != "Version retrieved correctly",
                 Project.latest_version.is_(None),
             )
 
         if name:
-            if '*' in name:
-                name = name.replace('*', '%')
+            if "*" in name:
+                name = name.replace("*", "%")
             else:
-                name = '%' + name + '%'
+                name = "%" + name + "%"
 
-            query = query.filter(
-                Project.name.ilike(name),
-            )
+            query = query.filter(Project.name.ilike(name))
 
         if log:
-            if '*' in log:
-                log = log.replace('*', '%')
+            if "*" in log:
+                log = log.replace("*", "%")
             else:
-                log = '%' + log + '%'
+                log = "%" + log + "%"
 
-            query = query.filter(
-                Project.logs.ilike(log),
-            )
+            query = query.filter(Project.logs.ilike(log))
 
         query = _paginate_query(query, page)
 
@@ -560,53 +532,33 @@ class Project(Base):
 
     @classmethod
     def search(cls, session, pattern, distro=None, page=None, count=False):
-        ''' Search the projects by their name or package name '''
+        """ Search the projects by their name or package name """
 
-        query1 = session.query(
-            cls
-        )
+        query1 = session.query(cls)
 
         if pattern:
-            pattern = pattern.replace('_', r'\_')
-            if '*' in pattern:
-                pattern = pattern.replace('*', '%')
-            if '%' in pattern:
-                query1 = query1.filter(
-                    Project.name.ilike(pattern)
-                )
+            pattern = pattern.replace("_", r"\_")
+            if "*" in pattern:
+                pattern = pattern.replace("*", "%")
+            if "%" in pattern:
+                query1 = query1.filter(Project.name.ilike(pattern))
             else:
-                query1 = query1.filter(
-                    Project.name == pattern
-                )
+                query1 = query1.filter(Project.name == pattern)
 
-        query2 = session.query(
-            cls
-        ).filter(
-            Project.id == Packages.project_id
-        )
+        query2 = session.query(cls).filter(Project.id == Packages.project_id)
 
         if pattern:
-            if '%' in pattern:
-                query2 = query2.filter(
-                    Packages.package_name.ilike(pattern)
-                )
+            if "%" in pattern:
+                query2 = query2.filter(Packages.package_name.ilike(pattern))
             else:
-                query2 = query2.filter(
-                    Packages.package_name == pattern
-                )
+                query2 = query2.filter(Packages.package_name == pattern)
 
         if distro is not None:
-            query1 = query1.filter(
-                Project.id == Packages.project_id
-            ).filter(
+            query1 = query1.filter(Project.id == Packages.project_id).filter(
                 sa.func.lower(Packages.distro) == sa.func.lower(distro)
             )
 
-        query = query1.distinct().union(
-            query2.distinct()
-        ).order_by(
-            cls.name
-        )
+        query = query1.distinct().union(query2.distinct()).order_by(cls.name)
 
         query = _paginate_query(query, page)
 
@@ -617,51 +569,44 @@ class Project(Base):
 
 
 class ProjectVersion(Base):
-    __tablename__ = 'projects_versions'
+    __tablename__ = "projects_versions"
 
     project_id = sa.Column(
         sa.Integer,
-        sa.ForeignKey(
-            "projects.id",
-            ondelete="cascade",
-            onupdate="cascade"),
+        sa.ForeignKey("projects.id", ondelete="cascade", onupdate="cascade"),
         primary_key=True,
     )
     version = sa.Column(sa.String(50), primary_key=True)
     created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
 
     project = sa.orm.relationship(
-        'Project', backref=sa.orm.backref('versions_obj', cascade='all, delete-orphan')
+        "Project", backref=sa.orm.backref("versions_obj", cascade="all, delete-orphan")
     )
 
 
 class ProjectFlag(Base):
-    __tablename__ = 'projects_flags'
+    __tablename__ = "projects_flags"
 
     id = sa.Column(sa.Integer, primary_key=True)
 
     project_id = sa.Column(
-        sa.Integer,
-        sa.ForeignKey(
-            "projects.id",
-            ondelete="cascade",
-            onupdate="cascade")
+        sa.Integer, sa.ForeignKey("projects.id", ondelete="cascade", onupdate="cascade")
     )
 
     reason = sa.Column(sa.Text, nullable=False)
     user = sa.Column(sa.String(200), index=True, nullable=False)
-    state = sa.Column(sa.String(50), default='open', nullable=False)
+    state = sa.Column(sa.String(50), default="open", nullable=False)
     created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
-    updated_on = sa.Column(sa.DateTime, server_default=sa.func.now(),
-                           onupdate=sa.func.current_timestamp())
+    updated_on = sa.Column(
+        sa.DateTime, server_default=sa.func.now(), onupdate=sa.func.current_timestamp()
+    )
 
     project = sa.orm.relationship(
-        'Project', backref=sa.orm.backref('flags', cascade='all, delete-orphan')
+        "Project", backref=sa.orm.backref("flags", cascade="all, delete-orphan")
     )
 
     def __repr__(self):
-        return '<ProjectFlag(%s, %s, %s)>' % (self.project.name, self.user,
-                                              self.state)
+        return "<ProjectFlag(%s, %s, %s)>" % (self.project.name, self.user, self.state)
 
     def __json__(self, detailed=False):
         output = dict(
@@ -673,21 +618,28 @@ class ProjectFlag(Base):
             updated_on=time.mktime(self.updated_on.timetuple()),
         )
         if detailed:
-            output['reason'] = self.reason
+            output["reason"] = self.reason
 
         return output
 
     @classmethod
     def all(cls, session, page=None, count=False):
-        query = session.query(
-            ProjectFlag
-        ).order_by(ProjectFlag.created_on)
+        query = session.query(ProjectFlag).order_by(ProjectFlag.created_on)
 
         return query.all()
 
     @classmethod
-    def search(cls, session, project_name=None, from_date=None, user=None,
-               state=None, limit=None, offset=None, count=False):
+    def search(
+        cls,
+        session,
+        project_name=None,
+        from_date=None,
+        user=None,
+        state=None,
+        limit=None,
+        offset=None,
+        count=False,
+    ):
         """ Return the list of the last Flag entries present in the database.
 
         :arg cls: the class object
@@ -702,14 +654,10 @@ class ProjectFlag(Base):
             if true, returns the data if false (default).
 
         """
-        query = session.query(
-            cls
-        )
+        query = session.query(cls)
 
         if project_name:
-            query = query.filter(
-                cls.project_id == Project.id
-            ) .filter(
+            query = query.filter(cls.project_id == Project.id).filter(
                 Project.name == project_name
             )
 
@@ -736,29 +684,23 @@ class ProjectFlag(Base):
 
     @classmethod
     def get(cls, session, flag_id):
-        query = session.query(
-            cls
-        ).filter(
-            cls.id == flag_id)
+        query = session.query(cls).filter(cls.id == flag_id)
         return query.first()
 
 
 class Run(Base):
-    __tablename__ = 'runs'
+    __tablename__ = "runs"
 
     status = sa.Column(sa.String(20), primary_key=True)
     created_on = sa.Column(
-        sa.DateTime, default=datetime.datetime.utcnow, primary_key=True)
+        sa.DateTime, default=datetime.datetime.utcnow, primary_key=True
+    )
 
     @classmethod
     def last_entry(cls, session):
-        ''' Return the last log about the cron run. '''
+        """ Return the last log about the cron run. """
 
-        query = session.query(
-            cls
-        ).order_by(
-            cls.created_on.desc()
-        )
+        query = session.query(cls).order_by(cls.created_on.desc())
         return query.first()
 
 
@@ -768,6 +710,7 @@ class GUID(TypeDecorator):
 
     If PostgreSQL is being used, use its native UUID type, otherwise use a CHAR(32) type.
     """
+
     impl = CHAR
 
     def load_dialect_impl(self, dialect):
@@ -781,7 +724,7 @@ class GUID(TypeDecorator):
             sqlalchemy.types.TypeEngine: Either a PostgreSQL UUID or a CHAR(32) on other
                 dialects.
         """
-        if dialect.name == 'postgresql':
+        if dialect.name == "postgresql":
             return dialect.type_descriptor(UUID())
         else:
             return dialect.type_descriptor(CHAR(32))
@@ -802,7 +745,7 @@ class GUID(TypeDecorator):
         """
         if value is None:
             return value
-        elif dialect.name == 'postgresql':
+        elif dialect.name == "postgresql":
             return str(value)
         else:
             if not isinstance(value, uuid.UUID):
@@ -846,7 +789,8 @@ class User(Base):
         social_auth (sqlalchemy.orm.dynamic.AppenderQuery): The list of
             :class:`social_flask_sqlalchemy.models.UserSocialAuth` entries for this user.
     """
-    __tablename__ = 'users'
+
+    __tablename__ = "users"
 
     id = sa.Column(GUID, primary_key=True, default=uuid.uuid4)
     # SMTP says 256 is the maximum length of a path:
@@ -866,7 +810,7 @@ class User(Base):
             bool: True if the user is an administrator.
         """
         if not self.admin:
-            if six.text_type(self.id) in anitya_config.get('ANITYA_WEB_ADMINS', []):
+            if six.text_type(self.id) in anitya_config.get("ANITYA_WEB_ADMINS", []):
                 self.admin = True
         return self.admin
 
@@ -954,7 +898,7 @@ def _api_token_generator(charset=string.ascii_letters + string.digits, length=40
     Returns:
         str: The API token as a unicode string.
     """
-    return u''.join(random_choice(charset) for __ in range(length))
+    return u"".join(random_choice(charset) for __ in range(length))
 
 
 class ApiToken(Base):
@@ -969,14 +913,14 @@ class ApiToken(Base):
         user (User): The user this API token is associated with.
     """
 
-    __tablename__ = 'tokens'
+    __tablename__ = "tokens"
 
     token = sa.Column(sa.String(40), default=_api_token_generator, primary_key=True)
     created = sa.Column(sa.DateTime, default=datetime.datetime.utcnow, nullable=False)
-    user_id = sa.Column(GUID, sa.ForeignKey('users.id'), nullable=False)
+    user_id = sa.Column(GUID, sa.ForeignKey("users.id"), nullable=False)
     user = sa.orm.relationship(
-        'User',
-        lazy='joined',
-        backref=sa.orm.backref('api_tokens', cascade='all, delete-orphan'),
+        "User",
+        lazy="joined",
+        backref=sa.orm.backref("api_tokens", cascade="all, delete-orphan"),
     )
     description = sa.Column(sa.Text, nullable=True)
