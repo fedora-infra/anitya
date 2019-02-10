@@ -6,7 +6,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.11.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.11.0 at release-monitoring.org]
     method: GET
     uri: https://hackage.haskell.org/package/Biobase
   response:
@@ -243,7 +243,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.11.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.11.0 at release-monitoring.org]
     method: GET
     uri: https://hackage.haskell.org/package/non-existent-package-that-does-not-exist
   response:

@@ -6,7 +6,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
     method: GET
     uri: https://download.gnome.org/sources/evolution-data-server/cache.json
   response:
@@ -54,7 +54,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
     method: GET
     uri: https://mirror.umd.edu/gnome/sources/evolution-data-server/cache.json
   response:
@@ -1070,7 +1070,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
     method: GET
     uri: https://download.gnome.org/sources/fake/cache.json
   response:
@@ -1107,7 +1107,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
     method: GET
     uri: https://download.gnome.org/sources/fake/
   response:
@@ -1144,7 +1144,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
     method: GET
     uri: https://download.gnome.org/sources/gnome-control-center/cache.json
   response:
@@ -1192,7 +1192,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
     method: GET
     uri: https://mirror.umd.edu/gnome/sources/gnome-control-center/cache.json
   response:

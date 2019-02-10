@@ -7,7 +7,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [cargo_session=--3Mz45cH3itfVkmY41+nVjWRm9+0=]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.10.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.10.1 at release-monitoring.org]
     method: GET
     uri: https://crates.io/api/v1/crates/pleasedontmakethisprojectitllbreakmytests/versions
   response:

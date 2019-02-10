@@ -6,7 +6,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.9.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.9.1 at release-monitoring.org]
     method: GET
     uri: https://bitbucket.org/zzzeek/sqlalchemy/downloads?tab=tags
   response:
@@ -400,7 +400,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.9.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.9.1 at release-monitoring.org]
     method: GET
     uri: https://bitbucket.org/foobar/bar/downloads?tab=tags
   response:
@@ -582,7 +582,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.9.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.9.1 at release-monitoring.org]
     method: GET
     uri: https://bitbucket.org/cherrypy/cherrypy/downloads?tab=tags
   response:

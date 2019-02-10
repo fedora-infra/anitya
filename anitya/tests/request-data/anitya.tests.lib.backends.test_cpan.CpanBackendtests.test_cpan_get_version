@@ -6,7 +6,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
     method: GET
     uri: https://metacpan.org/release/SOAP/
   response:
@@ -35,7 +35,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
     method: GET
     uri: https://metacpan.org/release/SOAP
   response:
@@ -188,7 +188,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
     method: GET
     uri: https://metacpan.org/release/foo/
   response:
@@ -217,7 +217,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
     method: GET
     uri: https://metacpan.org/release/foo
   response:

@@ -7,7 +7,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [PHPSESSID=niqb87d29glb8nrp6r0ccmh127]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.9.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.9.1 at release-monitoring.org]
     method: GET
     uri: https://pecl.php.net/feeds/latest.rss
   response:

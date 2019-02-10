@@ -6,7 +6,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.8.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.8.0 at release-monitoring.org]
     method: GET
     uri: https://updates.drupal.org/release-history/wysiwyg/6.x
   response:
@@ -67,7 +67,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.8.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.8.0 at release-monitoring.org]
     method: GET
     uri: https://updates.drupal.org/release-history/foo/6.x
   response:
@@ -100,7 +100,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.8.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.8.0 at release-monitoring.org]
     method: GET
     uri: https://updates.drupal.org/release-history/admin_menu/6.x
   response:

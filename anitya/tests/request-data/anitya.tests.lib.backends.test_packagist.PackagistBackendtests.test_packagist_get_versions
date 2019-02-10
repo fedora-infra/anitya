@@ -6,7 +6,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
     method: GET
     uri: https://packagist.org/packages/phpunit/php-code-coverage.json
   response:
@@ -99,7 +99,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
     method: GET
     uri: https://packagist.org/packages/fake/fake.json
   response:
@@ -125,7 +125,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
     method: GET
     uri: https://packagist.org/packages/phpunit/php-timer.json
   response:

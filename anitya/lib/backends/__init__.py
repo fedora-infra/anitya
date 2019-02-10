@@ -40,7 +40,7 @@ REGEX = anitya_config['DEFAULT_REGEX']
 
 # Default headers for requests
 REQUEST_HEADERS = {
-    'User-Agent': 'Anitya %s at upstream-monitoring.org' %
+    'User-Agent': 'Anitya %s at release-monitoring.org' %
     pkg_resources.get_distribution('anitya').version,
     'From': anitya_config.get('ADMIN_EMAIL'),
     }
