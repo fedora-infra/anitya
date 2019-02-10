@@ -13,7 +13,7 @@ interactions:
       Content-Length: ['524']
       Content-Type: [application/json]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.13.2 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.13.2 at release-monitoring.org]
     method: POST
     uri: https://api.github.com/graphql
   response:

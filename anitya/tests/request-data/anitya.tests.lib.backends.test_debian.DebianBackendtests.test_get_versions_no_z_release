@@ -6,7 +6,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.10.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.10.1 at release-monitoring.org]
     method: GET
     uri: http://ftp.debian.org/debian/pool/main/libg/libgnupg-interface-perl/
   response:

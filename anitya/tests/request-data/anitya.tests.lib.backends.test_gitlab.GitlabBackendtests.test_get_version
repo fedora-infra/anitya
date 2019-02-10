@@ -6,7 +6,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
     method: GET
     uri: https://gitlab.gnome.org/api/v4/projects/GNOME%2Fgnome-video-arcade/repository/tags
   response:
@@ -124,7 +124,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
     method: GET
     uri: https://gitlab.com/api/v4/projects/foo%2Fbar/repository/tags
   response:
@@ -153,7 +153,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
     method: GET
     uri: https://gitlab.com/api/v4/projects/xonotic%2Fxonotic/repository/tags
   response:

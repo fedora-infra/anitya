@@ -6,7 +6,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
     method: GET
     uri: https://launchpad.net/exaile/+download
   response:
@@ -195,7 +195,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.5.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
     method: GET
     uri: https://launchpad.net/foo/+download
   response:

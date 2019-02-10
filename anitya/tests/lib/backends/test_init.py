@@ -43,7 +43,7 @@ class BaseBackendTests(AnityaTestCase):
         super(BaseBackendTests, self).setUp()
         self.backend = backends.BaseBackend()
         self.headers = {
-            'User-Agent': 'Anitya {0} at upstream-monitoring.org'.format(
+            'User-Agent': 'Anitya {0} at release-monitoring.org'.format(
                 anitya.app.__version__),
             'From': config.get('ADMIN_EMAIL'),
         }

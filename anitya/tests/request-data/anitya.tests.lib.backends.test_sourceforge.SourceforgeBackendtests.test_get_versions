@@ -8,7 +8,7 @@ interactions:
       Cookie: [sourceforge=9053af5c8c7083bcb8e16517942cadf9dbd400bdgAJ9cQEoVQVwcmVmc3ECfXEDVQ5fYWNjZXNzZWRfdGltZXEER0HWqTCGv6d6VQNrZXlxBVUkMjJmMzU2YjYtOTYwNC00YWJhLTgxOTEtNWU1NmEwNWI3Yjc4cQZVDl9jcmVhdGlvbl90aW1lcQdHQdapMIa/p3pVA19pZHEIVSBlZTA0ZjAzZGIwODI0MjEzYWMyOTM5NzBlOWJhMzg1ZHEJdS4=;
           VISITOR=22f356b6-9604-4aba-8191-5e56a05b7b78]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.11.0 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.11.0 at release-monitoring.org]
     method: GET
     uri: https://sourceforge.net/projects/filezilla/rss?limit=200
   response:

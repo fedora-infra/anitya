@@ -14,7 +14,7 @@ interactions:
       Content-Length: ['719']
       Content-Type: [application/json]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
     method: POST
     uri: https://api.github.com/graphql
   response:
@@ -88,7 +88,7 @@ interactions:
       Content-Length: ['709']
       Content-Type: [application/json]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
     method: POST
     uri: https://api.github.com/graphql
   response:
@@ -139,7 +139,7 @@ interactions:
       Content-Length: ['718']
       Content-Type: [application/json]
       From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.12.1 at upstream-monitoring.org]
+      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
     method: POST
     uri: https://api.github.com/graphql
   response:
