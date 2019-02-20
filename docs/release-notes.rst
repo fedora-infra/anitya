@@ -4,6 +4,64 @@ Release Notes
 
 .. towncrier release notes start
 
+0.15.0 (2019-02-20)
+===================
+
+Features
+--------
+
+* Convert to Fedora Messaging
+  (`PR#570 <https://github.com/release-monitoring/anitya/pull/570>`_)
+
+
+Bug Fixes
+---------
+
+* Release notes point to fedora-messaging
+  (`#699 <https://github.com/release-monitoring/anitya/issues/699>`_)
+
+* Javascript error on add project page
+  (`#714 <https://github.com/release-monitoring/anitya/issues/714>`_)
+
+* Changed copyright datum on frontpage to 2013-2019
+  (`#721 <https://github.com/release-monitoring/anitya/issues/721>`_)
+
+* Invalid User-Agent
+  (`#729 <https://github.com/release-monitoring/anitya/issues/729>`_)
+
+Development Changes
+-------------------
+
+* Rename Vagrantfile.example to Vagrantfile
+  (`PR#715 <https://github.com/release-monitoring/anitya/pull/715>`_)
+
+* Introduce bandit to tox tests
+  (`PR#724 <https://github.com/release-monitoring/anitya/pull/724>`_)
+
+
+Other Changes
+-------------
+
+* Added example of usage in contribution guide.
+  (`PR#719 <https://github.com/release-monitoring/anitya/pull/719>`_)
+
+* Fix URL to fedmsg website on index.html to use the correct website URL
+  (`PR#722 <https://github.com/release-monitoring/anitya/pull/722>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Jeremy Cline
+* AsciiWolf
+* Zlopez
+* Michal Konečný
+* Neal Gompa
+* Yaron Shahrabani
+
+
 0.14.1 (2019-01-17)
 ===================
 
