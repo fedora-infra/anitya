@@ -5,7 +5,6 @@ python-dateutil
 fedmsg[commands,consumers]
 fedora_messaging
 flask-login
-gunicorn
 social-auth-app-flask
 social-auth-app-flask-sqlalchemy
 flask-restful
