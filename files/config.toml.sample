@@ -1,0 +1,10 @@
+# A sample configuration for fedora-messaging. This file is in the TOML format.
+# For complete details on all configuration options, see the documentation.
+# https://fedora-messaging.readthedocs.io/en/latest/configuration.html
+
+amqp_url = "amqp://"
+
+[tls]
+ca_cert = "/etc/pki/tls/certs/ca-bundle.crt"
+keyfile = "/my/client/key.pem"
+certfile = "/my/client/cert.pem"
