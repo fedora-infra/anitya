@@ -51,6 +51,7 @@ social_auth_login_redirect_url = "/"
 social_auth_login_error_url = "/login-error/"
 
 librariesio_platform_whitelist = ['pypi', 'rubygems']
+sse_feed = "http://firehose.libraries.io/events"
 
 default_regex = "a*b*"
 github_access_token = "foobar"
@@ -170,6 +171,7 @@ class LoadTests(unittest.TestCase):
             "DEFAULT_REGEX": "a*b*",
             "GITHUB_ACCESS_TOKEN": "foobar",
             "LEGACY_MESSAGING": True,
+            "SSE_FEED": "http://firehose.libraries.io/events",
         }
         config = anitya_config.load()
         self.assertEqual(sorted(expected_config.keys()), sorted(config.keys()))

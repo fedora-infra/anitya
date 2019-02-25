@@ -4,7 +4,6 @@
 # the dependencies before readthedocs installs Anitya.
 alembic
 python-dateutil
-fedmsg
 flask >= 0.10.1
 flask-restful
 flask-wtf
@@ -16,6 +15,6 @@ sphinxcontrib-httpdomain
 sqlalchemy >= 0.9
 sqlalchemy_schemadisplay
 straight.plugin
+towncrier
 pytoml
 wtforms
-towncrier

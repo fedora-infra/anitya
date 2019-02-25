@@ -1,21 +1,21 @@
 alembic
+arrow
 blinker
 defusedxml
-python-dateutil
-fedmsg[commands,consumers]
 fedora_messaging
 flask-login
-social-auth-app-flask
-social-auth-app-flask-sqlalchemy
 flask-restful
 flask-wtf
 jinja2 >= 2.4
-semver
-sqlalchemy >= 0.9
-straight.plugin
 ordered-set
-psycopg2
 pyasn1 <0.5.0,>=0.4.1
+python-dateutil
+psycopg2
 pytoml
+semver
+social-auth-app-flask
+social-auth-app-flask-sqlalchemy
+sseclient
+straight.plugin
+sqlalchemy >= 0.9
 wtforms
-arrow

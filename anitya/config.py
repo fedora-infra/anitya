@@ -87,6 +87,7 @@ DEFAULTS = dict(
     # Token for GitHub API
     GITHUB_ACCESS_TOKEN=None,
     LEGACY_MESSAGING=False,  # If True, publish with fedmsg instead of fedora_messaging
+    SSE_FEED="http://firehose.libraries.io/events",
 )
 
 # Start with a basic logging configuration, which will be replaced by any user-
