@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of the Anitya project.
-# Copyright (C) 2017 Red Hat, Inc.
+# Copyright (C) 2017-2019 Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,14 +17,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
-Tests for the libraries.io fedmsg consumer.
+Tests for the libraries.io SSE client.
 """
 
-from __future__ import absolute_import, unicode_literals
-
 import unittest
+from unittest import mock
 
-import mock
+import sseclient
 
 from anitya import config
 from anitya.db import Project
@@ -33,138 +32,89 @@ from anitya.librariesio_consumer import LibrariesioConsumer
 from anitya.tests.base import DatabaseTestCase
 
 
-@mock.patch("anitya.librariesio_consumer.initialize", mock.Mock())
 class LibrariesioConsumerTests(DatabaseTestCase):
+    """
+    Test class for `anitya.librariesio_consumer.LibrariesioConsumer` class.
+
+    Attributes:
+        client (`anitya.librariesio_consumer.LibrariesioConsumer``): librariesio SSE client.
+    """
+
     def setUp(self):
+        """
+        Set up the test environments.
+        """
         super(LibrariesioConsumerTests, self).setUp()
 
-        self.supported_fedmsg = {
-            "body": {
-                "username": "vagrant",
-                "i": 236,
-                "timestamp": 1488561045,
-                "msg_id": "2017-630afdfd-4780-48ce-ba99-3a306d8de2d2",
-                "topic": "org.fedoraproject.dev.sse2fedmsg.librariesio",
-                "msg": {
-                    "retry": 500,
-                    "data": {
-                        "name": "ImageMetaTag",
-                        "project": {
-                            "status": None,
-                            "repository_url": "https://github.com/SciTools-incubator/",
-                            "latest_release_published_at": "2017-03-03 16:44:46 UTC",
-                            "description": "Tags images created by matplotlib with ...",
-                            "language": "Python",
-                            "platform": "Pypi",
-                            "package_manager_url": "https://pypi.org/project/ImageMetaTag/",
-                            "latest_release_number": "0.6.9",
-                            "rank": 4,
-                            "stars": 1,
-                            "keywords": [],
-                            "normalized_licenses": ["BSD-3-Clause"],
-                            "forks": 1,
-                            "homepage": "https://github.com/SciTools-incubator/image-meta-tag",
-                            "name": "ImageMetaTag",
-                        },
-                        "platform": "Pypi",
-                        "published_at": "2017-03-03 16:44:46 UTC",
-                        "version": "0.6.9",
-                        "package_manager_url": "https://pypi.org/project/ImageMetaTag/0.6.9",
-                    },
-                    "event": "event",
-                    "id": None,
-                },
-            }
-        }
-        self.mock_hub = mock.Mock(
-            config={"environment": "dev", "topic_prefix": "anitya"}
+        self.client = LibrariesioConsumer()
+
+    def test_init(self):
+        """Assert that correct values are initialized."""
+
+        self.assertEqual(self.client.feed, config.config["SSE_FEED"])
+        self.assertEqual(
+            self.client.whitelist, config.config["LIBRARIESIO_PLATFORM_WHITELIST"]
         )
 
-    def test_dev_environment_topics(self):
-        """Assert when the environment is set to dev, the dev topic is used."""
-        mock_hub = mock.Mock(config={"environment": "dev", "topic_prefix": "anitya"})
-        consumer = LibrariesioConsumer(mock_hub)
+    @mock.patch("anitya.librariesio_consumer._log")
+    def test_invalid_json(self, mock_log):
+        """Assert that log message is logged when invalid json is received."""
+        event = sseclient.Event(data="Invalid JSON")
 
-        self.assertEqual(["anitya.dev.sse2fedmsg.librariesio"], consumer.topic)
+        self.client.process_message(event)
 
-    def test_prod_environment_topics(self):
-        """Assert when the environment is set to prod, only the prod topic is used."""
-        mock_hub = mock.Mock(config={"environment": "prod", "topic_prefix": "anitya"})
-        consumer = LibrariesioConsumer(mock_hub)
-
-        self.assertEqual(["anitya.prod.sse2fedmsg.librariesio"], consumer.topic)
-
-    def test_prefix_setup(self):
-        """Assert that topic_prefix is changed after initialization."""
-        mock_hub = mock.Mock(config={"environment": "dev", "topic_prefix": "anitya"})
-        self.assertEqual(mock_hub.config["topic_prefix"], "anitya")
-        LibrariesioConsumer(mock_hub)
-
-        self.assertEqual(mock_hub.config["topic_prefix"], "org.release-monitoring")
+        self.assertIn(
+            "Dropping librariesio update message. Invalid json 'Invalid JSON'.",
+            mock_log.warning.call_args_list[0][0][0],
+        )
 
     @mock.patch("anitya.librariesio_consumer._log")
-    def test_no_ecosystem(self, mock_log):
-        """Assert that messages about platforms we don't support are handled gracefully"""
-        consumer = LibrariesioConsumer(self.mock_hub)
-        unsupported_fedmsg = {
-            "body": {
-                "username": "vagrant",
-                "i": 211,
-                "timestamp": 1488560762,
-                "msg_id": "2017-a7dbddc2-8ce5-4291-9986-c8584ec97fdd",
-                "topic": "org.fedoraproject.dev.sse2fedmsg.librariesio",
-                "msg": {
-                    "retry": 500,
-                    "data": {
-                        "name": "GreatProject",
-                        "project": {
-                            "status": None,
-                            "repository_url": None,
-                            "latest_release_published_at": "2017-03-03 00:00:00 UTC",
-                            "description": "A great description of the project",
-                            "language": None,
-                            "platform": "GREAT",
-                            "package_manager_url": "https://example.com/GreatProject.git",
-                            "latest_release_number": "1.5.0",
-                            "rank": 0,
-                            "stars": 0,
-                            "keywords": [],
-                            "normalized_licenses": ["GPL-3.0+"],
-                            "forks": 0,
-                            "homepage": "https://example.com/GreatProject",
-                            "name": "GreatProject",
-                        },
-                        "platform": "GREAT",
-                        "published_at": "2017-03-03 00:00:00 UTC",
-                        "version": "1.5.0",
-                        "package_manager_url": "https://example.com/GreatProject.git",
-                    },
-                    "event": "event",
-                    "id": None,
-                },
-            }
-        }
-        self.assertEqual(0, self.session.query(Project).count())
-        consumer.consume(unsupported_fedmsg)
-        self.assertEqual(0, self.session.query(Project).count())
-        self.assertTrue(
-            "Dropped librariesio update" in mock_log.debug.call_args_list[0][0][0]
+    def test_unknown_ecosystem(self, mock_log):
+        """Assert that log message is logged when unknown ecosystem is received."""
+        event = sseclient.Event(
+            data="{"
+            '"name": "test",'
+            '"platform": "unknown",'
+            '"version": "1.0",'
+            '"package_manager_url": "https://homepage.net"'
+            "}"
+        )
+        self.client.process_message(event)
+
+        self.assertIn(
+            "Dropped librariesio update to 1.0 for test (https://homepage.net) since"
+            " it is on the unsupported unknown platform",
+            mock_log.debug.call_args_list[0][0][0],
         )
 
     def test_new_project_configured_off(self):
         """libraries.io events shouldn't create projects if the configuration is off."""
-        consumer = LibrariesioConsumer(self.mock_hub)
-        with mock.patch.dict(config.config, {"LIBRARIESIO_PLATFORM_WHITELIST": []}):
-            consumer.consume(self.supported_fedmsg)
+        event = sseclient.Event(
+            data="{"
+            '"name": "test",'
+            '"platform": "PyPi",'
+            '"version": "1.0",'
+            '"package_manager_url": "https://homepage.net"'
+            "}"
+        )
+
+        with mock.patch.object(self.client, "whitelist", []):
+            self.client.process_message(event)
         self.assertEqual(0, self.session.query(Project).count())
 
     def test_new_project_configured_on(self):
         """Assert that a libraries.io event about an unknown project creates that project"""
-        consumer = LibrariesioConsumer(self.mock_hub)
-        with mock.patch.dict(
-            config.config, {"LIBRARIESIO_PLATFORM_WHITELIST": ["pypi"]}
-        ):
-            consumer.consume(self.supported_fedmsg)
+        event = sseclient.Event(
+            data="{"
+            '"name": "ImageMetaTag",'
+            '"platform": "PyPi",'
+            '"version": "0.6.9",'
+            '"package_manager_url": "https://pypi.org/project/ImageMetaTag/"'
+            "}"
+        )
+
+        with mock.patch.object(self.client, "whitelist", ["pypi"]):
+            self.client.process_message(event)
         self.assertEqual(1, self.session.query(Project).count())
         project = self.session.query(Project).first()
         self.assertEqual("ImageMetaTag", project.name)
@@ -172,20 +122,26 @@ class LibrariesioConsumerTests(DatabaseTestCase):
         self.assertEqual("0.6.9", project.latest_version)
 
     @mock.patch("anitya.librariesio_consumer._log")
-    @mock.patch("anitya.librariesio_consumer.utilities.create_project")
+    @mock.patch("anitya.lib.utilities.create_project")
     def test_new_project_failure(self, mock_create, mock_log):
         """Assert failures to create projects are logged as errors."""
         mock_create.side_effect = AnityaException("boop")
-        consumer = LibrariesioConsumer(self.mock_hub)
-        with mock.patch.dict(
-            config.config, {"LIBRARIESIO_PLATFORM_WHITELIST": ["pypi"]}
-        ):
-            consumer.consume(self.supported_fedmsg)
+        event = sseclient.Event(
+            data="{"
+            '"name": "ImageMetaTag",'
+            '"platform": "PyPi",'
+            '"version": "0.6.9",'
+            '"package_manager_url": "https://pypi.org/project/ImageMetaTag/"'
+            "}"
+        )
+
+        with mock.patch.object(self.client, "whitelist", ["pypi"]):
+            self.client.process_message(event)
         self.assertEqual(0, self.session.query(Project).count())
-        mock_log.error.assert_called_once_with(
-            'A new project was discovered via libraries.io, %r, but we failed with "%s"',
-            None,
-            "boop",
+        self.assertIn(
+            "A new project was discovered via libraries.io, ImageMetaTag,"
+            ' but we failed with "boop"',
+            mock_log.error.call_args_list[0][0][0],
         )
 
     def test_existing_project(self):
@@ -198,10 +154,17 @@ class LibrariesioConsumerTests(DatabaseTestCase):
         )
         self.session.add(project)
         self.session.commit()
-        consumer = LibrariesioConsumer(self.mock_hub)
+        event = sseclient.Event(
+            data="{"
+            '"name": "ImageMetaTag",'
+            '"platform": "PyPi",'
+            '"version": "0.6.9",'
+            '"package_manager_url": "https://pypi.org/project/ImageMetaTag/"'
+            "}"
+        )
 
         self.assertEqual(1, self.session.query(Project).count())
-        consumer.consume(self.supported_fedmsg)
+        self.client.process_message(event)
         self.assertEqual(1, self.session.query(Project).count())
         project = self.session.query(Project).first()
         self.assertEqual("ImageMetaTag", project.name)
@@ -211,7 +174,6 @@ class LibrariesioConsumerTests(DatabaseTestCase):
     @mock.patch("anitya.librariesio_consumer.utilities.check_project_release")
     def test_existing_project_check_failure(self, mock_check):
         """Assert that when an existing project fails a version check nothing happens"""
-        consumer = LibrariesioConsumer(self.mock_hub)
         mock_check.side_effect = AnityaPluginException()
         project = Project(
             name="ImageMetaTag",
@@ -221,8 +183,17 @@ class LibrariesioConsumerTests(DatabaseTestCase):
         )
         self.session.add(project)
         self.session.commit()
+        event = sseclient.Event(
+            data="{"
+            '"name": "ImageMetaTag",'
+            '"platform": "PyPi",'
+            '"version": "0.6.9",'
+            '"package_manager_url": "https://pypi.org/project/ImageMetaTag/"'
+            "}"
+        )
+
         self.assertEqual(1, self.session.query(Project).count())
-        consumer.consume(self.supported_fedmsg)
+        self.client.process_message(event)
         self.assertEqual(1, self.session.query(Project).count())
         project = self.session.query(Project).first()
         self.assertIs(project.latest_version, None)
@@ -230,7 +201,6 @@ class LibrariesioConsumerTests(DatabaseTestCase):
     @mock.patch("anitya.librariesio_consumer._log")
     def test_mismatched_versions(self, mock_log):
         """Assert when libraries.io and Anitya disagree on version, it's logged"""
-        consumer = LibrariesioConsumer(self.mock_hub)
         project = Project(
             name="ImageMetaTag",
             homepage="https://pypi.org/project/ImageMetaTag/",
@@ -239,13 +209,20 @@ class LibrariesioConsumerTests(DatabaseTestCase):
         )
         self.session.add(project)
         self.session.commit()
-        self.supported_fedmsg["body"]["msg"]["data"]["version"] = "0.6.11"
-        consumer.consume(self.supported_fedmsg)
+        event = sseclient.Event(
+            data="{"
+            '"name": "ImageMetaTag",'
+            '"platform": "PyPi",'
+            '"version": "0.6.11",'
+            '"package_manager_url": "https://pypi.org/project/ImageMetaTag/"'
+            "}"
+        )
+        self.client.process_message(event)
         project = self.session.query(Project).first()
         self.assertEqual("0.6.9", project.latest_version)
         self.assertIn(
-            "libraries.io has found an update (version %s) for project %r",
-            mock_log.info.call_args_list[1][0],
+            "libraries.io has found an update (version 0.6.11) for project ImageMetaTag",
+            mock_log.info.call_args_list[0][0][0],
         )
 
 

@@ -68,11 +68,11 @@ setup(
     ],
     packages=find_packages(exclude=["anitya.tests", "anitya.tests.*"]),
     include_package_data=True,
-    scripts=["anitya/check_service.py", "anitya/sar.py"],
+    scripts=[
+        "anitya/check_service.py",
+        "anitya/sar.py",
+        "anitya/librariesio_consumer.py",
+    ],
     install_requires=get_requirements(),
     test_suite="anitya.tests",
-    entry_points="""
-    [moksha.consumer]
-    librariesio = anitya.librariesio_consumer:LibrariesioConsumer
-    """,
 )
