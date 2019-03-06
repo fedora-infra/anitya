@@ -4,6 +4,41 @@ Release Notes
 
 .. towncrier release notes start
 
+0.15.1 (2019-03-06)
+===================
+
+Bug Fixes
+---------
+
+* Fix topic for fedora_messaging
+  (`PR#750 <https://github.com/release-monitoring/anitya/pull/750>`_)
+
+
+Development Changes
+-------------------
+
+* Check formatting using black
+  (`PR#725 <https://github.com/release-monitoring/anitya/pull/725>`_)
+
+* Remove gunicorn dependency
+  (`PR#742 <https://github.com/release-monitoring/anitya/pull/742>`_)
+
+
+Other Changes
+-------------
+
+* Add sample configuration for Fedora Messaging
+  (`#738 <https://github.com/release-monitoring/anitya/issues/738>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Michal Konečný
+
+
 0.15.0 (2019-02-20)
 ===================
 
