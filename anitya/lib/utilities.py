@@ -58,7 +58,11 @@ def fedmsg_publish(*args, **kwargs):  # pragma: no cover
     else:
         try:
             message_class = message.get_class("anitya." + kwargs["topic"])
-            api.publish(message_class(body=kwargs["msg"]))
+            api.publish(
+                message_class(
+                    topic="anitya.{}".format(kwargs["topic"]), body=kwargs["msg"]
+                )
+            )
         except (
             fm_exceptions.ConnectionException,
             fm_exceptions.PublishException,
