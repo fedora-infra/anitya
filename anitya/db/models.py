@@ -691,7 +691,10 @@ class ProjectFlag(Base):
 class Run(Base):
     __tablename__ = "runs"
 
-    status = sa.Column(sa.String(20), primary_key=True)
+    total_count = sa.Column(sa.Integer)
+    error_count = sa.Column(sa.Integer)
+    ratelimit_count = sa.Column(sa.Integer)
+    success_count = sa.Column(sa.Integer)
     created_on = sa.Column(
         sa.DateTime, default=datetime.datetime.utcnow, primary_key=True
     )

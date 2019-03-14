@@ -99,6 +99,12 @@
     src: anitya.service
     dest: /home/{{ ansible_env.SUDO_USER }}/.config/systemd/user/anitya.service
 
+- name: Install the Anitya check service systemd file
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  copy:
+    src: check_service.service
+    dest: /home/{{ ansible_env.SUDO_USER }}/.config/systemd/user/check_service.service
+
 - name: Reload the systemd daemon
   become_user: "{{ ansible_env.SUDO_USER }}"
   command: systemctl --user daemon-reload

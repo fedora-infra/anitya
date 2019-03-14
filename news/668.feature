@@ -1,0 +1,1 @@
+Turn Anitya cron job to service

@@ -12,7 +12,9 @@ flask-wtf
 jinja2 >= 2.4
 sqlalchemy >= 0.9
 straight.plugin
+ordered-set
 psycopg2
+pyasn1 >= 0.4.1
 pytoml
 wtforms
 arrow
