@@ -8,6 +8,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
  # Forward traffic on the host to the development server on the guest
  config.vm.network "forwarded_port", guest: 5000, host: 5000
+ # RabbitMQ
+ config.vm.network "forwarded_port", guest: 15672, host: 15672
 
  if Vagrant.has_plugin?("vagrant-hostmanager")
      config.hostmanager.enabled = true

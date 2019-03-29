@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2017  Red Hat, Inc.
+# Copyright © 2019  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions
@@ -23,6 +23,7 @@
 Tests for the Flask-RESTful based v2 API
 """
 from __future__ import unicode_literals
+from unittest import mock
 
 import json
 from social_flask_sqlalchemy import models as social_models
@@ -465,7 +466,8 @@ class PackagesResourcePostTests(DatabaseTestCase):
         self.assertIn("project_name", error_details)
         self.assertIn("project_ecosystem", error_details)
 
-    def test_valid_request(self):
+    @mock.patch("anitya.lib.utilities.fedmsg_publish")
+    def test_valid_request(self, mock_publish):
         """Assert packages can be created."""
         request_data = {
             "project_ecosystem": "pypi",
@@ -480,6 +482,22 @@ class PackagesResourcePostTests(DatabaseTestCase):
         self.assertEqual(output.status_code, 201)
         data = _read_json(output)
         self.assertEqual({"distribution": "Fedora", "name": "python-requests"}, data)
+
+        project = models.Project.query.filter_by(
+            name="requests", ecosystem_name="pypi"
+        ).one()
+
+        msg = {
+            "project": dict(project.__json__()),
+            "distro": {"name": "Fedora"},
+            "message": {
+                "agent": "user@fedoraproject.org",
+                "project": "requests",
+                "distro": "Fedora",
+                "new": "python-requests",
+            },
+        }
+        mock_publish.assert_called_with(topic="project.map.new", msg=msg)
 
     def test_same_package_two_distros(self):
         """Assert packages can be created."""
