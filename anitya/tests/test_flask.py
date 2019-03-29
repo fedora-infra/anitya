@@ -683,7 +683,7 @@ class FlaskTest(DatabaseTestCase):
         create_project(self.session)
 
         output = self.app.get("/project/geany")
-        self.assertEqual(output.status_code, 308)
+        self.assertIn(output.status_code, [301, 308])
         self.assertEqual(output.headers["Location"], "http://localhost/project/geany/")
 
     def test_projects_search_by_name_slash(self):
