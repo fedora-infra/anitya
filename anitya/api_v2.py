@@ -254,6 +254,20 @@ class PackagesResource(Resource):
 
             Session.add(package)
             Session.commit()
+
+            message = dict(
+                agent=flask_login.current_user.email,
+                project=project.name,
+                distro=distro.name,
+                new=package.package_name,
+            )
+            utilities.log(
+                Session,
+                project=project.__json__(),
+                distro=distro.__json__(),
+                topic="project.map.new",
+                message=message,
+            )
             return {u"distribution": distro.name, u"name": package.package_name}, 201
         except IntegrityError:
             Session.rollback()
