@@ -449,7 +449,7 @@ class Project(Base):
         query = (
             session.query(Project)
             .filter(Project.id == Packages.project_id)
-            .filter(sa.func.lower(Packages.distro) == sa.func.lower(distro))
+            .filter(sa.func.lower(Packages.distro_name) == sa.func.lower(distro))
             .order_by(sa.func.lower(Project.name))
         )
 
