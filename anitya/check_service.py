@@ -26,15 +26,8 @@ from threading import Lock
 from typing import List
 from datetime import datetime
 from time import sleep
+from concurrent.futures import ThreadPoolExecutor
 
-# We need to use multiprocessing.dummy, since we use the Pool to run
-# update_project. This in turn uses anitya.lib.backends.BaseBackend.call_url,
-# which utilizes a global requests session. Requests session is not usable
-# with multiprocessing, since it would need to share the SSL connection between
-# processes (see https://stackoverflow.com/q/3724900#3724938).
-# multiprocessing.dummy.Pool is in fact a Thread pool, which works ok
-# with a global shared requests session.
-import multiprocessing.dummy as multiprocessing
 import sqlalchemy as sa
 import arrow
 from ordered_set import OrderedSet
@@ -172,7 +165,7 @@ class Checker:
             "Starting check on {} for total of {} projects".format(time, total_count)
         )
         pool_size = config.get("CRON_POOL", 10)
-        pool = multiprocessing.Pool(pool_size)
+        pool = ThreadPoolExecutor(pool_size)
         pool.map(self.update_project, queue)
 
         # 3. Finalize
