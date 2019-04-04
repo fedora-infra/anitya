@@ -60,7 +60,17 @@ class Version(object):
            https://calver.org/#scheme
         """
         self.version = version
-        self.prefix = prefix
+        if prefix:
+            self.prefixes = prefix.split(";")
+            # Sort from shorter to longest, this will prevent stripping
+            # shorter prefix instead of larger.
+            # For example:
+            # version = release_db-1.2.3
+            # prefixes = release_db-;release
+            # would return db-1.2.3 instead of 1.2.3 if the sort is not done
+            self.prefixes.sort(key=len)
+        else:
+            self.prefixes = []
         self.created_on = created_on
         if pattern:
             self.pattern = pattern.upper()
@@ -95,8 +105,9 @@ class Version(object):
         """
         # If there's a prefix set on the project, strip it if it's present
         version = self.version
-        if self.prefix and self.version.startswith(self.prefix):
-            version = self.version[len(self.prefix) :]
+        for prefix in self.prefixes:
+            if prefix and self.version.startswith(prefix):
+                version = self.version[len(prefix) :]
 
         # Many projects prefix their tags with 'v', so strip it if it's present
         if v_prefix.match(version):

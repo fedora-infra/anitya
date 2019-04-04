@@ -78,6 +78,19 @@ class VersionTests(unittest.TestCase):
         version = base.Version(version="release-v1.0.0", prefix="release-")
         self.assertEqual("1.0.0", version.parse())
 
+    def test_parse_with_multiple_prefixes(self):
+        """ Assert parsing is working when multiple prefixes are provided. """
+        version = base.Version(version="release_db-1.2.3", prefix="release_db-;release")
+        self.assertEqual("1.2.3", version.parse())
+
+    def test_parse_with_multiple_prefixes_one_empty(self):
+        """
+        Assert parsing is working when multiple prefixes are provided and one
+        is empty string.
+        """
+        version = base.Version(version="release_db-1.2.3", prefix="release_db-; ")
+        self.assertEqual("1.2.3", version.parse())
+
     def test_prerelease(self):
         """Assert prerelease is defined and returns False"""
         version = base.Version(version="v1.0.0")
