@@ -31,6 +31,6 @@ matrix:
     - python: 3.6
       env: TOXENV=bandit
     - python: 3.6
-      env: TOXENV=black
+      env: TOXENV=format
   allow_failures:
     - python: nightly
