@@ -86,8 +86,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         data = _read_json(output)
 
         for key in range(len(data["projects"])):
-            del (data["projects"][key]["created_on"])
-            del (data["projects"][key]["updated_on"])
+            del data["projects"][key]["created_on"]
+            del data["projects"][key]["updated_on"]
 
         exp = {
             "projects": [
@@ -135,8 +135,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         data = _read_json(output)
 
         for key in range(len(data["projects"])):
-            del (data["projects"][key]["created_on"])
-            del (data["projects"][key]["updated_on"])
+            del data["projects"][key]["created_on"]
+            del data["projects"][key]["updated_on"]
 
         exp = {
             "projects": [
@@ -162,8 +162,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         data = _read_json(output)
 
         for key in range(len(data["projects"])):
-            del (data["projects"][key]["created_on"])
-            del (data["projects"][key]["updated_on"])
+            del data["projects"][key]["created_on"]
+            del data["projects"][key]["updated_on"]
 
         exp = {
             "projects": [
@@ -287,8 +287,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         output = self.app.post("/api/version/get", data=data)
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
-        del (data["created_on"])
-        del (data["updated_on"])
+        del data["created_on"]
+        del data["updated_on"]
 
         exp = {
             "id": 1,
@@ -328,8 +328,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        del (data["created_on"])
-        del (data["updated_on"])
+        del data["created_on"]
+        del data["updated_on"]
 
         exp = {
             "id": 1,
@@ -376,8 +376,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        del (data["created_on"])
-        del (data["updated_on"])
+        del data["created_on"]
+        del data["updated_on"]
 
         exp = {
             "id": 1,
@@ -423,8 +423,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        del (data["created_on"])
-        del (data["updated_on"])
+        del data["created_on"]
+        del data["updated_on"]
 
         exp = {
             "id": 1,
