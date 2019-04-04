@@ -15,7 +15,7 @@ sqlalchemy >= 0.9
 straight.plugin
 ordered-set
 psycopg2
-pyasn1 >= 0.4.1
+pyasn1 <0.5.0,>=0.4.1
 pytoml
 wtforms
 arrow

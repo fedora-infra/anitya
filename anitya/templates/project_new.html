@@ -150,7 +150,9 @@
     $("#version_url").tooltip();
     $("#version_prefix").prop('title', "Prefix filled here will be removed " +
         "from retrieved version. For example version prefix " +
-        "'v' will convert 'v1.2.3' to '1.2.3'.");
+        "'v' will convert 'v1.2.3' to '1.2.3'. " +
+        "It's possible to specify multiple prefixes split by ';' like this " +
+        "'v;release'.");
     $("#version_prefix").tooltip();
     $("#regex").prop('title', "Python regex to use for version retrieval. " +
         "Matched groups will be concatenated by '.'. " +
