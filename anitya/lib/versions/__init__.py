@@ -43,6 +43,7 @@ from __future__ import unicode_literals
 from .base import Version, v_prefix  # noqa: F401
 from .rpm import RpmVersion  # noqa: F401
 from .calver import CalendarVersion  # noqa: F401
+from .semver import SemanticVersion  # noqa: F401
 
 
 #: The default version scheme to use when the project itself, its ecosystem,

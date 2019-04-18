@@ -10,6 +10,7 @@ social-auth-app-flask-sqlalchemy
 flask-restful
 flask-wtf
 jinja2 >= 2.4
+semver
 sqlalchemy >= 0.9
 straight.plugin
 ordered-set
