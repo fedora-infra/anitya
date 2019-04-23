@@ -239,6 +239,7 @@ class Project(Base):
     version_url = sa.Column(sa.String(200), nullable=True)
     regex = sa.Column(sa.String(200), nullable=True)
     version_prefix = sa.Column(sa.String(200), nullable=True)
+    version_pattern = sa.Column(sa.String(200), nullable=True)
     insecure = sa.Column(sa.Boolean, nullable=False, default=False)
     releases_only = sa.Column(sa.Boolean, nullable=False, default=False)
     version_scheme = sa.Column(sa.String(50), nullable=True)
@@ -332,6 +333,7 @@ class Project(Base):
                     version=version,
                     prefix=self.version_prefix,
                     created_on=datetime.datetime.utcnow(),
+                    pattern=self.version_pattern,
                 )
                 for version in versions
             ]
@@ -363,6 +365,7 @@ class Project(Base):
                 version=v_obj.version,
                 prefix=self.version_prefix,
                 created_on=v_obj.created_on,
+                pattern=self.version_pattern,
             )
             for v_obj in self.versions_obj
         ]

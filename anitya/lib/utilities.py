@@ -290,6 +290,7 @@ def create_project(
     user_id,
     backend="custom",
     version_scheme="RPM",
+    version_pattern=None,
     version_url=None,
     version_prefix=None,
     regex=None,
@@ -304,6 +305,7 @@ def create_project(
         homepage=homepage,
         backend=backend,
         version_scheme=version_scheme,
+        version_pattern=version_pattern,
         version_url=version_url,
         regex=regex,
         version_prefix=version_prefix,
@@ -340,6 +342,7 @@ def edit_project(
     homepage,
     backend,
     version_scheme,
+    version_pattern,
     version_url,
     version_prefix,
     regex,
@@ -368,6 +371,11 @@ def edit_project(
         old = project.version_scheme
         project.version_scheme = version_scheme
         changes["version_scheme"] = {"old": old, "new": project.version_scheme}
+    if version_pattern != project.version_pattern:
+        old = project.version_pattern
+        project.version_pattern = version_pattern.strip() if version_pattern else None
+        if old != project.version_pattern:
+            changes["version_pattern"] = {"old": old, "new": project.version_pattern}
     if version_url != project.version_url:
         old = project.version_url
         project.version_url = version_url.strip() if version_url else None
