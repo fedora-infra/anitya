@@ -32,14 +32,17 @@
             <tr>
               {{ render_field_in_row(form.version_scheme, tabindex=4) }}
             </tr>
+            <tr id="version_pattern_row">
+              {{ render_field_in_row(form.version_pattern, docs=url_for('anitya_ui.static', filename='docs/user-guide.html') + "#version_pattern", tabindex=5) }}
+            </tr>
             <tr id="version_url_row">
-              {{ render_field_in_row(form.version_url, tabindex=5) }}
+              {{ render_field_in_row(form.version_url, tabindex=6) }}
             </tr>
             <tr id="version_prefix_row">
-              {{ render_field_in_row(form.version_prefix, tabindex=6) }}
+              {{ render_field_in_row(form.version_prefix, tabindex=7) }}
             </tr>
             <tr id="regex_row">
-              {{ render_field_in_row(form.regex, tabindex=7) }}
+              {{ render_field_in_row(form.regex, tabindex=8) }}
             </tr>
             <tr id="default_regex_row">
               <td><label>Default regex:</label></td>
@@ -139,6 +142,10 @@
     $("#homepage").tooltip();
     $("#version_scheme").prop('title', "Version scheme used for sorting project versions.");
     $("#version_scheme").tooltip();
+    $("#version_pattern").prop('title', "Pattern that will be used to sort versions. " +
+        "Example: Ubuntu - YY.0M.MICRO. " +
+        "For more information click help.");
+    $("#version_pattern").tooltip();
     $("#version_url").prop('title', "URL where to look for new releases");
     $("#version_url").tooltip();
     $("#version_prefix").prop('title', "Prefix filled here will be removed " +
@@ -165,6 +172,16 @@
     $("#package_name").prop('title', "Package name in the distribution");
     $("#package_name").tooltip();
     {%- endif -%}
+  }
+
+  function show_hide_pattern(){
+    var str = $( '#version_scheme option:selected' ).text();
+
+    if (str == 'Calendar'){
+      $('#version_pattern_row').show();
+    } else {
+      $('#version_pattern_row').hide();
+    }
   }
 
   function show_hide(){
@@ -289,8 +306,12 @@
   $(document).ready(function() {
     $('#info_field').hide();
     show_hide();
+    show_hide_pattern();
     $('#backend').change(function() {
       show_hide();
+    });
+    $('#version_scheme').change(function() {
+      show_hide_pattern();
     });
 
     $('#name').focusout(function(){

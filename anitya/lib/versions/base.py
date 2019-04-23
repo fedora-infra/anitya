@@ -23,6 +23,8 @@ from __future__ import unicode_literals
 
 import functools
 import re
+from typing import Optional
+from datetime import datetime
 
 from anitya.lib.exceptions import InvalidVersion
 
@@ -37,10 +39,33 @@ class Version(object):
 
     name = "Generic Version"
 
-    def __init__(self, version=None, prefix=None, created_on=None):
+    def __init__(
+        self,
+        version: Optional[str] = None,
+        prefix: Optional[str] = None,
+        created_on: Optional[datetime] = None,
+        pattern: Optional[str] = None,
+    ):
+        """
+        Constructor of Version class.
+
+        Params:
+            version: Raw version
+            prefix: Prefix to remove
+            created_on: Date of creation
+            pattern: Calendar version pattern.
+                See `Calendar version scheme_` for more information.
+
+        .. _Calendar version scheme:
+           https://calver.org/#scheme
+        """
         self.version = version
         self.prefix = prefix
         self.created_on = created_on
+        if pattern:
+            self.pattern = pattern.upper()
+        else:
+            self.pattern = None
 
     def __str__(self):
         """

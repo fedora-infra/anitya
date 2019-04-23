@@ -31,6 +31,7 @@ class ProjectForm(FlaskForm):
     version_scheme = SelectField(
         "Version scheme", [validators.Required()], choices=[(item, item) for item in []]
     )
+    version_pattern = StringField("Version pattern", [validators.optional()])
     regex = StringField("Regex", [validators.optional()])
     insecure = BooleanField("Use insecure connection", [validators.optional()])
 
