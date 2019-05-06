@@ -73,15 +73,20 @@ class GnuBackend(BaseBackend):
 
         """
         url = cls.get_version_url(project)
+        last_change = project.get_time_last_created_version()
 
         try:
-            req = cls.call_url(url)
+            req = cls.call_url(url, last_change=last_change)
         except Exception:  # pragma: no cover
             raise AnityaPluginException(
                 'Could not call : "%s" of "%s"' % (url, project.name)
             )
 
-        versions = None
+        versions = []
+        # Not modified
+        if req.status_code == 304:
+            return versions
+
         try:
             regex = REGEX % {"name": project.name}
             versions = get_versions_by_regex_for_text(req.text, url, regex, project)

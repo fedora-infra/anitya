@@ -112,11 +112,15 @@ class GitlabBackend(BaseBackend):
                 "Project %s was incorrectly set-up" % project.name
             )
 
-        resp = cls.call_url(url)
+        last_change = project.get_time_last_created_version()
+        resp = cls.call_url(url, last_change=last_change)
 
-        if resp.ok:
+        if resp.status_code == 200:
             json = resp.json()
         else:
+            # Not modified
+            if resp.status_code == 304:
+                return []
             raise AnityaPluginException(
                 '%s: Server responded with status "%s": "%s"'
                 % (project.name, resp.status_code, resp.reason)

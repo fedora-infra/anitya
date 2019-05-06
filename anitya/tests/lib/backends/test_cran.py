@@ -18,6 +18,8 @@
 anitya tests for the CRAN backend.
 """
 
+import mock
+
 import anitya.lib.backends.cran as backend
 from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
@@ -74,6 +76,22 @@ class CranBackendTests(DatabaseTestCase):
 
         self.assertEqual(obs, exp)
 
+    def test_get_version_not_modified(self):
+        """Assert that not modified response is handled correctly"""
+        project = models.Project(
+            name="whisker",
+            homepage="https://github.com/edwindj/whisker",
+            backend=BACKEND,
+        )
+        exp_url = "https://crandb.r-pkg.org/whisker"
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=304)
+            versions = backend.CranBackend.get_version(project)
+
+            m_call.assert_called_with(exp_url, last_change=None)
+            self.assertEqual(versions, None)
+
     def test_get_versions_missing_project(self):
         """Assert an AnityaPluginException is raised for projects that result in 404."""
         project = models.Project(
@@ -100,6 +118,22 @@ class CranBackendTests(DatabaseTestCase):
 
         obs = backend.CranBackend.get_ordered_versions(project)
         self.assertEqual(obs, ["0.1", "0.3-2"])
+
+    def test_get_versions_not_modified(self):
+        """Assert that not modified response is handled correctly"""
+        project = models.Project(
+            name="whisker",
+            homepage="https://github.com/edwindj/whisker",
+            backend=BACKEND,
+        )
+        exp_url = "https://crandb.r-pkg.org/whisker/all"
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=304)
+            versions = backend.CranBackend.get_versions(project)
+
+            m_call.assert_called_with(exp_url, last_change=None)
+            self.assertEqual(versions, [])
 
     def test_check_feed(self):
         """ Test the check_feed method of the CRAN backend. """

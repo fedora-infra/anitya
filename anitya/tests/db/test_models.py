@@ -34,6 +34,7 @@ from sqlalchemy.types import CHAR
 from sqlalchemy.exc import IntegrityError
 from social_flask_sqlalchemy import models as social_models
 import six
+import arrow
 
 from anitya.db import models
 from anitya.lib import versions
@@ -178,7 +179,48 @@ class ProjectTests(DatabaseTestCase):
         )
         self.assertEqual(project.version_url, project.get_version_url())
 
-    def get_sorted_version_objects(self):
+    def test_get_last_created_version(self):
+        """
+        Assert that last retrieved version is returned.
+        """
+        project = models.Project(
+            name="test", homepage="https://example.com", ecosystem_name="pypi"
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        version_first = models.ProjectVersion(project_id=project.id, version="1.0")
+        version_second = models.ProjectVersion(project_id=project.id, version="0.8")
+        self.session.add(version_first)
+        self.session.add(version_second)
+        self.session.commit()
+
+        version = project.get_last_created_version()
+
+        self.assertEqual(version, version_second)
+
+    def test_get_time_last_created_version(self):
+        """
+        Assert that time of last retrieved version is returned.
+        """
+        project = models.Project(
+            name="test", homepage="https://example.com", ecosystem_name="pypi"
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        time_now = arrow.utcnow()
+        version = models.ProjectVersion(
+            project_id=project.id, created_on=time_now.datetime, version="1.0"
+        )
+        self.session.add(version)
+        self.session.commit()
+
+        last_version_time = project.get_time_last_created_version()
+
+        self.assertEqual(last_version_time, time_now)
+
+    def test_get_sorted_version_objects(self):
         """ Assert that sorted versions are included in the list returned from
         :data:`Project.get_sorted_version_objects`.
         """
@@ -189,9 +231,11 @@ class ProjectTests(DatabaseTestCase):
             ecosystem_name="pypi",
             version_scheme="RPM",
         )
-        version_first = models.ProjectVersion(project_id=project.id, version="1.0")
-        version_second = models.ProjectVersion(project_id=project.id, version="0.8")
         self.session.add(project)
+        self.session.commit()
+
+        version_first = models.ProjectVersion(project_id=project.id, version="0.8")
+        version_second = models.ProjectVersion(project_id=project.id, version="1.0")
         self.session.add(version_first)
         self.session.add(version_second)
         self.session.commit()

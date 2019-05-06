@@ -1,0 +1,1 @@
+Check for new versions only when there is any change on the URL till last version was retrieved

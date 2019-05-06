@@ -23,6 +23,8 @@
 anitya tests for the pypi backend.
 """
 
+import mock
+
 import anitya.lib.backends.pypi as backend
 from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
@@ -66,6 +68,24 @@ class PypiBackendtests(DatabaseTestCase):
         obs = backend.PypiBackend.get_version(project)
         self.assertEqual(obs, "1.1.2")
 
+    def test_pypi_get_version_not_modified(self):
+        """Assert that not modified response is handled correctly"""
+        project = models.Project(
+            name="repo_manager",
+            homepage="https://pypi.org/project/repo_manager/",
+            backend=BACKEND,
+        )
+        self.session.add(project)
+        self.session.commit()
+        exp_url = "https://pypi.org/pypi/repo_manager/json"
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=304)
+            versions = backend.PypiBackend.get_version(project)
+
+            m_call.assert_called_with(exp_url, last_change=None)
+            self.assertEqual(versions, None)
+
     def test_get_version_url(self):
         """
         Assert that correct url is returned.
@@ -92,6 +112,24 @@ class PypiBackendtests(DatabaseTestCase):
 
         obs = backend.PypiBackend.get_versions(project)
         self.assertEqual(obs, exp)
+
+    def test_pypi_get_versions_not_modified(self):
+        """Assert that not modified response is handled correctly"""
+        project = models.Project(
+            name="repo_manager",
+            homepage="https://pypi.org/project/repo_manager/",
+            backend=BACKEND,
+        )
+        self.session.add(project)
+        self.session.commit()
+        exp_url = "https://pypi.org/pypi/repo_manager/json"
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=304)
+            versions = backend.PypiBackend.get_versions(project)
+
+            m_call.assert_called_with(exp_url, last_change=None)
+            self.assertEqual(versions, [])
 
     def test_pypi_check_feed(self):
         """ Test the check_feed method of the pypi backend. """

@@ -29,6 +29,7 @@ import re
 import mock
 import urllib.request as urllib
 from urllib.error import URLError
+import arrow
 
 from anitya.config import config
 from anitya.lib import backends
@@ -46,6 +47,7 @@ class BaseBackendTests(AnityaTestCase):
                 anitya.app.__version__
             ),
             "From": config.get("ADMIN_EMAIL"),
+            "If-modified-since": "Thu, 01 Jan 1970 00:00:00 GMT",
         }
 
     @mock.patch("anitya.lib.backends.http_session")
@@ -133,6 +135,38 @@ class BaseBackendTests(AnityaTestCase):
         url = self.backend.expand_subdirs("ftp://ftp.heanet.ie/deb*/")
 
         self.assertEqual(exp, url)
+
+    @mock.patch("anitya.lib.backends.http_session")
+    def test_call_url_last_change(self, mock_http_session):
+        url = "https://www.example.com/"
+        exp_headers = self.headers.copy()
+        time = arrow.utcnow()
+        exp_headers["If-modified-since"] = (
+            time.format("ddd, DD MMM YYYY HH:mm:ss") + " GMT"
+        )
+        self.backend.call_url(url, last_change=time)
+
+        mock_http_session.get.assert_called_once_with(
+            url, headers=exp_headers, timeout=60, verify=True
+        )
+
+
+class GetVersionsByRegexTests(unittest.TestCase):
+    """
+    Unit tests for anitya.lib.backends.get_versions_by_regex
+    """
+
+    @mock.patch("anitya.lib.backends.BaseBackend.call_url")
+    def test_get_versions_by_regex_not_modified(self, mock_call_url):
+        """Assert that not modified response is handled correctly."""
+        mock_response = mock.Mock()
+        mock_response.status_code = 304
+        mock_call_url.return_value = mock_response
+        mock_project = mock.Mock()
+        mock_project.get_time_last_created_version = mock.MagicMock(return_value=None)
+        versions = backends.get_versions_by_regex("url", "regex", mock_project)
+
+        self.assertEqual(versions, [])
 
 
 class GetVersionsByRegexTextTests(unittest.TestCase):

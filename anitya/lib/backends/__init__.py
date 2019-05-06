@@ -31,6 +31,7 @@ from urllib.error import URLError
 
 import pkg_resources
 import requests
+import arrow
 
 from anitya.config import config as anitya_config
 from anitya.lib.exceptions import AnityaPluginException
@@ -44,6 +45,8 @@ REQUEST_HEADERS = {
     "User-Agent": "Anitya %s at release-monitoring.org"
     % pkg_resources.get_distribution("anitya").version,
     "From": anitya_config.get("ADMIN_EMAIL"),
+    "If-modified-since": arrow.Arrow(1970, 1, 1).format("ddd, DD MMM YYYY HH:mm:ss")
+    + " GMT",
 }
 
 _log = logging.getLogger(__name__)
@@ -84,7 +87,7 @@ class BaseBackend(object):
     check_interval = timedelta(hours=1)
 
     @classmethod
-    def expand_subdirs(self, url, glob_char="*"):
+    def expand_subdirs(self, url, last_change=None, glob_char="*"):
         """ Expand dirs containing ``glob_char`` in the given URL with the latest
         Example URL: ``https://www.example.com/foo/*/``
 
@@ -111,7 +114,7 @@ class BaseBackend(object):
         text_regex = re.compile(r"^d.+\s(\S+)\s*$", re.I | re.M)
 
         if url_prefix != "":
-            resp = self.call_url(url_prefix)
+            resp = self.call_url(url_prefix, last_change=last_change)
             # When FTP server is called, Response object is not created
             # and we get binary string instead
             try:
@@ -235,15 +238,21 @@ class BaseBackend(object):
         return [v.version for v in sorted_versions]
 
     @classmethod
-    def call_url(self, url, insecure=False):
+    def call_url(self, url, last_change=None, insecure=False):
         """ Dedicated method to query a URL.
 
         It is important to use this method as it allows to query them with
         a defined user-agent header thus informing the projects we are
         querying what our intentions are.
 
+        To prevent downloading the whole content of the page each time the url is called.
+        We are using If-modified-since header field.
+
         Attributes:
             url (str): The url to request (get).
+            last_change (`arrow.Arrow`, optional): Time when the latest version was obtained.
+                This value is used in If-modified-since header field. If there is no value
+                provided we will use start of the epoch (1.1. 1970).
             insecure (bool, optional): Flag for secure/insecure connection.
                 Defaults to False.
 
@@ -253,8 +262,12 @@ class BaseBackend(object):
 
         """
         headers = REQUEST_HEADERS.copy()
+        if last_change:
+            headers["If-modified-since"] = (
+                last_change.format("ddd, DD MMM YYYY HH:mm:ss") + " GMT"
+            )
         if "*" in url:
-            url = self.expand_subdirs(url)
+            url = self.expand_subdirs(url, last_change)
 
         if url.startswith("ftp://") or url.startswith("ftps://"):
             socket.setdefaulttimeout(30)
@@ -304,14 +317,18 @@ def get_versions_by_regex(url, regex, project, insecure=False):
 
     """
 
+    last_change = project.get_time_last_created_version()
     try:
-        req = BaseBackend.call_url(url, insecure=insecure)
+        req = BaseBackend.call_url(url, last_change=last_change, insecure=insecure)
     except Exception as err:
         _log.debug("%s ERROR: %s" % (project.name, str(err)))
         raise AnityaPluginException(
             'Could not call : "%s" of "%s", with error: %s'
             % (url, project.name, str(err))
         )
+    # Not modified
+    if req.status_code == 304:
+        return []
 
     if not isinstance(req, six.string_types):
         req = req.text

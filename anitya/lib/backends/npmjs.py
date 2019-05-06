@@ -41,11 +41,16 @@ class NpmjsBackend(BaseBackend):
 
         """
         url = cls.get_version_url(project)
+        last_change = project.get_time_last_created_version()
 
         try:
-            req = cls.call_url(url)
+            req = cls.call_url(url, last_change=last_change)
         except Exception:  # pragma: no cover
             raise AnityaPluginException("Could not contact %s" % url)
+
+        # Not modified
+        if req.status_code == 304:
+            return None
 
         try:
             data = req.json()
@@ -91,11 +96,16 @@ class NpmjsBackend(BaseBackend):
 
         """
         url = cls.get_version_url(project)
+        last_change = project.get_time_last_created_version()
 
         try:
-            req = cls.call_url(url)
+            req = cls.call_url(url, last_change=last_change)
         except Exception:  # pragma: no cover
             raise AnityaPluginException("Could not contact %s" % url)
+
+        # Not modified
+        if req.status_code == 304:
+            return []
 
         try:
             data = req.json()
