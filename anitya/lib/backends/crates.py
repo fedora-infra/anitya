@@ -145,8 +145,9 @@ class CratesBackend(BaseBackend):
                 was in an unexpected format.
         """
         url = cls.get_version_url(project)
+        last_change = project.get_time_last_created_version()
         try:
-            req = cls.call_url(url)
+            req = cls.call_url(url, last_change=last_change)
             req.raise_for_status()
             data = req.json()
         except requests.RequestException as e:

@@ -119,7 +119,23 @@ class FolderBackendtests(DatabaseTestCase):
             self.assertRaises(
                 AnityaPluginException, backend.FolderBackend.get_versions, project
             )
-            m_call.assert_called_with(project.version_url, insecure=True)
+            m_call.assert_called_with(
+                project.version_url, last_change=None, insecure=True
+            )
+
+    def test_folder_get_versions_not_modified(self):
+        """Assert that not modified response is handled correctly"""
+        pid = 2
+        project = models.Project.get(self.session, pid)
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=304)
+            versions = backend.FolderBackend.get_versions(project)
+
+            m_call.assert_called_with(
+                project.version_url, last_change=None, insecure=True
+            )
+            self.assertEqual(versions, [])
 
     def test_folder_get_versions(self):
         """ Test the get_versions function of the folder backend. """

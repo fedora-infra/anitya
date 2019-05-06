@@ -284,6 +284,36 @@ class Project(Base):
         sorted_versions = self.get_sorted_version_objects()
         return [str(v) for v in sorted_versions]
 
+    def get_last_created_version(self):
+        """
+        Returns last obtained release by date.
+
+        Returns:
+            (`ProjectVersion`): Version object or None, if project doesn't have any version yet.
+        """
+        if self.versions_obj:
+            sorted_versions = sorted(
+                self.versions_obj, key=lambda x: x.created_on, reverse=True
+            )
+            return sorted_versions[0]
+
+        return None
+
+    def get_time_last_created_version(self):
+        """
+        Returns creation time of latest version sorted by time of creation.
+
+        Returns:
+            (`arrow.Arrow`): Time of the latest created version or None,
+                if project doesn't have any version yet.
+        """
+        version = self.get_last_created_version()
+
+        if version and version.created_on:
+            return arrow.get(version.created_on)
+
+        return None
+
     def create_version_objects(self, versions):
         """
         Creates sorted list of version objects defined by `self.version_class` from versions list.

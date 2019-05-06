@@ -24,6 +24,7 @@ Anitya tests for the GitLab backend.
 """
 
 import unittest
+import mock
 
 import anitya.lib.backends.gitlab as backend
 from anitya.db import models
@@ -205,6 +206,22 @@ class GitlabBackendtests(DatabaseTestCase):
         self.assertRaises(
             AnityaPluginException, backend.GitlabBackend.get_versions, project
         )
+
+    def test_get_versions_not_modified(self):
+        """Assert that not modified response is handled correctly"""
+        pid = 1
+        project = models.Project.get(self.session, pid)
+        exp_url = (
+            "https://gitlab.gnome.org/api/v4/projects/GNOME%2Fgnome-video-arcade/"
+            "repository/tags"
+        )
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=304)
+            versions = backend.GitlabBackend.get_versions(project)
+
+            m_call.assert_called_with(exp_url, last_change=None)
+            self.assertEqual(versions, [])
 
 
 if __name__ == "__main__":

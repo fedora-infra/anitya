@@ -74,16 +74,22 @@ class FolderBackend(BaseBackend):
 
         """
         url = cls.get_version_url(project)
+        last_change = project.get_time_last_created_version()
 
         try:
-            req = cls.call_url(url, insecure=project.insecure)
+            req = cls.call_url(url, last_change=last_change, insecure=project.insecure)
         except Exception as err:
             raise AnityaPluginException(
                 'Could not call : "%s" of "%s", with error: %s'
                 % (url, project.name, str(err))
             )
 
-        versions = None
+        versions = []
+
+        # Not modified
+        if req.status_code == 304:
+            return versions
+
         if not isinstance(req, six.string_types):
             req = req.text
 

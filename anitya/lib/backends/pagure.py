@@ -70,10 +70,15 @@ class PagureBackend(BaseBackend):
 
         """
         url = cls.get_version_url(project)
+        last_change = project.get_time_last_created_version()
         try:
-            req = cls.call_url(url)
+            req = cls.call_url(url, last_change=last_change)
         except Exception as err:  # pragma: no cover
             raise AnityaPluginException("Could not contact %s: %s" % (url, str(err)))
+
+        # Not modified
+        if req.status_code == 304:
+            return []
 
         try:
             data = req.json()

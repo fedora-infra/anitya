@@ -71,12 +71,16 @@ class CranBackend(BaseBackend):
         """
         url = "https://crandb.r-pkg.org/{name}".format(name=project.name)
 
+        last_change = project.get_time_last_created_version()
         try:
-            response = cls.call_url(url)
+            response = cls.call_url(url, last_change=last_change)
         except requests.RequestException as e:  # pragma: no cover
             raise AnityaPluginException("Could not contact {}: {}".format(url, str(e)))
 
         if response.status_code != 200:
+            # Not modified
+            if response.status_code == 304:
+                return None
             raise AnityaPluginException(
                 "Failed to download from {}: {} {}".format(
                     url, response.status_code, response.reason
@@ -126,13 +130,17 @@ class CranBackend(BaseBackend):
 
         """
         url = cls.get_version_url(project)
+        last_change = project.get_time_last_created_version()
 
         try:
-            response = cls.call_url(url)
+            response = cls.call_url(url, last_change=last_change)
         except requests.RequestException as e:  # pragma: no cover
             raise AnityaPluginException("Could not contact {}: {}".format(url, str(e)))
 
         if response.status_code != 200:
+            # Not modified
+            if response.status_code == 304:
+                return []
             raise AnityaPluginException(
                 "Failed to download from {}: {} {}".format(
                     url, response.status_code, response.reason

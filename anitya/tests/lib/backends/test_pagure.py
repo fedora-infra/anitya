@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2015  Red Hat, Inc.
+# Copyright © 2015-2019  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions
@@ -24,6 +24,7 @@ anitya tests for the pagure backend.
 """
 
 import unittest
+import mock
 
 import anitya.lib.backends.pagure as backend
 from anitya.db import models
@@ -116,6 +117,19 @@ class PagureBackendtests(DatabaseTestCase):
         self.assertRaises(
             AnityaPluginException, backend.PagureBackend.get_versions, project
         )
+
+    def test_pagure_get_versions_not_modified(self):
+        """Assert that not modified response is handled correctly"""
+        pid = 1
+        project = models.Project.get(self.session, pid)
+        exp_url = "https://pagure.io/api/0/pagure/git/tags"
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=304)
+            versions = backend.PagureBackend.get_versions(project)
+
+            m_call.assert_called_with(exp_url, last_change=None)
+            self.assertEqual(versions, [])
 
 
 if __name__ == "__main__":

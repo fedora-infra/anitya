@@ -24,6 +24,7 @@ anitya tests for the custom backend.
 """
 
 import unittest
+import mock
 
 import anitya.lib.backends.rubygems as backend
 from anitya.db import models
@@ -100,6 +101,19 @@ class RubygemsBackendtests(DatabaseTestCase):
         self.assertRaises(
             AnityaPluginException, backend.RubygemsBackend.get_version, project
         )
+
+    def test_rubygems_get_versions_not_modified(self):
+        """Assert that not modified response is handled correctly"""
+        pid = 1
+        project = models.Project.get(self.session, pid)
+        exp_url = "https://rubygems.org/api/v1/versions/bio/latest.json"
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=304)
+            versions = backend.RubygemsBackend.get_versions(project)
+
+            m_call.assert_called_with(exp_url, last_change=None)
+            self.assertEqual(versions, [])
 
     def test_rubygems_check_feed(self):
         """ Test the check_feed method of the rubygems backend. """

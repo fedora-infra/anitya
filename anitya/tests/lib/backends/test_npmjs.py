@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014  Red Hat, Inc.
+# Copyright © 2014-2019  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions
@@ -24,6 +24,7 @@ anitya tests for the custom backend.
 """
 
 import unittest
+import mock
 
 import anitya.lib.backends.npmjs as backend
 from anitya.db import models
@@ -102,6 +103,19 @@ class NpmjsBackendtests(DatabaseTestCase):
         obs = backend.NpmjsBackend.get_version_url(project)
 
         self.assertEqual(obs, exp)
+
+    def test_get_version_not_modified(self):
+        """Assert that not modified response is handled correctly"""
+        pid = 1
+        project = models.Project.get(self.session, pid)
+        exp_url = "https://registry.npmjs.org/request"
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=304)
+            versions = backend.NpmjsBackend.get_version(project)
+
+            m_call.assert_called_with(exp_url, last_change=None)
+            self.assertEqual(versions, None)
 
     def test_get_versions(self):
         """ Test the get_versions function of the npmjs backend. """
@@ -260,6 +274,19 @@ class NpmjsBackendtests(DatabaseTestCase):
         ]
         obs = backend.NpmjsBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
+
+    def test_get_versions_not_modified(self):
+        """Assert that not modified response is handled correctly"""
+        pid = 1
+        project = models.Project.get(self.session, pid)
+        exp_url = "https://registry.npmjs.org/request"
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=304)
+            versions = backend.NpmjsBackend.get_versions(project)
+
+            m_call.assert_called_with(exp_url, last_change=None)
+            self.assertEqual(versions, [])
 
     def test_npmjs_check_feed(self):
         """ Test the check_feed method of the npmjs backend. """
