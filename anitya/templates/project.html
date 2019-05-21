@@ -86,12 +86,14 @@
           </div>
         </div><!-- end list-group-item -->
 
+        {% if is_admin %}
         <div class="list-group-item">
           <h4 class="list-group-item-heading">Ecosystem:</h4>
           <div class="list-group-item-text">
             <p>{{ project.ecosystem_name }}</p>
           </div>
         </div><!-- end list-group-item -->
+        {% endif %}
 
         <div class="list-group-item">
           <h4 class="list-group-item-heading">Version scheme:</h4>
