@@ -293,7 +293,6 @@ def create_project(
     version_url=None,
     version_prefix=None,
     regex=None,
-    check_release=False,
     insecure=False,
     releases_only=False,
 ):
@@ -331,8 +330,6 @@ def create_project(
         message=dict(agent=user_id, project=project.name),
     )
     session.commit()
-    if check_release is True:
-        check_project_release(project, session)
     return project
 
 
