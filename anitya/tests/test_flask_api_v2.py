@@ -29,6 +29,7 @@ import json
 from social_flask_sqlalchemy import models as social_models
 
 from anitya.db import Session, models
+from anitya.lib import exceptions
 from .base import DatabaseTestCase, create_project
 
 
@@ -1073,3 +1074,45 @@ class ProjectsResourcePostTests(DatabaseTestCase):
         self.assertEqual("PyPI", data["backend"])
         self.assertEqual("http://python-requests.org", data["homepage"])
         self.assertEqual("requests", data["name"])
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_check_release(self, mock_check):
+        """
+        Assert that check_project_release is called whe check_release
+        parameter is provided.
+        """
+        request_data = {
+            "backend": "PyPI",
+            "homepage": "http://python-requests.org",
+            "name": "requests",
+            "check_release": "True",
+        }
+
+        output = self.app.post(
+            "/api/v2/projects/", headers=self.auth, data=request_data
+        )
+
+        mock_check.assert_called_once_with(mock.ANY, mock.ANY)
+        self.assertEqual(output.status_code, 201)
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    @mock.patch("anitya.api_v2._log")
+    def test_check_release_exception(self, mock_log, mock_check):
+        """
+        Assert that exception thrown in check_project release is correctly handled.
+        """
+        mock_check.side_effect = exceptions.AnityaPluginException("Error")
+        request_data = {
+            "backend": "PyPI",
+            "homepage": "http://python-requests.org",
+            "name": "requests",
+            "check_release": "True",
+        }
+
+        output = self.app.post(
+            "/api/v2/projects/", headers=self.auth, data=request_data
+        )
+
+        mock_check.assert_called_once_with(mock.ANY, mock.ANY)
+        self.assertEqual(output.status_code, 201)
+        self.assertIn("Error", mock_log.error.call_args_list[0][0])

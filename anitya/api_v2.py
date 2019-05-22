@@ -6,6 +6,7 @@ It uses OpenID Connect for endpoints that require authentication.
 """
 
 from gettext import gettext as _
+import logging
 
 import flask_login
 from flask import jsonify
@@ -16,9 +17,10 @@ from sqlalchemy.orm.exc import NoResultFound
 from anitya import authentication
 from anitya.db import Session, models
 from anitya.lib import utilities
-from anitya.lib.exceptions import ProjectExists
+from anitya.lib.exceptions import ProjectExists, AnityaException
 
 _BASE_ARG_PARSER = reqparse.RequestParser(trim=True, bundle_errors=True)
+_log = logging.getLogger(__name__)
 
 
 def _page_validator(arg):
@@ -474,9 +476,22 @@ class ProjectsResource(Resource):
 
         try:
             project = utilities.create_project(
-                Session, user_id=flask_login.current_user.email, **args
+                Session,
+                user_id=flask_login.current_user.email,
+                name=args.name,
+                homepage=args.homepage,
+                backend=args.backend,
+                version_url=args.version_url,
+                version_prefix=args.version_prefix,
+                regex=args.regex,
+                insecure=args.insecure,
             )
             Session.commit()
+            if args.check_release:
+                try:
+                    utilities.check_project_release(project, Session)
+                except AnityaException as err:
+                    _log.error(str(err))
             return project.__json__(), 201
         except ProjectExists as e:
             response = jsonify(e.to_dict())

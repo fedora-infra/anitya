@@ -487,7 +487,6 @@ def new_project():
                 version_prefix=form.version_prefix.data.strip() or None,
                 regex=form.regex.data.strip() or None,
                 user_id=flask.g.user.username,
-                check_release=form.check_release.data,
                 releases_only=form.releases_only.data,
             )
             Session.commit()
@@ -516,6 +515,12 @@ def new_project():
                 ),
                 409,
             )
+
+        if form.check_release.data is True:
+            try:
+                utilities.check_project_release(project, Session)
+            except exceptions.AnityaException:
+                flask.flash("Check failed")
 
         return flask.redirect(flask.url_for("anitya_ui.project", project_id=project.id))
 
