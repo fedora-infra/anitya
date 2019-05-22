@@ -679,7 +679,11 @@ def edit_project_mapping(project_id, pkg_id):
     for distro in distros:
         distro_names.append(distro.name)
 
-    form = anitya.forms.MappingForm(obj=package, distros=distro_names)
+    form = anitya.forms.MappingForm(
+        package_name=package.package_name,
+        distro=package.distro_name,
+        distros=distro_names,
+    )
 
     if form.validate_on_submit():
 

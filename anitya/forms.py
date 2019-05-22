@@ -70,13 +70,6 @@ class MappingForm(FlaskForm):
         """
         super(MappingForm, self).__init__(*args, **kwargs)
 
-        if "package" in kwargs:
-            package = kwargs["package"]
-            self.distro.data = package.distro
-            self.package_name.data = package.package_name
-            self.version_url.data = package.version_url
-            self.regex.data = package.regex
-
         if "distros" in kwargs:
             self.distro.choices = [
                 (distro, distro)
