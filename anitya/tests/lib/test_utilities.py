@@ -117,6 +117,7 @@ class EditProjectTests(DatabaseTestCase):
             regex=None,
             insecure=False,
             user_id="noreply@fedoraproject.org",
+            releases_only=True,
         )
 
         project_objs = models.Project.all(self.session)
@@ -153,6 +154,7 @@ class EditProjectTests(DatabaseTestCase):
             regex=project_objs[2].regex,
             insecure=False,
             user_id="noreply@fedoraproject.org",
+            releases_only=False,
         )
 
     def test_edit_project_insecure(self):
@@ -176,6 +178,7 @@ class EditProjectTests(DatabaseTestCase):
             regex=project_objs[0].regex,
             insecure=True,
             user_id="noreply@fedoraproject.org",
+            releases_only=False,
         )
 
         project_objs = models.Project.all(self.session)

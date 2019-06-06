@@ -488,6 +488,7 @@ def new_project():
                 regex=form.regex.data.strip() or None,
                 user_id=flask.g.user.username,
                 check_release=form.check_release.data,
+                releases_only=form.releases_only.data,
             )
             Session.commit()
 
@@ -562,6 +563,7 @@ def edit_project(project_id):
                 insecure=form.insecure.data,
                 user_id=flask.g.user.username,
                 check_release=form.check_release.data,
+                releases_only=form.releases_only.data,
             )
             if changes:
                 flask.flash("Project edited")

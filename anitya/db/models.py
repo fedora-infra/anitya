@@ -211,6 +211,8 @@ class Project(Base):
             to the HTML from ``version_url`` to find versions.
         insecure (sa.Boolean): Whether or not to validate the x509 certificate
             offered by the server at ``version_url``. Defaults to ``False``.
+        releases_only (sa.Boolean): Whether or not to check releases instead of tags.
+            This is now only used by GitHub backend.
         latest_version (sa.Boolean): The latest version for the project, as determined
             by the version sorting algorithm.
         logs (sa.Text): The result of the last update.
@@ -238,6 +240,7 @@ class Project(Base):
     regex = sa.Column(sa.String(200), nullable=True)
     version_prefix = sa.Column(sa.String(200), nullable=True)
     insecure = sa.Column(sa.Boolean, nullable=False, default=False)
+    releases_only = sa.Column(sa.Boolean, nullable=False, default=False)
     version_scheme = sa.Column(sa.String(50), nullable=True)
 
     latest_version = sa.Column(sa.String(50))
