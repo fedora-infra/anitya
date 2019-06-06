@@ -295,6 +295,7 @@ def create_project(
     regex=None,
     check_release=False,
     insecure=False,
+    releases_only=False,
 ):
     """ Create the project in the database.
 
@@ -308,6 +309,7 @@ def create_project(
         regex=regex,
         version_prefix=version_prefix,
         insecure=insecure,
+        releases_only=releases_only,
     )
 
     session.add(project)
@@ -345,6 +347,7 @@ def edit_project(
     version_prefix,
     regex,
     insecure,
+    releases_only,
     user_id,
     check_release=False,
 ):
@@ -385,6 +388,10 @@ def edit_project(
             changes["regex"] = {"old": old, "new": project.regex}
     if insecure != project.insecure:
         old = project.insecure
+        project.insecure = insecure
+        changes["insecure"] = {"old": old, "new": project.insecure}
+    if releases_only != project.releases_only:
+        old = project.releases_only
         project.insecure = insecure
         changes["insecure"] = {"old": old, "new": project.insecure}
 

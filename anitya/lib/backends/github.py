@@ -125,7 +125,7 @@ class GithubBackend(BaseBackend):
                 )
             )
 
-        query = prepare_query(owner, repo)
+        query = prepare_query(owner, repo, project.releases_only)
 
         try:
             headers = REQUEST_HEADERS.copy()
@@ -144,6 +144,7 @@ class GithubBackend(BaseBackend):
 
         if resp.ok:
             json = resp.json()
+            print(json)
         else:
             raise AnityaPluginException(
                 '%s: Server responded with status "%s": "%s"'
@@ -203,27 +204,35 @@ def parse_json(json, project):
         raise AnityaPluginException(
             "%s: Server responded with following errors\n%s" % (project.name, error_str)
         )
+    if project.releases_only:
+        json_data = json["data"]["repository"]["releases"]
+    else:
+        json_data = json["data"]["repository"]["refs"]
 
-    total_count = json["data"]["repository"]["refs"]["totalCount"]
+    total_count = json_data["totalCount"]
 
-    _log.debug("Received %s tags for %s" % (total_count, project.name))
+    if project.releases_only:
+        _log.debug("Received %s releases for %s" % (total_count, project.name))
+    else:
+        _log.debug("Received %s tags for %s" % (total_count, project.name))
 
     versions = []
 
-    for edge in json["data"]["repository"]["refs"]["edges"]:
+    for edge in json_data["edges"]:
         version = edge["node"]["name"]
         versions.append(version)
 
     return versions
 
 
-def prepare_query(owner, repo, after=""):
+def prepare_query(owner, repo, releases_only, cursor=""):
     """ Function for preparing GraphQL query for specified repository
 
     Args:
         owner (str): Owner of the repository.
         repo (str): Repository name.
-        after (str, optional): Cursor id of the latest received commit.
+        releases_only (bool): Fetch releases instead of tags.
+        cursor (str, optional): Cursor id of the latest received commit.
             Defaults to empty string.
 
     Returns:
@@ -231,38 +240,44 @@ def prepare_query(owner, repo, after=""):
 
     """
 
-    after_str = ""
+    cursor_str = ""
+    commitUrl = "target { commitUrl }"
 
     # Fill cursor if we have the id
-    if after:
-        after_str = ', after: "%s"' % after
+    if cursor:
+        cursor_str = ', after: "%s"' % cursor
+
+    if releases_only:
+        fetch_string = "releases (orderBy: {field: CREATED_AT"
+        commitUrl = "tag { " + commitUrl + " }"
+    else:
+        fetch_string = 'refs (refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE'
 
     query = """
-{
-    repository(owner: "%s", name: "%s") {
-        refs (refPrefix: "refs/tags/", last:50,
-                orderBy:{field:TAG_COMMIT_DATE, direction:ASC}%s) {
+{{
+    repository(owner: "{owner}", name: "{name}") {{
+        {fetch_string}, direction: ASC}}, last: 50{cursor}) {{
             totalCount
-            edges {
+            edges {{
                 cursor
-                node {
+                node {{
                     name
-                    target {
-                        commitUrl
-                    }
-                }
-            }
-        }
-    }
-    rateLimit {
+                    {commitUrl}
+                }}
+            }}
+        }}
+    }}
+    rateLimit {{
         limit
         remaining
         resetAt
-    }
-}""" % (
-        owner,
-        repo,
-        after_str,
+    }}
+}}""".format(
+        owner=owner,
+        name=repo,
+        fetch_string=fetch_string,
+        cursor=cursor_str,
+        commitUrl=commitUrl,
     )
 
     return query
