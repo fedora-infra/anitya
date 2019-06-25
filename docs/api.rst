@@ -67,6 +67,7 @@ anitya.db.models
 ^^^^^^^^^^^^^^^^
 
 .. automodule:: anitya.db.models
+    :noindex:
     :members:
     :undoc-members:
     :show-inheritance:
