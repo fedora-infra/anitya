@@ -4,6 +4,47 @@ Release Notes
 
 .. towncrier release notes start
 
+0.16.0 (2019-06-24)
+===================
+
+Features
+--------
+
+* Turn Anitya cron job to service
+  (`#668 <https://github.com/release-monitoring/anitya/issues/668>`_)
+
+
+Bug Fixes
+---------
+
+* Error 500 when opening distro page
+  (`#709 <https://github.com/release-monitoring/anitya/issues/709>`_)
+
+* "Edit" form for Distro Mapping forgets the distributions
+  (`#744 <https://github.com/release-monitoring/anitya/issues/744>`_)
+
+* anitya.project.map.new not send when adding new mapping through APIv2
+  (`#760 <https://github.com/release-monitoring/anitya/issues/760>`_)
+
+
+Development Changes
+-------------------
+
+* Add new dependency ordered_set
+  (`#668 <https://github.com/release-monitoring/anitya/issues/668>`_)
+
+* Add diff-cover to tox testing suite
+  (`#782 <https://github.com/release-monitoring/anitya/issues/782>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Michal Konečný
+
+
 0.15.1 (2019-03-06)
 ===================
 
