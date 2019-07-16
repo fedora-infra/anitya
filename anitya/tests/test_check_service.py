@@ -167,10 +167,9 @@ class CheckerTests(DatabaseTestCase):
         self.assertEqual(self.checker.error_counter, 0)
         self.assertEqual(self.checker.ratelimit_queue["GitHub"][0], project.id)
 
-    @mock.patch("anitya.check_service.Checker.update_project")
-    def test_run(self, mock_update_project):
+    def test_run(self):
         """
-        Assert that `db.Run` is created at the end of run.
+        Assert that `db.Run` is created at the end of run with success.
         """
         project = models.Project(
             name="Foobar",
@@ -181,6 +180,11 @@ class CheckerTests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
+        def increment(project_id):
+            self.checker.success_counter = self.checker.success_counter + 1
+
+        self.checker.update_project = increment
+
         self.checker.run()
 
         run_objects = models.Run.query.all()
@@ -189,8 +193,7 @@ class CheckerTests(DatabaseTestCase):
         self.assertEqual(run_objects[0].total_count, 1)
         self.assertEqual(run_objects[0].error_count, 0)
         self.assertEqual(run_objects[0].ratelimit_count, 0)
-        self.assertEqual(run_objects[0].success_count, 0)
-        mock_update_project.called_once_with(project.id)
+        self.assertEqual(run_objects[0].success_count, 1)
 
     @mock.patch("anitya.lib.utilities.check_project_release")
     def test_run_nothing_to_check(self, mock_check_project_release):
