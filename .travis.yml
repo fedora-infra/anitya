@@ -1,5 +1,12 @@
+
+stages:
+  - lint
+  - test
+  - docker
+
 sudo: true
 language: python
+
 install:
   - pip install -U setuptools pip
   - pip install tox
@@ -12,11 +19,24 @@ after_success:
 env:
   global:
     - PYTHONWARNINGS=always::DeprecationWarning
-  matrix:
-    - TOXENV=lint
-matrix:
+
+jobs:
+  # mask to select which jobs are allowed to fail
+  allow_failures:
+    - python: nightly
   include:
+    - stage: lint
+      python: 3.6
+      env: TOXENV=bandit
     - python: 3.6
+      env: TOXENV=format
+    - python: 3.6
+      env: TOXENV=lint
+    - python: 3.6
+      env: TOXENV=docs
+
+    - stage: test
+      python: 3.6
       env: TOXENV=py36
     - python: 3.7
       env: TOXENV=py37
@@ -26,11 +46,6 @@ matrix:
       env: TOXENV=py38
       dist: xenial      # required for Python 3.8 (travis-ci/travis-ci#9069)
       sudo: required    # required for Python 3.8 (travis-ci/travis-ci#9069)
-    - python: 3.6
-      env: TOXENV=docs
-    - python: 3.6
-      env: TOXENV=bandit
-    - python: 3.6
-      env: TOXENV=format
-  allow_failures:
-    - python: nightly
+
+    - stage: docker
+      script: docker build .
