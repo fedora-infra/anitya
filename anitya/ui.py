@@ -319,7 +319,7 @@ def add_distro():
 
         utilities.log(
             Session,
-            distro=distro,
+            distro=distro.__json__(),
             topic="distro.add",
             message=dict(agent=flask.g.user.username, distro=distro.name),
         )
