@@ -6,7 +6,6 @@
            git,
            vim-enhanced,
            python-devel,
-           python35,
            python36,
            python37,
            python3-black,
@@ -60,6 +59,7 @@
            python3-wtforms
           ]
     state: present
+  tags: packages
 
 # Add various helpful configuration files
 - name: Install a custom bashrc
@@ -76,9 +76,10 @@
 - name: Install Anitya into the virtualenv
   pip:
     name:
-      - "file:///home/{{ ansible_env.SUDO_USER }}/devel"
-      - "file:///home/{{ ansible_env.SUDO_USER }}/devel/anitya_schema"
-    extra_args: "-e" 
+      - "{{ anitya_src }}"
+      - "{{ anitya_src }}/anitya_schema"
+    extra_args: "-e"
+  tags: install
 
 - name: Create user systemd directory
   become_user: "{{ ansible_env.SUDO_USER }}"
