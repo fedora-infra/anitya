@@ -47,4 +47,7 @@ jobs:
       env: TOXENV=py38
 
     - stage: docker
-      script: docker build .
+      script:
+        - docker build . -t anitya
+        - docker run -d anitya
+        - docker ps -a

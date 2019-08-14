@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+
+  pre_tasks:
+    - name: install pip3 for ansible
+      dnf:
+        name: python3-pip
+      tags: install
+
+  roles:
+    - role: anitya-dev
+      vars:
+        anitya_src: "/app"

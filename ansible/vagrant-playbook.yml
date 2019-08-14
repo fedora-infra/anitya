@@ -4,4 +4,6 @@
   become_method: sudo
   vars:
   roles:
-    - anitya-dev
+    - role: anitya-dev
+      vars:
+        anitya_src: "file:///home/{{ ansible_env.SUDO_USER }}/devel"
