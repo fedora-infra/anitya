@@ -26,7 +26,7 @@ from threading import Lock
 from typing import List
 from datetime import datetime
 from time import sleep
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, wait, ALL_COMPLETED
 
 import sqlalchemy as sa
 import arrow
@@ -166,7 +166,10 @@ class Checker:
         )
         pool_size = config.get("CRON_POOL", 10)
         pool = ThreadPoolExecutor(pool_size)
-        pool.map(self.update_project, queue)
+        futures = [pool.submit(self.update_project, project) for project in queue]
+
+        # Wait till every project is checked
+        wait(futures, return_when=ALL_COMPLETED)
 
         # 3. Finalize
         _log.info(

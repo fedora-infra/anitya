@@ -4,6 +4,31 @@ Release Notes
 
 .. towncrier release notes start
 
+0.16.1 (2019-07-16)
+===================
+
+Bug Fixes
+---------
+
+* Check service: Counters saved to database are always 0
+  (`#795 <https://github.com/release-monitoring/anitya/issues/795>`_)
+
+
+Development Changes
+-------------------
+
+* Fix issue with documentation build
+  (`#789 <https://github.com/release-monitoring/anitya/issues/789>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Michal Konečný
+
+
 0.16.0 (2019-06-24)
 ===================
 
