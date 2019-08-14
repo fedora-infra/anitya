@@ -37,6 +37,7 @@
   get_url:
       url: https://infrastructure.fedoraproject.org/infra/db-dumps/anitya.dump.xz
       dest: /tmp/anitya.dump.xz
+  when: import_production_database
 
 - shell: xzcat /tmp/anitya.dump.xz | runuser -l postgres -c 'psql anitya' && touch /home/vagrant/.db-imported
   args:
