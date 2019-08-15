@@ -1,0 +1,96 @@
+interactions:
+- request:
+    body: '{"query": "\n{\n    repository(owner: \"fedora-infra\", name: \"the-new-hotness\")
+      {\n        releases (orderBy: {field: CREATED_AT, direction: DESC}, first: 50)
+      {\n            totalCount\n            edges {\n                cursor\n                node
+      {\n                    name\n                    tag { target { commitUrl }
+      }\n                }\n            }\n        }\n    }\n    rateLimit {\n        limit\n        remaining\n        resetAt\n    }\n}"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - bearer foobar
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '464'
+      Content-Type:
+      - application/json
+      From:
+      - admin@fedoraproject.org
+      User-Agent:
+      - Anitya 0.15.1 at release-monitoring.org
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA7WWW2+jVhSF/0rFcxyf+8Vvuciq1AJjOZNqWvXhXBMiB1IgBRz1v3cfZ6R6+oQf
+        sGQZc7h9rL3XXh+ZN73JNh9ZG96aruqbdvr8dwimC13a7pveHO6a97rPNphcZcE/pYU/PjL33nZN
+        m22yb/RxckRPZf1tKt9+4fnLzVju0VDs0VRud1P+0Iz5fTMUd92QvzRDnrPb+/0WZVdZ3fiQ7lKb
+        V/jN+uewqsOwem76OnTdT3+ja4yvNRzYm6fT05j2KcCTwN2b19eq/9oe4LTnvn/rNuv1U9U/v9tr
+        WFrH4JvWrKo6tmb9v8uuP89dM8QZp8RS4RkxVBgTifJaW2Ix00Fyw6TzRmf/wOdqPvBYAHD50KCi
+        OgP+Qr7OBVYLAWsUheZBY2cMiZp5LIhw0RsshdDSKqI0c1ZcDJwfmyMoeyz358A7PhdYLgQcgozM
+        KKkCczoqG4MSISruQowxRB4cYTIafjkwqHsq6ekMuPzry1xgsRCwi5EjGiIUsUeGOqGsj5xIpJHU
+        KljqFI9R0MuB7xsEJT3l5z1c/jbMBU6lsEQPCxIVxcRzLrG2gXiAT5oyryMKhimHSBBWXgo8JFjo
+        4+MPplXwVKmzTIstBGyUxdJH6bXDDDvGMDUMXgL2mAWvtJTUM+Mu6+FiuxuL+wZDH+P8vKRv6/e5
+        wHQhYIS8MmBbYMneKYU0V0hZ6r2mghOulOKeYc5mK5xPaMzxLil8TMAnl344jaUb/Ui3c4HJQsCC
+        QBVHiSMjUnmBmIuWRcwNZSAzhX72hjOrLgEeYA6PxUszlaDyD8C3x7u5wHghYKqEk4jioA0i2PgI
+        49hpTQNVISJHYH/kXPj5wBUai8eTwjgFjpNLf1dY2sef5wKnhLKEaTHoYOOoYpI6KWHqAqIwVmkv
+        NMxoTTzxgpn5PZzv0QgKD0ld+I4nl/4OzNH2bR4whK3FgLGWlGOYxxCqKLg1p44KBS/BOnA07jnF
+        mqBZChepf+/QkB92KWWl4IHz/4LHzcjKl7nASynsoW4DxCosDE+lHLnlFsYvtDUylllwMIWVJyfg
+        PyFdZq3pw68VRNoUbg+fGxwhBCvh1VR1VUMAZlrrtKML/Q0cmBGE9QqJFZIPGG0w2yD6e7rkv17L
+        SETZCwAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval,
+        X-GitHub-Media-Type
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 07 Jun 2019 09:14:04 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Status:
+      - 200 OK
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      X-Accepted-OAuth-Scopes:
+      - repo
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v4; format=json
+      X-GitHub-Request-Id:
+      - BE56:78E8:180B0F6:2EEE4A2:5CFA2ADB
+      X-OAuth-Scopes:
+      - repo:status
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4999'
+      X-RateLimit-Reset:
+      - '1559902443'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

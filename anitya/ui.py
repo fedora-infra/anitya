@@ -319,7 +319,7 @@ def add_distro():
 
         utilities.log(
             Session,
-            distro=distro,
+            distro=distro.__json__(),
             topic="distro.add",
             message=dict(agent=flask.g.user.username, distro=distro.name),
         )
@@ -487,7 +487,7 @@ def new_project():
                 version_prefix=form.version_prefix.data.strip() or None,
                 regex=form.regex.data.strip() or None,
                 user_id=flask.g.user.username,
-                check_release=form.check_release.data,
+                releases_only=form.releases_only.data,
             )
             Session.commit()
 
@@ -515,6 +515,12 @@ def new_project():
                 ),
                 409,
             )
+
+        if form.check_release.data is True:
+            try:
+                utilities.check_project_release(project, Session)
+            except exceptions.AnityaException:
+                flask.flash("Check failed")
 
         return flask.redirect(flask.url_for("anitya_ui.project", project_id=project.id))
 
@@ -562,6 +568,7 @@ def edit_project(project_id):
                 insecure=form.insecure.data,
                 user_id=flask.g.user.username,
                 check_release=form.check_release.data,
+                releases_only=form.releases_only.data,
             )
             if changes:
                 flask.flash("Project edited")

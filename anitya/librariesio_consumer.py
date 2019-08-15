@@ -165,13 +165,9 @@ class LibrariesioConsumer(FedmsgConsumer):
         ):
             try:
                 project = utilities.create_project(
-                    session,
-                    name,
-                    homepage,
-                    "anitya",
-                    backend=ecosystem.default_backend,
-                    check_release=True,
+                    session, name, homepage, "anitya", backend=ecosystem.default_backend
                 )
+                utilities.check_project_release(project, Session)
                 _log.info(
                     "Discovered new project at version %s via libraries.io: %r",
                     version,

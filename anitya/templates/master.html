@@ -207,8 +207,12 @@
         .
         ©2013-2019 Red Hat, Inc., <a href="http://pingoured.fr">pingou</a>.
         {% if cron_status %}
-        Last check {{ cron_status.status }} at (UTC) {{
+        Last check ended at (UTC) {{
             cron_status.created_on.strftime('%Y-%m-%d %H:%M:%S') }}
+          Total ({{ cron_status.total_count }}):
+          OK ({{ cron_status.success_count }})
+          Err ({{ cron_status.error_count }})
+          Rate ({{ cron_status.ratelimit_count }})
         {% endif %}
         </p>
       </div>

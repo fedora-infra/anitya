@@ -33,6 +33,7 @@ from fedora_messaging import testing as fml_testing
 
 from anitya import ui
 from anitya.db import models, Session
+from anitya.lib import exceptions
 from anitya.tests.base import (
     AnityaTestCase,
     DatabaseTestCase,
@@ -355,6 +356,45 @@ class NewProjectTests(DatabaseTestCase):
                     b"Project created</li>" in output.data
                 )
                 patched.assert_called_once_with(mock.ANY, mock.ANY)
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_new_project_with_mapping_check_release_error(self, patched):
+        """
+        Assert that error when checking for new version is handled correctly
+        and project with mapping is created.
+        """
+        patched.side_effect = exceptions.AnityaPluginException("")
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get("/project/new", follow_redirects=True)
+
+                # check_release on
+                data = {
+                    "name": "repo_manager",
+                    "homepage": "https://pypi.python.org/pypi/repo_manager",
+                    "backend": "PyPI",
+                    "version_scheme": "RPM",
+                    "csrf_token": output.data.split(
+                        b'name="csrf_token" type="hidden" value="'
+                    )[1].split(b'">')[0],
+                    "distro": "Fedora",
+                    "package_name": "repo_manager",
+                    "check_release": "on",
+                }
+
+                output = c.post("/project/new", data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                patched.assert_called_once_with(mock.ANY, mock.ANY)
+                self.assertTrue(
+                    b'<li class="list-group-item list-group-item-default">'
+                    b"Check failed</li>" in output.data
+                )
+
+                projects = models.Project.all(self.session)
+                self.assertEqual(len(projects), 1)
+                self.assertEqual(len(projects[0].package), 1)
+                distros = self.session.query(models.Distro).all()
+                self.assertEqual(len(distros), 1)
 
     def test_new_project_distro_mapping(self):
         """Assert an authenticated user can create a new project with distro mapping"""

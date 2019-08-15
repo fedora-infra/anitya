@@ -49,20 +49,23 @@
               <td><label>Examples:</label></td>
               <td id="example_urls"></td>
             </tr>
+            <tr id="releases_only_row">
+              {{ render_field_in_row(form.releases_only, tabindex=8) }}
+            </tr>
             <tr id="insecure_row">
-              {{ render_field_in_row(form.insecure, tabindex=7) }}
+              {{ render_field_in_row(form.insecure, tabindex=9) }}
             </tr>
             <tr id="check_release_row">
-              {{ render_field_in_row(form.check_release, tabindex=8) }}
+              {{ render_field_in_row(form.check_release, tabindex=10) }}
             </tr>
 
             {%- if context == 'Add' -%}
             <tr>
-              {{ render_field_in_row(form.distro, tabindex=9) }}
+              {{ render_field_in_row(form.distro, tabindex=11) }}
               <td></td>
             </tr>
             <tr>
-              {{ render_field_in_row(form.package_name, tabindex=10) }}
+              {{ render_field_in_row(form.package_name, tabindex=12) }}
               <td></td>
             </tr>
             {%- endif -%}
@@ -147,6 +150,9 @@
         "For example regex '(\d)_(\d)_(\d)' applied to '1_2_3' " +
         "will convert version to '1.2.3'.");
     $("#regex").tooltip();
+    $("#releases_only").prop('title', "Check releases instead of tags " +
+        "when checking for new releases");
+    $("#releases_only").tooltip();
     $("#insecure").prop('title', "This should only be set when the version URL " +
         "is HTTPS and the host does not have a trusted certificate");
     $("#insecure").tooltip();
@@ -173,6 +179,7 @@
     $('#default_regex_row').hide();
     $('#version_url_row').hide();
     $('#insecure_row').hide();
+    $('#releases_only_row').hide();
     $('#regex').attr('placeholder', '');
 
     $("label[for='version_url']").text('Version URL');
@@ -188,6 +195,7 @@
       $("#version_url").prop('title', "Owner/project from GitHub. " +
         "For example if the project URL is 'https://github.com/fedora-infra/fedocal' " +
         "this field should contain 'fedora-infra/fedocal'.");
+      $('#releases_only_row').show();
     };
     if (str == 'GitLab'){
       $("label[for='version_url']").text('GitLab project url');

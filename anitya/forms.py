@@ -39,6 +39,9 @@ class ProjectForm(FlaskForm):
     check_release = BooleanField(
         "Check latest release on submit", [validators.optional()]
     )
+    releases_only = BooleanField(
+        "Check releases instead of tags", [validators.optional()]
+    )
 
     def __init__(self, *args, **kwargs):
         """ Calls the default constructor with the normal argument but

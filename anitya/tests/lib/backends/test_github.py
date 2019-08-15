@@ -363,6 +363,33 @@ class GithubBackendtests(DatabaseTestCase):
         version = backend.GithubBackend().get_version(project)
         self.assertEqual(u"plexus-archiver-3.6.0", version)
 
+    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
+    def test_get_versions_releases_only(self):
+        """ Test the get_versions functions with releases only. """
+        project = models.Project(
+            name="the-new-hotness",
+            homepage="https://github.com/fedora-infra/the-new-hotness",
+            version_url="fedora-infra/the-new-hotness",
+            backend=BACKEND,
+            releases_only=True,
+        )
+        exp = [
+            u"the-new-hotness v0.10.0",
+            u"the-new-hotness v0.10.1",
+            u"the-new-hotness v0.11.0",
+            u"the-new-hotness v0.11.1",
+            u"the-new-hotness v0.11.2",
+            u"the-new-hotness v0.11.3",
+            u"the-new-hotness v0.11.4",
+            u"the-new-hotness v0.11.5",
+            u"the-new-hotness v0.11.6",
+            u"the-new-hotness v0.11.7",
+            u"the-new-hotness v0.11.8",
+            u"the-new-hotness v0.11.9",
+        ]
+        obs = backend.GithubBackend.get_ordered_versions(project)
+        self.assertEqual(obs, exp)
+
 
 class JsonTests(unittest.TestCase):
     """
@@ -378,16 +405,13 @@ class JsonTests(unittest.TestCase):
         exp = """
 {
     repository(owner: "foo", name: "bar") {
-        refs (refPrefix: "refs/tags/", last:50,
-                orderBy:{field:TAG_COMMIT_DATE, direction:ASC}, after: "abc") {
+        refs (refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE, direction: ASC}, last: 50, after: "abc") {
             totalCount
             edges {
                 cursor
                 node {
                     name
-                    target {
-                        commitUrl
-                    }
+                    target { commitUrl }
                 }
             }
         }
@@ -397,9 +421,9 @@ class JsonTests(unittest.TestCase):
         remaining
         resetAt
     }
-}"""
+}"""  # noqa: E501
 
-        obs = backend.prepare_query("foo", "bar", "abc")
+        obs = backend.prepare_query("foo", "bar", False, cursor="abc")
         self.assertMultiLineEqual(exp, obs)
 
     def test_prepare_query(self):
@@ -407,16 +431,39 @@ class JsonTests(unittest.TestCase):
         exp = """
 {
     repository(owner: "foo", name: "bar") {
-        refs (refPrefix: "refs/tags/", last:50,
-                orderBy:{field:TAG_COMMIT_DATE, direction:ASC}) {
+        refs (refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE, direction: ASC}, last: 50) {
             totalCount
             edges {
                 cursor
                 node {
                     name
-                    target {
-                        commitUrl
-                    }
+                    target { commitUrl }
+                }
+            }
+        }
+    }
+    rateLimit {
+        limit
+        remaining
+        resetAt
+    }
+}"""  # noqa: E501
+
+        obs = backend.prepare_query("foo", "bar", False)
+        self.assertEqual(exp, obs)
+
+    def test_prepare_query_releases(self):
+        """ Assert query creation with releases_only set """
+        exp = """
+{
+    repository(owner: "foo", name: "bar") {
+        releases (orderBy: {field: CREATED_AT, direction: ASC}, last: 50) {
+            totalCount
+            edges {
+                cursor
+                node {
+                    name
+                    tag { target { commitUrl } }
                 }
             }
         }
@@ -428,8 +475,8 @@ class JsonTests(unittest.TestCase):
     }
 }"""
 
-        obs = backend.prepare_query("foo", "bar")
-        self.assertEqual(exp, obs)
+        obs = backend.prepare_query("foo", "bar", True)
+        self.assertMultiLineEqual(exp, obs)
 
     def test_parse_json(self):
         """ Assert parsing json"""
