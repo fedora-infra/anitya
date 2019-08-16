@@ -673,16 +673,16 @@ class ProjectFlagTestCase(DatabaseTestCase):
         flag = create_flagged_project(self.session)
         data = {
             "created_on": time.mktime(flag.created_on.timetuple()),
-            "user": u"dgay@redhat.com",
-            "state": u"open",
-            "project": u"geany",
+            "user": "dgay@redhat.com",
+            "state": "open",
+            "project": "geany",
             "updated_on": time.mktime(flag.updated_on.timetuple()),
             "id": 1,
         }
 
         self.assertEqual(flag.__json__(), data)
 
-        data["reason"] = u"this is a duplicate."
+        data["reason"] = "this is a duplicate."
         self.assertEqual(flag.__json__(detailed=True), data)
 
     def test_project_flag_all(self):

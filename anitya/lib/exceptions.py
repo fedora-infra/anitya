@@ -51,7 +51,7 @@ class ProjectExists(AnityaException):
         self.requested_project = requested_project
 
     def to_dict(self):
-        return {u"requested_project": self.requested_project.__json__()}
+        return {"requested_project": self.requested_project.__json__()}
 
     def __str__(self):
         return "Unable to create project since it already exists."

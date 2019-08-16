@@ -937,7 +937,7 @@ def _api_token_generator(charset=string.ascii_letters + string.digits, length=40
     Returns:
         str: The API token as a unicode string.
     """
-    return u"".join(random_choice(charset) for __ in range(length))
+    return "".join(random_choice(charset) for __ in range(length))
 
 
 class ApiToken(Base):
