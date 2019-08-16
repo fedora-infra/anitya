@@ -1,6 +1,5 @@
 include LICENSE README.rst
-include alembic.ini
-include runtests.sh createdb.py nosetests migrate_wiki.py
+include runtests.sh createdb.py alembic.ini
 include requirements.txt readthedocs.txt test_requirements.txt
 recursive-include fedmsg.d *
 recursive-include files *
