@@ -115,16 +115,16 @@ class BaseQueryPaginateTests(DatabaseTestCase):
 
     def test_as_dict(self):
         expected_dict = {
-            u"items_per_page": 1,
-            u"page": 1,
-            u"total_items": 3,
-            u"items": [
+            "items_per_page": 1,
+            "page": 1,
+            "total_items": 3,
+            "items": [
                 {
                     "id": 3,
-                    "backend": u"custom",
-                    "name": u"R2spec",
-                    "homepage": u"https://fedorahosted.org/r2spec/",
-                    "ecosystem": u"https://fedorahosted.org/r2spec/",
+                    "backend": "custom",
+                    "name": "R2spec",
+                    "homepage": "https://fedorahosted.org/r2spec/",
+                    "ecosystem": "https://fedorahosted.org/r2spec/",
                     "regex": None,
                     "version": None,
                     "version_url": None,

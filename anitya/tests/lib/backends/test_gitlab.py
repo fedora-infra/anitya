@@ -148,26 +148,26 @@ class GitlabBackendtests(DatabaseTestCase):
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [
-            u"0.6.1",
-            u"0.6.1.1",
-            u"0.6.2",
-            u"0.6.3",
-            u"0.6.4",
-            u"0.6.5",
-            u"0.6.6",
-            u"0.6.7",
-            u"0.6.8",
-            u"0.7.0",
-            u"0.7.1",
-            u"0.8.0",
-            u"0.8.1",
-            u"0.8.2",
-            u"0.8.3",
-            u"0.8.4",
-            u"0.8.5",
-            u"0.8.6",
-            u"0.8.7",
-            u"0.8.8",
+            "0.6.1",
+            "0.6.1.1",
+            "0.6.2",
+            "0.6.3",
+            "0.6.4",
+            "0.6.5",
+            "0.6.6",
+            "0.6.7",
+            "0.6.8",
+            "0.7.0",
+            "0.7.1",
+            "0.8.0",
+            "0.8.1",
+            "0.8.2",
+            "0.8.3",
+            "0.8.4",
+            "0.8.5",
+            "0.8.6",
+            "0.8.7",
+            "0.8.8",
         ]
         obs = backend.GitlabBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -181,13 +181,13 @@ class GitlabBackendtests(DatabaseTestCase):
         pid = 3
         project = models.Project.get(self.session, pid)
         exp = [
-            u"xonotic-v0.1.0preview",
-            u"xonotic-v0.5.0",
-            u"xonotic-v0.6.0",
-            u"xonotic-v0.7.0",
-            u"xonotic-v0.8.0",
-            u"xonotic-v0.8.1",
-            u"xonotic-v0.8.2",
+            "xonotic-v0.1.0preview",
+            "xonotic-v0.5.0",
+            "xonotic-v0.6.0",
+            "xonotic-v0.7.0",
+            "xonotic-v0.8.0",
+            "xonotic-v0.8.1",
+            "xonotic-v0.8.2",
         ]
         obs = backend.GitlabBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)

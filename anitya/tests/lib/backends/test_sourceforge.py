@@ -156,19 +156,19 @@ class SourceforgeBackendtests(DatabaseTestCase):
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [
-            u"3.25.0",
-            u"3.25.1",
-            u"3.25.2",
-            u"3.26.0",
-            u"3.26.1",
-            u"3.26.2",
-            u"3.27.0",
-            u"3.27.0.1",
-            u"3.27.1",
-            u"3.28.0",
-            u"3.29.0",
-            u"3.30.0",
-            u"3.31.0",
+            "3.25.0",
+            "3.25.1",
+            "3.25.2",
+            "3.26.0",
+            "3.26.1",
+            "3.26.2",
+            "3.27.0",
+            "3.27.0.1",
+            "3.27.1",
+            "3.28.0",
+            "3.29.0",
+            "3.30.0",
+            "3.31.0",
         ]
         obs = backend.SourceforgeBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)

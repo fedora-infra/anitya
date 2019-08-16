@@ -124,7 +124,7 @@ class DebianBackendtests(DatabaseTestCase):
         """ Test the get_versions function of the debian backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = [u"0.4.2", u"0.4.3", u"0.4.4", u"0.5.0", u"0.7.0", u"0.7.2"]
+        exp = ["0.4.2", "0.4.3", "0.4.4", "0.5.0", "0.7.0", "0.7.2"]
         obs = backend.DebianBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
@@ -142,7 +142,7 @@ class DebianBackendtests(DatabaseTestCase):
         """Assert the Debian backend handles versions in the format X.Y"""
         pid = 3
         project = models.Project.get(self.session, pid)
-        exp = [u"0.45", u"0.50", u"0.52"]
+        exp = ["0.45", "0.50", "0.52"]
         obs = backend.DebianBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 

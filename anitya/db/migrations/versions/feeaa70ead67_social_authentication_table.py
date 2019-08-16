@@ -159,7 +159,7 @@ def upgrade():
         sa.Column("extra_data", storage.JSONType(), nullable=True),
         sa.Column("uid", sa.String(length=255), nullable=True),
         sa.Column("user_id", GUID(), nullable=False),
-        sa.ForeignKeyConstraint(["user_id"], [u"users.id"]),
+        sa.ForeignKeyConstraint(["user_id"], ["users.id"]),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(
