@@ -8,7 +8,7 @@ flask-restful
 flask-wtf
 jinja2 >= 2.4
 ordered-set
-pyasn1 <0.5.0,>=0.4.1
+pyasn1 <0.5.0,>=0.4.6
 python-dateutil
 psycopg2
 pytoml

@@ -35,4 +35,7 @@ def downgrade():
     op.drop_column("runs", "error_count")
     op.drop_column("runs", "ratelimit_count")
     op.drop_column("runs", "success_count")
-    op.add_column("runs", sa.Column("status", sa.String(20), primary_key=True))
+    op.add_column(
+        "runs",
+        sa.Column("status", sa.String(20), primary_key=True, server_default="ended"),
+    )
