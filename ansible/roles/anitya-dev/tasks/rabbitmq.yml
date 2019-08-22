@@ -21,6 +21,14 @@
 - name: Enables the rabbitmq management and SSL authentication plugins
   rabbitmq_plugin:
     names: rabbitmq_management,rabbitmq_auth_mechanism_ssl
+  notify:
+    - reload rabbitmq
+
+- name: Ensure that .erlang.cookie has correct owner
+  file:
+    path: /var/lib/rabbitmq/.erlang.cookie
+    owner: rabbitmq
+    group: rabbitmq
 
 - name: start rabbitmq
   service: name=rabbitmq-server state=started enabled=yes

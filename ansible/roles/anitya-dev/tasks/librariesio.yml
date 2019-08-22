@@ -3,7 +3,7 @@
 - name: Install sseclient
   dnf:
     name: [
-            python-sseclient
+            python3-sseclient
           ]
     state: present
 
