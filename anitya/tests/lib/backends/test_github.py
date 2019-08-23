@@ -353,6 +353,22 @@ class GithubBackendtests(DatabaseTestCase):
         )
 
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
+    @mock.patch("anitya.lib.backends.http_session.post")
+    def test_get_versions_403(self, mock_post):
+        """ Test the get_versions function of the github when response status code
+        is 403.
+        """
+        mock_resp = mock.MagicMock()
+        mock_resp.status_code = 403
+        mock_resp.ok = False
+        mock_post.return_value = mock_resp
+        pid = 3
+        project = models.Project.get(self.session, pid)
+        self.assertRaises(
+            RateLimitException, backend.GithubBackend.get_versions, project
+        )
+
+    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
     def test_plexus_utils(self):
         """ Regression test for issue #286 """
         project = models.Project(
