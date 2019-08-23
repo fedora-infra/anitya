@@ -144,7 +144,11 @@ class GithubBackend(BaseBackend):
 
         if resp.ok:
             json = resp.json()
-            print(json)
+        elif resp.status_code == 403:
+            json = resp.json()
+            reset_time = json["data"]["rateLimit"]["resetAt"]
+            _log.info("Github API ratelimit reached.")
+            raise RateLimitException(reset_time)
         else:
             raise AnityaPluginException(
                 '%s: Server responded with status "%s": "%s"'
