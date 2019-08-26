@@ -21,19 +21,15 @@
 
 import logging
 
-import sqlalchemy as sa
-from fedora_messaging import api, message, exceptions as fm_exceptions
-from sqlalchemy import create_engine
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import scoped_session
-from sqlalchemy.orm.exc import NoResultFound
 import arrow
+from fedora_messaging import api, message, exceptions as fm_exceptions
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from sqlalchemy.orm.exc import NoResultFound
 
-from . import plugins, exceptions
 from anitya import config
-from anitya.db import models, Base
+from anitya.db import models
 
+from . import exceptions, plugins
 
 _log = logging.getLogger(__name__)
 
