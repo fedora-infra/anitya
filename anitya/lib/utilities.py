@@ -21,19 +21,15 @@
 
 import logging
 
-import sqlalchemy as sa
-from fedora_messaging import api, message, exceptions as fm_exceptions
-from sqlalchemy import create_engine
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import scoped_session
-from sqlalchemy.orm.exc import NoResultFound
 import arrow
+from fedora_messaging import api, message, exceptions as fm_exceptions
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from sqlalchemy.orm.exc import NoResultFound
 
-from . import plugins, exceptions
 from anitya import config
-from anitya.db import models, Base
+from anitya.db import models
 
+from . import exceptions, plugins
 
 _log = logging.getLogger(__name__)
 
@@ -232,55 +228,6 @@ def log(session, project=None, distro=None, topic=None, message=None):
     )
 
     return final_msg
-
-
-def init(db_url, alembic_ini=None, debug=False, create=False):  # pragma: no cover
-    """ Create the tables in the database using the information from the
-    url obtained.
-
-    :deprecated: This function is deprecated as of Anitya 0.12. Use the
-                 scoped session in :mod:`anitya.db`
-
-    :arg db_url, URL used to connect to the database. The URL contains
-        information with regards to the database engine, the host to
-        connect to, the user and password and the database name.
-          ie: <engine>://<user>:<password>@<host>/<dbname>
-    :kwarg alembic_ini, path to the alembic ini file. This is necessary
-        to be able to use alembic correctly, but not for the unit-tests.
-    :kwarg debug, a boolean specifying wether we should have the verbose
-        output of sqlalchemy or not.
-    :return a session that can be used to query the database.
-
-    """
-    engine = create_engine(db_url, echo=debug)
-
-    if create:
-        Base.metadata.create_all(engine)
-
-    # Source: https://docs.sqlalchemy.org/en/latest/dialects/sqlite.html
-    # see section 'sqlite-foreign-keys'
-    if db_url.startswith("sqlite:"):
-
-        def _fk_pragma_on_connect(dbapi_con, con_record):
-            dbapi_con.execute("PRAGMA foreign_keys=ON")
-
-        sa.event.listen(engine, "connect", _fk_pragma_on_connect)
-
-    if alembic_ini is not None:  # pragma: no cover
-        # then, load the Alembic configuration and generate the
-        # version table, "stamping" it with the most recent rev:
-        from alembic.config import Config
-        from alembic import command
-
-        alembic_cfg = Config(alembic_ini)
-        command.stamp(alembic_cfg, "head")
-
-    scopedsession = scoped_session(sessionmaker(bind=engine))
-
-    if create:
-        plugins.load_plugins(scopedsession)
-
-    return scopedsession
 
 
 def create_project(
