@@ -19,8 +19,8 @@ down_revision = "9c29da0af3af"
 
 def upgrade():
     """Drop the Backends and Ecosystems tables and remove foreign keys."""
-    op.drop_constraint(u"projects_backend_fkey", "projects", type_="foreignkey")
-    op.drop_constraint(u"FK_ECOSYSTEM_FOR_PROJECT", "projects", type_="foreignkey")
+    op.drop_constraint("projects_backend_fkey", "projects", type_="foreignkey")
+    op.drop_constraint("FK_ECOSYSTEM_FOR_PROJECT", "projects", type_="foreignkey")
     op.create_index(
         op.f("ix_projects_ecosystem_name"), "projects", ["ecosystem_name"], unique=False
     )
@@ -34,7 +34,7 @@ def downgrade():
     op.create_table(
         "backends",
         sa.Column("name", sa.VARCHAR(length=200), autoincrement=False, nullable=False),
-        sa.PrimaryKeyConstraint("name", name=u"backends_pkey"),
+        sa.PrimaryKeyConstraint("name", name="backends_pkey"),
         postgresql_ignore_search_path=False,
     )
     # We have to populate the backends table before we can add the ecosystems
@@ -53,14 +53,14 @@ def downgrade():
         ),
         sa.ForeignKeyConstraint(
             ["default_backend_name"],
-            [u"backends.name"],
-            name=u"ecosystems_default_backend_name_fkey",
-            onupdate=u"CASCADE",
-            ondelete=u"CASCADE",
+            ["backends.name"],
+            name="ecosystems_default_backend_name_fkey",
+            onupdate="CASCADE",
+            ondelete="CASCADE",
         ),
-        sa.PrimaryKeyConstraint("name", name=u"ecosystems_pkey"),
+        sa.PrimaryKeyConstraint("name", name="ecosystems_pkey"),
         sa.UniqueConstraint(
-            "default_backend_name", name=u"ecosystems_default_backend_name_key"
+            "default_backend_name", name="ecosystems_default_backend_name_key"
         ),
     )
     for ecosystem in plugins.ECOSYSTEM_PLUGINS.get_plugins():
@@ -73,20 +73,20 @@ def downgrade():
         )
 
     op.create_foreign_key(
-        u"FK_ECOSYSTEM_FOR_PROJECT",
+        "FK_ECOSYSTEM_FOR_PROJECT",
         "projects",
         "ecosystems",
         ["ecosystem_name"],
         ["name"],
-        onupdate=u"CASCADE",
-        ondelete=u"SET NULL",
+        onupdate="CASCADE",
+        ondelete="SET NULL",
     )
     op.create_foreign_key(
-        u"projects_backend_fkey",
+        "projects_backend_fkey",
         "projects",
         "backends",
         ["backend"],
         ["name"],
-        onupdate=u"CASCADE",
-        ondelete=u"CASCADE",
+        onupdate="CASCADE",
+        ondelete="CASCADE",
     )
