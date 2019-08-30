@@ -136,18 +136,18 @@ class PackagesResource(Resource):
             q = q.filter_by(package_name=name)
         page = q.paginate(order_by=models.Packages.package_name, **args)
         return {
-            u"items": [
+            "items": [
                 {
-                    u"distribution": package.distro_name,
-                    u"name": package.package_name,
-                    u"project": package.project.name,
-                    u"ecosystem": package.project.ecosystem_name,
+                    "distribution": package.distro_name,
+                    "name": package.package_name,
+                    "project": package.project.name,
+                    "ecosystem": package.project.ecosystem_name,
                 }
                 for package in page.items
             ],
-            u"page": page.page,
-            u"items_per_page": page.items_per_page,
-            u"total_items": page.total_items,
+            "page": page.page,
+            "items_per_page": page.items_per_page,
+            "total_items": page.total_items,
         }
 
     @authentication.require_token
@@ -270,7 +270,7 @@ class PackagesResource(Resource):
                 topic="project.map.new",
                 message=message,
             )
-            return {u"distribution": distro.name, u"name": package.package_name}, 201
+            return {"distribution": distro.name, "name": package.package_name}, 201
         except IntegrityError:
             Session.rollback()
             return {"error": "package already exists in distribution"}, 409

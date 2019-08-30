@@ -29,3 +29,7 @@ anitya/static/docs/
 coverage.xml
 htmlcov
 pip-wheel-metadata/
+venv/
+.venv/
+.vscode/
+
