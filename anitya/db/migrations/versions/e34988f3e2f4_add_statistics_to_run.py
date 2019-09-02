@@ -1,7 +1,7 @@
 """Add statistics to run
 
 Revision ID: e34988f3e2f4
-Revises: 708f6f26b4b6
+Revises: 1ab95561edae
 Create Date: 2019-03-14 15:41:11.614870
 """
 
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = "e34988f3e2f4"
-down_revision = "708f6f26b4b6"
+down_revision = "1ab95561edae"
 
 
 def upgrade():
