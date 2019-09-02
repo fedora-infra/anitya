@@ -1,7 +1,7 @@
 """Add version pattern
 
 Revision ID: 708f6f26b4b6
-Revises: 1ab95561edae
+Revises: e34988f3e2f4
 Create Date: 2019-04-25 16:51:03.302314
 """
 
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = "708f6f26b4b6"
-down_revision = "1ab95561edae"
+down_revision = "e34988f3e2f4"
 
 
 def upgrade():

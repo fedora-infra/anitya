@@ -1,7 +1,7 @@
 """Add release check to project
 
 Revision ID: 5e209766aead
-Revises: e34988f3e2f4
+Revises: 708f6f26b4b6
 Create Date: 2019-06-06 14:53:06.236820
 """
 
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = "5e209766aead"
-down_revision = "e34988f3e2f4"
+down_revision = "708f6f26b4b6"
 
 
 def upgrade():
