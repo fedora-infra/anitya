@@ -173,11 +173,11 @@ class Checker:
 
         # 3. Finalize
         _log.info(
-            "Check done. Checked ({}): error ({}), success ({}), fail ({})".format(
+            "Check done. Checked ({}): error ({}), success ({}), limit ({})".format(
                 total_count,
                 self.error_counter,
                 self.success_counter,
-                self.error_counter,
+                self.ratelimit_counter,
             )
         )
 
