@@ -31,7 +31,7 @@ sse_feed = "http://firehose.libraries.io/events"
 
     [anitya_log_config.loggers]
         [anitya_log_config.loggers.anitya]
-            level = "INFO"
+            level = "DEBUG"
             propagate = false
             handlers = ["console"]
 
