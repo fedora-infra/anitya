@@ -102,12 +102,13 @@ class Checker:
             session.commit()
             return
         try:
+            _log.debug(f"Checking project {project.name}")
             utilities.check_project_release(project, session)
         except RateLimitException as err:
             self.blacklist_project(project, err.reset_time)
             return
         except AnityaException as err:
-            _log.info(err)
+            _log.info(f"{project.name} : {str(err)}")
             with self.error_counter_lock:
                 self.error_counter += 1
             return
@@ -170,6 +171,12 @@ class Checker:
 
         # Wait till every project is checked
         wait(futures, return_when=ALL_COMPLETED)
+        for future in futures:
+            if future.exception():
+                try:
+                    future.result()
+                except Exception as e:
+                    _log.exception(e)
 
         # 3. Finalize
         _log.info(
