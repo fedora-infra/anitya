@@ -232,7 +232,11 @@ def delete_project_version(project_id, version):
             # Delete the record of the version for this project
             Session.delete(version_obj)
             # Adjust the latest_version if needed
-            if project.latest_version == version:
+            sorted_versions = project.get_sorted_version_objects()
+            if len(sorted_versions) > 1 and sorted_versions[0].version == version:
+                project.latest_version = sorted_versions[1].parse()
+                Session.add(project)
+            elif len(sorted_versions) == 1:
                 project.latest_version = None
                 Session.add(project)
             Session.commit()
