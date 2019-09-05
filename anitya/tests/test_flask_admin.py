@@ -471,7 +471,7 @@ class DeleteProjectVersionTests(DatabaseTestCase):
 
     def setUp(self):
         super(DeleteProjectVersionTests, self).setUp()
-        session = Session()
+        self.session = Session()
 
         # Add a project with a version to delete.
         self.project = models.Project(
@@ -489,17 +489,17 @@ class DeleteProjectVersionTests(DatabaseTestCase):
             user_id=self.user.id, user=self.user
         )
 
-        session.add(self.user)
-        session.add(user_social_auth)
+        self.session.add(self.user)
+        self.session.add(user_social_auth)
         self.admin = models.User(email="admin@example.com", username="admin")
         admin_social_auth = social_models.UserSocialAuth(
             user_id=self.admin.id, user=self.admin
         )
 
-        session.add_all(
+        self.session.add_all(
             [admin_social_auth, self.admin, self.project, self.project_version]
         )
-        session.commit()
+        self.session.commit()
 
         mock_config = mock.patch.dict(
             models.anitya_config, {"ANITYA_WEB_ADMINS": [six.text_type(self.admin.id)]}
@@ -541,6 +541,7 @@ class DeleteProjectVersionTests(DatabaseTestCase):
 
     def test_admin_post(self):
         """Assert admin users can delete project mappings."""
+        self.project.latest_version = "1.0.0"
         with login_user(self.flask_app, self.admin):
             output = self.client.get("/project/1/delete/1.0.0")
             csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
@@ -554,6 +555,76 @@ class DeleteProjectVersionTests(DatabaseTestCase):
                 )
             self.assertEqual(200, output.status_code)
             self.assertEqual(0, len(models.ProjectVersion.query.all()))
+            self.assertEqual(self.project.latest_version, None)
+
+    def test_admin_post_latest_version(self):
+        """Assert latest version is changed when version is removed."""
+        project_version = models.ProjectVersion(project=self.project, version="1.0.1")
+        self.session.add(project_version)
+        self.session.commit()
+        self.project.latest_version = "1.0.1"
+
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get("/project/1/delete/1.0.1")
+            csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
+                1
+            ].split(b'">')[0]
+            data = {"confirm": True, "csrf_token": csrf_token}
+
+            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeleted):
+                output = self.client.post(
+                    "/project/1/delete/1.0.1", data=data, follow_redirects=True
+                )
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(1, len(models.ProjectVersion.query.all()))
+            self.assertEqual(self.project.latest_version, "1.0.0")
+
+    def test_admin_post_latest_version_parsed(self):
+        """
+        Assert latest version is changed when version is parsed version of deleted version.
+        For example v1.0.1 is latest version 1.0.1.
+        """
+        project_version = models.ProjectVersion(project=self.project, version="v1.0.1")
+        self.session.add(project_version)
+        self.session.commit()
+        self.project.latest_version = "1.0.1"
+
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get("/project/1/delete/v1.0.1")
+            csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
+                1
+            ].split(b'">')[0]
+            data = {"confirm": True, "csrf_token": csrf_token}
+
+            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeleted):
+                output = self.client.post(
+                    "/project/1/delete/v1.0.1", data=data, follow_redirects=True
+                )
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(1, len(models.ProjectVersion.query.all()))
+            self.assertEqual(self.project.latest_version, "1.0.0")
+
+    def test_admin_post_latest_version_delete_previous(self):
+        """Assert latest version is not changed when other than latest version is removed."""
+        project_version = models.ProjectVersion(project=self.project, version="1.0.1")
+        self.session.add(project_version)
+        self.session.commit()
+        self.project.latest_version = "1.0.1"
+
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get("/project/1/delete/1.0.0")
+            csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
+                1
+            ].split(b'">')[0]
+            data = {"confirm": True, "csrf_token": csrf_token}
+
+            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeleted):
+                output = self.client.post(
+                    "/project/1/delete/1.0.0", data=data, follow_redirects=True
+                )
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(1, len(models.ProjectVersion.query.all()))
+            self.assertEqual(self.project.latest_version, "1.0.1")
 
     def test_admin_post_unconfirmed(self):
         """Assert failing to confirm the action results in no change."""
