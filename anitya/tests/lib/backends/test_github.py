@@ -364,9 +364,11 @@ class GithubBackendtests(DatabaseTestCase):
         mock_post.return_value = mock_resp
         pid = 3
         project = models.Project.get(self.session, pid)
+        backend.reset_time = "1970-01-01T00:00:00Z"
         self.assertRaises(
             RateLimitException, backend.GithubBackend.get_versions, project
         )
+        self.assertEqual(backend.reset_time, "1970-01-01T00:00:00Z")
 
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
     def test_plexus_utils(self):
@@ -553,6 +555,7 @@ class JsonTests(unittest.TestCase):
             }
         }
         self.assertRaises(RateLimitException, backend.parse_json, json, project)
+        self.assertEqual(backend.reset_time, "2008-09-03T20:56:35.450686")
 
 
 if __name__ == "__main__":
