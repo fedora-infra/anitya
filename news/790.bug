@@ -1,1 +1,0 @@
-Handle status code 403 as rate limit exception on Github backend
