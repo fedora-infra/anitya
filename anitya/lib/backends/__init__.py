@@ -326,11 +326,11 @@ def get_versions_by_regex(url, regex, project, insecure=False):
             'Could not call : "%s" of "%s", with error: %s'
             % (url, project.name, str(err))
         )
-    # Not modified
-    if req.status_code == 304:
-        return []
 
     if not isinstance(req, six.string_types):
+        # Not modified
+        if req.status_code == 304:
+            return []
         req = req.text
 
     return get_versions_by_regex_for_text(req, url, regex, project)
