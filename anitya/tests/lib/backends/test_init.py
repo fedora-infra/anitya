@@ -159,7 +159,7 @@ class GetVersionsByRegexTests(unittest.TestCase):
     @mock.patch("anitya.lib.backends.BaseBackend.call_url")
     def test_get_versions_by_regex_not_modified(self, mock_call_url):
         """Assert that not modified response is handled correctly."""
-        mock_response = mock.Mock()
+        mock_response = mock.Mock(spec=object)
         mock_response.status_code = 304
         mock_call_url.return_value = mock_response
         mock_project = mock.Mock()
@@ -167,6 +167,20 @@ class GetVersionsByRegexTests(unittest.TestCase):
         versions = backends.get_versions_by_regex("url", "regex", mock_project)
 
         self.assertEqual(versions, [])
+
+    @mock.patch("anitya.lib.backends.BaseBackend.call_url")
+    def test_get_versions_by_regex_string_response(self, mock_call_url):
+        """Assert that string response is handled correctly."""
+        mock_call_url.return_value = ""
+        mock_project = mock.Mock()
+
+        self.assertRaises(
+            AnityaPluginException,
+            backends.get_versions_by_regex,
+            "url",
+            "regex",
+            mock_project,
+        )
 
 
 class GetVersionsByRegexTextTests(unittest.TestCase):
