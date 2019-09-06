@@ -24,6 +24,13 @@ RATE_LIMIT_THRESHOLD = 0.1
 
 _log = logging.getLogger(__name__)
 
+"""
+Reset time that is currently set for GitHub backend.
+Used when GitHub starts returning HTTP status code 403,
+which doesn't contains this information anymore.
+"""
+reset_time = "1970-01-01T00:00:00Z"
+
 
 class GithubBackend(BaseBackend):
     """ The custom class for projects hosted on github.com.
@@ -145,8 +152,6 @@ class GithubBackend(BaseBackend):
         if resp.ok:
             json = resp.json()
         elif resp.status_code == 403:
-            json = resp.json()
-            reset_time = json["data"]["rateLimit"]["resetAt"]
             _log.info("Github API ratelimit reached.")
             raise RateLimitException(reset_time)
         else:
@@ -185,6 +190,7 @@ def parse_json(json, project):
             when rate limit threshold is reached.
 
     """
+    global reset_time
     # We need to check limit first,
     # because exceeding the limit will also return error
     try:
