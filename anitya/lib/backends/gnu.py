@@ -11,6 +11,8 @@
 from anitya.lib.backends import BaseBackend, REGEX, get_versions_by_regex_for_text
 from anitya.lib.exceptions import AnityaPluginException
 
+import six
+
 
 DEFAULT_REGEX = 'href="([0-9][0-9.]*)/"'
 
@@ -83,9 +85,10 @@ class GnuBackend(BaseBackend):
             )
 
         versions = []
-        # Not modified
-        if req.status_code == 304:
-            return versions
+        if not isinstance(req, six.string_types):
+            # Not modified
+            if req.status_code == 304:
+                return versions
 
         try:
             regex = REGEX % {"name": project.name}

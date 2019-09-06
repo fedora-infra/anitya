@@ -100,6 +100,19 @@ class CratesBackendTests(DatabaseTestCase):
             crates.CratesBackend._get_versions(project)
             self.assertIn("Failed to decode JSON", str(context_manager.exception))
 
+    def test_get_versions_not_modified(self):
+        """Assert that not modified response is handled correctly"""
+        pid = 1
+        project = models.Project.get(self.session, pid)
+        exp_url = "https://crates.io/api/v1/crates/itoa/versions"
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=304)
+            versions = crates.CratesBackend.get_versions(project)
+
+            m_call.assert_called_with(exp_url, last_change=None)
+            self.assertEqual(versions, [])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

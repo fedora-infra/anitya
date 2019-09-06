@@ -86,11 +86,11 @@ class FolderBackend(BaseBackend):
 
         versions = []
 
-        # Not modified
-        if req.status_code == 304:
-            return versions
-
         if not isinstance(req, six.string_types):
+            # Not modified
+            if req.status_code == 304:
+                return versions
+
             req = req.text
 
         try:

@@ -149,6 +149,9 @@ class CratesBackend(BaseBackend):
         try:
             req = cls.call_url(url, last_change=last_change)
             req.raise_for_status()
+            # Not modified
+            if req.status_code == 304:
+                return []
             data = req.json()
         except requests.RequestException as e:
             raise AnityaPluginException(
