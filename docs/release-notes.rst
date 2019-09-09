@@ -4,6 +4,39 @@ Release Notes
 
 .. towncrier release notes start
 
+0.17.1 (2019-09-09)
+===================
+
+Bug Fixes
+---------
+
+* Final info message in check service using error counter instead ratelimit counter
+  (`PR#823 <https://github.com/release-monitoring/anitya/pull/823>`_)
+
+* No error was shown when check_service thread crashed
+  (`PR#824 <https://github.com/release-monitoring/anitya/pull/824>`_)
+
+* Crash when sorting versions with and without date when looking for last retrieved version
+  (`PR#825 <https://github.com/release-monitoring/anitya/pull/825>`_)
+
+* Crash when calling FTP url
+  (`PR#833 <https://github.com/release-monitoring/anitya/pull/833>`_)
+
+* Latest version is not updated when version is removed from web interface
+  (`#830 <https://github.com/release-monitoring/anitya/issues/830>`_)
+
+* GitHub response 403 doesn't have ratelimit reset time
+  (`#832 <https://github.com/release-monitoring/anitya/issues/832>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Michal Konečný
+
+
 0.17.0 (2019-09-03)
 ===================
 
