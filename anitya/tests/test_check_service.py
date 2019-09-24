@@ -230,6 +230,36 @@ class CheckerTests(DatabaseTestCase):
         self.assertEqual(len(run_objects), 0)
         mock_check_project_release.assert_not_called()
 
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    @mock.patch.dict("anitya.config.config", {"CRON_POOL": 1})
+    def test_run_small_pool_size(self, mock_check_project_release):
+        """
+        Assert that small pool size is handled correctly.
+        """
+        project = models.Project(
+            name="Foobar",
+            backend="GitHub",
+            homepage="www.fakeproject.com",
+            next_check=arrow.utcnow().datetime,
+        )
+        self.session.add(project)
+
+        project = models.Project(
+            name="Fake",
+            backend="GitHub",
+            homepage="www.fakeproject1.com",
+            next_check=arrow.utcnow().datetime,
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        self.checker.run()
+
+        run_objects = models.Run.query.all()
+
+        self.assertEqual(len(run_objects), 1)
+        self.assertEqual(run_objects[0].total_count, 2)
+
     def test_clear_counters(self):
         """
         Assert that counters are cleared.
