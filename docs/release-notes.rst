@@ -4,6 +4,27 @@ Release Notes
 
 .. towncrier release notes start
 
+0.17.2 (2019-09-26)
+===================
+
+Bug Fixes
+---------
+
+* Fix crash on GNU, Crates and Folder backends
+  (`PR#837 <https://github.com/release-monitoring/anitya/pull/837>`_)
+
+* Fix OOM issue with check_service
+  (`PR#842 <https://github.com/release-monitoring/anitya/pull/842>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Michal Konečný
+
+
 0.17.1 (2019-09-09)
 ===================
 
