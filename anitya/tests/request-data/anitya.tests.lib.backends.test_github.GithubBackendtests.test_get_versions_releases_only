@@ -1,10 +1,10 @@
 interactions:
 - request:
     body: '{"query": "\n{\n    repository(owner: \"fedora-infra\", name: \"the-new-hotness\")
-      {\n        releases (orderBy: {field: CREATED_AT, direction: DESC}, first: 50)
+      {\n        releases (orderBy: {field: CREATED_AT, direction: ASC}, last: 50)
       {\n            totalCount\n            edges {\n                cursor\n                node
-      {\n                    name\n                    tag { target { commitUrl }
-      }\n                }\n            }\n        }\n    }\n    rateLimit {\n        limit\n        remaining\n        resetAt\n    }\n}"}'
+      {\n                    name\n                    tag { name target { commitUrl
+      } }\n                }\n            }\n        }\n    }\n    rateLimit {\n        limit\n        remaining\n        resetAt\n    }\n}"}'
     headers:
       Accept:
       - '*/*'
@@ -15,34 +15,38 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '464'
+      - '467'
       Content-Type:
       - application/json
       From:
       - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
       User-Agent:
-      - Anitya 0.15.1 at release-monitoring.org
+      - Anitya 0.17.1 at release-monitoring.org
     method: POST
     uri: https://api.github.com/graphql
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAA7WWW2+jVhSF/0rFcxyf+8Vvuciq1AJjOZNqWvXhXBMiB1IgBRz1v3cfZ6R6+oQf
-        sGQZc7h9rL3XXh+ZN73JNh9ZG96aruqbdvr8dwimC13a7pveHO6a97rPNphcZcE/pYU/PjL33nZN
-        m22yb/RxckRPZf1tKt9+4fnLzVju0VDs0VRud1P+0Iz5fTMUd92QvzRDnrPb+/0WZVdZ3fiQ7lKb
-        V/jN+uewqsOwem76OnTdT3+ja4yvNRzYm6fT05j2KcCTwN2b19eq/9oe4LTnvn/rNuv1U9U/v9tr
-        WFrH4JvWrKo6tmb9v8uuP89dM8QZp8RS4RkxVBgTifJaW2Ix00Fyw6TzRmf/wOdqPvBYAHD50KCi
-        OgP+Qr7OBVYLAWsUheZBY2cMiZp5LIhw0RsshdDSKqI0c1ZcDJwfmyMoeyz358A7PhdYLgQcgozM
-        KKkCczoqG4MSISruQowxRB4cYTIafjkwqHsq6ekMuPzry1xgsRCwi5EjGiIUsUeGOqGsj5xIpJHU
-        KljqFI9R0MuB7xsEJT3l5z1c/jbMBU6lsEQPCxIVxcRzLrG2gXiAT5oyryMKhimHSBBWXgo8JFjo
-        4+MPplXwVKmzTIstBGyUxdJH6bXDDDvGMDUMXgL2mAWvtJTUM+Mu6+FiuxuL+wZDH+P8vKRv6/e5
-        wHQhYIS8MmBbYMneKYU0V0hZ6r2mghOulOKeYc5mK5xPaMzxLil8TMAnl344jaUb/Ui3c4HJQsCC
-        QBVHiSMjUnmBmIuWRcwNZSAzhX72hjOrLgEeYA6PxUszlaDyD8C3x7u5wHghYKqEk4jioA0i2PgI
-        49hpTQNVISJHYH/kXPj5wBUai8eTwjgFjpNLf1dY2sef5wKnhLKEaTHoYOOoYpI6KWHqAqIwVmkv
-        NMxoTTzxgpn5PZzv0QgKD0ld+I4nl/4OzNH2bR4whK3FgLGWlGOYxxCqKLg1p44KBS/BOnA07jnF
-        mqBZChepf+/QkB92KWWl4IHz/4LHzcjKl7nASynsoW4DxCosDE+lHLnlFsYvtDUylllwMIWVJyfg
-        PyFdZq3pw68VRNoUbg+fGxwhBCvh1VR1VUMAZlrrtKML/Q0cmBGE9QqJFZIPGG0w2yD6e7rkv17L
-        SETZCwAA
+        H4sIAAAAAAAAA62Xa2/iRhSG/0rlzwHmfuFbLooq7dokgs1qW1XVXBMQsbPgFEzU/94zeGm2W0tr
+        JCMhm+PB9jzznnPeecu8qU02fcs24aXaLutq07S/1sFswzad11Vt1tfVa1lnU0wvsuAf04Xf3zL3
+        utlWm2yafaEPjSO6mZVfmtnLB56vLvdFg/b5Ndrl6/v9bFEd8lWF8/l2B8ddnrPLPZutsousrHxI
+        TynNMxyz+imMyrAbPVV1GbbbX/5CY4zGCAbW5vG7cd+FN48B3gzepnp+XtafNmu4zVNdv2ynk8nj
+        sn56tWO4NInBVxszWpZxYyY/PGbS/nfiI3LBYImF4U5rGrnlNlgaJUbGMouUVVh5kv0Nn4ufAJjN
+        YfJztJ/d3u9mNxWGLwABAIsWAEe3L30B4G4AbXhAAAxjLSnHIUhuGPWcc+qoUMZR64yy3HOKNUH9
+        ASzRvngAAAtYfVj5onkHIO3Dr/0A4G4FnMKDApAeJquYpE5KRRQJWhirtBdao6iJJ14wI/oDaNAO
+        FLAvVlWTVFAs3wHoq8N1XwCdCsDjwRVAlXASURy0QQQbHz0jKRUCVQGyA3CYyLnw5wDY5/iogEN+
+        +AHAA73tC4B0pQAet+EBFSAI8SnhIyNSeYGYi5ZFzA1lUWHqI/eGM6t6AyjmqCmSAmD1E4A8pUBb
+        BK9ursrXvgBoN4A2PCAAhLwyQnPMtHdKIc0V1D3qvaaCE66U4p5hzs4CcCyCi6opQAVFKoInAAWX
+        fQGwbgBteEAAUOew9FF67TDDjjFMDSOw+B6z4JWWknpmXP8akBSQakB+U6EE4dgFTgBmn3d9AfBu
+        AG14QAACJksxgeovsbYB8iFEwmRkXkcUDFMOkSCsPFcBe2h9CCC0XeBfAF/v+gIQ3QDa8IAAXIwc
+        waS1th4Z6oSykPdEIo2kVmAInOIxCno+gMPRCB1m70bo6ubuPq1gDyOExylX/meETuEBAUD/j8wo
+        qQJzOiobgxIhKu5CjDFEHlzSg+FnA4D8T24QHdvgSQF35FNfAKobQBseEAD0eiiBQWNnDImaeSyI
+        cNGDORRCSwvOQDNnz64BDaRAqgO7/xTB+W1yuL0UoLsBtOEBATDEGafEUgEGwFBhTCTKQ0IQC43h
+        aA+l80b3VgDY4eQD0uQbMEOtFf6mgPzD6s+fAwDPT7qN4Ck84PwpOH0KTo9Sx7hTTFjQvJc6GOe4
+        CQQxhWUU+Dj/P2A3kG1MHT4uYQuSNiPr9oQjhOBKeDbLclnCBoZprVNgG+pLGJgRhPUIoxFmC6Sm
+        mE2Z+i3d8h++bXhomQ0AAA==
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -59,7 +63,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 07 Jun 2019 09:14:04 GMT
+      - Mon, 14 Oct 2019 07:14:49 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -70,6 +74,8 @@ interactions:
       - max-age=31536000; includeSubdomains; preload
       Transfer-Encoding:
       - chunked
+      Vary:
+      - Accept-Encoding
       X-Accepted-OAuth-Scopes:
       - repo
       X-Content-Type-Options:
@@ -79,7 +85,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v4; format=json
       X-GitHub-Request-Id:
-      - BE56:78E8:180B0F6:2EEE4A2:5CFA2ADB
+      - BAFC:3FB63:279C84D:2FAB07A:5DA42068
       X-OAuth-Scopes:
       - repo:status
       X-RateLimit-Limit:
@@ -87,7 +93,7 @@ interactions:
       X-RateLimit-Remaining:
       - '4999'
       X-RateLimit-Reset:
-      - '1559902443'
+      - '1571040888'
       X-XSS-Protection:
       - 1; mode=block
     status:

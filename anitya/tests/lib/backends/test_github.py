@@ -392,18 +392,19 @@ class GithubBackendtests(DatabaseTestCase):
             releases_only=True,
         )
         exp = [
-            "the-new-hotness v0.10.0",
-            "the-new-hotness v0.10.1",
-            "the-new-hotness v0.11.0",
-            "the-new-hotness v0.11.1",
-            "the-new-hotness v0.11.2",
-            "the-new-hotness v0.11.3",
-            "the-new-hotness v0.11.4",
-            "the-new-hotness v0.11.5",
-            "the-new-hotness v0.11.6",
-            "the-new-hotness v0.11.7",
-            "the-new-hotness v0.11.8",
-            "the-new-hotness v0.11.9",
+            "0.10.0",
+            "0.10.1",
+            "0.11.0",
+            "0.11.1",
+            "0.11.2",
+            "0.11.3",
+            "0.11.4",
+            "0.11.5",
+            "0.11.6",
+            "0.11.7",
+            "0.11.8",
+            "0.11.9",
+            "0.12.0",
         ]
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -481,7 +482,7 @@ class JsonTests(unittest.TestCase):
                 cursor
                 node {
                     name
-                    tag { target { commitUrl } }
+                    tag { name target { commitUrl } }
                 }
             }
         }

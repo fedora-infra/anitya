@@ -161,6 +161,7 @@ class GithubBackend(BaseBackend):
             )
 
         versions = parse_json(json, project)
+        _log.debug(f"Retrieved versions: {versions}")
 
         if len(versions) == 0:
             raise AnityaPluginException(
@@ -229,7 +230,10 @@ def parse_json(json, project):
     versions = []
 
     for edge in json_data["edges"]:
-        version = edge["node"]["name"]
+        if project.releases_only:
+            version = edge["node"]["tag"]["name"]
+        else:
+            version = edge["node"]["name"]
         versions.append(version)
 
     return versions
@@ -259,7 +263,7 @@ def prepare_query(owner, repo, releases_only, cursor=""):
 
     if releases_only:
         fetch_string = "releases (orderBy: {field: CREATED_AT"
-        commitUrl = "tag { " + commitUrl + " }"
+        commitUrl = "tag { name " + commitUrl + " }"
     else:
         fetch_string = 'refs (refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE'
 
