@@ -1,0 +1,10 @@
+version: 1
+update_configs:
+  - package_manager: "python"
+    directory: "/"
+    update_schedule: "weekly"
+    default_labels:
+      - "dependencies"
+    default_reviewers:
+      - "jeremycline"
+      - "Zlopez"

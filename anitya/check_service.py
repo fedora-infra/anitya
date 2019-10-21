@@ -26,7 +26,7 @@ from threading import Lock
 from typing import List
 from datetime import datetime
 from time import sleep
-from concurrent.futures import ThreadPoolExecutor, wait, ALL_COMPLETED
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import sqlalchemy as sa
 import arrow
@@ -102,12 +102,13 @@ class Checker:
             session.commit()
             return
         try:
+            _log.debug(f"Checking project {project.name}")
             utilities.check_project_release(project, session)
         except RateLimitException as err:
             self.blacklist_project(project, err.reset_time)
             return
         except AnityaException as err:
-            _log.info(err)
+            _log.info(f"{project.name} : {str(err)}")
             with self.error_counter_lock:
                 self.error_counter += 1
             return
@@ -156,6 +157,8 @@ class Checker:
         self.clear_counters()
         queue = self.construct_queue(time)
         total_count = len(queue)
+        projects_left = len(queue)
+        projects_iter = iter(queue)
 
         if not queue:
             return
@@ -164,20 +167,40 @@ class Checker:
         _log.info(
             "Starting check on {} for total of {} projects".format(time, total_count)
         )
-        pool_size = config.get("CRON_POOL", 10)
-        pool = ThreadPoolExecutor(pool_size)
-        futures = [pool.submit(self.update_project, project) for project in queue]
 
-        # Wait till every project is checked
-        wait(futures, return_when=ALL_COMPLETED)
+        futures = {}
+        pool_size = config.get("CRON_POOL", 10)
+        with ThreadPoolExecutor(pool_size) as pool:
+            # Wait till every project in queue is checked
+            while projects_left:
+                for project in projects_iter:
+                    future = pool.submit(self.update_project, project)
+                    futures[future] = project
+                    if len(futures) > pool_size:
+                        break  # limit job submissions
+
+                # Wait for jobs that aren't completed yet
+                for future in as_completed(futures):
+                    projects_left -= 1  # one project down
+
+                    # log any exception
+                    if future.exception():
+                        try:
+                            future.result()
+                        except Exception as e:
+                            _log.exception(e)
+
+                    del futures[future]
+
+                    break  # give a chance to add more jobs
 
         # 3. Finalize
         _log.info(
-            "Check done. Checked ({}): error ({}), success ({}), fail ({})".format(
+            "Check done. Checked ({}): error ({}), success ({}), limit ({})".format(
                 total_count,
                 self.error_counter,
                 self.success_counter,
-                self.error_counter,
+                self.ratelimit_counter,
             )
         )
 

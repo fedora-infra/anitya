@@ -50,8 +50,8 @@
 - name: Create /home/vagrant/alembic.ini
   replace:
     dest: /home/vagrant/alembic.ini
-    regexp: "^script_location = alembic*$"
-    replace: "script_location = devel/alembic"
+    regexp: "^script_location = anitya.*$"
+    replace: "script_location = devel/anitya/db/migrations"
 
 - name: Switch the database connection to postgres
   replace:

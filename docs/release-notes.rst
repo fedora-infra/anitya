@@ -4,6 +4,143 @@ Release Notes
 
 .. towncrier release notes start
 
+0.17.2 (2019-09-26)
+===================
+
+Bug Fixes
+---------
+
+* Fix crash on GNU, Crates and Folder backends
+  (`PR#837 <https://github.com/release-monitoring/anitya/pull/837>`_)
+
+* Fix OOM issue with check_service
+  (`PR#842 <https://github.com/release-monitoring/anitya/pull/842>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Michal Konečný
+
+
+0.17.1 (2019-09-09)
+===================
+
+Bug Fixes
+---------
+
+* Final info message in check service using error counter instead ratelimit counter
+  (`PR#823 <https://github.com/release-monitoring/anitya/pull/823>`_)
+
+* No error was shown when check_service thread crashed
+  (`PR#824 <https://github.com/release-monitoring/anitya/pull/824>`_)
+
+* Crash when sorting versions with and without date when looking for last retrieved version
+  (`PR#825 <https://github.com/release-monitoring/anitya/pull/825>`_)
+
+* Crash when calling FTP url
+  (`PR#833 <https://github.com/release-monitoring/anitya/pull/833>`_)
+
+* Latest version is not updated when version is removed from web interface
+  (`#830 <https://github.com/release-monitoring/anitya/issues/830>`_)
+
+* GitHub response 403 doesn't have ratelimit reset time
+  (`#832 <https://github.com/release-monitoring/anitya/issues/832>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Michal Konečný
+
+
+0.17.0 (2019-09-03)
+===================
+
+Features
+--------
+
+* Adhere to black's Python 3.6 formatting rules
+  (`PR#818 <https://github.com/release-monitoring/anitya/pull/818>`_)
+
+* Support multiple version prefixes
+  (`#655 <https://github.com/release-monitoring/anitya/issues/655>`_)
+
+* Make libraries.io SSE consumer part of Anitya
+  (`#723 <https://github.com/release-monitoring/anitya/issues/723>`_)
+
+* Check for new versions only when there is any change on the URL till last version was retrieved
+  (`#730 <https://github.com/release-monitoring/anitya/issues/730>`_)
+
+* Allow fetching releases on Github backend
+  (`#733 <https://github.com/release-monitoring/anitya/issues/733>`_)
+
+* Add calendar versioning
+  (`#740 <https://github.com/release-monitoring/anitya/issues/740>`_)
+
+* Add semantic versioning
+  (`#741 <https://github.com/release-monitoring/anitya/issues/741>`_)
+
+
+Bug Fixes
+---------
+
+* Restore missing closing """ in sample configuration
+  (`PR#797 <https://github.com/release-monitoring/anitya/pull/797>`_)
+
+* Constrain failure during alembic downgrade
+  (`PR#812 <https://github.com/release-monitoring/anitya/pull/812>`_)
+
+* Fix createdb.py to now create all tables properly
+  (`PR#817 <https://github.com/release-monitoring/anitya/pull/817>`_)
+
+* Hide ecosystem field for non admin users
+  (`#687 <https://github.com/release-monitoring/anitya/issues/687>`_)
+
+* Failures during project addition causes distro mapping to be skipped
+  (`#735 <https://github.com/release-monitoring/anitya/issues/735>`_)
+
+* Handle status code 403 as rate limit exception on Github backend
+  (`#790 <https://github.com/release-monitoring/anitya/issues/790>`_)
+
+* Cannot add distro
+  (`#791 <https://github.com/release-monitoring/anitya/issues/791>`_)
+
+* One revision is skipped when doing `alembic upgrade head`
+  (`#819 <https://github.com/release-monitoring/anitya/issues/819>`_)
+
+
+Development Changes
+-------------------
+
+* Add docker build to Travis CI tests
+  (`PR#799 <https://github.com/release-monitoring/anitya/pull/799>`_)
+
+* Change required version for pyasn1
+  (`PR#812 <https://github.com/release-monitoring/anitya/pull/812>`_)
+
+* Minor packaging cleanup and gitignore additions
+  (`PR#816 <https://github.com/release-monitoring/anitya/pull/816>`_)
+
+* Fix rabbitmq-server in dev environment
+  (`#804 <https://github.com/release-monitoring/anitya/issues/804>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Anatoli Babenia
+* Michal Konečný
+* Samuel Verschelde
+* Vincent Fazio
+
+
 0.16.1 (2019-07-16)
 ===================
 

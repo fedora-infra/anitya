@@ -196,6 +196,29 @@ class CheckerTests(DatabaseTestCase):
         self.assertEqual(run_objects[0].success_count, 1)
 
     @mock.patch("anitya.lib.utilities.check_project_release")
+    @mock.patch("concurrent.futures.Future.exception", return_value=True)
+    @mock.patch("concurrent.futures.Future.result", side_effect=Exception())
+    def test_run_thread_exception(
+        self, mock_result, mock_exception, mock_check_release
+    ):
+        """
+        Assert that exception is logged when thread crashed.
+        """
+        project = models.Project(
+            name="Foobar",
+            backend="GitHub",
+            homepage="www.fakeproject.com",
+            next_check=arrow.utcnow().datetime,
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        self.checker.run()
+
+        mock_exception.assert_called_once()
+        mock_result.assert_called_once()
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
     def test_run_nothing_to_check(self, mock_check_project_release):
         """
         Assert that nothing is done if no project is ready to check.
@@ -206,6 +229,36 @@ class CheckerTests(DatabaseTestCase):
 
         self.assertEqual(len(run_objects), 0)
         mock_check_project_release.assert_not_called()
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    @mock.patch.dict("anitya.config.config", {"CRON_POOL": 1})
+    def test_run_small_pool_size(self, mock_check_project_release):
+        """
+        Assert that small pool size is handled correctly.
+        """
+        project = models.Project(
+            name="Foobar",
+            backend="GitHub",
+            homepage="www.fakeproject.com",
+            next_check=arrow.utcnow().datetime,
+        )
+        self.session.add(project)
+
+        project = models.Project(
+            name="Fake",
+            backend="GitHub",
+            homepage="www.fakeproject1.com",
+            next_check=arrow.utcnow().datetime,
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        self.checker.run()
+
+        run_objects = models.Run.query.all()
+
+        self.assertEqual(len(run_objects), 1)
+        self.assertEqual(run_objects[0].total_count, 2)
 
     def test_clear_counters(self):
         """

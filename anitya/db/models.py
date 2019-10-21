@@ -293,10 +293,15 @@ class Project(Base):
             (`ProjectVersion`): Version object or None, if project doesn't have any version yet.
         """
         if self.versions_obj:
-            sorted_versions = sorted(
-                self.versions_obj, key=lambda x: x.created_on, reverse=True
-            )
-            return sorted_versions[0]
+            skip_no_date_versions = []
+            for version in self.versions_obj:
+                if version.created_on:
+                    skip_no_date_versions.append(version)
+            if skip_no_date_versions:
+                sorted_versions = sorted(
+                    skip_no_date_versions, key=lambda x: x.created_on, reverse=True
+                )
+                return sorted_versions[0]
 
         return None
 
@@ -937,7 +942,7 @@ def _api_token_generator(charset=string.ascii_letters + string.digits, length=40
     Returns:
         str: The API token as a unicode string.
     """
-    return u"".join(random_choice(charset) for __ in range(length))
+    return "".join(random_choice(charset) for __ in range(length))
 
 
 class ApiToken(Base):

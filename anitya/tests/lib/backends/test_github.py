@@ -190,44 +190,44 @@ class GithubBackendtests(DatabaseTestCase):
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [
-            u"v.0.4.6",
-            u"v0.1.0",
-            u"v0.1.1",
-            u"v0.1.2",
-            u"v0.2.0",
-            u"v0.3.0",
-            u"v0.3.1",
-            u"v0.4.0",
-            u"v0.4.1",
-            u"v0.4.2",
-            u"v0.4.3",
-            u"v0.4.5",
-            u"v0.4.7",
-            u"v0.5.0",
-            u"v0.5.1",
-            u"v0.6.0",
-            u"v0.6.1",
-            u"v0.6.2",
-            u"v0.6.3",
-            u"v0.7",
-            u"v0.7.1",
-            u"v0.8",
-            u"v0.9",
-            u"v0.9.1",
-            u"v0.9.2",
-            u"v0.9.3",
-            u"0.10",
-            u"0.11",
-            u"0.11.1",
-            u"0.12",
-            u"0.13",
-            u"0.13.1",
-            u"0.13.2",
-            u"0.13.3",
-            u"0.14",
-            u"0.15",
-            u"0.15.1",
-            u"0.16",
+            "v.0.4.6",
+            "v0.1.0",
+            "v0.1.1",
+            "v0.1.2",
+            "v0.2.0",
+            "v0.3.0",
+            "v0.3.1",
+            "v0.4.0",
+            "v0.4.1",
+            "v0.4.2",
+            "v0.4.3",
+            "v0.4.5",
+            "v0.4.7",
+            "v0.5.0",
+            "v0.5.1",
+            "v0.6.0",
+            "v0.6.1",
+            "v0.6.2",
+            "v0.6.3",
+            "v0.7",
+            "v0.7.1",
+            "v0.8",
+            "v0.9",
+            "v0.9.1",
+            "v0.9.2",
+            "v0.9.3",
+            "0.10",
+            "0.11",
+            "0.11.1",
+            "0.12",
+            "0.13",
+            "0.13.1",
+            "0.13.2",
+            "0.13.3",
+            "0.14",
+            "0.15",
+            "0.15.1",
+            "0.16",
         ]
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -241,56 +241,56 @@ class GithubBackendtests(DatabaseTestCase):
         pid = 3
         project = models.Project.get(self.session, pid)
         exp = [
-            u"1.21",
-            u"1.22",
-            u"1.22.1",
-            u"1.22.2",
-            u"1.23",
-            u"1.23.99",
-            u"1.23.991",
-            u"1.23.992",
-            u"1.23.993",
-            u"1.23.994",
-            u"1.23.995",
-            u"1.24",
-            u"1.24.1",
-            u"1.24.2",
-            u"1.24.3",
-            u"1.25",
-            u"1.25.1",
-            u"1.26",
-            u"1.27",
-            u"1.28",
-            u"1.28.1",
-            u"1.28.2",
-            u"1.29",
-            u"1.30",
-            u"1.30.1",
-            u"1.31",
-            u"1.32",
-            u"1.32.1",
-            u"1.32.2",
-            u"1.33.0",
-            u"1.33.1",
-            u"1.33.2",
-            u"1.33.3",
-            u"2.0",
-            u"2.0.1",
-            u"2.0.2",
-            u"2.0.3",
-            u"2.1",
-            u"2.2",
-            u"2.3",
-            u"2.4",
-            u"2.4.1",
-            u"2.4.2",
-            u"2.4.3",
-            u"2.5",
-            u"2.6",
-            u"2.6.1",
-            u"2.6.2",
-            u"2.7",
-            u"2.7.1",
+            "1.21",
+            "1.22",
+            "1.22.1",
+            "1.22.2",
+            "1.23",
+            "1.23.99",
+            "1.23.991",
+            "1.23.992",
+            "1.23.993",
+            "1.23.994",
+            "1.23.995",
+            "1.24",
+            "1.24.1",
+            "1.24.2",
+            "1.24.3",
+            "1.25",
+            "1.25.1",
+            "1.26",
+            "1.27",
+            "1.28",
+            "1.28.1",
+            "1.28.2",
+            "1.29",
+            "1.30",
+            "1.30.1",
+            "1.31",
+            "1.32",
+            "1.32.1",
+            "1.32.2",
+            "1.33.0",
+            "1.33.1",
+            "1.33.2",
+            "1.33.3",
+            "2.0",
+            "2.0.1",
+            "2.0.2",
+            "2.0.3",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.4.1",
+            "2.4.2",
+            "2.4.3",
+            "2.5",
+            "2.6",
+            "2.6.1",
+            "2.6.2",
+            "2.7",
+            "2.7.1",
         ]
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -353,6 +353,24 @@ class GithubBackendtests(DatabaseTestCase):
         )
 
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
+    @mock.patch("anitya.lib.backends.http_session.post")
+    def test_get_versions_403(self, mock_post):
+        """ Test the get_versions function of the github when response status code
+        is 403.
+        """
+        mock_resp = mock.MagicMock()
+        mock_resp.status_code = 403
+        mock_resp.ok = False
+        mock_post.return_value = mock_resp
+        pid = 3
+        project = models.Project.get(self.session, pid)
+        backend.reset_time = "1970-01-01T00:00:00Z"
+        self.assertRaises(
+            RateLimitException, backend.GithubBackend.get_versions, project
+        )
+        self.assertEqual(backend.reset_time, "1970-01-01T00:00:00Z")
+
+    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
     def test_plexus_utils(self):
         """ Regression test for issue #286 """
         project = models.Project(
@@ -361,7 +379,7 @@ class GithubBackendtests(DatabaseTestCase):
             backend=BACKEND,
         )
         version = backend.GithubBackend().get_version(project)
-        self.assertEqual(u"plexus-archiver-3.6.0", version)
+        self.assertEqual("plexus-archiver-3.6.0", version)
 
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
     def test_get_versions_releases_only(self):
@@ -374,18 +392,19 @@ class GithubBackendtests(DatabaseTestCase):
             releases_only=True,
         )
         exp = [
-            u"the-new-hotness v0.10.0",
-            u"the-new-hotness v0.10.1",
-            u"the-new-hotness v0.11.0",
-            u"the-new-hotness v0.11.1",
-            u"the-new-hotness v0.11.2",
-            u"the-new-hotness v0.11.3",
-            u"the-new-hotness v0.11.4",
-            u"the-new-hotness v0.11.5",
-            u"the-new-hotness v0.11.6",
-            u"the-new-hotness v0.11.7",
-            u"the-new-hotness v0.11.8",
-            u"the-new-hotness v0.11.9",
+            "0.10.0",
+            "0.10.1",
+            "0.11.0",
+            "0.11.1",
+            "0.11.2",
+            "0.11.3",
+            "0.11.4",
+            "0.11.5",
+            "0.11.6",
+            "0.11.7",
+            "0.11.8",
+            "0.11.9",
+            "0.12.0",
         ]
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -463,7 +482,7 @@ class JsonTests(unittest.TestCase):
                 cursor
                 node {
                     name
-                    tag { target { commitUrl } }
+                    tag { name target { commitUrl } }
                 }
             }
         }
@@ -511,7 +530,7 @@ class JsonTests(unittest.TestCase):
                 "rateLimit": {"limit": 5000, "remaining": 5000, "resetAt": "dummy"},
             }
         }
-        exp = [u"1.0"]
+        exp = ["1.0"]
         obs = backend.parse_json(json, project)
         self.assertEqual(exp, obs)
 
@@ -537,6 +556,7 @@ class JsonTests(unittest.TestCase):
             }
         }
         self.assertRaises(RateLimitException, backend.parse_json, json, project)
+        self.assertEqual(backend.reset_time, "2008-09-03T20:56:35.450686")
 
 
 if __name__ == "__main__":

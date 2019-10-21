@@ -199,6 +199,51 @@ class ProjectTests(DatabaseTestCase):
 
         self.assertEqual(version, version_second)
 
+    def test_get_last_created_version_no_date_one_version(self):
+        """
+        Assert that last retrieved version is returned,
+        when one of the versions doesn't have date filled.
+        """
+        project = models.Project(
+            name="test", homepage="https://example.com", ecosystem_name="pypi"
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        version_first = models.ProjectVersion(project_id=project.id, version="1.0")
+        version_second = models.ProjectVersion(project_id=project.id, version="0.8")
+        self.session.add(version_first)
+        self.session.add(version_second)
+        self.session.commit()
+        version_first.created_on = None
+
+        version = project.get_last_created_version()
+
+        self.assertEqual(version, version_second)
+
+    def test_get_last_created_version_no_date_all_versions(self):
+        """
+        Assert that None is returned,
+        when every version doesn't have date filled.
+        """
+        project = models.Project(
+            name="test", homepage="https://example.com", ecosystem_name="pypi"
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        version_first = models.ProjectVersion(project_id=project.id, version="1.0")
+        version_second = models.ProjectVersion(project_id=project.id, version="0.8")
+        self.session.add(version_first)
+        self.session.add(version_second)
+        self.session.commit()
+        version_first.created_on = None
+        version_second.created_on = None
+
+        version = project.get_last_created_version()
+
+        self.assertEqual(version, None)
+
     def test_get_time_last_created_version(self):
         """
         Assert that time of last retrieved version is returned.
@@ -673,16 +718,16 @@ class ProjectFlagTestCase(DatabaseTestCase):
         flag = create_flagged_project(self.session)
         data = {
             "created_on": time.mktime(flag.created_on.timetuple()),
-            "user": u"dgay@redhat.com",
-            "state": u"open",
-            "project": u"geany",
+            "user": "dgay@redhat.com",
+            "state": "open",
+            "project": "geany",
             "updated_on": time.mktime(flag.updated_on.timetuple()),
             "id": 1,
         }
 
         self.assertEqual(flag.__json__(), data)
 
-        data["reason"] = u"this is a duplicate."
+        data["reason"] = "this is a duplicate."
         self.assertEqual(flag.__json__(detailed=True), data)
 
     def test_project_flag_all(self):
