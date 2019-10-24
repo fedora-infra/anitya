@@ -33,8 +33,8 @@ jobs:
     - python: 3.6
       env: TOXENV=lint
       script:
+        - bash -c 'shopt -s globstar nullglob; shellcheck **/*.sh'
         - tox
-        - bash -c 'shopt -s globstar; shellcheck **/*.{sh,ksh,bash}'
     - python: 3.6
       env: TOXENV=docs
 
