@@ -13,7 +13,7 @@ if [ ! -f /.db_created ]; then
     if [ "${SECRET_KEY}" ]; then
         echo "SECRET_KEY = '${SECRET_KEY}'" > /etc/anitya/config.py
     else
-        echo "SECRET_KEY = '$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 24 | head -n 1)'" > /etc/anitya/config.py
+        echo "SECRET_KEY = '$(< /dev/urandom tr -dc 'a-f0-9' | fold -w 24 | head -n 1)'" > /etc/anitya/config.py
     fi
 
     echo "DB_URL = '${DB_URL}'" >> /etc/anitya/config.py
