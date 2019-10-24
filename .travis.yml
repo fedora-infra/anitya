@@ -32,6 +32,9 @@ jobs:
       env: TOXENV=format
     - python: 3.6
       env: TOXENV=lint
+      script:
+        - tox
+        - bash -c 'shopt -s globstar; shellcheck **/*.{sh,ksh,bash}'
     - python: 3.6
       env: TOXENV=docs
 
