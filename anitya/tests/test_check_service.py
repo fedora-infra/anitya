@@ -26,6 +26,7 @@ Anitya tests for check service.
 import unittest
 from unittest import mock
 from datetime import timedelta
+from time import sleep
 
 import arrow
 
@@ -37,6 +38,9 @@ from anitya.lib import exceptions
 
 class CheckerTests(DatabaseTestCase):
     """ Checker class tests. """
+
+    def mock_update_project(self, project):
+        sleep(2)
 
     def setUp(self):
         """
@@ -259,6 +263,37 @@ class CheckerTests(DatabaseTestCase):
 
         self.assertEqual(len(run_objects), 1)
         self.assertEqual(run_objects[0].total_count, 2)
+
+    @mock.patch.dict("anitya.config.config", {"CHECK_TIMEOUT": 1})
+    def test_run_timeout(self):
+        """
+        Assert that TimeoutError is thrown when TIMEOUT is reached.
+        """
+        self.checker.update_project = self.mock_update_project
+        project = models.Project(
+            name="Foobar",
+            backend="GitHub",
+            homepage="www.fakeproject.com",
+            next_check=arrow.utcnow().datetime,
+        )
+        self.session.add(project)
+
+        project = models.Project(
+            name="Fake",
+            backend="GitHub",
+            homepage="www.fakeproject1.com",
+            next_check=arrow.utcnow().datetime,
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        self.checker.run()
+
+        run_objects = models.Run.query.all()
+
+        self.assertEqual(len(run_objects), 1)
+        self.assertEqual(run_objects[0].total_count, 2)
+        self.assertEqual(run_objects[0].error_count, 2)
 
     def test_clear_counters(self):
         """

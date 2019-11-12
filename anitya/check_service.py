@@ -26,7 +26,7 @@ from threading import Lock
 from typing import List
 from datetime import datetime
 from time import sleep
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, as_completed, TimeoutError
 
 import sqlalchemy as sa
 import arrow
@@ -169,7 +169,8 @@ class Checker:
         )
 
         futures = {}
-        pool_size = config.get("CRON_POOL", 10)
+        pool_size = config.get("CRON_POOL")
+        timeout = config.get("CHECK_TIMEOUT")
         with ThreadPoolExecutor(pool_size) as pool:
             # Wait till every project in queue is checked
             while projects_left:
@@ -180,19 +181,25 @@ class Checker:
                         break  # limit job submissions
 
                 # Wait for jobs that aren't completed yet
-                for future in as_completed(futures):
-                    projects_left -= 1  # one project down
+                try:
+                    for future in as_completed(futures, timeout=timeout):
+                        projects_left -= 1  # one project down
 
-                    # log any exception
-                    if future.exception():
-                        try:
-                            future.result()
-                        except Exception as e:
-                            _log.exception(e)
+                        # log any exception
+                        if future.exception():
+                            try:
+                                future.result()
+                            except Exception as e:
+                                _log.exception(e)
 
-                    del futures[future]
+                        del futures[future]
 
-                    break  # give a chance to add more jobs
+                        break  # give a chance to add more jobs
+                except TimeoutError:
+                    projects_left -= 1
+                    _log.info(f"Thread was killed because the execution took too long.")
+                    with self.error_counter_lock:
+                        self.error_counter += 1
 
         # 3. Finalize
         _log.info(
