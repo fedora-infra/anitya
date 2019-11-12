@@ -172,6 +172,8 @@ class LoadTests(unittest.TestCase):
             "GITHUB_ACCESS_TOKEN": "foobar",
             "LEGACY_MESSAGING": True,
             "SSE_FEED": "http://firehose.libraries.io/events",
+            "CRON_POOL": 10,
+            "CHECK_TIMEOUT": 600,
         }
         config = anitya_config.load()
         self.assertEqual(sorted(expected_config.keys()), sorted(config.keys()))

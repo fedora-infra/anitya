@@ -88,6 +88,8 @@ DEFAULTS = dict(
     GITHUB_ACCESS_TOKEN=None,
     LEGACY_MESSAGING=False,  # If True, publish with fedmsg instead of fedora_messaging
     SSE_FEED="http://firehose.libraries.io/events",
+    CRON_POOL=10,  # Number of workers for check service
+    CHECK_TIMEOUT=600,  # Timeout for check service
 )
 
 # Start with a basic logging configuration, which will be replaced by any user-

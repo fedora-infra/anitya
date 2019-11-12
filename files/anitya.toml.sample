@@ -62,6 +62,12 @@ default_regex = """\
 # This is used by GitHub API for github backend
 github_access_token = "foobar"
 
+# Check service configuration
+# Number of workers
+CRON_POOL = 10
+# Worker timeout in seconds
+CHECK_TIMEOUT = 600
+
 # The logging configuration, in Python dictConfig format.
 [anitya_log_config]
     version = 1
