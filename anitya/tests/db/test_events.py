@@ -24,24 +24,9 @@ from anitya.db import models, Session
 from anitya.tests.base import DatabaseTestCase
 
 
-class SetEcosystemTests(DatabaseTestCase):
-    def test_set_manually(self):
-        """Assert the ecosystem can be set manually."""
-        project = models.Project(
-            name="requests",
-            homepage="https://pypi.org/requests",
-            ecosystem_name="crates.io",
-            backend="PyPI",
-        )
-
-        Session.add(project)
-        Session.commit()
-
-        project = models.Project.query.all()[0]
-        self.assertEqual("crates.io", project.ecosystem_name)
-
-    def test_set_automatically(self):
-        """Assert the ecosystem gets set automatically based on the backend."""
+class SetEcosystemBackendTests(DatabaseTestCase):
+    def test_set_backend(self):
+        """Assert the ecosystem gets set to correct backend."""
         project = models.Project(
             name="requests", homepage="https://pypi.org/requests", backend="PyPI"
         )
@@ -52,14 +37,99 @@ class SetEcosystemTests(DatabaseTestCase):
         project = models.Project.query.all()[0]
         self.assertEqual("pypi", project.ecosystem_name)
 
-    def test_invalid(self):
-        """Assert invalid ecosystems raise an exception."""
+        project.backend = "crates.io"
+        Session.add(project)
+        Session.commit()
+
+        self.assertEqual("crates.io", project.ecosystem_name)
+
+    def test_set_backend_no_change(self):
+        """Assert the ecosystem is not changed when the backend is set to same value."""
         project = models.Project(
-            name="requests",
-            homepage="https://pypi.org/requests",
-            backend="PyPI",
-            ecosystem_name="invalid_ecosystem",
+            name="requests", homepage="https://pypi.org/requests", backend="PyPI"
         )
 
         Session.add(project)
-        self.assertRaises(ValueError, Session.commit)
+        Session.commit()
+
+        project = models.Project.query.all()[0]
+        self.assertEqual("pypi", project.ecosystem_name)
+
+        project.backend = "PyPI"
+        Session.add(project)
+        Session.commit()
+
+        self.assertEqual("pypi", project.ecosystem_name)
+
+    def test_set_wrong_backend(self):
+        """Assert the ecosystem will not be set if backend is not related to any ecosystem."""
+        project = models.Project(
+            name="requests", homepage="https://pypi.org/requests", backend="PyPI"
+        )
+
+        Session.add(project)
+        Session.commit()
+
+        project = models.Project.query.all()[0]
+        self.assertEqual("pypi", project.ecosystem_name)
+
+        project.backend = "GitHub"
+        Session.add(project)
+        Session.commit()
+
+        self.assertEqual("https://pypi.org/requests", project.ecosystem_name)
+
+
+class SetEcosystemHomepageTests(DatabaseTestCase):
+    def test_set_backend(self):
+        """Assert the ecosystem gets set to correct backend, even when homepage is changed."""
+        project = models.Project(
+            name="requests", homepage="https://pypi.org/requests", backend="PyPI"
+        )
+
+        Session.add(project)
+        Session.commit()
+
+        project = models.Project.query.all()[0]
+        self.assertEqual("pypi", project.ecosystem_name)
+
+        project.homepage = "https://example.com"
+        Session.add(project)
+        Session.commit()
+        self.assertEqual("pypi", project.ecosystem_name)
+
+    def test_set_homepage(self):
+        """Assert the ecosystem will be set to homepage when backend
+        is not related to any ecosystem."""
+        project = models.Project(
+            name="requests", homepage="https://pypi.org/requests", backend="GitHub"
+        )
+
+        Session.add(project)
+        Session.commit()
+
+        project = models.Project.query.all()[0]
+        self.assertEqual("https://pypi.org/requests", project.ecosystem_name)
+
+        project.homepage = "https://example.com"
+        Session.add(project)
+        Session.commit()
+        self.assertEqual("https://example.com", project.ecosystem_name)
+
+    def test_set_homepage_no_change(self):
+        """Assert the ecosystem will not be changed
+        when the homepage is set to same value."""
+        project = models.Project(
+            name="requests", homepage="https://pypi.org/requests", backend="GitHub"
+        )
+
+        Session.add(project)
+        Session.commit()
+
+        project = models.Project.query.all()[0]
+        self.assertEqual("https://pypi.org/requests", project.ecosystem_name)
+
+        project.homepage = "https://pypi.org/requests"
+        Session.add(project)
+        Session.commit()
+        self.assertEqual("https://pypi.org/requests", project.ecosystem_name)

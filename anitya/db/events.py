@@ -19,50 +19,68 @@ import logging
 from sqlalchemy import event
 
 from anitya.lib import plugins
-from .meta import Session
 from .models import Project
 
 
 _log = logging.getLogger(__name__)
 
 
-@event.listens_for(Session, "before_flush")
-def set_ecosystem(session, flush_context, instances):
+def _set_ecosystem(project, backend, homepage):
     """
-    An SQLAlchemy event listener that sets the ecosystem for a project if it's null.
+    Set ecosystem to correct value. Priority is as follows:
+        1. Ecosystem is set to backend if backend is associated with ecosystem
+        2. Ecosystem is set to homepage
 
     Args:
-        session (sqlalchemy.orm.session.Session): The session that is about to be committed.
-        flush_context (sqlalchemy.orm.session.UOWTransaction): Unused.
-        instances (object): deprecated and unused
-
-    Raises:
-        ValueError: If the ecosystem_name isn't valid.
+        project (models.Project): Instance of project
+        backend (str): value of backend
+        homepage (str): value of homepage
     """
-    for new_obj in session.new:
-        if isinstance(new_obj, Project):
-            if new_obj.ecosystem_name is None:
-                ecosystems = [
-                    e
-                    for e in plugins.ECOSYSTEM_PLUGINS.get_plugins()
-                    if e.default_backend == new_obj.backend
-                ]
-                if ecosystems:
-                    new_obj.ecosystem_name = ecosystems[0].name
-                else:
-                    new_obj.ecosystem_name = new_obj.homepage
-                _log.info(
-                    "Settings the ecosystem on %r to %s by default",
-                    new_obj,
-                    new_obj.ecosystem_name,
-                )
-            else:
-                # Validate the field
-                valid_names = [e.name for e in plugins.ECOSYSTEM_PLUGINS.get_plugins()]
-                valid_names.append(new_obj.homepage)
-                if new_obj.ecosystem_name not in valid_names:
-                    raise ValueError(
-                        'Invalid ecosystem_name "{}", must be one of {}'.format(
-                            new_obj.ecosystem_name, valid_names
-                        )
-                    )
+    ecosystems = [
+        e
+        for e in plugins.ECOSYSTEM_PLUGINS.get_plugins()
+        if e.default_backend == backend
+    ]
+    if ecosystems:
+        project.ecosystem_name = ecosystems[0].name
+    else:
+        project.ecosystem_name = homepage
+    _log.info(
+        "Settings the ecosystem on %r to %s", project.name, project.ecosystem_name
+    )
+
+
+@event.listens_for(Project.backend, "set", raw=True)
+def set_ecosystem_backend(target, value, old, initiator):
+    """
+    An SQLAlchemy event listener that sets the ecosystem for a project if backend is changed.
+
+    Args:
+        target (sqlalchemy.orm.state.InstanceStace): Instance of the object where
+                change is happening.
+        value (str): The new value of backend.
+        old (str): The old value of backend.
+        initiator (sqlalchemy.orm.attributes.Event): The event object that is initiating this
+                transition.
+    """
+    if value != old:
+        project = target.object
+        _set_ecosystem(project, value, project.homepage)
+
+
+@event.listens_for(Project.homepage, "set", raw=True)
+def set_ecosystem_homepage(target, value, old, initiator):
+    """
+    An SQLAlchemy event listener that sets the ecosystem for a project if homepage is changed.
+
+    Args:
+        target (sqlalchemy.orm.state.InstanceStace): Instance of the object where
+                change is happening.
+        value (str): The new value of homepage.
+        old (str): The old value of homepage.
+        initiator (sqlalchemy.orm.attributes.Event): The event object that is initiating this
+                transition.
+    """
+    if value != old:
+        project = target.object
+        _set_ecosystem(project, project.backend, value)

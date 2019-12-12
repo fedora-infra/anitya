@@ -32,4 +32,7 @@ from .models import (  # noqa: F401
     User,
     ApiToken,
 )
-from .events import set_ecosystem  # noqa: F401
+
+# You need to import the events to register them with application
+# If they are not imported, there wouldn't be triggered
+from . import events  # noqa: F401
