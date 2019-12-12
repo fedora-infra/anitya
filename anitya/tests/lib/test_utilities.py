@@ -108,6 +108,7 @@ class EditProjectTests(DatabaseTestCase):
         self.assertEqual(project_objs[0].homepage, "https://www.geany.org/")
         self.assertEqual(project_objs[1].name, "R2spec")
         self.assertEqual(project_objs[2].name, "subsurface")
+        self.assertFalse(project_objs[0].releases_only)
 
         with fml_testing.mock_sends(anitya_schema.ProjectEdited):
             utilities.edit_project(
@@ -131,6 +132,7 @@ class EditProjectTests(DatabaseTestCase):
         self.assertEqual(project_objs[0].name, "geany")
         self.assertEqual(project_objs[0].homepage, "https://www.geany.org")
         self.assertEqual(project_objs[0].backend, "PyPI")
+        self.assertTrue(project_objs[0].releases_only)
 
     def test_edit_project_creating_duplicate(self):
         """

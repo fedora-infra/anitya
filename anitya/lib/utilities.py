@@ -344,8 +344,8 @@ def edit_project(
         changes["insecure"] = {"old": old, "new": project.insecure}
     if releases_only != project.releases_only:
         old = project.releases_only
-        project.insecure = insecure
-        changes["insecure"] = {"old": old, "new": project.insecure}
+        project.releases_only = releases_only
+        changes["releases_only"] = {"old": old, "new": project.releases_only}
 
     try:
         if changes:
