@@ -28,8 +28,8 @@ from six.moves.urllib import parse
 import mock
 
 import anitya_schema
-from social_flask_sqlalchemy import models as social_models
 from fedora_messaging import testing as fml_testing
+from social_flask_sqlalchemy import models as social_models
 
 from anitya import ui
 from anitya.db import models, Session
@@ -382,7 +382,12 @@ class NewProjectTests(DatabaseTestCase):
                     "check_release": "on",
                 }
 
-                output = c.post("/project/new", data=data, follow_redirects=True)
+                with fml_testing.mock_sends(
+                    anitya_schema.ProjectCreated,
+                    anitya_schema.DistroCreated,
+                    anitya_schema.ProjectMapCreated,
+                ):
+                    output = c.post("/project/new", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
                 patched.assert_called_once_with(mock.ANY, mock.ANY)
                 self.assertTrue(
@@ -420,7 +425,12 @@ class NewProjectTests(DatabaseTestCase):
                     "distro": "Fedora",
                     "package_name": "repo_manager",
                 }
-                output = c.post("/project/new", data=data, follow_redirects=True)
+                with fml_testing.mock_sends(
+                    anitya_schema.ProjectCreated,
+                    anitya_schema.DistroCreated,
+                    anitya_schema.ProjectMapCreated,
+                ):
+                    output = c.post("/project/new", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
                 self.assertTrue(
                     b'<li class="list-group-item list-group-item-default">'
@@ -954,7 +964,8 @@ class EditProjectTests(DatabaseTestCase):
                     "csrf_token": csrf_token,
                 }
 
-                output = c.post("/project/1/edit", data=data, follow_redirects=True)
+                with fml_testing.mock_sends(anitya_schema.ProjectEdited):
+                    output = c.post("/project/1/edit", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
                 self.assertTrue(
                     b'<li class="list-group-item list-group-item-warning">'
@@ -1368,9 +1379,10 @@ class FlagProjecTests(DatabaseTestCase):
                 b'name="csrf_token" type="hidden" value="'
             )[1].split(b'">')[0]
             data = {"reason": "Unfit for humanity", "csrf_token": csrf_token}
-            output = self.client.post(
-                "/project/1/flag", data=data, follow_redirects=True
-            )
+            with fml_testing.mock_sends(anitya_schema.ProjectFlag):
+                output = self.client.post(
+                    "/project/1/flag", data=data, follow_redirects=True
+                )
 
             self.assertEqual(output.status_code, 200)
             flags = self.session.query(models.ProjectFlag).all()
@@ -1394,9 +1406,10 @@ class FlagProjecTests(DatabaseTestCase):
                     b'name="csrf_token" type="hidden" value="'
                 )[1].split(b'">')[0]
                 data = {"reason": "Unfit for humanity", "csrf_token": csrf_token}
-                output = self.client.post(
-                    "/project/1/flag", data=data, follow_redirects=True
-                )
+                with fml_testing.mock_sends():
+                    output = self.client.post(
+                        "/project/1/flag", data=data, follow_redirects=True
+                    )
 
                 self.assertEqual(output.status_code, 200)
                 self.assertTrue(b"Could not flag this project." in output.data)

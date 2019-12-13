@@ -21,9 +21,11 @@
 
 import mock
 
-from sqlalchemy.exc import SQLAlchemyError
 import arrow
+from sqlalchemy.exc import SQLAlchemyError
+from fedora_messaging import testing as fml_testing
 
+import anitya_schema
 from anitya.db import models
 from anitya.lib import utilities, exceptions, plugins
 from anitya.lib.exceptions import AnityaException, ProjectExists
@@ -43,14 +45,15 @@ class CreateProjectTests(DatabaseTestCase):
         create_distro(self.session)
         self.assertEqual(2, models.Distro.all(self.session, count=True))
 
-        utilities.create_project(
-            self.session,
-            name="geany",
-            homepage="https://www.geany.org/",
-            version_url="https://www.geany.org/Download/Releases",
-            regex="DEFAULT",
-            user_id="noreply@fedoraproject.org",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            utilities.create_project(
+                self.session,
+                name="geany",
+                homepage="https://www.geany.org/",
+                version_url="https://www.geany.org/Download/Releases",
+                regex="DEFAULT",
+                user_id="noreply@fedoraproject.org",
+            )
 
         project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 1)
@@ -78,16 +81,17 @@ class CreateProjectTests(DatabaseTestCase):
         with mock.patch.object(
             self.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
         ):
-            self.assertRaises(
-                AnityaException,
-                utilities.create_project,
-                self.session,
-                name="geany",
-                homepage="https://www.geany.org/",
-                version_url="https://www.geany.org/Download/Releases",
-                regex="DEFAULT",
-                user_id="noreply@fedoraproject.org",
-            )
+            with fml_testing.mock_sends():
+                self.assertRaises(
+                    AnityaException,
+                    utilities.create_project,
+                    self.session,
+                    name="geany",
+                    homepage="https://www.geany.org/",
+                    version_url="https://www.geany.org/Download/Releases",
+                    regex="DEFAULT",
+                    user_id="noreply@fedoraproject.org",
+                )
 
 
 class EditProjectTests(DatabaseTestCase):
@@ -105,21 +109,22 @@ class EditProjectTests(DatabaseTestCase):
         self.assertEqual(project_objs[1].name, "R2spec")
         self.assertEqual(project_objs[2].name, "subsurface")
 
-        utilities.edit_project(
-            self.session,
-            project=project_objs[0],
-            name=project_objs[0].name,
-            homepage="https://www.geany.org",
-            backend="PyPI",
-            version_scheme="RPM",
-            version_pattern=None,
-            version_url=None,
-            version_prefix=None,
-            regex=None,
-            insecure=False,
-            user_id="noreply@fedoraproject.org",
-            releases_only=True,
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectEdited):
+            utilities.edit_project(
+                self.session,
+                project=project_objs[0],
+                name=project_objs[0].name,
+                homepage="https://www.geany.org",
+                backend="PyPI",
+                version_scheme="RPM",
+                version_pattern=None,
+                version_url=None,
+                version_prefix=None,
+                regex=None,
+                insecure=False,
+                user_id="noreply@fedoraproject.org",
+                releases_only=True,
+            )
 
         project_objs = models.Project.all(self.session)
         self.assertEqual(len(project_objs), 3)
@@ -141,23 +146,24 @@ class EditProjectTests(DatabaseTestCase):
         self.assertEqual(project_objs[1].name, "R2spec")
         self.assertEqual(project_objs[2].name, "subsurface")
 
-        self.assertRaises(
-            AnityaException,
-            utilities.edit_project,
-            self.session,
-            project=project_objs[2],
-            name="geany",
-            homepage="https://www.geany.org/",
-            backend=project_objs[2].backend,
-            version_scheme=project_objs[2].version_scheme,
-            version_pattern=None,
-            version_url=project_objs[2].version_url,
-            version_prefix=None,
-            regex=project_objs[2].regex,
-            insecure=False,
-            user_id="noreply@fedoraproject.org",
-            releases_only=False,
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectEdited):
+            self.assertRaises(
+                AnityaException,
+                utilities.edit_project,
+                self.session,
+                project=project_objs[2],
+                name="geany",
+                homepage="https://www.geany.org/",
+                backend=project_objs[2].backend,
+                version_scheme=project_objs[2].version_scheme,
+                version_pattern=None,
+                version_url=project_objs[2].version_url,
+                version_prefix=None,
+                regex=project_objs[2].regex,
+                insecure=False,
+                user_id="noreply@fedoraproject.org",
+                releases_only=False,
+            )
 
     def test_edit_project_insecure(self):
         """
@@ -168,21 +174,22 @@ class EditProjectTests(DatabaseTestCase):
         project_objs = models.Project.all(self.session)
         self.assertFalse(project_objs[0].insecure)
 
-        utilities.edit_project(
-            self.session,
-            project=project_objs[0],
-            name="geany",
-            homepage="https://www.geany.org/",
-            backend=project_objs[0].backend,
-            version_scheme="RPM",
-            version_pattern=None,
-            version_url=project_objs[0].version_url,
-            version_prefix=None,
-            regex=project_objs[0].regex,
-            insecure=True,
-            user_id="noreply@fedoraproject.org",
-            releases_only=False,
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectEdited):
+            utilities.edit_project(
+                self.session,
+                project=project_objs[0],
+                name="geany",
+                homepage="https://www.geany.org/",
+                backend=project_objs[0].backend,
+                version_scheme="RPM",
+                version_pattern=None,
+                version_url=project_objs[0].version_url,
+                version_prefix=None,
+                regex=project_objs[0].regex,
+                insecure=True,
+                user_id="noreply@fedoraproject.org",
+                releases_only=False,
+            )
 
         project_objs = models.Project.all(self.session)
         self.assertTrue(project_objs[0].insecure)
@@ -206,13 +213,14 @@ class CheckProjectReleaseTests(DatabaseTestCase):
     )
     def test_check_project_release_backend(self, mock_method):
         """ Test the check_project_release function for Project. """
-        project = utilities.create_project(
-            self.session,
-            name="pypi_and_npm",
-            homepage="https://example.com/not-a-real-npmjs-project",
-            backend="npmjs",
-            user_id="noreply@fedoraproject.org",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="pypi_and_npm",
+                homepage="https://example.com/not-a-real-npmjs-project",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+            )
         versions = utilities.check_project_release(project, self.session, test=True)
         self.assertEqual(versions, ["0.9.8", "0.9.9", "1.0.0"])
 
@@ -222,13 +230,14 @@ class CheckProjectReleaseTests(DatabaseTestCase):
     )
     def test_check_project_release_plugin_exception(self):
         """ Test the check_project_release function for Project. """
-        project = utilities.create_project(
-            self.session,
-            name="pypi_and_npm",
-            homepage="https://example.com/not-a-real-npmjs-project",
-            backend="npmjs",
-            user_id="noreply@fedoraproject.org",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="pypi_and_npm",
+                homepage="https://example.com/not-a-real-npmjs-project",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+            )
         self.assertRaises(
             exceptions.AnityaPluginException,
             utilities.check_project_release,
@@ -241,13 +250,14 @@ class CheckProjectReleaseTests(DatabaseTestCase):
     )
     def test_check_project_release_no_new_version(self, mock_method):
         """ Test the check_project_release function for Project. """
-        project = utilities.create_project(
-            self.session,
-            name="pypi_and_npm",
-            homepage="https://example.com/not-a-real-npmjs-project",
-            backend="npmjs",
-            user_id="noreply@fedoraproject.org",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="pypi_and_npm",
+                homepage="https://example.com/not-a-real-npmjs-project",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+            )
         project.latest_version = "1.0.0"
         version = models.ProjectVersion(version="1.0.0", project_id=project.id)
         self.session.add(version)
@@ -264,15 +274,17 @@ class CheckProjectReleaseTests(DatabaseTestCase):
     )
     def test_check_project_release_new_version(self, mock_method):
         """ Test the check_project_release function for Project. """
-        project = utilities.create_project(
-            self.session,
-            name="pypi_and_npm",
-            homepage="https://example.com/not-a-real-npmjs-project",
-            backend="npmjs",
-            user_id="noreply@fedoraproject.org",
-            version_scheme="RPM",
-        )
-        utilities.check_project_release(project, self.session)
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="pypi_and_npm",
+                homepage="https://example.com/not-a-real-npmjs-project",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+                version_scheme="RPM",
+            )
+        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+            utilities.check_project_release(project, self.session)
         versions = project.get_sorted_version_objects()
         self.assertEqual(len(versions), 3)
         self.assertEqual(versions[0].version, "1.0.0")
@@ -283,15 +295,17 @@ class CheckProjectReleaseTests(DatabaseTestCase):
     )
     def test_check_project_release_prefix_remove(self, mock_method):
         """ Test the check_project_release function for Project. """
-        project = utilities.create_project(
-            self.session,
-            name="pypi_and_npm",
-            homepage="https://example.com/not-a-real-npmjs-project",
-            backend="npmjs",
-            user_id="noreply@fedoraproject.org",
-            version_scheme="RPM",
-        )
-        utilities.check_project_release(project, self.session)
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="pypi_and_npm",
+                homepage="https://example.com/not-a-real-npmjs-project",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+                version_scheme="RPM",
+            )
+        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+            utilities.check_project_release(project, self.session)
 
         versions = project.get_sorted_version_objects()
         self.assertEqual(len(versions), 3)
@@ -304,16 +318,18 @@ class CheckProjectReleaseTests(DatabaseTestCase):
     )
     def test_check_project_check_times(self, mock_method):
         """ Test if check times are set. """
-        project = utilities.create_project(
-            self.session,
-            name="pypi_and_npm",
-            homepage="https://example.com/not-a-real-npmjs-project",
-            backend="npmjs",
-            user_id="noreply@fedoraproject.org",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="pypi_and_npm",
+                homepage="https://example.com/not-a-real-npmjs-project",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+            )
         last_check_orig = project.last_check
 
-        utilities.check_project_release(project, self.session)
+        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+            utilities.check_project_release(project, self.session)
         next_check = (
             plugins.get_plugin(project.backend).check_interval + project.last_check
         )
@@ -326,29 +342,32 @@ class CheckProjectReleaseTests(DatabaseTestCase):
     )
     def test_check_project_check_times_test(self, mock_method):
         """ Test if check times aren't set in test mode. """
-        project = utilities.create_project(
-            self.session,
-            name="pypi_and_npm",
-            homepage="https://example.com/not-a-real-npmjs-project",
-            backend="npmjs",
-            user_id="noreply@fedoraproject.org",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="pypi_and_npm",
+                homepage="https://example.com/not-a-real-npmjs-project",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+            )
         last_check_orig = project.last_check
         next_check_orig = project.next_check
 
-        utilities.check_project_release(project, self.session, test=True)
+        with fml_testing.mock_sends():
+            utilities.check_project_release(project, self.session, test=True)
         self.assertEqual(last_check_orig, project.last_check)
         self.assertEqual(next_check_orig, project.next_check)
 
     def test_check_project_check_times_exception(self):
         """ Test if check times are set if `exceptions.RateLimitException` is raised. """
-        project = utilities.create_project(
-            self.session,
-            name="pypi_and_npm",
-            homepage="https://example.com/not-a-real-npmjs-project",
-            backend="npmjs",
-            user_id="noreply@fedoraproject.org",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="pypi_and_npm",
+                homepage="https://example.com/not-a-real-npmjs-project",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+            )
         last_check_orig = project.last_check
         next_check = arrow.get("2008-09-03T20:56:35.450686").naive
 
@@ -359,12 +378,13 @@ class CheckProjectReleaseTests(DatabaseTestCase):
             mock_object.side_effect = exceptions.RateLimitException(
                 "2008-09-03T20:56:35.450686"
             )
-            self.assertRaises(
-                exceptions.RateLimitException,
-                utilities.check_project_release,
-                project,
-                self.session,
-            )
+            with fml_testing.mock_sends():
+                self.assertRaises(
+                    exceptions.RateLimitException,
+                    utilities.check_project_release,
+                    project,
+                    self.session,
+                )
             self.assertTrue(last_check_orig < project.last_check)
             self.assertEqual(next_check, project.next_check)
 
@@ -384,7 +404,8 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        utilities.check_project_release(project, self.session)
+        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+            utilities.check_project_release(project, self.session)
 
         versions = project.versions
         self.assertEqual(len(versions), 18)
@@ -411,14 +432,17 @@ class MapProjectTests(DatabaseTestCase):
         self.assertEqual(len(project_obj.packages), 0)
 
         # Map `geany` project to CentOS
-        utilities.map_project(
-            self.session,
-            project=project_obj,
-            package_name="geany",
-            distribution="CentOS",
-            user_id="noreply@fedoraproject.org",
-            old_package_name=None,
-        )
+        with fml_testing.mock_sends(
+            anitya_schema.DistroCreated, anitya_schema.ProjectMapCreated
+        ):
+            utilities.map_project(
+                self.session,
+                project=project_obj,
+                package_name="geany",
+                distribution="CentOS",
+                user_id="noreply@fedoraproject.org",
+                old_package_name=None,
+            )
         self.session.commit()
 
         project_obj = models.Project.get(self.session, 1)
@@ -428,14 +452,15 @@ class MapProjectTests(DatabaseTestCase):
         self.assertEqual(project_obj.packages[0].distro_name, "CentOS")
 
         # Map `geany` project to CentOS, exactly the same way
-        utilities.map_project(
-            self.session,
-            project=project_obj,
-            package_name="geany2",
-            distribution="CentOS",
-            user_id="noreply@fedoraproject.org",
-            old_package_name=None,
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectMapCreated):
+            utilities.map_project(
+                self.session,
+                project=project_obj,
+                package_name="geany2",
+                distribution="CentOS",
+                user_id="noreply@fedoraproject.org",
+                old_package_name=None,
+            )
         self.session.commit()
 
         project_obj = models.Project.get(self.session, 1)
@@ -447,15 +472,16 @@ class MapProjectTests(DatabaseTestCase):
         self.assertEqual(project_obj.packages[1].distro_name, "CentOS")
 
         # Edit the mapping of the `geany` project to Fedora
-        utilities.map_project(
-            self.session,
-            project=project_obj,
-            package_name="geany3",
-            distribution="Fedora",
-            user_id="noreply@fedoraproject.org",
-            old_package_name="geany",
-            old_distro_name="CentOS",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectMapEdited):
+            utilities.map_project(
+                self.session,
+                project=project_obj,
+                package_name="geany3",
+                distribution="Fedora",
+                user_id="noreply@fedoraproject.org",
+                old_package_name="geany",
+                old_distro_name="CentOS",
+            )
         self.session.commit()
 
         project_obj = models.Project.get(self.session, 1)
@@ -472,15 +498,16 @@ class MapProjectTests(DatabaseTestCase):
         self.assertEqual(project_obj.name, "subsurface")
         self.assertEqual(len(project_obj.packages), 0)
 
-        self.assertRaises(
-            exceptions.AnityaInvalidMappingException,
-            utilities.map_project,
-            self.session,
-            project=project_obj,
-            package_name="geany2",
-            distribution="CentOS",
-            user_id="noreply@fedoraproject.org",
-        )
+        with fml_testing.mock_sends():
+            self.assertRaises(
+                exceptions.AnityaInvalidMappingException,
+                utilities.map_project,
+                self.session,
+                project=project_obj,
+                package_name="geany2",
+                distribution="CentOS",
+                user_id="noreply@fedoraproject.org",
+            )
 
     def test_map_project_no_project_for_package(self):
         """ Test package duplicity when package is not associated to project """
@@ -499,14 +526,15 @@ class MapProjectTests(DatabaseTestCase):
         self.assertEqual(len(project_obj.packages), 0)
         self.assertEqual(distro_objs[0].name, "Fedora")
 
-        utilities.map_project(
-            self.session,
-            project=project_obj,
-            package_name="geany",
-            distribution="Fedora",
-            user_id="noreply@fedoraproject.org",
-            old_package_name=None,
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectMapCreated):
+            utilities.map_project(
+                self.session,
+                project=project_obj,
+                package_name="geany",
+                distribution="Fedora",
+                user_id="noreply@fedoraproject.org",
+                old_package_name=None,
+            )
         self.session.commit()
 
         project_obj = models.Project.get(self.session, 1)
@@ -529,16 +557,17 @@ class MapProjectTests(DatabaseTestCase):
             self.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
         ):
             # Without existing Distro object
-            self.assertRaises(
-                exceptions.AnityaException,
-                utilities.map_project,
-                self.session,
-                project=project_obj,
-                package_name="geany",
-                distribution="Fedora",
-                user_id="noreply@fedoraproject.org",
-                old_package_name=None,
-            )
+            with fml_testing.mock_sends():
+                self.assertRaises(
+                    exceptions.AnityaException,
+                    utilities.map_project,
+                    self.session,
+                    project=project_obj,
+                    package_name="geany",
+                    distribution="Fedora",
+                    user_id="noreply@fedoraproject.org",
+                    old_package_name=None,
+                )
 
     def test_map_project_session_error(self):
         """ Test SQLAlchemy session error """
@@ -553,16 +582,17 @@ class MapProjectTests(DatabaseTestCase):
             self.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
         ):
             # With Distro object
-            self.assertRaises(
-                exceptions.AnityaException,
-                utilities.map_project,
-                self.session,
-                project=project_obj,
-                package_name="geany",
-                distribution="Fedora",
-                user_id="noreply@fedoraproject.org",
-                old_package_name=None,
-            )
+            with fml_testing.mock_sends():
+                self.assertRaises(
+                    exceptions.AnityaException,
+                    utilities.map_project,
+                    self.session,
+                    project=project_obj,
+                    package_name="geany",
+                    distribution="Fedora",
+                    user_id="noreply@fedoraproject.org",
+                    old_package_name=None,
+                )
 
 
 class FlagProjectTests(DatabaseTestCase):
@@ -575,13 +605,14 @@ class FlagProjectTests(DatabaseTestCase):
         project_obj = models.Project.get(self.session, 1)
         self.assertEqual(len(project_obj.flags), 0)
 
-        utilities.flag_project(
-            self.session,
-            project=project_obj,
-            reason="reason",
-            user_email="noreply@fedoraproject.org",
-            user_id="noreply@fedoraproject.org",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectFlag):
+            utilities.flag_project(
+                self.session,
+                project=project_obj,
+                reason="reason",
+                user_email="noreply@fedoraproject.org",
+                user_id="noreply@fedoraproject.org",
+            )
 
         project_obj = models.Project.get(self.session, 1)
         self.assertEqual(len(project_obj.flags), 1)
@@ -596,15 +627,16 @@ class FlagProjectTests(DatabaseTestCase):
         with mock.patch.object(
             self.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
         ):
-            self.assertRaises(
-                exceptions.AnityaException,
-                utilities.flag_project,
-                self.session,
-                project=project_obj,
-                reason="reason",
-                user_email="noreply@fedoraproject.org",
-                user_id="noreply@fedoraproject.org",
-            )
+            with fml_testing.mock_sends():
+                self.assertRaises(
+                    exceptions.AnityaException,
+                    utilities.flag_project,
+                    self.session,
+                    project=project_obj,
+                    reason="reason",
+                    user_email="noreply@fedoraproject.org",
+                    user_id="noreply@fedoraproject.org",
+                )
 
 
 class SetFlagStateTests(DatabaseTestCase):
@@ -614,9 +646,13 @@ class SetFlagStateTests(DatabaseTestCase):
         """ Test set state """
         flag = create_flagged_project(self.session)
 
-        utilities.set_flag_state(
-            self.session, flag=flag, state="closed", user_id="noreply@fedoraproject.org"
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectFlagSet):
+            utilities.set_flag_state(
+                self.session,
+                flag=flag,
+                state="closed",
+                user_id="noreply@fedoraproject.org",
+            )
 
         project_obj = models.Project.get(self.session, 1)
         self.assertEqual(len(project_obj.flags), 1)
@@ -626,14 +662,15 @@ class SetFlagStateTests(DatabaseTestCase):
         """ Test set state """
         flag = create_flagged_project(self.session)
 
-        self.assertRaises(
-            exceptions.AnityaException,
-            utilities.set_flag_state,
-            self.session,
-            flag=flag,
-            state="open",
-            user_id="noreply@fedoraproject.org",
-        )
+        with fml_testing.mock_sends():
+            self.assertRaises(
+                exceptions.AnityaException,
+                utilities.set_flag_state,
+                self.session,
+                flag=flag,
+                state="open",
+                user_id="noreply@fedoraproject.org",
+            )
 
     def test_set_flag_project_session_error(self):
         """ Test SQLAlchemy session error """
@@ -642,14 +679,15 @@ class SetFlagStateTests(DatabaseTestCase):
         with mock.patch.object(
             self.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
         ):
-            self.assertRaises(
-                exceptions.AnityaException,
-                utilities.set_flag_state,
-                self.session,
-                flag=flag,
-                state="closed",
-                user_id="noreply@fedoraproject.org",
-            )
+            with fml_testing.mock_sends():
+                self.assertRaises(
+                    exceptions.AnityaException,
+                    utilities.set_flag_state,
+                    self.session,
+                    flag=flag,
+                    state="closed",
+                    user_id="noreply@fedoraproject.org",
+                )
 
 
 class LogTests(DatabaseTestCase):
