@@ -429,8 +429,7 @@ class JsonTests(unittest.TestCase):
             edges {
                 cursor
                 node {
-                    name
-                    target { commitUrl }
+                    name target { commitUrl }
                 }
             }
         }
@@ -455,8 +454,7 @@ class JsonTests(unittest.TestCase):
             edges {
                 cursor
                 node {
-                    name
-                    target { commitUrl }
+                    name target { commitUrl }
                 }
             }
         }
@@ -481,8 +479,7 @@ class JsonTests(unittest.TestCase):
             edges {
                 cursor
                 node {
-                    name
-                    tag { name target { commitUrl } }
+                    name tag { name target { commitUrl } }
                 }
             }
         }

@@ -239,7 +239,7 @@ def parse_json(json, project):
     return versions
 
 
-def prepare_query(owner, repo, releases_only, cursor=""):
+def prepare_query(owner, repo, releases_only, cursor=None):
     """ Function for preparing GraphQL query for specified repository
 
     Args:
@@ -247,36 +247,45 @@ def prepare_query(owner, repo, releases_only, cursor=""):
         repo (str): Repository name.
         releases_only (bool): Fetch releases instead of tags.
         cursor (str, optional): Cursor id of the latest received commit.
-            Defaults to empty string.
+            Defaults to None, i.e. don't supply cursor values.
 
     Returns:
         str: GraphQL query.
 
     """
+    tag_fragment = "name target { commitUrl }"
 
-    cursor_str = ""
-    commitUrl = "target { commitUrl }"
-
-    # Fill cursor if we have the id
-    if cursor:
-        cursor_str = ', after: "%s"' % cursor
+    fetch_args = {}
 
     if releases_only:
-        fetch_string = "releases (orderBy: {field: CREATED_AT"
-        commitUrl = "tag { name " + commitUrl + " }"
+        fetch_obj = "releases"
+        # get release name and follow release -> tag
+        rel_tag_fragment = f"name tag {{ {tag_fragment} }}"
+        order_by_field = "CREATED_AT"
     else:
-        fetch_string = 'refs (refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE'
+        fetch_obj = "refs"
+        rel_tag_fragment = tag_fragment
+        fetch_args["refPrefix"] = '"refs/tags/"'
+        order_by_field = "TAG_COMMIT_DATE"
 
-    query = """
+    fetch_args["orderBy"] = f"{{field: {order_by_field}, direction: ASC}}"
+    fetch_args["last"] = "50"
+    if cursor:
+        fetch_args["after"] = f'"{cursor}"'
+
+    fetch_fragment = (
+        f"{fetch_obj} ({', '.join(f'{k}: {v}' for k, v in fetch_args.items())})"
+    )
+
+    query = f"""
 {{
-    repository(owner: "{owner}", name: "{name}") {{
-        {fetch_string}, direction: ASC}}, last: 50{cursor}) {{
+    repository(owner: "{owner}", name: "{repo}") {{
+        {fetch_fragment} {{
             totalCount
             edges {{
                 cursor
                 node {{
-                    name
-                    {commitUrl}
+                    {rel_tag_fragment}
                 }}
             }}
         }}
@@ -286,12 +295,6 @@ def prepare_query(owner, repo, releases_only, cursor=""):
         remaining
         resetAt
     }}
-}}""".format(
-        owner=owner,
-        name=repo,
-        fetch_string=fetch_string,
-        cursor=cursor_str,
-        commitUrl=commitUrl,
-    )
+}}"""
 
     return query
