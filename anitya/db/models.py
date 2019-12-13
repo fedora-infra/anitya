@@ -245,6 +245,7 @@ class Project(Base):
     version_scheme = sa.Column(sa.String(50), nullable=True)
 
     latest_version = sa.Column(sa.String(50))
+    latest_known_cursor = sa.Column(sa.String(200), nullable=True)
     logs = sa.Column(sa.Text)
     check_successful = sa.Column(sa.Boolean, default=None, index=True)
 
