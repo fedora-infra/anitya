@@ -1,0 +1,164 @@
+interactions:
+- request:
+    body: '{"query": "\n{\n    repository(owner: \"fedora-infra\", name: \"fedocal\")
+      {\n        refs (refPrefix: \"refs/tags/\", orderBy: {field: TAG_COMMIT_DATE,
+      direction: ASC}, last: 50, after: \"invalid cursor\") {\n            totalCount\n            edges
+      {\n                cursor\n                node {\n                    name
+      target { commitUrl }\n                }\n            }\n        }\n    }\n    rateLimit
+      {\n        limit\n        remaining\n        resetAt\n    }\n}"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - bearer foobar
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '480'
+      Content-Type:
+      - application/json
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 0.17.2 at release-monitoring.org
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: '{"data":{"repository":{"refs":{"totalCount":38,"edges":null}},"rateLimit":{"limit":5000,"remaining":4998,"resetAt":"2019-12-18T15:14:44Z"}},"errors":[{"path":["repository","refs","edges"],"locations":[{"line":6,"column":13}],"message":"Invalid
+        cursor: \"invalid cursor\""}]}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval,
+        X-GitHub-Media-Type
+      Cache-Control:
+      - no-cache
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 18 Dec 2019 14:15:19 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Status:
+      - 200 OK
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      X-Accepted-OAuth-Scopes:
+      - repo
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v4; format=json
+      X-GitHub-Request-Id:
+      - 11B8:25A4:14D8E8:2CD268:5DFA3476
+      X-OAuth-Scopes:
+      - ''
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4998'
+      X-RateLimit-Reset:
+      - '1576682084'
+      X-XSS-Protection:
+      - 1; mode=block
+      content-length:
+      - '274'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"query": "\n{\n    repository(owner: \"fedora-infra\", name: \"fedocal\")
+      {\n        refs (refPrefix: \"refs/tags/\", orderBy: {field: TAG_COMMIT_DATE,
+      direction: ASC}, last: 50) {\n            totalCount\n            edges {\n                cursor\n                node
+      {\n                    name target { commitUrl }\n                }\n            }\n        }\n    }\n    rateLimit
+      {\n        limit\n        remaining\n        resetAt\n    }\n}"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - bearer foobar
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '453'
+      Content-Type:
+      - application/json
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 0.17.2 at release-monitoring.org
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: '{"data":{"repository":{"refs":{"totalCount":38,"edges":[{"cursor":"MQ","node":{"name":"v0.1.0","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/baf85613ab08c4fd232e94c0a6f7e7fd2f7f98f6"}}},{"cursor":"Mg","node":{"name":"v0.1.1","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/4643929a04e4ffd5e8e2cf41e97aff79dfb850fc"}}},{"cursor":"Mw","node":{"name":"v0.1.2","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/c1631b7e2bda6faa4015e6abf15a36d8e872e400"}}},{"cursor":"NA","node":{"name":"v0.2.0","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/c386df0b8761e39b818139d54fce3d9a0aedec78"}}},{"cursor":"NQ","node":{"name":"v0.3.0","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/25c8fb683304521183a2eaddd0f8319261ad7c9c"}}},{"cursor":"Ng","node":{"name":"v0.3.1","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/e29efaa667b28f0c006e2222fcc0624b9c2cdb2e"}}},{"cursor":"Nw","node":{"name":"v0.4.0","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/6d30520a1e8a3b049c76e162c8db04d2edb425d9"}}},{"cursor":"OA","node":{"name":"v0.4.1","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/7433df6324280189c736e1417fa52fbd85d28fb7"}}},{"cursor":"OQ","node":{"name":"v0.4.2","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/a3fb0230f766d4edc714e1674ce665a19fe47ece"}}},{"cursor":"MTA","node":{"name":"v0.4.3","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/1bb5d00ba68b220b15d80e25b695ad8d64f03a50"}}},{"cursor":"MTE","node":{"name":"v0.4.5","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/f7ef91af0bfcb2f4376c5976dfaacac841950c54"}}},{"cursor":"MTI","node":{"name":"v.0.4.6","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/65155f50fac7a4eee20573d325e954c132263b9b"}}},{"cursor":"MTM","node":{"name":"v0.4.7","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/dd0c6cbc1922147b896a1ee905501cd3b5225be1"}}},{"cursor":"MTQ","node":{"name":"v0.5.0","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/d99e51f249a541a7e5e9a6317f968f86433d6077"}}},{"cursor":"MTU","node":{"name":"v0.5.1","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/7581d4df9bf5c3d634d9feca6847f6ff9a980175"}}},{"cursor":"MTY","node":{"name":"v0.6.0","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/b59273f2cd8dbdd990a2cf8afd0124154ef43c8f"}}},{"cursor":"MTc","node":{"name":"v0.6.1","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/e052a893af1c434a5017ef72b48f9cfc88d178a0"}}},{"cursor":"MTg","node":{"name":"v0.6.2","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/e2e8366713044607a04f9b1bda48eeec4dc74a79"}}},{"cursor":"MTk","node":{"name":"v0.6.3","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/286541b38d1a96649427a4beb82bc362ecbbf4fa"}}},{"cursor":"MjA","node":{"name":"v0.7","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/f6a1408339fd7e118e50b019feba9302a5a80bf8"}}},{"cursor":"MjE","node":{"name":"v0.7.1","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/36ce0a34a476d7976aa7e73262d86e5f13a1f26b"}}},{"cursor":"MjI","node":{"name":"v0.8","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/91d7b66f30afced267a773c6100c9191ec26a845"}}},{"cursor":"MjM","node":{"name":"v0.9","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/39546a11fdb12b4d4248dd9022304b7d86a346ed"}}},{"cursor":"MjQ","node":{"name":"v0.9.1","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/49545ed7c28ad2168785569d9fac7a839eeb17a4"}}},{"cursor":"MjU","node":{"name":"v0.9.2","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/42e8a53e20576c3275a007f94d232acd73eff406"}}},{"cursor":"MjY","node":{"name":"v0.9.3","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/bc6f800ed061723045711af4ec61d857e1cd1df7"}}},{"cursor":"Mjc","node":{"name":"0.10","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/88d81800e14ab47f6ef0f521d4948077ce044186"}}},{"cursor":"Mjg","node":{"name":"0.11","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/67258c75f3f5a7878f8100a23fb1a523b4115d5e"}}},{"cursor":"Mjk","node":{"name":"0.11.1","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/f0adc310ed58934c6478a86602ac373c2c465ca0"}}},{"cursor":"MzA","node":{"name":"0.12","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/6cbb6c1922082b2dd8d27c2f85920ca0f2702896"}}},{"cursor":"MzE","node":{"name":"0.13","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/e4d97113377e33f1fcd0dbe362bd6bd2eac409fc"}}},{"cursor":"MzI","node":{"name":"0.13.1","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/5a58a408c8fff2a078a0fc3ee09e82b42f0c0b99"}}},{"cursor":"MzM","node":{"name":"0.13.2","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/846bb1c66865bffdaebcd44c4ad586cca7ec0ff0"}}},{"cursor":"MzQ","node":{"name":"0.13.3","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/741a951387dd9064d0e5f3f66d67f939b843951d"}}},{"cursor":"MzU","node":{"name":"0.14","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/f9d6fcfc46ed01b45a14cfe9b497e5090ab31c4d"}}},{"cursor":"MzY","node":{"name":"0.15","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/7fadcf30c66fa80e8593536ff5029de7acf76317"}}},{"cursor":"Mzc","node":{"name":"0.15.1","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/16a29a2fad9965de48c4ea02db36dd4274c1ed6e"}}},{"cursor":"Mzg","node":{"name":"0.16","target":{"commitUrl":"https://github.com/fedora-infra/fedocal/commit/688bb38e858d6b4370c63f29ab26943d72518ca5"}}}]}},"rateLimit":{"limit":5000,"remaining":4997,"resetAt":"2019-12-18T15:14:44Z"}}}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval,
+        X-GitHub-Media-Type
+      Cache-Control:
+      - no-cache
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 18 Dec 2019 14:15:19 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Status:
+      - 200 OK
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      X-Accepted-OAuth-Scopes:
+      - repo
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v4; format=json
+      X-GitHub-Request-Id:
+      - 11B8:25A4:14D903:2CD284:5DFA3477
+      X-OAuth-Scopes:
+      - ''
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4997'
+      X-RateLimit-Reset:
+      - '1576682084'
+      X-XSS-Protection:
+      - 1; mode=block
+      content-length:
+      - '5999'
+    status:
+      code: 200
+      message: OK
+version: 1

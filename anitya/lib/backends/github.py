@@ -132,36 +132,65 @@ class GithubBackend(BaseBackend):
                 )
             )
 
-        query = prepare_query(owner, repo, project.releases_only)
-
-        try:
-            headers = REQUEST_HEADERS.copy()
-            token = config["GITHUB_ACCESS_TOKEN"]
-            if token:
-                headers["Authorization"] = "bearer %s" % token
-            resp = http_session.post(
-                API_URL, json={"query": query}, headers=headers, timeout=60, verify=True
-            )
-        except Exception as err:
-            _log.debug("%s ERROR: %s" % (project.name, str(err)))
-            raise AnityaPluginException(
-                'Could not call : "%s" of "%s", with error: %s'
-                % (API_URL, project.name, str(err))
-            ) from err
-
-        if resp.ok:
-            json = resp.json()
-        elif resp.status_code == 403:
-            _log.info("Github API ratelimit reached.")
-            raise RateLimitException(reset_time)
+        if project.latest_known_cursor:
+            # If we know about the cursor of the latest version, attempt to
+            # limit results to anything after it. Only if that fails, try
+            # without one.
+            cursor_attempts = (project.latest_known_cursor, None)
         else:
-            raise AnityaPluginException(
-                '%s: Server responded with status "%s": "%s"'
-                % (project.name, resp.status_code, resp.reason)
-            )
+            cursor_attempts = (None,)
 
-        versions = parse_json(json, project)
-        _log.debug(f"Retrieved versions: {versions}")
+        for cursor in cursor_attempts:
+            query = prepare_query(owner, repo, project.releases_only, cursor=cursor)
+
+            try:
+                headers = REQUEST_HEADERS.copy()
+                token = config["GITHUB_ACCESS_TOKEN"]
+                if token:
+                    headers["Authorization"] = "bearer %s" % token
+                resp = http_session.post(
+                    API_URL,
+                    json={"query": query},
+                    headers=headers,
+                    timeout=60,
+                    verify=True,
+                )
+            except Exception as err:
+                _log.debug("%s ERROR: %s" % (project.name, str(err)))
+                raise AnityaPluginException(
+                    'Could not call : "%s" of "%s", with error: %s'
+                    % (API_URL, project.name, str(err))
+                ) from err
+
+            if resp.ok:
+                json = resp.json()
+            elif resp.status_code == 403:
+                _log.info("Github API ratelimit reached.")
+                raise RateLimitException(reset_time)
+            else:
+                raise AnityaPluginException(
+                    '%s: Server responded with status "%s": "%s"'
+                    % (project.name, resp.status_code, resp.reason)
+                )
+
+            # Check for invalid cursor errors, we don't want to error out
+            # immediately in this case but repeat without specifying a cursor.
+            if (
+                cursor
+                and "errors" in json
+                and all(
+                    elem.get("type") == "INVALID_CURSOR_ARGUMENTS"
+                    or "invalid cursor" in elem.get("message", "").lower()
+                    for elem in json["errors"]
+                )
+            ):
+                # unset faulty cursor for now
+                project.latest_known_cursor = None
+                continue
+
+            versions = parse_json(json, project)
+            _log.debug(f"Retrieved versions: {versions}")
+            break
 
         if len(versions) == 0:
             raise AnityaPluginException(
@@ -230,10 +259,11 @@ def parse_json(json, project):
     versions = []
 
     for edge in json_data["edges"]:
+        version = {"cursor": edge.get("cursor")}
         if project.releases_only:
-            version = edge["node"]["tag"]["name"]
+            version["version"] = edge["node"]["tag"]["name"]
         else:
-            version = edge["node"]["name"]
+            version["version"] = edge["node"]["name"]
         versions.append(version)
 
     return versions

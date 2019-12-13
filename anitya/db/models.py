@@ -326,7 +326,7 @@ class Project(Base):
         Creates sorted list of version objects defined by `self.version_class` from versions list.
 
         Args:
-            versions (list(str)): List of versions that are not associated with the project.
+            versions (list(str or dict)): List of versions that are not associated with the project.
 
         Returns:
             list(`anitya.lib.versions.Base`): List of version objects defined by
@@ -336,10 +336,15 @@ class Project(Base):
         versions = sorted(
             [
                 version_class(
-                    version=version,
+                    version=version if isinstance(version, str) else version["version"],
                     prefix=self.version_prefix,
                     created_on=datetime.datetime.utcnow(),
                     pattern=self.version_pattern,
+                    cursor=(
+                        version["cursor"]
+                        if isinstance(version, dict) and "cursor" in version
+                        else None
+                    ),
                 )
                 for version in versions
             ]

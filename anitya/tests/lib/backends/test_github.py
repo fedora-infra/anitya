@@ -49,6 +49,7 @@ class GithubBackendtests(DatabaseTestCase):
         """ Create some basic projects to work with. """
         self.projects = {}
         self.expected_versions = {}
+        self.version_with_cursor = {}
 
         project = models.Project(
             name="fedocal",
@@ -98,6 +99,7 @@ class GithubBackendtests(DatabaseTestCase):
             "0.15.1",
             "0.16",
         ]
+        self.version_with_cursor["valid_with_version_url"] = ("0.15.1", "Mzc")
 
         project = models.Project(
             name="foobar",
@@ -334,6 +336,28 @@ class GithubBackendtests(DatabaseTestCase):
         excstring = str(excinfo.exception)
         self.assertIn("Project foobar was incorrectly set up.", excstring)
 
+    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
+    def test_get_versions_valid_with_valid_cursor(self):
+        """Test get_versions() with a valid latest known cursor."""
+        project = self.projects["valid_with_version_url"]
+        all_versions = self.expected_versions["valid_with_version_url"]
+        lk_version, lk_cursor = self.version_with_cursor["valid_with_version_url"]
+        project.latest_known_cursor = lk_cursor
+        exp = all_versions[all_versions.index(lk_version) + 1 :]
+        obs = backend.GithubBackend.get_ordered_versions(project)
+        self.assertEqual(obs, exp)
+
+    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
+    def test_get_versions_valid_with_invalid_cursor(self):
+        """Test get_versions() with an invalid latest known cursor.
+
+        It should return all versions."""
+        project = self.projects["valid_with_version_url"]
+        project.latest_known_cursor = "invalid cursor"
+        exp = self.expected_versions["valid_with_version_url"]
+        obs = backend.GithubBackend.get_ordered_versions(project)
+        self.assertEqual(obs, exp)
+
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": None})
     def test_get_versions_no_token(self):
         """ Test the get_versions function of the github backend
@@ -549,7 +573,7 @@ class JsonTests(unittest.TestCase):
                 "rateLimit": {"limit": 5000, "remaining": 5000, "resetAt": "dummy"},
             }
         }
-        exp = ["1.0"]
+        exp = [{"cursor": None, "version": "1.0"}]
         obs = backend.parse_json(json, project)
         self.assertEqual(exp, obs)
 
