@@ -147,7 +147,7 @@ class GithubBackend(BaseBackend):
             raise AnityaPluginException(
                 'Could not call : "%s" of "%s", with error: %s'
                 % (API_URL, project.name, str(err))
-            )
+            ) from err
 
         if resp.ok:
             json = resp.json()
