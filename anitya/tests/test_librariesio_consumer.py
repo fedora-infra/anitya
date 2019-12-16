@@ -23,6 +23,7 @@ Tests for the libraries.io SSE client.
 import unittest
 from unittest import mock
 
+from fedora_messaging import testing as fml_testing
 import sseclient
 
 from anitya import config
@@ -30,6 +31,7 @@ from anitya.db import Project
 from anitya.lib.exceptions import AnityaPluginException, AnityaException
 from anitya.librariesio_consumer import LibrariesioConsumer
 from anitya.tests.base import DatabaseTestCase
+import anitya_schema
 
 
 class LibrariesioConsumerTests(DatabaseTestCase):
@@ -113,7 +115,11 @@ class LibrariesioConsumerTests(DatabaseTestCase):
             "}"
         )
 
-        with mock.patch.object(self.client, "whitelist", ["pypi"]):
+        with mock.patch.object(
+            self.client, "whitelist", ["pypi"]
+        ), fml_testing.mock_sends(
+            anitya_schema.ProjectCreated, anitya_schema.ProjectVersionUpdated
+        ):
             self.client.process_message(event)
         self.assertEqual(1, self.session.query(Project).count())
         project = self.session.query(Project).first()
@@ -164,7 +170,8 @@ class LibrariesioConsumerTests(DatabaseTestCase):
         )
 
         self.assertEqual(1, self.session.query(Project).count())
-        self.client.process_message(event)
+        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+            self.client.process_message(event)
         self.assertEqual(1, self.session.query(Project).count())
         project = self.session.query(Project).first()
         self.assertEqual("ImageMetaTag", project.name)
@@ -217,7 +224,8 @@ class LibrariesioConsumerTests(DatabaseTestCase):
             '"package_manager_url": "https://pypi.org/project/ImageMetaTag/"'
             "}"
         )
-        self.client.process_message(event)
+        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+            self.client.process_message(event)
         project = self.session.query(Project).first()
         self.assertEqual("0.6.9", project.latest_version)
         self.assertIn(

@@ -26,6 +26,8 @@ anitya tests for the flask API.
 import json
 import unittest
 
+from fedora_messaging import testing as fml_testing
+
 from anitya.db import models
 from anitya.lib.backends import REGEX
 from anitya.tests.base import (
@@ -35,6 +37,7 @@ from anitya.tests.base import (
     create_package,
     create_ecosystem_projects,
 )
+import anitya_schema
 
 
 # Py3 compatibility: UTF-8 decoding and JSON decoding may be separate steps
@@ -238,7 +241,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         """ Test the api_get_version function of the API. """
         create_distro(self.session)
 
-        output = self.app.post("/api/version/get")
+        with fml_testing.mock_sends():
+            output = self.app.post("/api/version/get")
         self.assertEqual(output.status_code, 400)
         data = _read_json(output)
 
@@ -249,7 +253,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         create_package(self.session)
 
         data = {"id": 10}
-        output = self.app.post("/api/version/get", data=data)
+        with fml_testing.mock_sends():
+            output = self.app.post("/api/version/get", data=data)
         self.assertEqual(output.status_code, 404)
         data = _read_json(output)
 
@@ -263,7 +268,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.session.commit()
 
         data = {"id": 1}
-        output = self.app.post("/api/version/get", data=data)
+        with fml_testing.mock_sends():
+            output = self.app.post("/api/version/get", data=data)
         self.assertEqual(output.status_code, 400)
         data = _read_json(output)
 
@@ -284,7 +290,8 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.session.commit()
 
         data = {"id": 1}
-        output = self.app.post("/api/version/get", data=data)
+        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+            output = self.app.post("/api/version/get", data=data)
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
         del data["created_on"]
