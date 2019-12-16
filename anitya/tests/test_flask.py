@@ -479,6 +479,16 @@ class FlaskTest(DatabaseTestCase):
 
         self.assertTrue(expected in output.data)
 
+    def test_index_redirection(self):
+        """ Test redirection when session contains next_url field. """
+        # Set the session variable by calling login page
+        self.app.get("/login?next=%2Fproject%2F1")
+
+        with login_user(self.flask_app, self.user):
+            output = self.app.get("/")
+            self.assertEqual(output.status_code, 302)
+            self.assertEqual(output.headers["Location"], "http://localhost/project/1")
+
     def test_about(self):
         """Assert the legacy about endpoint redirects to documentation"""
         output = self.app.get("/about")
