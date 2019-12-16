@@ -26,10 +26,12 @@ from __future__ import unicode_literals
 from unittest import mock
 
 import json
+from fedora_messaging import testing as fml_testing
 from social_flask_sqlalchemy import models as social_models
 
 from anitya.db import Session, models
 from anitya.lib import exceptions
+import anitya_schema
 from .base import DatabaseTestCase, create_project
 
 
@@ -511,15 +513,17 @@ class PackagesResourcePostTests(DatabaseTestCase):
             "distribution": "Fedora",
         }
 
-        output = self.app.post(
-            "/api/v2/packages/", headers=self.auth, data=request_data
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectMapCreated):
+            output = self.app.post(
+                "/api/v2/packages/", headers=self.auth, data=request_data
+            )
         self.assertEqual(output.status_code, 201)
 
         request_data["distribution"] = "Debian"
-        output = self.app.post(
-            "/api/v2/packages/", headers=self.auth, data=request_data
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectMapCreated):
+            output = self.app.post(
+                "/api/v2/packages/", headers=self.auth, data=request_data
+            )
         self.assertEqual(output.status_code, 201)
 
     def test_conflicting_request(self):
@@ -531,13 +535,15 @@ class PackagesResourcePostTests(DatabaseTestCase):
             "distribution": "Fedora",
         }
 
-        output = self.app.post(
-            "/api/v2/packages/", headers=self.auth, data=request_data
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectMapCreated):
+            output = self.app.post(
+                "/api/v2/packages/", headers=self.auth, data=request_data
+            )
         self.assertEqual(output.status_code, 201)
-        output = self.app.post(
-            "/api/v2/packages/", headers=self.auth, data=request_data
-        )
+        with fml_testing.mock_sends():
+            output = self.app.post(
+                "/api/v2/packages/", headers=self.auth, data=request_data
+            )
         self.assertEqual(output.status_code, 409)
         # Error details should report conflicting fields.
         data = _read_json(output)
@@ -1038,13 +1044,15 @@ class ProjectsResourcePostTests(DatabaseTestCase):
             "name": "requests",
         }
 
-        output = self.app.post(
-            "/api/v2/projects/", headers=self.auth, data=request_data
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            output = self.app.post(
+                "/api/v2/projects/", headers=self.auth, data=request_data
+            )
         self.assertEqual(output.status_code, 201)
-        output = self.app.post(
-            "/api/v2/projects/", headers=self.auth, data=request_data
-        )
+        with fml_testing.mock_sends():
+            output = self.app.post(
+                "/api/v2/projects/", headers=self.auth, data=request_data
+            )
         self.assertEqual(output.status_code, 409)
         # Error details should report conflicting fields.
         data = _read_json(output)
@@ -1062,9 +1070,10 @@ class ProjectsResourcePostTests(DatabaseTestCase):
             "name": "requests",
         }
 
-        output = self.app.post(
-            "/api/v2/projects/", headers=self.auth, data=request_data
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            output = self.app.post(
+                "/api/v2/projects/", headers=self.auth, data=request_data
+            )
 
         data = _read_json(output)
         self.assertEqual(output.status_code, 201)
@@ -1088,9 +1097,10 @@ class ProjectsResourcePostTests(DatabaseTestCase):
             "check_release": "True",
         }
 
-        output = self.app.post(
-            "/api/v2/projects/", headers=self.auth, data=request_data
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            output = self.app.post(
+                "/api/v2/projects/", headers=self.auth, data=request_data
+            )
 
         mock_check.assert_called_once_with(mock.ANY, mock.ANY)
         self.assertEqual(output.status_code, 201)
@@ -1109,9 +1119,10 @@ class ProjectsResourcePostTests(DatabaseTestCase):
             "check_release": "True",
         }
 
-        output = self.app.post(
-            "/api/v2/projects/", headers=self.auth, data=request_data
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            output = self.app.post(
+                "/api/v2/projects/", headers=self.auth, data=request_data
+            )
 
         mock_check.assert_called_once_with(mock.ANY, mock.ANY)
         self.assertEqual(output.status_code, 201)

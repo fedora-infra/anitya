@@ -29,6 +29,7 @@ import time
 import mock
 import datetime
 
+from fedora_messaging import testing as fml_testing
 from sqlalchemy.dialects import postgresql, sqlite
 from sqlalchemy.types import CHAR
 from sqlalchemy.exc import IntegrityError
@@ -46,6 +47,7 @@ from anitya.tests.base import (
     create_flagged_project,
 )
 from anitya.lib import utilities
+import anitya_schema
 
 
 class ProjectTests(DatabaseTestCase):
@@ -743,13 +745,14 @@ class ProjectFlagTestCase(DatabaseTestCase):
         if project name is provided.
         """
         flag = create_flagged_project(self.session)
-        flag_add = utilities.flag_project(
-            self.session,
-            flag.project,
-            "This is a duplicate.",
-            "cthulhu@redhat.com",
-            "user_openid_id",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectFlag):
+            flag_add = utilities.flag_project(
+                self.session,
+                flag.project,
+                "This is a duplicate.",
+                "cthulhu@redhat.com",
+                "user_openid_id",
+            )
         flag_add.state = "closed"
 
         self.session.add(flag_add)
@@ -776,13 +779,14 @@ class ProjectFlagTestCase(DatabaseTestCase):
         if from date is provided.
         """
         flag = create_flagged_project(self.session)
-        flag_add = utilities.flag_project(
-            self.session,
-            flag.project,
-            "This is a duplicate.",
-            "cthulhu@redhat.com",
-            "user_openid_id",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectFlag):
+            flag_add = utilities.flag_project(
+                self.session,
+                flag.project,
+                "This is a duplicate.",
+                "cthulhu@redhat.com",
+                "user_openid_id",
+            )
         flag_add.state = "closed"
         self.session.add(flag_add)
         self.session.commit()
@@ -797,13 +801,14 @@ class ProjectFlagTestCase(DatabaseTestCase):
         if state is provided.
         """
         flag = create_flagged_project(self.session)
-        flag_add = utilities.flag_project(
-            self.session,
-            flag.project,
-            "This is a duplicate.",
-            "cthulhu@redhat.com",
-            "user_openid_id",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectFlag):
+            flag_add = utilities.flag_project(
+                self.session,
+                flag.project,
+                "This is a duplicate.",
+                "cthulhu@redhat.com",
+                "user_openid_id",
+            )
         flag_add.state = "closed"
         self.session.add(flag_add)
         self.session.commit()
@@ -817,13 +822,14 @@ class ProjectFlagTestCase(DatabaseTestCase):
         if offset is set.
         """
         flag = create_flagged_project(self.session)
-        flag_add = utilities.flag_project(
-            self.session,
-            flag.project,
-            "This is a duplicate.",
-            "cthulhu@redhat.com",
-            "user_openid_id",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectFlag):
+            flag_add = utilities.flag_project(
+                self.session,
+                flag.project,
+                "This is a duplicate.",
+                "cthulhu@redhat.com",
+                "user_openid_id",
+            )
         flag_add.state = "closed"
         self.session.add(flag_add)
         self.session.commit()
@@ -837,13 +843,14 @@ class ProjectFlagTestCase(DatabaseTestCase):
         if limit is set.
         """
         flag = create_flagged_project(self.session)
-        flag_add = utilities.flag_project(
-            self.session,
-            flag.project,
-            "This is a duplicate.",
-            "cthulhu@redhat.com",
-            "user_openid_id",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectFlag):
+            flag_add = utilities.flag_project(
+                self.session,
+                flag.project,
+                "This is a duplicate.",
+                "cthulhu@redhat.com",
+                "user_openid_id",
+            )
         flag_add.state = "closed"
         self.session.add(flag_add)
         self.session.commit()
@@ -857,13 +864,14 @@ class ProjectFlagTestCase(DatabaseTestCase):
         if count is set.
         """
         flag = create_flagged_project(self.session)
-        flag_add = utilities.flag_project(
-            self.session,
-            flag.project,
-            "This is a duplicate.",
-            "cthulhu@redhat.com",
-            "user_openid_id",
-        )
+        with fml_testing.mock_sends(anitya_schema.ProjectFlag):
+            flag_add = utilities.flag_project(
+                self.session,
+                flag.project,
+                "This is a duplicate.",
+                "cthulhu@redhat.com",
+                "user_openid_id",
+            )
         flag_add.state = "closed"
         self.session.add(flag_add)
         self.session.commit()
