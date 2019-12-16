@@ -176,6 +176,49 @@ class PackagesResourceGetTests(DatabaseTestCase):
 
         self.assertEqual(data, exp)
 
+    def test_filter_packages_by_name_case_insensitive(self):
+        """Assert filtering packages by case insensitive name works."""
+        project = models.Project(
+            name="requests", homepage="https://pypi.io/project/requests", backend="PyPI"
+        )
+        fedora_package = models.Packages(
+            distro_name="Fedora", project=project, package_name="python-requests"
+        )
+        debian_package = models.Packages(
+            distro_name="Debian", project=project, package_name="python-requests"
+        )
+        jcline_package = models.Packages(
+            distro_name="jcline linux", project=project, package_name="requests"
+        )
+        Session.add_all([project, fedora_package, debian_package, jcline_package])
+        Session.commit()
+
+        output = self.app.get("/api/v2/packages/?name=Python-requests")
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        exp = {
+            "page": 1,
+            "items_per_page": 25,
+            "total_items": 2,
+            "items": [
+                {
+                    "distribution": "Fedora",
+                    "name": "python-requests",
+                    "project": "requests",
+                    "ecosystem": "pypi",
+                },
+                {
+                    "distribution": "Debian",
+                    "name": "python-requests",
+                    "project": "requests",
+                    "ecosystem": "pypi",
+                },
+            ],
+        }
+
+        self.assertEqual(data, exp)
+
     def test_list_packages_items_per_page_no_items(self):
         """Assert pagination works and page size is adjustable."""
         api_endpoint = "/api/v2/packages/?items_per_page=1"
@@ -780,6 +823,39 @@ class ProjectsResourceGetTests(DatabaseTestCase):
         create_project(self.session)
 
         output = self.app.get("/api/v2/projects/?name=subsurface")
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        for item in data["items"]:
+            del item["created_on"]
+            del item["updated_on"]
+
+        exp = {
+            "page": 1,
+            "items_per_page": 25,
+            "total_items": 1,
+            "items": [
+                {
+                    "id": 2,
+                    "backend": "custom",
+                    "homepage": "https://subsurface-divelog.org/",
+                    "name": "subsurface",
+                    "regex": "DEFAULT",
+                    "version": None,
+                    "version_url": "https://subsurface-divelog.org/downloads/",
+                    "versions": [],
+                    "ecosystem": "https://subsurface-divelog.org/",
+                }
+            ],
+        }
+
+        self.assertEqual(data, exp)
+
+    def test_filter_projects_by_name_case_insensitive(self):
+        """Assert projects can be filtered by name case insensitive."""
+        create_project(self.session)
+
+        output = self.app.get("/api/v2/projects/?name=SubSurface")
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
