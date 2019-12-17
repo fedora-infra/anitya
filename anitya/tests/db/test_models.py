@@ -460,13 +460,17 @@ class ProjectTests(DatabaseTestCase):
         set to 'failed'.
         """
         create_project(self.session)
+        error_counter = 0
         for project in self.session.query(models.Project).all():
-            project.logs = "No upstream version found"
+            project.check_successful = False
+            project.error_counter = error_counter
+            error_counter += 1
         self.session.commit()
 
         projects = models.Project.updated(self.session, status="failed")
-        self.assertEqual(len(projects), 3)
-        self.assertEqual(projects[0].logs, "No upstream version found")
+        self.assertEqual(len(projects), 2)
+        self.assertEqual(projects[0].error_counter, 2)
+        self.assertEqual(projects[1].error_counter, 1)
 
     def test_project_updated_odd(self):
         """
