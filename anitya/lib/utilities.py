@@ -106,6 +106,7 @@ def check_project_release(project, session, test=False):
         if not test:
             project.logs = str(err)
             project.check_successful = False
+            project.error_counter += 1
             session.add(project)
             session.commit()
         raise
@@ -120,6 +121,7 @@ def check_project_release(project, session, test=False):
     # otherwise this backend raises exception
     project.logs = "Version retrieved correctly"
     project.check_successful = True
+    project.error_counter = 0
 
     p_versions = project.get_sorted_version_objects()
     old_version = project.latest_version or ""
