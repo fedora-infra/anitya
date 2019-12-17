@@ -11,6 +11,7 @@ import logging
 import flask_login
 from flask import jsonify
 from flask_restful import Resource, reqparse
+from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -131,9 +132,9 @@ class PackagesResource(Resource):
         distro = args.pop("distribution")
         name = args.pop("name")
         if distro:
-            q = q.filter_by(distro_name=distro)
+            q = q.filter(func.lower(models.Packages.distro_name) == func.lower(distro))
         if name:
-            q = q.filter_by(package_name=name)
+            q = q.filter(func.lower(models.Packages.package_name) == func.lower(name))
         page = q.paginate(order_by=models.Packages.package_name, **args)
         return {
             "items": [
@@ -228,8 +229,10 @@ class PackagesResource(Resource):
         )
         args = parser.parse_args(strict=True)
         try:
-            project = models.Project.query.filter_by(
-                name=args.project_name, ecosystem_name=args.project_ecosystem
+            project = models.Project.query.filter(
+                func.lower(models.Project.name) == func.lower(args.project_name),
+                func.lower(models.Project.ecosystem_name)
+                == func.lower(args.project_ecosystem),
             ).one()
         except NoResultFound:
             return (
@@ -242,7 +245,9 @@ class PackagesResource(Resource):
             )
 
         try:
-            distro = models.Distro.query.filter_by(name=args.distribution).one()
+            distro = models.Distro.query.filter(
+                func.lower(models.Distro.name) == func.lower(args.distribution)
+            ).one()
         except NoResultFound:
             return (
                 {"error": 'Distribution "{}" not found'.format(args.distribution)},
@@ -358,9 +363,11 @@ class ProjectsResource(Resource):
         name = args.pop("name")
         q = models.Project.query
         if ecosystem:
-            q = q.filter_by(ecosystem_name=ecosystem)
+            q = q.filter(
+                func.lower(models.Project.ecosystem_name) == func.lower(ecosystem)
+            )
         if name:
-            q = q.filter_by(name=name)
+            q = q.filter(func.lower(models.Project.name) == func.lower(name))
         projects_page = q.paginate(
             order_by=(models.Project.name, models.Project.ecosystem_name), **args
         )
