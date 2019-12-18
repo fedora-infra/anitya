@@ -45,6 +45,7 @@ class Version(object):
         prefix: Optional[str] = None,
         created_on: Optional[datetime] = None,
         pattern: Optional[str] = None,
+        cursor: Optional[str] = None,
     ):
         """
         Constructor of Version class.
@@ -55,6 +56,7 @@ class Version(object):
             created_on: Date of creation
             pattern: Calendar version pattern.
                 See `Calendar version scheme_` for more information.
+            cursor: An opaque, backend-specific cursor pointing to the version.
 
         .. _Calendar version scheme:
            https://calver.org/#scheme
@@ -76,6 +78,7 @@ class Version(object):
             self.pattern = pattern.upper()
         else:
             self.pattern = None
+        self.cursor = cursor
 
     def __str__(self):
         """

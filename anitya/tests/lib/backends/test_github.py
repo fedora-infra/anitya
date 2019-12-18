@@ -43,10 +43,14 @@ class GithubBackendtests(DatabaseTestCase):
         super(GithubBackendtests, self).setUp()
 
         create_distro(self.session)
-        self.create_project()
+        self.create_projects()
 
-    def create_project(self):
+    def create_projects(self):
         """ Create some basic projects to work with. """
+        self.projects = {}
+        self.expected_versions = {}
+        self.version_with_cursor = {}
+
         project = models.Project(
             name="fedocal",
             homepage="https://github.com/fedora-infra/fedocal",
@@ -54,6 +58,48 @@ class GithubBackendtests(DatabaseTestCase):
             backend=BACKEND,
         )
         self.session.add(project)
+        self.projects["valid_with_version_url"] = project
+        self.expected_versions["valid_with_version_url"] = [
+            "v.0.4.6",
+            "v0.1.0",
+            "v0.1.1",
+            "v0.1.2",
+            "v0.2.0",
+            "v0.3.0",
+            "v0.3.1",
+            "v0.4.0",
+            "v0.4.1",
+            "v0.4.2",
+            "v0.4.3",
+            "v0.4.5",
+            "v0.4.7",
+            "v0.5.0",
+            "v0.5.1",
+            "v0.6.0",
+            "v0.6.1",
+            "v0.6.2",
+            "v0.6.3",
+            "v0.7",
+            "v0.7.1",
+            "v0.8",
+            "v0.9",
+            "v0.9.1",
+            "v0.9.2",
+            "v0.9.3",
+            "0.10",
+            "0.11",
+            "0.11.1",
+            "0.12",
+            "0.13",
+            "0.13.1",
+            "0.13.2",
+            "0.13.3",
+            "0.14",
+            "0.15",
+            "0.15.1",
+            "0.16",
+        ]
+        self.version_with_cursor["valid_with_version_url"] = ("0.15.1", "Mzc")
 
         project = models.Project(
             name="foobar",
@@ -62,6 +108,7 @@ class GithubBackendtests(DatabaseTestCase):
             backend=BACKEND,
         )
         self.session.add(project)
+        self.projects["invalid_unknown_project"] = project
 
         project = models.Project(
             name="pkgdb2",
@@ -69,16 +116,71 @@ class GithubBackendtests(DatabaseTestCase):
             backend=BACKEND,
         )
         self.session.add(project)
+        self.projects["valid_without_version_url"] = project
+        self.expected_versions["valid_without_version_url"] = [
+            "1.21",
+            "1.22",
+            "1.22.1",
+            "1.22.2",
+            "1.23",
+            "1.23.99",
+            "1.23.991",
+            "1.23.992",
+            "1.23.993",
+            "1.23.994",
+            "1.23.995",
+            "1.24",
+            "1.24.1",
+            "1.24.2",
+            "1.24.3",
+            "1.25",
+            "1.25.1",
+            "1.26",
+            "1.27",
+            "1.28",
+            "1.28.1",
+            "1.28.2",
+            "1.29",
+            "1.30",
+            "1.30.1",
+            "1.31",
+            "1.32",
+            "1.32.1",
+            "1.32.2",
+            "1.33.0",
+            "1.33.1",
+            "1.33.2",
+            "1.33.3",
+            "2.0",
+            "2.0.1",
+            "2.0.2",
+            "2.0.3",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.4.1",
+            "2.4.2",
+            "2.4.3",
+            "2.5",
+            "2.6",
+            "2.6.1",
+            "2.6.2",
+            "2.7",
+            "2.7.1",
+        ]
 
         project = models.Project(
             name="foobar", homepage="https://github.com/foo", backend=BACKEND
         )
         self.session.add(project)
+        self.projects["invalid_url_path"] = project
 
         project = models.Project(
             name="foobar", homepage="http://github.com/foo/bar", backend=BACKEND
         )
         self.session.add(project)
+        self.projects["invalid_url_scheme"] = project
 
         project = models.Project(
             name="fpdc",
@@ -86,26 +188,30 @@ class GithubBackendtests(DatabaseTestCase):
             backend=BACKEND,
         )
         self.session.add(project)
-        self.session.commit()
+        self.projects["valid_no_tags_releases"] = project
+
+        self.session.flush()
 
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
-    def test_get_version(self):
-        """ Test the get_version function of the github backend. """
-        pid = 1
-        project = models.Project.get(self.session, pid)
-        exp = "0.16"
+    def test_get_version_valid_with_version_url(self):
+        """Test get_version() with a project with version URL."""
+        project = self.projects["valid_with_version_url"]
+        exp = self.expected_versions["valid_with_version_url"][-1]
         obs = backend.GithubBackend.get_version(project)
         self.assertEqual(obs, exp)
 
-        pid = 2
-        project = models.Project.get(self.session, pid)
-        self.assertRaises(
-            AnityaPluginException, backend.GithubBackend.get_version, project
-        )
+    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
+    def test_get_version_invalid_unknown_project(self):
+        """Test get_version() with an unknown project."""
+        project = self.projects["invalid_unknown_project"]
+        with self.assertRaises(AnityaPluginException):
+            backend.GithubBackend.get_version(project)
 
-        pid = 3
-        project = models.Project.get(self.session, pid)
-        exp = "2.7.1"
+    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
+    def test_get_version_valid_without_version_url(self):
+        """Test get_version() with a project without version URL."""
+        project = self.projects["valid_without_version_url"]
+        exp = self.expected_versions["valid_without_version_url"][-1]
         obs = backend.GithubBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -185,135 +291,79 @@ class GithubBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
-    def test_get_versions(self):
-        """ Test the get_versions function of the github backend. """
-        pid = 1
-        project = models.Project.get(self.session, pid)
-        exp = [
-            "v.0.4.6",
-            "v0.1.0",
-            "v0.1.1",
-            "v0.1.2",
-            "v0.2.0",
-            "v0.3.0",
-            "v0.3.1",
-            "v0.4.0",
-            "v0.4.1",
-            "v0.4.2",
-            "v0.4.3",
-            "v0.4.5",
-            "v0.4.7",
-            "v0.5.0",
-            "v0.5.1",
-            "v0.6.0",
-            "v0.6.1",
-            "v0.6.2",
-            "v0.6.3",
-            "v0.7",
-            "v0.7.1",
-            "v0.8",
-            "v0.9",
-            "v0.9.1",
-            "v0.9.2",
-            "v0.9.3",
-            "0.10",
-            "0.11",
-            "0.11.1",
-            "0.12",
-            "0.13",
-            "0.13.1",
-            "0.13.2",
-            "0.13.3",
-            "0.14",
-            "0.15",
-            "0.15.1",
-            "0.16",
-        ]
+    def test_get_versions_valid_with_version_url(self):
+        """Test get_versions() with a project with version URL."""
+        project = self.projects["valid_with_version_url"]
+        exp = self.expected_versions["valid_with_version_url"]
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
-        pid = 2
-        project = models.Project.get(self.session, pid)
-        self.assertRaises(
-            AnityaPluginException, backend.GithubBackend.get_versions, project
-        )
+    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
+    def test_get_versions_invalid_unknown_project(self):
+        """Test get_versions() with a valid latest known cursor."""
+        project = self.projects["invalid_unknown_project"]
+        with self.assertRaises(AnityaPluginException):
+            backend.GithubBackend.get_versions(project)
 
-        pid = 3
-        project = models.Project.get(self.session, pid)
-        exp = [
-            "1.21",
-            "1.22",
-            "1.22.1",
-            "1.22.2",
-            "1.23",
-            "1.23.99",
-            "1.23.991",
-            "1.23.992",
-            "1.23.993",
-            "1.23.994",
-            "1.23.995",
-            "1.24",
-            "1.24.1",
-            "1.24.2",
-            "1.24.3",
-            "1.25",
-            "1.25.1",
-            "1.26",
-            "1.27",
-            "1.28",
-            "1.28.1",
-            "1.28.2",
-            "1.29",
-            "1.30",
-            "1.30.1",
-            "1.31",
-            "1.32",
-            "1.32.1",
-            "1.32.2",
-            "1.33.0",
-            "1.33.1",
-            "1.33.2",
-            "1.33.3",
-            "2.0",
-            "2.0.1",
-            "2.0.2",
-            "2.0.3",
-            "2.1",
-            "2.2",
-            "2.3",
-            "2.4",
-            "2.4.1",
-            "2.4.2",
-            "2.4.3",
-            "2.5",
-            "2.6",
-            "2.6.1",
-            "2.6.2",
-            "2.7",
-            "2.7.1",
-        ]
+    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
+    def test_get_versions_valid_without_version_url(self):
+        """Test get_versions() with a project without version URL."""
+        project = self.projects["valid_without_version_url"]
+        exp = self.expected_versions["valid_without_version_url"]
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
-        pid = 4
-        project = models.Project.get(self.session, pid)
-        self.assertRaises(
-            AnityaPluginException, backend.GithubBackend.get_versions, project
-        )
+    def test_get_versions_invalid_homepage_url_path(self):
+        """Test get_versions() for an invalid homepage URL path.
 
-        pid = 5
-        project = models.Project.get(self.session, pid)
-        self.assertRaises(
-            AnityaPluginException, backend.GithubBackend.get_versions, project
-        )
+        Paths for projects on GitHub must be `owner/project`."""
+        project = self.projects["invalid_url_path"]
+        with self.assertRaises(AnityaPluginException) as excinfo:
+            backend.GithubBackend.get_versions(project)
+
+        excstring = str(excinfo.exception)
+        self.assertIn("Project foobar was incorrectly set up.", excstring)
+        self.assertIn("Can't parse owner and repo.", excstring)
+
+    def test_get_versions_invalid_homepage_url_scheme(self):
+        """Test get_versions() for a project with invalid homepage URL scheme.
+
+        GitHub projects have to use https://, not http://."""
+        project = self.projects["invalid_url_scheme"]
+        with self.assertRaises(AnityaPluginException) as excinfo:
+            backend.GithubBackend.get_versions(project)
+
+        excstring = str(excinfo.exception)
+        self.assertIn("Project foobar was incorrectly set up.", excstring)
+
+    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
+    def test_get_versions_valid_with_valid_cursor(self):
+        """Test get_versions() with a valid latest known cursor."""
+        project = self.projects["valid_with_version_url"]
+        all_versions = self.expected_versions["valid_with_version_url"]
+        lk_version, lk_cursor = self.version_with_cursor["valid_with_version_url"]
+        project.latest_known_cursor = lk_cursor
+        exp = all_versions[all_versions.index(lk_version) + 1 :]
+        obs = backend.GithubBackend.get_ordered_versions(project)
+        self.assertEqual(obs, exp)
+
+    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
+    def test_get_versions_valid_with_invalid_cursor(self):
+        """Test get_versions() with an invalid latest known cursor.
+
+        It should return all versions."""
+        project = self.projects["valid_with_version_url"]
+        project.latest_known_cursor = "invalid cursor"
+        exp = self.expected_versions["valid_with_version_url"]
+        obs = backend.GithubBackend.get_ordered_versions(project)
+        self.assertEqual(obs, exp)
 
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": None})
     def test_get_versions_no_token(self):
         """ Test the get_versions function of the github backend
         without specified token.
         """
-        pid = 1
-        project = models.Project.get(self.session, pid)
+        project = self.projects["valid_with_version_url"]
         self.assertRaises(
             AnityaPluginException, backend.GithubBackend.get_versions, project
         )
@@ -323,8 +373,7 @@ class GithubBackendtests(DatabaseTestCase):
         """ Test the get_versions function of the github backend
         with invalid token.
         """
-        pid = 1
-        project = models.Project.get(self.session, pid)
+        project = self.projects["valid_with_version_url"]
         self.assertRaises(
             AnityaPluginException, backend.GithubBackend.get_versions, project
         )
@@ -335,8 +384,7 @@ class GithubBackendtests(DatabaseTestCase):
         """ Test the get_versions function of the github backend
         with invalid URL.
         """
-        pid = 1
-        project = models.Project.get(self.session, pid)
+        project = self.projects["valid_with_version_url"]
         self.assertRaises(
             AnityaPluginException, backend.GithubBackend.get_versions, project
         )
@@ -346,8 +394,7 @@ class GithubBackendtests(DatabaseTestCase):
         """ Test the get_versions function of the github backend
         with project which doesn't have any tag.
         """
-        pid = 6
-        project = models.Project.get(self.session, pid)
+        project = self.projects["valid_no_tags_releases"]
         self.assertRaises(
             AnityaPluginException, backend.GithubBackend.get_versions, project
         )
@@ -362,8 +409,7 @@ class GithubBackendtests(DatabaseTestCase):
         mock_resp.status_code = 403
         mock_resp.ok = False
         mock_post.return_value = mock_resp
-        pid = 3
-        project = models.Project.get(self.session, pid)
+        project = self.projects["valid_without_version_url"]
         backend.reset_time = "1970-01-01T00:00:00Z"
         self.assertRaises(
             RateLimitException, backend.GithubBackend.get_versions, project
@@ -429,8 +475,7 @@ class JsonTests(unittest.TestCase):
             edges {
                 cursor
                 node {
-                    name
-                    target { commitUrl }
+                    name target { commitUrl }
                 }
             }
         }
@@ -455,8 +500,7 @@ class JsonTests(unittest.TestCase):
             edges {
                 cursor
                 node {
-                    name
-                    target { commitUrl }
+                    name target { commitUrl }
                 }
             }
         }
@@ -481,8 +525,7 @@ class JsonTests(unittest.TestCase):
             edges {
                 cursor
                 node {
-                    name
-                    tag { name target { commitUrl } }
+                    name tag { name target { commitUrl } }
                 }
             }
         }
@@ -530,7 +573,7 @@ class JsonTests(unittest.TestCase):
                 "rateLimit": {"limit": 5000, "remaining": 5000, "resetAt": "dummy"},
             }
         }
-        exp = ["1.0"]
+        exp = [{"cursor": None, "version": "1.0"}]
         obs = backend.parse_json(json, project)
         self.assertEqual(exp, obs)
 

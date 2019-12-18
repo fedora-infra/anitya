@@ -119,49 +119,78 @@ class GithubBackend(BaseBackend):
             url = url.replace("/tags", "")
         else:
             raise AnityaPluginException(
-                "Project %s was incorrectly set-up" % project.name
+                "Project %s was incorrectly set up." % project.name
             )
 
         try:
             (owner, repo) = url.split("/")
         except ValueError:
             raise AnityaPluginException(
-                """Project {} was incorrectly set-up.
+                """Project {} was incorrectly set up.
                 Can\'t parse owner and repo.""".format(
                     project.name
                 )
             )
 
-        query = prepare_query(owner, repo, project.releases_only)
-
-        try:
-            headers = REQUEST_HEADERS.copy()
-            token = config["GITHUB_ACCESS_TOKEN"]
-            if token:
-                headers["Authorization"] = "bearer %s" % token
-            resp = http_session.post(
-                API_URL, json={"query": query}, headers=headers, timeout=60, verify=True
-            )
-        except Exception as err:
-            _log.debug("%s ERROR: %s" % (project.name, str(err)))
-            raise AnityaPluginException(
-                'Could not call : "%s" of "%s", with error: %s'
-                % (API_URL, project.name, str(err))
-            )
-
-        if resp.ok:
-            json = resp.json()
-        elif resp.status_code == 403:
-            _log.info("Github API ratelimit reached.")
-            raise RateLimitException(reset_time)
+        if project.latest_known_cursor:
+            # If we know about the cursor of the latest version, attempt to
+            # limit results to anything after it. Only if that fails, try
+            # without one.
+            cursor_attempts = (project.latest_known_cursor, None)
         else:
-            raise AnityaPluginException(
-                '%s: Server responded with status "%s": "%s"'
-                % (project.name, resp.status_code, resp.reason)
-            )
+            cursor_attempts = (None,)
 
-        versions = parse_json(json, project)
-        _log.debug(f"Retrieved versions: {versions}")
+        for cursor in cursor_attempts:
+            query = prepare_query(owner, repo, project.releases_only, cursor=cursor)
+
+            try:
+                headers = REQUEST_HEADERS.copy()
+                token = config["GITHUB_ACCESS_TOKEN"]
+                if token:
+                    headers["Authorization"] = "bearer %s" % token
+                resp = http_session.post(
+                    API_URL,
+                    json={"query": query},
+                    headers=headers,
+                    timeout=60,
+                    verify=True,
+                )
+            except Exception as err:
+                _log.debug("%s ERROR: %s" % (project.name, str(err)))
+                raise AnityaPluginException(
+                    'Could not call : "%s" of "%s", with error: %s'
+                    % (API_URL, project.name, str(err))
+                ) from err
+
+            if resp.ok:
+                json = resp.json()
+            elif resp.status_code == 403:
+                _log.info("Github API ratelimit reached.")
+                raise RateLimitException(reset_time)
+            else:
+                raise AnityaPluginException(
+                    '%s: Server responded with status "%s": "%s"'
+                    % (project.name, resp.status_code, resp.reason)
+                )
+
+            # Check for invalid cursor errors, we don't want to error out
+            # immediately in this case but repeat without specifying a cursor.
+            if (
+                cursor
+                and "errors" in json
+                and all(
+                    elem.get("type") == "INVALID_CURSOR_ARGUMENTS"
+                    or "invalid cursor" in elem.get("message", "").lower()
+                    for elem in json["errors"]
+                )
+            ):
+                # unset faulty cursor for now
+                project.latest_known_cursor = None
+                continue
+
+            versions = parse_json(json, project)
+            _log.debug(f"Retrieved versions: {versions}")
+            break
 
         if len(versions) == 0:
             raise AnityaPluginException(
@@ -230,16 +259,17 @@ def parse_json(json, project):
     versions = []
 
     for edge in json_data["edges"]:
+        version = {"cursor": edge.get("cursor")}
         if project.releases_only:
-            version = edge["node"]["tag"]["name"]
+            version["version"] = edge["node"]["tag"]["name"]
         else:
-            version = edge["node"]["name"]
+            version["version"] = edge["node"]["name"]
         versions.append(version)
 
     return versions
 
 
-def prepare_query(owner, repo, releases_only, cursor=""):
+def prepare_query(owner, repo, releases_only, cursor=None):
     """ Function for preparing GraphQL query for specified repository
 
     Args:
@@ -247,36 +277,45 @@ def prepare_query(owner, repo, releases_only, cursor=""):
         repo (str): Repository name.
         releases_only (bool): Fetch releases instead of tags.
         cursor (str, optional): Cursor id of the latest received commit.
-            Defaults to empty string.
+            Defaults to None, i.e. don't supply cursor values.
 
     Returns:
         str: GraphQL query.
 
     """
+    tag_fragment = "name target { commitUrl }"
 
-    cursor_str = ""
-    commitUrl = "target { commitUrl }"
-
-    # Fill cursor if we have the id
-    if cursor:
-        cursor_str = ', after: "%s"' % cursor
+    fetch_args = {}
 
     if releases_only:
-        fetch_string = "releases (orderBy: {field: CREATED_AT"
-        commitUrl = "tag { name " + commitUrl + " }"
+        fetch_obj = "releases"
+        # get release name and follow release -> tag
+        rel_tag_fragment = f"name tag {{ {tag_fragment} }}"
+        order_by_field = "CREATED_AT"
     else:
-        fetch_string = 'refs (refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE'
+        fetch_obj = "refs"
+        rel_tag_fragment = tag_fragment
+        fetch_args["refPrefix"] = '"refs/tags/"'
+        order_by_field = "TAG_COMMIT_DATE"
 
-    query = """
+    fetch_args["orderBy"] = f"{{field: {order_by_field}, direction: ASC}}"
+    fetch_args["last"] = "50"
+    if cursor:
+        fetch_args["after"] = f'"{cursor}"'
+
+    fetch_fragment = (
+        f"{fetch_obj} ({', '.join(f'{k}: {v}' for k, v in fetch_args.items())})"
+    )
+
+    query = f"""
 {{
-    repository(owner: "{owner}", name: "{name}") {{
-        {fetch_string}, direction: ASC}}, last: 50{cursor}) {{
+    repository(owner: "{owner}", name: "{repo}") {{
+        {fetch_fragment} {{
             totalCount
             edges {{
                 cursor
                 node {{
-                    name
-                    {commitUrl}
+                    {rel_tag_fragment}
                 }}
             }}
         }}
@@ -286,12 +325,6 @@ def prepare_query(owner, repo, releases_only, cursor=""):
         remaining
         resetAt
     }}
-}}""".format(
-        owner=owner,
-        name=repo,
-        fetch_string=fetch_string,
-        cursor=cursor_str,
-        commitUrl=commitUrl,
-    )
+}}"""
 
     return query

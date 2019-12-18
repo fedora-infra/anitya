@@ -81,7 +81,7 @@ class PackagistBackend(BaseBackend):
         url = cls.get_version_url(project)
         if not url:
             raise AnityaPluginException(
-                "Project {} is not correctly set-up.".format(project.name)
+                "Project {} is not correctly set up.".format(project.name)
             )
 
         last_change = project.get_time_last_created_version()

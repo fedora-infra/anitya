@@ -113,9 +113,13 @@ class AnityaTestCase(unittest.TestCase):
 
         cwd = os.path.dirname(os.path.realpath(__file__))
         my_vcr = vcr.VCR(
-            cassette_library_dir=os.path.join(cwd, "request-data/"), record_mode="once"
+            cassette_library_dir=os.path.join(cwd, "request-data/"),
+            record_mode="once",
+            decode_compressed_response=True,
         )
-        self.vcr = my_vcr.use_cassette(self.id())
+        self.vcr = my_vcr.use_cassette(
+            self.id(), filter_headers=[("Authorization", "bearer foobar")],
+        )
         self.vcr.__enter__()
         self.addCleanup(self.vcr.__exit__, None, None, None)
 
