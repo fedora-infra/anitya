@@ -109,7 +109,7 @@ class GitlabBackend(BaseBackend):
         url = cls.get_version_url(project)
         if not url:
             raise AnityaPluginException(
-                "Project %s was incorrectly set-up" % project.name
+                "Project %s was incorrectly set up." % project.name
             )
 
         last_change = project.get_time_last_created_version()

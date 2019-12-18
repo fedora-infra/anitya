@@ -119,14 +119,14 @@ class GithubBackend(BaseBackend):
             url = url.replace("/tags", "")
         else:
             raise AnityaPluginException(
-                "Project %s was incorrectly set-up" % project.name
+                "Project %s was incorrectly set up." % project.name
             )
 
         try:
             (owner, repo) = url.split("/")
         except ValueError:
             raise AnityaPluginException(
-                """Project {} was incorrectly set-up.
+                """Project {} was incorrectly set up.
                 Can\'t parse owner and repo.""".format(
                     project.name
                 )
