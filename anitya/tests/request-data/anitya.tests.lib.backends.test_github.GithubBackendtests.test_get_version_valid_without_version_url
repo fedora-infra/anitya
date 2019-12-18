@@ -1,0 +1,82 @@
+interactions:
+- request:
+    body: '{"query": "\n{\n    repository(owner: \"fedora-infra\", name: \"pkgdb2\")
+      {\n        refs (refPrefix: \"refs/tags/\", orderBy: {field: TAG_COMMIT_DATE,
+      direction: ASC}, last: 50) {\n            totalCount\n            edges {\n                cursor\n                node
+      {\n                    name target { commitUrl }\n                }\n            }\n        }\n    }\n    rateLimit
+      {\n        limit\n        remaining\n        resetAt\n    }\n}"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - bearer foobar
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '452'
+      Content-Type:
+      - application/json
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 0.17.2 at release-monitoring.org
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: '{"data":{"repository":{"refs":{"totalCount":101,"edges":[{"cursor":"NTI","node":{"name":"1.21","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/22454b37ed8435ead3c4217dce2e6a5e5d7eccfb"}}},{"cursor":"NTM","node":{"name":"1.22","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/5d60c058278f0c0b8770c0023046162857f2974c"}}},{"cursor":"NTQ","node":{"name":"1.22.1","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/e99ac34f010d054fddf95743651cb2bc1a77400a"}}},{"cursor":"NTU","node":{"name":"1.22.2","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/16374a9c760da70e272c2c72a52949f6c203c084"}}},{"cursor":"NTY","node":{"name":"1.23","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/6a542f555291cd33a8ee2e884eaa7a9760108f6e"}}},{"cursor":"NTc","node":{"name":"1.23.99","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/bbf9dba9a61365c5c15678497ea688e9204dd81f"}}},{"cursor":"NTg","node":{"name":"1.23.991","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/ded1c7ebe9b3f5957ec2716e86001a8695a63756"}}},{"cursor":"NTk","node":{"name":"1.23.992","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/86814642a1fe93cf037f755dc673abe4ee0034ec"}}},{"cursor":"NjA","node":{"name":"1.23.993","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/7e047b15332ccab98262fd532b42c10a5f274360"}}},{"cursor":"NjE","node":{"name":"1.23.994","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/2761d52cb74182d5f2ede89e92d7ef15ea8711ae"}}},{"cursor":"NjI","node":{"name":"1.23.995","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/3580d8375801a2d559bc486c60201db12ec332de"}}},{"cursor":"NjM","node":{"name":"1.24","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/eb08356dc4748af0653d4c1fcc74646b26b173c6"}}},{"cursor":"NjQ","node":{"name":"1.24.1","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/2b430efb44fb4ec05a6c3cf543b1e363668bf7b5"}}},{"cursor":"NjU","node":{"name":"1.24.2","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/e9aeba228070b8500e9b0b18a82f6c57685283eb"}}},{"cursor":"NjY","node":{"name":"1.24.3","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/22048d5f601817841fecb44ec13eb2ef9a0776e3"}}},{"cursor":"Njc","node":{"name":"1.25","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/083fdd3f455174dd1fcd47b578bcf156c441065d"}}},{"cursor":"Njg","node":{"name":"1.25.1","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/1432b71336c477717ff00d8da12c35b01f7cca57"}}},{"cursor":"Njk","node":{"name":"1.26","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/04ce3d0fa2476c28fcfbf3b1f2edbb6c13b8f9d1"}}},{"cursor":"NzA","node":{"name":"1.27","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/f179eccd3c9aff90a546474ca0ddeb6ca187a4f0"}}},{"cursor":"NzE","node":{"name":"1.28","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/acf3e34fa50c14e3b7d4e54ab37feeadf2ba2a73"}}},{"cursor":"NzI","node":{"name":"1.28.1","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/d109cd8666538eab2a9a36246db15749462093ba"}}},{"cursor":"NzM","node":{"name":"1.28.2","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/ceb99c05df0f81b9a3f0e540e15397853048d784"}}},{"cursor":"NzQ","node":{"name":"1.29","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/0eb12b02c7335c65d0aeb44673a506b00fb6bda3"}}},{"cursor":"NzU","node":{"name":"1.30","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/2967f18fe2ba4d15d4459afc4ff299cea1598b77"}}},{"cursor":"NzY","node":{"name":"1.30.1","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/ed9a070f4352474e74f2d080697d679e22d110bf"}}},{"cursor":"Nzc","node":{"name":"1.31","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/2bfea210fbe4076e4f90d9623603067fa61406c5"}}},{"cursor":"Nzg","node":{"name":"1.32","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/c1906c314fc941feb85baaec058e9c6b5cbcd2da"}}},{"cursor":"Nzk","node":{"name":"1.32.1","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/6d19c84144ee0433cd75df38cf89fd7555e2680b"}}},{"cursor":"ODA","node":{"name":"1.32.2","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/c97d398beeec42b67fcc5abc49fafbefd5a23ba2"}}},{"cursor":"ODE","node":{"name":"1.33.0","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/b3f325da5c109c6df09cd3576f3c3aa72da96161"}}},{"cursor":"ODI","node":{"name":"1.33.1","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/e8adbb784f95fabff6370e7a07e0334e519f9114"}}},{"cursor":"ODM","node":{"name":"1.33.2","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/b08f4cc706598cde9a927e3d4158fa1335600b66"}}},{"cursor":"ODQ","node":{"name":"1.33.3","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/c4ed30ba5634626c41364bfecae03c7b2ec23e69"}}},{"cursor":"ODU","node":{"name":"2.0","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/195e9d4ea574ef2ff13ab736fcfec0446d44dc58"}}},{"cursor":"ODY","node":{"name":"2.0.1","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/6d72d19ca99479a7ded0d46c5d8b407a23ec3545"}}},{"cursor":"ODc","node":{"name":"2.0.2","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/e94a4314a9d71574b848db51114609e1c1434fd2"}}},{"cursor":"ODg","node":{"name":"2.0.3","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/523a39e7da35c9f453e402053cd7c1c4b01cf4cd"}}},{"cursor":"ODk","node":{"name":"2.1","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/247f844457466c60f99baaf9a26c693f56651573"}}},{"cursor":"OTA","node":{"name":"2.2","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/d2c58725be80904ff0fac4b24f1abdcf0ca9a105"}}},{"cursor":"OTE","node":{"name":"2.3","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/cbb7b6f2f26ae764530511f70f5f9ab802030048"}}},{"cursor":"OTI","node":{"name":"2.4","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/85a9a7167ccf9bfe0b1662e9de7ad0643b311984"}}},{"cursor":"OTM","node":{"name":"2.4.1","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/33edc8556b0eefe68a15e2a308d3a17355885a31"}}},{"cursor":"OTQ","node":{"name":"2.4.2","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/d333cf2583d5b66f41225ef373504a70a223355a"}}},{"cursor":"OTU","node":{"name":"2.4.3","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/2b185748d8041ef76b498bf26835251f2f13e3a9"}}},{"cursor":"OTY","node":{"name":"2.5","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/ab0ac0b233e81a8f192a98ae5504fbdfddc5ecad"}}},{"cursor":"OTc","node":{"name":"2.6","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/0ae0a41afb161a16cec43d62c2e481cdaa44115a"}}},{"cursor":"OTg","node":{"name":"2.6.1","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/f8b68e967ab2c7945f64887484ccd076f0d7d5c8"}}},{"cursor":"OTk","node":{"name":"2.6.2","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/dc561697662599a6f0511073dea35df11df6524e"}}},{"cursor":"MTAw","node":{"name":"2.7","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/e13c4778f97489ba6c08d8b42db22c207b914e02"}}},{"cursor":"MTAx","node":{"name":"2.7.1","target":{"commitUrl":"https://github.com/fedora-infra/pkgdb2/commit/d9e8b7fcc6c5f58944ad729cee35a32d8ac80a37"}}}]}},"rateLimit":{"limit":5000,"remaining":4994,"resetAt":"2019-12-17T17:56:58Z"}}}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval,
+        X-GitHub-Media-Type
+      Cache-Control:
+      - no-cache
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 17 Dec 2019 16:56:59 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Status:
+      - 200 OK
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      X-Accepted-OAuth-Scopes:
+      - repo
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v4; format=json
+      X-GitHub-Request-Id:
+      - 0D3E:52D9:8EC81D:11BB5F0:5DF908DA
+      X-OAuth-Scopes:
+      - ''
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4994'
+      X-RateLimit-Reset:
+      - '1576605418'
+      X-XSS-Protection:
+      - 1; mode=block
+      content-length:
+      - '7794'
+    status:
+      code: 200
+      message: OK
+version: 1
