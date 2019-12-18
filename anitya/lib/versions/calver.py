@@ -98,102 +98,146 @@ class CalendarVersion(Version):
         version_str = self.parse()
         pattern_str = self.pattern
 
-        # It's possible that the pattern begins with delimiter, in this case remove the delimiter
-        pattern_delimiter, pattern_str = split_by_match(r"[^a-zA-Z0-9]+", pattern_str)
-        version_delimiter, version_str = split_by_match(r"[^a-zA-Z0-9]+", version_str)
-
-        if pattern_delimiter != version_delimiter:
-            raise ValueError("Can't parse version by pattern")
-
         while pattern_str:
-            if not version_str:
-                break
+            index_version = 0
+            index_pattern = 0
 
-            pattern, pattern_str = split_by_match(r"[a-zA-Z0-9]+", pattern_str)
-            version, version_str = split_by_match(r"[a-zA-Z0-9]+", version_str)
-
-            # Reached end of string, so no delimiter is expected
-            if pattern_str and version_str:
-                pattern_delimiter, pattern_str = split_by_match(
-                    r"[^a-zA-Z0-9]+", pattern_str
-                )
-                version_delimiter, version_str = split_by_match(
-                    r"[^a-zA-Z0-9]+", version_str
-                )
-
-                if pattern_delimiter != version_delimiter:
-                    raise ValueError("Can't parse version by pattern")
-
-            if pattern == "YYYY":
-                if re.fullmatch(r"[1-9]\d{3}", version):
-                    result_dict["year"] = version
+            if pattern_str.startswith("YYYY"):
+                match = re.match(r"[1-9]\d{3}", version_str)
+                if match:
+                    result_dict["year"] = match.group(0)
                 else:
                     raise ValueError("Can't parse version by pattern")
-            elif pattern == "YY":
-                if re.fullmatch(r"[1-9]\d{1,2}", version):
-                    result_dict["year"] = version
+                index_version = 4
+                index_pattern = 4
+            elif pattern_str.startswith("YY"):
+                match = re.match(r"[1-9]\d{1,2}", version_str)
+                if match:
+                    result_dict["year"] = match.group(0)
                 else:
                     raise ValueError("Can't parse version by pattern")
-            elif pattern == "0Y":
-                if re.fullmatch(r"[1-9]\d{1,2}|(0\d)", version):
-                    result_dict["year"] = version
+                index_version = len(result_dict["year"])
+                index_pattern = 2
+            elif pattern_str.startswith("0Y"):
+                match = re.match(r"[1-9]\d{1,2}|(0\d)", version_str)
+                if match:
+                    result_dict["year"] = match.group(0)
                 else:
                     raise ValueError("Can't parse version by pattern")
-            elif pattern == "MM":
+                index_version = len(result_dict["year"])
+                index_pattern = 2
+            elif pattern_str.startswith("MM"):
                 try:
-                    if 1 <= int(version) <= 12 and not re.fullmatch(r"(0\d+)", version):
+                    match = re.match(r"(1\d)|\d", version_str)
+                    if match and 1 <= int(match.group(0)) <= 12:
+                        result_dict["month"] = match.group(0)
+                    else:
+                        raise ValueError("Can't parse version by pattern")
+                except ValueError:
+                    raise ValueError("Can't parse version by pattern")
+                index_version = len(result_dict["month"])
+                index_pattern = 2
+            elif pattern_str.startswith("0M"):
+                try:
+                    version = version_str[:2]
+                    if 1 <= int(version) < 10 and re.fullmatch(r"(0\d)", version):
+                        result_dict["month"] = version
+                    elif 10 <= int(version) <= 12 and not re.fullmatch(
+                        r"(0\d+)", version
+                    ):
                         result_dict["month"] = version
                     else:
                         raise ValueError("Can't parse version by pattern")
                 except ValueError:
                     raise ValueError("Can't parse version by pattern")
-            elif pattern == "0M":
+                index_version = 2
+                index_pattern = 2
+            elif pattern_str.startswith("DD"):
                 try:
-                    if int(version) < 10 and re.fullmatch(r"(0\d)", version):
-                        result_dict["month"] = version
-                    elif int(version) <= 12 and not re.fullmatch(r"(0\d+)", version):
-                        result_dict["month"] = version
+                    match = re.match(r"([1-3]\d)|\d", version_str)
+                    if match and 1 <= int(match.group(0)) <= 31:
+                        result_dict["day"] = match.group(0)
                     else:
                         raise ValueError("Can't parse version by pattern")
                 except ValueError:
                     raise ValueError("Can't parse version by pattern")
-            elif pattern == "DD":
+                index_version = len(result_dict["day"])
+                index_pattern = 2
+            elif pattern_str.startswith("0D"):
                 try:
-                    if 1 <= int(version) <= 31 and not re.fullmatch(r"(0\d+)", version):
+                    version = version_str[:2]
+                    if 1 <= int(version) < 10 and re.fullmatch(r"(0\d)", version):
+                        result_dict["day"] = version
+                    elif 10 <= int(version) <= 31 and not re.fullmatch(
+                        r"(0\d+)", version
+                    ):
                         result_dict["day"] = version
                     else:
                         raise ValueError("Can't parse version by pattern")
                 except ValueError:
                     raise ValueError("Can't parse version by pattern")
-            elif pattern == "0D":
-                try:
-                    if int(version) < 10 and re.fullmatch(r"(0\d)", version):
-                        result_dict["day"] = version
-                    elif int(version) <= 31 and not re.fullmatch(r"(0\d+)", version):
-                        result_dict["day"] = version
+                index_version = 2
+                index_pattern = 2
+            elif pattern_str.startswith("MINOR"):
+                for index in range(1, len(version_str) + 1):
+                    if version_str[:index].isdigit():
+                        continue
                     else:
-                        raise ValueError("Can't parse version by pattern")
-                except ValueError:
-                    raise ValueError("Can't parse version by pattern")
-            elif pattern == "MINOR":
-                if version.isdigit():
-                    result_dict["minor"] = version
-                else:
-                    raise ValueError("Can't parse version by pattern")
-            elif pattern == "MICRO":
-                if version.isdigit():
-                    result_dict["micro"] = version
-                else:
-                    raise ValueError("Can't parse version by pattern")
-            elif pattern == "MODIFIER":
-                match = re.match(r"(.+?)(\d)+", version)
+                        # First character is not number
+                        if index == 1:
+                            raise ValueError("Can't parse version by pattern")
+                        index_version = index - 1
+                        result_dict["minor"] = version_str[:index_version]
+                        break
+                if index_version == 0:
+                    # We are on the end of string
+                    index_version = len(version_str)
+                    result_dict["minor"] = version_str[:index_version]
+                index_pattern = 5
+            elif pattern_str.startswith("MICRO"):
+                for index in range(1, len(version_str) + 1):
+                    if version_str[:index].isdigit():
+                        continue
+                    else:
+                        # First character is not number
+                        if index == 1:
+                            raise ValueError("Can't parse version by pattern")
+                        index_version = index - 1
+                        result_dict["micro"] = version_str[:index_version]
+                        break
+                if index_version == 0:
+                    # We are on the end of string
+                    index_version = len(version_str)
+                    result_dict["micro"] = version_str[:index_version]
+                index_pattern = 5
+            # MODIFIER should be the last item in pattern
+            elif pattern_str == "MODIFIER":
+                match = re.match(r"(.+?)(\d)+", version_str)
                 if match:
                     result_dict["modifier"] = match.group(1)
                     result_dict["rc_number"] = match.group(2)
                 else:
-                    result_dict["modifier"] = version
+                    result_dict["modifier"] = version_str
+                index_pattern = 8
+                index_version = len(version_str)
+            # None of the above matched, so this must be a delimiter
             else:
-                raise ValueError("Pattern is not correct Calendar version pattern")
+                index_pattern = 1
+                index_version = 1
+                if pattern_str[:index_pattern] != version_str[:index_version]:
+                    raise ValueError("Can't parse version by pattern")
+
+            if len(pattern_str) > index_pattern:
+                pattern_str = pattern_str[index_pattern:]
+            else:
+                pattern_str = ""
+
+            if len(version_str) > index_version:
+                version_str = version_str[index_version:]
+                if not pattern_str:
+                    raise ValueError("Can't parse version by pattern")
+            else:
+                break
 
         return result_dict
 

@@ -178,6 +178,11 @@ class CalendarVersionTests(unittest.TestCase):
         version = calver.CalendarVersion(version="013", pattern="0M")
         self.assertRaises(ValueError, version.split)
 
+    def test_split_pattern_0M_too_short_version(self):
+        """Assert that split function raises `ValueError` when version is too short."""
+        version = calver.CalendarVersion(version="3", pattern="0M")
+        self.assertRaises(ValueError, version.split)
+
     def test_split_pattern_0M_not_a_number(self):
         """Assert that split function raises `ValueError` when version is not correct."""
         version = calver.CalendarVersion(version="aa", pattern="0M")
@@ -243,6 +248,11 @@ class CalendarVersionTests(unittest.TestCase):
     def test_split_pattern_0D_incorrect_version_zero_padded(self):
         """Assert that split function raises `ValueError` when version is not correct."""
         version = calver.CalendarVersion(version="013", pattern="0D")
+        self.assertRaises(ValueError, version.split)
+
+    def test_split_pattern_0D_too_short_version(self):
+        """Assert that split function raises `ValueError` when version is too short."""
+        version = calver.CalendarVersion(version="3", pattern="0D")
         self.assertRaises(ValueError, version.split)
 
     def test_split_pattern_0D_not_a_number(self):
@@ -564,3 +574,13 @@ class CalendarVersionTests(unittest.TestCase):
             version="2019.04.23junk", pattern="YYYY.0M.DD-MODIFIER"
         )
         self.assertTrue(old_version == new_version)
+
+    def test_lt_no_delimiter(self):
+        """
+        Assert CalendarVersion supports < comparison by full pattern.
+        Bug https://github.com/release-monitoring/anitya/issues/867.
+        """
+        old_version = calver.CalendarVersion(version="20191018", pattern="YYYY0M0D")
+        new_version = calver.CalendarVersion(version="20191213", pattern="YYYY0M0D")
+        self.assertTrue(old_version < new_version)
+        self.assertFalse(new_version < old_version)
