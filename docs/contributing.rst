@@ -241,15 +241,17 @@ If you are a maintainer and wish to make a release, follow these steps:
 
 5. Remove every remaining news fragment from ``news`` folder.
 
-5. Commit your changes.
+6. Generate new DB schema image by running ``./generate_db_schema`` in ``docs`` folder.
 
-6. Tag a release with ``git tag -s <version>``.
+7. Commit your changes.
 
-7. Don't forget to ``git push --tags``.
+8. Tag a release with ``git tag -s <version>``.
 
-8. Build the Python packages with ``python setup.py sdist bdist_wheel``.
+9. Don't forget to ``git push --tags``.
 
-9. Upload the packages with ``twine upload dist/<dists>``.
+10. Build the Python packages with ``python setup.py sdist bdist_wheel``.
+
+11. Upload the packages with ``twine upload dist/<dists>``.
 
 
 .. _Ansible: https://www.ansible.com/
