@@ -118,7 +118,7 @@ class AnityaTestCase(unittest.TestCase):
             decode_compressed_response=True,
         )
         self.vcr = my_vcr.use_cassette(
-            self.id(), filter_headers=[("Authorization", "bearer foobar")],
+            self.id(), filter_headers=[("Authorization", "bearer foobar")]
         )
         self.vcr.__enter__()
         self.addCleanup(self.vcr.__exit__, None, None, None)
