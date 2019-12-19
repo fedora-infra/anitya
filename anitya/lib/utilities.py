@@ -131,7 +131,9 @@ def check_project_release(project, session, test=False):
             if len(version.version) < version_column_len:
                 project.versions_obj.append(
                     models.ProjectVersion(
-                        project_id=project.id, version=version.version
+                        project_id=project.id,
+                        version=version.version,
+                        commit_url=version.commit_url,
                     )
                 )
             else:

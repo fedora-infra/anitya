@@ -93,6 +93,57 @@ class GithubBackend(BaseBackend):
         return url
 
     @classmethod
+    def _retrieve_versions(cls, owner, repo, project, cursor=None):
+        query = prepare_query(owner, repo, project.releases_only, cursor=cursor)
+
+        try:
+            headers = REQUEST_HEADERS.copy()
+            token = config["GITHUB_ACCESS_TOKEN"]
+            if token:
+                headers["Authorization"] = "bearer %s" % token
+            resp = http_session.post(
+                API_URL,
+                json={"query": query},
+                headers=headers,
+                timeout=60,
+                verify=True,
+            )
+        except Exception as err:
+            _log.debug("%s ERROR: %s" % (project.name, str(err)))
+            raise AnityaPluginException(
+                'Could not call : "%s" of "%s", with error: %s'
+                % (API_URL, project.name, str(err))
+            ) from err
+
+        if resp.ok:
+            json = resp.json()
+        elif resp.status_code == 403:
+            _log.info("Github API ratelimit reached.")
+            raise RateLimitException(reset_time)
+        else:
+            raise AnityaPluginException(
+                '%s: Server responded with status "%s": "%s"'
+                % (project.name, resp.status_code, resp.reason)
+            )
+
+        # Check for invalid cursor errors, we don't want to error out
+        # immediately in this case but repeat without specifying a cursor.
+        if (
+            cursor
+            and "errors" in json
+            and all(
+                elem.get("type") == "INVALID_CURSOR_ARGUMENTS"
+                or "invalid cursor" in elem.get("message", "").lower()
+                for elem in json["errors"]
+            )
+        ):
+            return None
+
+        versions = parse_json(json, project)
+        _log.debug(f"Retrieved versions: {versions}")
+        return versions
+
+    @classmethod
     def get_versions(cls, project):
         """ Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
@@ -132,65 +183,17 @@ class GithubBackend(BaseBackend):
                 )
             )
 
-        if project.latest_version_cursor:
-            # If we know about the cursor of the latest version, attempt to
-            # limit results to anything after it. Only if that fails, try
-            # without one.
-            cursor_attempts = (project.latest_version_cursor, None)
-        else:
-            cursor_attempts = (None,)
+        # If we know about the cursor of the latest version, attempt to
+        # limit results to anything after it.
+        versions = cls._retrieve_versions(
+            owner, repo, project, cursor=project.latest_version_cursor
+        )
 
-        for cursor in cursor_attempts:
-            query = prepare_query(owner, repo, project.releases_only, cursor=cursor)
-
-            try:
-                headers = REQUEST_HEADERS.copy()
-                token = config["GITHUB_ACCESS_TOKEN"]
-                if token:
-                    headers["Authorization"] = "bearer %s" % token
-                resp = http_session.post(
-                    API_URL,
-                    json={"query": query},
-                    headers=headers,
-                    timeout=60,
-                    verify=True,
-                )
-            except Exception as err:
-                _log.debug("%s ERROR: %s" % (project.name, str(err)))
-                raise AnityaPluginException(
-                    'Could not call : "%s" of "%s", with error: %s'
-                    % (API_URL, project.name, str(err))
-                ) from err
-
-            if resp.ok:
-                json = resp.json()
-            elif resp.status_code == 403:
-                _log.info("Github API ratelimit reached.")
-                raise RateLimitException(reset_time)
-            else:
-                raise AnityaPluginException(
-                    '%s: Server responded with status "%s": "%s"'
-                    % (project.name, resp.status_code, resp.reason)
-                )
-
-            # Check for invalid cursor errors, we don't want to error out
-            # immediately in this case but repeat without specifying a cursor.
-            if (
-                cursor
-                and "errors" in json
-                and all(
-                    elem.get("type") == "INVALID_CURSOR_ARGUMENTS"
-                    or "invalid cursor" in elem.get("message", "").lower()
-                    for elem in json["errors"]
-                )
-            ):
-                # unset faulty cursor for now
-                project.latest_version_cursor = None
-                continue
-
-            versions = parse_json(json, project)
-            _log.debug(f"Retrieved versions: {versions}")
-            break
+        if versions is None:
+            # Either a previous version cursor wasn't known, or turned out to
+            # be invalid. Unset it for the latter case.
+            project.latest_version_cursor = None
+            versions = cls._retrieve_versions(owner, repo, project)
 
         if len(versions) == 0:
             raise AnityaPluginException(
@@ -262,9 +265,12 @@ def parse_json(json, project):
         version = {"cursor": edge["cursor"]}
 
         if project.releases_only:
-            version["version"] = edge["node"]["tag"]["name"]
+            hook = edge["node"]["tag"]
         else:
-            version["version"] = edge["node"]["name"]
+            hook = edge["node"]
+
+        version["version"] = hook["name"]
+        version["commit_url"] = hook["target"]["commitUrl"]
         versions.append(version)
 
     return versions

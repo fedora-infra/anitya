@@ -339,6 +339,30 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         self.assertEqual(project.latest_version_cursor, "Hbgf")
 
     @mock.patch(
+        "anitya.lib.backends.github.GithubBackend.get_versions",
+        return_value=[
+            {"version": "1.0.0", "commit_url": "https://example.com/tags/1.0.0"},
+            {"version": "0.9.9", "commit_url": "https://example.com/tags/0.9.9"},
+            {"version": "0.9.8", "commit_url": "https://example.com/tags/0.9.8"},
+        ],
+    )
+    def test_check_project_release_with_versions_with_urls(self, mock_method):
+        """Test check_project_release() with versions with URLs."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="project_name",
+                homepage="https://not-a-real-homepage.com",
+                backend="GitHub",
+                user_id="noreply@fedoraproject.org",
+            )
+        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+            utilities.check_project_release(project, self.session)
+
+        for vo in project.versions_obj:
+            self.assertEqual(vo.commit_url, "https://example.com/tags/" + vo.version)
+
+    @mock.patch(
         "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
         return_value=["1.0.0", "0.9.9", "0.9.8"],
     )
