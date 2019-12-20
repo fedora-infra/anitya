@@ -213,7 +213,7 @@ class Project(Base):
             offered by the server at ``version_url``. Defaults to ``False``.
         releases_only (sa.Boolean): Whether or not to check releases instead of tags.
             This is now only used by GitHub backend.
-        latest_version (sa.Boolean): The latest version for the project, as determined
+        latest_version (sa.String): The latest version for the project, as determined
             by the version sorting algorithm.
         logs (sa.Text): The result of the last update.
         check_successful (sa.Boolean): Flag that contains result of last check.
