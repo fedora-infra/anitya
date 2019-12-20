@@ -22,4 +22,5 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_column("projects", "latest_known_cursor")
+    with op.batch_alter_table("projects") as batch_op:
+        batch_op.drop_column("latest_known_cursor")

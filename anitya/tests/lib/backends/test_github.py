@@ -342,7 +342,7 @@ class GithubBackendtests(DatabaseTestCase):
         project = self.projects["valid_with_version_url"]
         all_versions = self.expected_versions["valid_with_version_url"]
         lk_version, lk_cursor = self.version_with_cursor["valid_with_version_url"]
-        project.latest_known_cursor = lk_cursor
+        project.latest_version_cursor = lk_cursor
         exp = all_versions[all_versions.index(lk_version) + 1 :]
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -353,7 +353,7 @@ class GithubBackendtests(DatabaseTestCase):
 
         It should return all versions."""
         project = self.projects["valid_with_version_url"]
-        project.latest_known_cursor = "invalid cursor"
+        project.latest_version_cursor = "invalid cursor"
         exp = self.expected_versions["valid_with_version_url"]
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
@@ -464,6 +464,12 @@ class JsonTests(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(JsonTests, self).__init__(*args, **kwargs)
         self.maxDiff = None
+        self.project = models.Project(
+            name="foobar",
+            homepage="https://foobar.com",
+            version_url="foo/bar",
+            backend=BACKEND,
+        )
 
     def test_prepare_query_after(self):
         """ Assert query creation with cursor """
@@ -541,17 +547,33 @@ class JsonTests(unittest.TestCase):
         self.assertMultiLineEqual(exp, obs)
 
     def test_parse_json(self):
-        """ Assert parsing json"""
-        project = models.Project(
-            name="foobar",
-            homepage="https://foobar.com",
-            version_url="foo/bar",
-            backend=BACKEND,
-        )
+        """Test parsing a JSON response without errors."""
+        json = {
+            "data": {
+                "repository": {
+                    "refs": {
+                        "totalCount": 1,
+                        "edges": [{"cursor": "cUrSoR", "node": {"name": "1.0"}}],
+                    },
+                },
+                "rateLimit": {"limit": 5000, "remaining": 5000, "resetAt": "dummy"},
+            }
+        }
+        exp = [{"cursor": "cUrSoR", "version": "1.0"}]
+        obs = backend.parse_json(json, self.project)
+        self.assertEqual(exp, obs)
+
+    def test_parse_json_with_errors(self):
+        """Test parsing JSON flagging errors."""
         json = {"errors": [{"type": "FOO", "message": "BAR"}]}
 
-        self.assertRaises(AnityaPluginException, backend.parse_json, json, project)
+        with self.assertRaises(AnityaPluginException) as excinfo:
+            backend.parse_json(json, self.project)
 
+        self.assertIn('"FOO": "BAR"', str(excinfo.exception))
+
+    def test_parse_json_threshold_exceeded(self):
+        """Test behavior when rate limit threshold is exceeded."""
         # Limit reached
         json = {
             "data": {
@@ -563,21 +585,11 @@ class JsonTests(unittest.TestCase):
                 },
             }
         }
-        self.assertRaises(RateLimitException, backend.parse_json, json, project)
+        with self.assertRaises(RateLimitException):
+            backend.parse_json(json, self.project)
+        self.assertEqual(backend.reset_time, "2008-09-03T20:56:35.450686")
 
-        json = {
-            "data": {
-                "repository": {
-                    "refs": {"totalCount": 1, "edges": [{"node": {"name": "1.0"}}]}
-                },
-                "rateLimit": {"limit": 5000, "remaining": 5000, "resetAt": "dummy"},
-            }
-        }
-        exp = [{"cursor": None, "version": "1.0"}]
-        obs = backend.parse_json(json, project)
-        self.assertEqual(exp, obs)
-
-    def test_parse_json_threshold_reach(self):
+    def test_parse_json_threshold_reached(self):
         """
         Assert that exception is thrown when
         rate limit threshold is reached.
@@ -598,7 +610,8 @@ class JsonTests(unittest.TestCase):
                 },
             }
         }
-        self.assertRaises(RateLimitException, backend.parse_json, json, project)
+        with self.assertRaises(RateLimitException):
+            backend.parse_json(json, project)
         self.assertEqual(backend.reset_time, "2008-09-03T20:56:35.450686")
 
 

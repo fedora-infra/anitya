@@ -215,6 +215,10 @@ class Project(Base):
             This is now only used by GitHub backend.
         latest_version (sa.String): The latest version for the project, as determined
             by the version sorting algorithm.
+        latest_version_cursor (sa.String): A backend-specific cursor to the
+            latest version for the project, as determined by the version
+            sorting algorithm. This can be used to avoid paginating over every
+            old version.
         logs (sa.Text): The result of the last update.
         check_successful (sa.Boolean): Flag that contains result of last check.
             ``None`` - not checked yet, ``True`` - checked successfully, ``False``
@@ -245,7 +249,7 @@ class Project(Base):
     version_scheme = sa.Column(sa.String(50), nullable=True)
 
     latest_version = sa.Column(sa.String(50))
-    latest_known_cursor = sa.Column(sa.String(200), nullable=True)
+    latest_version_cursor = sa.Column(sa.String(200), nullable=True)
     logs = sa.Column(sa.Text)
     check_successful = sa.Column(sa.Boolean, default=None, index=True)
 
