@@ -39,17 +39,14 @@
 
   <div class="col-sm-6">
     {% if distroname %}
-    <form action="{{ url_for('anitya_ui.distro_projects_search', distroname=distroname)
-     }}" role="form">
-    {% else %}
-    <form action="{{ url_for('anitya_ui.projects_search') }}" role="form" class="form-inline">
-    {% endif %}
+    <form action="{{ url_for('anitya_ui.distro_projects_search', distroname=distroname) }}">
       <div class="form-group">
         <input type="text" name="pattern" placeholder="Project name"
             class="form-control input-sm" value="{{ pattern }}"/>
         <button type="submit" class="btn btn-sm btn-default">Search</button>
       </div>
     </form>
+    {% endif %}
   </div>
 </div>
 
@@ -58,7 +55,7 @@
     <p>{{ projects_count }} projects found</p>
     <div class="list-group">
     {% if projects %}
-      <span class="list-group-item">
+      <div class="list-group-item">
         <p class="list-group-item-text">
           <dl class="dl-horizontal">
             <table class="table table-condensed">
@@ -88,7 +85,7 @@
           </dl>
         </p>
         <div class="clearfix"></div>
-      </span>
+      </div>
     {% else %}
     <blockquote>
         Oups this is embarrassing, it seems that no projects are being
