@@ -1,0 +1,1 @@
+Automatically delete projects without versions that reached configured error threshold

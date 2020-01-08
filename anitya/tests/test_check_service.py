@@ -29,7 +29,9 @@ from datetime import timedelta
 from time import sleep
 
 import arrow
+from fedora_messaging import testing as fml_testing
 
+import anitya_schema
 from anitya.db import models
 from anitya.tests.base import DatabaseTestCase
 from anitya.check_service import Checker
@@ -148,6 +150,91 @@ class CheckerTests(DatabaseTestCase):
         self.assertEqual(self.checker.ratelimit_counter, 0)
         self.assertEqual(self.checker.success_counter, 1)
         self.assertEqual(self.checker.error_counter, 0)
+
+    @mock.patch(
+        "anitya.lib.utilities.check_project_release",
+        mock.Mock(side_effect=exceptions.AnityaException("")),
+    )
+    def test_update_project_error_threshold_reached(self):
+        """
+        Assert that project is deleted when error threshold is reached.
+        """
+        project = models.Project(
+            name="Foobar",
+            backend="GitHub",
+            homepage="www.fakeproject.com",
+            next_check=arrow.utcnow().datetime,
+            error_counter=100,
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        with fml_testing.mock_sends(anitya_schema.ProjectDeleted):
+            self.checker.update_project(project.id)
+
+        projects = self.session.query(models.Project).all()
+
+        self.assertEqual(len(projects), 0)
+
+    def test_is_delete_candidate_not_reached(self):
+        """
+        Assert that project is not marked as delete candidate,
+        if error threshold was not reached.
+        """
+        project = models.Project(
+            name="Foobar",
+            backend="GitHub",
+            homepage="www.fakeproject.com",
+            next_check=arrow.utcnow().datetime,
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        result = self.checker.is_delete_candidate(project)
+
+        self.assertFalse(result)
+
+    def test_is_delete_candidate_versions(self):
+        """
+        Assert that project is not marked as delete candidate,
+        if it has any version linked to it.
+        """
+        project = models.Project(
+            name="Foobar",
+            backend="GitHub",
+            homepage="www.fakeproject.com",
+            next_check=arrow.utcnow().datetime,
+            error_counter=100,
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        version = models.ProjectVersion(version="1.0.0", project_id=project.id)
+        self.session.add(version)
+        self.session.commit()
+
+        result = self.checker.is_delete_candidate(project)
+
+        self.assertFalse(result)
+
+    def test_is_delete_candidate_ready(self):
+        """
+        Assert that project is marked as delete candidate,
+        if it has reached error threshold and has no version.
+        """
+        project = models.Project(
+            name="Foobar",
+            backend="GitHub",
+            homepage="www.fakeproject.com",
+            next_check=arrow.utcnow().datetime,
+            error_counter=100,
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        result = self.checker.is_delete_candidate(project)
+
+        self.assertTrue(result)
 
     def test_blacklist_project(self):
         """

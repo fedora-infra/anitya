@@ -64,9 +64,12 @@ github_access_token = "foobar"
 
 # Check service configuration
 # Number of workers
-CRON_POOL = 10
+cron_pool = 10
 # Worker timeout in seconds
-CHECK_TIMEOUT = 600
+check_timeout = 600
+# When this number of failed checks is reached,
+# project will be automatically removed, if no version was retrieved yet
+check_error_threshold=100
 
 # The logging configuration, in Python dictConfig format.
 [anitya_log_config]

@@ -213,6 +213,9 @@
         <table class="table table-condensed">
           <tr>
             <th>Status</th>
+            {% if project.check_successful is not none and project.check_successful == false %}
+            <th>Checks failed</th>
+            {% endif %}
             <th>Updated</th>
             <th>Description</th>
           </tr>
@@ -221,6 +224,7 @@
             <td>Not updated</td>
             {% elif not project.check_successful %}
             <td style="color:red;">Fail</td>
+            <td>{{ project.error_counter }}</td>
             {% else %}
             <td style="color:green;">OK</td>
             {% endif %}

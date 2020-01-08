@@ -604,11 +604,9 @@ class FlaskTest(DatabaseTestCase):
         monitored currently.
         <p><a href="/project/new?name=gua">Click Here</a> to add this project instead. </p>
     </blockquote>"""
-        self.assertTrue(expected in output.data)
-        self.assertTrue(
-            b'form action="/distro/Fedora/search/" role="form">' in output.data
-        )
-        self.assertTrue(b"<h1>Search projects in Fedora</h1>" in output.data)
+        self.assertIn(expected, output.data)
+        self.assertIn(b'form action="/distro/Fedora/search/">', output.data)
+        self.assertIn(b"<h1>Search projects in Fedora</h1>", output.data)
 
     def test_distro_projects_search_pattern(self):
         """

@@ -213,8 +213,15 @@ class Project(Base):
             offered by the server at ``version_url``. Defaults to ``False``.
         releases_only (sa.Boolean): Whether or not to check releases instead of tags.
             This is now only used by GitHub backend.
-        latest_version (sa.Boolean): The latest version for the project, as determined
+        error_counter (sa.Integer): Counter that contains number of unsuccessful checks.
+            This counter will reset each time a successful check is done.
+            Doesn't count ratelimit errors.
+        latest_version (sa.String): The latest version for the project, as determined
             by the version sorting algorithm.
+        latest_version_cursor (sa.String): A backend-specific cursor to the
+            latest version for the project, as determined by the version
+            sorting algorithm. This can be used to avoid paginating over every
+            old version.
         logs (sa.Text): The result of the last update.
         check_successful (sa.Boolean): Flag that contains result of last check.
             ``None`` - not checked yet, ``True`` - checked successfully, ``False``
@@ -242,10 +249,11 @@ class Project(Base):
     version_pattern = sa.Column(sa.String(200), nullable=True)
     insecure = sa.Column(sa.Boolean, nullable=False, default=False)
     releases_only = sa.Column(sa.Boolean, nullable=False, default=False)
+    error_counter = sa.Column(sa.Integer, index=True, default=0)
     version_scheme = sa.Column(sa.String(50), nullable=True)
 
     latest_version = sa.Column(sa.String(50))
-    latest_known_cursor = sa.Column(sa.String(200), nullable=True)
+    latest_version_cursor = sa.Column(sa.String(200), nullable=True)
     logs = sa.Column(sa.Text)
     check_successful = sa.Column(sa.Boolean, default=None, index=True)
 
@@ -534,10 +542,10 @@ class Project(Base):
             )
         elif status == "failed":
             query = query.filter(
-                Project.logs.isnot(None),
-                Project.logs != "Version retrieved correctly",
-                ~Project.logs.ilike("Something strange occured%"),
-            )
+                Project.check_successful.isnot(None),
+                Project.check_successful.is_(False),
+                Project.error_counter > 0,
+            ).order_by(Project.error_counter.desc())
         elif status == "odd":
             query = query.filter(
                 Project.logs.isnot(None),
