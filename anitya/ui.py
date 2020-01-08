@@ -2,7 +2,7 @@
 
 from math import ceil
 
-from flask_login import login_required, logout_user
+from flask_login import login_required, logout_user, current_user
 import flask
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -31,6 +31,10 @@ def get_extended_pattern(pattern):
 @ui_blueprint.route("/")
 def index():
     total = models.Project.all(Session, count=True)
+    if current_user.is_authenticated and flask.session.get("next_url", ""):
+        next_url = flask.session.get("next_url")
+        del flask.session["next_url"]
+        return flask.redirect(next_url)
     return flask.render_template("index.html", current="index", total=total)
 
 
@@ -51,6 +55,7 @@ def fedmsg():
 @ui_blueprint.route("/login/", methods=("GET", "POST"))
 @ui_blueprint.route("/login", methods=("GET", "POST"))
 def login():
+    flask.session["next_url"] = flask.request.args.get("next", "/")
     return flask.render_template("login.html")
 
 
@@ -456,8 +461,14 @@ def new_project():
     plg_names = [plugin.name for plugin in backend_plugins]
     version_plugins = anitya_plugins.load_plugins(Session, family="versions")
     version_plg_names = [plugin.name for plugin in version_plugins]
+    # Get all available distros name
+    distros = models.Distro.all(Session)
+    distro_names = []
+    for distro in distros:
+        distro_names.append(distro.name)
+
     form = anitya.forms.ProjectForm(
-        backends=plg_names, version_schemes=version_plg_names
+        backends=plg_names, version_schemes=version_plg_names, distros=distro_names
     )
 
     if flask.request.method == "GET":

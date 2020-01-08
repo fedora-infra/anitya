@@ -35,7 +35,7 @@ class ProjectForm(FlaskForm):
     regex = StringField("Regex", [validators.optional()])
     insecure = BooleanField("Use insecure connection", [validators.optional()])
 
-    distro = StringField("Distro (optional)", [validators.optional()])
+    distro = SelectField("Distro (optional)", [validators.optional()], choices=[])
     package_name = StringField("Package (optional)", [validators.optional()])
     check_release = BooleanField(
         "Check latest release on submit", [validators.optional()]
@@ -59,6 +59,12 @@ class ProjectForm(FlaskForm):
                 (version_scheme, version_scheme)
                 for version_scheme in sorted(kwargs["version_schemes"])
             ]
+        if "distros" in kwargs:
+            self.distro.choices = [
+                (distro, distro)
+                for distro in sorted(kwargs["distros"], key=lambda s: s.lower())
+            ]
+            self.distro.choices.insert(0, ("", ""))
 
 
 class FlagProjectForm(FlaskForm):
