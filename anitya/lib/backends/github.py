@@ -132,11 +132,11 @@ class GithubBackend(BaseBackend):
                 )
             )
 
-        if project.latest_known_cursor:
+        if project.latest_version_cursor:
             # If we know about the cursor of the latest version, attempt to
             # limit results to anything after it. Only if that fails, try
             # without one.
-            cursor_attempts = (project.latest_known_cursor, None)
+            cursor_attempts = (project.latest_version_cursor, None)
         else:
             cursor_attempts = (None,)
 
@@ -185,7 +185,7 @@ class GithubBackend(BaseBackend):
                 )
             ):
                 # unset faulty cursor for now
-                project.latest_known_cursor = None
+                project.latest_version_cursor = None
                 continue
 
             versions = parse_json(json, project)
@@ -259,7 +259,8 @@ def parse_json(json, project):
     versions = []
 
     for edge in json_data["edges"]:
-        version = {"cursor": edge.get("cursor")}
+        version = {"cursor": edge["cursor"]}
+
         if project.releases_only:
             version["version"] = edge["node"]["tag"]["name"]
         else:
