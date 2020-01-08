@@ -174,6 +174,7 @@ class LoadTests(unittest.TestCase):
             "SSE_FEED": "http://firehose.libraries.io/events",
             "CRON_POOL": 10,
             "CHECK_TIMEOUT": 600,
+            "CHECK_ERROR_THRESHOLD": 100,
         }
         config = anitya_config.load()
         self.assertEqual(sorted(expected_config.keys()), sorted(config.keys()))

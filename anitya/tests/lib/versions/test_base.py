@@ -70,6 +70,11 @@ class VersionTests(unittest.TestCase):
         version = base.Version(version="version1.0.0")
         self.assertEqual("version1.0.0", version.parse())
 
+    def test_parse_prefix_whitespace(self):
+        """Assert prefix is stripped together with any whitespace."""
+        version = base.Version(version="version 1.0.0", prefix="version")
+        self.assertEqual("1.0.0", version.parse())
+
     def test_parse_with_prefix_no_v(self):
         version = base.Version(version="release1.0.0", prefix="release")
         self.assertEqual("1.0.0", version.parse())

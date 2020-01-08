@@ -110,7 +110,7 @@ class Version(object):
         version = self.version
         for prefix in self.prefixes:
             if prefix and self.version.startswith(prefix):
-                version = self.version[len(prefix) :]
+                version = self.version[len(prefix) :].strip()
 
         # Many projects prefix their tags with 'v', so strip it if it's present
         if v_prefix.match(version):

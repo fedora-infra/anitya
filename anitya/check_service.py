@@ -111,10 +111,38 @@ class Checker:
             _log.info(f"{project.name} : {str(err)}")
             with self.error_counter_lock:
                 self.error_counter += 1
+            if self.is_delete_candidate(project):
+                session.delete(project)
+                utilities.log(
+                    session,
+                    project=project.__json__(),
+                    topic="project.remove",
+                    message=dict(agent="anitya", project=project.name),
+                )
+                session.commit()
             return
 
         with self.success_counter_lock:
             self.success_counter += 1
+
+    def is_delete_candidate(self, project: db.Project) -> bool:
+        """
+        Check if this project is a candidate for deletion. Project is a candidate for
+        deletion, if error_counter already reached configured threshold and no version
+        was retrieved yet.
+
+        Args:
+            project: Project to check
+
+        Returns:
+            True if project is candidate for deletion, False otherwise.
+        """
+        if project.error_counter < config.get("CHECK_ERROR_THRESHOLD"):
+            return False
+        if project.versions:
+            return False
+
+        return True
 
     def blacklist_project(self, project: db.Project, reset_time: arrow.Arrow):
         """

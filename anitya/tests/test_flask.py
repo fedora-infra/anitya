@@ -183,6 +183,7 @@ class NewProjectTests(DatabaseTestCase):
     def setUp(self):
         """Set up the Flask testing environnment"""
         super(NewProjectTests, self).setUp()
+        create_distro(self.session)
         self.app = self.flask_app.test_client()
         self.user = models.User(email="user@fedoraproject.org", username="user")
         user_social_auth = social_models.UserSocialAuth(
@@ -383,9 +384,7 @@ class NewProjectTests(DatabaseTestCase):
                 }
 
                 with fml_testing.mock_sends(
-                    anitya_schema.ProjectCreated,
-                    anitya_schema.DistroCreated,
-                    anitya_schema.ProjectMapCreated,
+                    anitya_schema.ProjectCreated, anitya_schema.ProjectMapCreated
                 ):
                     output = c.post("/project/new", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
@@ -398,8 +397,6 @@ class NewProjectTests(DatabaseTestCase):
                 projects = models.Project.all(self.session)
                 self.assertEqual(len(projects), 1)
                 self.assertEqual(len(projects[0].package), 1)
-                distros = self.session.query(models.Distro).all()
-                self.assertEqual(len(distros), 1)
 
     def test_new_project_distro_mapping(self):
         """Assert an authenticated user can create a new project with distro mapping"""
@@ -426,9 +423,7 @@ class NewProjectTests(DatabaseTestCase):
                     "package_name": "repo_manager",
                 }
                 with fml_testing.mock_sends(
-                    anitya_schema.ProjectCreated,
-                    anitya_schema.DistroCreated,
-                    anitya_schema.ProjectMapCreated,
+                    anitya_schema.ProjectCreated, anitya_schema.ProjectMapCreated
                 ):
                     output = c.post("/project/new", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
@@ -440,8 +435,6 @@ class NewProjectTests(DatabaseTestCase):
             projects = models.Project.all(self.session)
             self.assertEqual(len(projects), 1)
             self.assertEqual(len(projects[0].package), 1)
-            distros = self.session.query(models.Distro).all()
-            self.assertEqual(len(distros), 1)
 
 
 class FlaskTest(DatabaseTestCase):
@@ -621,11 +614,9 @@ class FlaskTest(DatabaseTestCase):
         monitored currently.
         <p><a href="/project/new?name=gua">Click Here</a> to add this project instead. </p>
     </blockquote>"""
-        self.assertTrue(expected in output.data)
-        self.assertTrue(
-            b'form action="/distro/Fedora/search/" role="form">' in output.data
-        )
-        self.assertTrue(b"<h1>Search projects in Fedora</h1>" in output.data)
+        self.assertIn(expected, output.data)
+        self.assertIn(b'form action="/distro/Fedora/search/">', output.data)
+        self.assertIn(b"<h1>Search projects in Fedora</h1>", output.data)
 
     def test_distro_projects_search_pattern(self):
         """
