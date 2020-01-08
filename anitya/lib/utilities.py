@@ -106,6 +106,7 @@ def check_project_release(project, session, test=False):
         if not test:
             project.logs = str(err)
             project.check_successful = False
+            project.error_counter += 1
             session.add(project)
             session.commit()
         raise
@@ -120,6 +121,7 @@ def check_project_release(project, session, test=False):
     # otherwise this backend raises exception
     project.logs = "Version retrieved correctly"
     project.check_successful = True
+    project.error_counter = 0
 
     p_versions = project.get_sorted_version_objects()
     old_version = project.latest_version or ""
@@ -141,11 +143,14 @@ def check_project_release(project, session, test=False):
 
     sorted_versions = project.get_sorted_version_objects()
     if sorted_versions:
-        max_version = sorted_versions[0].parse()
-        max_version_cursor = sorted_versions[0].cursor
+        max_version_obj = sorted_versions[0]
+        max_version = max_version_obj.parse()
     if project.latest_version != max_version:
         project.latest_version = max_version
-        project.latest_known_cursor = max_version_cursor
+        if versions:  # pragma: no branch
+            # project.create_version_objects() returns sorted versions, i.e.
+            # version[-1] will be the latest one
+            project.latest_version_cursor = versions[-1].cursor
         publish = True
     else:
         project.logs = "No new version found"

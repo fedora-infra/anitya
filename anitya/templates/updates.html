@@ -72,6 +72,11 @@
     <span class="list-group-item">
       <h4 class="list-group-item-heading">
         <table class="table table-condensed">
+            <th>Project name</th>
+            <th>Log content</th>
+            {% if status == 'failed' %}
+            <th>Checks failed</th>
+            {% endif %}
         {% for project in projects %}
             <tr>
               <td>
@@ -82,6 +87,9 @@
               <td>
                 {{ project.logs }}
               </td>
+              {% if status == 'failed' %}
+              <td>{{ project.error_counter }}</td>
+              {% endif %}
             </tr>
           {% endfor %}
           </table>
