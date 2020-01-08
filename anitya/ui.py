@@ -456,8 +456,14 @@ def new_project():
     plg_names = [plugin.name for plugin in backend_plugins]
     version_plugins = anitya_plugins.load_plugins(Session, family="versions")
     version_plg_names = [plugin.name for plugin in version_plugins]
+    # Get all available distros name
+    distros = models.Distro.all(Session)
+    distro_names = []
+    for distro in distros:
+        distro_names.append(distro.name)
+
     form = anitya.forms.ProjectForm(
-        backends=plg_names, version_schemes=version_plg_names
+        backends=plg_names, version_schemes=version_plg_names, distros=distro_names
     )
 
     if flask.request.method == "GET":

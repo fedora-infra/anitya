@@ -1,0 +1,1 @@
+Strip whitespaces from version when removing prefix

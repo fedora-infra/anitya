@@ -246,6 +246,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
             project,
             self.session,
         )
+        self.assertEqual(project.error_counter, 1)
 
     @mock.patch(
         "anitya.lib.backends.npmjs.NpmjsBackend.get_versions", return_value=["1.0.0"]
@@ -313,6 +314,29 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         self.assertEqual(len(versions), 3)
         self.assertEqual(versions[0].version, "v1.0.0")
         self.assertEqual(project.latest_version, "1.0.0")
+
+    @mock.patch(
+        "anitya.lib.backends.github.GithubBackend.get_versions",
+        return_value=[
+            {"version": "1.0.0", "cursor": "Hbgf"},
+            {"version": "0.9.9", "cursor": "Hbge"},
+            {"version": "0.9.8", "cursor": "Hbgd"},
+        ],
+    )
+    def test_check_project_release_versions_with_cursor(self, mock_method):
+        """Test check_project_release() with versions with cursor."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="project_name",
+                homepage="https://not-a-real-homepage.com",
+                backend="GitHub",
+                user_id="noreply@fedoraproject.org",
+            )
+        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+            utilities.check_project_release(project, self.session)
+
+        self.assertEqual(project.latest_version_cursor, "Hbgf")
 
     @mock.patch(
         "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
@@ -419,6 +443,27 @@ class CheckProjectReleaseTests(DatabaseTestCase):
             "remove-circular-dependency-7bbe4a64-3514-4f6e-9c03-9dc8bcf4def7"
             in versions
         )
+
+    @mock.patch(
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions", return_value=["1.0.0"]
+    )
+    def test_check_project_release_error_counter_reset(self, mock_method):
+        """ Test if error_counter reset to 0, when successful check is done. """
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="pypi_and_npm",
+                homepage="https://example.com/not-a-real-npmjs-project",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+            )
+        project.error_counter = 30
+        self.session.add(project)
+        self.session.commit()
+
+        utilities.check_project_release(project, self.session)
+
+        self.assertEqual(project.error_counter, 0)
 
 
 class MapProjectTests(DatabaseTestCase):
