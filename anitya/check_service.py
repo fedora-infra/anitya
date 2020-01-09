@@ -128,8 +128,9 @@ class Checker:
     def is_delete_candidate(self, project: db.Project) -> bool:
         """
         Check if this project is a candidate for deletion. Project is a candidate for
-        deletion, if error_counter already reached configured threshold and no version
-        was retrieved yet.
+        deletion, if error_counter already reached configured threshold and project
+        has no mapping. If mapping exists, but project doesn't have any versions it's
+        still a candidate for deletion.
 
         Args:
             project: Project to check
@@ -139,8 +140,12 @@ class Checker:
         """
         if project.error_counter < config.get("CHECK_ERROR_THRESHOLD"):
             return False
-        if project.versions:
-            return False
+        packages = db.Packages.query.filter(db.Packages.project_id == project.id).all()
+        if packages:
+            if not project.versions:
+                return True
+            else:
+                return False
 
         return True
 
