@@ -194,10 +194,10 @@ class CheckerTests(DatabaseTestCase):
 
         self.assertFalse(result)
 
-    def test_is_delete_candidate_versions(self):
+    def test_is_delete_candidate_mapping_version_exists(self):
         """
         Assert that project is not marked as delete candidate,
-        if it has any version linked to it.
+        if it has mapping added and at least one version.
         """
         project = models.Project(
             name="Foobar",
@@ -209,6 +209,14 @@ class CheckerTests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
+        distro = models.Distro(name="Fedora")
+        self.session.add(distro)
+        self.session.commit()
+
+        mapping = models.Packages(distro_name="Fedora", project_id=project.id)
+        self.session.add(mapping)
+        self.session.commit()
+
         version = models.ProjectVersion(version="1.0.0", project_id=project.id)
         self.session.add(version)
         self.session.commit()
@@ -217,10 +225,37 @@ class CheckerTests(DatabaseTestCase):
 
         self.assertFalse(result)
 
+    def test_is_delete_candidate_mapping_no_version(self):
+        """
+        Assert that project is marked as delete candidate,
+        if it has mapping added and no version.
+        """
+        project = models.Project(
+            name="Foobar",
+            backend="GitHub",
+            homepage="www.fakeproject.com",
+            next_check=arrow.utcnow().datetime,
+            error_counter=100,
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        distro = models.Distro(name="Fedora")
+        self.session.add(distro)
+        self.session.commit()
+
+        mapping = models.Packages(distro_name="Fedora", project_id=project.id)
+        self.session.add(mapping)
+        self.session.commit()
+
+        result = self.checker.is_delete_candidate(project)
+
+        self.assertTrue(result)
+
     def test_is_delete_candidate_ready(self):
         """
         Assert that project is marked as delete candidate,
-        if it has reached error threshold and has no version.
+        if it has reached error threshold and has no mapping.
         """
         project = models.Project(
             name="Foobar",
