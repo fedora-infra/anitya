@@ -378,6 +378,11 @@ class ProjectTests(DatabaseTestCase):
         """
         create_project(self.session)
         create_package(self.session)
+        # Create mapping for another distro to be sure that only Fedora mappings
+        # are taken into account
+        package = models.Packages(distro_name="Debian", project_id=3)
+        self.session.add(package)
+        self.session.commit()
 
         projects = models.Project.search(self.session, "*", distro="Fedora")
         self.assertEqual(len(projects), 2)
