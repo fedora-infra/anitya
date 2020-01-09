@@ -610,7 +610,10 @@ class Project(Base):
 
         if distro is not None:
             query1 = query1.filter(Project.id == Packages.project_id).filter(
-                sa.func.lower(Packages.distro) == sa.func.lower(distro)
+                sa.func.lower(Packages.distro_name) == sa.func.lower(distro)
+            )
+            query2 = query2.filter(
+                sa.func.lower(Packages.distro_name) == sa.func.lower(distro)
             )
 
         query = query1.distinct().union(query2.distinct()).order_by(cls.name)
