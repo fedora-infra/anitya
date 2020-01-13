@@ -353,6 +353,11 @@ class Project(Base):
                         if isinstance(version, dict) and "cursor" in version
                         else None
                     ),
+                    commit_url=(
+                        version["commit_url"]
+                        if isinstance(version, dict) and "commit_url" in version
+                        else None
+                    ),
                 )
                 for version in versions
             ]
@@ -385,11 +390,19 @@ class Project(Base):
                 prefix=self.version_prefix,
                 created_on=v_obj.created_on,
                 pattern=self.version_pattern,
+                commit_url=v_obj.commit_url,
             )
             for v_obj in self.versions_obj
         ]
         sorted_versions = list(reversed(sorted(versions)))
         return sorted_versions
+
+    @property
+    def latest_version_object(self):
+        sorted_versions = self.get_sorted_version_objects()
+        if sorted_versions:
+            return sorted_versions[0]
+        return None
 
     def get_version_class(self):
         """
@@ -610,7 +623,10 @@ class Project(Base):
 
         if distro is not None:
             query1 = query1.filter(Project.id == Packages.project_id).filter(
-                sa.func.lower(Packages.distro) == sa.func.lower(distro)
+                sa.func.lower(Packages.distro_name) == sa.func.lower(distro)
+            )
+            query2 = query2.filter(
+                sa.func.lower(Packages.distro_name) == sa.func.lower(distro)
             )
 
         query = query1.distinct().union(query2.distinct()).order_by(cls.name)
@@ -633,6 +649,7 @@ class ProjectVersion(Base):
     )
     version = sa.Column(sa.String(50), primary_key=True)
     created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+    commit_url = sa.Column(sa.String(200), nullable=True)
 
     project = sa.orm.relationship(
         "Project", backref=sa.orm.backref("versions_obj", cascade="all, delete-orphan")

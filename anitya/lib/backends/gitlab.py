@@ -82,11 +82,11 @@ class GitlabBackend(BaseBackend):
         elif project.homepage:
             tokens = project.homepage.split("/")
 
-        if len(tokens) == 5:
+        if len(tokens) >= 5:
             url = url_template % {
                 "hostname": tokens[0] + "//" + tokens[2],
                 "owner": tokens[3],
-                "repo": tokens[4],
+                "repo": "%2F".join(tokens[4:]),  # any subgroups & repo
             }
 
         return url

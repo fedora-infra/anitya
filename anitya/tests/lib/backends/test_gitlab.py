@@ -129,6 +129,45 @@ class GitlabBackendtests(DatabaseTestCase):
 
         self.assertEqual(obs, exp)
 
+    def test_get_version_url_project_version_url_subgroup(self):
+        """
+        Assert that the correct URL is returned when
+        a project version url is specified for a
+        subgrouped project.
+        """
+        project = models.Project(
+            name="test",
+            homepage="http://example.org",
+            version_url="https://gitlab.com/group/subgroup/test",
+            backend=BACKEND,
+        )
+        exp = (
+            "https://gitlab.com/api/v4/projects/group%2Fsubgroup%2Ftest/repository/tags"
+        )
+
+        obs = backend.GitlabBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_project_homepage_only_subgroup(self):
+        """
+        Assert that the correct url is returned when
+        only a project homepage is specified for a
+        subgrouped project.
+        """
+        project = models.Project(
+            name="test",
+            homepage="https://gitlab.com/group/subgroup/test",
+            backend=BACKEND,
+        )
+        exp = (
+            "https://gitlab.com/api/v4/projects/group%2Fsubgroup%2Ftest/repository/tags"
+        )
+
+        obs = backend.GitlabBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_get_version_url_project_wrong_homepage(self):
         """
         Assert that empty url is returned when
