@@ -40,7 +40,11 @@
                 <h4 class="list-group-item-heading">Latest version</h4>
                 <div class="list-group-item-text">
                   {% if project.versions %}
-                    <div property="doap:release" typeof="doap:Version">{{ project.latest_version }}</div>
+                    {% if project.latest_version_object and project.latest_version_object.commit_url %}
+                      <div property="doap:release" typeof="doap:Version">{{ project.latest_version }} (<a href="{{ project.latest_version_object.commit_url }}">commit</a>)</div>
+                    {% else %}
+                      <div property="doap:release" typeof="doap:Version">{{ project.latest_version }}</div>
+                    {% endif %}
                   {% else %}
                     <p id="version_info">No version available for this package</p>
                   {% endif %}

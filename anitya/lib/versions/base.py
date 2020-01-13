@@ -46,6 +46,7 @@ class Version(object):
         created_on: Optional[datetime] = None,
         pattern: Optional[str] = None,
         cursor: Optional[str] = None,
+        commit_url: Optional[str] = None,
     ):
         """
         Constructor of Version class.
@@ -57,6 +58,7 @@ class Version(object):
             pattern: Calendar version pattern.
                 See `Calendar version scheme_` for more information.
             cursor: An opaque, backend-specific cursor pointing to the version.
+            commit_url: A URL pointing to the commit tagged as the version.
 
         .. _Calendar version scheme:
            https://calver.org/#scheme
@@ -79,6 +81,7 @@ class Version(object):
         else:
             self.pattern = None
         self.cursor = cursor
+        self.commit_url = commit_url
 
     def __str__(self):
         """
