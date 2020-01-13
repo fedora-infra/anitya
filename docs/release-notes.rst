@@ -4,6 +4,115 @@ Release Notes
 
 .. towncrier release notes start
 
+0.18 (2020-01-13)
+=================
+
+API Changes
+-----------
+
+* Filters in APIv2 are now case insensitive
+  (`#807 <https://github.com/release-monitoring/anitya/issues/807>`_)
+
+
+Features
+--------
+
+* Automatically delete projects without versions that reached configured error threshold
+  (`PR#865 <https://github.com/release-monitoring/anitya/pull/865>`_)
+
+* GitHub: Store and use latest known version cursors
+  (`PR#873 <https://github.com/release-monitoring/anitya/pull/873>`_)
+
+* Link to commit of latest version if known
+  (`PR#874 <https://github.com/release-monitoring/anitya/pull/874>`_)
+
+* Use dropdown field for distro when on Add project form
+  (`#777 <https://github.com/release-monitoring/anitya/issues/777>`_)
+
+* Add error counter to project
+  (`#829 <https://github.com/release-monitoring/anitya/issues/829>`_)
+
+* Add timeout option for check service
+  (`#843 <https://github.com/release-monitoring/anitya/issues/843>`_)
+
+* Strip whitespaces from version when removing prefix
+  (`#866 <https://github.com/release-monitoring/anitya/issues/866>`_)
+
+
+Bug Fixes
+---------
+
+* Fix crash on GNU, Crates and Folder backends
+  (`PR#837 <https://github.com/release-monitoring/anitya/pull/837>`_)
+
+* Fix OOM issue with check_service
+  (`PR#842 <https://github.com/release-monitoring/anitya/pull/842>`_)
+
+* Removed duplicate search form from project search result page
+  (`PR#877 <https://github.com/release-monitoring/anitya/pull/877>`_)
+
+* Fix accessing projects in GitLab subgroups
+  (`PR#884 <https://github.com/release-monitoring/anitya/pull/884>`_)
+
+* Database schema image is missing in documentation
+  (`#692 <https://github.com/release-monitoring/anitya/issues/692>`_)
+
+* Current page is forgotten on login
+  (`#713 <https://github.com/release-monitoring/anitya/issues/713>`_)
+
+* If URL is changed, update ecosystem value as well
+  (`#764 <https://github.com/release-monitoring/anitya/issues/764>`_)
+
+* Tooltips are not working on Firefox 68
+  (`#813 <https://github.com/release-monitoring/anitya/issues/813>`_)
+
+* Use tag name instead of release name for projects, which are checking only releases
+  (`#845 <https://github.com/release-monitoring/anitya/issues/845>`_)
+
+* Can't disable "Check releases instead of tags" checkbox when editing project
+  (`#855 <https://github.com/release-monitoring/anitya/issues/855>`_)
+
+* Allow no delimiter in calendar versioning pattern
+  (`#867 <https://github.com/release-monitoring/anitya/issues/867>`_)
+
+* Distro search is broken
+  (`#876 <https://github.com/release-monitoring/anitya/issues/876>`_)
+
+
+Development Changes
+-------------------
+
+* Use DEBUG level log for development
+  (`PR#826 <https://github.com/release-monitoring/anitya/pull/826>`_)
+
+* Add Dependabot configuration file
+  (`PR#844 <https://github.com/release-monitoring/anitya/pull/844>`_)
+
+* Bump Vagrant box to Fedora 31
+  (`PR#858 <https://github.com/release-monitoring/anitya/pull/858>`_)
+
+* Mock the Fedora Messaging calls in the unit tests
+  (`PR#860 <https://github.com/release-monitoring/anitya/pull/860>`_)
+
+* Make `black` show diff of needed changes
+  (`PR#878 <https://github.com/release-monitoring/anitya/pull/878>`_)
+
+* Make log output from check_project_release more readable
+  (`#828 <https://github.com/release-monitoring/anitya/issues/828>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Anatoli Babenia
+* Aurélien Bompard
+* Nicholas La Roux
+* Michal Konečný
+* Nils Philippsen
+
+
 0.17.2 (2019-09-26)
 ===================
 
