@@ -278,6 +278,40 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual(versions[0].version, version_second.version)
         self.assertEqual(versions[1].version, version_first.version)
 
+    def test_latest_version_object_with_versions(self):
+        """Test the latest_version_object property with versions."""
+        project = models.Project(
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
+            ecosystem_name="pypi",
+            version_scheme="RPM",
+        )
+        self.session.add(project)
+        self.session.flush()
+
+        version_first = models.ProjectVersion(project_id=project.id, version="0.8")
+        version_second = models.ProjectVersion(project_id=project.id, version="1.0")
+        self.session.add(version_first)
+        self.session.add(version_second)
+        self.session.flush()
+
+        self.assertEqual(project.latest_version_object.version, version_second.version)
+
+    def test_latest_version_object_without_versions(self):
+        """Test the latest_version_object property without versions."""
+        project = models.Project(
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
+            ecosystem_name="pypi",
+            version_scheme="RPM",
+        )
+        self.session.add(project)
+        self.session.flush()
+
+        self.assertIsNone(project.latest_version_object)
+
     def test_get_version_class(self):
         project = models.Project(
             name="test",

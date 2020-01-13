@@ -553,13 +553,29 @@ class JsonTests(unittest.TestCase):
                 "repository": {
                     "refs": {
                         "totalCount": 1,
-                        "edges": [{"cursor": "cUrSoR", "node": {"name": "1.0"}}],
+                        "edges": [
+                            {
+                                "cursor": "cUrSoR",
+                                "node": {
+                                    "name": "1.0",
+                                    "target": {
+                                        "commitUrl": "https://foobar.com/foo/bar/commits/12345678"
+                                    },
+                                },
+                            }
+                        ],
                     },
                 },
                 "rateLimit": {"limit": 5000, "remaining": 5000, "resetAt": "dummy"},
             }
         }
-        exp = [{"cursor": "cUrSoR", "version": "1.0"}]
+        exp = [
+            {
+                "cursor": "cUrSoR",
+                "version": "1.0",
+                "commit_url": "https://foobar.com/foo/bar/commits/12345678",
+            }
+        ]
         obs = backend.parse_json(json, self.project)
         self.assertEqual(exp, obs)
 
