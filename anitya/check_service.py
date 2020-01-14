@@ -93,8 +93,8 @@ class Checker:
         if project.backend in self.blacklist_dict:
             self.blacklist_project(project, self.blacklist_dict[project.backend])
             _log.info(
-                "Backend is blacklisted. Rescheduling to {}".format(
-                    self.blacklist_dict[project.backend]
+                "{}: Backend is blacklisted. Rescheduling to {}".format(
+                    project.name, self.blacklist_dict[project.backend]
                 )
             )
             project.next_check = self.blacklist_dict[project.backend]
