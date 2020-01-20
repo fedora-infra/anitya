@@ -30,7 +30,7 @@ setup(
     version="1.0.0",
     description="JSON schema definitions for messages published by Anitya",
     long_description=README,
-    url="https://github.com/release-monitoring/anitya/",
+    url="https://github.com/fedora-infra/anitya/",
     # Possible options are at https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",

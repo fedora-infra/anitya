@@ -150,7 +150,7 @@ html_theme = "alabaster"
 # html_theme_options = {}
 html_theme_options = {
     "logo_name": True,
-    "github_user": "release-monitoring",
+    "github_user": "fedora-infra",
     "github_repo": "anitya",
     "page_width": "1040px",
 }

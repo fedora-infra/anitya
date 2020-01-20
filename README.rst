@@ -9,20 +9,20 @@
   :alt: Documentation Status
   :target: https://anitya.readthedocs.io/en/latest/?badge=latest
 
-.. image:: https://codecov.io/gh/release-monitoring/anitya/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/release-monitoring/anitya
+.. image:: https://codecov.io/gh/fedora-infra/anitya/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/fedora-infra/anitya
   
-.. image:: https://travis-ci.org/release-monitoring/anitya.svg?branch=master
-  :target: https://travis-ci.org/release-monitoring/anitya
+.. image:: https://travis-ci.org/fedora-infra/anitya.svg?branch=master
+  :target: https://travis-ci.org/fedora-infra/anitya
   
-.. image:: https://img.shields.io/lgtm/alerts/g/release-monitoring/anitya.svg?logo=lgtm&logoWidth=18
-  :target: https://lgtm.com/projects/g/release-monitoring/anitya/alerts/
+.. image:: https://img.shields.io/lgtm/alerts/g/fedora-infra/anitya.svg?logo=lgtm&logoWidth=18
+  :target: https://lgtm.com/projects/g/fedora-infra/anitya/alerts/
 
-.. image:: https://img.shields.io/lgtm/grade/javascript/g/release-monitoring/anitya.svg?logo=lgtm&logoWidth=18
-  :target: https://lgtm.com/projects/g/release-monitoring/anitya/context:javascript
+.. image:: https://img.shields.io/lgtm/grade/javascript/g/fedora-infra/anitya.svg?logo=lgtm&logoWidth=18
+  :target: https://lgtm.com/projects/g/fedora-infra/anitya/context:javascript
   
-.. image:: https://img.shields.io/lgtm/grade/python/g/release-monitoring/anitya.svg?logo=lgtm&logoWidth=18
-  :target: https://lgtm.com/projects/g/release-monitoring/anitya/context:python
+.. image:: https://img.shields.io/lgtm/grade/python/g/fedora-infra/anitya.svg?logo=lgtm&logoWidth=18
+  :target: https://lgtm.com/projects/g/fedora-infra/anitya/context:python
   
 
 ======

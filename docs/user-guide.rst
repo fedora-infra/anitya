@@ -247,7 +247,7 @@ freenode network. Please do stop by and say hello.
 .. _GitHub: https://github.com/
 .. _PyPI: https://pypi.python.org/
 .. _re: https://docs.python.org/3/library/re.html
-.. _issue tracker: https://github.com/release-monitoring/anitya/issues
-.. _source code: https://github.com/release-monitoring/anitya
+.. _issue tracker: https://github.com/fedora-infra/anitya/issues
+.. _source code: https://github.com/fedora-infra/anitya
 .. _fedmsg topic documentation:
     https://fedora-fedmsg.readthedocs.io/en/latest/topics.html#anitya

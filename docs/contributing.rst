@@ -3,7 +3,7 @@ Development Guide
 =================
 
 Anitya welcomes contributions! Our issue tracker is located on
-`GitHub <https://github.com/release-monitoring/anitya/issues>`_.
+`GitHub <https://github.com/fedora-infra/anitya/issues>`_.
 
 
 Contribution Guidelines
@@ -104,7 +104,7 @@ To get started, install Vagrant and Ansible. On Fedora::
 
 Next, clone the repository and configure your Vagrantfile::
 
-    $ git clone https://github.com/release-monitoring/anitya.git
+    $ git clone https://github.com/fedora-infra/anitya.git
     $ cd anitya
     $ cp Vagrantfile.example Vagrantfile
     $ vagrant up
@@ -152,7 +152,7 @@ Python virtualenv
 
 Anitya can also be run in a Python virtualenv. For Fedora::
 
-    $ git clone https://github.com/release-monitoring/anitya.git
+    $ git clone https://github.com/fedora-infra/anitya.git
     $ cd anitya
     $ sudo dnf install python3-virtualenvwrapper
     $ mkvirtualenv anitya
