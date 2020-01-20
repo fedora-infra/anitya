@@ -1,10 +1,10 @@
 {% macro issue_url(value) -%}
    {%- if value.startswith("PR") -%}
-     `PR#{{ value[2:] }} <https://github.com/release-monitoring/anitya/pull/{{ value[2:] }}>`_
+     `PR#{{ value[2:] }} <https://github.com/fedora-infra/anitya/pull/{{ value[2:] }}>`_
    {%- elif value.startswith("C") -%}
-     `{{ value[1:] }} <https://github.com/release-monitoring/anitya/commit/{{ value[1:] }}>`_
+     `{{ value[1:] }} <https://github.com/fedora-infra/anitya/commit/{{ value[1:] }}>`_
    {%- else -%}
-     `#{{ value }} <https://github.com/release-monitoring/anitya/issues/{{ value }}>`_
+     `#{{ value }} <https://github.com/fedora-infra/anitya/issues/{{ value }}>`_
    {%- endif -%}
 {%- endmacro -%}
 

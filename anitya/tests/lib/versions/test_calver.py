@@ -578,7 +578,7 @@ class CalendarVersionTests(unittest.TestCase):
     def test_lt_no_delimiter(self):
         """
         Assert CalendarVersion supports < comparison by full pattern.
-        Bug https://github.com/release-monitoring/anitya/issues/867.
+        Bug https://github.com/fedora-infra/anitya/issues/867.
         """
         old_version = calver.CalendarVersion(version="20191018", pattern="YYYY0M0D")
         new_version = calver.CalendarVersion(version="20191213", pattern="YYYY0M0D")

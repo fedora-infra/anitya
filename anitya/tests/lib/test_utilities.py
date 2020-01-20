@@ -441,7 +441,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
     def test_check_project_version_too_long(self):
         """
-        Regression test for https://github.com/release-monitoring/anitya/issues/674
+        Regression test for https://github.com/fedora-infra/anitya/issues/674
         Crash when version is too long
         """
         project = models.Project(
