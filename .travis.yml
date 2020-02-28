@@ -24,6 +24,7 @@ jobs:
   # mask to select which jobs are allowed to fail
   allow_failures:
     - python: nightly
+    - stage: docker
   include:
     - stage: lint
       python: 3.6
