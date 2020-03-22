@@ -195,7 +195,7 @@ class GithubBackend(BaseBackend):
             project.latest_version_cursor = None
             versions = cls._retrieve_versions(owner, repo, project)
 
-        if len(versions) == 0:
+        if len(versions) == 0 and project.latest_version_cursor is None:
             raise AnityaPluginException(
                 "%s: No upstream version found." % (project.name)
             )
