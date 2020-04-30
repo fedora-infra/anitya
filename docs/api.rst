@@ -76,6 +76,7 @@ Backend API
 -----------
 
 .. automodule:: anitya.lib.backends
+    :noindex:
     :members:
     :undoc-members:
     :show-inheritance:
@@ -93,6 +94,7 @@ Ecosystem API
 -------------
 
 .. automodule:: anitya.lib.ecosystems
+    :noindex:
     :members:
     :undoc-members:
     :show-inheritance:
