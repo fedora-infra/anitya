@@ -1,20 +1,20 @@
-blinker
-coverage
-flake8
-pytest
-pytest-cov
-vcrpy
-unittest2
-mock
+blinker==1.4
+coverage==5.1
+flake8==3.7.9
+mock==4.0.2
+pytest==5.4.1
+pytest-cov==2.8.1
+unittest2==1.1.0
+vcrpy==4.0.2
 
 # Authentication integration testing
-requests
-requests-oauthlib
+requests==2.23.0
+requests-oauthlib==1.3.0
 
 # required by vcs looks like
-contextlib2
+contextlib2==0.6.0.post1
 
 # Required to test building the docs
-sphinx
-sphinxcontrib-httpdomain
-sqlalchemy_schemadisplay
+sphinx==3.0.3
+sphinxcontrib-httpdomain==1.7.0
+sqlalchemy_schemadisplay==1.3
