@@ -57,11 +57,16 @@ class DistroCreated(message.Message):
     def summary(self):
         """Return a short summary of the message."""
         return "A new distribution, {}, was added to release-monitoring.".format(
-            self.name
+            self.distro_name
         )
 
     @property
-    def name(self):
+    def agent(self):
+        """User that did the change."""
+        return self.body["message"]["agent"]
+
+    @property
+    def distro_name(self):
         """The new distribution's name."""
         return self.body["distro"]["name"]
 
@@ -114,16 +119,21 @@ class DistroEdited(message.Message):
     def summary(self):
         """Return a short summary of the message."""
         return "The name of the {} distribution changed to {}.".format(
-            self.old_name, self.new_name
+            self.distro_name_old, self.distro_name_new
         )
 
     @property
-    def new_name(self):
+    def agent(self):
+        """User that did the change."""
+        return self.body["message"]["agent"]
+
+    @property
+    def distro_name_new(self):
         """The distribution's new name."""
         return self.body["message"]["new"]
 
     @property
-    def old_name(self):
+    def distro_name_old(self):
         """The distribution's old name."""
         return self.body["message"]["old"]
 
@@ -170,10 +180,15 @@ class DistroDeleted(message.Message):
     def summary(self):
         """Return a short summary of the message."""
         return "The {} distribution was removed from release-monitoring.".format(
-            self.name
+            self.distro_name
         )
 
     @property
-    def name(self):
-        """The distribution's new name."""
-        return self.body["message"]["distro"]
+    def agent(self):
+        """User that did the change."""
+        return self.body["message"]["agent"]
+
+    @property
+    def distro_name(self):
+        """The new distribution's name."""
+        return self.body["distro"]["name"]
