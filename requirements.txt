@@ -1,5 +1,5 @@
 alembic==1.4.2
-arrow==0.15.5
+arrow==0.15.6
 blinker==1.4
 defusedxml==0.6.0
 fedora_messaging==2.0.1
