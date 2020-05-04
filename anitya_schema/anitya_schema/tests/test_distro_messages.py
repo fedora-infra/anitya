@@ -39,7 +39,7 @@ class TestDistroCreated(unittest.TestCase):
         self.assertEqual(self.message.__str__(), "Dummy")
 
     @mock.patch(
-        "anitya_schema.distro_messages.DistroCreated.name",
+        "anitya_schema.distro_messages.DistroCreated.distro_name",
         new_callable=mock.PropertyMock,
     )
     def test_summary(self, mock_property):
@@ -49,11 +49,17 @@ class TestDistroCreated(unittest.TestCase):
         exp = "A new distribution, Dummy, was added to release-monitoring."
         self.assertEqual(self.message.summary, exp)
 
-    def test_name(self):
-        """ Assert that name string is returned. """
+    def test_agent(self):
+        """ Assert that agent is returned. """
+        self.message.body = {"message": {"agent": "Dummy"}}
+
+        self.assertEqual(self.message.agent, "Dummy")
+
+    def test_distro_name(self):
+        """ Assert that distro name is returned. """
         self.message.body = {"distro": {"name": "Dummy"}}
 
-        self.assertEqual(self.message.name, "Dummy")
+        self.assertEqual(self.message.distro_name, "Dummy")
 
 
 class TestDistroEdited(unittest.TestCase):
@@ -74,11 +80,11 @@ class TestDistroEdited(unittest.TestCase):
         self.assertEqual(self.message.__str__(), "Dummy")
 
     @mock.patch(
-        "anitya_schema.distro_messages.DistroEdited.new_name",
+        "anitya_schema.distro_messages.DistroEdited.distro_name_new",
         new_callable=mock.PropertyMock,
     )
     @mock.patch(
-        "anitya_schema.distro_messages.DistroEdited.old_name",
+        "anitya_schema.distro_messages.DistroEdited.distro_name_old",
         new_callable=mock.PropertyMock,
     )
     def test_summary(self, mock_old_name, mock_new_name):
@@ -89,17 +95,23 @@ class TestDistroEdited(unittest.TestCase):
         exp = "The name of the Old name distribution changed to New name."
         self.assertEqual(self.message.summary, exp)
 
-    def test_new_name(self):
+    def test_agent(self):
+        """ Assert that agent is returned. """
+        self.message.body = {"message": {"agent": "Dummy"}}
+
+        self.assertEqual(self.message.agent, "Dummy")
+
+    def test_name_new(self):
         """ Assert that new_name string is returned. """
         self.message.body = {"message": {"new": "Dummy"}}
 
-        self.assertEqual(self.message.new_name, "Dummy")
+        self.assertEqual(self.message.distro_name_new, "Dummy")
 
-    def test_old_name(self):
+    def test_name_old(self):
         """ Assert that old_name string is returned. """
         self.message.body = {"message": {"old": "Dummy"}}
 
-        self.assertEqual(self.message.old_name, "Dummy")
+        self.assertEqual(self.message.distro_name_old, "Dummy")
 
 
 class TestDistroDeleted(unittest.TestCase):
@@ -120,7 +132,7 @@ class TestDistroDeleted(unittest.TestCase):
         self.assertEqual(self.message.__str__(), "Dummy")
 
     @mock.patch(
-        "anitya_schema.distro_messages.DistroDeleted.name",
+        "anitya_schema.distro_messages.DistroDeleted.distro_name",
         new_callable=mock.PropertyMock,
     )
     def test_summary(self, mock_property):
@@ -130,8 +142,14 @@ class TestDistroDeleted(unittest.TestCase):
         exp = "The Dummy distribution was removed from release-monitoring."
         self.assertEqual(self.message.summary, exp)
 
-    def test_name(self):
-        """ Assert that name string is returned. """
-        self.message.body = {"message": {"distro": "Dummy"}}
+    def test_agent(self):
+        """ Assert that agent is returned. """
+        self.message.body = {"message": {"agent": "Dummy"}}
 
-        self.assertEqual(self.message.name, "Dummy")
+        self.assertEqual(self.message.agent, "Dummy")
+
+    def test_distro_name(self):
+        """ Assert that distro name is returned. """
+        self.message.body = {"distro": {"name": "Dummy"}}
+
+        self.assertEqual(self.message.distro_name, "Dummy")

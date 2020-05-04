@@ -18,36 +18,80 @@
 from fedora_messaging import message
 
 
-project_schema = {
-    "type": "object",
-    "properties": {
-        "backend": {"type": "string"},
-        "created_on": {"type": "number"},
-        "homepage": {"type": "string"},
-        "id": {"type": "integer"},
-        "name": {"type": "string"},
-        "regex": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-        "updated_on": {"type": "number"},
-        "version": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-        "version_url": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-        "versions": {"type": "array"},
-    },
-    "required": [
-        "backend",
-        "created_on",
-        "homepage",
-        "id",
-        "name",
-        "regex",
-        "updated_on",
-        "version",
-        "version_url",
-        "versions",
-    ],
-}
+class ProjectMessage(message.Message):
+    """
+    Base class for every project message.
+
+    Attributes:
+        project_schema (str): Project schema definition
+    """
+
+    project_schema = {
+        "type": "object",
+        "properties": {
+            "backend": {"type": "string"},
+            "created_on": {"type": "number"},
+            "ecosystem": {"type": "string"},
+            "homepage": {"type": "string"},
+            "id": {"type": "integer"},
+            "name": {"type": "string"},
+            "regex": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+            "updated_on": {"type": "number"},
+            "version": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+            "version_url": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+            "versions": {"type": "array", "items": {"type": "string"}},
+        },
+        "required": [
+            "backend",
+            "created_on",
+            "homepage",
+            "id",
+            "name",
+            "regex",
+            "updated_on",
+            "version",
+            "version_url",
+            "versions",
+        ],
+    }
+
+    @property
+    def project_backend(self):
+        """Backend of the project."""
+        return self.body["project"]["backend"]
+
+    @property
+    def project_ecosystem(self):
+        """Ecosystem of the project."""
+        return self.body["project"]["ecosystem"]
+
+    @property
+    def project_homepage(self):
+        """Homepage url for project."""
+        return self.body["project"]["homepage"]
+
+    @property
+    def project_id(self):
+        """Id of the project in Anitya."""
+        return self.body["project"]["id"]
+
+    @property
+    def project_name(self):
+        """The name of the project."""
+        return self.body["project"]["name"]
+
+    @property
+    def project_version(self):
+        """The latest version associated with the project."""
+        return self.body["project"]["version"]
+
+    @property
+    def project_versions(self):
+        """The versions associated with the project."""
+        return self.body["project"]["versions"]
 
 
-class ProjectCreated(message.Message):
+class ProjectCreated(ProjectMessage):
     """The message sent when a new project is created in Anitya."""
 
     topic = "org.release-monitoring.prod.anitya.project.add"
@@ -67,7 +111,7 @@ class ProjectCreated(message.Message):
                 },
                 "required": ["agent", "project"],
             },
-            "project": project_schema,
+            "project": ProjectMessage.project_schema,
         },
     }
 
@@ -81,15 +125,17 @@ class ProjectCreated(message.Message):
     @property
     def summary(self):
         """Return a summary of the message."""
-        return "A new project, {}, was added to release-monitoring.".format(self.name)
+        return "A new project, {}, was added to release-monitoring.".format(
+            self.project_name
+        )
 
     @property
-    def name(self):
-        """The name of the project that was created."""
-        return self.body["project"]["name"]
+    def agent(self):
+        """User that did the action."""
+        return self.body["message"]["agent"]
 
 
-class ProjectEdited(message.Message):
+class ProjectEdited(ProjectMessage):
     """The message sent when a project is edited in Anitya."""
 
     topic = "org.release-monitoring.prod.anitya.project.edit"
@@ -109,7 +155,7 @@ class ProjectEdited(message.Message):
                 },
                 "required": ["agent", "project"],
             },
-            "project": project_schema,
+            "project": ProjectMessage.project_schema,
         },
     }
 
@@ -123,15 +169,17 @@ class ProjectEdited(message.Message):
     @property
     def summary(self):
         """Return a summary of the message."""
-        return "A project, {}, was edited in release-monitoring.".format(self.name)
+        return "A project, {}, was edited in release-monitoring.".format(
+            self.project_name
+        )
 
     @property
-    def name(self):
-        """The name of the project that was edited."""
-        return self.body["project"]["name"]
+    def agent(self):
+        """User that did the action."""
+        return self.body["message"]["agent"]
 
 
-class ProjectDeleted(message.Message):
+class ProjectDeleted(ProjectMessage):
     """The message sent when a project is deleted in Anitya."""
 
     topic = "org.release-monitoring.prod.anitya.project.remove"
@@ -151,7 +199,7 @@ class ProjectDeleted(message.Message):
                 },
                 "required": ["agent", "project"],
             },
-            "project": project_schema,
+            "project": ProjectMessage.project_schema,
         },
     }
 
@@ -165,15 +213,17 @@ class ProjectDeleted(message.Message):
     @property
     def summary(self):
         """Return a summary of the message."""
-        return "A project, {}, was deleted in release-monitoring.".format(self.name)
+        return "A project, {}, was deleted in release-monitoring.".format(
+            self.project_name
+        )
 
     @property
-    def name(self):
-        """The name of the project that was deleted."""
-        return self.body["project"]["name"]
+    def agent(self):
+        """User that did the action."""
+        return self.body["message"]["agent"]
 
 
-class ProjectFlag(message.Message):
+class ProjectFlag(ProjectMessage):
     """Sent when a new flag is created for a project."""
 
     topic = "org.release-monitoring.prod.anitya.project.flag"
@@ -187,13 +237,19 @@ class ProjectFlag(message.Message):
                 "type": "object",
                 "properties": {
                     "agent": {"type": "string"},
-                    "packages": {"type": "array"},
+                    "packages": {
+                        "type": "array",
+                        "items": {
+                            "distro": {"type": "string"},
+                            "package_name": {"type": "string"},
+                        },
+                    },
                     "project": {"type": "string"},
                     "reason": {"type": "string"},
                 },
                 "required": ["agent", "project", "packages"],
             },
-            "project": project_schema,
+            "project": ProjectMessage.project_schema,
         },
     }
 
@@ -208,13 +264,28 @@ class ProjectFlag(message.Message):
     def summary(self):
         """Return a summary of the message."""
         return "A flag was created on project {} in release-monitoring.".format(
-            self.name
+            self.project_name
         )
 
     @property
-    def name(self):
-        """The name of the project that was flagged."""
-        return self.body["project"]["name"]
+    def agent(self):
+        """User that did the action."""
+        return self.body["message"]["agent"]
+
+    @property
+    def mappings(self):
+        """
+        Mappings of package name to distros for project.
+
+        Returns:
+            (list): List of mappings
+        """
+        return self.body["message"]["packages"]
+
+    @property
+    def reason(self):
+        """Reason for the flag creation."""
+        return self.body["message"]["reason"]
 
 
 class ProjectFlagSet(message.Message):
@@ -254,17 +325,22 @@ class ProjectFlagSet(message.Message):
         return "A flag '{}' was {} in release-monitoring.".format(self.flag, self.state)
 
     @property
-    def state(self):
-        """The new state of the flag."""
-        return self.body["message"]["state"]
+    def agent(self):
+        """User that did the action."""
+        return self.body["message"]["agent"]
 
     @property
     def flag(self):
         """The id of the flag."""
         return self.body["message"]["flag"]
 
+    @property
+    def state(self):
+        """The new state of the flag."""
+        return self.body["message"]["state"]
 
-class ProjectMapCreated(message.Message):
+
+class ProjectMapCreated(ProjectCreated):
     topic = "org.release-monitoring.prod.anitya.project.map.new"
     body_schema = {
         "id": "https://fedoraproject.org/jsonschema/anitya.project.map.created.json",
@@ -287,7 +363,7 @@ class ProjectMapCreated(message.Message):
                 },
                 "required": ["agent", "distro", "project", "new"],
             },
-            "project": project_schema,
+            "project": ProjectMessage.project_schema,
         },
     }
 
@@ -302,16 +378,26 @@ class ProjectMapCreated(message.Message):
     def summary(self):
         """Return a summary of the message."""
         return "A new mapping was created for project {} in release-monitoring.".format(
-            self.name
+            self.project_name
         )
 
     @property
-    def name(self):
-        """The name of the project, where new mapping was created."""
-        return self.body["project"]["name"]
+    def distro(self):
+        """Name of distro for new mapping."""
+        return self.body["distro"]["name"]
+
+    @property
+    def agent(self):
+        """User that did the action."""
+        return self.body["message"]["agent"]
+
+    @property
+    def package_name(self):
+        """Package name for the new mapping."""
+        return self.body["message"]["new"]
 
 
-class ProjectMapEdited(message.Message):
+class ProjectMapEdited(ProjectMessage):
     topic = "org.release-monitoring.prod.anitya.project.map.update"
     body_schema = {
         "id": "https://fedoraproject.org/jsonschema/anitya.project.map.updated.json",
@@ -336,7 +422,7 @@ class ProjectMapEdited(message.Message):
                 },
                 "required": ["agent", "distro", "edited", "new", "prev", "project"],
             },
-            "project": project_schema,
+            "project": ProjectMessage.project_schema,
         },
     }
 
@@ -351,16 +437,36 @@ class ProjectMapEdited(message.Message):
     def summary(self):
         """Return a summary of the message."""
         return "A mapping for project {} was edited in release-monitoring.".format(
-            self.name
+            self.project_name
         )
 
     @property
-    def name(self):
-        """The name of the project, where mapping was edited."""
-        return self.body["project"]["name"]
+    def distro(self):
+        """Name of distro for mapping."""
+        return self.body["distro"]["name"]
+
+    @property
+    def agent(self):
+        """User that did the action."""
+        return self.body["message"]["agent"]
+
+    @property
+    def edited(self):
+        """List of edited fields."""
+        return self.body["message"]["edited"]
+
+    @property
+    def package_name_new(self):
+        """New package name for the mapping."""
+        return self.body["message"]["new"]
+
+    @property
+    def package_name_prev(self):
+        """Previous package name for the mapping."""
+        return self.body["message"]["prev"]
 
 
-class ProjectMapDeleted(message.Message):
+class ProjectMapDeleted(ProjectMessage):
     topic = "org.release-monitoring.prod.anitya.project.map.remove"
     body_schema = {
         "id": "https://fedoraproject.org/jsonschema/anitya.project.map.deleted.json",
@@ -378,7 +484,7 @@ class ProjectMapDeleted(message.Message):
                 },
                 "required": ["agent", "distro", "project"],
             },
-            "project": project_schema,
+            "project": ProjectMessage.project_schema,
         },
     }
 
@@ -393,16 +499,21 @@ class ProjectMapDeleted(message.Message):
     def summary(self):
         """Return a summary of the message."""
         return "A mapping for project {} was deleted in release-monitoring.".format(
-            self.name
+            self.project_name
         )
 
     @property
-    def name(self):
-        """The name of the project, where mapping was deleted."""
-        return self.body["project"]["name"]
+    def agent(self):
+        """User that did the action."""
+        return self.body["message"]["agent"]
+
+    @property
+    def distro(self):
+        """Name of distro for mapping."""
+        return self.body["message"]["distro"]
 
 
-class ProjectVersionUpdated(message.Message):
+class ProjectVersionUpdated(ProjectMessage):
     topic = "org.release-monitoring.prod.anitya.project.version.update"
     body_schema = {
         "id": "https://fedoraproject.org/jsonschema/anitya.project.version.update.json",
@@ -417,10 +528,16 @@ class ProjectVersionUpdated(message.Message):
                     "agent": {"type": "string"},
                     "odd_change": {"type": "boolean"},
                     "old_version": {"type": "string"},
-                    "packages": {"type": "array"},
-                    "project": project_schema,
+                    "packages": {
+                        "type": "array",
+                        "items": {
+                            "distro": {"type": "string"},
+                            "package_name": {"type": "string"},
+                        },
+                    },
+                    "project": ProjectMessage.project_schema,
                     "upstream_version": {"type": "string"},
-                    "versions": {"type": "array"},
+                    "versions": {"type": "array", "items": {"type": "string"}},
                 },
                 "required": [
                     "agent",
@@ -432,7 +549,7 @@ class ProjectVersionUpdated(message.Message):
                     "versions",
                 ],
             },
-            "project": project_schema,
+            "project": ProjectMessage.project_schema,
         },
     }
 
@@ -447,13 +564,36 @@ class ProjectVersionUpdated(message.Message):
     def summary(self):
         """Return a summary of the message."""
         return "A new version '{}' was found for project {} in release-monitoring.".format(
-            self.version, self.name
+            self.version, self.project_name
         )
 
     @property
-    def name(self):
-        """The name of the project for which new version was found."""
-        return self.body["project"]["name"]
+    def agent(self):
+        """User that did the action."""
+        return self.body["message"]["agent"]
+
+    @property
+    def old_version(self):
+        """Old version of project."""
+        return self.body["message"]["old_version"]
+
+    @property
+    def distros(self):
+        """Distros mapped to project."""
+        distros = []
+        for package in self.body["message"]["packages"]:
+            distros.append(package["distro"])
+        return distros
+
+    @property
+    def mappings(self):
+        """
+        Mappings of package name to distros for project.
+
+        Returns:
+            (list): List of mappings
+        """
+        return self.body["message"]["packages"]
 
     @property
     def version(self):
@@ -461,7 +601,7 @@ class ProjectVersionUpdated(message.Message):
         return self.body["message"]["upstream_version"]
 
 
-class ProjectVersionDeleted(message.Message):
+class ProjectVersionDeleted(ProjectMessage):
     topic = "org.release-monitoring.prod.anitya.project.version.remove"
     body_schema = {
         "id": "https://fedoraproject.org/jsonschema/anitya.project.version.update.json",
@@ -479,7 +619,7 @@ class ProjectVersionDeleted(message.Message):
                 },
                 "required": ["agent", "project", "version"],
             },
-            "project": project_schema,
+            "project": ProjectMessage.project_schema,
         },
     }
 
@@ -494,13 +634,13 @@ class ProjectVersionDeleted(message.Message):
     def summary(self):
         """Return a summary of the message."""
         return "A version '{}' was deleted in project {} in release-monitoring.".format(
-            self.version, self.name
+            self.version, self.project_name
         )
 
     @property
-    def name(self):
-        """The name of the project for which new version was found."""
-        return self.body["project"]["name"]
+    def agent(self):
+        """User that did the action."""
+        return self.body["message"]["agent"]
 
     @property
     def version(self):

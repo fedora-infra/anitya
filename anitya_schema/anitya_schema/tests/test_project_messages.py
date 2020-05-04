@@ -32,11 +32,63 @@ from anitya_schema import (
 )
 
 
-class TestProjectCreated(unittest.TestCase):
-    """ Tests for anitya_schema.project_messages.ProjectCreated class. """
+class TestProjectMessage(unittest.TestCase):
+    """Tests for anitya_schema.project_messages.ProjectMessage class."""
 
     def setUp(self):
-        """ Set up the tests. """
+        """Set up the tests."""
+        # We can't use ProjectMessage directly,
+        # so we will use something that inherits it
+        self.message = ProjectCreated()
+
+    def test_project_backend(self):
+        """Assert that backend is returned."""
+        self.message.body = {"project": {"backend": "Dummy"}}
+
+        self.assertEqual(self.message.project_backend, "Dummy")
+
+    def test_project_ecosystem(self):
+        """Assert that ecosystem is returned."""
+        self.message.body = {"project": {"ecosystem": "Dummy"}}
+
+        self.assertEqual(self.message.project_ecosystem, "Dummy")
+
+    def test_project_homepage(self):
+        """Assert that homepage is returned."""
+        self.message.body = {"project": {"homepage": "Dummy"}}
+
+        self.assertEqual(self.message.project_homepage, "Dummy")
+
+    def test_project_id(self):
+        """Assert that id is returned."""
+        self.message.body = {"project": {"id": 0}}
+
+        self.assertEqual(self.message.project_id, 0)
+
+    def test_project_name(self):
+        """Assert that name is returned."""
+        self.message.body = {"project": {"name": "Dummy"}}
+
+        self.assertEqual(self.message.project_name, "Dummy")
+
+    def test_project_version(self):
+        """Assert that version is returned."""
+        self.message.body = {"project": {"version": "Dummy"}}
+
+        self.assertEqual(self.message.project_version, "Dummy")
+
+    def test_project_versions(self):
+        """Assert that list of versions is returned."""
+        self.message.body = {"project": {"versions": ["1.00", "0.99"]}}
+
+        self.assertEqual(self.message.project_versions, ["1.00", "0.99"])
+
+
+class TestProjectCreated(unittest.TestCase):
+    """Tests for anitya_schema.project_messages.ProjectCreated class."""
+
+    def setUp(self):
+        """Set up the tests."""
         self.message = ProjectCreated()
 
     @mock.patch(
@@ -44,27 +96,27 @@ class TestProjectCreated(unittest.TestCase):
         new_callable=mock.PropertyMock,
     )
     def test__str__(self, mock_property):
-        """ Assert that correct string is returned. """
+        """Assert that correct string is returned."""
         mock_property.return_value = "Dummy"
 
         self.assertEqual(self.message.__str__(), "Dummy")
 
     @mock.patch(
-        "anitya_schema.project_messages.ProjectCreated.name",
+        "anitya_schema.project_messages.ProjectCreated.project_name",
         new_callable=mock.PropertyMock,
     )
     def test_summary(self, mock_property):
-        """ Assert that correct summary string is returned. """
+        """Assert that correct summary string is returned."""
         mock_property.return_value = "Dummy"
 
         exp = "A new project, Dummy, was added to release-monitoring."
         self.assertEqual(self.message.summary, exp)
 
-    def test_name(self):
-        """ Assert that name string is returned. """
-        self.message.body = {"project": {"name": "Dummy"}}
+    def test_agent(self):
+        """Assert that agent is returned."""
+        self.message.body = {"message": {"agent": "Dummy"}}
 
-        self.assertEqual(self.message.name, "Dummy")
+        self.assertEqual(self.message.agent, "Dummy")
 
 
 class TestProjectEdited(unittest.TestCase):
@@ -85,7 +137,7 @@ class TestProjectEdited(unittest.TestCase):
         self.assertEqual(self.message.__str__(), "Dummy")
 
     @mock.patch(
-        "anitya_schema.project_messages.ProjectEdited.name",
+        "anitya_schema.project_messages.ProjectEdited.project_name",
         new_callable=mock.PropertyMock,
     )
     def test_summary(self, mock_property):
@@ -95,11 +147,11 @@ class TestProjectEdited(unittest.TestCase):
         exp = "A project, Dummy, was edited in release-monitoring."
         self.assertEqual(self.message.summary, exp)
 
-    def test_name(self):
-        """ Assert that name string is returned. """
-        self.message.body = {"project": {"name": "Dummy"}}
+    def test_agent(self):
+        """Assert that agent is returned."""
+        self.message.body = {"message": {"agent": "Dummy"}}
 
-        self.assertEqual(self.message.name, "Dummy")
+        self.assertEqual(self.message.agent, "Dummy")
 
 
 class TestProjectDeleted(unittest.TestCase):
@@ -120,7 +172,7 @@ class TestProjectDeleted(unittest.TestCase):
         self.assertEqual(self.message.__str__(), "Dummy")
 
     @mock.patch(
-        "anitya_schema.project_messages.ProjectDeleted.name",
+        "anitya_schema.project_messages.ProjectDeleted.project_name",
         new_callable=mock.PropertyMock,
     )
     def test_summary(self, mock_property):
@@ -130,11 +182,11 @@ class TestProjectDeleted(unittest.TestCase):
         exp = "A project, Dummy, was deleted in release-monitoring."
         self.assertEqual(self.message.summary, exp)
 
-    def test_name(self):
-        """ Assert that name string is returned. """
-        self.message.body = {"project": {"name": "Dummy"}}
+    def test_agent(self):
+        """Assert that agent is returned."""
+        self.message.body = {"message": {"agent": "Dummy"}}
 
-        self.assertEqual(self.message.name, "Dummy")
+        self.assertEqual(self.message.agent, "Dummy")
 
 
 class TestProjectFlag(unittest.TestCase):
@@ -155,7 +207,7 @@ class TestProjectFlag(unittest.TestCase):
         self.assertEqual(self.message.__str__(), "Dummy")
 
     @mock.patch(
-        "anitya_schema.project_messages.ProjectFlag.name",
+        "anitya_schema.project_messages.ProjectFlag.project_name",
         new_callable=mock.PropertyMock,
     )
     def test_summary(self, mock_property):
@@ -165,11 +217,35 @@ class TestProjectFlag(unittest.TestCase):
         exp = "A flag was created on project Dummy in release-monitoring."
         self.assertEqual(self.message.summary, exp)
 
-    def test_name(self):
-        """ Assert that name string is returned. """
-        self.message.body = {"project": {"name": "Dummy"}}
+    def test_agent(self):
+        """Assert that agent is returned."""
+        self.message.body = {"message": {"agent": "Dummy"}}
 
-        self.assertEqual(self.message.name, "Dummy")
+        self.assertEqual(self.message.agent, "Dummy")
+
+    def test_mappings(self):
+        """ Assert that array of mappings is returned. """
+        self.message.body = {
+            "message": {
+                "packages": [
+                    {"distro": "Fedora", "package_name": "package_fedora"},
+                    {"distro": "CentOS", "package_name": "package_centos"},
+                ]
+            }
+        }
+
+        exp = [
+            {"distro": "Fedora", "package_name": "package_fedora"},
+            {"distro": "CentOS", "package_name": "package_centos"},
+        ]
+
+        self.assertEqual(self.message.mappings, exp)
+
+    def test_reason(self):
+        """Assert that reason is returned."""
+        self.message.body = {"message": {"reason": "Dummy"}}
+
+        self.assertEqual(self.message.reason, "Dummy")
 
 
 class TestProjectFlagSet(unittest.TestCase):
@@ -205,6 +281,12 @@ class TestProjectFlagSet(unittest.TestCase):
         exp = "A flag '007' was closed in release-monitoring."
         self.assertEqual(self.message.summary, exp)
 
+    def test_agent(self):
+        """Assert that agent is returned."""
+        self.message.body = {"message": {"agent": "Dummy"}}
+
+        self.assertEqual(self.message.agent, "Dummy")
+
     def test_flag(self):
         """ Assert that flag string is returned. """
         self.message.body = {"message": {"flag": "Dummy"}}
@@ -236,7 +318,7 @@ class TestProjectMapCreated(unittest.TestCase):
         self.assertEqual(self.message.__str__(), "Dummy")
 
     @mock.patch(
-        "anitya_schema.project_messages.ProjectMapCreated.name",
+        "anitya_schema.project_messages.ProjectMapCreated.project_name",
         new_callable=mock.PropertyMock,
     )
     def test_summary(self, mock_property):
@@ -246,11 +328,23 @@ class TestProjectMapCreated(unittest.TestCase):
         exp = "A new mapping was created for project Dummy in release-monitoring."
         self.assertEqual(self.message.summary, exp)
 
-    def test_name(self):
-        """ Assert that name string is returned. """
-        self.message.body = {"project": {"name": "Dummy"}}
+    def test_distro(self):
+        """ Assert that distro name string is returned. """
+        self.message.body = {"distro": {"name": "Dummy"}}
 
-        self.assertEqual(self.message.name, "Dummy")
+        self.assertEqual(self.message.distro, "Dummy")
+
+    def test_agent(self):
+        """Assert that agent is returned."""
+        self.message.body = {"message": {"agent": "Dummy"}}
+
+        self.assertEqual(self.message.agent, "Dummy")
+
+    def test_package_name(self):
+        """ Assert that package name string is returned. """
+        self.message.body = {"message": {"new": "Dummy"}}
+
+        self.assertEqual(self.message.package_name, "Dummy")
 
 
 class TestProjectMapEdited(unittest.TestCase):
@@ -271,7 +365,7 @@ class TestProjectMapEdited(unittest.TestCase):
         self.assertEqual(self.message.__str__(), "Dummy")
 
     @mock.patch(
-        "anitya_schema.project_messages.ProjectMapEdited.name",
+        "anitya_schema.project_messages.ProjectMapEdited.project_name",
         new_callable=mock.PropertyMock,
     )
     def test_summary(self, mock_property):
@@ -281,11 +375,35 @@ class TestProjectMapEdited(unittest.TestCase):
         exp = "A mapping for project Dummy was edited in release-monitoring."
         self.assertEqual(self.message.summary, exp)
 
-    def test_name(self):
-        """ Assert that name string is returned. """
-        self.message.body = {"project": {"name": "Dummy"}}
+    def test_distro(self):
+        """ Assert that distro name string is returned. """
+        self.message.body = {"distro": {"name": "Dummy"}}
 
-        self.assertEqual(self.message.name, "Dummy")
+        self.assertEqual(self.message.distro, "Dummy")
+
+    def test_agent(self):
+        """Assert that agent is returned."""
+        self.message.body = {"message": {"agent": "Dummy"}}
+
+        self.assertEqual(self.message.agent, "Dummy")
+
+    def test_edited(self):
+        """Assert that list of edited fields is returned."""
+        self.message.body = {"message": {"edited": ["Dummy"]}}
+
+        self.assertEqual(self.message.edited, ["Dummy"])
+
+    def test_package_name_new(self):
+        """ Assert that new package name string is returned. """
+        self.message.body = {"message": {"new": "Dummy"}}
+
+        self.assertEqual(self.message.package_name_new, "Dummy")
+
+    def test_package_name_prev(self):
+        """ Assert that previous package name string is returned. """
+        self.message.body = {"message": {"prev": "Dummy"}}
+
+        self.assertEqual(self.message.package_name_prev, "Dummy")
 
 
 class TestProjectMapDeleted(unittest.TestCase):
@@ -306,7 +424,7 @@ class TestProjectMapDeleted(unittest.TestCase):
         self.assertEqual(self.message.__str__(), "Dummy")
 
     @mock.patch(
-        "anitya_schema.project_messages.ProjectMapDeleted.name",
+        "anitya_schema.project_messages.ProjectMapDeleted.project_name",
         new_callable=mock.PropertyMock,
     )
     def test_summary(self, mock_property):
@@ -316,11 +434,17 @@ class TestProjectMapDeleted(unittest.TestCase):
         exp = "A mapping for project Dummy was deleted in release-monitoring."
         self.assertEqual(self.message.summary, exp)
 
-    def test_name(self):
-        """ Assert that name string is returned. """
-        self.message.body = {"project": {"name": "Dummy"}}
+    def test_agent(self):
+        """Assert that agent is returned."""
+        self.message.body = {"message": {"agent": "Dummy"}}
 
-        self.assertEqual(self.message.name, "Dummy")
+        self.assertEqual(self.message.agent, "Dummy")
+
+    def test_distro(self):
+        """ Assert that distro name string is returned. """
+        self.message.body = {"message": {"distro": "Dummy"}}
+
+        self.assertEqual(self.message.distro, "Dummy")
 
 
 class TestProjectVersionUpdated(unittest.TestCase):
@@ -341,7 +465,7 @@ class TestProjectVersionUpdated(unittest.TestCase):
         self.assertEqual(self.message.__str__(), "Dummy")
 
     @mock.patch(
-        "anitya_schema.project_messages.ProjectVersionUpdated.name",
+        "anitya_schema.project_messages.ProjectVersionUpdated.project_name",
         new_callable=mock.PropertyMock,
     )
     @mock.patch(
@@ -356,11 +480,43 @@ class TestProjectVersionUpdated(unittest.TestCase):
         exp = "A new version '1.0.0' was found for project Dummy in release-monitoring."
         self.assertEqual(self.message.summary, exp)
 
-    def test_name(self):
-        """ Assert that name string is returned. """
-        self.message.body = {"project": {"name": "Dummy"}}
+    def test_agent(self):
+        """Assert that agent is returned."""
+        self.message.body = {"message": {"agent": "Dummy"}}
 
-        self.assertEqual(self.message.name, "Dummy")
+        self.assertEqual(self.message.agent, "Dummy")
+
+    def test_old_version(self):
+        """Assert that old version is returned."""
+        self.message.body = {"message": {"old_version": "Dummy"}}
+
+        self.assertEqual(self.message.old_version, "Dummy")
+
+    def test_mappings(self):
+        """ Assert that array of mappings is returned. """
+        self.message.body = {
+            "message": {
+                "packages": [
+                    {"distro": "Fedora", "package_name": "package_fedora"},
+                    {"distro": "CentOS", "package_name": "package_centos"},
+                ]
+            }
+        }
+
+        exp = [
+            {"distro": "Fedora", "package_name": "package_fedora"},
+            {"distro": "CentOS", "package_name": "package_centos"},
+        ]
+
+        self.assertEqual(self.message.mappings, exp)
+
+    def test_distros(self):
+        """ Assert that array of distros is returned. """
+        self.message.body = {
+            "message": {"packages": [{"distro": "Fedora"}, {"distro": "CentOS"}]}
+        }
+
+        self.assertEqual(self.message.distros, ["Fedora", "CentOS"])
 
     def test_version(self):
         """ Assert that version string is returned. """
@@ -387,7 +543,7 @@ class TestProjectVersionDeleted(unittest.TestCase):
         self.assertEqual(self.message.__str__(), "Dummy")
 
     @mock.patch(
-        "anitya_schema.project_messages.ProjectVersionDeleted.name",
+        "anitya_schema.project_messages.ProjectVersionDeleted.project_name",
         new_callable=mock.PropertyMock,
     )
     @mock.patch(
@@ -402,11 +558,11 @@ class TestProjectVersionDeleted(unittest.TestCase):
         exp = "A version '1.0.0' was deleted in project Dummy in release-monitoring."
         self.assertEqual(self.message.summary, exp)
 
-    def test_name(self):
-        """ Assert that name string is returned. """
-        self.message.body = {"project": {"name": "Dummy"}}
+    def test_agent(self):
+        """Assert that agent is returned."""
+        self.message.body = {"message": {"agent": "Dummy"}}
 
-        self.assertEqual(self.message.name, "Dummy")
+        self.assertEqual(self.message.agent, "Dummy")
 
     def test_version(self):
         """ Assert that version string is returned. """
