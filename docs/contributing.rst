@@ -218,6 +218,15 @@ SSE feed.
 Release Guide
 =============
 
+Anitya
+------
+
+To do the release you need following python packages installed::
+
+    wheel
+    twine
+    towncrier
+
 If you are a maintainer and wish to make a release, follow these steps:
 
 1. Change the version in ``anitya.__init__.__version__``. This is used to set the
@@ -243,7 +252,7 @@ If you are a maintainer and wish to make a release, follow these steps:
 
 6. Generate new DB schema image by running ``./generate_db_schema`` in ``docs`` folder.
 
-7. Commit your changes.
+7. Commit your changes with message *Anitya <version>*.
 
 8. Tag a release with ``git tag -s <version>``.
 
@@ -253,6 +262,26 @@ If you are a maintainer and wish to make a release, follow these steps:
 
 11. Upload the packages with ``twine upload dist/<dists>``.
 
+
+Fedora messaging schema
+-----------------------
+
+To do the release you need following python packages installed::
+
+    wheel
+    twine
+
+If you are a maintainer and wish to make a release of Anitya fedora messaging schema, follow these steps:
+
+1. Enter ``anitya_schema`` directory.
+   
+2. Change the version in ``setup.py``.
+
+3. Commit your changes with message *Anitya schema <version>*.
+
+4. Build the Python packages with ``python setup.py sdist bdist_wheel``.
+
+5. Upload the packages with ``twine upload dist/<dists>``.
 
 .. _Ansible: https://www.ansible.com/
 .. _Vagrant: https://vagrantup.com/
