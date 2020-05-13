@@ -46,7 +46,6 @@ class AnityaInvalidMappingTests(unittest.TestCase):
                 distro=distro,
                 found_pkgname=found_pkgname,
                 found_distro=found_distro,
-                project_id=project_id,
                 project_name=project_name,
                 link=None,
             )
@@ -65,7 +64,6 @@ class AnityaInvalidMappingTests(unittest.TestCase):
                 distro=distro,
                 found_pkgname=found_pkgname,
                 found_distro=found_distro,
-                project_id=project_id,
                 project_name=project_name,
                 link=link,
             )

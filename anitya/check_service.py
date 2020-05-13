@@ -230,7 +230,7 @@ class Checker:
                         break  # give a chance to add more jobs
                 except TimeoutError:
                     projects_left -= 1
-                    _log.info(f"Thread was killed because the execution took too long.")
+                    _log.info("Thread was killed because the execution took too long.")
                     with self.error_counter_lock:
                         self.error_counter += 1
 

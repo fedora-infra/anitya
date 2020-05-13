@@ -89,7 +89,6 @@ class AnityaInvalidMappingException(AnityaException):
                 distro=self.distro,
                 found_pkgname=self.found_pkgname,
                 found_distro=self.found_distro,
-                project_id=self.project_id,
                 project_name=self.project_name,
                 link=self.link,
             )
