@@ -199,7 +199,7 @@ default to using the global configuration.
 To display the messages, we turn off signature validation (since the local
 server will be emitting unsigned messages) and pretty-print the received JSON.
 
-Refer to the `fedmsg consumer API <http://www.fedmsg.com/en/latest/consuming/>`_
+Refer to the `fedmsg subscription API`_
 for more details on receiving event messages programmatically.
 
 
@@ -285,3 +285,4 @@ If you are a maintainer and wish to make a release of Anitya fedora messaging sc
 
 .. _Ansible: https://www.ansible.com/
 .. _Vagrant: https://vagrantup.com/
+.. _fedmsg subscription API: https://fedmsg.readthedocs.io/en/latest/subscribing/
