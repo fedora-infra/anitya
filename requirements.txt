@@ -17,5 +17,5 @@ social-auth-app-flask==1.0.0
 social-auth-app-flask-sqlalchemy==1.0.1
 sseclient==0.0.26
 straight.plugin==1.5.0
-sqlalchemy==1.3.16
+sqlalchemy==1.3.17
 wtforms==2.3.1
