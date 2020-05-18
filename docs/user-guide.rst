@@ -181,7 +181,7 @@ Integrating with Anitya
 fedmsg
 ------
 
-`fedmsg <http://www.fedmsg.com>`_ is a message bus. In other words it is a
+`fedmsg`_ is a message bus. In other words it is a
 system that allows for the sending and receiving of notifications between
 applications.  For anitya, every action made on the application is
 announced/broadcasted on this bus, allowing anyone listening to it to act
@@ -189,7 +189,7 @@ immediately instead of (for example) polling hourly all the data, looking for
 changes, and acting then. For the full list of messages Anitya sends, see
 the `fedmsg topic documentation`_.
 
-To start receiving `fedmsg <http://www.fedmsg.com>`_ messages from anitya,
+To start receiving `fedmsg`_ messages from anitya,
 it is as simple as:
 
 * install ``fedmsg`` the way you want:
@@ -249,5 +249,6 @@ freenode network. Please do stop by and say hello.
 .. _re: https://docs.python.org/3/library/re.html
 .. _issue tracker: https://github.com/fedora-infra/anitya/issues
 .. _source code: https://github.com/fedora-infra/anitya
+.. _fedmsg: http://web.archive.org/web/20170625121632/http://www.fedmsg.com/en/latest/
 .. _fedmsg topic documentation:
     https://fedora-fedmsg.readthedocs.io/en/latest/topics.html#anitya
