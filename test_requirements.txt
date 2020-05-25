@@ -1,6 +1,6 @@
 blinker==1.4
 coverage==5.1
-flake8==3.8.1
+flake8==3.8.2
 mock==4.0.2
 pytest==5.4.2
 pytest-cov==2.8.1
