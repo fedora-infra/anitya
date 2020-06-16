@@ -10,7 +10,8 @@
            python35,
            python36,
            python37,
-           python3-black
+           python3-black,
+           tmux
           ]
     state: present
 
@@ -24,8 +25,32 @@
            openssl-devel,
            postgresql-devel,
            python3-devel,
-           redhat-rpm-config,
-           rpm-python
+#           redhat-rpm-config,
+#           rpm-python
+          ]
+    state: present
+
+- name: Install dependencies packaged in Fedora
+  dnf:
+    name: [
+           fedora-messaging,
+           python3-alembic,
+           python3-arrow,
+           python3-defusedxml,
+           python3-flask-login,
+           python3-flask-restful,
+           python3-flask-wtf,
+           python3-jinja2,
+           python3-ordered-set,
+           python3-dateutil,
+           python3-pytoml,
+           python3-semver,
+           python3-social-auth-app-flask,
+           python3-social-auth-app-flask-sqlalchemy,
+           python3-sseclient,
+           python3-straight-plugin,
+           python3-sqlalchemy,
+           python3-wtforms
           ]
     state: present
 
