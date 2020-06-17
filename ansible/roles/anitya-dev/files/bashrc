@@ -13,10 +13,3 @@ fi
 # by defining a variable with name _<function>_help containing the help text
 
 export ANITYA_WEB_CONFIG=$HOME/anitya.toml
-
-# Set up virtualenvwrapper
-export WORKON_HOME=$HOME/.virtualenvs
-export PIP_VIRTUALENV_BASE=$WORKON_HOME
-export VIRTUALENV_USE_DISTRIBUTE=true
-export PIP_RESPECT_VIRTUALENV=true
-source /usr/bin/virtualenvwrapper-3.sh

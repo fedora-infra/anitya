@@ -4,13 +4,13 @@
   dnf:
     name: [
            git,
-           python3-virtualenvwrapper,
            vim-enhanced,
            python-devel,
            python35,
            python36,
            python37,
            python3-black,
+           python3-tox,
            tmux
           ]
     state: present
@@ -25,8 +25,15 @@
            openssl-devel,
            postgresql-devel,
            python3-devel,
-#           redhat-rpm-config,
-#           rpm-python
+           python3-psycopg2
+          ]
+    state: present
+
+- name: Install documentation build dependencies
+  dnf:
+    name: [
+           python3-sphinxcontrib-httpdomain,
+           python3-sqlalchemy_schemadisplay
           ]
     state: present
 
@@ -66,51 +73,12 @@
   become_user: "{{ ansible_env.SUDO_USER }}"
   copy: src=anitya.toml dest=/home/{{ ansible_env.SUDO_USER }}/anitya.toml
 
-# We need to use the system-site-packages for now because we use the rpm module
-- name: Create Anitya virtualenv
-  become_user: "{{ ansible_env.SUDO_USER }}"
-  shell: >
-      source ~/.bashrc && mkvirtualenv anitya -a ~/devel/ &&
-      virtualenv --python=/usr/bin/python3 --system-site-packages ~/.virtualenvs/anitya/
-  args:
-    creates: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya
-
-- name: Install Anitya requirements into the virtualenv
-  become_user: "{{ ansible_env.SUDO_USER }}"
-  pip:
-    requirements: "requirements.txt"
-    virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
-  args:
-    chdir: /home/{{ ansible_env.SUDO_USER }}/devel
-
-- name: Install PostgreSQL driver in the virtualenv
-  become_user: "{{ ansible_env.SUDO_USER }}"
-  pip:
-    name: "psycopg2"
-    virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
-  args:
-    chdir: /home/{{ ansible_env.SUDO_USER }}/devel
-
-- name: Install Anitya test requirements into the virtualenv
-  become_user: "{{ ansible_env.SUDO_USER }}"
-  pip:
-    requirements: "test_requirements.txt"
-    virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
-  args:
-    chdir: /home/{{ ansible_env.SUDO_USER }}/devel
-
-- name: Install Tox
-  become_user: "{{ ansible_env.SUDO_USER }}"
-  pip: name=tox virtualenv=/home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
-
 - name: Install Anitya into the virtualenv
-  become_user: "{{ ansible_env.SUDO_USER }}"
   pip:
     name:
       - "file:///home/{{ ansible_env.SUDO_USER }}/devel"
       - "file:///home/{{ ansible_env.SUDO_USER }}/devel/anitya_schema"
-    extra_args: "-e"
-    virtualenv: /home/{{ ansible_env.SUDO_USER }}/.virtualenvs/anitya/
+    extra_args: "-e" 
 
 - name: Create user systemd directory
   become_user: "{{ ansible_env.SUDO_USER }}"
@@ -137,7 +105,7 @@
 - name: Build the Anitya documentation
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
-      source ~/.virtualenvs/anitya/bin/activate && make install
+      make install
   args:
     chdir: /home/{{ ansible_env.SUDO_USER }}/devel/docs/
     creates: /home/{{ ansible_env.SUDO_USER }}/devel/anitya/static/docs/objects.inv

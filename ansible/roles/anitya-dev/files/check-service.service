@@ -5,7 +5,7 @@ Documentation=https://github.com/fedora-infra/anitya/
 
 [Service]
 Environment="ANITYA_WEB_CONFIG=/home/vagrant/anitya.toml"
-ExecStart=/home/vagrant/.virtualenvs/anitya/bin/check_service.py
+ExecStart=check_service.py
 Type=simple
 
 [Install]
