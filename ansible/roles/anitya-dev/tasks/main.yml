@@ -43,20 +43,20 @@
            fedora-messaging,
            python3-alembic,
            python3-arrow,
+           python3-dateutil,
            python3-defusedxml,
            python3-flask-login,
            python3-flask-restful,
            python3-flask-wtf,
            python3-jinja2,
            python3-ordered-set,
-           python3-dateutil,
            python3-pytoml,
            python3-semver,
            python3-social-auth-app-flask,
            python3-social-auth-app-flask-sqlalchemy,
+           python3-sqlalchemy,
            python3-sseclient,
            python3-straight-plugin,
-           python3-sqlalchemy,
            python3-wtforms
           ]
     state: present
