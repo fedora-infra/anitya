@@ -69,7 +69,7 @@
 - name: Create database schema
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
-      source ~/.virtualenvs/anitya/bin/activate && python createdb.py && touch ~/.schema-created
+      python createdb.py && touch ~/.schema-created
   args:
     creates: /home/vagrant/.schema-created
     chdir: /home/vagrant/devel
