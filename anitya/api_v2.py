@@ -629,6 +629,7 @@ class VersionsResource(Resource):
         :reqjson string version_pattern: The version pattern for calendar version scheme.
         :reqjson string version_prefix: The project version prefix, if any.
         :reqjson string pre_release_filter: Filter for unstable versions.
+        :reqjson string version_filter: Filter for blacklisted versions.
         :reqjson string regex: The regex to use when searching the
                                ``version_url`` page
                                (defaults to none for temporary project).
@@ -672,6 +673,7 @@ class VersionsResource(Resource):
         version_pattern_help = _("The version pattern for calendar version scheme.")
         version_prefix_help = _("The project version prefix, if any.")
         pre_release_filter_help = _("Filter for unstable versions.")
+        version_filter_help = _("Filter for blacklisted versions.")
         regex_help = _(
             "The regex to use when searching the version_url page "
             "(defaults to none for temporary project)."
@@ -702,6 +704,7 @@ class VersionsResource(Resource):
         parser.add_argument(
             "pre_release_filter", type=str, help=pre_release_filter_help
         )
+        parser.add_argument("version_filter", type=str, help=version_filter_help)
         parser.add_argument("regex", type=str, help=regex_help, default=None)
         parser.add_argument(
             "insecure", type=inputs.boolean, help=insecure_help, default=False
@@ -788,6 +791,7 @@ class VersionsResource(Resource):
                 version_scheme=args.version_scheme,
                 version_prefix=args.version_prefix,
                 pre_release_filter=args.pre_release_filter,
+                version_filter=args.version_filter,
                 regex=args.regex,
                 insecure=args.insecure,
                 dry_run=dry_run,
@@ -819,6 +823,9 @@ class VersionsResource(Resource):
             pre_release_filter = args.get("pre_release_filter")
             if not pre_release_filter:
                 pre_release_filter = project.pre_release_filter
+            version_filter = args.get("version_filter")
+            if not version_filter:
+                version_filter = project.version_filter
             regex = args.get("regex")
             if not regex:
                 regex = project.regex
@@ -841,6 +848,7 @@ class VersionsResource(Resource):
                     version_url=version_url,
                     version_prefix=version_prefix,
                     pre_release_filter=pre_release_filter,
+                    version_filter=version_filter,
                     regex=regex,
                     insecure=insecure,
                     releases_only=releases_only,

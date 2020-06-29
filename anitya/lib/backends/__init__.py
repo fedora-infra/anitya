@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # This file is a part of the Anitya project.
 #
-# Copyright © 2014-2017 Pierre-Yves Chibon <pingou@pingoured.fr>
+# Copyright © 2014-2020 Pierre-Yves Chibon <pingou@pingoured.fr>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -242,6 +242,53 @@ class BaseBackend(object):
         return [v.version for v in sorted_versions]
 
     @classmethod
+    def _filter_versions(self, version, filter_list):
+        """
+        Method used to call as argument of Python filter function.
+
+        Attributes:
+            version (:obj:`list`): List of versions. For example ["1.0.0, 1.0.0-alpha"]
+            filter_list (:obj:`list`): List of strings to use as filter.
+
+        Returns:
+            (bool): Result of the filter.
+        """
+        for filter_str in filter_list:
+            if filter_str and filter_str in version:
+                return True
+        return False
+
+    @classmethod
+    def filter_versions(self, versions, filter_string):
+        """Method called to filter versions list by filter_string.
+        Filter string is first parsed by delimiter and then applied on list of versions.
+        For example: list of versions ["1.0.0", "1.0.0-alpha", "1.0.0-beta"]
+        when filtered by "alpha;beta" will return ["1.0.0"].
+
+        Attributes:
+            versions (:obj:`list`): List of versions. For example ["1.0.0, 1.0.0-alpha"]
+            filter_string (str): String to use for filtering.
+                It contains list of strings delimited by ";".
+
+        Returns:
+            :obj:`list`: A list of filtered versions.
+        """
+        _log.debug(
+            "Filtering versions '{}' by filter '{}'".format(versions, filter_string)
+        )
+        filtered_versions = versions
+        if filter_string:
+            filter_list = filter_string.split(";")
+            filtered_versions = [
+                version
+                for version in versions
+                if not self._filter_versions(version, filter_list)
+            ]
+
+        _log.debug("Filtered versions '{}'".format(filtered_versions))
+        return filtered_versions
+
+    @classmethod
     def call_url(self, url, last_change=None, insecure=False):
         """Dedicated method to query a URL.
 
@@ -369,5 +416,9 @@ def get_versions_by_regex_for_text(text, url, regex, project):
             "%(name)s: no upstream version found. - %(url)s -  "
             "%(regex)s" % {"name": project.name, "url": url, "regex": regex}
         )
+    # Filter retrieved versions
+    filtered_versions = BaseBackend.filter_versions(
+        upstream_versions, project.version_filter
+    )
 
-    return upstream_versions
+    return filtered_versions

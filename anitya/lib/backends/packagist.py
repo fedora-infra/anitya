@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2014-2020 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
+   Michal Konecny <mkonecny@redhat.com>
 
 """
 
@@ -100,7 +101,12 @@ class PackagistBackend(BaseBackend):
             raise AnityaPluginException("No JSON returned by %s" % url)
 
         if "package" in data and "versions" in data["package"]:
-            return sorted(data["package"]["versions"].keys())
+            # Filter retrieved versions
+            filtered_versions = cls.filter_versions(
+                sorted(data["package"]["versions"].keys()), project.version_filter
+            )
+
+            return filtered_versions
         elif "status" in data and data["status"] == "error" and "message" in data:
             raise AnityaPluginException(data["message"])
         else:

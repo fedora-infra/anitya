@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014  Red Hat, Inc.
+# Copyright © 2014-2020  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions
@@ -168,6 +168,7 @@ class EditProjectTests(DatabaseTestCase):
                 version_url=None,
                 version_prefix=None,
                 pre_release_filter="a;v",
+                version_filter="alpha",
                 regex=None,
                 insecure=False,
                 user_id="noreply@fedoraproject.org",
@@ -181,6 +182,7 @@ class EditProjectTests(DatabaseTestCase):
         self.assertEqual(project_objs[0].homepage, "https://www.geany.org")
         self.assertEqual(project_objs[0].backend, "PyPI")
         self.assertEqual(project_objs[0].pre_release_filter, "a;v")
+        self.assertTrue(project_objs[0].version_filter, "alpha")
         self.assertTrue(project_objs[0].releases_only)
         self.assertTrue(project_objs[0].archived)
 
@@ -212,6 +214,7 @@ class EditProjectTests(DatabaseTestCase):
                 version_url=project_objs[2].version_url,
                 version_prefix=None,
                 pre_release_filter=None,
+                version_filter=None,
                 regex=project_objs[2].regex,
                 insecure=False,
                 user_id="noreply@fedoraproject.org",
@@ -239,6 +242,7 @@ class EditProjectTests(DatabaseTestCase):
                 version_url=project_objs[0].version_url,
                 version_prefix=None,
                 pre_release_filter=None,
+                version_filter=None,
                 regex=project_objs[0].regex,
                 insecure=True,
                 user_id="noreply@fedoraproject.org",
@@ -268,6 +272,7 @@ class EditProjectTests(DatabaseTestCase):
             version_url=project_objs[0].version_url,
             version_prefix=None,
             pre_release_filter=None,
+            version_filter=None,
             regex=project_objs[0].regex,
             insecure=False,
             user_id="noreply@fedoraproject.org",
@@ -304,6 +309,7 @@ class EditProjectTests(DatabaseTestCase):
                 version_url=None,
                 version_prefix=None,
                 pre_release_filter="a;v",
+                version_filter="foo",
                 regex=None,
                 insecure=False,
                 user_id="noreply@fedoraproject.org",
@@ -318,6 +324,7 @@ class EditProjectTests(DatabaseTestCase):
         self.assertEqual(project_objs[0].homepage, "https://www.geany.org")
         self.assertEqual(project_objs[0].backend, "PyPI")
         self.assertEqual(project_objs[0].pre_release_filter, "a;v")
+        self.assertEqual(project_objs[0].version_filter, "foo")
         self.assertTrue(project_objs[0].releases_only)
         self.assertTrue(project_objs[0].archived)
 
@@ -325,6 +332,7 @@ class EditProjectTests(DatabaseTestCase):
         self.session.rollback()
         self.assertEqual(project_objs[0].backend, "custom")
         self.assertEqual(project_objs[0].pre_release_filter, None)
+        self.assertEqual(project_objs[0].version_filter, None)
         self.assertFalse(project_objs[0].releases_only)
         self.assertFalse(project_objs[0].archived)
 

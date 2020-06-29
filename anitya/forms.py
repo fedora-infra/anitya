@@ -29,6 +29,7 @@ class ProjectForm(FlaskForm):
     version_url = StringField("Version URL", [validators.optional()])
     version_prefix = StringField("Version prefix", [validators.optional()])
     pre_release_filter = StringField("Pre-release filter", [validators.optional()])
+    version_filter = StringField("Version filter", [validators.optional()])
     version_scheme = SelectField(
         "Version scheme", [validators.Required()], choices=[(item, item) for item in []]
     )

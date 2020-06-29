@@ -43,9 +43,11 @@
             </tr>
             <tr id="pre_release_filter_row">
                 {{ render_field_in_row(form.pre_release_filter, tabindex=8) }}
+            <tr id="version_filter_row">
+                {{ render_field_in_row(form.version_filter, tabindex=9) }}
             </tr>
             <tr id="regex_row">
-              {{ render_field_in_row(form.regex, tabindex=9) }}
+              {{ render_field_in_row(form.regex, tabindex=10) }}
             </tr>
             <tr id="default_regex_row">
               <td><label>Default regex:</label></td>
@@ -56,28 +58,28 @@
               <td id="example_urls"></td>
             </tr>
             <tr id="releases_only_row">
-              {{ render_field_in_row(form.releases_only, tabindex=10) }}
+              {{ render_field_in_row(form.releases_only, tabindex=11) }}
             </tr>
             <tr id="insecure_row">
-              {{ render_field_in_row(form.insecure, tabindex=11) }}
+              {{ render_field_in_row(form.insecure, tabindex=12) }}
             </tr>
             <tr id="check_release_row">
-              {{ render_field_in_row(form.check_release, tabindex=12) }}
+              {{ render_field_in_row(form.check_release, tabindex=13) }}
             </tr>
 
             {%- if context == 'Add' -%}
             <tr>
-              {{ render_field_in_row(form.distro, tabindex=13) }}
+              {{ render_field_in_row(form.distro, tabindex=14) }}
               <td></td>
             </tr>
             <tr>
-              {{ render_field_in_row(form.package_name, tabindex=14) }}
+              {{ render_field_in_row(form.package_name, tabindex=15) }}
               <td></td>
             </tr>
             {%- endif -%}
           </table>
           <button type="submit" class="btn btn-success btn-sm pull-right"
-                  id="testcheck" tabindex=12>
+                  id="testcheck" tabindex=16>
               <span class="glyphicon glyphicon-refresh"></span>
               Test check
           </button>
@@ -88,11 +90,11 @@
       </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-success" tabindex=10>
+  <button type="submit" class="btn btn-success" tabindex=17>
     <span class="glyphicon glyphicon-plus"></span>
     Submit
   </button>
-  
+
   {%- if context == 'Add' -%}
   <a href="{{ url_for('anitya_ui.projects') }}">
   {%- elif context == 'Edit' -%}
@@ -172,6 +174,12 @@
                                            "'alpha;beta'. This filter will be applied after using version scheme " +
                                            "specific pre-release recognition.");
     $("#pre_release_filter").tooltip();
+    $("#version_filter").prop('title', "Versions containing this text will be skipped " +
+        "when retrieving new versions. For example version filter " +
+        "'beta' will skip versions '1.2.3-beta' and 'beta-1.2.3'. " +
+        "It's possible to specify multiple filters split by ';' like this " +
+        "'alpha;beta'.");
+    $("#version_filter").tooltip();
     $("#regex").prop('title', "Python regex to use for version retrieval. " +
         "Matched groups will be concatenated by '.'. " +
         "For example regex '(\d)_(\d)_(\d)' applied to '1_2_3' " +

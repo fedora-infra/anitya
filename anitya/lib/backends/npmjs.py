@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014-2016 - Copyright Red Hat Inc
+ (c) 2014-2020 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
@@ -115,7 +115,11 @@ class NpmjsBackend(BaseBackend):
         if "error" in data or "versions" not in data:
             raise AnityaPluginException("No versions found at %s" % url)
 
-        return list(data["versions"].keys())
+        # Filter retrieved versions
+        filtered_versions = BaseBackend.filter_versions(
+            list(data["versions"].keys()), project.version_filter
+        )
+        return filtered_versions
 
     @classmethod
     def check_feed(cls):

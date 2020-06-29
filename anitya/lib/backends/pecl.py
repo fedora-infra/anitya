@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014-2016 - Copyright Red Hat Inc
+ (c) 2014-2020 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
@@ -106,7 +106,11 @@ class PeclBackend(BaseBackend):
                 "No versions found for %s" % project.name.lower()
             )
 
-        return versions
+        # Filter retrieved versions
+        filtered_versions = BaseBackend.filter_versions(
+            versions, project.version_filter
+        )
+        return filtered_versions
 
     @classmethod
     def check_feed(cls):

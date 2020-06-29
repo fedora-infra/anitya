@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2018  Red Hat, Inc.
+# Copyright © 2018-2020  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions
@@ -137,4 +137,6 @@ class GitlabBackend(BaseBackend):
                 "%s: No upstream version found." % (project.name)
             )
 
-        return tags
+        # Filter retrieved versions
+        filtered_versions = cls.filter_versions(tags, project.version_filter)
+        return filtered_versions

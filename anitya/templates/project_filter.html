@@ -1,0 +1,46 @@
+{% extends "master.html" %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Project: {{ project.name }} - Apply filter</h1>
+</div>
+
+<div class="row">
+
+    <form method="POST" action="{{
+        url_for('anitya_ui.filter_project_versions',
+                project_id=project.id) }}" >
+      {{ form.csrf_token }}
+      <table id="input_table">
+        <tr>
+          <th>Project</th>
+          <td>
+            {{ project.name }}
+          </td>
+        </tr>
+        <tr>
+          <th>Versions to delete</th>
+          <td>
+            {{ versions }}
+          </td>
+        </tr>
+      </table>
+
+      <button type="submit" name="confirm" value="Yes" class="btn btn-warning">
+        <span class="glyphicon glyphicon-remove"></span>
+        Apply filter
+      </button>
+
+      <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
+        <button type="button" class="btn btn-danger">
+          <span class="glyphicon glyphicon-ban-circle"></span>
+          Cancel
+        </button>
+      </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

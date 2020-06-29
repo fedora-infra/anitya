@@ -178,6 +178,7 @@ def set_project_archive_state(project_id, state):
                     version_url=project.version_url,
                     version_prefix=project.version_prefix,
                     pre_release_filter=project.pre_release_filter,
+                    version_filter=project.pre_release_filter,
                     regex=project.regex,
                     insecure=project.insecure,
                     releases_only=project.releases_only,

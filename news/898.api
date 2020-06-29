@@ -1,0 +1,1 @@
+API v1 api/version/get is now returning only versions field instead of whole project when no version is retrieved

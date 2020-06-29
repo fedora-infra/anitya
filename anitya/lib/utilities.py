@@ -97,6 +97,7 @@ def check_project_release(project, session, test=False):
 
     try:
         versions_prefix = backend.get_versions(project)
+        _log.debug("Versions retrieved: '{}'".format(versions_prefix))
     except exceptions.RateLimitException as err:
         _log.error(f"{project.name} ({project.backend}): {str(err)}")
         if not test:
@@ -282,6 +283,7 @@ def create_project(
     version_url=None,
     version_prefix=None,
     pre_release_filter=None,
+    version_filter=None,
     regex=None,
     insecure=False,
     releases_only=False,
@@ -298,6 +300,7 @@ def create_project(
         regex=regex,
         version_prefix=version_prefix,
         pre_release_filter=pre_release_filter,
+        version_filter=version_filter,
         insecure=insecure,
         releases_only=releases_only,
     )
@@ -336,6 +339,7 @@ def edit_project(
     version_url,
     version_prefix,
     pre_release_filter,
+    version_filter,
     regex,
     insecure,
     releases_only,
@@ -387,6 +391,11 @@ def edit_project(
                 "old": old,
                 "new": project.pre_release_filter,
             }
+    if version_filter != project.version_filter:
+        old = project.version_filter
+        project.version_filter = version_filter.strip() if version_filter else None
+        if old != project.version_filter:
+            changes["version_filter"] = {"old": old, "new": project.version_filter}
     if regex != project.regex:
         old = project.regex
         project.regex = regex.strip() if regex else None

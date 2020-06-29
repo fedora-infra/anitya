@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # This file is part of the Anitya project.
 # Copyright (C) 2018 Elliott Sales de Andrade <quantum.analyst@gmail.com>
+# Copyright (C) 2020 Michal Konecny <mkonecny@redhat.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -155,7 +156,10 @@ class CranBackend(BaseBackend):
         if "error" in data or "versions" not in data:  # pragma: no cover
             raise AnityaPluginException("No versions found at {}".format(url))
 
-        return list(data["versions"].keys())
+        filtered_versions = cls.filter_versions(
+            list(data["versions"].keys()), project.version_filter
+        )
+        return filtered_versions
 
     @classmethod
     def check_feed(cls):

@@ -2,6 +2,7 @@
 # This file is a part of the Anitya project.
 #
 # Copyright © 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org>
+# Copyright © 2020 Michal Konecny <mkonecny@redhat.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -212,7 +213,10 @@ class CratesBackend(BaseBackend):
             AnityaPluginException: If the URL was unreachable or the response
                 was in an unexpected format.
         """
-        return [v["num"] for v in cls._get_versions(project)]
+        filtered_versions = cls.filter_versions(
+            [v["num"] for v in cls._get_versions(project)], project.version_filter
+        )
+        return filtered_versions
 
     @classmethod
     def get_ordered_versions(cls, project):
