@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2014-2020 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
@@ -200,7 +200,9 @@ class GithubBackend(BaseBackend):
                 "%s: No upstream version found." % (project.name)
             )
 
-        return versions
+        # Filter retrieved versions
+        filtered_versions = cls.filter_versions(versions, project.version_filter)
+        return filtered_versions
 
 
 def parse_json(json, project):

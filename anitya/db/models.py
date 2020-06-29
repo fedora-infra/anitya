@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # This file is a part of the Anitya project.
 #
-# Copyright © 2014-2017 Pierre-Yves Chibon <pingou@pingoured.fr>
 # Copyright © 2017-2020 Michal Konecny <mkonecny@redhat.com>
+# Copyright © 2014-2020 Pierre-Yves Chibon <pingou@pingoured.fr>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -240,6 +240,8 @@ class Project(Base):
             Filtered versions will be marked as pre_release.
         archived (sa.Boolean): Marks the project as archived, archived projects can't be edited
             by normal users and are no longer checked for new versions.
+        version_filter (sa.String): A string containing filters delimited by ';'.
+            Filtered versions will be skipped when retrieving versions.
     """
 
     __tablename__ = "projects"
@@ -260,6 +262,7 @@ class Project(Base):
     version_scheme = sa.Column(sa.String(50), nullable=True)
     pre_release_filter = sa.Column(sa.String(200), nullable=True)
     archived = sa.Column(sa.Boolean, nullable=False, default=False)
+    version_filter = sa.Column(sa.String(200), nullable=True)
 
     latest_version = sa.Column(sa.String(50))
     latest_version_cursor = sa.Column(sa.String(200), nullable=True)
@@ -696,6 +699,7 @@ class ProjectVersion(Base):
         Return:
             (Boolean): Pre-release flag.
         """
+
         version_class = self.project.get_version_class()
         version = version_class(
             version=self.version,

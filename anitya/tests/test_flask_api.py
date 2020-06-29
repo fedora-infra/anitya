@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014  Red Hat, Inc.
+# Copyright © 2014-2020  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions
@@ -296,21 +296,25 @@ class AnityaWebAPItests(DatabaseTestCase):
             output = self.app.post("/api/version/get", data=data)
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
-        del data["created_on"]
-        del data["updated_on"]
 
         exp = {
-            "id": 1,
-            "backend": "custom",
-            "homepage": "https://www.geany.org/",
-            "ecosystem": "https://www.geany.org/",
-            "name": "geany",
-            "regex": "DEFAULT",
-            "version": "1.33",
-            "version_url": "https://www.geany.org/Download/Releases",
-            "versions": ["1.33"],
-            "packages": [{"distro": "Fedora", "package_name": "geany"}],
+            "versions": [],
         }
+
+        self.assertEqual(data, exp)
+
+    def test_api_get_version_exists(self):
+        """ Test the api_get_version when returning a version. """
+        create_distro(self.session)
+        create_project(self.session)
+
+        data = {"id": 1, "test": True}
+        output = self.app.post("/api/version/get", data=data)
+
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        exp = {"versions": ["1.36"]}
 
         self.assertEqual(data, exp)
 

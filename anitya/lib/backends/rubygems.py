@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014-2019 - Copyright Red Hat Inc
+ (c) 2014-2020 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
@@ -92,7 +92,11 @@ class RubygemsBackend(BaseBackend):
         if data["version"] == "unknown":
             raise AnityaPluginException("Project or version unknown at %s" % url)
 
-        return [data["version"]]
+        # Filter retrieved versions
+        filtered_versions = cls.filter_versions(
+            [data["version"]], project.version_filter
+        )
+        return filtered_versions
 
     @classmethod
     def check_feed(cls):

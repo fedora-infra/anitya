@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014  Red Hat, Inc.
+# Copyright © 2014-2020  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions
@@ -196,7 +196,7 @@ class GetVersionsByRegexTextTests(unittest.TestCase):
         The best release: 1.0.0
         """
         regex = r"\d\.\d\.\d"
-        mock_project = mock.Mock(version_prefix="")
+        mock_project = mock.Mock(version_prefix="", version_filter=None)
         versions = backends.get_versions_by_regex_for_text(
             text, "url", regex, mock_project
         )
@@ -210,7 +210,7 @@ class GetVersionsByRegexTextTests(unittest.TestCase):
         The best release: 1.0.0
         """
         regex = r"(\d)\.(\d)\.(\d)"
-        mock_project = mock.Mock(version_prefix="")
+        mock_project = mock.Mock(version_prefix="", version_filter=None)
         versions = backends.get_versions_by_regex_for_text(
             text, "url", regex, mock_project
         )
@@ -231,6 +231,45 @@ class GetVersionsByRegexTextTests(unittest.TestCase):
             regex,
             mock_project,
         )
+
+
+class FilterVersionsTests(unittest.TestCase):
+    """
+    Unit tests for anitya.lib.backends.BaseBackend.filter_versions
+    """
+
+    def test_filter_versions_match(self):
+        """
+        Assert that versions get filtered correctly.
+        """
+        versions = ["1.0.0", "1.0.0-alpha", "1.0.0-beta"]
+        filter_str = "alpha;beta"
+
+        filtered_versions = backends.BaseBackend.filter_versions(versions, filter_str)
+
+        self.assertEqual(filtered_versions, ["1.0.0"])
+
+    def test_filter_versions_no_match(self):
+        """
+        Assert that versions are not filtered if no filter is matched.
+        """
+        versions = ["1.0.0", "1.0.0-alpha", "1.0.0-beta"]
+        filter_str = "gamma"
+
+        filtered_versions = backends.BaseBackend.filter_versions(versions, filter_str)
+
+        self.assertEqual(filtered_versions, versions)
+
+    def test_filter_versions_empty_filter(self):
+        """
+        Assert that versions are not filtered if no filter is specified.
+        """
+        versions = ["1.0.0", "1.0.0-alpha", "1.0.0-beta"]
+        filter_str = ""
+
+        filtered_versions = backends.BaseBackend.filter_versions(versions, filter_str)
+
+        self.assertEqual(filtered_versions, versions)
 
 
 if __name__ == "__main__":

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+ (c) 2014-2020 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
+   Michal Konecny <mkonecny@redhat.com>
 
 """
 
@@ -34,7 +35,10 @@ def use_gnome_cache_json(project):
             and isinstance(item[project.name], list)
         ):
             output = item[project.name]
-    return output
+
+    # Filter retrieved versions
+    filtered_versions = BaseBackend.filter_versions(output, project.version_filter)
+    return filtered_versions
 
 
 def use_gnome_regex(project):

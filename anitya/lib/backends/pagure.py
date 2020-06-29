@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2015 - Copyright Red Hat Inc
+ (c) 2015-2020 - Copyright Red Hat Inc
 
  Authors:
    Pierre-Yves Chibon <pingou@pingoured.fr>
+   Michal Konecny <mkonecny@redhat.com>
 
 """
 
@@ -85,4 +86,9 @@ class PagureBackend(BaseBackend):
         except Exception:  # pragma: no cover
             raise AnityaPluginException("No JSON returned by %s" % url)
 
-        return data.get("tags", [])
+        # Filter retrieved versions
+        filtered_versions = cls.filter_versions(
+            data.get("tags", []), project.version_filter
+        )
+
+        return filtered_versions

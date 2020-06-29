@@ -1463,6 +1463,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
         self.assertEqual(project.version_pattern, None)
         self.assertEqual(project.version_prefix, None)
         self.assertEqual(project.pre_release_filter, None)
+        self.assertEqual(project.version_filter, None)
         self.assertEqual(project.regex, None)
         self.assertFalse(project.insecure)
         self.assertFalse(project.releases_only)
@@ -1488,6 +1489,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
             "version_pattern": "YY-MM",
             "version_prefix": "a",
             "pre_release_filter": "alpha",
+            "version_filter": "foo",
             "regex": "dummy",
             "insecure": "true",
             "releases_only": "true",
@@ -1517,6 +1519,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
         self.assertEqual(project.version_pattern, "YY-MM")
         self.assertEqual(project.version_prefix, "a")
         self.assertEqual(project.pre_release_filter, "alpha")
+        self.assertEqual(project.version_filter, "foo")
         self.assertEqual(project.regex, "dummy")
         self.assertTrue(project.insecure)
         self.assertTrue(project.releases_only)
@@ -1561,6 +1564,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
         self.assertEqual(project.version_pattern, None)
         self.assertEqual(project.version_prefix, None)
         self.assertEqual(project.pre_release_filter, None)
+        self.assertEqual(project.version_filter, None)
         self.assertEqual(project.regex, None)
         self.assertFalse(project.insecure)
         self.assertFalse(project.releases_only)
@@ -1600,6 +1604,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
             version_pattern=None,
             version_prefix=None,
             pre_release_filter=None,
+            version_filter=None,
             regex=None,
             insecure=False,
             releases_only=False,

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of the Anitya project.
-# Copyright (C) 2017  Red Hat, Inc.
+# Copyright (C) 2017-2020  Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -329,7 +329,7 @@ def api_distro_names():
 @api_blueprint.route("/api/version/get", methods=["POST"])
 def api_get_version():
     """
-    Forces anitya to retrieve the latest version available from a project
+    Forces anitya to retrieve new versions available from a project
     upstream.
 
     ::
@@ -345,26 +345,19 @@ def api_get_version():
     ::
 
       {
-        "backend": "Sourceforge",
-        "created_on": 1409917222.0,
-        "homepage": "https://sourceforge.net/projects/zero-install",
-        "id": 1,
-        "name": "zero-install",
-        "packages": [
-          {
-            "distro": "Fedora",
-            "package_name": "0install"
-          }
-        ],
-        "regex": "",
-        "updated_on": 1413794215.0,
-        "version": "2.7",
-        "version_url": "0install",
         "versions": [
           "2.7"
         ]
       }
 
+    Sample error response:
+
+    ::
+
+      {
+        "output": "notok",
+        "error": "Error happened."
+      }
     """
 
     project_id = flask.request.form.get("id", None)
@@ -386,11 +379,11 @@ def api_get_version():
             httpcode = 404
         else:
             try:
-                version = utilities.check_project_release(project, Session, test=test)
-                if version:
-                    output = {"version": version}
+                versions = utilities.check_project_release(project, Session, test=test)
+                if versions:
+                    output = {"versions": versions}
                 else:
-                    output = project.__json__(detailed=True)
+                    output = {"versions": []}
             except anitya.lib.exceptions.AnityaException as err:
                 output = {"output": "notok", "error": [str(err)]}
                 httpcode = 400
