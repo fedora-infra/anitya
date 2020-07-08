@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of the Anitya project.
-# Copyright (C) 2014 Red Hat, Inc.
+# Copyright (C) 2014-2020 Red Hat, Inc.
 # Copyright (C) 2014 Pierre-Yves Chibon <pingou@pingoured.fr>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -168,6 +168,7 @@ def check_project_release(project, session, test=False):
                 old_version=old_version,
                 packages=[pkg.__json__() for pkg in project.packages],
                 versions=project.versions,
+                stable_versions=[str(version) for version in project.stable_versions],
                 ecosystem=project.ecosystem_name,
                 agent="anitya",
                 odd_change=False,
@@ -249,6 +250,7 @@ def create_project(
     version_pattern=None,
     version_url=None,
     version_prefix=None,
+    pre_release_filter=None,
     regex=None,
     insecure=False,
     releases_only=False,
@@ -265,6 +267,7 @@ def create_project(
         version_url=version_url,
         regex=regex,
         version_prefix=version_prefix,
+        pre_release_filter=pre_release_filter,
         insecure=insecure,
         releases_only=releases_only,
     )
@@ -301,6 +304,7 @@ def edit_project(
     version_pattern,
     version_url,
     version_prefix,
+    pre_release_filter,
     regex,
     insecure,
     releases_only,
@@ -342,6 +346,16 @@ def edit_project(
         project.version_prefix = version_prefix.strip() if version_prefix else None
         if old != project.version_prefix:
             changes["version_prefix"] = {"old": old, "new": project.version_prefix}
+    if pre_release_filter != project.pre_release_filter:
+        old = project.pre_release_filter
+        project.pre_release_filter = (
+            pre_release_filter.strip() if pre_release_filter else None
+        )
+        if old != project.pre_release_filter:
+            changes["pre_release_filter"] = {
+                "old": old,
+                "new": project.pre_release_filter,
+            }
     if regex != project.regex:
         old = project.regex
         project.regex = regex.strip() if regex else None

@@ -61,7 +61,14 @@ class SemanticVersion(Version):
             # version is not correct semantic version, so it's not a pre-release
             return False
 
-        return bool(version_info.prerelease)
+        if version_info.prerelease:
+            return True
+
+        for pre_release_filter in self.pre_release_filters:
+            if pre_release_filter and pre_release_filter in self.version:
+                return True
+
+        return False
 
     def __eq__(self, other):
         """

@@ -101,6 +101,16 @@ class RpmVersionTests(unittest.TestCase):
         version = rpm.RpmVersion(version="v1.0.0junk1")
         self.assertFalse(version.prerelease())
 
+    def test_prerelease_filter(self):
+        """Assert pre-releases will be valid if filter is applied."""
+        version = rpm.RpmVersion(version="v1.0.0", pre_release_filter="v")
+        self.assertTrue(version.prerelease())
+
+    def test_prerelease_multiple_filter(self):
+        """Assert pre-releases will be valid if multiple filters is applied."""
+        version = rpm.RpmVersion(version="v1.0.0", pre_release_filter="v;a")
+        self.assertTrue(version.prerelease())
+
     def test_postrelease_false(self):
         """Assert postrelease is defined and returns False for non-postreleases."""
         version = rpm.RpmVersion(version="v1.0.0")

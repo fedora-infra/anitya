@@ -524,6 +524,18 @@ class TestProjectVersionUpdated(unittest.TestCase):
 
         self.assertEqual(self.message.version, "1.0.0")
 
+    def test_versions(self):
+        """ Assert that versions list is returned. """
+        self.message.body = {"message": {"versions": ["1.0.0", "0.9.0"]}}
+
+        self.assertEqual(self.message.versions, ["1.0.0", "0.9.0"])
+
+    def test_stable_versions(self):
+        """ Assert that stable versions list is returned. """
+        self.message.body = {"message": {"stable_versions": ["1.0.0", "0.9.0"]}}
+
+        self.assertEqual(self.message.stable_versions, ["1.0.0", "0.9.0"])
+
 
 class TestProjectVersionDeleted(unittest.TestCase):
     """ Tests for anitya_schema.project_messages.ProjectVersionDeleted class. """

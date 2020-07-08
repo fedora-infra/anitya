@@ -538,6 +538,7 @@ class ProjectVersionUpdated(ProjectMessage):
                     "project": ProjectMessage.project_schema,
                     "upstream_version": {"type": "string"},
                     "versions": {"type": "array", "items": {"type": "string"}},
+                    "stable_versions": {"type": "array", "items": {"type": "string"}},
                 },
                 "required": [
                     "agent",
@@ -599,6 +600,16 @@ class ProjectVersionUpdated(ProjectMessage):
     def version(self):
         """The version that was found."""
         return self.body["message"]["upstream_version"]
+
+    @property
+    def versions(self):
+        """All versions on the project."""
+        return self.body["message"]["versions"]
+
+    @property
+    def stable_versions(self):
+        """All stable versions on the project."""
+        return self.body["message"]["stable_versions"]
 
 
 class ProjectVersionDeleted(ProjectMessage):
