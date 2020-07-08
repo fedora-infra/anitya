@@ -2,5 +2,6 @@
 # There's a setuptools bug (#196) that makes Anitya unreliable to
 # install with ``python setup.py install`` so this lets pip handle
 # the dependencies before readthedocs installs Anitya.
+flask
 sphinxcontrib-httpdomain
 sqlalchemy_schemadisplay
