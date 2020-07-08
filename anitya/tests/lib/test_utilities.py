@@ -121,6 +121,7 @@ class EditProjectTests(DatabaseTestCase):
                 version_pattern=None,
                 version_url=None,
                 version_prefix=None,
+                pre_release_filter="a;v",
                 regex=None,
                 insecure=False,
                 user_id="noreply@fedoraproject.org",
@@ -132,6 +133,7 @@ class EditProjectTests(DatabaseTestCase):
         self.assertEqual(project_objs[0].name, "geany")
         self.assertEqual(project_objs[0].homepage, "https://www.geany.org")
         self.assertEqual(project_objs[0].backend, "PyPI")
+        self.assertEqual(project_objs[0].pre_release_filter, "a;v")
         self.assertTrue(project_objs[0].releases_only)
 
     def test_edit_project_creating_duplicate(self):
@@ -161,6 +163,7 @@ class EditProjectTests(DatabaseTestCase):
                 version_pattern=None,
                 version_url=project_objs[2].version_url,
                 version_prefix=None,
+                pre_release_filter=None,
                 regex=project_objs[2].regex,
                 insecure=False,
                 user_id="noreply@fedoraproject.org",
@@ -187,6 +190,7 @@ class EditProjectTests(DatabaseTestCase):
                 version_pattern=None,
                 version_url=project_objs[0].version_url,
                 version_prefix=None,
+                pre_release_filter=None,
                 regex=project_objs[0].regex,
                 insecure=True,
                 user_id="noreply@fedoraproject.org",

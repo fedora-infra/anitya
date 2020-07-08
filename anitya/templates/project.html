@@ -252,6 +252,7 @@
           <tr>
             <th>Version</th>
             <th>Retrieved on (UTC)</th>
+            <th>Pre-release</th>
             {% if is_admin %}
             <th>Raw version</th>
             <th>Delete</th>
@@ -265,6 +266,13 @@
             {% else %}
             <td>Date information unavailable</td>
             {% endif %}
+            <td>
+                {% if version.prerelease() %}
+                <input type="checkbox" checked disabled >
+                {% else %}
+                <input type="checkbox" disabled >
+                {% endif %}
+            </td>
             {% if is_admin %}
             <td>{{ version.version }}</td>
             <td>

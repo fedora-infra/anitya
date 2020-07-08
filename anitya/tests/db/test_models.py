@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014  Red Hat, Inc.
+# Copyright © 2014-2020  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions
@@ -165,6 +165,31 @@ class ProjectTests(DatabaseTestCase):
             ecosystem_name="pypi",
         )
         self.assertEqual(project.version_url, project.get_version_url())
+
+    def test_stable_versions(self):
+        """
+        Assert that only stable versions are retrieved.
+        """
+        project = models.Project(
+            name="test",
+            homepage="https://example.com",
+            ecosystem_name="pypi",
+            version_scheme="Semantic",
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        version_stable = models.ProjectVersion(project_id=project.id, version="1.0.0")
+        version_pre_release = models.ProjectVersion(
+            project_id=project.id, version="1.0.0-alpha"
+        )
+        self.session.add(version_stable)
+        self.session.add(version_pre_release)
+        self.session.commit()
+
+        versions = project.stable_versions
+
+        self.assertEqual([str(version) for version in versions], ["1.0.0"])
 
     def test_get_last_created_version(self):
         """
@@ -709,6 +734,30 @@ class DistroTestCase(DatabaseTestCase):
         logs = models.Distro.search(self.session, "Fed*", page="as")
         self.assertEqual(len(logs), 1)
         self.assertEqual(logs[0].name, "Fedora")
+
+
+class ProjectVersion(DatabaseTestCase):
+    """ Tests for ProjectVersion model. """
+
+    def test_pre_release(self):
+        """Test the pre_release property on version."""
+        project = models.Project(
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
+            ecosystem_name="pypi",
+            version_scheme="Semantic",
+        )
+        self.session.add(project)
+        self.session.flush()
+
+        version = models.ProjectVersion(
+            project_id=project.id, version="v0.8.0-alpha", project=project,
+        )
+        self.session.add(version)
+        self.session.flush()
+
+        self.assertTrue(version.pre_release)
 
 
 class PackageTestCase(DatabaseTestCase):

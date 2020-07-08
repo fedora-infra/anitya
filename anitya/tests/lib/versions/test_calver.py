@@ -350,13 +350,27 @@ class CalendarVersionTests(unittest.TestCase):
         version = calver.CalendarVersion(version="2019.04.23", pattern="YYYY.0M.DD")
         self.assertFalse(version.prerelease())
 
-    def test_prerelease_prerelease_no_number(self):
+    def test_prerelease_no_number(self):
         """Assert pre-releases without a number are still valid pre-releases."""
         for suffix in ("rc", "alpha", "beta", "dev", "pre"):
             version = calver.CalendarVersion(
                 version="2019.04.23-" + suffix, pattern="YYYY.0M.DD-MODIFIER"
             )
             self.assertTrue(version.prerelease())
+
+    def test_prerelease_filter(self):
+        """Assert pre-releases will be valid if filter is applied."""
+        version = calver.CalendarVersion(
+            version="2019.05.23", pattern="YYYY.0M.DD", pre_release_filter="05."
+        )
+        self.assertTrue(version.prerelease())
+
+    def test_prerelease_multiple_filter(self):
+        """Assert pre-releases will be valid if multiple filters is applied."""
+        version = calver.CalendarVersion(
+            version="2019.05.23", pattern="YYYY.0M.DD", pre_release_filter="05.;06."
+        )
+        self.assertTrue(version.prerelease())
 
     def test_prerelease_with_number(self):
         """Assert versions with RC are prerelease versions."""

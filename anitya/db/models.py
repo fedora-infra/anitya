@@ -2,6 +2,7 @@
 # This file is a part of the Anitya project.
 #
 # Copyright © 2014-2017 Pierre-Yves Chibon <pingou@pingoured.fr>
+# Copyright © 2017-2020 Michal Konecny <mkonecny@redhat.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -209,6 +210,9 @@ class Project(Base):
             URL (e.g. Cargo projects are on https://crates.io).
         regex (sa.String): A Python ``re`` style regular expression that is applied
             to the HTML from ``version_url`` to find versions.
+        version_prefix (sa.String): A string containing version prefixes delimited by ';'.
+            These prefixes will be removed from string showed on page.
+        version_pattern (sa.String): A version pattern used for calendar version scheme.
         insecure (sa.Boolean): Whether or not to validate the x509 certificate
             offered by the server at ``version_url``. Defaults to ``False``.
         releases_only (sa.Boolean): Whether or not to check releases instead of tags.
@@ -233,6 +237,8 @@ class Project(Base):
         version_scheme (sa.String): The version scheme to use for this project.
             If this is null, a default will be used. See the :mod:`anitya.lib.versions`
             documentation for more information.
+        pre_release_filter (sa.String): A string containing filters delimited by ';'.
+            Filtered versions will be marked as pre_release.
     """
 
     __tablename__ = "projects"
@@ -251,6 +257,7 @@ class Project(Base):
     releases_only = sa.Column(sa.Boolean, nullable=False, default=False)
     error_counter = sa.Column(sa.Integer, index=True, default=0)
     version_scheme = sa.Column(sa.String(50), nullable=True)
+    pre_release_filter = sa.Column(sa.String(200), nullable=True)
 
     latest_version = sa.Column(sa.String(50))
     latest_version_cursor = sa.Column(sa.String(200), nullable=True)
@@ -293,6 +300,17 @@ class Project(Base):
         """
         sorted_versions = self.get_sorted_version_objects()
         return [str(v) for v in sorted_versions]
+
+    @property
+    def stable_versions(self):
+        """
+        Return list of all versions that aren't flagged as pre-release.
+
+        Returns:
+           list(`anitya.lib.versions.Base`): List of stable version objects
+        """
+        sorted_versions = self.get_sorted_version_objects()
+        return [version for version in sorted_versions if not version.prerelease()]
 
     def get_last_created_version(self):
         """
@@ -346,6 +364,7 @@ class Project(Base):
                 version_class(
                     version=version if isinstance(version, str) else version["version"],
                     prefix=self.version_prefix,
+                    pre_release_filter=self.pre_release_filter,
                     created_on=datetime.datetime.utcnow(),
                     pattern=self.version_pattern,
                     cursor=(
@@ -381,13 +400,14 @@ class Project(Base):
         """ Return list of all version objects stored, sorted from newest to oldest.
 
         Returns:
-           :obj:`list` of :obj:`anitya.db.models.ProjectVersion`: List of version objects
+           :obj:`list` of :obj:`anitya.lib.versions.Base`: List of version objects
         """
         version_class = self.get_version_class()
         versions = [
             version_class(
                 version=v_obj.version,
                 prefix=self.version_prefix,
+                pre_release_filter=self.pre_release_filter,
                 created_on=v_obj.created_on,
                 pattern=self.version_pattern,
                 commit_url=v_obj.commit_url,
@@ -640,6 +660,17 @@ class Project(Base):
 
 
 class ProjectVersion(Base):
+    """
+    Models of version table representing version on project.
+
+    Attributes:
+        project_id (sa.Integer): Related project id.
+        version (sa.String): Raw version string as obtained from upstream.
+        created_on (sa.DateTime): When the version was created in Anitya.
+        commit_url (sa.String): URL to commit. Currently only used by GitHub backend.
+        project (sa.orm.relationship): Back reference to project.
+    """
+
     __tablename__ = "projects_versions"
 
     project_id = sa.Column(
@@ -654,6 +685,25 @@ class ProjectVersion(Base):
     project = sa.orm.relationship(
         "Project", backref=sa.orm.backref("versions_obj", cascade="all, delete-orphan")
     )
+
+    @property
+    def pre_release(self):
+        """
+        Is the version pre-release?
+
+        Return:
+            (Boolean): Pre-release flag.
+        """
+        version_class = self.project.get_version_class()
+        version = version_class(
+            version=self.version,
+            prefix=self.project.version_prefix,
+            pre_release_filter=self.project.pre_release_filter,
+            created_on=self.created_on,
+            pattern=self.project.version_pattern,
+            commit_url=self.commit_url,
+        )
+        return version.prerelease()
 
 
 class ProjectFlag(Base):

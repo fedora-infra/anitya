@@ -41,8 +41,11 @@
             <tr id="version_prefix_row">
               {{ render_field_in_row(form.version_prefix, tabindex=7) }}
             </tr>
+            <tr id="pre_release_filter_row">
+                {{ render_field_in_row(form.pre_release_filter, tabindex=8) }}
+            </tr>
             <tr id="regex_row">
-              {{ render_field_in_row(form.regex, tabindex=8) }}
+              {{ render_field_in_row(form.regex, tabindex=9) }}
             </tr>
             <tr id="default_regex_row">
               <td><label>Default regex:</label></td>
@@ -53,22 +56,22 @@
               <td id="example_urls"></td>
             </tr>
             <tr id="releases_only_row">
-              {{ render_field_in_row(form.releases_only, tabindex=8) }}
+              {{ render_field_in_row(form.releases_only, tabindex=10) }}
             </tr>
             <tr id="insecure_row">
-              {{ render_field_in_row(form.insecure, tabindex=9) }}
+              {{ render_field_in_row(form.insecure, tabindex=11) }}
             </tr>
             <tr id="check_release_row">
-              {{ render_field_in_row(form.check_release, tabindex=10) }}
+              {{ render_field_in_row(form.check_release, tabindex=12) }}
             </tr>
 
             {%- if context == 'Add' -%}
             <tr>
-              {{ render_field_in_row(form.distro, tabindex=11) }}
+              {{ render_field_in_row(form.distro, tabindex=13) }}
               <td></td>
             </tr>
             <tr>
-              {{ render_field_in_row(form.package_name, tabindex=12) }}
+              {{ render_field_in_row(form.package_name, tabindex=14) }}
               <td></td>
             </tr>
             {%- endif -%}
@@ -121,13 +124,13 @@
 
         examples["{{ plugin.name }}"]="{{ plugin.examples | format_examples }}";
         more_info["{{ plugin.name }}"]="{{ plugin.more_info}}";
-       
+
         {% if plugin.default_regex -%}
         default_regex["{{ plugin.name }}"]="{{ plugin.default_regex.replace('\\', '\\\\') }}";
         {% else %}
         default_regex["{{ plugin.name }}"]="{{ plugin.default_regex }}";
         {% endif -%}
-        
+
         {% if plugin.default_version_scheme -%}
         default_version_plugin["{{ plugin.name }}"]="{{ plugin.default_version_scheme }}";
         {% endif -%}
@@ -154,6 +157,13 @@
         "It's possible to specify multiple prefixes split by ';' like this " +
         "'v;release'.");
     $("#version_prefix").tooltip();
+    $("#pre_release_filter").prop('title', "Filter for pre-release versions. " +
+                                           "For example filter " +
+                                           "'alpha' will mark '1.2.3-alpha' as pre-release. " +
+                                           "It's possible to specify multiple filters split by ';' like this " +
+                                           "'alpha;beta'. This filter will be applied after using version scheme " +
+                                           "specific pre-release recognition.");
+    $("#pre_release_filter").tooltip();
     $("#regex").prop('title', "Python regex to use for version retrieval. " +
         "Matched groups will be concatenated by '.'. " +
         "For example regex '(\d)_(\d)_(\d)' applied to '1_2_3' " +
@@ -167,7 +177,7 @@
     $("#insecure").tooltip();
     $("#check_release").prop('title', "Check the release immediately");
     $("#check_release").tooltip();
-    
+
     {%- if context == 'Add' -%}
     $("#distro").prop('title', "Distribution where the project is delivered");
     $("#distro").tooltip();
