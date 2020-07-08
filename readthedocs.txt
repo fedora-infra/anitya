@@ -3,5 +3,6 @@
 # install with ``python setup.py install`` so this lets pip handle
 # the dependencies before readthedocs installs Anitya.
 flask
+pyasn1
 sphinxcontrib-httpdomain
 sqlalchemy_schemadisplay
