@@ -640,6 +640,107 @@ class DeleteProjectVersionTests(DatabaseTestCase):
             self.assertEqual(1, len(models.ProjectVersion.query.all()))
 
 
+class DeleteProjectVersionsTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.delete_project_versions` view."""
+
+    def setUp(self):
+        super(DeleteProjectVersionsTests, self).setUp()
+        self.session = Session()
+
+        # Add a project with a version to delete.
+        self.project = models.Project(
+            name="test_project",
+            homepage="https://example.com/test_project",
+            backend="PyPI",
+        )
+        self.project_version = models.ProjectVersion(
+            project=self.project, version="1.0.0"
+        )
+
+        # Add a regular user and an admin user
+        self.user = models.User(email="user@fedoraproject.org", username="user")
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id, user=self.user
+        )
+
+        self.session.add(self.user)
+        self.session.add(user_social_auth)
+        self.admin = models.User(email="admin@example.com", username="admin")
+        admin_social_auth = social_models.UserSocialAuth(
+            user_id=self.admin.id, user=self.admin
+        )
+
+        self.session.add_all(
+            [admin_social_auth, self.admin, self.project, self.project_version]
+        )
+        self.session.commit()
+
+        mock_config = mock.patch.dict(
+            models.anitya_config, {"ANITYA_WEB_ADMINS": [six.text_type(self.admin.id)]}
+        )
+        mock_config.start()
+        self.addCleanup(mock_config.stop)
+
+        self.client = self.flask_app.test_client()
+
+    def test_non_admin_get(self):
+        """Assert non-admin users cannot GET the filter project versions view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get("/project/1/delete/versions")
+            self.assertEqual(401, output.status_code)
+
+    def test_non_admin_post(self):
+        """Assert non-admin users cannot POST to the filter project versions view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.post("/project/1/delete/versions")
+            self.assertEqual(401, output.status_code)
+
+    def test_admin_get(self):
+        """Assert admin users can GET the filter project versions view."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get("/project/1/delete/versions")
+            self.assertEqual(200, output.status_code)
+
+    def test_missing_project(self):
+        """Assert HTTP 404 is returned if the project doesn't exist."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get("/project/42/delete/versions")
+            self.assertEqual(404, output.status_code)
+
+    def test_admin_post(self):
+        """Assert admin users can filter project versions."""
+        self.project.latest_version = "1.0.0"
+        self.project.latest_version_cursor = "Dummy"
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get("/project/1/delete/versions")
+            csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
+                1
+            ].split(b'">')[0]
+            data = {"confirm": True, "csrf_token": csrf_token}
+
+            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeleted):
+                output = self.client.post(
+                    "/project/1/delete/versions", data=data, follow_redirects=True
+                )
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(0, len(models.ProjectVersion.query.all()))
+            self.assertEqual(self.project.latest_version, None)
+            self.assertEqual(self.project.latest_version_cursor, None)
+
+    def test_admin_post_unconfirmed(self):
+        """Assert failing to confirm the action results in no change."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get("/project/1/delete/versions")
+            csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
+                1
+            ].split(b'">')[0]
+            data = {"csrf_token": csrf_token}
+
+            output = self.client.post("/project/1/delete/versions", data=data)
+            self.assertEqual(302, output.status_code)
+            self.assertEqual(1, len(models.ProjectVersion.query.all()))
+
+
 class BrowseFlagsTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.browse_flags` view function."""
 

@@ -287,6 +287,14 @@
         {% else %}
         <p id="version_info">No version available for this package</p>
         {% endif %}
+        {% if is_admin %}
+        <a href="{{url_for('anitya_ui.delete_project_versions', project_id=project.id) }}">
+            <button type="submit" class="btn btn-danger btn-sm pull-right">
+                <span class="glyphicon glyphicon-remove"></span>
+                Delete versions
+            </button>
+        </a>
+        {% endif %}
       </span>
     </div>
   </div>

@@ -253,6 +253,53 @@ def delete_project_version(project_id, version):
     )
 
 
+@ui_blueprint.route("/project/<project_id>/delete/versions", methods=["GET", "POST"])
+@login_required
+def delete_project_versions(project_id):
+    """
+    Delete all versions on the project.
+    """
+
+    project = models.Project.get(Session, project_id)
+    if not project:
+        flask.abort(404)
+
+    if not is_admin():
+        flask.abort(401)
+
+    form = anitya.forms.ConfirmationForm()
+    confirm = flask.request.form.get("confirm", False)
+
+    if form.validate_on_submit():
+        if confirm:
+            for version in project.versions_obj:
+                # Delete the record of the version for this project
+                Session.delete(version)
+
+                utilities.log(
+                    Session,
+                    project=project.__json__(),
+                    topic="project.version.remove",
+                    message=dict(
+                        agent=flask.g.user.username,
+                        project=project.name,
+                        version=str(version),
+                    ),
+                )
+
+            project.latest_version = None
+            project.latest_version_cursor = None
+            Session.add(project)
+            Session.commit()
+
+            flask.flash("All versions were removed")
+        return flask.redirect(flask.url_for("anitya_ui.project", project_id=project.id))
+
+    return flask.render_template(
+        "project_versions_delete.html", current="projects", project=project, form=form,
+    )
+
+
 @ui_blueprint.route("/flags")
 @login_required
 def browse_flags():
