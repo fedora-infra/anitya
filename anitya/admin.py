@@ -142,6 +142,69 @@ def delete_project(project_id):
 
 
 @ui_blueprint.route(
+    "/project/<project_id>/archive/set/<state>", methods=["GET", "POST"]
+)
+@login_required
+def set_project_archive_state(project_id, state):
+
+    if not is_admin():
+        flask.abort(401)
+
+    if state not in ("true", "false"):
+        flask.abort(422)
+
+    project = models.Project.get(Session, project_id)
+    archive = False
+    if state == "true":
+        archive = True
+
+    if not project:
+        flask.abort(404)
+
+    form = anitya.forms.ConfirmationForm()
+    confirm = flask.request.form.get("confirm", False)
+
+    if form.validate_on_submit():
+        if confirm:
+            try:
+                utilities.edit_project(
+                    Session,
+                    project=project,
+                    name=project.name,
+                    homepage=project.homepage,
+                    backend=project.backend,
+                    version_scheme=project.version_scheme,
+                    version_pattern=project.version_pattern,
+                    version_url=project.version_url,
+                    version_prefix=project.version_prefix,
+                    pre_release_filter=project.pre_release_filter,
+                    regex=project.regex,
+                    insecure=project.insecure,
+                    releases_only=project.releases_only,
+                    archived=archive,
+                    user_id=flask.g.user.username,
+                )
+                if bool(archive):
+                    flask.flash("Project '{0}' archived".format(project.name))
+                else:
+                    flask.flash(
+                        "Project '{0}' is no longer archived".format(project.name)
+                    )
+            except anitya.lib.exceptions.AnityaException as err:
+                flask.flash(str(err), "errors")
+
+        return flask.redirect(flask.url_for("anitya_ui.project", project_id=project.id))
+
+    return flask.render_template(
+        "project_archive.html",
+        current="projects",
+        project=project,
+        form=form,
+        archive=archive,
+    )
+
+
+@ui_blueprint.route(
     "/project/<project_id>/delete/<distro_name>/<pkg_name>", methods=["GET", "POST"]
 )
 @login_required

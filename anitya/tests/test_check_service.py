@@ -503,6 +503,25 @@ class CheckerTests(DatabaseTestCase):
         self.assertEqual(queue[0], project.id)
         self.assertEqual(queue[1], project2.id)
 
+    def test_construct_queue_archived(self):
+        """
+        Assert that archived project is not added to queue.
+        """
+        time = arrow.utcnow().datetime
+        project = models.Project(
+            name="Foobar",
+            backend="GitHub",
+            homepage="www.fakeproject.com",
+            next_check=time,
+            archived=True,
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        queue = self.checker.construct_queue(time + timedelta(hours=1))
+
+        self.assertEqual(len(queue), 0)
+
     def test_construct_ratelimit_clean(self):
         """
         Assert that ratelimit queue and dictionary is correctly cleared.

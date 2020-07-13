@@ -348,6 +348,142 @@ class DeleteProjectTests(DatabaseTestCase):
             self.assertEqual(1, len(models.Project.query.all()))
 
 
+class SetProjectArchiveState(DatabaseTestCase):
+    """Tests for the :func:`anitya.admin.set_project_archive_state` view function."""
+
+    def setUp(self):
+        super(SetProjectArchiveState, self).setUp()
+        self.project = models.Project(
+            name="test_project",
+            homepage="https://example.com/test_project",
+            backend="PyPI",
+        )
+
+        # Add a regular user and an admin user
+        session = Session()
+        self.user = models.User(email="user@fedoraproject.org", username="user")
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id, user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
+        self.admin = models.User(email="admin@example.com", username="admin")
+        admin_social_auth = social_models.UserSocialAuth(
+            user_id=self.admin.id, user=self.admin
+        )
+
+        session.add_all([admin_social_auth, self.admin, self.project])
+        session.commit()
+
+        mock_config = mock.patch.dict(
+            models.anitya_config, {"ANITYA_WEB_ADMINS": [six.text_type(self.admin.id)]}
+        )
+        mock_config.start()
+        self.addCleanup(mock_config.stop)
+
+        self.client = self.flask_app.test_client()
+
+    def test_non_admin_get(self):
+        """Assert non-admin users cannot GET the archive project view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get(
+                "/project/{0}/archive/set/true".format(self.project.id)
+            )
+            self.assertEqual(401, output.status_code)
+
+    def test_non_admin_post(self):
+        """Assert non-admin users cannot POST to the archive project view."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.post(
+                "/project/{0}/archive/set/true".format(self.project.id)
+            )
+            self.assertEqual(401, output.status_code)
+
+    def test_missing_project(self):
+        """Assert HTTP 404 is returned if the project doesn't exist."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post("/project/42/archive/set/true")
+            self.assertEqual(404, output.status_code)
+
+    def test_wrong_state(self):
+        """Assert HTTP 404 is returned if the state doesn't exist."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post(
+                "/project/{0}/archive/set/nonsense".format(self.project.id)
+            )
+            self.assertEqual(422, output.status_code)
+
+    def test_admin_post(self):
+        """Assert admin users can archive projects."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get(
+                "/project/{0}/archive/set/true".format(self.project.id)
+            )
+            csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
+                1
+            ].split(b'">')[0]
+            data = {"confirm": True, "csrf_token": csrf_token}
+
+            with fml_testing.mock_sends(anitya_schema.ProjectEdited):
+                output = self.client.post(
+                    "/project/{0}/archive/set/true".format(self.project.id),
+                    data=data,
+                    follow_redirects=True,
+                )
+
+            project = models.Project.query.one()
+
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(project.archived, True)
+
+    def test_admin_post_unarchive(self):
+        """Assert admin users can unarchive projects."""
+        self.project.archived = True
+        self.session.add(self.project)
+        self.session.commit()
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get(
+                "/project/{0}/archive/set/false".format(self.project.id)
+            )
+            csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
+                1
+            ].split(b'">')[0]
+            data = {"confirm": True, "csrf_token": csrf_token}
+
+            with fml_testing.mock_sends(anitya_schema.ProjectEdited):
+                output = self.client.post(
+                    "/project/{0}/archive/set/false".format(self.project.id),
+                    data=data,
+                    follow_redirects=True,
+                )
+
+            project = models.Project.query.one()
+
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(project.archived, False)
+
+    def test_admin_post_unconfirmed(self):
+        """Assert admin users must confirm archiving projects."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get(
+                "/project/{0}/archive/set/true".format(self.project.id)
+            )
+            csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
+                1
+            ].split(b'">')[0]
+            data = {"csrf_token": csrf_token}
+
+            output = self.client.post(
+                "/project/{0}/archive/set/true".format(self.project.id), data=data
+            )
+
+            project = models.Project.query.one()
+
+            self.assertEqual(302, output.status_code)
+            self.assertEqual(project.archived, False)
+
+
 class DeleteProjectMappingTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.delete_project_mapping` view."""
 

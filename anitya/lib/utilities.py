@@ -310,6 +310,7 @@ def edit_project(
     releases_only,
     user_id,
     check_release=False,
+    archived=False,
 ):
     """ Edit a project in the database.
 
@@ -369,6 +370,10 @@ def edit_project(
         old = project.releases_only
         project.releases_only = releases_only
         changes["releases_only"] = {"old": old, "new": project.releases_only}
+    if archived != project.archived:
+        old = project.archived
+        project.archived = archived
+        changes["archived"] = {"old": old, "new": project.archived}
 
     try:
         if changes:

@@ -5,7 +5,12 @@
 {% block body %}
 
 <div class="page-header">
-  <h1>Project: {{ project.name }}</h1>
+  {% if project.archived %}
+    <h1>Project: {{ project.name }} - archived</h1>
+    <p>This project is archived. It can't be edited and it's not checked for new versions. To unarchive project, please create a request using flag mechanism.</p>
+  {% else %}
+    <h1>Project: {{ project.name }}</h1>
+  {% endif %}
 </div>
 
 <div class="row" resource="{{ project.homepage }}" typeof="doap:Project">
@@ -14,6 +19,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
           <div class="list-group-item-text">
+        {% if not project.archived %}
         <a href="{{ url_for('anitya_ui.edit_project', project_id=project.id) }}">
             <button type="submit" class="btn btn-info btn-sm pull-right inline"
                 id="edit_btn" tabindex=1>
@@ -21,6 +27,7 @@
               Edit
             </button>
         </a>
+        {% endif %}
         <a href="{{ url_for('anitya_ui.flag_project', project_id=project.id) }}">
           <button title="Ask for an admin intervention (delete version/project, fix mapping...)."
                  type="submit" class="btn btn-warning btn-sm pull-right inline"
@@ -51,7 +58,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-              {% if user and user.is_authenticated and (not project.versions or is_admin
+              {% if user and user.is_authenticated and not project.archived and (not project.versions or is_admin
                 or justedit) %}
               <button type="submit" class="btn btn-success btn-sm pull-right"
                   id="testcheck" tabindex=3>
@@ -128,6 +135,31 @@
             <p>Delete this project all-together?</p>
           </div>
         </div><!-- end list-group-item -->
+        {% if not project.archived %}
+        <div class="list-group-item">
+          <div class="list-group-item-text">
+              <a href="{{url_for('anitya_ui.set_project_archive_state', project_id=project.id, state='true' ) }}">
+                  <button type="submit" class="btn btn-warning btn-sm pull-right">
+                      <span class="glyphicon glyphicon-remove"></span>
+                      Archive
+                  </button>
+              </a>
+              <p>Archive project?</p>
+          </div>
+        </div><!-- end list-group-item -->
+        {% else %}
+        <div class="list-group-item">
+          <div class="list-group-item-text">
+              <a href="{{url_for('anitya_ui.set_project_archive_state', project_id=project.id, state='false' ) }}">
+                  <button type="submit" class="btn btn-success btn-sm pull-right">
+                      <span class="glyphicon glyphicon-remove"></span>
+                      Unarchive
+                  </button>
+              </a>
+              <p>Unarchive project?</p>
+          </div>
+        </div><!-- end list-group-item -->
+        {% endif %}
       {% endif %}
 
       </div><!-- end list-group -->
@@ -188,7 +220,7 @@
             </dl>
           </div><!-- end group-item-text -->
         </div><!-- end group-item -->
-        {% if user and user.is_authenticated %}
+        {% if user and user.is_authenticated and not project.archived %}
         <div class="list-group-item">
           <div class="list-group-item-text">
             <p><a href="{{ url_for('anitya_ui.map_project', project_id=project.id) }}">
