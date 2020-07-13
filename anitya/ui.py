@@ -556,6 +556,10 @@ def edit_project(project_id):
     if not project:
         flask.abort(404)
 
+    # Archived project is not editable
+    if project.archived:
+        flask.abort(404)
+
     backend_plugins = anitya_plugins.load_plugins(Session)
     plg_names = [plugin.name for plugin in backend_plugins]
     version_plugins = anitya_plugins.load_plugins(Session, family="versions")

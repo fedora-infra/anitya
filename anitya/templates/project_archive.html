@@ -1,0 +1,139 @@
+{% extends "master.html" %}
+
+{% block title %}Delete Project · Anitya{% endblock %}
+
+{% block body %}
+
+<div class="page-header">
+{% if archive %}
+  <h1>Archive project {{ project.name }}?</h1>
+{% else %}
+  <h1>Unarchive project {{ project.name }}?</h1>
+{% endif %}
+</div>
+
+<div class="row">
+  <div class="col-md-5">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ project.name }}
+        </h3>
+      </div>
+
+      {% if archive %}
+      <form method="POST" action="{{ url_for('anitya_ui.set_project_archive_state',
+                                             project_id=project.id, state='true' ) }}" >
+      {% else %}
+      <form method="POST" action="{{ url_for('anitya_ui.set_project_archive_state',
+                                             project_id=project.id, state='false' ) }}" >
+      {% endif %}
+        <table class="table table-condensed">
+          <tr>
+            <th>Distribution</th>
+            <th>Package name </th>
+            <th>Version URL</th>
+            <th>Regex</th>
+          </tr>
+
+          {% for package in project.packages %}
+          <tr>
+            <td>{{ package.distro_name }}</td>
+            <td>{{ package.package_name }}</td>
+            {% if package.regex %}
+            <td>
+              <a href="{{ package.full_version_url }}">
+                {{ package.version_url }}
+              </a>
+            </td>
+            <td>
+              {{ package.regex }}
+            </td>
+            {% else %}
+            <td></td>
+            <td></td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+
+        </table>
+          {% if user and user.is_authenticated %}
+          {{ form.csrf_token }}
+          <p class="pull-right">
+            {% if archive %}
+            <a href="{{ url_for('anitya_ui.set_project_archive_state',
+                    project_id=project.id, state='true' ) }}">
+            {% else %}
+            <a href="{{ url_for('anitya_ui.set_project_archive_state',
+                        project_id=project.id, state='false' ) }}">
+            {% endif %}
+              <button type="submit" name="confirm" value="Yes" class="btn btn-warning">
+                <span class="glyphicon glyphicon-remove"></span>
+                {% if archive %}
+                    Archive project
+                {% else %}
+                    Unarchive project
+                {% endif %}
+              </button>
+            </a>
+            <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
+              <button type="submit" class="btn btn-danger">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Cancel
+              </button>
+            </a>
+          </p>
+          {% endif %}
+          <div class="clearfix"></div>
+        </span>
+      </form>
+    </div>
+
+    <div class="panel panel-heading">
+      <p class="panel-title">
+        {% if project.version %}
+        Latest version: {{ project.version }}
+        {% else %}
+        No version available for this package
+        {% endif %}
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-5">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+            Status
+        </h3>
+      </div>
+      <span class="list-group-item">
+        <table class="table table-condensed">
+          <tr>
+            <th>Status</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            {% if project.check_successful is none %}
+            <td>Not updated</td>
+            {% elif not project.check_successful %}
+            <td style="color:red;">Fail</td>
+            {% else %}
+            <td style="color:green;">OK</td>
+            {% endif %}
+            <td>{{ project.logs }}</td>
+          </tr>
+        </table>
+        <div class="clearfix"></div>
+      </span>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

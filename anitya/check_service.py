@@ -297,7 +297,7 @@ class Checker:
         # Get all projects, that are ready for check
         projects = (
             db.Project.query.order_by(sa.func.lower(db.Project.name))
-            .filter(db.Project.next_check < time)
+            .filter(db.Project.next_check < time, db.Project.archived.is_(False))
             .all()
         )
 

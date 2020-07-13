@@ -126,6 +126,7 @@ class EditProjectTests(DatabaseTestCase):
                 insecure=False,
                 user_id="noreply@fedoraproject.org",
                 releases_only=True,
+                archived=True,
             )
 
         project_objs = models.Project.all(self.session)
@@ -135,6 +136,7 @@ class EditProjectTests(DatabaseTestCase):
         self.assertEqual(project_objs[0].backend, "PyPI")
         self.assertEqual(project_objs[0].pre_release_filter, "a;v")
         self.assertTrue(project_objs[0].releases_only)
+        self.assertTrue(project_objs[0].archived)
 
     def test_edit_project_creating_duplicate(self):
         """

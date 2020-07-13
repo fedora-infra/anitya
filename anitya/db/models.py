@@ -239,6 +239,8 @@ class Project(Base):
             documentation for more information.
         pre_release_filter (sa.String): A string containing filters delimited by ';'.
             Filtered versions will be marked as pre_release.
+        archived (sa.Boolean): Marks the project as archived, archived projects can't be edited
+            by normal users and are no longer checked for new versions.
     """
 
     __tablename__ = "projects"
@@ -258,6 +260,7 @@ class Project(Base):
     error_counter = sa.Column(sa.Integer, index=True, default=0)
     version_scheme = sa.Column(sa.String(50), nullable=True)
     pre_release_filter = sa.Column(sa.String(200), nullable=True)
+    archived = sa.Column(sa.Boolean, nullable=False, default=False)
 
     latest_version = sa.Column(sa.String(50))
     latest_version_cursor = sa.Column(sa.String(200), nullable=True)

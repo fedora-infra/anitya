@@ -872,6 +872,16 @@ class EditProjectTests(DatabaseTestCase):
             output = self.app.get("/project/idonotexist/edit", follow_redirects=False)
             self.assertEqual(output.status_code, 404)
 
+    def test_archived_project(self):
+        """Assert trying to edit a project that is archived returns HTTP 404."""
+        project = models.Project.query.get(1)
+        project.archived = True
+        self.session.add(project)
+        self.session.commit()
+        with login_user(self.flask_app, self.user):
+            output = self.app.get("/project/1/edit", follow_redirects=False)
+            self.assertEqual(output.status_code, 404)
+
     def test_no_csrf_token(self):
         """Assert trying to edit a project without a CSRF token results in no change."""
         with login_user(self.flask_app, self.user):
