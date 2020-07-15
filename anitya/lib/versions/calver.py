@@ -257,6 +257,10 @@ class CalendarVersion(Version):
         if version_dict["modifier"]:
             return True
 
+        for pre_release_filter in self.pre_release_filters:
+            if pre_release_filter and pre_release_filter in self.version:
+                return True
+
         return False
 
     def __eq__(self, other: Version) -> bool:

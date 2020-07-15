@@ -60,6 +60,16 @@ class SemanticVersionTests(unittest.TestCase):
         version = semver.SemanticVersion(version="1.0.0junk1")
         self.assertFalse(version.prerelease())
 
+    def test_prerelease_filter(self):
+        """Assert pre-releases will be valid if filter is applied."""
+        version = semver.SemanticVersion(version="1.0.0", pre_release_filter="1.")
+        self.assertTrue(version.prerelease())
+
+    def test_prerelease_multiple_filter(self):
+        """Assert pre-releases will be valid if multiple filters is applied."""
+        version = semver.SemanticVersion(version="v1.0.0", pre_release_filter="a;v")
+        self.assertTrue(version.prerelease())
+
     def test_lt(self):
         """Assert SemanticVersion supports < comparison."""
         old_version = semver.SemanticVersion(version="1.0.0")

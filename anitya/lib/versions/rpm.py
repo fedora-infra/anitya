@@ -147,7 +147,14 @@ class RpmVersion(Version):
         This recognizes versions containing "rc", "pre", "beta", "alpha", and
         "dev" as being pre-release versions.
         """
-        return self.split_rc(self.parse())[1] != ""
+        if self.split_rc(self.parse())[1]:
+            return True
+
+        for pre_release_filter in self.pre_release_filters:
+            if pre_release_filter and pre_release_filter in self.version:
+                return True
+
+        return False
 
     def __eq__(self, other):
         """

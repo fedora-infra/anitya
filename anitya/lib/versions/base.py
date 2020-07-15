@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2017  Red Hat, Inc.
+# Copyright © 2017-2020 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions
@@ -47,6 +47,7 @@ class Version(object):
         pattern: Optional[str] = None,
         cursor: Optional[str] = None,
         commit_url: Optional[str] = None,
+        pre_release_filter: Optional[str] = None,
     ):
         """
         Constructor of Version class.
@@ -59,9 +60,7 @@ class Version(object):
                 See `Calendar version scheme_` for more information.
             cursor: An opaque, backend-specific cursor pointing to the version.
             commit_url: A URL pointing to the commit tagged as the version.
-
-        .. _Calendar version scheme:
-           https://calver.org/#scheme
+            pre_release_filter: A filter used to identify pre-release versions
         """
         self.version = version
         if prefix:
@@ -82,6 +81,10 @@ class Version(object):
             self.pattern = None
         self.cursor = cursor
         self.commit_url = commit_url
+        if pre_release_filter:
+            self.pre_release_filters = pre_release_filter.split(";")
+        else:
+            self.pre_release_filters = []
 
     def __str__(self):
         """
