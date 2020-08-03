@@ -4,7 +4,7 @@ mock==4.0.2
 pytest==6.0.1
 pytest-cov==2.10.0
 unittest2==1.1.0
-vcrpy==4.0.2
+vcrpy==4.1.0
 
 # Authentication integration testing
 requests==2.24.0
