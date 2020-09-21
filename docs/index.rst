@@ -38,6 +38,7 @@ Admin Guide
    :maxdepth: 2
 
    admin-guide
+   release-monitoring-admin-guide
 
 Developer Guide
 ===============
