@@ -18,7 +18,7 @@ _log = logging.getLogger(__name__)
 
 
 def is_admin(user=None):
-    """ Check if the provided user, or the user logged in are recognized
+    """Check if the provided user, or the user logged in are recognized
     as being admins.
     """
     user = user or flask.g.user
@@ -359,7 +359,10 @@ def delete_project_versions(project_id):
         return flask.redirect(flask.url_for("anitya_ui.project", project_id=project.id))
 
     return flask.render_template(
-        "project_versions_delete.html", current="projects", project=project, form=form,
+        "project_versions_delete.html",
+        current="projects",
+        project=project,
+        form=form,
     )
 
 

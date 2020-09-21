@@ -206,7 +206,7 @@ def create_project(session):
 
 
 def create_ecosystem_projects(session):
-    """ Create some fake projects from particular upstream ecosystems
+    """Create some fake projects from particular upstream ecosystems
 
     Each project name is used in two different ecosystems
     """

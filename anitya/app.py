@@ -115,7 +115,7 @@ def shutdown_session(exception=None):
 
 
 def inject_variable():
-    """ Inject into all templates variables that we would like to have all
+    """Inject into all templates variables that we would like to have all
     the time.
     """
     justedit = flask.session.get("justedit", False)

@@ -88,7 +88,7 @@ class BaseBackend(object):
 
     @classmethod
     def expand_subdirs(self, url, last_change=None, glob_char="*"):
-        """ Expand dirs containing ``glob_char`` in the given URL with the latest
+        """Expand dirs containing ``glob_char`` in the given URL with the latest
         Example URL: ``https://www.example.com/foo/*/``
 
         The globbing char can be bundled with other characters enclosed within
@@ -140,7 +140,7 @@ class BaseBackend(object):
 
     @classmethod
     def get_version(self, project):  # pragma: no cover
-        """ Method called to retrieve the latest version of the projects
+        """Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
         Attributes:
@@ -160,7 +160,7 @@ class BaseBackend(object):
 
     @classmethod
     def get_version_url(cls, project):  # pragma: no cover
-        """ Method called to retrieve the url used to check for new version
+        """Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
 
         Attributes:
@@ -174,7 +174,7 @@ class BaseBackend(object):
 
     @classmethod
     def get_versions(self, project):  # pragma: no cover
-        """ Method called to retrieve all the versions (that can be found)
+        """Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
         this plugin.
 
@@ -199,7 +199,7 @@ class BaseBackend(object):
 
     @classmethod
     def check_feed(self):
-        """ Method called to retrieve the latest uploads to a given backend,
+        """Method called to retrieve the latest uploads to a given backend,
         via, for example, RSS or an API.
 
         Not all backends may support this.  It can be used to look for updates
@@ -221,7 +221,7 @@ class BaseBackend(object):
 
     @classmethod
     def get_ordered_versions(self, project):
-        """ Method called to retrieve all the versions (that can be found)
+        """Method called to retrieve all the versions (that can be found)
         of the projects provided, ordered from the oldest to the newest.
 
         Attributes:
@@ -243,7 +243,7 @@ class BaseBackend(object):
 
     @classmethod
     def call_url(self, url, last_change=None, insecure=False):
-        """ Dedicated method to query a URL.
+        """Dedicated method to query a URL.
 
         It is important to use this method as it allows to query them with
         a defined user-agent header thus informing the projects we are
@@ -316,7 +316,7 @@ class BaseBackend(object):
 
 
 def get_versions_by_regex(url, regex, project, insecure=False):
-    """ For the provided url, return all the version retrieved via the
+    """For the provided url, return all the version retrieved via the
     specified regular expression.
 
     """
@@ -341,7 +341,7 @@ def get_versions_by_regex(url, regex, project, insecure=False):
 
 
 def get_versions_by_regex_for_text(text, url, regex, project):
-    """ For the provided text, return all the version retrieved via the
+    """For the provided text, return all the version retrieved via the
     specified regular expression.
 
     """

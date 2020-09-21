@@ -14,7 +14,7 @@ down_revision = "24b6734e8565"
 
 
 def upgrade():
-    """ Populate projects version_scheme column by RPM value.
+    """Populate projects version_scheme column by RPM value.
     This was the only available version value before this update.
     In newer version of Anitya you can change the value when editing project.
     """
