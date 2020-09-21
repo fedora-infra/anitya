@@ -182,7 +182,7 @@ class CratesBackend(BaseBackend):
 
     @classmethod
     def get_version_url(cls, project):
-        """ Method called to retrieve the url used to check for new version
+        """Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
 
         Attributes:

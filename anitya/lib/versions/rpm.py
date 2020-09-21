@@ -121,7 +121,7 @@ class RpmVersion(Version):
 
     @classmethod
     def split_rc(cls, version):
-        """ Split (upstream) version into version and release candidate string +
+        """Split (upstream) version into version and release candidate string +
         release candidate number if possible
 
         Code from Till Maas as part of

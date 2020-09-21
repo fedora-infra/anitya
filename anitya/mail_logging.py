@@ -43,7 +43,7 @@ except (OSError, ImportError):  # pragma: no cover
 
 
 class ContextInjector(logging.Filter):  # pragma: no cover
-    """ Logging filter that adds context to log records.
+    """Logging filter that adds context to log records.
 
     Filters are typically used to "filter" log records.  They declare a filter
     method that can return True or False.  Only records with 'True' will
@@ -182,8 +182,7 @@ Callstack that lead to the logging statement
 
 
 def get_mail_handler(smtp_server, mail_admin):
-    """ Set up the handler sending emails for big exception
-    """
+    """Set up the handler sending emails for big exception"""
     mail_handler = logging.handlers.SMTPHandler(
         smtp_server, "nobody@fedoraproject.org", mail_admin, "Anitya (server) error"
     )

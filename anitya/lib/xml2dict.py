@@ -70,9 +70,9 @@ class XML2Dict(object):
 
     def _namespace_split(self, tag, value):
         """
-           Split the tag  '{http://cs.sfsu.edu/csc867/myscheduler}patients'
-             ns = http://cs.sfsu.edu/csc867/myscheduler
-             name = patients
+        Split the tag  '{http://cs.sfsu.edu/csc867/myscheduler}patients'
+          ns = http://cs.sfsu.edu/csc867/myscheduler
+          name = patients
         """
         result = re.compile(r"\{(.*)\}(.*)").search(tag)
         if result:

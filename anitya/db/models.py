@@ -54,8 +54,7 @@ DEFAULT_PAGE_LIMIT = 50
 
 
 def _paginate_query(query, page):
-    """ Paginate a given query to returned the specified page (if any).
-    """
+    """Paginate a given query to returned the specified page (if any)."""
     if page:
         try:
             page = int(page)
@@ -296,7 +295,7 @@ class Project(Base):
 
     @property
     def versions(self):
-        """ Return list of all versions stored, sorted from newest to oldest.
+        """Return list of all versions stored, sorted from newest to oldest.
 
         Returns:
            :obj:`list` of :obj:`str`: List of versions
@@ -388,7 +387,7 @@ class Project(Base):
         return versions
 
     def get_version_url(self):
-        """ Returns full version url, which is used by backend.
+        """Returns full version url, which is used by backend.
 
         Returns:
             str: Version url or empty string if backend is not specified
@@ -400,7 +399,7 @@ class Project(Base):
         return backend.get_version_url(self)
 
     def get_sorted_version_objects(self):
-        """ Return list of all version objects stored, sorted from newest to oldest.
+        """Return list of all version objects stored, sorted from newest to oldest.
 
         Returns:
            :obj:`list` of :obj:`anitya.lib.versions.Base`: List of version objects
@@ -555,7 +554,7 @@ class Project(Base):
     def updated(
         cls, session, status="updated", name=None, log=None, page=None, count=False
     ):
-        """ Method used to retrieve projects according to their logs and
+        """Method used to retrieve projects according to their logs and
         how they performed at the last cron job.
 
         :kwarg status: used to filter the projects based on how they
@@ -765,7 +764,7 @@ class ProjectFlag(Base):
         offset=None,
         count=False,
     ):
-        """ Return the list of the last Flag entries present in the database.
+        """Return the list of the last Flag entries present in the database.
 
         :arg cls: the class object
         :arg session: the database session used to query the information.

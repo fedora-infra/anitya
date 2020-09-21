@@ -22,7 +22,7 @@ class PagureBackend(BaseBackend):
 
     @classmethod
     def get_version(cls, project):
-        """ Method called to retrieve the latest version of the projects
+        """Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
         :arg Project project: a :class:`anitya.db.models.Project` object whose backend
@@ -40,7 +40,7 @@ class PagureBackend(BaseBackend):
 
     @classmethod
     def get_version_url(cls, project):
-        """ Method called to retrieve the url used to check for new version
+        """Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
 
         Attributes:
@@ -56,7 +56,7 @@ class PagureBackend(BaseBackend):
 
     @classmethod
     def get_versions(cls, project):
-        """ Method called to retrieve all the versions (that can be found)
+        """Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
         this plugin.
 

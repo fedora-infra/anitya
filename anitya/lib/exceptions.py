@@ -32,7 +32,7 @@ class AnityaException(Exception):
 
 
 class AnityaPluginException(AnityaException):
-    """ Generic exception class that can be used by the plugin to indicate
+    """Generic exception class that can be used by the plugin to indicate
     an error.
     """
 

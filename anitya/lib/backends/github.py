@@ -33,7 +33,7 @@ reset_time = "1970-01-01T00:00:00Z"
 
 
 class GithubBackend(BaseBackend):
-    """ The custom class for projects hosted on github.com.
+    """The custom class for projects hosted on github.com.
 
     This backend is using GitHub API v4 to query releases
     for projects hosted on github.com
@@ -48,7 +48,7 @@ class GithubBackend(BaseBackend):
 
     @classmethod
     def get_version(cls, project):
-        """ Method called to retrieve the latest version of the projects
+        """Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
         Args:
@@ -68,7 +68,7 @@ class GithubBackend(BaseBackend):
 
     @classmethod
     def get_version_url(cls, project):
-        """ Method called to retrieve the url used to check for new version
+        """Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
 
         Attributes:
@@ -145,7 +145,7 @@ class GithubBackend(BaseBackend):
 
     @classmethod
     def get_versions(cls, project):
-        """ Method called to retrieve all the versions (that can be found)
+        """Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
         this plugin.
 
@@ -204,7 +204,7 @@ class GithubBackend(BaseBackend):
 
 
 def parse_json(json, project):
-    """ Function for parsing json response
+    """Function for parsing json response
 
     Args:
         json (dict): Json dictionary to parse.
@@ -277,7 +277,7 @@ def parse_json(json, project):
 
 
 def prepare_query(owner, repo, releases_only, cursor=None):
-    """ Function for preparing GraphQL query for specified repository
+    """Function for preparing GraphQL query for specified repository
 
     Args:
         owner (str): Owner of the repository.
