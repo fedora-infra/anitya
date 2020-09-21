@@ -360,7 +360,7 @@ class GithubBackendtests(DatabaseTestCase):
 
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": None})
     def test_get_versions_no_token(self):
-        """ Test the get_versions function of the github backend
+        """Test the get_versions function of the github backend
         without specified token.
         """
         project = self.projects["valid_with_version_url"]
@@ -370,7 +370,7 @@ class GithubBackendtests(DatabaseTestCase):
 
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "Not_found"})
     def test_get_versions_unauthorized(self):
-        """ Test the get_versions function of the github backend
+        """Test the get_versions function of the github backend
         with invalid token.
         """
         project = self.projects["valid_with_version_url"]
@@ -381,7 +381,7 @@ class GithubBackendtests(DatabaseTestCase):
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "Not_found"})
     @mock.patch("anitya.lib.backends.github.API_URL", "foobar")
     def test_get_versions_invalid_url(self):
-        """ Test the get_versions function of the github backend
+        """Test the get_versions function of the github backend
         with invalid URL.
         """
         project = self.projects["valid_with_version_url"]
@@ -391,7 +391,7 @@ class GithubBackendtests(DatabaseTestCase):
 
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
     def test_get_versions_no_version_retrieved(self):
-        """ Test the get_versions function of the github backend
+        """Test the get_versions function of the github backend
         with project which doesn't have any tag.
         """
         project = self.projects["valid_no_tags_releases"]
@@ -402,7 +402,7 @@ class GithubBackendtests(DatabaseTestCase):
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
     @mock.patch("anitya.lib.backends.http_session.post")
     def test_get_versions_403(self, mock_post):
-        """ Test the get_versions function of the github when response status code
+        """Test the get_versions function of the github when response status code
         is 403.
         """
         mock_resp = mock.MagicMock()

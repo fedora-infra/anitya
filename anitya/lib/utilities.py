@@ -70,7 +70,7 @@ def fedmsg_publish(*args, **kwargs):  # pragma: no cover
 
 
 def check_project_release(project, session, test=False):
-    """ Check if the provided project has a new release available or not.
+    """Check if the provided project has a new release available or not.
 
     :arg package: a Package object has defined in anitya.db.modelss.Project
 
@@ -199,7 +199,7 @@ def _construct_substitutions(msg):
 
 
 def log(session, project=None, distro=None, topic=None, message=None):
-    """ Take a partial fedmsg topic and message.
+    """Take a partial fedmsg topic and message.
 
     Publish the message.
     """
@@ -255,9 +255,7 @@ def create_project(
     insecure=False,
     releases_only=False,
 ):
-    """ Create the project in the database.
-
-    """
+    """Create the project in the database."""
     project = models.Project(
         name=name,
         homepage=homepage,
@@ -312,9 +310,7 @@ def edit_project(
     check_release=False,
     archived=False,
 ):
-    """ Edit a project in the database.
-
-    """
+    """Edit a project in the database."""
     changes = {}
     if name != project.name:
         old = project.name
@@ -536,9 +532,7 @@ def map_project(
 
 
 def flag_project(session, project, reason, user_email, user_id):
-    """ Flag a project in the database.
-
-    """
+    """Flag a project in the database."""
 
     flag = models.ProjectFlag(user=user_email, project=project, reason=reason)
 
@@ -567,9 +561,7 @@ def flag_project(session, project, reason, user_email, user_id):
 
 
 def set_flag_state(session, flag, state, user_id):
-    """ Change the state of a ProjectFlag in the database.
-
-    """
+    """Change the state of a ProjectFlag in the database."""
 
     # Don't toggle the state or send a new fedmsg if the flag's
     # state wouldn't actually be changed.
@@ -596,6 +588,5 @@ def set_flag_state(session, flag, state, user_id):
 
 
 def get_last_cron(session):
-    """ Retrieve the last log entry about the cron
-    """
+    """Retrieve the last log entry about the cron"""
     return models.Run.last_entry(session)

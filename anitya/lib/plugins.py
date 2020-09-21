@@ -78,8 +78,8 @@ def _load_version_plugins(session):
 
 
 def load_all_plugins(session):
-    """ Load all the plugins and insert them in the database if they are
-    not already present. """
+    """Load all the plugins and insert them in the database if they are
+    not already present."""
     plugins = {}
     plugins["backends"] = _load_backend_plugins(session)
     plugins["ecosystems"] = _load_ecosystem_plugins(session)
@@ -94,7 +94,7 @@ get_plugin = BACKEND_PLUGINS.get_plugin
 
 
 def load_plugins(session, family="backends"):
-    """ Calls load_all_plugins, but only retuns plugins specified by family argument
+    """Calls load_all_plugins, but only retuns plugins specified by family argument
 
     Args:
         family (str): family of the plugins, that should be returned

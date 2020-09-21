@@ -17,7 +17,7 @@ ui_blueprint = flask.Blueprint(
 
 
 def get_extended_pattern(pattern):
-    """ For a given pattern `p` return it so that it looks like `*p*`
+    """For a given pattern `p` return it so that it looks like `*p*`
     adjusting it accordingly.
     """
 

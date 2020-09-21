@@ -16,7 +16,7 @@ REGEX = r"<version>6\.x-([^<]+)</version>"
 
 
 class Drupal6Backend(BaseBackend):
-    """ The custom class for projects hosted on ftp.debian.org.
+    """The custom class for projects hosted on ftp.debian.org.
 
     This backend allows to specify a version_url and a regex that will
     be used to retrieve the version information.
@@ -35,7 +35,7 @@ class Drupal6Backend(BaseBackend):
 
     @classmethod
     def get_version(cls, project):
-        """ Method called to retrieve the latest version of the projects
+        """Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
         :arg Project project: a :class:`anitya.db.models.Project` object whose backend
@@ -51,7 +51,7 @@ class Drupal6Backend(BaseBackend):
 
     @classmethod
     def get_version_url(cls, project):
-        """ Method called to retrieve the url used to check for new version
+        """Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
 
         Attributes:
@@ -75,7 +75,7 @@ class Drupal6Backend(BaseBackend):
 
     @classmethod
     def get_versions(cls, project):
-        """ Method called to retrieve all the versions (that can be found)
+        """Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
         this plugin.
 

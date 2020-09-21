@@ -46,7 +46,7 @@ class ProjectForm(FlaskForm):
     )
 
     def __init__(self, *args, **kwargs):
-        """ Calls the default constructor with the normal argument but
+        """Calls the default constructor with the normal argument but
         uses the list of backends provided to fill the choices of the
         drop-down list.
         """
@@ -77,8 +77,7 @@ class MappingForm(FlaskForm):
     package_name = StringField("Package name", [validators.DataRequired()])
 
     def __init__(self, *args, **kwargs):
-        """ Calls the default constructor and fill in additional information.
-        """
+        """Calls the default constructor and fill in additional information."""
         super(MappingForm, self).__init__(*args, **kwargs)
 
         if "distros" in kwargs:
