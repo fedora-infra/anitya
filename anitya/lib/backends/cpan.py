@@ -20,7 +20,7 @@ _log = logging.getLogger(__name__)
 
 
 class CpanBackend(BaseBackend):
-    """ The custom class for projects hosted on CPAN.
+    """The custom class for projects hosted on CPAN.
 
     This backend allows to specify a version_url and a regex that will
     be used to retrieve the version information.
@@ -34,7 +34,7 @@ class CpanBackend(BaseBackend):
 
     @classmethod
     def get_version(cls, project):
-        """ Method called to retrieve the latest version of the projects
+        """Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
         :arg Project project: a :class:`anitya.db.models.Project` object whose backend
@@ -50,7 +50,7 @@ class CpanBackend(BaseBackend):
 
     @classmethod
     def get_version_url(cls, project):
-        """ Method called to retrieve the url used to check for new version
+        """Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
 
         Attributes:
@@ -66,7 +66,7 @@ class CpanBackend(BaseBackend):
 
     @classmethod
     def get_versions(cls, project):
-        """ Method called to retrieve all the versions (that can be found)
+        """Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
         this plugin.
 
@@ -87,7 +87,7 @@ class CpanBackend(BaseBackend):
 
     @classmethod
     def check_feed(cls):
-        """ Return a generator over the latest uploads to CPAN
+        """Return a generator over the latest uploads to CPAN
 
         by querying an RSS feed.
         """

@@ -237,7 +237,7 @@ class GitlabBackendtests(DatabaseTestCase):
         )
 
     def test_get_versions_no_version_retrieved(self):
-        """ Test the get_versions function of the gitlab backend
+        """Test the get_versions function of the gitlab backend
         with project which doesn't have any tag.
         """
         pid = 4

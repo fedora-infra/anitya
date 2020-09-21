@@ -278,7 +278,7 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual(last_version_time, time_now)
 
     def test_get_sorted_version_objects(self):
-        """ Assert that sorted versions are included in the list returned from
+        """Assert that sorted versions are included in the list returned from
         :data:`Project.get_sorted_version_objects`.
         """
         project = models.Project(
@@ -752,7 +752,9 @@ class ProjectVersion(DatabaseTestCase):
         self.session.flush()
 
         version = models.ProjectVersion(
-            project_id=project.id, version="v0.8.0-alpha", project=project,
+            project_id=project.id,
+            version="v0.8.0-alpha",
+            project=project,
         )
         self.session.add(version)
         self.session.flush()

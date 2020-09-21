@@ -738,8 +738,8 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual(output.headers["Location"], "http://localhost/project/geany/")
 
     def test_projects_search_by_name_slash(self):
-        """ Assert that `anitya.ui.project_name` renders
-        page with correct project. """
+        """Assert that `anitya.ui.project_name` renders
+        page with correct project."""
         create_project(self.session)
 
         output = self.app.get("/project/geany/")

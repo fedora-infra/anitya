@@ -564,8 +564,10 @@ class ProjectVersionUpdated(ProjectMessage):
     @property
     def summary(self):
         """Return a summary of the message."""
-        return "A new version '{}' was found for project {} in release-monitoring.".format(
-            self.version, self.project_name
+        return (
+            "A new version '{}' was found for project {} in release-monitoring.".format(
+                self.version, self.project_name
+            )
         )
 
     @property
