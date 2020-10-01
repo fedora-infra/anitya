@@ -27,8 +27,6 @@ import pytest
 import mock
 import json
 
-from social_flask_sqlalchemy import models as social_models
-
 import anitya.sar as sar
 from anitya.db import models
 from anitya.tests.base import DatabaseTestCase
@@ -49,15 +47,11 @@ class SARTests(DatabaseTestCase):
         e-mail.
         """
         user = models.User(email="user@fedoraproject.org", username="user", active=True)
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
-        self.session.add(user_social_auth)
         self.session.add(user)
 
         user2 = models.User(email="user2@email.org", username="user2", active=True)
-        user_social_auth = social_models.UserSocialAuth(user_id=user2.id, user=user2)
 
-        self.session.add(user_social_auth)
         self.session.add(user2)
         self.session.commit()
 
@@ -67,7 +61,6 @@ class SARTests(DatabaseTestCase):
                 "username": user.username,
                 "email": user.email,
                 "active": user.active,
-                "social_auth": [{"uid": None, "provider": None, "extra_data": None}],
             }
         ]
 
@@ -86,15 +79,11 @@ class SARTests(DatabaseTestCase):
         username.
         """
         user = models.User(email="user@fedoraproject.org", username="user", active=True)
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
-        self.session.add(user_social_auth)
         self.session.add(user)
 
         user2 = models.User(email="user2@email.org", username="user2", active=True)
-        user_social_auth = social_models.UserSocialAuth(user_id=user2.id, user=user2)
 
-        self.session.add(user_social_auth)
         self.session.add(user2)
         self.session.commit()
 
@@ -104,7 +93,6 @@ class SARTests(DatabaseTestCase):
                 "username": user.username,
                 "email": user.email,
                 "active": user.active,
-                "social_auth": [{"uid": None, "provider": None, "extra_data": None}],
             }
         ]
 
@@ -121,15 +109,11 @@ class SARTests(DatabaseTestCase):
         Assert that correct user data are dumped when nothing is provided.
         """
         user = models.User(email="user@fedoraproject.org", username="user", active=True)
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
-        self.session.add(user_social_auth)
         self.session.add(user)
 
         user2 = models.User(email="user2@email.org", username="user2", active=True)
-        user_social_auth = social_models.UserSocialAuth(user_id=user2.id, user=user2)
 
-        self.session.add(user_social_auth)
         self.session.add(user2)
         self.session.commit()
 

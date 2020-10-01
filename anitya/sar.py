@@ -46,7 +46,6 @@ def main():
     Retrieve database entry for user.
     """
     db.initialize(config)
-    _log.setLevel(logging.DEBUG)
     sar_username = os.getenv("SAR_USERNAME")
     sar_email = os.getenv("SAR_EMAIL")
 
@@ -68,6 +67,6 @@ def main():
 
 
 if __name__ == "__main__":
-    _log.info("SAR script start")
+    _log.debug("SAR script start")
     main()
-    _log.info("SAR script end")
+    _log.debug("SAR script end")
