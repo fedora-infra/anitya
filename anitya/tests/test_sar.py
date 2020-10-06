@@ -61,6 +61,7 @@ class SARTests(DatabaseTestCase):
                 "username": user.username,
                 "email": user.email,
                 "active": user.active,
+                "user_social_auths": [],
             }
         ]
 
@@ -93,6 +94,7 @@ class SARTests(DatabaseTestCase):
                 "username": user.username,
                 "email": user.email,
                 "active": user.active,
+                "user_social_auths": [],
             }
         ]
 

@@ -61,7 +61,23 @@ def main():
 
     users_list = []
     for user in users:
-        users_list.append(user.to_dict())
+        user_dict = user.to_dict()
+        user_social_auths = db.Session.execute(
+            "SELECT provider,extra_data,uid FROM social_auth_usersocialauth WHERE user_id = :val",
+            {"val": str(user.id)},
+        )
+        user_dict["user_social_auths"] = []
+        # This part is working in postgresql, but in tests we are using sqlite
+        # which doesn't know the UUID type
+        for user_social_auth in user_social_auths:  # pragma: no cover
+            user_dict["user_social_auths"].append(
+                {
+                    "provider": user_social_auth["provider"],
+                    "extra_data": user_social_auth["extra_data"],
+                    "uid": user_social_auth["uid"],
+                }
+            )
+        users_list.append(user_dict)
 
     json.dump(users_list, sys.stdout)
 
