@@ -27,7 +27,7 @@ with open(os.path.join(here, "README.rst")) as fd:
 
 setup(
     name="anitya_schema",
-    version="1.1.0",
+    version="2.0.0",
     description="JSON schema definitions for messages published by Anitya",
     long_description=README,
     url="https://github.com/fedora-infra/anitya/",
@@ -63,6 +63,7 @@ setup(
             "anitya.project.map.update=anitya_schema:ProjectMapEdited",
             "anitya.project.map.remove=anitya_schema:ProjectMapDeleted",
             "anitya.project.version.update=anitya_schema:ProjectVersionUpdated",
+            "anitya.project.version.update.v2=anitya_schema:ProjectVersionUpdatedV2",
             "anitya.project.version.remove=anitya_schema:ProjectVersionDeleted",
         ]
     },

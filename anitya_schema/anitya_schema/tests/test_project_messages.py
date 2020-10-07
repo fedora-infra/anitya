@@ -29,6 +29,7 @@ from anitya_schema import (
     ProjectMapEdited,
     ProjectVersionDeleted,
     ProjectVersionUpdated,
+    ProjectVersionUpdatedV2,
 )
 
 
@@ -454,6 +455,17 @@ class TestProjectVersionUpdated(unittest.TestCase):
         """ Set up the tests. """
         self.message = ProjectVersionUpdated()
 
+    def testDeprecationWarning(self):
+        """Assert that deprecation message is printed."""
+        with self.assertWarnsRegex(DeprecationWarning, r"class is deprecated"):
+            ProjectVersionUpdated()
+
+        with self.assertWarnsRegex(DeprecationWarning, r"class is deprecated"):
+            ProjectVersionUpdated(
+                topic="org.release-monitoring.prod.anitya.project.version.update",
+                body={},
+            )
+
     @mock.patch(
         "anitya_schema.project_messages.ProjectVersionUpdated.summary",
         new_callable=mock.PropertyMock,
@@ -523,6 +535,96 @@ class TestProjectVersionUpdated(unittest.TestCase):
         self.message.body = {"message": {"upstream_version": "1.0.0"}}
 
         self.assertEqual(self.message.version, "1.0.0")
+
+    def test_versions(self):
+        """ Assert that versions list is returned. """
+        self.message.body = {"message": {"versions": ["1.0.0", "0.9.0"]}}
+
+        self.assertEqual(self.message.versions, ["1.0.0", "0.9.0"])
+
+    def test_stable_versions(self):
+        """ Assert that stable versions list is returned. """
+        self.message.body = {"message": {"stable_versions": ["1.0.0", "0.9.0"]}}
+
+        self.assertEqual(self.message.stable_versions, ["1.0.0", "0.9.0"])
+
+
+class TestProjectVersionUpdatedV2(unittest.TestCase):
+    """ Tests for anitya_schema.project_messages.ProjectVersionUpdatedV2 class. """
+
+    def setUp(self):
+        """ Set up the tests. """
+        self.message = ProjectVersionUpdatedV2()
+
+    @mock.patch(
+        "anitya_schema.project_messages.ProjectVersionUpdatedV2.summary",
+        new_callable=mock.PropertyMock,
+    )
+    def test__str__(self, mock_property):
+        """ Assert that correct string is returned. """
+        mock_property.return_value = "Dummy"
+
+        self.assertEqual(self.message.__str__(), "Dummy")
+
+    @mock.patch(
+        "anitya_schema.project_messages.ProjectVersionUpdatedV2.project_name",
+        new_callable=mock.PropertyMock,
+    )
+    @mock.patch(
+        "anitya_schema.project_messages.ProjectVersionUpdatedV2.upstream_versions",
+        new_callable=mock.PropertyMock,
+    )
+    def test_summary(self, mock_versions, mock_name):
+        """ Assert that correct summary string is returned. """
+        mock_name.return_value = "Dummy"
+        mock_versions.return_value = ["1.0.0", "0.9.0"]
+
+        exp = "A new versions '1.0.0, 0.9.0' were found for project Dummy in release-monitoring."
+        self.assertEqual(self.message.summary, exp)
+
+    def test_agent(self):
+        """Assert that agent is returned."""
+        self.message.body = {"message": {"agent": "Dummy"}}
+
+        self.assertEqual(self.message.agent, "Dummy")
+
+    def test_old_version(self):
+        """Assert that old version is returned."""
+        self.message.body = {"message": {"old_version": "Dummy"}}
+
+        self.assertEqual(self.message.old_version, "Dummy")
+
+    def test_mappings(self):
+        """ Assert that array of mappings is returned. """
+        self.message.body = {
+            "message": {
+                "packages": [
+                    {"distro": "Fedora", "package_name": "package_fedora"},
+                    {"distro": "CentOS", "package_name": "package_centos"},
+                ]
+            }
+        }
+
+        exp = [
+            {"distro": "Fedora", "package_name": "package_fedora"},
+            {"distro": "CentOS", "package_name": "package_centos"},
+        ]
+
+        self.assertEqual(self.message.mappings, exp)
+
+    def test_distros(self):
+        """ Assert that array of distros is returned. """
+        self.message.body = {
+            "message": {"packages": [{"distro": "Fedora"}, {"distro": "CentOS"}]}
+        }
+
+        self.assertEqual(self.message.distros, ["Fedora", "CentOS"])
+
+    def test_upstream_versions(self):
+        """ Assert that list of versions is returned. """
+        self.message.body = {"message": {"upstream_versions": ["1.0.0", "0.9.0"]}}
+
+        self.assertEqual(self.message.upstream_versions, ["1.0.0", "0.9.0"])
 
     def test_versions(self):
         """ Assert that versions list is returned. """
