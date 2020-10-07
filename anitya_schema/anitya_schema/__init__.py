@@ -25,6 +25,7 @@ from .project_messages import (  # noqa: F401
     ProjectMapEdited,
     ProjectVersionDeleted,
     ProjectVersionUpdated,
+    ProjectVersionUpdatedV2,
 )
 
 from .distro_messages import DistroCreated, DistroDeleted, DistroEdited  # noqa: F401

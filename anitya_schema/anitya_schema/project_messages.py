@@ -14,6 +14,7 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 """The schema for project-related messages sent by Anitya."""
+import warnings
 
 from fedora_messaging import message
 
@@ -103,7 +104,7 @@ class ProjectCreated(ProjectMessage):
 
     topic = "org.release-monitoring.prod.anitya.project.add"
     body_schema = {
-        "id": "https://fedoraproject.org/jsonschema/anitya_project_createdv1.json",
+        "id": "https://fedoraproject.org/jsonschema/anitya_project_add.json",
         "$schema": "http://json-schema.org/draft-04/schema#",
         "description": "Message sent when a new project is created in Anitya",
         "type": "object",
@@ -147,7 +148,7 @@ class ProjectEdited(ProjectMessage):
 
     topic = "org.release-monitoring.prod.anitya.project.edit"
     body_schema = {
-        "id": "https://fedoraproject.org/jsonschema/anitya_project_createdv1.json",
+        "id": "https://fedoraproject.org/jsonschema/anitya_project_edit.json",
         "$schema": "http://json-schema.org/draft-04/schema#",
         "description": "Message sent when a project is edited in Anitya",
         "type": "object",
@@ -199,7 +200,7 @@ class ProjectDeleted(ProjectMessage):
 
     topic = "org.release-monitoring.prod.anitya.project.remove"
     body_schema = {
-        "id": "https://fedoraproject.org/jsonschema/anitya_project_deletedv1.json",
+        "id": "https://fedoraproject.org/jsonschema/anitya_project_remove.json",
         "$schema": "http://json-schema.org/draft-04/schema#",
         "description": "Message sent when a project is deleted in Anitya",
         "type": "object",
@@ -243,7 +244,7 @@ class ProjectFlag(ProjectMessage):
 
     topic = "org.release-monitoring.prod.anitya.project.flag"
     body_schema = {
-        "id": "https://fedoraproject.org/jsonschema/anitya.project.flag.json",
+        "id": "https://fedoraproject.org/jsonschema/anitya_project_flag.json",
         "$schema": "http://json-schema.org/draft-04/schema#",
         "type": "object",
         "required": ["project", "message"],
@@ -313,7 +314,7 @@ class ProjectFlagSet(message.Message):
 
     topic = "org.release-monitoring.prod.anitya.project.flag.set"
     body_schema = {
-        "id": "https://fedoraproject.org/jsonschema/anitya.project.flag.set.json",
+        "id": "https://fedoraproject.org/jsonschema/anitya_project_flag_set.json",
         "$schema": "http://json-schema.org/draft-04/schema#",
         "type": "object",
         "required": ["message", "project", "distro"],
@@ -368,7 +369,7 @@ class ProjectFlagSet(message.Message):
 class ProjectMapCreated(ProjectCreated):
     topic = "org.release-monitoring.prod.anitya.project.map.new"
     body_schema = {
-        "id": "https://fedoraproject.org/jsonschema/anitya.project.map.created.json",
+        "id": "https://fedoraproject.org/jsonschema/anitya_project_map_new.json",
         "$schema": "http://json-schema.org/draft-04/schema#",
         "type": "object",
         "required": ["project", "message", "distro"],
@@ -425,7 +426,7 @@ class ProjectMapCreated(ProjectCreated):
 class ProjectMapEdited(ProjectMessage):
     topic = "org.release-monitoring.prod.anitya.project.map.update"
     body_schema = {
-        "id": "https://fedoraproject.org/jsonschema/anitya.project.map.updated.json",
+        "id": "https://fedoraproject.org/jsonschema/anitya_project_map_update.json",
         "$schema": "http://json-schema.org/draft-04/schema#",
         "type": "object",
         "required": ["project", "message", "distro"],
@@ -494,7 +495,7 @@ class ProjectMapEdited(ProjectMessage):
 class ProjectMapDeleted(ProjectMessage):
     topic = "org.release-monitoring.prod.anitya.project.map.remove"
     body_schema = {
-        "id": "https://fedoraproject.org/jsonschema/anitya.project.map.deleted.json",
+        "id": "https://fedoraproject.org/jsonschema/anitya_project_map_remove.json",
         "$schema": "http://json-schema.org/draft-04/schema#",
         "type": "object",
         "required": ["project", "message", "distro"],
@@ -541,7 +542,7 @@ class ProjectMapDeleted(ProjectMessage):
 class ProjectVersionUpdated(ProjectMessage):
     topic = "org.release-monitoring.prod.anitya.project.version.update"
     body_schema = {
-        "id": "https://fedoraproject.org/jsonschema/anitya.project.version.update.json",
+        "id": "https://fedoraproject.org/jsonschema/anitya_project_version_update.json",
         "$schema": "http://json-schema.org/draft-04/schema#",
         "type": "object",
         "required": ["project", "message", "distro"],
@@ -578,6 +579,19 @@ class ProjectVersionUpdated(ProjectMessage):
             "project": ProjectMessage.project_schema,
         },
     }
+
+    def __init__(
+        self, body=None, headers=None, topic=None, properties=None, severity=None
+    ):
+        """
+        Message constructor.
+        """
+        super().__init__(body, headers, topic, properties, severity)
+        warnings.warn(
+            "ProjectVersionUpdated class is deprecated, please use ProjectVersionUpdatedV2 instead",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def __str__(self):
         """
@@ -639,10 +653,108 @@ class ProjectVersionUpdated(ProjectMessage):
         return self.body["message"]["stable_versions"]
 
 
+class ProjectVersionUpdatedV2(ProjectMessage):
+    topic = "org.release-monitoring.prod.anitya.project.version.update.v2"
+    body_schema = {
+        "id": "https://fedoraproject.org/jsonschema/anitya_project_version_update_v2.json",
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "required": ["project", "message", "distro"],
+        "properties": {
+            "distro": {"type": "null"},
+            "message": {
+                "type": "object",
+                "properties": {
+                    "agent": {"type": "string"},
+                    "old_version": {"type": "string"},
+                    "packages": {
+                        "type": "array",
+                        "items": {
+                            "distro": {"type": "string"},
+                            "package_name": {"type": "string"},
+                        },
+                    },
+                    "project": ProjectMessage.project_schema,
+                    "upstream_versions": {"type": "array", "items": {"type": "string"}},
+                    "versions": {"type": "array", "items": {"type": "string"}},
+                    "stable_versions": {"type": "array", "items": {"type": "string"}},
+                },
+                "required": [
+                    "agent",
+                    "old_version",
+                    "packages",
+                    "project",
+                    "upstream_versions",
+                    "versions",
+                    "stable_versions",
+                ],
+            },
+            "project": ProjectMessage.project_schema,
+        },
+    }
+
+    def __str__(self):
+        """
+        Return a complete human-readable representation of the message, which
+        in this case is equivalent to the summary.
+        """
+        return self.summary
+
+    @property
+    def summary(self):
+        """Return a summary of the message."""
+        return "A new versions '{}' were found for project {} in release-monitoring.".format(
+            ", ".join(self.upstream_versions), self.project_name
+        )
+
+    @property
+    def agent(self):
+        """User that did the action."""
+        return self.body["message"]["agent"]
+
+    @property
+    def old_version(self):
+        """Old version of project."""
+        return self.body["message"]["old_version"]
+
+    @property
+    def distros(self):
+        """Distros mapped to project."""
+        distros = []
+        for package in self.body["message"]["packages"]:
+            distros.append(package["distro"])
+        return distros
+
+    @property
+    def mappings(self):
+        """
+        Mappings of package name to distros for project.
+
+        Returns:
+            (list): List of mappings
+        """
+        return self.body["message"]["packages"]
+
+    @property
+    def upstream_versions(self):
+        """The versions that were found in upstream."""
+        return self.body["message"]["upstream_versions"]
+
+    @property
+    def versions(self):
+        """All versions on the project."""
+        return self.body["message"]["versions"]
+
+    @property
+    def stable_versions(self):
+        """All stable versions on the project."""
+        return self.body["message"]["stable_versions"]
+
+
 class ProjectVersionDeleted(ProjectMessage):
     topic = "org.release-monitoring.prod.anitya.project.version.remove"
     body_schema = {
-        "id": "https://fedoraproject.org/jsonschema/anitya.project.version.update.json",
+        "id": "https://fedoraproject.org/jsonschema/anitya_project_version_remove.json",
         "$schema": "http://json-schema.org/draft-04/schema#",
         "type": "object",
         "required": ["project", "message", "distro"],
