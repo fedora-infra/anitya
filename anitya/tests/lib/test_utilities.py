@@ -292,7 +292,9 @@ class CheckProjectReleaseTests(DatabaseTestCase):
                 user_id="noreply@fedoraproject.org",
                 version_scheme="RPM",
             )
-        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectVersionUpdated, anitya_schema.ProjectVersionUpdatedV2
+        ):
             utilities.check_project_release(project, self.session)
         versions = project.get_sorted_version_objects()
         self.assertEqual(len(versions), 3)
@@ -313,7 +315,9 @@ class CheckProjectReleaseTests(DatabaseTestCase):
                 user_id="noreply@fedoraproject.org",
                 version_scheme="RPM",
             )
-        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectVersionUpdated, anitya_schema.ProjectVersionUpdatedV2
+        ):
             utilities.check_project_release(project, self.session)
 
         versions = project.get_sorted_version_objects()
@@ -339,7 +343,9 @@ class CheckProjectReleaseTests(DatabaseTestCase):
                 backend="GitHub",
                 user_id="noreply@fedoraproject.org",
             )
-        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectVersionUpdated, anitya_schema.ProjectVersionUpdatedV2
+        ):
             utilities.check_project_release(project, self.session)
 
         self.assertEqual(project.latest_version_cursor, "Hbgf")
@@ -362,7 +368,9 @@ class CheckProjectReleaseTests(DatabaseTestCase):
                 backend="GitHub",
                 user_id="noreply@fedoraproject.org",
             )
-        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectVersionUpdated, anitya_schema.ProjectVersionUpdatedV2
+        ):
             utilities.check_project_release(project, self.session)
 
         for vo in project.versions_obj:
@@ -384,7 +392,9 @@ class CheckProjectReleaseTests(DatabaseTestCase):
             )
         last_check_orig = project.last_check
 
-        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectVersionUpdated, anitya_schema.ProjectVersionUpdatedV2
+        ):
             utilities.check_project_release(project, self.session)
         next_check = (
             plugins.get_plugin(project.backend).check_interval + project.last_check
@@ -460,7 +470,9 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectVersionUpdated, anitya_schema.ProjectVersionUpdatedV2
+        ):
             utilities.check_project_release(project, self.session)
 
         versions = project.versions

@@ -290,7 +290,9 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.session.commit()
 
         data = {"id": 1}
-        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectVersionUpdated, anitya_schema.ProjectVersionUpdatedV2
+        ):
             output = self.app.post("/api/version/get", data=data)
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)

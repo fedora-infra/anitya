@@ -118,7 +118,9 @@ class LibrariesioConsumerTests(DatabaseTestCase):
         with mock.patch.object(
             self.client, "whitelist", ["pypi"]
         ), fml_testing.mock_sends(
-            anitya_schema.ProjectCreated, anitya_schema.ProjectVersionUpdated
+            anitya_schema.ProjectCreated,
+            anitya_schema.ProjectVersionUpdated,
+            anitya_schema.ProjectVersionUpdatedV2,
         ):
             self.client.process_message(event)
         self.assertEqual(1, self.session.query(Project).count())
@@ -170,7 +172,9 @@ class LibrariesioConsumerTests(DatabaseTestCase):
         )
 
         self.assertEqual(1, self.session.query(Project).count())
-        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectVersionUpdated, anitya_schema.ProjectVersionUpdatedV2
+        ):
             self.client.process_message(event)
         self.assertEqual(1, self.session.query(Project).count())
         project = self.session.query(Project).first()
@@ -224,7 +228,9 @@ class LibrariesioConsumerTests(DatabaseTestCase):
             '"package_manager_url": "https://pypi.org/project/ImageMetaTag/"'
             "}"
         )
-        with fml_testing.mock_sends(anitya_schema.ProjectVersionUpdated):
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectVersionUpdated, anitya_schema.ProjectVersionUpdatedV2
+        ):
             self.client.process_message(event)
         project = self.session.query(Project).first()
         self.assertEqual("0.6.9", project.latest_version)
