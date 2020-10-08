@@ -126,6 +126,7 @@ def check_project_release(project, session, test=False):
     p_versions = project.get_sorted_version_objects()
     old_version = project.latest_version or ""
     version_column_len = models.ProjectVersion.version.property.columns[0].type.length
+    upstream_versions = []
     for version in versions:
         if version not in p_versions:
             if len(version.version) < version_column_len:
@@ -136,6 +137,7 @@ def check_project_release(project, session, test=False):
                         commit_url=version.commit_url,
                     )
                 )
+                upstream_versions.append(version.parse())
             else:
                 _log.info(
                     "Version '{}' was skipped. Reason: too long.".format(
@@ -175,6 +177,21 @@ def check_project_release(project, session, test=False):
             ),
         )
 
+        log(
+            session,
+            project=project.__json__(),
+            topic="project.version.update.v2",
+            message=dict(
+                project=project.__json__(),
+                upstream_versions=upstream_versions,
+                old_version=old_version,
+                packages=[pkg.__json__() for pkg in project.packages],
+                versions=project.versions,
+                stable_versions=[str(version) for version in project.stable_versions],
+                ecosystem=project.ecosystem_name,
+                agent="anitya",
+            ),
+        )
     session.add(project)
     session.commit()
 
@@ -226,6 +243,10 @@ def log(session, project=None, distro=None, topic=None, message=None):
         "project.version.remove": "%(agent)s removed the version %(version)s "
         "of %(project)s",
         "project.version.update": "new version: %(upstream_version)s found"
+        " for project %(project.name)s "
+        "in ecosystem %(ecosystem)s "
+        "(project id: %(project.id)s).",
+        "project.version.update.v2": "new versions: %(upstream_versions)s found"
         " for project %(project.name)s "
         "in ecosystem %(ecosystem)s "
         "(project id: %(project.id)s).",
