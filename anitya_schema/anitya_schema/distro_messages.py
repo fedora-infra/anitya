@@ -17,6 +17,8 @@
 
 from fedora_messaging import message
 
+ANITYA_URL = "https://release-monitoring.org/"
+
 
 class DistroCreated(message.Message):
     """
@@ -69,6 +71,11 @@ class DistroCreated(message.Message):
     def distro_name(self):
         """The new distribution's name."""
         return self.body["distro"]["name"]
+
+    @property
+    def distro_url(self):
+        """The new distribution url."""
+        return ANITYA_URL + "distros/" + self.distro_name
 
 
 class DistroEdited(message.Message):
@@ -133,9 +140,19 @@ class DistroEdited(message.Message):
         return self.body["message"]["new"]
 
     @property
+    def distro_url_new(self):
+        """The distribution's new url."""
+        return ANITYA_URL + "distros/" + self.distro_name_new
+
+    @property
     def distro_name_old(self):
         """The distribution's old name."""
         return self.body["message"]["old"]
+
+    @property
+    def distro_url_old(self):
+        """The distribution's old url."""
+        return ANITYA_URL + "distros/" + self.distro_name_old
 
 
 class DistroDeleted(message.Message):
@@ -192,3 +209,8 @@ class DistroDeleted(message.Message):
     def distro_name(self):
         """The new distribution's name."""
         return self.body["distro"]["name"]
+
+    @property
+    def distro_url(self):
+        """The new distribution url."""
+        return ANITYA_URL + "distros/" + self.distro_name

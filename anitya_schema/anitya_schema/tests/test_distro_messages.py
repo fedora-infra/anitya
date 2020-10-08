@@ -61,6 +61,14 @@ class TestDistroCreated(unittest.TestCase):
 
         self.assertEqual(self.message.distro_name, "Dummy")
 
+    def test_distro_url(self):
+        """ Assert that distro url is returned. """
+        self.message.body = {"distro": {"name": "Dummy"}}
+
+        self.assertEqual(
+            self.message.distro_url, "https://release-monitoring.org/distros/Dummy"
+        )
+
 
 class TestDistroEdited(unittest.TestCase):
     """ Tests for anitya_schema.distro_messages.DistroEdited class. """
@@ -107,11 +115,27 @@ class TestDistroEdited(unittest.TestCase):
 
         self.assertEqual(self.message.distro_name_new, "Dummy")
 
+    def test_url_new(self):
+        """ Assert that correct anitya url is returned. """
+        self.message.body = {"message": {"new": "Dummy"}}
+
+        self.assertEqual(
+            self.message.distro_url_new, "https://release-monitoring.org/distros/Dummy"
+        )
+
     def test_name_old(self):
         """ Assert that old_name string is returned. """
         self.message.body = {"message": {"old": "Dummy"}}
 
         self.assertEqual(self.message.distro_name_old, "Dummy")
+
+    def test_url_old(self):
+        """ Assert that correct anitya url is returned. """
+        self.message.body = {"message": {"old": "Dummy"}}
+
+        self.assertEqual(
+            self.message.distro_url_old, "https://release-monitoring.org/distros/Dummy"
+        )
 
 
 class TestDistroDeleted(unittest.TestCase):
@@ -153,3 +177,11 @@ class TestDistroDeleted(unittest.TestCase):
         self.message.body = {"distro": {"name": "Dummy"}}
 
         self.assertEqual(self.message.distro_name, "Dummy")
+
+    def test_distro_url(self):
+        """ Assert that distro url is returned. """
+        self.message.body = {"distro": {"name": "Dummy"}}
+
+        self.assertEqual(
+            self.message.distro_url, "https://release-monitoring.org/distros/Dummy"
+        )
