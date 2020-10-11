@@ -8,9 +8,8 @@ stages:
   - docker
 
 install:
-  - pip install -U setuptools pip
-  - pip install tox
-  - sudo apt-get install graphviz
+  # Graphiviz is used to generate database schema, see tox.ini
+  - sudo apt-get -y install graphviz tox
 script:
   - tox
 after_success:
