@@ -1,11 +1,11 @@
+language: python
+os: linux
+dist: focal
 
 stages:
   - lint
   - test
   - docker
-
-sudo: true
-language: python
 
 install:
   - pip install -U setuptools pip
