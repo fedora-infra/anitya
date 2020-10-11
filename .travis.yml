@@ -43,12 +43,8 @@ jobs:
       env: TOXENV=py36
     - python: 3.7
       env: TOXENV=py37
-      dist: xenial      # required for Python 3.7 (travis-ci/travis-ci#9069)
-      sudo: required    # required for Python 3.7 (travis-ci/travis-ci#9069)
     - python: nightly
       env: TOXENV=py38
-      dist: xenial      # required for Python 3.8 (travis-ci/travis-ci#9069)
-      sudo: required    # required for Python 3.8 (travis-ci/travis-ci#9069)
 
     - stage: docker
       script: docker build .
