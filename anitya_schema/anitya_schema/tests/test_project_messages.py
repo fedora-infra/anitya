@@ -84,6 +84,13 @@ class TestProjectMessage(unittest.TestCase):
 
         self.assertEqual(self.message.project_versions, ["1.00", "0.99"])
 
+    def test_project_url(self):
+        """Assert that correct url to Anitya is returned."""
+        self.message.body = {"project": {"id": 0}}
+        self.assertEqual(
+            self.message.project_url, "https://release-monitoring.org/projects/0/"
+        )
+
 
 class TestProjectCreated(unittest.TestCase):
     """Tests for anitya_schema.project_messages.ProjectCreated class."""
@@ -242,6 +249,10 @@ class TestProjectFlag(unittest.TestCase):
 
         self.assertEqual(self.message.mappings, exp)
 
+    def test_flag_url(self):
+        """ Assert that correct url is returned. """
+        self.assertEqual(self.message.flag_url, "https://release-monitoring.org/flags/")
+
     def test_reason(self):
         """Assert that reason is returned."""
         self.message.body = {"message": {"reason": "Dummy"}}
@@ -293,6 +304,10 @@ class TestProjectFlagSet(unittest.TestCase):
         self.message.body = {"message": {"flag": "Dummy"}}
 
         self.assertEqual(self.message.flag, "Dummy")
+
+    def test_flag_url(self):
+        """ Assert that correct url is returned. """
+        self.assertEqual(self.message.flag_url, "https://release-monitoring.org/flags/")
 
     def test_state(self):
         """ Assert that state string is returned. """

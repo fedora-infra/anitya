@@ -18,6 +18,8 @@ import warnings
 
 from fedora_messaging import message
 
+ANITYA_URL = "https://release-monitoring.org/"
+
 
 class ProjectMessage(message.Message):
     """
@@ -91,6 +93,11 @@ class ProjectMessage(message.Message):
         """The versions associated with the project."""
         return self.body["project"]["versions"]
 
+    @property
+    def project_url(self):
+        """The project url in Anitya."""
+        return ANITYA_URL + "projects/" + str(self.project_id) + "/"
+
 
 class ProjectCreated(ProjectMessage):
     """The message sent when a new project is created in Anitya."""
@@ -143,7 +150,7 @@ class ProjectEdited(ProjectMessage):
     body_schema = {
         "id": "https://fedoraproject.org/jsonschema/anitya_project_edit.json",
         "$schema": "http://json-schema.org/draft-04/schema#",
-        "description": "Message sent when a new project is created in Anitya",
+        "description": "Message sent when a project is edited in Anitya",
         "type": "object",
         "required": ["project", "message", "distro"],
         "properties": {
@@ -152,9 +159,17 @@ class ProjectEdited(ProjectMessage):
                 "type": "object",
                 "properties": {
                     "agent": {"type": "string"},
+                    "changes": {
+                        "type": "object",
+                        "properties": {
+                            "new": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+                            "old": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+                        },
+                    },
+                    "fields": {"type": "array", "items": {"type": "string"}},
                     "project": {"type": "string"},
                 },
-                "required": ["agent", "project"],
+                "required": ["agent", "project", "changes", "fields"],
             },
             "project": ProjectMessage.project_schema,
         },
@@ -284,6 +299,11 @@ class ProjectFlag(ProjectMessage):
         return self.body["message"]["packages"]
 
     @property
+    def flag_url(self):
+        """The anitya url for the flag."""
+        return ANITYA_URL + "flags/"
+
+    @property
     def reason(self):
         """Reason for the flag creation."""
         return self.body["message"]["reason"]
@@ -334,6 +354,11 @@ class ProjectFlagSet(message.Message):
     def flag(self):
         """The id of the flag."""
         return self.body["message"]["flag"]
+
+    @property
+    def flag_url(self):
+        """The anitya url for the flag."""
+        return ANITYA_URL + "flags/"
 
     @property
     def state(self):
