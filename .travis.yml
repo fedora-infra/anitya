@@ -43,8 +43,10 @@ jobs:
       env: TOXENV=py36
     - python: 3.7
       env: TOXENV=py37
-    - python: nightly
+    - python: 3.8
       env: TOXENV=py38
+    - python: nightly
+      env: TOXENV=py39
 
     - stage: docker
       script:
