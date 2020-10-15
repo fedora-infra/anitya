@@ -81,6 +81,11 @@ def check_project_release(project, session, test=False):
             'No backend was found for "%s"' % project.backend
         )
 
+    if project.archived:
+        raise exceptions.AnityaException(
+            "Project is archived, can't check new versions"
+        )
+
     publish = False
     versions_prefix = []
     max_version = ""
@@ -113,9 +118,6 @@ def check_project_release(project, session, test=False):
 
     # Remove prefix
     versions = project.create_version_objects(versions_prefix)
-
-    if test:
-        return [str(v) for v in versions]
 
     # There is always at least one version retrieved,
     # otherwise this backend raises exception
@@ -159,41 +161,49 @@ def check_project_release(project, session, test=False):
     else:
         project.logs = "No new version found"
 
-    if publish:
-        log(
-            session,
-            project=project.__json__(),
-            topic="project.version.update",
-            message=dict(
-                project=project.__json__(),
-                upstream_version=max_version,
-                old_version=old_version,
-                packages=[pkg.__json__() for pkg in project.packages],
-                versions=project.versions,
-                stable_versions=[str(version) for version in project.stable_versions],
-                ecosystem=project.ecosystem_name,
-                agent="anitya",
-                odd_change=False,
-            ),
-        )
+    if test:
+        return upstream_versions[::-1]
 
-        log(
-            session,
-            project=project.__json__(),
-            topic="project.version.update.v2",
-            message=dict(
+    if not test:
+        if publish:
+            log(
+                session,
                 project=project.__json__(),
-                upstream_versions=upstream_versions,
-                old_version=old_version,
-                packages=[pkg.__json__() for pkg in project.packages],
-                versions=project.versions,
-                stable_versions=[str(version) for version in project.stable_versions],
-                ecosystem=project.ecosystem_name,
-                agent="anitya",
-            ),
-        )
-    session.add(project)
-    session.commit()
+                topic="project.version.update",
+                message=dict(
+                    project=project.__json__(),
+                    upstream_version=max_version,
+                    old_version=old_version,
+                    packages=[pkg.__json__() for pkg in project.packages],
+                    versions=project.versions,
+                    stable_versions=[
+                        str(version) for version in project.stable_versions
+                    ],
+                    ecosystem=project.ecosystem_name,
+                    agent="anitya",
+                    odd_change=False,
+                ),
+            )
+
+            log(
+                session,
+                project=project.__json__(),
+                topic="project.version.update.v2",
+                message=dict(
+                    project=project.__json__(),
+                    upstream_versions=upstream_versions,
+                    old_version=old_version,
+                    packages=[pkg.__json__() for pkg in project.packages],
+                    versions=project.versions,
+                    stable_versions=[
+                        str(version) for version in project.stable_versions
+                    ],
+                    ecosystem=project.ecosystem_name,
+                    agent="anitya",
+                ),
+            )
+        session.add(project)
+        session.commit()
 
 
 def _construct_substitutions(msg):
@@ -275,6 +285,7 @@ def create_project(
     regex=None,
     insecure=False,
     releases_only=False,
+    dry_run=False,
 ):
     """Create the project in the database."""
     project = models.Project(
@@ -303,13 +314,14 @@ def create_project(
         session.rollback()
         raise exceptions.AnityaException("Could not add this project, already exists?")
 
-    log(
-        session,
-        project=project.__json__(),
-        topic="project.add",
-        message=dict(agent=user_id, project=project.name),
-    )
-    session.commit()
+    if not dry_run:
+        log(
+            session,
+            project=project.__json__(),
+            topic="project.add",
+            message=dict(agent=user_id, project=project.name),
+        )
+        session.commit()
     return project
 
 
@@ -330,6 +342,7 @@ def edit_project(
     user_id,
     check_release=False,
     archived=False,
+    dry_run=False,
 ):
     """Edit a project in the database."""
     changes = {}
@@ -393,22 +406,26 @@ def edit_project(
         changes["archived"] = {"old": old, "new": project.archived}
 
     try:
-        if changes:
-            log(
-                session,
-                project=project.__json__(),
-                topic="project.edit",
-                message=dict(
-                    agent=user_id,
-                    project=project.name,
-                    fields=list(changes.keys()),  # be backward compat
-                    changes=changes,
-                ),
-            )
+        if not dry_run:
+            if changes:
+                log(
+                    session,
+                    project=project.__json__(),
+                    topic="project.edit",
+                    message=dict(
+                        agent=user_id,
+                        project=project.name,
+                        fields=list(changes.keys()),  # be backward compat
+                        changes=changes,
+                    ),
+                )
+                session.add(project)
+                session.commit()
+            if check_release is True:
+                check_project_release(project, session)
+        else:
             session.add(project)
-            session.commit()
-        if check_release is True:
-            check_project_release(project, session)
+            session.flush()
     except SQLAlchemyError as err:
         _log.exception(err)
         session.rollback()

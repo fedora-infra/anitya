@@ -76,6 +76,14 @@
             </tr>
             {%- endif -%}
           </table>
+          <button type="submit" class="btn btn-success btn-sm pull-right"
+                  id="testcheck" tabindex=12>
+              <span class="glyphicon glyphicon-refresh"></span>
+              Test check
+          </button>
+          <img src="{{url_for('anitya_ui.static', filename='img/spinner.gif')}}"
+               id="testcheck-spinner" class="pull-right"
+               style="display: none; padding-top: 12px; padding-right: 25px;"/>
         </span>
       </div>
     </div>
@@ -315,6 +323,57 @@
       });
   }
 
+  function checkrelease(){
+    var btn = '#checknow';
+    $(btn).hide(); $(btn + "-spinner").show();
+    var _name = $('#name').val();
+    var _homepage = $('#homepage').val();
+    var _backend = $('#backend').val();
+    var _version_scheme = $('#version_scheme').val();
+    var _version_pattern = $('#version_pattern').val();
+    var _version_url = $('#version_url').val();
+    var _version_prefix = $('#version_prefix').val();
+    var _pre_release_filter = $('#pre_release_filter').val();
+    var _regex = $('#regex').val();
+    var _releases_only = $('#releases_only').is(':checked');
+    var _insecure = $('#insecure').is(':checked');
+    var _url = "{{ url_for('apiv2.versions')}}";
+    data = {
+        name: _name,
+        homepage: _homepage,
+        backend: _backend,
+        version_scheme: _version_scheme,
+        version_pattern: _version_pattern,
+        version_url: _version_url,
+        version_prefix: _version_prefix,
+        pre_release_filter: _pre_release_filter,
+        regex: _regex,
+        releases_only: _releases_only,
+        insecure: _insecure,
+        dry_run: true,
+    };
+    $.ajax({
+        url: _url ,
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function(res) {
+          alert(
+              'New versions: \n' + res.found_versions.join(', ') + '\n' +
+              'All versions: \n' + res.versions.join(', ') + '\n' +
+              'Latest version: ' + res.latest_version
+          );
+          $(btn).show(); $(btn + "-spinner").hide();
+        },
+        error: function(res) {
+          $(btn).show(); $(btn + "-spinner").hide();
+          alert(
+              'Unable to retrieve the latest version from upstream!\n'
+              + 'ERROR: ' + res.responseJSON );
+        }
+    });
+  };
+
   $(document).ready(function() {
     $('#info_field').hide();
     show_hide();
@@ -376,5 +435,10 @@
     });
   });
   {% endif %}
+
+  $('#testcheck').click(function(){
+      checkrelease();
+      return false;
+  });
 </script>
 {% endblock %}

@@ -60,6 +60,9 @@ default_regex = """\
 
 # Github access token
 # This is used by GitHub API for github backend
+# Permission needed by Anitya:
+# * repo:status
+# * public_repo
 github_access_token = "foobar"
 
 # Check service configuration

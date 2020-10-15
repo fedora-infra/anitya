@@ -1203,3 +1203,432 @@ class ProjectsResourcePostTests(DatabaseTestCase):
         mock_check.assert_called_once_with(mock.ANY, mock.ANY)
         self.assertEqual(output.status_code, 201)
         self.assertIn("Error", mock_log.error.call_args_list[0][0])
+
+
+class VersionsResourceGetTests(DatabaseTestCase):
+    """ Tests for ``api/v2/versions/`` API endpooint - GET method."""
+
+    def setUp(self):
+        super(VersionsResourceGetTests, self).setUp()
+        self.app = self.flask_app.test_client()
+        session = Session()
+        self.user = models.User(email="user@fedoraproject.org", username="user")
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id, user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
+        self.api_token = models.ApiToken(user=self.user)
+        session.add(self.api_token)
+        session.commit()
+
+    def test_no_project(self):
+        """Assert querying versions when project doesn't exists returns error."""
+        output = self.app.get("/api/v2/versions/?project_id=1")
+        self.assertEqual(output.status_code, 404)
+        data = _read_json(output)
+
+        self.assertEqual(data, {"output": "notok", "error": "No such project"})
+
+    def test_authenticated(self):
+        """Assert the API works when authenticated."""
+        project = models.Project(
+            name="requests", homepage="https://pypi.io/project/requests", backend="PyPI"
+        )
+        self.session.add(project)
+        self.session.commit()
+        output = self.app.get(
+            "/api/v2/versions/?project_id=" + str(project.id),
+            headers={"Authorization": "Token " + self.api_token.token},
+        )
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        self.assertEqual(data, {"latest_version": None, "versions": []})
+
+    def test_list_versions(self):
+        """Assert versions are returned when they exist."""
+        project = models.Project(
+            name="requests",
+            homepage="https://pypi.io/project/requests",
+            backend="PyPI",
+            latest_version="1.0.0",
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        version = models.ProjectVersion(project=project, version="1.0.0")
+        self.session.add(version)
+
+        version = models.ProjectVersion(project=project, version="0.9.9")
+        self.session.add(version)
+        self.session.commit()
+
+        output = self.app.get("/api/v2/versions/?project_id=" + str(project.id))
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        exp = {"latest_version": "1.0.0", "versions": ["1.0.0", "0.9.9"]}
+
+        self.assertEqual(data, exp)
+
+
+class VersionsResourcePostTests(DatabaseTestCase):
+    def setUp(self):
+        super(VersionsResourcePostTests, self).setUp()
+        self.app = self.flask_app.test_client()
+        session = Session()
+        self.user = models.User(email="user@fedoraproject.org", username="user")
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id, user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
+        self.api_token = models.ApiToken(user=self.user)
+        session.add(self.api_token)
+        session.commit()
+
+        self.auth = {"Authorization": "Token " + self.api_token.token}
+
+    def test_unauthenticated(self):
+        """Assert unauthenticated requests result in a HTTP 401 response."""
+        self.maxDiff = None
+        error_details = {
+            "error": "authentication_required",
+            "error_description": "Authentication is required to access this API.",
+        }
+
+        output = self.app.post("/api/v2/versions/")
+
+        self.assertEqual(output.status_code, 401)
+        self.assertEqual(error_details, _read_json(output))
+        self.assertEqual("Token", output.headers["WWW-Authenticate"])
+
+    def test_invalid_token(self):
+        """Assert unauthenticated requests result in a HTTP 401 response."""
+        self.maxDiff = None
+        error_details = {
+            "error": "authentication_required",
+            "error_description": "Authentication is required to access this API.",
+        }
+
+        output = self.app.post(
+            "/api/v2/versions/", headers={"Authorization": "Token eh"}
+        )
+
+        self.assertEqual(output.status_code, 401)
+        self.assertEqual(error_details, _read_json(output))
+        self.assertEqual("Token", output.headers["WWW-Authenticate"])
+
+    def test_invalid_auth_type(self):
+        """Assert unauthenticated requests result in a HTTP 401 response."""
+        self.maxDiff = None
+        error_details = {
+            "error": "authentication_required",
+            "error_description": "Authentication is required to access this API.",
+        }
+
+        output = self.app.post(
+            "/api/v2/versions/",
+            headers={"Authorization": "Basic " + self.api_token.token},
+        )
+
+        self.assertEqual(output.status_code, 401)
+        self.assertEqual(error_details, _read_json(output))
+        self.assertEqual("Token", output.headers["WWW-Authenticate"])
+
+    def test_invalid_request(self):
+        """Assert invalid requests result in a helpful HTTP 400."""
+        output = self.app.post("/api/v2/versions/", headers=self.auth)
+
+        self.assertEqual(output.status_code, 400)
+        # Error details should report the missing required fields
+        data = _read_json(output)
+        self.assertIn("backend", data)
+        self.assertIn("homepage", data)
+        self.assertIn("name", data)
+
+    def test_no_project_id(self):
+        """Assert no project found when id provided result in HTTP 404."""
+        request_data = {
+            "id": 1,
+        }
+
+        output = self.app.post(
+            "/api/v2/versions/", headers=self.auth, data=request_data
+        )
+
+        data = _read_json(output)
+        self.assertEqual(output.status_code, 404)
+        self.assertEqual("No such project", data)
+
+    def test_multiple_projects_found(self):
+        """
+        Assert that finding multiple projects results in HTTP 400.
+        """
+        project = models.Project(
+            name="requests", homepage="https://requests.com", backend="custom"
+        )
+        self.session.add(project)
+
+        project = models.Project(
+            name="requests", homepage="https://requests2.com", backend="custom"
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        request_data = {
+            "name": "requests",
+        }
+
+        output = self.app.post(
+            "/api/v2/versions/", headers=self.auth, data=request_data
+        )
+
+        data = _read_json(output)
+        self.assertEqual(output.status_code, 400)
+        self.assertEqual(data, "More than one project found")
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_one_project_found(self, mock_check):
+        """
+        Assert that finding one project will not result in error.
+        """
+        project = models.Project(
+            name="requests", homepage="https://requests.com", backend="custom"
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        mock_check.return_value = ["1.0.0", "0.9.9"]
+        request_data = {
+            "name": "requests",
+        }
+
+        output = self.app.post(
+            "/api/v2/versions/", headers=self.auth, data=request_data
+        )
+
+        data = _read_json(output)
+        exp = {
+            "latest_version": None,
+            "found_versions": ["1.0.0", "0.9.9"],
+            "versions": [],
+        }
+        self.assertEqual(data, exp)
+
+        mock_check.assert_called_once_with(mock.ANY, mock.ANY, test=True)
+        self.assertEqual(output.status_code, 200)
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_no_project(self, mock_check):
+        """
+        Assert that temporary project is created when no project is found.
+        """
+        mock_check.return_value = ["1.0.0", "0.9.9"]
+        request_data = {
+            "backend": "PyPI",
+            "homepage": "https://python-requests.org",
+            "name": "requests",
+            "dry_run": "false",
+        }
+
+        with fml_testing.mock_sends():
+            output = self.app.post(
+                "/api/v2/versions/", headers=self.auth, data=request_data
+            )
+
+        data = _read_json(output)
+        exp = {
+            "latest_version": None,
+            "found_versions": ["1.0.0", "0.9.9"],
+            "versions": [],
+        }
+        self.assertEqual(data, exp)
+
+        mock_check.assert_called_once_with(mock.ANY, mock.ANY, test=True)
+        self.assertEqual(output.status_code, 200)
+
+        projects = models.Project.query.all()
+
+        self.assertEqual(len(projects), 1)
+        project = projects[0]
+        self.assertEqual(project.name, "requests")
+        self.assertEqual(project.backend, "PyPI")
+        self.assertEqual(project.homepage, "https://python-requests.org")
+        self.assertEqual(project.version_url, "https://python-requests.org")
+        self.assertEqual(project.version_scheme, None)
+        self.assertEqual(project.version_pattern, None)
+        self.assertEqual(project.version_prefix, None)
+        self.assertEqual(project.pre_release_filter, None)
+        self.assertEqual(project.regex, None)
+        self.assertFalse(project.insecure)
+        self.assertFalse(project.releases_only)
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_project_exists(self, mock_check):
+        """
+        Assert that project is edited when exists.
+        """
+        project = models.Project(
+            name="requests", homepage="https://requests2.com", backend="custom"
+        )
+        self.session.add(project)
+        self.session.commit()
+        mock_check.return_value = ["1.0.0", "0.9.9"]
+        request_data = {
+            "id": project.id,
+            "backend": "PyPI",
+            "homepage": "http://python-requests.org",
+            "name": "requests",
+            "version_url": "https://dummy.org",
+            "version_scheme": "calendar",
+            "version_pattern": "YY-MM",
+            "version_prefix": "a",
+            "pre_release_filter": "alpha",
+            "regex": "dummy",
+            "insecure": "true",
+            "releases_only": "true",
+        }
+
+        with fml_testing.mock_sends():
+            output = self.app.post(
+                "/api/v2/versions/", headers=self.auth, data=request_data
+            )
+
+        data = _read_json(output)
+        exp = {
+            "latest_version": None,
+            "found_versions": ["1.0.0", "0.9.9"],
+            "versions": [],
+        }
+        self.assertEqual(data, exp)
+
+        mock_check.assert_called_once_with(mock.ANY, mock.ANY, test=True)
+        self.assertEqual(output.status_code, 200)
+
+        # Check if the project was edited
+        self.assertEqual(project.backend, "PyPI")
+        self.assertEqual(project.homepage, "http://python-requests.org")
+        self.assertEqual(project.version_url, "https://dummy.org")
+        self.assertEqual(project.version_scheme, "calendar")
+        self.assertEqual(project.version_pattern, "YY-MM")
+        self.assertEqual(project.version_prefix, "a")
+        self.assertEqual(project.pre_release_filter, "alpha")
+        self.assertEqual(project.regex, "dummy")
+        self.assertTrue(project.insecure)
+        self.assertTrue(project.releases_only)
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_project_exists_no_change(self, mock_check):
+        """
+        Assert that project is checked when exists and no change is requested.
+        """
+        project = models.Project(
+            name="requests", homepage="https://requests2.com", backend="custom"
+        )
+        self.session.add(project)
+        self.session.commit()
+        mock_check.return_value = ["1.0.0", "0.9.9"]
+        request_data = {
+            "id": project.id,
+        }
+
+        with fml_testing.mock_sends():
+            output = self.app.post(
+                "/api/v2/versions/", headers=self.auth, data=request_data
+            )
+
+        data = _read_json(output)
+        exp = {
+            "latest_version": None,
+            "found_versions": ["1.0.0", "0.9.9"],
+            "versions": [],
+        }
+        self.assertEqual(data, exp)
+
+        mock_check.assert_called_once_with(mock.ANY, mock.ANY, test=True)
+        self.assertEqual(output.status_code, 200)
+
+        # Check if the project was edited
+        self.assertEqual(project.name, "requests")
+        self.assertEqual(project.backend, "custom")
+        self.assertEqual(project.homepage, "https://requests2.com")
+        self.assertEqual(project.version_url, None)
+        self.assertEqual(project.version_scheme, None)
+        self.assertEqual(project.version_pattern, None)
+        self.assertEqual(project.version_prefix, None)
+        self.assertEqual(project.pre_release_filter, None)
+        self.assertEqual(project.regex, None)
+        self.assertFalse(project.insecure)
+        self.assertFalse(project.releases_only)
+
+    @mock.patch("anitya.lib.utilities.edit_project")
+    def test_project_exists_error(self, mock_edit):
+        """
+        Assert that edit project error is handled correctly.
+        """
+        project = models.Project(
+            name="requests", homepage="https://requests2.com", backend="custom"
+        )
+        self.session.add(project)
+        self.session.commit()
+        mock_edit.side_effect = exceptions.AnityaException("Error")
+        request_data = {
+            "id": project.id,
+        }
+
+        with fml_testing.mock_sends():
+            output = self.app.post(
+                "/api/v2/versions/", headers=self.auth, data=request_data
+            )
+
+        data = _read_json(output)
+        self.assertEqual(data, "Error")
+
+        mock_edit.assert_called_once_with(
+            mock.ANY,
+            user_id="user@fedoraproject.org",
+            project=mock.ANY,
+            name="requests",
+            backend="custom",
+            homepage="https://requests2.com",
+            version_url=None,
+            version_scheme=None,
+            version_pattern=None,
+            version_prefix=None,
+            pre_release_filter=None,
+            regex=None,
+            insecure=False,
+            releases_only=False,
+            dry_run=True,
+        )
+        self.assertEqual(output.status_code, 500)
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_project_check_error(self, mock_check):
+        """
+        Assert that check release error is handled correctly.
+        """
+        project = models.Project(
+            name="requests", homepage="https://requests2.com", backend="custom"
+        )
+        self.session.add(project)
+        self.session.commit()
+        mock_check.side_effect = exceptions.AnityaException("Error")
+        request_data = {
+            "id": project.id,
+        }
+
+        with fml_testing.mock_sends():
+            output = self.app.post(
+                "/api/v2/versions/", headers=self.auth, data=request_data
+            )
+
+        data = _read_json(output)
+        self.assertEqual(data, "Error when checking for new version: Error")
+
+        mock_check.assert_called_once_with(mock.ANY, mock.ANY, test=True)
+        self.assertEqual(output.status_code, 500)
