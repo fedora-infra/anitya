@@ -60,6 +60,26 @@ class CreateProjectTests(DatabaseTestCase):
         self.assertEqual(project_objs[0].name, "geany")
         self.assertEqual(project_objs[0].homepage, "https://www.geany.org/")
 
+    def test_create_project_duplicate(self):
+        """ Assert that duplicate can't be created. """
+        create_distro(self.session)
+        self.assertEqual(2, models.Distro.all(self.session, count=True))
+
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            utilities.create_project(
+                self.session,
+                name="geany",
+                homepage="https://www.geany.org/",
+                version_url="https://www.geany.org/Download/Releases",
+                regex="DEFAULT",
+                user_id="noreply@fedoraproject.org",
+            )
+
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(project_objs), 1)
+        self.assertEqual(project_objs[0].name, "geany")
+        self.assertEqual(project_objs[0].homepage, "https://www.geany.org/")
+
         self.assertRaises(
             ProjectExists,
             utilities.create_project,
@@ -92,6 +112,32 @@ class CreateProjectTests(DatabaseTestCase):
                     regex="DEFAULT",
                     user_id="noreply@fedoraproject.org",
                 )
+
+    def test_create_project_dry_run(self):
+        """ Test the create_project dry_run parameter. """
+        create_distro(self.session)
+        self.assertEqual(2, models.Distro.all(self.session, count=True))
+
+        with fml_testing.mock_sends():
+            utilities.create_project(
+                self.session,
+                name="geany",
+                homepage="https://www.geany.org/",
+                version_url="https://www.geany.org/Download/Releases",
+                regex="DEFAULT",
+                user_id="noreply@fedoraproject.org",
+                dry_run=True,
+            )
+
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(project_objs), 1)
+        self.assertEqual(project_objs[0].name, "geany")
+        self.assertEqual(project_objs[0].homepage, "https://www.geany.org/")
+
+        # This should be still a running transaction
+        self.session.rollback()
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(project_objs), 0)
 
 
 class EditProjectTests(DatabaseTestCase):
@@ -202,6 +248,86 @@ class EditProjectTests(DatabaseTestCase):
         project_objs = models.Project.all(self.session)
         self.assertTrue(project_objs[0].insecure)
 
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_edit_project_check_release(self, mock_check):
+        """
+        Assert that check_release is working as it should
+        """
+        create_project(self.session)
+
+        project_objs = models.Project.all(self.session)
+
+        utilities.edit_project(
+            self.session,
+            project=project_objs[0],
+            name="geany",
+            homepage="https://www.geany.org/",
+            backend=project_objs[0].backend,
+            version_scheme="RPM",
+            version_pattern=None,
+            version_url=project_objs[0].version_url,
+            version_prefix=None,
+            pre_release_filter=None,
+            regex=project_objs[0].regex,
+            insecure=False,
+            user_id="noreply@fedoraproject.org",
+            releases_only=False,
+            check_release=True,
+        )
+
+        project_objs = models.Project.all(self.session)
+
+        mock_check.assert_called_with(project_objs[0], mock.ANY)
+
+    def test_edit_dry_run(self):
+        """ Test the edit_project function dry_run parameter. """
+        create_distro(self.session)
+        create_project(self.session)
+
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(project_objs), 3)
+        self.assertEqual(project_objs[0].name, "geany")
+        self.assertEqual(project_objs[0].homepage, "https://www.geany.org/")
+        self.assertEqual(project_objs[1].name, "R2spec")
+        self.assertEqual(project_objs[2].name, "subsurface")
+        self.assertFalse(project_objs[0].releases_only)
+
+        with fml_testing.mock_sends():
+            utilities.edit_project(
+                self.session,
+                project=project_objs[0],
+                name=project_objs[0].name,
+                homepage="https://www.geany.org",
+                backend="PyPI",
+                version_scheme="RPM",
+                version_pattern=None,
+                version_url=None,
+                version_prefix=None,
+                pre_release_filter="a;v",
+                regex=None,
+                insecure=False,
+                user_id="noreply@fedoraproject.org",
+                releases_only=True,
+                archived=True,
+                dry_run=True,
+            )
+
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(project_objs), 3)
+        self.assertEqual(project_objs[0].name, "geany")
+        self.assertEqual(project_objs[0].homepage, "https://www.geany.org")
+        self.assertEqual(project_objs[0].backend, "PyPI")
+        self.assertEqual(project_objs[0].pre_release_filter, "a;v")
+        self.assertTrue(project_objs[0].releases_only)
+        self.assertTrue(project_objs[0].archived)
+
+        # This should be still a running transaction
+        self.session.rollback()
+        self.assertEqual(project_objs[0].backend, "custom")
+        self.assertEqual(project_objs[0].pre_release_filter, None)
+        self.assertFalse(project_objs[0].releases_only)
+        self.assertFalse(project_objs[0].archived)
+
 
 class CheckProjectReleaseTests(DatabaseTestCase):
     """Tests for the :func:`anitya.lib.utilities.check_project_release` function."""
@@ -213,6 +339,18 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         m_project.backend.return_value = "dummy"
         self.assertRaises(
             AnityaException, utilities.check_project_release, m_project, self.session
+        )
+
+    def test_check_project_release_archived(self):
+        """ Test the check_project_release function for archived Project. """
+        project = models.Project(
+            name="foobar", homepage="https://foo.bar", backend="npmjs", archived=True
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        self.assertRaises(
+            AnityaException, utilities.check_project_release, project, self.session
         )
 
     @mock.patch(
@@ -230,7 +368,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
                 user_id="noreply@fedoraproject.org",
             )
         versions = utilities.check_project_release(project, self.session, test=True)
-        self.assertEqual(versions, ["0.9.8", "0.9.9", "1.0.0"])
+        self.assertEqual(versions, ["1.0.0", "0.9.9", "0.9.8"])
 
     @mock.patch(
         "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
@@ -420,9 +558,10 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         next_check_orig = project.next_check
 
         with fml_testing.mock_sends():
-            utilities.check_project_release(project, self.session, test=True)
+            versions = utilities.check_project_release(project, self.session, test=True)
         self.assertEqual(last_check_orig, project.last_check)
         self.assertEqual(next_check_orig, project.next_check)
+        self.assertEqual(versions, ["1.0.0", "0.9.9", "0.9.8"])
 
     def test_check_project_check_times_exception(self):
         """ Test if check times are set if `exceptions.RateLimitException` is raised. """

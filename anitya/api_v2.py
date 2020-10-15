@@ -10,7 +10,7 @@ import logging
 
 import flask_login
 from flask import jsonify
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, inputs, reqparse
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
@@ -503,4 +503,365 @@ class ProjectsResource(Resource):
         except ProjectExists as e:
             response = jsonify(e.to_dict())
             response.status_code = 409
+            return response
+
+
+class VersionsResource(Resource):
+    """
+    The ``api/v2/versions/`` API endpoint.
+    """
+
+    def get(self):
+        """
+        Lists all versions on project.
+
+        **Example request**:
+
+        .. sourcecode:: http
+
+            GET /api/v2/versions/?project_id=1 HTTP/1.1
+            Accept: application/json
+            Accept-Encoding: gzip, deflate
+            Connection: keep-alive
+            Host: localhost:5000
+            User-Agent: HTTPie/0.9.4
+
+        **Example response**:
+
+        .. sourcecode:: http
+
+            HTTP/1.0 200 OK
+            Content-Length: 676
+            Content-Type: application/json
+            Date: Fri, 24 Mar 2017 18:44:32 GMT
+            Server: Werkzeug/0.12.1 Python/2.7.13
+
+            {
+                "latest_version": "2.12",
+                "versions": [
+                    "2.12",
+                    "2.11",
+                    "2.10",
+                    "2.9.1",
+                    "2.9",
+                    "2.8",
+                    "2.7"
+                ]
+            }
+
+
+        :query int project_id: The id of the project we want to get versions for.
+        :statuscode 200: If all arguments are valid.
+        :statuscode 400: If one or more of the query arguments is invalid.
+        :statuscode 404: If project with specified id doesn't exist.
+        """
+        parser = _BASE_ARG_PARSER.copy()
+        parser.add_argument("project_id", type=int, location="args")
+        args = parser.parse_args(strict=True)
+        project_id = args.pop("project_id")
+        project = models.Project.get(Session, project_id=project_id)
+        if not project:
+            response = {"output": "notok", "error": "No such project"}, 404
+            return response
+
+        response = {
+            "latest_version": project.latest_version,
+            "versions": project.versions,
+        }
+        return response
+
+    @authentication.require_token
+    def post(self):
+        """
+        Check for new versions on the project. The API first checks if the project exists,
+        if exists it will do check on it while applying any changes.
+        If not it will create a temporary object in memory and do a check on the temporary object.
+
+        **Example Request**:
+
+        .. sourcecode:: http
+
+            POST /api/v2/versions/ HTTP/1.1
+            Accept: application/json, */*
+            Accept-Encoding: gzip, deflate
+            Authorization: token s12p01zUiVdEOZIhVf0jyZqtyYXfo2DECi6YdqqV
+            Connection: keep-alive
+            Content-Length: 15
+            Content-Type: application/json
+            Host: localhost:5000
+            User-Agent: HTTPie/1.0.3
+
+            {
+                "id": "55612"
+            }
+
+        **Example Response**:
+
+        .. sourcecode:: http
+
+            HTTP/1.0 200 OK
+            Content-Length: 118
+            Content-Type: application/json
+            Date: Tue, 20 Oct 2020 08:49:01 GMT
+            Server: Werkzeug/0.16.0 Python/3.8.6
+
+            {
+                "found_versions": [],
+                "latest_version": "0.0.2",
+                "versions": [
+                    "0.0.2",
+                    "0.0.1"
+                ]
+            }
+
+        :query string access_token: Your API access token.
+        :reqjson int id: Id of the project.
+                         If provided the check is done above existing project.
+        :reqjson string name: The project name. Used as a filter to find existing project,
+                              if id not provided.
+        :reqjson string homepage: The project homepage URL. Used as a filter to find
+                                  existing project, if id not provided.
+        :reqjson string backend: The project backend (github, folder, etc.).
+        :reqjson string version_url: The URL to fetch when determining the
+                                     project version.
+        :reqjson string version_scheme: The project version scheme
+                                        (defaults to "RPM" for temporary project).
+        :reqjson string version_pattern: The version pattern for calendar version scheme.
+        :reqjson string version_prefix: The project version prefix, if any.
+        :reqjson string pre_release_filter: Filter for unstable versions.
+        :reqjson string regex: The regex to use when searching the
+                               ``version_url`` page
+                               (defaults to none for temporary project).
+        :reqjson bool insecure: When retrieving the versions via HTTPS, do not
+                                validate the certificate
+                                (defaults to false for temporary project).
+        :reqjson bool releases_only: When retrieving the versions, use releases
+                                     instead of tags (defaults to false
+                                     for temporary project).
+                                     Only available for GitHub backend.
+        :reqjson bool dry_run: If set, doesn't save anything (defaults to true).
+                               Can't be set to False for temporary project.
+
+        :statuscode 200: When the versions were successfully retrieved.
+        :statuscode 400: When required arguments are missing or malformed.
+        :statuscode 401: When your access token is missing or invalid, or when
+                         the server is not configured for OpenID Connect. The
+                         response will include a JSON body describing the exact
+                         problem.
+        :statuscode 404: When id is provided and the project doesn't exist or is archived.
+        :statuscode 500: If there is error during the check
+        """
+        id_help = _(
+            "Id of the project. If provided the check is done above existing project."
+        )
+        name_help = _(
+            "The project name. Used as a filter to find existing project, "
+            "if id not provided."
+        )
+        homepage_help = _(
+            "The project homepage URL. Used as a filter to find "
+            "existing project, if id not provided."
+        )
+        backend_help = _("The project backend (github, folder, etc.).")
+        version_url_help = _(
+            "The URL to fetch when determining the " "project version."
+        )
+        version_scheme_help = _(
+            "The project version scheme " "(defaults to 'RPM' for temporary project)."
+        )
+        version_pattern_help = _("The version pattern for calendar version scheme.")
+        version_prefix_help = _("The project version prefix, if any.")
+        pre_release_filter_help = _("Filter for unstable versions.")
+        regex_help = _(
+            "The regex to use when searching the version_url page "
+            "(defaults to none for temporary project)."
+        )
+        insecure_help = _(
+            "When retrieving the versions via HTTPS, do not "
+            "validate the certificate (defaults to false for temporary project)."
+        )
+        releases_only_help = _(
+            "When retrieving the versions, use releases "
+            "instead of tags (defaults to false for temporary project). "
+            "Only available for GitHub backend."
+        )
+        dry_run_help = _(
+            "If set, doesn't save anything (defaults to true). "
+            "Can't be set to False for temporary project."
+        )
+
+        parser = _BASE_ARG_PARSER.copy()
+        parser.add_argument("id", type=int, help=id_help)
+        parser.add_argument("name", type=str, help=name_help)
+        parser.add_argument("homepage", type=str, help=homepage_help)
+        parser.add_argument("backend", type=str, help=backend_help)
+        parser.add_argument("version_url", type=str, help=version_url_help)
+        parser.add_argument("version_scheme", type=str, help=version_scheme_help)
+        parser.add_argument("version_pattern", type=str, help=version_pattern_help)
+        parser.add_argument("version_prefix", type=str, help=version_prefix_help)
+        parser.add_argument(
+            "pre_release_filter", type=str, help=pre_release_filter_help
+        )
+        parser.add_argument("regex", type=str, help=regex_help, default=None)
+        parser.add_argument(
+            "insecure", type=inputs.boolean, help=insecure_help, default=False
+        )
+        parser.add_argument(
+            "releases_only", type=inputs.boolean, help=releases_only_help, default=False
+        )
+        parser.add_argument(
+            "dry_run", type=inputs.boolean, help=dry_run_help, default=True
+        )
+        args = parser.parse_args(strict=True)
+
+        project = None
+        dry_run = args.get("dry_run")
+
+        # If we have id, try to get the project
+        if args.id:
+            project = models.Project.get(Session, project_id=args.pop("id"))
+
+            if not project:
+                response = "No such project", 404
+                return response
+
+        # Don't look for the project if already retrieved
+        if not project:
+            homepage = args.get("homepage")
+            name = args.get("name")
+            q = models.Project.query
+            if homepage:
+                q = q.filter(
+                    func.lower(models.Project.homepage) == func.lower(homepage)
+                )
+            if name:
+                q = q.filter(func.lower(models.Project.name) == func.lower(name))
+
+            query_result = q.all()
+
+            if len(query_result) > 1:
+                response = (
+                    "More than one project found",
+                    400,
+                )
+                return response
+            elif len(query_result) == 1:
+                project = query_result[0]
+
+        # If we still don't have project create temporary one
+        if not project:
+            # Check if we have all the required parameters
+            missing_parameters = []
+            name = args.get("name")
+            if not name:
+                missing_parameters.append("name")
+            homepage = args.get("homepage")
+            if not homepage:
+                missing_parameters.append("homepage")
+            backend = args.get("backend")
+            if not backend:
+                missing_parameters.append("backend")
+            version_url = args.get("version_url")
+            if not version_url:
+                version_url = homepage
+
+            if missing_parameters:
+                response = (
+                    "Can't create temporary project. Missing arguments: "
+                    + str(missing_parameters),
+                    400,
+                )
+                return response
+
+            # Before we create a temporary project, check the dry_run parameter
+            if not dry_run:
+                dry_run = True
+
+            project = utilities.create_project(
+                Session,
+                user_id=flask_login.current_user.email,
+                name=name,
+                homepage=homepage,
+                backend=backend,
+                version_url=version_url,
+                version_pattern=args.version_pattern,
+                version_scheme=args.version_scheme,
+                version_prefix=args.version_prefix,
+                pre_release_filter=args.pre_release_filter,
+                regex=args.regex,
+                insecure=args.insecure,
+                dry_run=dry_run,
+            )
+        # If the project was retrieved, update it with provided arguments
+        else:
+            # If argument is missing, use the actual one
+            name = args.get("name")
+            if not name:
+                name = project.name
+            homepage = args.get("homepage")
+            if not homepage:
+                homepage = project.homepage
+            backend = args.get("backend")
+            if not backend:
+                backend = project.backend
+            version_scheme = args.get("version_scheme")
+            if not version_scheme:
+                version_scheme = project.version_scheme
+            version_pattern = args.get("version_pattern")
+            if not version_pattern:
+                version_pattern = project.version_pattern
+            version_url = args.get("version_url")
+            if not version_url:
+                version_url = project.version_url
+            version_prefix = args.get("version_prefix")
+            if not version_prefix:
+                version_prefix = project.version_prefix
+            pre_release_filter = args.get("pre_release_filter")
+            if not pre_release_filter:
+                pre_release_filter = project.pre_release_filter
+            regex = args.get("regex")
+            if not regex:
+                regex = project.regex
+            insecure = args.get("insecure")
+            if not insecure:
+                insecure = project.insecure
+            releases_only = args.get("releases_only")
+            if not releases_only:
+                releases_only = project.releases_only
+            try:
+                utilities.edit_project(
+                    Session,
+                    user_id=flask_login.current_user.email,
+                    project=project,
+                    name=name,
+                    homepage=homepage,
+                    backend=backend,
+                    version_scheme=version_scheme,
+                    version_pattern=version_pattern,
+                    version_url=version_url,
+                    version_prefix=version_prefix,
+                    pre_release_filter=pre_release_filter,
+                    regex=regex,
+                    insecure=insecure,
+                    releases_only=releases_only,
+                    dry_run=dry_run,
+                )
+            except AnityaException as err:
+                response = str(err), 500
+                return response
+
+        if project:
+            try:
+                versions = utilities.check_project_release(
+                    project, Session, test=dry_run
+                )
+            except AnityaException as err:
+                response = "Error when checking for new version: " + str(err), 500
+                return response
+
+            response = {
+                "latest_version": project.latest_version,
+                "found_versions": versions,
+                "versions": project.versions,
+            }
             return response

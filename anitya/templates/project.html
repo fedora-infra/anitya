@@ -347,11 +347,9 @@
     }
     $(btn).hide(); $(btn + "-spinner").show();
     var _id = "{{ project.id }}";
-    var _url = "{{ url_for('anitya_apiv1.api_get_version') }}";
+    var _url = "{{ url_for('apiv2.versions')}}";
     data = {id: _id};
-    if (test) {
-        data.test = test;
-    }
+    data.dry_run = test;
     $.ajax({
         url: _url ,
         type: 'POST',
@@ -359,14 +357,12 @@
         dataType: 'json',
         success: function(res) {
           if (test) {
-              alert('Versions found: \n' + res.version.join(', '));
+            alert(
+                'New versions: \n' + res.found_versions.join(', ') + '\n' +
+                'All versions: \n' + res.versions.join(', ') + '\n' +
+                'Latest version: ' + res.latest_version
+            );
           } else {
-            if (res.version) {
-              output = res.version;
-            } else {
-              output = res.error;
-            }
-            $('#version_info').html("Latest versions: " + output);
             window.location.reload(false);
           }
           $(btn).show(); $(btn + "-spinner").hide();
@@ -375,7 +371,7 @@
           $(btn).show(); $(btn + "-spinner").hide();
           alert(
               'Unable to retrieve the latest version from upstream!\n'
-              + 'ERROR: ' + res.responseJSON.error );
+              + 'ERROR: ' + res.responseJSON );
         }
     });
   };
