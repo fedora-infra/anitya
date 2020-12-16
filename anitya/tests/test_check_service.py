@@ -26,7 +26,7 @@ Anitya tests for check service.
 import unittest
 from unittest import mock
 from datetime import timedelta
-from time import sleep
+from concurrent.futures import TimeoutError
 
 import arrow
 from fedora_messaging import testing as fml_testing
@@ -40,9 +40,6 @@ from anitya.lib import exceptions
 
 class CheckerTests(DatabaseTestCase):
     """ Checker class tests. """
-
-    def mock_update_project(self, project):
-        sleep(2)
 
     def setUp(self):
         """
@@ -386,12 +383,11 @@ class CheckerTests(DatabaseTestCase):
         self.assertEqual(len(run_objects), 1)
         self.assertEqual(run_objects[0].total_count, 2)
 
-    @mock.patch.dict("anitya.config.config", {"CHECK_TIMEOUT": 1})
-    def test_run_timeout(self):
+    @mock.patch("anitya.check_service.as_completed", side_effect=TimeoutError())
+    def test_run_timeout(self, mock_as_completed):
         """
         Assert that TimeoutError is thrown when TIMEOUT is reached.
         """
-        self.checker.update_project = self.mock_update_project
         project = models.Project(
             name="Foobar",
             backend="GitHub",
@@ -408,6 +404,13 @@ class CheckerTests(DatabaseTestCase):
         )
         self.session.add(project)
         self.session.commit()
+
+        # Don't call actual project_update,
+        # SQLite doesn't like working with SQLAlchemy objects over multiple threads
+        def increment(project_id):
+            pass
+
+        self.checker.update_project = increment
 
         self.checker.run()
 
