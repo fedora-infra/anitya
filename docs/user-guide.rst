@@ -178,61 +178,32 @@ Integrating with Anitya
 =======================
 
 
-fedmsg
-------
+Fedora messaging
+----------------
 
-`fedmsg`_ is a message bus. In other words it is a
+`Fedora messaging`_ is a message bus. In other words it is a
 system that allows for the sending and receiving of notifications between
 applications.  For anitya, every action made on the application is
 announced/broadcasted on this bus, allowing anyone listening to it to act
 immediately instead of (for example) polling hourly all the data, looking for
 changes, and acting then. For the full list of messages Anitya sends, see
-the `fedmsg topic documentation`_.
+`setup.py` of the `fedora messaging schema`_.
 
-To start receiving `fedmsg`_ messages from anitya,
+To start receiving `Fedora messaging`_ messages from anitya,
 it is as simple as:
 
-* install ``fedmsg`` the way you want:
+* install ``Fedora messaging`` the way you want:
 
 On Fedora ::
 
-  dnf install fedmsg
-
-On Debian ::
-
-  apt-get install fedmsg
+  dnf install fedora-messaging
 
 Via pip ::
 
-  pip install fedmsg
+  pip install fedora-messaging
 
-* in the configuration file: ``/etc/fedmsg.d/endpoints.py``, make sure you
-  activate the anitya endpoint
-
-  ::
-
-    "anitya-public-relay": [
-        "tcp://release-monitoring.org:9940",
-    ],
-
-From python
-^^^^^^^^^^^
-
-::
-
-    import fedmsg
-
-    # Yield messages as they're available from a generator
-    for name, endpoint, topic, msg in fedmsg.tail_messages():
-        print topic, msg
-
-
-From the shell
-^^^^^^^^^^^^^^
-
-::
-
-    $ fedmsg-tail --really-pretty
+For how to start a local broker for `fedora messaging`. See
+`Fedora messaging documentation <https://fedora-messaging.readthedocs.io/en/latest/quick-start.html#local-broker>`_.
 
 
 Reporting Issues
@@ -249,6 +220,5 @@ freenode network. Please do stop by and say hello.
 .. _re: https://docs.python.org/3/library/re.html
 .. _issue tracker: https://github.com/fedora-infra/anitya/issues
 .. _source code: https://github.com/fedora-infra/anitya
-.. _fedmsg: http://web.archive.org/web/20170625121632/http://www.fedmsg.com/en/latest/
-.. _fedmsg topic documentation:
-    https://fedora-fedmsg.readthedocs.io/en/latest/topics.html#anitya
+.. _Fedora messaging: https://fedora-messaging.readthedocs.io/en/latest
+.. _Fedora messaging schema: https://pypi.org/project/anitya-schema/

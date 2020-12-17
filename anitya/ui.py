@@ -45,13 +45,6 @@ def about():
     return flask.redirect(new_path)
 
 
-@ui_blueprint.route("/fedmsg")
-def fedmsg():
-    """A backwards-compatibility route for old documentation links"""
-    new_path = flask.url_for("anitya_ui.static", filename="docs/user-guide.html")
-    return flask.redirect(new_path)
-
-
 @ui_blueprint.route("/login/", methods=("GET", "POST"))
 @ui_blueprint.route("/login", methods=("GET", "POST"))
 def login():
@@ -322,8 +315,7 @@ def add_distro():
 
         distro = models.Distro(name)
 
-        utilities.log(
-            Session,
+        utilities.publish_message(
             distro=distro.__json__(),
             topic="distro.add",
             message=dict(agent=flask.g.user.username, distro=distro.name),

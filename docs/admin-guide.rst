@@ -37,7 +37,7 @@ Services
 ========
 
 Anitya is made up of a WSGI application, an update script that should be run at
-regular intervals via cron or similar, an optional fedmsg consumer, and requires
+regular intervals via cron or similar, an optional SSE client consumer, and requires
 a database.
 
 
@@ -56,15 +56,14 @@ The script that checks for project updates is located at
 ``files/anitya_cron.py`` in the git repository and Python package.
 
 
-Libraries.io fedmsg Consumer
-----------------------------
+Libraries.io SSE client
+-----------------------
 
-This optional service listens to a ZeroMQ socket for messages published by the
-`libraries.io`_ service. This requires that a bridge from Server-Sent Events
-(SSE) to ZeroMQ be running.
+This optional service listens to SSE feed for messages published by the
+`libraries.io`_ service.
 
-To run this, set the ``anitya.libraryio.enabled`` key to ``True`` in your fedmsg
-configuration and run the ``fedmsg-hub`` service.
+To run this, set the ``anitya.libraryio.enabled`` key to ``True`` in your
+configuration and run the ``librariesio_consumer`` service.
 
 
 Database

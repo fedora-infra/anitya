@@ -22,11 +22,10 @@
 import logging
 
 import arrow
-from fedora_messaging import api, message, exceptions as fm_exceptions
+from fedora_messaging import api, message as fm_message, exceptions as fm_exceptions
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm.exc import NoResultFound
 
-from anitya import config
 from anitya.db import models
 
 from . import exceptions, plugins
@@ -34,39 +33,28 @@ from . import exceptions, plugins
 _log = logging.getLogger(__name__)
 
 
-def fedmsg_publish(*args, **kwargs):  # pragma: no cover
-    """ Try to publish a message on the fedmsg bus. """
-    if config.config["LEGACY_MESSAGING"]:
-        # We catch Exception if we want :-p
-        # pylint: disable=W0703
-        # Ignore message about fedmsg import
-        # pylint: disable=F0401
-        kwargs["modname"] = "anitya"
-        kwargs["cert_prefix"] = "anitya"
-        kwargs["name"] = "relay_inbound"
-        kwargs["active"] = True
-        try:
-            import fedmsg
+def publish_message(topic, project=None, distro=None, message=None):  # pragma: no cover
+    """Try to publish a message.
 
-            fedmsg.publish(*args, **kwargs)
-        except Exception as err:
-            _log.error(str(err))
-    else:
-        try:
-            message_class = message.get_class("anitya." + kwargs["topic"])
-            api.publish(
-                message_class(
-                    topic="anitya.{}".format(kwargs["topic"]), body=kwargs["msg"]
-                )
-            )
-        except (
-            fm_exceptions.ConnectionException,
-            fm_exceptions.PublishException,
-        ) as err:
-            # For now, continue just logging the error. Once the messaging has
-            # been untangled into SQLAlchemy events, it should probably result
-            # in an exception and the client should try again later.
-            _log.error(str(err))
+    Args:
+        topic (str): Topic of the message
+        project (dict): Dictionary representing project
+        distro (str): Name of the distribution
+        message (dict): Additional data needed for the topic
+    """
+
+    msg = dict(project=project, distro=distro, message=message)
+    try:
+        message_class = fm_message.get_class("anitya." + topic)
+        api.publish(message_class(topic="anitya.{}".format(topic), body=msg))
+    except (
+        fm_exceptions.ConnectionException,
+        fm_exceptions.PublishException,
+    ) as err:
+        # For now, continue just logging the error. Once the messaging has
+        # been untangled into SQLAlchemy events, it should probably result
+        # in an exception and the client should try again later.
+        _log.error(str(err))
 
 
 def check_project_release(project, session, test=False):
@@ -167,8 +155,7 @@ def check_project_release(project, session, test=False):
 
     if not test:
         if publish:
-            log(
-                session,
+            publish_message(
                 project=project.__json__(),
                 topic="project.version.update",
                 message=dict(
@@ -186,8 +173,7 @@ def check_project_release(project, session, test=False):
                 ),
             )
 
-            log(
-                session,
+            publish_message(
                 project=project.__json__(),
                 topic="project.version.update.v2",
                 message=dict(
@@ -205,71 +191,6 @@ def check_project_release(project, session, test=False):
             )
         session.add(project)
         session.commit()
-
-
-def _construct_substitutions(msg):
-    """ Convert a fedmsg message into a dict of substitutions. """
-    subs = {}
-    for key1 in msg:
-        if isinstance(msg[key1], dict):
-            subs.update(
-                dict(
-                    [
-                        (".".join([key1, key2]), val2)
-                        for key2, val2 in _construct_substitutions(msg[key1]).items()
-                    ]
-                )
-            )
-
-        subs[key1] = msg[key1]
-
-    return subs
-
-
-def log(session, project=None, distro=None, topic=None, message=None):
-    """Take a partial fedmsg topic and message.
-
-    Publish the message.
-    """
-    # A big lookup of fedmsg topics to log template strings.
-    templates = {
-        "distro.add": "%(agent)s added the distro named: %(distro)s",
-        "distro.edit": "%(agent)s edited distro name from: %(old)s to: " "%(new)s",
-        "distro.remove": "%(agent)s deleted the distro named: %(distro)s",
-        "project.add": "%(agent)s added project: %(project)s",
-        "project.add.tried": "%(agent)s tried to add an already existing "
-        "project: %(project)s",
-        "project.edit": "%(agent)s edited the project: %(project)s fields: "
-        "%(changes)s",
-        "project.flag": "%(agent)s flagged the project: %(project)s with "
-        "reason: %(reason)s",
-        "project.flag.set": "%(agent)s set flag %(flag)s to %(state)s",
-        "project.remove": "%(agent)s removed the project: %(project)s",
-        "project.map.new": "%(agent)s mapped the name of %(project)s in "
-        "%(distro)s as %(new)s",
-        "project.map.update": "%(agent)s updated the name of %(project)s in "
-        "%(distro)s from: %(prev)s to: %(new)s",
-        "project.map.remove": "%(agent)s removed the mapping of %(project)s "
-        "in %(distro)s",
-        "project.version.remove": "%(agent)s removed the version %(version)s "
-        "of %(project)s",
-        "project.version.update": "new version: %(upstream_version)s found"
-        " for project %(project.name)s "
-        "in ecosystem %(ecosystem)s "
-        "(project id: %(project.id)s).",
-        "project.version.update.v2": "new versions: %(upstream_versions)s found"
-        " for project %(project.name)s "
-        "in ecosystem %(ecosystem)s "
-        "(project id: %(project.id)s).",
-    }
-    substitutions = _construct_substitutions(message)
-    final_msg = templates[topic] % substitutions
-
-    fedmsg_publish(
-        topic=topic, msg=dict(project=project, distro=distro, message=message)
-    )
-
-    return final_msg
 
 
 def create_project(
@@ -318,8 +239,7 @@ def create_project(
         raise exceptions.AnityaException("Could not add this project, already exists?")
 
     if not dry_run:
-        log(
-            session,
+        publish_message(
             project=project.__json__(),
             topic="project.add",
             message=dict(agent=user_id, project=project.name),
@@ -417,8 +337,7 @@ def edit_project(
     try:
         if not dry_run:
             if changes:
-                log(
-                    session,
+                publish_message(
                     project=project.__json__(),
                     topic="project.edit",
                     message=dict(
@@ -486,8 +405,7 @@ def map_project(
                 "errors",
             )
 
-        log(
-            session,
+        publish_message(
             distro=distro_obj.__json__(),
             topic="distro.add",
             message=dict(agent=user_id, distro=distro_obj.name),
@@ -567,8 +485,7 @@ def map_project(
         message["prev"] = old_package_name or package_name
         message["edited"] = edited
 
-    log(
-        session,
+    publish_message(
         project=project.__json__(),
         distro=distro_obj.__json__(),
         topic=topic,
@@ -592,8 +509,7 @@ def flag_project(session, project, reason, user_email, user_id):
         session.rollback()
         raise exceptions.AnityaException("Could not flag this project.")
 
-    log(
-        session,
+    publish_message(
         project=project.__json__(),
         topic="project.flag",
         message=dict(
@@ -610,7 +526,7 @@ def flag_project(session, project, reason, user_email, user_id):
 def set_flag_state(session, flag, state, user_id):
     """Change the state of a ProjectFlag in the database."""
 
-    # Don't toggle the state or send a new fedmsg if the flag's
+    # Don't toggle the state or send a new message if the flag's
     # state wouldn't actually be changed.
     if flag.state == state:
         raise exceptions.AnityaException("Flag state unchanged.")
@@ -625,8 +541,7 @@ def set_flag_state(session, flag, state, user_id):
         session.rollback()
         raise exceptions.AnityaException("Could not set the state of this flag.")
 
-    log(
-        session,
+    publish_message(
         topic="project.flag.set",
         message=dict(agent=user_id, flag=flag.id, state=state),
     )

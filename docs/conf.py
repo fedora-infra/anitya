@@ -380,6 +380,6 @@ texinfo_documents = [
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
-    "fedmsg": ("https://fedmsg.readthedocs.io/en/stable/", None),
+    "fedora messaging": ("https://fedora-messaging.readthedocs.io/en/latest", None),
     "sqlalchemy": ("https://docs.sqlalchemy.org/en/latest/", None),
 }

@@ -113,8 +113,7 @@ class Checker:
                 self.error_counter += 1
             if self.is_delete_candidate(project):
                 session.delete(project)
-                utilities.log(
-                    session,
+                utilities.publish_message(
                     project=project.__json__(),
                     topic="project.remove",
                     message=dict(agent="anitya", project=project.name),
