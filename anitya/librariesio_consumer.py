@@ -93,7 +93,7 @@ class LibrariesioConsumer(object):
         project, so this is a good opportunity to catch those problems.
 
         Args:
-            message (dict): The fedmsg to process.
+            message (dict): The message to process.
         """
         # The SSE spec requires all data to be UTF-8 encoded
         try:
@@ -152,7 +152,7 @@ class LibrariesioConsumer(object):
                     version, project.name
                 )
             )
-            # This will fetch the version, emit fedmsgs, add log entries, and
+            # This will fetch the version, emit anitya message, add log entries, and
             # commit the transaction.
             try:
                 utilities.check_project_release(project, session)

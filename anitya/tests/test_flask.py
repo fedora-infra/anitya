@@ -460,13 +460,12 @@ class FlaskTest(DatabaseTestCase):
         output = self.app.get("/")
         self.assertEqual(output.status_code, 200)
 
+        print(output.data)
+
         expected = b"""
       <h2><span class="glyphicon glyphicon-bullhorn"></span> Announce</h2>
       <p>We monitor upstream releases and broadcast them on
-      <a href="https://fedmsg.readthedocs.io/en/stable/">fedmsg</a>, the FEDerated MeSsaGe bus. </p>
-      <p>Use <a href="https://apps.fedoraproject.org/notifications">fedmsg
-      notifications (FMN)</a>, to set up your own, <em>personalized</em>,
-      alerts.</p>"""
+      <a href="https://fedora-messaging.readthedocs.io/en/latest">Fedora messaging</a> bus. </p>"""
 
         self.assertTrue(expected in output.data)
 
@@ -495,14 +494,6 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual(output.status_code, 302)
         self.assertEqual(
             output.headers["Location"], "http://localhost/static/docs/index.html"
-        )
-
-    def test_fedmsg(self):
-        """Assert the legacy fedmsg endpoint redirects to documentation"""
-        output = self.app.get("/fedmsg")
-        self.assertEqual(output.status_code, 302)
-        self.assertEqual(
-            output.headers["Location"], "http://localhost/static/docs/user-guide.html"
         )
 
     def test_project(self):
@@ -1327,8 +1318,7 @@ class AddDistroTests(DatabaseTestCase):
             self.assertEqual(200, output.status_code)
             self.assertEqual(0, models.Distro.query.count())
 
-    @mock.patch("anitya.lib.utilities.fedmsg_publish")
-    def test_add_distro(self, mock_method):
+    def test_add_distro(self):
         """Assert admins can add distributions."""
         with login_user(self.flask_app, self.user):
             output = self.client.get("/distro/add")
@@ -1337,13 +1327,15 @@ class AddDistroTests(DatabaseTestCase):
             ].split(b'">')[0]
             data = {"name": "Fedora", "csrf_token": csrf_token}
 
-            output = self.client.post("/distro/add", data=data, follow_redirects=True)
+            with fml_testing.mock_sends(anitya_schema.DistroCreated):
+                output = self.client.post(
+                    "/distro/add", data=data, follow_redirects=True
+                )
 
             self.assertEqual(200, output.status_code)
             self.assertTrue(b"Distribution added" in output.data)
 
-    @mock.patch("anitya.lib.utilities.fedmsg_publish")
-    def test_duplicate_distro(self, mock_method):
+    def test_duplicate_distro(self):
         """Assert trying to create a duplicate distribution results in HTTP 409."""
         with login_user(self.flask_app, self.user):
             output = self.client.get("/distro/add")
@@ -1352,15 +1344,17 @@ class AddDistroTests(DatabaseTestCase):
             ].split(b'">')[0]
             data = {"name": "Fedora", "csrf_token": csrf_token}
 
-            create_output = self.client.post(
-                "/distro/add", data=data, follow_redirects=True
-            )
-            self.assertEqual(200, output.status_code)
+            with fml_testing.mock_sends(anitya_schema.DistroCreated):
+                create_output = self.client.post(
+                    "/distro/add", data=data, follow_redirects=True
+                )
+                self.assertEqual(200, output.status_code)
+
             dup_output = self.client.post(
                 "/distro/add", data=data, follow_redirects=True
             )
-
             self.assertEqual(200, output.status_code)
+
             self.assertTrue(b"Distribution added" in create_output.data)
             self.assertTrue(b"Could not add this distro" in dup_output.data)
 

@@ -1,7 +1,6 @@
 include LICENSE README.rst
 include runtests.sh createdb.py alembic.ini
 include requirements.txt readthedocs.txt test_requirements.txt
-recursive-include fedmsg.d *
 recursive-include files *
 recursive-include anitya/templates *
 recursive-include anitya/static *

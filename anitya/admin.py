@@ -43,8 +43,7 @@ def edit_distro(distro_name):
         name = form.name.data
 
         if name != distro.name:
-            utilities.log(
-                Session,
+            utilities.publish_message(
                 distro=distro.__json__(),
                 topic="distro.edit",
                 message=dict(agent=flask.g.user.username, old=distro.name, new=name),
@@ -82,8 +81,7 @@ def delete_distro(distro_name):
     form = anitya.forms.ConfirmationForm()
 
     if form.validate_on_submit():
-        utilities.log(
-            Session,
+        utilities.publish_message(
             distro=distro.__json__(),
             topic="distro.remove",
             message=dict(agent=flask.g.user.username, distro=distro.name),
@@ -117,8 +115,7 @@ def delete_project(project_id):
 
     if form.validate_on_submit():
         if confirm:
-            utilities.log(
-                Session,
+            utilities.publish_message(
                 project=project.__json__(),
                 topic="project.remove",
                 message=dict(agent=flask.g.user.username, project=project.name),
@@ -231,8 +228,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
 
     if form.validate_on_submit():
         if confirm:
-            utilities.log(
-                Session,
+            utilities.publish_message(
                 project=project.__json__(),
                 topic="project.map.remove",
                 message=dict(
@@ -284,8 +280,7 @@ def delete_project_version(project_id, version):
 
     if form.validate_on_submit():
         if confirm:
-            utilities.log(
-                Session,
+            utilities.publish_message(
                 project=project.__json__(),
                 topic="project.version.remove",
                 message=dict(
@@ -340,8 +335,7 @@ def delete_project_versions(project_id):
                 # Delete the record of the version for this project
                 Session.delete(version)
 
-                utilities.log(
-                    Session,
+                utilities.publish_message(
                     project=project.__json__(),
                     topic="project.version.remove",
                     message=dict(

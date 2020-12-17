@@ -268,8 +268,7 @@ class PackagesResource(Resource):
                 distro=distro.name,
                 new=package.package_name,
             )
-            utilities.log(
-                Session,
+            utilities.publish_message(
                 project=project.__json__(),
                 distro=distro.__json__(),
                 topic="project.map.new",

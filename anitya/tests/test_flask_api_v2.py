@@ -512,7 +512,7 @@ class PackagesResourcePostTests(DatabaseTestCase):
         self.assertIn("project_name", error_details)
         self.assertIn("project_ecosystem", error_details)
 
-    @mock.patch("anitya.lib.utilities.fedmsg_publish")
+    @mock.patch("anitya.lib.utilities.publish_message")
     def test_valid_request(self, mock_publish):
         """Assert packages can be created."""
         request_data = {
@@ -533,17 +533,17 @@ class PackagesResourcePostTests(DatabaseTestCase):
             name="requests", ecosystem_name="pypi"
         ).one()
 
-        msg = {
-            "project": dict(project.__json__()),
-            "distro": {"name": "Fedora"},
-            "message": {
-                "agent": "user@fedoraproject.org",
-                "project": "requests",
-                "distro": "Fedora",
-                "new": "python-requests",
-            },
+        project = dict(project.__json__())
+        distro = {"name": "Fedora"}
+        message = {
+            "agent": "user@fedoraproject.org",
+            "project": "requests",
+            "distro": "Fedora",
+            "new": "python-requests",
         }
-        mock_publish.assert_called_with(topic="project.map.new", msg=msg)
+        mock_publish.assert_called_with(
+            topic="project.map.new", project=project, distro=distro, message=message
+        )
 
     def test_same_package_two_distros(self):
         """Assert packages can be created."""
