@@ -779,7 +779,7 @@ class FlaskTest(DatabaseTestCase):
         for project in self.session.query(models.Project).filter(
             models.Project.id == 1
         ):
-            project.logs = "Version retrieved correctly"
+            project.check_successful = True
         self.session.commit()
 
         output = self.app.get("/projects/updates/")
@@ -795,7 +795,7 @@ class FlaskTest(DatabaseTestCase):
         for project in self.session.query(models.Project).filter(
             models.Project.id == 1
         ):
-            project.logs = "Version retrieved correctly"
+            project.check_successful = True
         self.session.commit()
 
         output = self.app.get("/projects/updates/?page=ab")
@@ -811,14 +811,14 @@ class FlaskTest(DatabaseTestCase):
         for project in self.session.query(models.Project).filter(
             models.Project.id == 1
         ):
-            project.logs = "Version retrieved correctly"
+            project.check_successful = True
         self.session.commit()
 
         output = self.app.get("/projects/updates/status")
         expected = (
             b'<li class="list-group-item list-group-item-warning">'
             b"status is invalid, you should use one of: "
-            b"new, updated, failed, never_updated, odd; using default: "
+            b"updated, failed, never_updated, archived; using default: "
             b'`updated`</li><li class="list-group-item list-group-item-default">'
             b"Returning all the projects regardless of how/if their version was "
             b"retrieved correctly</li>"

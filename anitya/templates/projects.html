@@ -66,6 +66,11 @@
     <span class="list-group-item">
       <h4 class="list-group-item-heading">
         <table class="table table-condensed">
+            <tr>
+              <th>Name</th>
+              <th>Homepage</th>
+              <th>Backend</th>
+            </tr>
         {% for project in projects %}
             <tr>
               <td>
@@ -78,6 +83,7 @@
                   {{ project.homepage }}
                 </a>
               </td>
+              <td>{{ project.backend }}</td>
             </tr>
           {% endfor %}
           </table>
@@ -93,4 +99,33 @@
   </div>
 </div>
 
+<div class="row show-grid">
+  <div class="col-sm-6">
+    {% if total_page > 1 %}
+    <ul class="pagination pagination-sm">
+        <li>
+            {% if page > 1%}
+              <a href="{{ page_url }}?page={{page - 1}}">
+                «
+              </a>
+            {% else %}
+              <a> « </a>
+            {% endif %}
+        </li>
+        <li>
+            <a> {{ page }} / {{ total_page }} </a>
+        </li>
+        <li>
+            {% if page < total_page %}
+              <a href="{{ page_url }}?page={{page + 1}}">
+                »
+              </a>
+            {% else %}
+              <a> » </a>
+            {% endif %}
+        </li>
+    </ul>
+    {% endif %}
+  </div>
+</div>
 {% endblock %}

@@ -66,16 +66,6 @@
                     <a href="{{url_for('anitya_ui.projects_updated')}}">Updated</a>
                   </li>
                   <li>
-                    <a href="{{url_for('anitya_ui.projects_updated', status='odd')}}">
-                      Odd version found
-                    </a>
-                  </li>
-                  <li>
-                    <a href="{{url_for('anitya_ui.projects_updated', status='new')}}">
-                      Not updated
-                    </a>
-                  </li>
-                  <li>
                     <a href="{{url_for('anitya_ui.projects_updated', status='failed')}}">
                       Failed to update
                     </a>
@@ -84,6 +74,11 @@
                     <a href="{{url_for('anitya_ui.projects_updated', status='never_updated')}}">
                       Never updated
                     </a>
+                  </li>
+                  <li>
+                      <a href="{{url_for('anitya_ui.projects_updated', status='archived')}}">
+                          Archived
+                      </a>
                   </li>
                 </ul>
             </li>
@@ -205,7 +200,7 @@
         --
         <a href="https://github.com/fedora-infra/anitya/issues">issue tracker</a>
         .
-        ©2013-2019 Red Hat, Inc., <a href="http://pingoured.fr">pingou</a>.
+        ©2013-2021 Red Hat, Inc., <a href="http://pingoured.fr">pingou</a>.
         {% if cron_status %}
         Last check ended at (UTC) {{
             cron_status.created_on.strftime('%Y-%m-%d %H:%M:%S') }}
