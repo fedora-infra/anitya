@@ -572,33 +572,28 @@ class Project(Base):
 
         """
 
-        query = session.query(Project).order_by(sa.func.lower(Project.name))
+        query = session.query(Project)
 
         if status == "updated":
             query = query.filter(
-                Project.logs.isnot(None), Project.logs == "Version retrieved correctly"
-            )
+                Project.check_successful.isnot(None), Project.check_successful.is_(True)
+            ).order_by(Project.last_check.desc())
         elif status == "failed":
             query = query.filter(
                 Project.check_successful.isnot(None),
                 Project.check_successful.is_(False),
                 Project.error_counter > 0,
             ).order_by(Project.error_counter.desc())
-        elif status == "odd":
-            query = query.filter(
-                Project.logs.isnot(None),
-                Project.logs != "Version retrieved correctly",
-                Project.logs.ilike("Something strange occured%"),
-            )
 
-        elif status == "new":
-            query = query.filter(Project.logs.is_(None))
         elif status == "never_updated":
-            query = query.filter(
-                Project.logs.isnot(None),
-                Project.logs != "Version retrieved correctly",
-                Project.latest_version.is_(None),
+            query = query.filter(Project.latest_version.is_(None)).order_by(
+                Project.created_on
             )
+        elif status == "archived":
+            query = query.filter(
+                Project.archived.isnot(None), Project.archived.is_(True)
+            )
+        query.order_by(sa.func.lower(Project.name))
 
         if name:
             if "*" in name:

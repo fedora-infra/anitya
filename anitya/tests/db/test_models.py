@@ -492,17 +492,6 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual(project.homepage, "https://www.geany.org/")
         self.assertEqual(pre_projects, post_projects)
 
-    def test_project_updated_new(self):
-        """
-        Assert that only new projects are returned when status is
-        set to 'new'.
-        """
-        create_project(self.session)
-
-        projects = models.Project.updated(self.session, status="new")
-        self.assertEqual(len(projects), 3)
-        self.assertEqual(projects[0].logs, None)
-
     def test_project_updated_newer_updated(self):
         """
         Assert that only not updated projects are returned when status is
@@ -510,13 +499,11 @@ class ProjectTests(DatabaseTestCase):
         """
         create_project(self.session)
         for project in self.session.query(models.Project).all():
-            project.logs = "something"
             project.latest_version = None
         self.session.commit()
 
         projects = models.Project.updated(self.session, status="never_updated")
         self.assertEqual(len(projects), 3)
-        self.assertEqual(projects[0].logs, "something")
 
     def test_project_updated_failed(self):
         """
@@ -536,21 +523,21 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual(projects[0].error_counter, 2)
         self.assertEqual(projects[1].error_counter, 1)
 
-    def test_project_updated_odd(self):
+    def test_project_updated_archived(self):
         """
         Assert that only odd updated projects are returned when status is
-        set to 'odd'.
+        set to 'archived'.
         """
         create_project(self.session)
         for project in self.session.query(models.Project).filter(
             models.Project.id == 1
         ):
-            project.logs = "Something strange occured"
+            project.archived = True
         self.session.commit()
 
-        projects = models.Project.updated(self.session, status="odd")
+        projects = models.Project.updated(self.session, status="archived")
         self.assertEqual(len(projects), 1)
-        self.assertEqual(projects[0].logs, "Something strange occured")
+        self.assertTrue(projects[0].archived)
 
     def test_project_updated_updated(self):
         """
@@ -561,12 +548,12 @@ class ProjectTests(DatabaseTestCase):
         for project in self.session.query(models.Project).filter(
             models.Project.id == 1
         ):
-            project.logs = "Version retrieved correctly"
+            project.check_successful = True
         self.session.commit()
 
         projects = models.Project.updated(self.session, status="updated")
         self.assertEqual(len(projects), 1)
-        self.assertEqual(projects[0].logs, "Version retrieved correctly")
+        self.assertTrue(projects[0].check_successful)
 
     def test_project_updated_incorrect_status(self):
         """
@@ -584,7 +571,7 @@ class ProjectTests(DatabaseTestCase):
         for project in self.session.query(models.Project).filter(
             models.Project.id == 1
         ):
-            project.logs = "Version retrieved correctly"
+            project.check_successful = True
         self.session.commit()
 
         projects = models.Project.updated(self.session, name="gean*")
@@ -599,7 +586,7 @@ class ProjectTests(DatabaseTestCase):
         for project in self.session.query(models.Project).filter(
             models.Project.id == 1
         ):
-            project.logs = "Version retrieved correctly"
+            project.check_successful = True
         self.session.commit()
 
         projects = models.Project.updated(self.session, name="geany")
@@ -614,6 +601,7 @@ class ProjectTests(DatabaseTestCase):
         for project in self.session.query(models.Project).filter(
             models.Project.id == 1
         ):
+            project.check_successful = True
             project.logs = "Version retrieved correctly"
         self.session.commit()
 
@@ -629,6 +617,7 @@ class ProjectTests(DatabaseTestCase):
         for project in self.session.query(models.Project).filter(
             models.Project.id == 1
         ):
+            project.check_successful = True
             project.logs = "Version retrieved correctly"
         self.session.commit()
 
@@ -644,6 +633,7 @@ class ProjectTests(DatabaseTestCase):
         for project in self.session.query(models.Project).filter(
             models.Project.id == 1
         ):
+            project.check_successful = True
             project.logs = "Version retrieved correctly"
         self.session.commit()
         projects = models.Project.updated(self.session, count=True)
