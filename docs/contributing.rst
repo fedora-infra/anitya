@@ -9,15 +9,16 @@ Anitya welcomes contributions! Our issue tracker is located on
 Contribution Guidelines
 =======================
 
-When you make a pull request, someone from the release-monitoring organization
+When you make a pull request, someone from the fedora-infra organization
 will review your code. Please make sure you follow the guidelines below:
 
 Python Support
 --------------
 
-Anitya supports Python 2.7 and Python 3.4 or greater so please ensure the code
+Anitya supports Python 3.6 or greater so please ensure the code
 you submit works with these versions. The test suite will run against all supported
 Python versions to make this easier.
+
 
 Code Style
 ----------
@@ -27,18 +28,27 @@ The test suite includes a test that enforces the required style, so all you need
 run the tests to ensure your code follows the style. If the unit test passes, you are
 good to go!
 
+To automatically format the code run the following in project root. The ``.tox`` folder
+will be created when ``tox`` will be run.
+
+.. code-block:: bash
+
+   .tox/format/bin/black .
+
+
 Unit Tests
 ----------
 
 The test suites can be run using `tox <http://tox.readthedocs.io/>`_ by simply running
 ``tox`` from the repository root. These tests include unit tests, a linter to ensure
-Python code style is correct, and checks the documentation for Sphinx warnings or
-errors.
+Python code style is correct, checks for possible security issues, and checks the
+documentation for Sphinx warnings or errors.
 
 All tests must pass. All new code should have 100% test coverage.
 Any bugfix should be accompanied by one or more unit tests to demonstrate the fix.
 If you are unsure how to write unit tests for your code, we will be happy to help
 you during the code review process.
+
 
 Documentation
 -------------
@@ -53,6 +63,7 @@ Python API documentation is automatically generated from the code using Sphinx's
 `autodoc <http://www.sphinx-doc.org/en/stable/tutorial.html#autodoc>`_ extension.
 HTTP REST API documentation is automatically generated from the code using the
 `httpdomain <https://pythonhosted.org/sphinxcontrib-httpdomain/>`_ extension.
+
 
 Release notes
 -------------
@@ -77,7 +88,8 @@ And where the ``source`` part of the filename is:
   
 For example:
 
-If this PR is solving bug 714 the file inside ``news`` should be called ``714.bug``
+If this PR is solving `bug 714 <https://github.com/fedora-infra/anitya/issues/714>`_
+the file inside ``news`` should be called ``714.bug``
 and the content of the file would be:
 
 ``Javascript error on add project page``
@@ -102,27 +114,34 @@ To get started, install Vagrant and Ansible. On Fedora::
 
     $ sudo dnf install vagrant libvirt vagrant-libvirt vagrant-sshfs ansible
 
-Next, clone the repository and configure your Vagrantfile::
+Next, clone the repository and start the Vagrant machine::
 
     $ git clone https://github.com/fedora-infra/anitya.git
     $ cd anitya
-    $ cp Vagrantfile.example Vagrantfile
     $ vagrant up
     $ vagrant reload
     $ vagrant ssh
+
+When you log in you'll be presented with a message of the day with more details
+about the environment.
+
+To start the Anitya instance in vagrant you can run::
+
+    $ systemctl --user start anitya
 
 You may then access Anitya on your host at::
 
     http://127.0.0.1:5000
 
-When you log in you'll be presented with a message of the day with more details
-about the environment.
-
 By default, Anitya imports the production database so you've got something
-to work off of. If instead you prefer an empty database, add the following
+to start with. If instead you prefer an empty database, add the following
 to the Ansible provisioner inside your `Vagrantfile`::
 
     ansible.extra_vars = { import_production_database: false }
+
+.. note::
+   Please don't commit any local changes to Vagrantfile. We are managing it
+   upstream.
 
 Vagrant is using `PostgreSQL database <https://www.postgresql.org/>`_.
 To work with it use ``psql`` command::
@@ -135,16 +154,19 @@ After this you can use standard `SQL queries
 another ``psql`` commands::
 
     # Show description of tables
-    anitya=\#\dt
+    \dt
     # Show table description
-    anitya=\#\d users
+    \d users
 
 For additional ``psql`` commands see ``man psql``.
 
-To run the cron job in Vagrant guest run these commands::
+To run libraries.io service simply run::
 
-    $ workon anitya
-    $ python files/anitya_cron.py
+   $ librariesio_consumer.py
+
+To run check service simply run::
+
+   $ check_service.py
 
 
 Python virtualenv
@@ -155,6 +177,7 @@ Anitya can also be run in a Python virtualenv. For Fedora::
     $ git clone https://github.com/fedora-infra/anitya.git
     $ cd anitya
     $ sudo dnf install python3-virtualenvwrapper
+    $ source /usr/bin/virtualenvwrapper.sh
     $ mkvirtualenv anitya
     $ workon anitya
 
@@ -163,25 +186,54 @@ operating in an active virtualenv.
 
 Next, install Anitya::
 
-    (anitya-env)$ pip install -r test_requirements.txt
-    (anitya-env)$ pip install -e .
+    (anitya)$ pip install -r test_requirements.txt
+    (anitya)$ pip install -e .
 
 Create the database, by default it will be a sqlite database located at
 ``/var/tmp/anitya-dev.sqlite``::
 
-    (anitya-env) $ python createdb.py
+    (anitya) $ python createdb.py
 
 You can start the development web server included with Flask with::
 
-    (anitya-env)$ FLASK_APP=anitya.wsgi flask run
+    (anitya)$ FLASK_APP=anitya.wsgi flask run
 
 If you want to change the application's configuration, create a valid configuration
 file and start the application with the ``ANITYA_WEB_CONFIG`` environment variable
-set to the configuration file's path.
+set to the configuration file's path. You can look at the
+`sample configuration <https://github.com/fedora-infra/anitya/blob/master/files/anitya.toml.sample>`_
+for guidance.
 
 
 Release Guide
 =============
+
+Testing before release
+----------------------
+
+To test the new version before release just update the ``staging`` branch
+to current ``master``::
+
+    git checkout staging
+    git rebase master
+    git push origin/staging
+
+This will automatically start the deployment in
+`staging instance <https://stg.release-monitoring.org/>`_. You can then test the new
+changes there.
+
+If you need to do any changes in configuration of ``staging`` instance,
+just update the
+`release-monitoring role <https://pagure.io/fedora-infra/ansible/blob/main/f/roles/openshift-apps/release-monitoring>`_
+in Fedora infra ansible repository.
+
+If the changes are merged, you can run the playbook by following
+`configuration guide <https://fedora-infra-docs.readthedocs.io/en/latest/sysadmin-guide/sops/anitya.html#configuration>`_
+for Anitya in Fedora infra documentation.
+
+.. note::
+   Have in mind that everything needs to be only done for staging. In configuration use jinja statements
+   and when deploying don't forget to use ``-l staging`` switch.
 
 Anitya
 ------
@@ -223,9 +275,11 @@ If you are a maintainer and wish to make a release, follow these steps:
 
 9. Don't forget to ``git push --tags``.
 
-10. Build the Python packages with ``python setup.py sdist bdist_wheel``.
+10. Sometimes you need to also do ``git push``.
 
-11. Upload the packages with ``twine upload dist/<dists>``.
+11. Build the Python packages with ``python setup.py sdist bdist_wheel``.
+
+12. Upload the packages with ``twine upload dist/<dists>``.
 
 
 Fedora messaging schema
@@ -244,9 +298,11 @@ If you are a maintainer and wish to make a release of Anitya fedora messaging sc
 
 3. Commit your changes with message *Anitya schema <version>*.
 
-4. Build the Python packages with ``python setup.py sdist bdist_wheel``.
+4. Don't forget to ``git push``.
+   
+5. Build the Python packages with ``python setup.py sdist bdist_wheel``.
 
-5. Upload the packages with ``twine upload dist/<dists>``.
+6. Upload the packages with ``twine upload dist/<dists>``.
 
 .. _Ansible: https://www.ansible.com/
 .. _Vagrant: https://vagrantup.com/

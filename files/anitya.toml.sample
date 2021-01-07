@@ -13,6 +13,7 @@ db_url = "sqlite:////var/tmp/anitya-dev.sqlite"
 # for the user in the "users" table of the database. They need to log in before
 # this record is created. An example value would be
 # "65536ed7-bdd3-4a1e-8252-10d874fd706b"
+# You can also find this infromation in the settings page when logged in to Anitya
 anitya_web_admins = []
 
 # The email to use in the 'From' header when sending emails.
@@ -38,7 +39,7 @@ social_auth_authentication_backends = [
     "social_core.backends.gitlab.GitLabOAuth2",
     "social_core.backends.github.GithubOAuth2",
     "social_core.backends.google.GoogleOAuth2",
-    "social_core.backends.yahoo.YahooOpenId",
+    "social_core.backends.yahoo.YahooOAuth2",
     "social_core.backends.open_id.OpenIdAuth"
 ]
 
