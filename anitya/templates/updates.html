@@ -10,8 +10,8 @@
       <small>that updated successfully at the last run</small>
       {% elif status == 'failed' %}
       <small>that failed to update at the last run</small>
-      {% elif status == 'new' %}
-      <small>that have not been updated at all so far</small>
+      {% elif status == 'archived' %}
+      <small>that are archived</small>
       {% elif status == 'never_updated' %}
       <small>that have never updated</small>
       {% endif %}
@@ -116,8 +116,7 @@
     </span>
   {% else %}
   <blockquote>
-      Oups this is embarrassing, it seems that no projects are being
-      monitored currently.
+      No project found in this category.
   </blockquote>
   {% endif %}
   </div>
