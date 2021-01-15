@@ -44,9 +44,10 @@ fedora messaging please refer to
 Services
 ========
 
-Anitya is made up of a WSGI application, an update service that could be run
-separately, an optional SSE client consumer, SAR script, and requires a database.
+Anitya is made up of a :ref:`wsgi-app`, an :ref:`update-service` that could be run
+separately, an optional :ref:`sse-client`, :ref:`sar-script`, and requires a :ref:`database`.
 
+.. _wsgi-app:
 
 WSGI Application
 ----------------
@@ -62,6 +63,8 @@ You can use this file with Apache server or deploy it by flask. Fedora uses Apac
 so you can look at their
 `configuration <https://pagure.io/fedora-infra/ansible/blob/main/f/roles/openshift-apps/release-monitoring/templates/httpd.conf>`_.
 
+.. _update-service:
+
 Update Service
 --------------
 
@@ -74,6 +77,7 @@ To enable it, just start this service.
    argument in python setup. See `python setup documentation`_
    for more info.
 
+.. _sse-client:
 
 Libraries.io SSE client
 -----------------------
@@ -89,6 +93,7 @@ it just start the service.
    argument in python setup. See `python setup documentation`_
    for more info.
 
+.. _sar-script:
 
 SAR Script
 ----------
@@ -103,6 +108,7 @@ relevant data.
    argument in python setup. See `python setup documentation`_
    for more info.
 
+.. _database:
 
 Database
 --------
