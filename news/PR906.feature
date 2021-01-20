@@ -1,1 +1,0 @@
-Add missing methods to fedora messaging schema (version 1.1.0)

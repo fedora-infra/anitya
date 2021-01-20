@@ -1,1 +1,0 @@
-sar.py fails with AttributeError: 'User' object has no attribute 'social_auth'

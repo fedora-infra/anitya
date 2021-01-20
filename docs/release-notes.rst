@@ -4,6 +4,128 @@ Release Notes
 
 .. towncrier release notes start
 
+1.0.0 (2021-01-20)
+==================
+
+API Changes
+-----------
+
+* Add versions resource to API v2
+  (`#491 <https://github.com/fedora-infra/anitya/issues/491>`_)
+
+* API v1 api/version/get is now returning only versions field instead of whole project when no version is retrieved
+  (`#898 <https://github.com/fedora-infra/anitya/issues/898>`_)
+
+
+Features
+--------
+
+* Add missing methods to fedora messaging schema (version 1.1.0)
+  (`PR#906 <https://github.com/fedora-infra/anitya/pull/906>`_)
+
+* Add preview mode
+  (`#491 <https://github.com/fedora-infra/anitya/issues/491>`_)
+
+* Allow removing all versions at once (admin only)
+  (`#623 <https://github.com/fedora-infra/anitya/issues/623>`_)
+
+* Implement fedmsg meta methods in fedora messaging schema
+  (`#752 <https://github.com/fedora-infra/anitya/issues/752>`_)
+
+* Flag pre-release versions
+  (`#753 <https://github.com/fedora-infra/anitya/issues/753>`_)
+
+* Anitya should report every found version, not only latest
+  (`#774 <https://github.com/fedora-infra/anitya/issues/774>`_)
+
+* Add option to archive and unarchive project (admin only)
+  (`#865 <https://github.com/fedora-infra/anitya/issues/865>`_)
+
+* Add version filter to project
+  (`#898 <https://github.com/fedora-infra/anitya/issues/898>`_)
+
+
+Bug Fixes
+---------
+
+* Yahoo OpenId no longer exists in social_auth library
+  (`PR#1005 <https://github.com/fedora-infra/anitya/pull/1005>`_)
+
+* GitHub backend: Failure with error "No upstream version found" when the project has no new version
+  (`#892 <https://github.com/fedora-infra/anitya/issues/892>`_)
+
+* sar.py fails with AttributeError: 'User' object has no attribute 'social_auth'
+  (`#954 <https://github.com/fedora-infra/anitya/issues/954>`_)
+
+
+Development Changes
+-------------------
+
+* Enhance check_service log output
+  (`PR#886 <https://github.com/fedora-infra/anitya/pull/886>`_)
+
+* Move Anitya from release-monitoring organization to fedora-infra
+  (`PR#887 <https://github.com/fedora-infra/anitya/pull/887>`_)
+
+* Fix documentation build
+  (`PR#902 <https://github.com/fedora-infra/anitya/pull/902>`_)
+
+* Freeze version of dependencies
+  (`PR#903 <https://github.com/fedora-infra/anitya/pull/903>`_)
+
+* Fix service name in vagrant provisioning script
+  (`PR#940 <https://github.com/fedora-infra/anitya/pull/940>`_)
+
+* Add Flask to ReadTheDocs build requirements
+  (`PR#946 <https://github.com/fedora-infra/anitya/pull/946>`_)
+
+* Add pyasn1 to RTD build requirements
+  (`PR#947 <https://github.com/fedora-infra/anitya/pull/947>`_)
+
+* Add support for Python 3.8
+  (`PR#979 <https://github.com/fedora-infra/anitya/pull/979>`_)
+
+* Make vagrant environment more like production
+  (`#924 <https://github.com/fedora-infra/anitya/issues/924>`_)
+
+
+Other Changes
+-------------
+
+* Add guidelines for admins on release-monitoring.org
+  (`PR#964 <https://github.com/fedora-infra/anitya/pull/964>`_)
+
+* Add social auth info to SAR script
+  (`PR#970 <https://github.com/fedora-infra/anitya/pull/970>`_)
+
+* Completely remove fedmsg.
+  (`#737 <https://github.com/fedora-infra/anitya/issues/737>`_)
+
+* Add stable_versions field to project.version.update message
+  (`#753 <https://github.com/fedora-infra/anitya/issues/753>`_)
+
+* Fedora messaging schema 2.0.0 - new topic anitya.project.version.update.v2
+  (`#774 <https://github.com/fedora-infra/anitya/issues/774>`_)
+
+* Rewrite projects pages
+  (`#885 <https://github.com/fedora-infra/anitya/issues/885>`_)
+
+* Update documentation to reflect current state
+  (`#972 <https://github.com/fedora-infra/anitya/issues/972>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Anatoli Babenia
+* luto
+* Michal Konečný
+* Olivier Lemasle
+* Philippe Ombredanne
+
+
 0.18 (2020-01-13)
 =================
 
