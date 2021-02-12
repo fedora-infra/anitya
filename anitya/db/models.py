@@ -221,10 +221,6 @@ class Project(Base):
             Doesn't count ratelimit errors.
         latest_version (sa.String): The latest version for the project, as determined
             by the version sorting algorithm.
-        latest_version_cursor (sa.String): A backend-specific cursor to the
-            latest version for the project, as determined by the version
-            sorting algorithm. This can be used to avoid paginating over every
-            old version.
         logs (sa.Text): The result of the last update.
         check_successful (sa.Boolean): Flag that contains result of last check.
             ``None`` - not checked yet, ``True`` - checked successfully, ``False``
@@ -265,7 +261,6 @@ class Project(Base):
     version_filter = sa.Column(sa.String(200), nullable=True)
 
     latest_version = sa.Column(sa.String(50))
-    latest_version_cursor = sa.Column(sa.String(200), nullable=True)
     logs = sa.Column(sa.Text)
     check_successful = sa.Column(sa.Boolean, default=None, index=True)
 
@@ -372,11 +367,6 @@ class Project(Base):
                     pre_release_filter=self.pre_release_filter,
                     created_on=datetime.datetime.utcnow(),
                     pattern=self.version_pattern,
-                    cursor=(
-                        version["cursor"]
-                        if isinstance(version, dict) and "cursor" in version
-                        else None
-                    ),
                     commit_url=(
                         version["commit_url"]
                         if isinstance(version, dict) and "commit_url" in version
