@@ -846,7 +846,6 @@ class DeleteProjectVersionsTests(DatabaseTestCase):
     def test_admin_post(self):
         """Assert admin users can filter project versions."""
         self.project.latest_version = "1.0.0"
-        self.project.latest_version_cursor = "Dummy"
         with login_user(self.flask_app, self.admin):
             output = self.client.get("/project/1/delete/versions")
             csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
@@ -861,7 +860,6 @@ class DeleteProjectVersionsTests(DatabaseTestCase):
             self.assertEqual(200, output.status_code)
             self.assertEqual(0, len(models.ProjectVersion.query.all()))
             self.assertEqual(self.project.latest_version, None)
-            self.assertEqual(self.project.latest_version_cursor, None)
 
     def test_admin_post_unconfirmed(self):
         """Assert failing to confirm the action results in no change."""

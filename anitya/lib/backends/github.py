@@ -93,8 +93,8 @@ class GithubBackend(BaseBackend):
         return url
 
     @classmethod
-    def _retrieve_versions(cls, owner, repo, project, cursor=None):
-        query = prepare_query(owner, repo, project.releases_only, cursor=cursor)
+    def _retrieve_versions(cls, owner, repo, project):
+        query = prepare_query(owner, repo, project.releases_only)
 
         try:
             headers = REQUEST_HEADERS.copy()
@@ -125,19 +125,6 @@ class GithubBackend(BaseBackend):
                 '%s: Server responded with status "%s": "%s"'
                 % (project.name, resp.status_code, resp.reason)
             )
-
-        # Check for invalid cursor errors, we don't want to error out
-        # immediately in this case but repeat without specifying a cursor.
-        if (
-            cursor
-            and "errors" in json
-            and all(
-                elem.get("type") == "INVALID_CURSOR_ARGUMENTS"
-                or "invalid cursor" in elem.get("message", "").lower()
-                for elem in json["errors"]
-            )
-        ):
-            return None
 
         versions = parse_json(json, project)
         _log.debug(f"Retrieved versions: {versions}")
@@ -183,19 +170,9 @@ class GithubBackend(BaseBackend):
                 )
             )
 
-        # If we know about the cursor of the latest version, attempt to
-        # limit results to anything after it.
-        versions = cls._retrieve_versions(
-            owner, repo, project, cursor=project.latest_version_cursor
-        )
+        versions = cls._retrieve_versions(owner, repo, project)
 
-        if versions is None:
-            # Either a previous version cursor wasn't known, or turned out to
-            # be invalid. Unset it for the latter case.
-            project.latest_version_cursor = None
-            versions = cls._retrieve_versions(owner, repo, project)
-
-        if len(versions) == 0 and project.latest_version_cursor is None:
+        if len(versions) == 0:
             raise AnityaPluginException(
                 "%s: No upstream version found." % (project.name)
             )
@@ -264,8 +241,7 @@ def parse_json(json, project):
     versions = []
 
     for edge in json_data["edges"]:
-        version = {"cursor": edge["cursor"]}
-
+        version = {}
         if project.releases_only:
             hook = edge["node"]["tag"]
         else:
@@ -278,15 +254,13 @@ def parse_json(json, project):
     return versions
 
 
-def prepare_query(owner, repo, releases_only, cursor=None):
+def prepare_query(owner, repo, releases_only):
     """Function for preparing GraphQL query for specified repository
 
     Args:
         owner (str): Owner of the repository.
         repo (str): Repository name.
         releases_only (bool): Fetch releases instead of tags.
-        cursor (str, optional): Cursor id of the latest received commit.
-            Defaults to None, i.e. don't supply cursor values.
 
     Returns:
         str: GraphQL query.
@@ -309,8 +283,6 @@ def prepare_query(owner, repo, releases_only, cursor=None):
 
     fetch_args["orderBy"] = f"{{field: {order_by_field}, direction: ASC}}"
     fetch_args["last"] = "50"
-    if cursor:
-        fetch_args["after"] = f'"{cursor}"'
 
     fetch_fragment = (
         f"{fetch_obj} ({', '.join(f'{k}: {v}' for k, v in fetch_args.items())})"
@@ -322,7 +294,6 @@ def prepare_query(owner, repo, releases_only, cursor=None):
         {fetch_fragment} {{
             totalCount
             edges {{
-                cursor
                 node {{
                     {rel_tag_fragment}
                 }}

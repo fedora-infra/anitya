@@ -185,9 +185,7 @@ class BaseBackend(object):
         Returns:
             :obj:`list`: A list of all the possible releases found. The items
                 in the list can either be strings of versions or dictionaries
-                containing at minimum the version (in a `version` key), but
-                also additional information like an opaque `cursor` to identify
-                a specific version.
+                containing at minimum the version (in a `version` key).
 
         Raises:
             AnityaPluginException: A

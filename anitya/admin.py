@@ -346,7 +346,6 @@ def delete_project_versions(project_id):
                 )
 
             project.latest_version = None
-            project.latest_version_cursor = None
             Session.add(project)
             Session.commit()
 

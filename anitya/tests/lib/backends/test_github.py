@@ -49,7 +49,6 @@ class GithubBackendtests(DatabaseTestCase):
         """ Create some basic projects to work with. """
         self.projects = {}
         self.expected_versions = {}
-        self.version_with_cursor = {}
 
         project = models.Project(
             name="fedocal",
@@ -99,7 +98,6 @@ class GithubBackendtests(DatabaseTestCase):
             "0.15.1",
             "0.16",
         ]
-        self.version_with_cursor["valid_with_version_url"] = ("0.15.1", "Mzc")
 
         project = models.Project(
             name="foobar",
@@ -336,28 +334,6 @@ class GithubBackendtests(DatabaseTestCase):
         excstring = str(excinfo.exception)
         self.assertIn("Project foobar was incorrectly set up.", excstring)
 
-    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
-    def test_get_versions_valid_with_valid_cursor(self):
-        """Test get_versions() with a valid latest known cursor."""
-        project = self.projects["valid_with_version_url"]
-        all_versions = self.expected_versions["valid_with_version_url"]
-        lk_version, lk_cursor = self.version_with_cursor["valid_with_version_url"]
-        project.latest_version_cursor = lk_cursor
-        exp = all_versions[all_versions.index(lk_version) + 1 :]
-        obs = backend.GithubBackend.get_ordered_versions(project)
-        self.assertEqual(obs, exp)
-
-    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
-    def test_get_versions_valid_with_invalid_cursor(self):
-        """Test get_versions() with an invalid latest known cursor.
-
-        It should return all versions."""
-        project = self.projects["valid_with_version_url"]
-        project.latest_version_cursor = "invalid cursor"
-        exp = self.expected_versions["valid_with_version_url"]
-        obs = backend.GithubBackend.get_ordered_versions(project)
-        self.assertEqual(obs, exp)
-
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": None})
     def test_get_versions_no_token(self):
         """Test the get_versions function of the github backend
@@ -471,31 +447,6 @@ class JsonTests(unittest.TestCase):
             backend=BACKEND,
         )
 
-    def test_prepare_query_after(self):
-        """ Assert query creation with cursor """
-        exp = """
-{
-    repository(owner: "foo", name: "bar") {
-        refs (refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE, direction: ASC}, last: 50, after: "abc") {
-            totalCount
-            edges {
-                cursor
-                node {
-                    name target { commitUrl }
-                }
-            }
-        }
-    }
-    rateLimit {
-        limit
-        remaining
-        resetAt
-    }
-}"""  # noqa: E501
-
-        obs = backend.prepare_query("foo", "bar", False, cursor="abc")
-        self.assertMultiLineEqual(exp, obs)
-
     def test_prepare_query(self):
         """ Assert query creation """
         exp = """
@@ -504,7 +455,6 @@ class JsonTests(unittest.TestCase):
         refs (refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE, direction: ASC}, last: 50) {
             totalCount
             edges {
-                cursor
                 node {
                     name target { commitUrl }
                 }
@@ -529,7 +479,6 @@ class JsonTests(unittest.TestCase):
         releases (orderBy: {field: CREATED_AT, direction: ASC}, last: 50) {
             totalCount
             edges {
-                cursor
                 node {
                     name tag { name target { commitUrl } }
                 }
@@ -555,7 +504,6 @@ class JsonTests(unittest.TestCase):
                         "totalCount": 1,
                         "edges": [
                             {
-                                "cursor": "cUrSoR",
                                 "node": {
                                     "name": "1.0",
                                     "target": {
@@ -571,7 +519,6 @@ class JsonTests(unittest.TestCase):
         }
         exp = [
             {
-                "cursor": "cUrSoR",
                 "version": "1.0",
                 "commit_url": "https://foobar.com/foo/bar/commits/12345678",
             }

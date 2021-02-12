@@ -142,10 +142,6 @@ def check_project_release(project, session, test=False):
         max_version = max_version_obj.parse()
     if project.latest_version != max_version:
         project.latest_version = max_version
-        if versions:  # pragma: no branch
-            # project.create_version_objects() returns sorted versions, i.e.
-            # version[-1] will be the latest one
-            project.latest_version_cursor = versions[-1].cursor
         publish = True
     else:
         project.logs = "No new version found"
