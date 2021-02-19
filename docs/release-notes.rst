@@ -4,6 +4,23 @@ Release Notes
 
 .. towncrier release notes start
 
+1.1.0 (2021-02-19)
+==================
+
+API Changes
+-----------
+
+* Add stable_versions field to APIv1 and APIv2
+  (`#1014 <https://github.com/fedora-infra/anitya/issues/1014>`_)
+
+
+Features
+--------
+
+* Don't add project to check queue if they belong to blacklisted backend
+  (`#888 <https://github.com/fedora-infra/anitya/issues/888>`_)
+
+
 1.0.1 (2021-02-12)
 ==================
 
