@@ -129,6 +129,7 @@ class BaseQueryPaginateTests(DatabaseTestCase):
                     "version": None,
                     "version_url": None,
                     "versions": [],
+                    "stable_versions": [],
                 }
             ],
         }

@@ -331,6 +331,15 @@ class ProjectsResource(Resource):
                             "2.9",
                             "2.8",
                             "2.7"
+                        ],
+                        "stable_versions": [
+                            "2.12",
+                            "2.11",
+                            "2.10",
+                            "2.9.1",
+                            "2.9",
+                            "2.8",
+                            "2.7"
                         ]
                     }
                 ],
@@ -419,7 +428,8 @@ class ProjectsResource(Resource):
                 "updated_on": 1490543790.0,
                 "version": null,
                 "version_url": null,
-                "versions": []
+                "versions": [],
+                "stable_versions": []
             }
 
         :query string access_token: Your API access token.
@@ -545,6 +555,15 @@ class VersionsResource(Resource):
                     "2.9",
                     "2.8",
                     "2.7"
+                ],
+                "stable_versions": [
+                    "2.12",
+                    "2.11",
+                    "2.10",
+                    "2.9.1",
+                    "2.9",
+                    "2.8",
+                    "2.7"
                 ]
             }
 
@@ -566,6 +585,7 @@ class VersionsResource(Resource):
         response = {
             "latest_version": project.latest_version,
             "versions": project.versions,
+            "stable_versions": [v.version for v in project.stable_versions],
         }
         return response
 
@@ -608,6 +628,10 @@ class VersionsResource(Resource):
                 "found_versions": [],
                 "latest_version": "0.0.2",
                 "versions": [
+                    "0.0.2",
+                    "0.0.1"
+                ],
+                "stable_versions": [
                     "0.0.2",
                     "0.0.1"
                 ]
@@ -870,5 +894,6 @@ class VersionsResource(Resource):
                 "latest_version": project.latest_version,
                 "found_versions": versions,
                 "versions": project.versions,
+                "stable_versions": [v.version for v in project.stable_versions],
             }
             return response

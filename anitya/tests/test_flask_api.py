@@ -104,6 +104,7 @@ class AnityaWebAPItests(DatabaseTestCase):
                     "version": None,
                     "version_url": "https://www.geany.org/Download/Releases",
                     "versions": [],
+                    "stable_versions": [],
                 },
                 {
                     "id": 3,
@@ -115,6 +116,7 @@ class AnityaWebAPItests(DatabaseTestCase):
                     "version": None,
                     "version_url": None,
                     "versions": [],
+                    "stable_versions": [],
                 },
                 {
                     "id": 2,
@@ -126,6 +128,7 @@ class AnityaWebAPItests(DatabaseTestCase):
                     "version": None,
                     "version_url": "https://subsurface-divelog.org/downloads/",
                     "versions": [],
+                    "stable_versions": [],
                 },
             ],
             "total": 3,
@@ -153,6 +156,7 @@ class AnityaWebAPItests(DatabaseTestCase):
                     "version": None,
                     "version_url": "https://www.geany.org/Download/Releases",
                     "versions": [],
+                    "stable_versions": [],
                 }
             ],
             "total": 1,
@@ -180,6 +184,7 @@ class AnityaWebAPItests(DatabaseTestCase):
                     "version": None,
                     "version_url": "https://www.geany.org/Download/Releases",
                     "versions": [],
+                    "stable_versions": [],
                 }
             ],
             "total": 1,
@@ -354,6 +359,7 @@ class AnityaWebAPItests(DatabaseTestCase):
             "version": None,
             "version_url": "https://www.geany.org/Download/Releases",
             "versions": [],
+            "stable_versions": [],
             "packages": [{"distro": "Fedora", "package_name": "geany"}],
         }
 
@@ -402,6 +408,7 @@ class AnityaWebAPItests(DatabaseTestCase):
             "version": None,
             "version_url": "https://www.geany.org/Download/Releases",
             "versions": [],
+            "stable_versions": [],
             "packages": [{"distro": "Fedora", "package_name": "geany"}],
         }
 
@@ -449,6 +456,7 @@ class AnityaWebAPItests(DatabaseTestCase):
             "version": None,
             "version_url": None,
             "versions": [],
+            "stable_versions": [],
             "packages": [],
         }
 
