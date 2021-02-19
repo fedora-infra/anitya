@@ -467,8 +467,8 @@ class CheckerTests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        self.checker.ratelimit_queue = {"Github": [project.id]}
-        self.checker.blacklist_dict = {"Github": time}
+        self.checker.ratelimit_queue = {"GitHub": [project.id]}
+        self.checker.blacklist_dict = {"GitHub": time}
 
         queue = self.checker.construct_queue(time + timedelta(hours=1))
 
@@ -497,8 +497,8 @@ class CheckerTests(DatabaseTestCase):
         self.session.add(project2)
         self.session.commit()
 
-        self.checker.ratelimit_queue = {"Github": [project.id]}
-        self.checker.blacklist_dict = {"Github": time}
+        self.checker.ratelimit_queue = {"GitHub": [project.id]}
+        self.checker.blacklist_dict = {"GitHub": time}
 
         queue = self.checker.construct_queue(time + timedelta(hours=1))
 
@@ -539,13 +539,39 @@ class CheckerTests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        self.checker.ratelimit_queue = {"Github": [project.id]}
-        self.checker.blacklist_dict = {"Github": time}
+        self.checker.ratelimit_queue = {"GitHub": [project.id]}
+        self.checker.blacklist_dict = {"GitHub": time}
 
         self.checker.construct_queue(time + timedelta(hours=1))
 
-        self.assertEqual(self.checker.ratelimit_queue.get("Github", None), None)
-        self.assertEqual(self.checker.blacklist_dict.get("Github", None), None)
+        self.assertEqual(self.checker.ratelimit_queue.get("GitHub", None), None)
+        self.assertEqual(self.checker.blacklist_dict.get("GitHub", None), None)
+
+    def test_construct_blacklisted_backend(self):
+        """
+        Assert that project is not added to queue if ready to check, but belonging
+        to blacklisted backend.
+        """
+        time = arrow.utcnow().datetime
+        reset_time = time + timedelta(hours=2)
+        project = models.Project(
+            name="Foobar",
+            backend="GitHub",
+            homepage="www.fakeproject.com",
+            next_check=time,
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        self.checker.blacklist_dict = {"GitHub": reset_time}
+
+        queue = self.checker.construct_queue(time + timedelta(hours=1))
+
+        self.assertEqual(queue, [])
+        self.assertEqual(
+            self.checker.blacklist_dict.get("GitHub", reset_time),
+            reset_time,
+        )
 
 
 if __name__ == "__main__":

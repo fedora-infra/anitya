@@ -300,7 +300,15 @@ class Checker:
             .all()
         )
 
-        queue += [project.id for project in projects]
+        # Create list of projects that should be checked but belong to blacklisted backend
+        blacklisted_projects = []
+        for project in projects:
+            if project.backend in self.blacklist_dict.keys():
+                blacklisted_projects.append(project)
+
+        queue += [
+            project.id for project in projects if project not in blacklisted_projects
+        ]
 
         # Use ordered set to have the order of the elements, but still have uniqueness
         ord_set = OrderedSet(queue)
