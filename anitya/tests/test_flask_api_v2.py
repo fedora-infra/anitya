@@ -694,6 +694,7 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "version": None,
                     "version_url": None,
                     "versions": [],
+                    "stable_versions": [],
                     "ecosystem": "https://fedorahosted.org/r2spec/",
                 },
                 {
@@ -705,6 +706,7 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "version": None,
                     "version_url": "https://www.geany.org/Download/Releases",
                     "versions": [],
+                    "stable_versions": [],
                     "ecosystem": "https://www.geany.org/",
                 },
                 {
@@ -716,6 +718,7 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "version": None,
                     "version_url": "https://subsurface-divelog.org/downloads/",
                     "versions": [],
+                    "stable_versions": [],
                     "ecosystem": "https://subsurface-divelog.org/",
                 },
             ],
@@ -765,6 +768,7 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "version": None,
                     "version_url": None,
                     "versions": [],
+                    "stable_versions": [],
                     "ecosystem": "http://www.zlib.net/",
                 },
                 {
@@ -776,6 +780,7 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "version": None,
                     "version_url": None,
                     "versions": [],
+                    "stable_versions": [],
                     "ecosystem": "https://hackage.haskell.org/package/zlib",
                 },
             ],
@@ -811,6 +816,7 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "version": None,
                     "version_url": "https://subsurface-divelog.org/downloads/",
                     "versions": [],
+                    "stable_versions": [],
                     "ecosystem": "https://subsurface-divelog.org/",
                 }
             ],
@@ -844,6 +850,7 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "version": None,
                     "version_url": "https://subsurface-divelog.org/downloads/",
                     "versions": [],
+                    "stable_versions": [],
                     "ecosystem": "https://subsurface-divelog.org/",
                 }
             ],
@@ -877,6 +884,7 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "version": None,
                     "version_url": "https://subsurface-divelog.org/downloads/",
                     "versions": [],
+                    "stable_versions": [],
                     "ecosystem": "https://subsurface-divelog.org/",
                 }
             ],
@@ -919,6 +927,7 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "version": None,
                     "version_url": None,
                     "versions": [],
+                    "stable_versions": [],
                     "ecosystem": "https://fedorahosted.org/r2spec/",
                 }
             ],
@@ -961,6 +970,7 @@ class ProjectsResourceGetTests(DatabaseTestCase):
                     "version": None,
                     "version_url": "https://www.geany.org/Download/Releases",
                     "versions": [],
+                    "stable_versions": [],
                     "ecosystem": "https://www.geany.org/",
                 }
             ],
@@ -1245,7 +1255,9 @@ class VersionsResourceGetTests(DatabaseTestCase):
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        self.assertEqual(data, {"latest_version": None, "versions": []})
+        self.assertEqual(
+            data, {"latest_version": None, "versions": [], "stable_versions": []}
+        )
 
     def test_list_versions(self):
         """Assert versions are returned when they exist."""
@@ -1269,7 +1281,11 @@ class VersionsResourceGetTests(DatabaseTestCase):
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
 
-        exp = {"latest_version": "1.0.0", "versions": ["1.0.0", "0.9.9"]}
+        exp = {
+            "latest_version": "1.0.0",
+            "versions": ["1.0.0", "0.9.9"],
+            "stable_versions": ["1.0.0", "0.9.9"],
+        }
 
         self.assertEqual(data, exp)
 
@@ -1416,6 +1432,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
             "latest_version": None,
             "found_versions": ["1.0.0", "0.9.9"],
             "versions": [],
+            "stable_versions": [],
         }
         self.assertEqual(data, exp)
 
@@ -1445,6 +1462,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
             "latest_version": None,
             "found_versions": ["1.0.0", "0.9.9"],
             "versions": [],
+            "stable_versions": [],
         }
         self.assertEqual(data, exp)
 
@@ -1505,6 +1523,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
             "latest_version": None,
             "found_versions": ["1.0.0", "0.9.9"],
             "versions": [],
+            "stable_versions": [],
         }
         self.assertEqual(data, exp)
 
@@ -1549,6 +1568,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
             "latest_version": None,
             "found_versions": ["1.0.0", "0.9.9"],
             "versions": [],
+            "stable_versions": [],
         }
         self.assertEqual(data, exp)
 
