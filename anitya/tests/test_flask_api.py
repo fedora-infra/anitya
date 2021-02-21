@@ -242,6 +242,55 @@ class AnityaWebAPItests(DatabaseTestCase):
         exp = {"projects": ["geany"], "total": 1}
         self.assertEqual(data, exp)
 
+    def test_api_projects_versions(self):
+        """
+        Assert that the correct version prefix is removed.
+        Test for https://github.com/fedora-infra/anitya/issues/1026
+        """
+        project = models.Project(
+            name="test",
+            homepage="https://example.com",
+            backend="custom",
+            version_scheme="RPM",
+            version_prefix="test-",
+            latest_version="0.1.0",
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        version = models.ProjectVersion(
+            project_id=project.id, version="test-0.1.0", project=project
+        )
+        self.session.add(version)
+        self.session.commit()
+
+        output = self.app.get("/api/projects/?homepage=https://example.com")
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        for key in range(len(data["projects"])):
+            del data["projects"][key]["created_on"]
+            del data["projects"][key]["updated_on"]
+
+        exp = {
+            "projects": [
+                {
+                    "id": 1,
+                    "backend": "custom",
+                    "homepage": "https://example.com",
+                    "ecosystem": "https://example.com",
+                    "name": "test",
+                    "regex": None,
+                    "version": "0.1.0",
+                    "version_url": None,
+                    "versions": ["0.1.0"],
+                    "stable_versions": ["0.1.0"],
+                }
+            ],
+            "total": 1,
+        }
+        self.assertEqual(data, exp)
+
     def test_api_get_version(self):
         """ Test the api_get_version function of the API. """
         create_distro(self.session)

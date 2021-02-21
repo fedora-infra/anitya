@@ -585,7 +585,7 @@ class VersionsResource(Resource):
         response = {
             "latest_version": project.latest_version,
             "versions": project.versions,
-            "stable_versions": [v.version for v in project.stable_versions],
+            "stable_versions": [str(v) for v in project.stable_versions],
         }
         return response
 
@@ -894,6 +894,6 @@ class VersionsResource(Resource):
                 "latest_version": project.latest_version,
                 "found_versions": versions,
                 "versions": project.versions,
-                "stable_versions": [v.version for v in project.stable_versions],
+                "stable_versions": [str(v) for v in project.stable_versions],
             }
             return response
