@@ -1289,6 +1289,40 @@ class VersionsResourceGetTests(DatabaseTestCase):
 
         self.assertEqual(data, exp)
 
+    def test_list_versions_prefix(self):
+        """
+        Assert versions are returned when they exist without prefx.
+        Test for https://github.com/fedora-infra/anitya/issues/1026
+        """
+        project = models.Project(
+            name="requests",
+            homepage="https://pypi.io/project/requests",
+            backend="PyPI",
+            latest_version="1.0.0",
+            version_prefix="test-",
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        version = models.ProjectVersion(project=project, version="test-1.0.0")
+        self.session.add(version)
+
+        version = models.ProjectVersion(project=project, version="test-0.9.9")
+        self.session.add(version)
+        self.session.commit()
+
+        output = self.app.get("/api/v2/versions/?project_id=" + str(project.id))
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        exp = {
+            "latest_version": "1.0.0",
+            "versions": ["1.0.0", "0.9.9"],
+            "stable_versions": ["1.0.0", "0.9.9"],
+        }
+
+        self.assertEqual(data, exp)
+
 
 class VersionsResourcePostTests(DatabaseTestCase):
     def setUp(self):
@@ -1542,6 +1576,48 @@ class VersionsResourcePostTests(DatabaseTestCase):
         self.assertEqual(project.regex, "dummy")
         self.assertTrue(project.insecure)
         self.assertTrue(project.releases_only)
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_project_exists_versions(self, mock_check):
+        """
+        Assert that project is returned with existing versions.
+        """
+        project = models.Project(
+            name="requests",
+            homepage="https://requests2.com",
+            backend="custom",
+            version_prefix="test-",
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        version = models.ProjectVersion(
+            project_id=project.id, version="test-0.1.0", project=project
+        )
+        self.session.add(version)
+        self.session.commit()
+
+        mock_check.return_value = ["1.0.0", "0.9.9"]
+        request_data = {
+            "id": project.id,
+        }
+
+        with fml_testing.mock_sends():
+            output = self.app.post(
+                "/api/v2/versions/", headers=self.auth, data=request_data
+            )
+
+        data = _read_json(output)
+        exp = {
+            "latest_version": None,
+            "found_versions": ["1.0.0", "0.9.9"],
+            "versions": ["0.1.0"],
+            "stable_versions": ["0.1.0"],
+        }
+        self.assertEqual(data, exp)
+
+        mock_check.assert_called_once_with(mock.ANY, mock.ANY, test=True)
+        self.assertEqual(output.status_code, 200)
 
     @mock.patch("anitya.lib.utilities.check_project_release")
     def test_project_exists_no_change(self, mock_check):
