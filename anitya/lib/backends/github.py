@@ -247,9 +247,15 @@ def parse_json(json, project):
         else:
             hook = edge["node"]
 
-        version["version"] = hook["name"]
-        version["commit_url"] = hook["target"]["commitUrl"]
-        versions.append(version)
+        if hook:
+            version["version"] = hook["name"]
+            version["commit_url"] = hook["target"]["commitUrl"]
+            versions.append(version)
+        else:
+            _log.info(
+                "Skipping release %s on %s, because it doesn't have associated tag"
+                % (edge["node"]["name"], project.name)
+            )
 
     return versions
 
