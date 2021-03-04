@@ -2,183 +2,180 @@ interactions:
 - request:
     body: null
     headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.9.1 at release-monitoring.org]
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.1.1 at release-monitoring.org
     method: GET
     uri: https://www.stackage.org/package/cpphs
   response:
     body:
-      string: !!binary |
-        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
-        t8hHw6hkAAA=
+      string: "<!doctype html><!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en\">
+        <![endif]--><!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en\">
+        <![endif]--><!--[if IE 8]>    <html class=\"no-js ie8 oldie\" lang=\"en\">
+        <![endif]--><!--[if gt IE 8]><!--><html class=\"no-js\" lang=\"en\"> <!--<![endif]--><head><meta
+        charset=\"UTF-8\"><link href=\"//fonts.googleapis.com/css?family=Lato:400,700\"
+        rel=\"stylesheet\" type=\"text/css\"><link rel=\"search\" type=\"application/opensearchdescription+xml\"
+        title=\"Stackage.org hoogle\" href=\"/static/opensearchhoogle.xml\"><link
+        rel=\"search\" type=\"application/opensearchdescription+xml\" title=\"Stackage.org
+        package page\" href=\"/static/opensearchpackage.xml\"><title>cpphs :: Stackage
+        Server</title><meta name=\"og:site_name\" content=\"Stackage\"><meta name=\"twitter:card\"
+        content=\"summary\"><meta name=\"og:title\" content=\"cpphs\"><meta name=\"viewport\"
+        content=\"width=device-width,initial-scale=1\"><link href=\"https://www.stackage.org/feed\"
+        type=\"application/atom+xml\" rel=\"alternate\" title=\"Recent Stackage snapshots\">\n<link
+        rel=\"stylesheet\" href=\"https://www.stackage.org/static/combined/d9jEluDQ.css\"><link
+        rel=\"stylesheet\" href=\"https://www.stackage.org/static/combined/kYdVr3eT.css\"><style>form.hoogle{margin-bottom:20px}form.hoogle
+        .search{width:25em}form.hoogle input{margin-bottom:0}.exact-lookup{display:inline-block;margin-left:1em}.wrap{padding-left:0
+        !important;padding-right:0 !important;margin-right:0 !important;margin-left:0
+        !important}h3{color:#777}.table.snapshots{width:auto;margin-left:auto}.version{font-weight:bold}#disqus_thread{margin-top:2em}#upvote{margin-left:-1em}.fa-google-plus-square{color:#dd4b39\n}.fa-facebook-square{color:#3b5998\n}.fa-twittersquare{color:#0088cc\n}.social{border-top:1px
+        solid #ddd;padding-top:0.5em;margin-bottom:0.5em;margin-top:0.5em;border-bottom:1px
+        solid #ddd;padding-bottom:0.5em}.social .fa-thumbs-o-up{color:rgba(0, 39,
+        59, 0.34902);cursor:pointer}.social .fa-thumbs-o-up:hover{color:#3f4549\n
+        \ }.social .fa-thumbs-up{cursor:pointer}.dependencies{margin-top:0.5em;padding-top:0.5em}.docs{margin-top:0.5em;border-top:1px
+        solid #ddd;padding-top:0.5em}.docs ul{list-style-type:none}.docs ul li{line-height:1.5em
+        }.docs,.docs ul,.docs li{position:relative}.docs ul{list-style:none;padding-left:10px}.docs
+        li::before,.docs li::after{content:\"\";position:absolute;left:-12px}.docs
+        li::before{border-top:1px solid #DDD;top:9px;width:8px;height:0}.docs li::after{border-left:1px
+        solid #DDD;height:100%;width:0px;top:0}.docs ul > li:last-child::after{height:9px}.docs
+        > ul > li::after{border-left:none}.docs > ul > li::before{border-top:none}.downloads{margin-left:1em}.fa-plus-square{color:rgba(0,
+        39, 59, 0.34902);cursor:pointer}.fa-plus-square:hover{color:#3f4549\n}@media
+        (max-width: 767px) {.table.snapshots{margin-top:1em;margin-left:-8px}.container{padding-left:15px
+        !important;padding-right:15px !important;margin-right:0 !important;margin-left:0
+        !important}}.markdown-container{margin-top:1em;border-top:1px solid #ddd;padding-top:1em;margin-bottom:0em;border-bottom:1px
+        solid #ddd;padding-bottom:1em;background:#f4f4f4}.markdown-container h1,.markdown-container
+        h2,.markdown-container h3,.markdown-container h4,.markdown-container h5{color:#333;margin-top:0.5em;margin-bottom:0.5em;font-weight:normal}.markdown-container
+        h2,.markdown-container h3,.markdown-container h4,.markdown-container h5{margin-top:1em}.markdown-container
+        h1{font-size:3em}.markdown-container h2{font-size:2em}.markdown-container
+        h3{font-size:1.5em}.markdown-container h4,.markdown-container h5{font-size:1.2em}.markdown-container
+        ul,.markdown-container ol,.markdown-container p{margin-top:0.5em}.markdown-container
+        ul,.markdown-container ol{padding-left:1em}.markdown-container pre,.markdown-container
+        pre code,.markdown-container code{font-family:ubuntu mono, dejavu sans mono,
+        monospace;background:#f8f8f8}.markdown-container pre{padding:1em}.changelog-container{margin-top:0.5em}.changelog-container
+        h1{font-size:1.2em}.changelog-container h2,.changelog-container h3,.changelog-container
+        h4,.changelog-container h5{font-size:1.2em}h2.changes-title{margin-top:1em;font-size:1.5em;color:#555}.readme-container{margin-top:1em}.hidden{display:none}.expanding{position:relative}.expanding
+        .bottom-gradient{display:none;bottom:0;position:absolute;width:100%;cursor:pointer;height:150px;line-height:150px;text-align:center;background:-moz-linear-gradient(top,
+        rgba(244,244,244,0) 0%, rgba(244,244,244,1) 100%);background:-webkit-gradient(linear,
+        left top, left bottom, color-stop(0%,rgba(244,244,244,0)), color-stop(100%,rgba(244,244,244,1)));background:-webkit-linear-gradient(top,
+        rgba(244,244,244,0) 0%,rgba(244,244,244,1) 100%);background:-o-linear-gradient(top,
+        rgba(244,244,244,0) 0%,rgba(244,244,244,1) 100%);background:-ms-linear-gradient(top,
+        rgba(244,244,244,0) 0%,rgba(244,244,244,1) 100%);background:linear-gradient(to
+        bottom, rgba(244,244,244,0) 0%,rgba(244,244,244,1) 100%);filter:progid:DXImageTransform.Microsoft.gradient(
+        startColorstr='#00f4f4f4', endColorstr='#f4f4f4',GradientType=0 )}.expanding
+        .bottom-gradient:hover .fa{color:#000}.expanding .fa{font-size:5em;color:#666;line-height:150px;margin-top:25px}.expanding.collapsed{height:300px;overflow:hidden}.expanding.collapsed
+        .bottom-gradient{display:block}.likes{margin-right:1em}.no-tags{color:#888}.tag-count{border:0.1em
+        solid #d8d8d8;padding:0 0.25em;border-radius:0.25em;color:#999;font-size:0.8em}.tag-count:hover{border:0.1em
+        solid #333;color:#333;cursor:pointer;text-decoration:none}.tag-count.tagged{background:#06537d;border:none;color:#fff}div.plain-text{white-space:pre-wrap}.deprecated{color:#aaa}.deprecated
+        h1,.deprecated h2,.deprecated h3,.deprecated h4,.deprecated h5,.deprecated
+        a{color:#aaa}.deprecated .package-deprecation-warning{color:red}.deprecated
+        .in-favour-of{color:#333}.deprecated .in-favour-of .in-favour-of-list a{color:#08c}.add-to-nightly{border:1px
+        solid black;padding:0.5em;background:#eef}html{position:relative;min-height:100%}body{background:#f0f0f0;font-family:'Lato',
+        sans-serif;font-size:16px;margin-bottom:4em;padding-bottom:2em}code,pre{color:#555;font-family:\"ubuntu
+        mono\", monospace}.brand > img{height:20px}.navbar-inverse{margin-bottom:1em}.navbar-inverse
+        .navbar-inner{background:#0981c3}.navbar-inverse .navbar-inner .btn-navbar{background:#0981c3}.navbar-inverse
+        .navbar-inner *{color:#fff !important\n}.navbar-inverse .nav .active>a,.navbar-inverse
+        .nav .active>a:hover,.navbar-inverse .nav .active>a:focus{background:#0981c3
+        !important}.navbar-inner{border-color:#06537d !important}.footer{background:#0981c3;border-top:1px
+        solid #ddd;color:#fff;position:absolute;bottom:0;left:0;width:100%;height:4em;line-height:2em;text-align:center}.footer
+        a{color:#fff;font-weight:bold}.footer .span12{padding:0px 15px 0 0;line-height:4em}.alert{margin-top:1em}h1,h2,h3,h4,h5{color:#06537d\n}.content{line-height:30px}</style><!--[if
+        lt IE 9]><script src=\"//html5shiv.googlecode.com/svn/trunk/html5.js\"></script><![endif]--><script>document.documentElement.className
+        = document.documentElement.className.replace(/\\bno-js\\b/,'js');</script></head><body><div
+        id=\"main\" role=\"main\"><div class=\"navbar navbar-inverse navbar-static-top\"><div
+        class=\"navbar-inner\"><div class=\"container\"><button class=\"btn btn-navbar\"
+        type=\"button\" data-toggle=\"collapse\" data-target=\".nav-collapse\"><span
+        class=\"icon-bar\"></span>\n<span class=\"icon-bar\"></span>\n<span class=\"icon-bar\"></span>\n</button>\n<a
+        class=\"brand\" href=\"/\"><img src=\"/static/img/stackage.png\" title=\"Stackage\">\n</a>\n<div
+        class=\"nav-collapse collapse\"><ul class=\"nav\"><li> <a href=\"/#about\">About</a></li>\n<li>
+        <a href=\"/snapshots\">Snapshots</a></li>\n<li> <a href=\"/lts\">LTS</a></li>\n<li>
+        <a href=\"/nightly\">Nightly</a></li>\n<li> <a href=\"https://github.com/fpco/stackage#frequently-asked-questions\">FAQ</a></li>\n<li>
+        <a href=\"/blog\">Blog</a></li>\n</ul>\n</div>\n</div>\n</div>\n</div>\n<div
+        class=\"container\"><div class=\"container content \" id=\"snapshot-home\"><div
+        class=\"row\"><div class=\"span12\"><h1>cpphs</h1><p class=\"synopsis\">A
+        liberalised re-implementation of cpp, the C pre-processor.</p><p><a href=\"http://projects.haskell.org/cpphs/\">http://projects.haskell.org/cpphs/</a></p><table><tr><td
+        align=\"right\"><a href=\"https://www.stackage.org/lts-17.5\">LTS Haskell
+        17.5</a>:</td><td><span class=\"version\"><a href=\"https://www.stackage.org/lts-17.5/package/cpphs\">1.20.9.1</a></span></td></tr><tr><td
+        align=\"right\"><a href=\"https://www.stackage.org/nightly-2021-03-01\">Stackage
+        Nightly 2021-03-01</a>:</td><td><span class=\"version\"><a href=\"https://www.stackage.org/nightly-2021-03-01/package/cpphs\">1.20.9.1</a></span></td></tr><tr><td
+        align=\"right\">Latest on Hackage:</td><td><a href=\"https://hackage.haskell.org/package/cpphs\"><span
+        class=\"version\">1.20.9.1</span></a></td></tr></table><p><a href=\"https://www.stackage.org/package/cpphs/snapshots\">See
+        all snapshots <code>cpphs</code> appears in</a></p></div></div><div class=\"row\"><div
+        class=\"span12\"><div class=\"authorship\"><span class=\"license\">LicenseRef-LGPL
+        licensed and maintained </span>by <strong class=\"author\"><a href=\"mailto:Malcolm.Wallace@me.com\">Malcolm
+        Wallace</a></strong></div><div class=\"maintainer\"></div><div class=\"pantry-version\">This
+        version can be pinned in stack with:<code>cpphs-1.20.9.1@sha256:a02113e8dc76a21e99592b46bf17fc89f237e4f6dc58b641172294985d3c4f29,3183</code></div><div
+        class=\"docs\"><h4>Module documentation for 1.20.9.1</h4><form class=\"hoogle\"
+        action=\"https://www.stackage.org/lts-17.5/hoogle\"><input class=\"search\"
+        type=\"search\" autofocus name=\"q\" value=\"\" placeholder=\"Hoogle Search
+        Phrase\">\n<input class=\"btn\" type=\"submit\" value=\"Search\">\n<input
+        type=\"hidden\" name=\"package\" value=\"cpphs\">\n<label class=\"checkbox
+        exact-lookup\" for=\"exact\" title=\"Only find identifiers matching your search
+        term precisely\"><input type=\"checkbox\" name=\"exact\" id=\"exact\">\nExact
+        lookup</label>\n</form>\n<ul class=\"docs-list\"><li>Language<ul class=\"docs-list\"><li>Language.Preprocessor<ul
+        class=\"docs-list\"><li><a href=\"https://www.stackage.org/haddock/lts-17.5/cpphs-1.20.9.1/Language-Preprocessor-Cpphs.html\">Language.Preprocessor.Cpphs</a>\n</li>\n<li><a
+        href=\"https://www.stackage.org/haddock/lts-17.5/cpphs-1.20.9.1/Language-Preprocessor-Unlit.html\">Language.Preprocessor.Unlit</a>\n</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n</div></div></div></div><div
+        class=\"container content\" id=\"snapshot-home\"><div class=\"row\"><div class=\"span12\"><div
+        class=\"dependencies\" id=\"dependencies\">Depends on 4 packages<em>(<a href=https://www.stackage.org/lts-17.5/package/cpphs-1.20.9.1/deps>full
+        list with versions</a>)</em>:</em><div class=\"dep-list\"><a href=\"https://www.stackage.org/package/base\"
+        title=\"&gt;=4.3 &amp;&amp; &lt;5\">base</a>, <a href=\"https://www.stackage.org/package/directory\"
+        title=\"&lt;1.4\">directory</a>, <a href=\"https://www.stackage.org/package/polyparse\"
+        title=\"==1.13.*\">polyparse</a>, <a href=\"https://www.stackage.org/package/time\"
+        title=\"&gt;=1.5 &amp;&amp; &lt;1.11\">time</a></div></div><div class=\"reverse-dependencies\"
+        id=\"reverse-dependencies\">Used by 2 packages in <b>lts-17.5</b><em>(<a href=https://www.stackage.org/lts-17.5/package/cpphs-1.20.9.1/revdeps>full
+        list with versions</a>)</em>:</em><div class=\"dep-list\"><a href=\"https://www.stackage.org/package/hlint\"
+        title=\"&gt;=1.20.1\">hlint</a>, <a href=\"https://www.stackage.org/package/HTF\"
+        title=\"&gt;=1.19\">HTF</a></div></div></div></div></div><div class=\"markdown-container
+        readme-container\"><div class=\"container content\"><div class=\"row\"><div
+        class=\"span12 expanding\"><p>Cpphs is a re-implementation of the C pre-processor
+        that is both\nmore compatible with Haskell, and itself written in Haskell
+        so\nthat it can be distributed with compilers.</p><p>This version of the C
+        pre-processor is pretty-much\nfeature-complete and compatible with traditional
+        (K&amp;R)\npre-processors.  Additional features include: a plain-text mode;\nan
+        option to unlit literate code files; and an option to turn\noff macro-expansion.</p><div
+        class=\"bottom-gradient\"><i class=\"fa fa-angle-down\"></i></div></div></div></div></div></div>\n<div
+        class=\"footer\"><div class=\"container\"><div class=\"row\"><div class=\"span12\">A
+        service provided by\n<a href=\"http://www.fpcomplete.com/\">FP Complete</a>\n</div>\n</div>\n</div>\n</div>\n<script
+        src=\"https://www.stackage.org/static/combined/KkkNZOBL.js\"></script><script
+        src=\"https://www.stackage.org/static/combined/bPfKWATx.js\"></script><script>$(function(){\n
+        \ hljs.initHighlightingOnLoad();\n\n  $('.expanding').each(function(){\n    var
+        $this = $(this);\n    if ($this.height() > 300) {\n      $this.addClass('collapsed');\n
+        \     $this.find('.bottom-gradient').click(function(){\n        $this.removeClass('collapsed');\n
+        \     });\n    }\n  });\n});\n</script></div><!-- Prompt IE 6 users to install
+        Chrome Frame. Remove this if you want to support IE 6.  chromium.org/developers/how-tos/chrome-frame-getting-started
+        --><!--[if lt IE 7 ]><script src=\"//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js\"></script><script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script><![endif]--><script
+        async src=\"https://www.googletagmanager.com/gtag/js?id=UA-36928035-2\"></script><script>window.dataLayer
+        = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js',
+        new Date());gtag('config', 'UA-36928035-2');</script></body></html>"
     headers:
-      connection: [keep-alive]
-      content-encoding: [gzip]
-      content-type: [text/html; charset=utf-8]
-      date: ['Fri, 10 Jun 2016 13:52:00 GMT']
-      server: [nginx/1.9.14]
-      set-cookie: ['_SESSION=qo/GvxIWO2k+RrCOSdpH/ewGp16KuvE/n1P/I/7Oho2b1u5VJHOWWXGjBWRFcYKcVOJQEOeKxF+VTNJMr1FN3eHop+HAJsN++ITIXIrtqa/1Mw8T9dbgPEq7agtW4qOo+338I6ajxr4=;
-          Path=/; Expires=Wed, 15-Jun-2016 13:52:00 GMT; HttpOnly']
-      vary: ['Accept, Accept-Language']
-    status: {code: 200, message: OK}
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Thu, 04 Mar 2021 14:18:19 GMT
+      Server:
+      - nginx/1.17.8
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      content-length:
+      - '13339'
+      vary:
+      - Accept, Accept-Language
+      x-envoy-decorator-operation:
+      - stackage-server-prod.stackage.svc.cluster.local:3000/*
+      x-envoy-upstream-service-time:
+      - '61'
+      x-xss-protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
 version: 1
