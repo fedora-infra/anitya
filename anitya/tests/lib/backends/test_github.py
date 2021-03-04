@@ -577,6 +577,33 @@ class JsonTests(unittest.TestCase):
             backend.parse_json(json, project)
         self.assertEqual(backend.reset_time, "2008-09-03T20:56:35.450686")
 
+    def test_parse_json_tag_missing(self):
+        """Test parsing a JSON skips releases where tag is missing."""
+        project = models.Project(
+            name="foobar",
+            homepage="https://foobar.com",
+            version_url="foo/bar",
+            backend=BACKEND,
+            releases_only=True,
+        )
+        json = {
+            "data": {
+                "repository": {
+                    "releases": {
+                        "totalCount": 1,
+                        "edges": [
+                            {
+                                "node": {"name": "This is a release", "tag": None},
+                            },
+                        ],
+                    },
+                },
+                "rateLimit": {"limit": 5000, "remaining": 5000, "resetAt": "dummy"},
+            }
+        }
+        obs = backend.parse_json(json, project)
+        self.assertEqual([], obs)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(GithubBackendtests)
