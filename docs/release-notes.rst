@@ -4,6 +4,27 @@ Release Notes
 
 .. towncrier release notes start
 
+1.1.2 (2021-03-05)
+==================
+
+Bug Fixes
+---------
+
+* Fix the stackage backend regex
+  (`#1010 <https://github.com/fedora-infra/anitya/issues/1010>`_)
+
+* Crash when release doesn't have tag associated in GitHub backend
+  (`#1029 <https://github.com/fedora-infra/anitya/issues/1029>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* supzi-del
+
+
 1.1.1 (2021-02-21)
 ==================
 
