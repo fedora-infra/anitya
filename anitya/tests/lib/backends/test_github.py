@@ -431,6 +431,42 @@ class GithubBackendtests(DatabaseTestCase):
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
+    @mock.patch.dict(
+        "anitya.config.config",
+        {"GITHUB_ACCESS_TOKEN": "foobar"},
+    )
+    def test_get_versions_filter(self):
+        """ Test the get_versions functions with releases only. """
+        project = models.Project(
+            name="the-new-hotness",
+            homepage="https://github.com/fedora-infra/the-new-hotness",
+            version_url="fedora-infra/the-new-hotness",
+            backend=BACKEND,
+            releases_only=True,
+            version_filter=".9",
+        )
+        exp = [
+            "0.10.0",
+            "0.10.1",
+            "0.11.0",
+            "0.11.1",
+            "0.11.2",
+            "0.11.3",
+            "0.11.4",
+            "0.11.5",
+            "0.11.6",
+            "0.11.7",
+            "0.11.8",
+            "0.12.0",
+            "0.13.0",
+            "0.13.1",
+            "0.13.2",
+            "0.13.3",
+            "0.13.4",
+        ]
+        obs = backend.GithubBackend.get_ordered_versions(project)
+        self.assertEqual(obs, exp)
+
 
 class JsonTests(unittest.TestCase):
     """

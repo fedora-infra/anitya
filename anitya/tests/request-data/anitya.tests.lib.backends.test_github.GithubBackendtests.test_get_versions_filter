@@ -1,0 +1,102 @@
+interactions:
+- request:
+    body: '{"query": "\n{\n    repository(owner: \"fedora-infra\", name: \"the-new-hotness\")
+      {\n        releases (orderBy: {field: CREATED_AT, direction: ASC}, last: 50)
+      {\n            totalCount\n            edges {\n                node {\n                    name
+      tag { name target { commitUrl } }\n                }\n            }\n        }\n    }\n    rateLimit
+      {\n        limit\n        remaining\n        resetAt\n    }\n}"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - bearer foobar
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '422'
+      Content-Type:
+      - application/json
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.1.2 at release-monitoring.org
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: '{"data":{"repository":{"releases":{"totalCount":18,"edges":[{"node":{"name":"the-new-hotness
+        v0.10.0","tag":{"name":"0.10.0","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/df0cea1716a5c993f5b5beb3f710ab4b08b818d2"}}}},{"node":{"name":"the-new-hotness
+        v0.10.1","tag":{"name":"0.10.1","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/41197351ee75a43d5553c368ac3bca8b5d531920"}}}},{"node":{"name":"the-new-hotness
+        v0.11.0","tag":{"name":"0.11.0","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/417dac38473c778282e96ab89d6990f92d2d64a6"}}}},{"node":{"name":"the-new-hotness
+        v0.11.1","tag":{"name":"0.11.1","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/386c7031e9a021adfd42c993e38ef0c2e9af556d"}}}},{"node":{"name":"the-new-hotness
+        v0.11.2","tag":{"name":"0.11.2","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/622d3f71f4278d604cfb4f15a34f813df5da54b8"}}}},{"node":{"name":"the-new-hotness
+        v0.11.3","tag":{"name":"0.11.3","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/00d8a695149dc88095808b3dd9365258885d4154"}}}},{"node":{"name":"the-new-hotness
+        v0.11.4","tag":{"name":"0.11.4","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/a8b17df7d9c141c4413a42f81d14ed89773d4ac6"}}}},{"node":{"name":"the-new-hotness
+        v0.11.5","tag":{"name":"0.11.5","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/62f8312d55719be2d3ef247f4d9f0ea48c02e6b7"}}}},{"node":{"name":"the-new-hotness
+        v0.11.6","tag":{"name":"0.11.6","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/cff503ef99bd0a3c68bdf527090798eb3c85ff63"}}}},{"node":{"name":"the-new-hotness
+        v0.11.7","tag":{"name":"0.11.7","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/ee7f4a878e4c9f8bfe86ef85cefffef5ec247fa5"}}}},{"node":{"name":"the-new-hotness
+        v0.11.8","tag":{"name":"0.11.8","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/90f695e91caa2f94d1626cfda176697b82894cb6"}}}},{"node":{"name":"the-new-hotness
+        v0.11.9","tag":{"name":"0.11.9","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/4054532b36d42a36aaf28d99b2b149e75a47cda9"}}}},{"node":{"name":"the-new-hotness
+        0.12.0","tag":{"name":"0.12.0","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/3b81364a33c45c846bec2d79eacc5ae204817f61"}}}},{"node":{"name":"the-new-hotness
+        0.13.0","tag":{"name":"0.13.0","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/7458058f5937a740010207972553005c73e5db13"}}}},{"node":{"name":"the-new-hotness
+        0.13.1","tag":{"name":"0.13.1","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/565005bdb5bbdc1c5eed62739e51a211bedeb59a"}}}},{"node":{"name":"the-new-hotness
+        0.13.2","tag":{"name":"0.13.2","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/c64b5aa0a52919cc32377bd158ad326f66cc3625"}}}},{"node":{"name":"the-new-hotness
+        0.13.3","tag":{"name":"0.13.3","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/4dbd8d50214f84dd109f443132706ec70d5701ca"}}}},{"node":{"name":"the-new-hotness
+        0.13.4","tag":{"name":"0.13.4","target":{"commitUrl":"https://github.com/fedora-infra/the-new-hotness/commit/0c576aa70661d760ed9d57ed451c4cf6ce557947"}}}}]}},"rateLimit":{"limit":5000,"remaining":4999,"resetAt":"2021-03-08T15:25:32Z"}}}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes,
+        X-Poll-Interval, X-GitHub-Media-Type, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 08 Mar 2021 14:25:32 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - repo
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v4; format=json
+      X-GitHub-Request-Id:
+      - 8302:10F8B:66BA071:72BE4AC:604633DC
+      X-OAuth-Scopes:
+      - public_repo, repo:status
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4999'
+      X-RateLimit-Reset:
+      - '1615217132'
+      X-RateLimit-Used:
+      - '1'
+      X-XSS-Protection:
+      - 1; mode=block
+      content-length:
+      - '3537'
+    status:
+      code: 200
+      message: OK
+version: 1

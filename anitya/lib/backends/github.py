@@ -178,8 +178,12 @@ class GithubBackend(BaseBackend):
             )
 
         # Filter retrieved versions
-        filtered_versions = cls.filter_versions(versions, project.version_filter)
-        return filtered_versions
+        filtered_versions = cls.filter_versions(
+            [version["version"] for version in versions], project.version_filter
+        )
+        return [
+            version for version in versions if version["version"] in filtered_versions
+        ]
 
 
 def parse_json(json, project):
