@@ -4,6 +4,16 @@ Release Notes
 
 .. towncrier release notes start
 
+1.1.3 (2021-03-08)
+==================
+
+Bug Fixes
+---------
+
+* Fix version_filter on GitHub backend
+  (`#1042 <https://github.com/fedora-infra/anitya/issues/1042>`_)
+
+
 1.1.2 (2021-03-05)
 ==================
 
