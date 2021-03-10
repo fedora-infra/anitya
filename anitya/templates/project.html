@@ -186,7 +186,15 @@
                 {% for package in project.packages %}
                 <tr>
                   <td>{{ package.distro_name }}</td>
-                  <td>{{ package.package_name }}</td>
+                  <td>
+                    {% if package.distro_name == 'Fedora' %}
+                      <a href="https://src.fedoraproject.org/rpms/{{ package.package_name }}">
+                        {{ package.package_name }}
+                      </a>
+                    {% else %}
+                      {{ package.package_name }}
+                    {% endif %}
+                  </td>
                   <td>
                     <a href="{{
                       url_for('anitya_ui.edit_project_mapping',
