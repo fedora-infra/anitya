@@ -4,6 +4,31 @@ Release Notes
 
 .. towncrier release notes start
 
+1.2.0 (2021-03-15)
+==================
+
+Features
+--------
+
+* Link Fedora packages to their source
+  (`#557 <https://github.com/fedora-infra/anitya/issues/557>`_)
+
+
+Bug Fixes
+---------
+
+* Unstable releases don't show up in folder backend
+  (`#1056 <https://github.com/fedora-infra/anitya/issues/1056>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Anatoli Babenia
+
+
 1.1.3 (2021-03-08)
 ==================
 
