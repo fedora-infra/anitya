@@ -12,7 +12,7 @@ from anitya.lib.backends import BaseBackend, get_versions_by_regex_for_text, REG
 from anitya.lib.exceptions import AnityaPluginException
 import six
 
-DEFAULT_REGEX = 'href="([0-9][0-9.]*)/"'
+DEFAULT_REGEX = 'href="(?:/files/)?([0-9.]+.*)/"'
 
 
 class FolderBackend(BaseBackend):
