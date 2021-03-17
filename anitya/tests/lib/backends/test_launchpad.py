@@ -87,9 +87,19 @@ class LaunchpadBackendtests(DatabaseTestCase):
         """ Test the get_versions function of the custom backend. """
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = ["3.3.0", "3.3.1", "3.3.2", "3.4.0"]
+        exp = [
+            "3.3.0",
+            "3.3.0-rc1",
+            "3.3.0-rc2",
+            "3.3.1",
+            "3.3.2",
+            "3.4.0",
+            "3.4.0-beta2",
+            "3.4.0-beta3",
+            "3.4.0-rc0",
+        ]
         obs = backend.LaunchpadBackend.get_ordered_versions(project)
-        self.assertEqual(obs, exp)
+        self.assertEqual(sorted(obs), exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)

@@ -3,8 +3,12 @@
 # URL to the database
 db_url = 'postgresql://postgres:anypasswordworkslocally@localhost/anitya'
 
-# List of admins based on their openid
-# anitya_web_admins = ["http://pingou.id.fedoraproject.org/"]
+# List of web administrators. The values should be the value of the "id" column
+# for the user in the "users" table of the database. They need to log in before
+# this record is created. An example value would be
+# "65536ed7-bdd3-4a1e-8252-10d874fd706b"
+# You can also find this infromation in the settings page when logged in to Anitya
+anitya_web_admins = []
 
 # A set of booleans to enable or disable OpenID providers
 anitya_web_fedora_openid = "https://id.fedoraproject.org"
