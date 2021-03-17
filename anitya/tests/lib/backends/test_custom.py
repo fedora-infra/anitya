@@ -114,7 +114,7 @@ class CustomBackendtests(DatabaseTestCase):
         project = models.Project.get(self.session, pid)
         exp = ["1.33"]
         obs = backend.CustomBackend.get_versions(project)
-        self.assertEqual(obs, exp)
+        self.assertEqual(sorted(obs), exp)
 
         pid = 2
         project = models.Project.get(self.session, pid)
@@ -157,7 +157,31 @@ class CustomBackendtests(DatabaseTestCase):
             "4.7.7",
         ]
         obs = backend.CustomBackend.get_ordered_versions(project)
-        self.assertEqual(obs, exp)
+        self.assertEqual(sorted(obs), exp)
+
+    def test_custom_get_versions_unstable(self):
+        """
+        Assert that custom backend now also matches unstable versions of project.
+        Test for https://github.com/fedora-infra/anitya/issues/1063
+        """
+        project = models.Project(
+            name="grub",
+            homepage="https://www.gnu.org/software/grub/",
+            version_url="https://git.savannah.gnu.org/cgit/grub.git",
+            regex="DEFAULT",
+            backend=BACKEND,
+        )
+        exp = [
+            "2.02",
+            "2.02-beta3",
+            "2.02-rc1",
+            "2.02-rc2",
+            "2.04",
+            "2.04-rc1",
+            "2.06-rc1",
+        ]
+        obs = backend.CustomBackend.get_ordered_versions(project)
+        self.assertEqual(sorted(obs), exp)
 
 
 if __name__ == "__main__":
