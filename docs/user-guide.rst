@@ -166,6 +166,7 @@ The backends available are:
  
 * **Google code** for projects hosted on
   `code.google.com <https://code.google.com/>`_
+  (removed in Anitya 1.3.0, see `issue <https://github.com/fedora-infra/anitya/issues/1068>`_ for additional info)
 
 * **Hackage** for projects hosted on
   `hackage.haskell.org <https://hackage.haskell.org/>`_
