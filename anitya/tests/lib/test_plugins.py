@@ -42,7 +42,6 @@ EXPECTED_BACKENDS = [
     "GNU project",
     "GitHub",
     "GitLab",
-    "Google code",
     "Hackage",
     "Launchpad",
     "Maven Central",
