@@ -191,6 +191,10 @@
                       <a href="https://src.fedoraproject.org/rpms/{{ package.package_name }}">
                         {{ package.package_name }}
                       </a>
+                    {% elif package.distro_name == 'PLD-Linux' %}
+                      <a href="https://github.com/pld-linux/{{ package.package_name }}">
+                        {{ package.package_name }}
+                      </a>
                     {% else %}
                       {{ package.package_name }}
                     {% endif %}
