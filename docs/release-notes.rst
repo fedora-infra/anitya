@@ -4,6 +4,34 @@ Release Notes
 
 .. towncrier release notes start
 
+1.3.0 (2021-03-19)
+==================
+
+Features
+--------
+
+* Add PLD Linux package link to project page.
+  (`PR#1065 <https://github.com/fedora-infra/anitya/pull/1065>`_)
+
+* Make the default regex pull in rc/alpha
+  (`#1063 <https://github.com/fedora-infra/anitya/issues/1063>`_)
+
+
+Bug Fixes
+---------
+
+* Remove Google code backend
+  (`#1068 <https://github.com/fedora-infra/anitya/issues/1068>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Elan Ruusamäe
+
+
 1.2.0 (2021-03-15)
 ==================
 
