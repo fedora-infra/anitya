@@ -7,8 +7,8 @@ pull_request_rules:
   conditions:
   - label!=no-mergify
   - '#approved-reviews-by>=1'
-  - status-success=continuous-integration/travis-ci/pr
-  - status-success=codecov/patch
-  - status-success=codecov/project
+  - check-success=continuous-integration/travis-ci/pr
+  - check-success=codecov/patch
+  - check-success=codecov/project
   name: default
 
