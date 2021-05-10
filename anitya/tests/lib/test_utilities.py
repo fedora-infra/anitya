@@ -41,7 +41,7 @@ class CreateProjectTests(DatabaseTestCase):
     """Tests for the :func:`anitya.lib.utilities.create_project` function."""
 
     def test_create_project(self):
-        """ Test the create_project function of Distro. """
+        """Test the create_project function of Distro."""
         create_distro(self.session)
         self.assertEqual(2, models.Distro.all(self.session, count=True))
 
@@ -61,7 +61,7 @@ class CreateProjectTests(DatabaseTestCase):
         self.assertEqual(project_objs[0].homepage, "https://www.geany.org/")
 
     def test_create_project_duplicate(self):
-        """ Assert that duplicate can't be created. """
+        """Assert that duplicate can't be created."""
         create_distro(self.session)
         self.assertEqual(2, models.Distro.all(self.session, count=True))
 
@@ -114,7 +114,7 @@ class CreateProjectTests(DatabaseTestCase):
                 )
 
     def test_create_project_dry_run(self):
-        """ Test the create_project dry_run parameter. """
+        """Test the create_project dry_run parameter."""
         create_distro(self.session)
         self.assertEqual(2, models.Distro.all(self.session, count=True))
 
@@ -144,7 +144,7 @@ class EditProjectTests(DatabaseTestCase):
     """Tests for the :func:`anitya.lib.utilities.edit_project` function."""
 
     def test_edit_project(self):
-        """ Test the edit_project function of Distro. """
+        """Test the edit_project function of Distro."""
         create_distro(self.session)
         create_project(self.session)
 
@@ -285,7 +285,7 @@ class EditProjectTests(DatabaseTestCase):
         mock_check.assert_called_with(project_objs[0], mock.ANY)
 
     def test_edit_dry_run(self):
-        """ Test the edit_project function dry_run parameter. """
+        """Test the edit_project function dry_run parameter."""
         create_distro(self.session)
         create_project(self.session)
 
@@ -342,7 +342,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
 
     @mock.patch("anitya.db.models.Project")
     def test_check_project_release_no_backend(self, mock_project):
-        """ Test the check_project_release function for Project. """
+        """Test the check_project_release function for Project."""
         m_project = mock_project.return_value
         m_project.backend.return_value = "dummy"
         self.assertRaises(
@@ -350,7 +350,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         )
 
     def test_check_project_release_archived(self):
-        """ Test the check_project_release function for archived Project. """
+        """Test the check_project_release function for archived Project."""
         project = models.Project(
             name="foobar", homepage="https://foo.bar", backend="npmjs", archived=True
         )
@@ -366,7 +366,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         return_value=["1.0.0", "0.9.9", "0.9.8"],
     )
     def test_check_project_release_backend(self, mock_method):
-        """ Test the check_project_release function for Project. """
+        """Test the check_project_release function for Project."""
         with fml_testing.mock_sends(anitya_schema.ProjectCreated):
             project = utilities.create_project(
                 self.session,
@@ -383,7 +383,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         mock.Mock(side_effect=exceptions.AnityaPluginException("")),
     )
     def test_check_project_release_plugin_exception(self):
-        """ Test the check_project_release function for Project. """
+        """Test the check_project_release function for Project."""
         with fml_testing.mock_sends(anitya_schema.ProjectCreated):
             project = utilities.create_project(
                 self.session,
@@ -404,7 +404,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         "anitya.lib.backends.npmjs.NpmjsBackend.get_versions", return_value=["1.0.0"]
     )
     def test_check_project_release_no_new_version(self, mock_method):
-        """ Test the check_project_release function for Project. """
+        """Test the check_project_release function for Project."""
         with fml_testing.mock_sends(anitya_schema.ProjectCreated):
             project = utilities.create_project(
                 self.session,
@@ -428,7 +428,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         return_value=["1.0.0", "0.9.9", "0.9.8"],
     )
     def test_check_project_release_new_version(self, mock_method):
-        """ Test the check_project_release function for Project. """
+        """Test the check_project_release function for Project."""
         with fml_testing.mock_sends(anitya_schema.ProjectCreated):
             project = utilities.create_project(
                 self.session,
@@ -451,7 +451,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         return_value=["v1.0.0", "v0.9.9", "v0.9.8"],
     )
     def test_check_project_release_prefix_remove(self, mock_method):
-        """ Test the check_project_release function for Project. """
+        """Test the check_project_release function for Project."""
         with fml_testing.mock_sends(anitya_schema.ProjectCreated):
             project = utilities.create_project(
                 self.session,
@@ -502,7 +502,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         return_value=["1.0.0", "0.9.9", "0.9.8"],
     )
     def test_check_project_check_times(self, mock_method):
-        """ Test if check times are set. """
+        """Test if check times are set."""
         with fml_testing.mock_sends(anitya_schema.ProjectCreated):
             project = utilities.create_project(
                 self.session,
@@ -528,7 +528,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         return_value=["1.0.0", "0.9.9", "0.9.8"],
     )
     def test_check_project_check_times_test(self, mock_method):
-        """ Test if check times aren't set in test mode. """
+        """Test if check times aren't set in test mode."""
         with fml_testing.mock_sends(anitya_schema.ProjectCreated):
             project = utilities.create_project(
                 self.session,
@@ -547,7 +547,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         self.assertEqual(versions, ["1.0.0", "0.9.9", "0.9.8"])
 
     def test_check_project_check_times_exception(self):
-        """ Test if check times are set if `exceptions.RateLimitException` is raised. """
+        """Test if check times are set if `exceptions.RateLimitException` is raised."""
         with fml_testing.mock_sends(anitya_schema.ProjectCreated):
             project = utilities.create_project(
                 self.session,
@@ -612,7 +612,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         "anitya.lib.backends.npmjs.NpmjsBackend.get_versions", return_value=["1.0.0"]
     )
     def test_check_project_release_error_counter_reset(self, mock_method):
-        """ Test if error_counter reset to 0, when successful check is done. """
+        """Test if error_counter reset to 0, when successful check is done."""
         with fml_testing.mock_sends(anitya_schema.ProjectCreated):
             project = utilities.create_project(
                 self.session,
@@ -634,7 +634,7 @@ class MapProjectTests(DatabaseTestCase):
     """Tests for the :func:`anitya.lib.utilities.map_project` function."""
 
     def test_map_project(self):
-        """ Test the map_project function of Distro. """
+        """Test the map_project function of Distro."""
         create_distro(self.session)
         create_project(self.session)
 
@@ -721,7 +721,7 @@ class MapProjectTests(DatabaseTestCase):
             )
 
     def test_map_project_no_project_for_package(self):
-        """ Test package duplicity when package is not associated to project """
+        """Test package duplicity when package is not associated to project"""
         create_distro(self.session)
         create_project(self.session)
 
@@ -757,7 +757,7 @@ class MapProjectTests(DatabaseTestCase):
         self.assertEqual(project_obj.packages[0].distro_name, "Fedora")
 
     def test_map_project_session_error_no_distro(self):
-        """ Test SQLAlchemy session error """
+        """Test SQLAlchemy session error"""
         create_project(self.session)
 
         project_obj = models.Project.get(self.session, 1)
@@ -781,7 +781,7 @@ class MapProjectTests(DatabaseTestCase):
                 )
 
     def test_map_project_session_error(self):
-        """ Test SQLAlchemy session error """
+        """Test SQLAlchemy session error"""
         create_project(self.session)
         create_distro(self.session)
 
@@ -810,7 +810,7 @@ class FlagProjectTests(DatabaseTestCase):
     """Tests for the :func:`anitya.lib.utilities.flag_project` function."""
 
     def test_flag_project(self):
-        """ Test flag creation """
+        """Test flag creation"""
         create_project(self.session)
 
         project_obj = models.Project.get(self.session, 1)
@@ -830,7 +830,7 @@ class FlagProjectTests(DatabaseTestCase):
         self.assertEqual(project_obj.flags[0].reason, "reason")
 
     def test_flag_project_session_error(self):
-        """ Test SQLAlchemy session error """
+        """Test SQLAlchemy session error"""
         create_project(self.session)
 
         project_obj = models.Project.get(self.session, 1)
@@ -854,7 +854,7 @@ class SetFlagStateTests(DatabaseTestCase):
     """Tests for the :func:`anitya.lib.utilities.set_flag_state` function."""
 
     def test_set_flag_state(self):
-        """ Test set state """
+        """Test set state"""
         flag = create_flagged_project(self.session)
 
         with fml_testing.mock_sends(anitya_schema.ProjectFlagSet):
@@ -870,7 +870,7 @@ class SetFlagStateTests(DatabaseTestCase):
         self.assertEqual(project_obj.flags[0].state, "closed")
 
     def test_set_flag_state_no_change(self):
-        """ Test set state """
+        """Test set state"""
         flag = create_flagged_project(self.session)
 
         with fml_testing.mock_sends():
@@ -884,7 +884,7 @@ class SetFlagStateTests(DatabaseTestCase):
             )
 
     def test_set_flag_project_session_error(self):
-        """ Test SQLAlchemy session error """
+        """Test SQLAlchemy session error"""
         flag = create_flagged_project(self.session)
 
         with mock.patch.object(

@@ -1216,7 +1216,7 @@ class ProjectsResourcePostTests(DatabaseTestCase):
 
 
 class VersionsResourceGetTests(DatabaseTestCase):
-    """ Tests for ``api/v2/versions/`` API endpooint - GET method."""
+    """Tests for ``api/v2/versions/`` API endpooint - GET method."""
 
     def setUp(self):
         super(VersionsResourceGetTests, self).setUp()

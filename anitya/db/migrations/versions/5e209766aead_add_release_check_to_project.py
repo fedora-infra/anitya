@@ -15,7 +15,7 @@ down_revision = "708f6f26b4b6"
 
 
 def upgrade():
-    """ Add releases_only column to the projects table. """
+    """Add releases_only column to the projects table."""
     op.add_column(
         "projects",
         sa.Column(
@@ -29,5 +29,5 @@ def upgrade():
 
 
 def downgrade():
-    """ Drop releases_only column to the projects table. """
+    """Drop releases_only column to the projects table."""
     op.drop_column("projects", "releases_only")

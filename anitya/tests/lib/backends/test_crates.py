@@ -67,7 +67,7 @@ class CratesBackendTests(DatabaseTestCase):
         )
 
     def test_get_version_url(self):
-        """ Assert that correct url is returned. """
+        """Assert that correct url is returned."""
         project = models.Project(
             name="test", homepage="http://example.org", backend="crates.io"
         )
@@ -84,7 +84,7 @@ class CratesBackendTests(DatabaseTestCase):
         self.assertEqual(expected_versions, crates.CratesBackend.get_versions(project))
 
     def test_get_ordered_versions(self):
-        """Test the get_ordered_versions function of the crates backend. """
+        """Test the get_ordered_versions function of the crates backend."""
         expected_versions = ["0.2.1", "0.2.0", "0.1.1", "0.1.0"]
         project = models.Project.by_id(self.session, 1)
         self.assertEqual(

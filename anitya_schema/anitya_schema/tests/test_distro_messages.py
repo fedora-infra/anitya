@@ -22,10 +22,10 @@ from anitya_schema import DistroCreated, DistroEdited, DistroDeleted
 
 
 class TestDistroCreated(unittest.TestCase):
-    """ Tests for anitya_schema.distro_messages.DistroCreated class. """
+    """Tests for anitya_schema.distro_messages.DistroCreated class."""
 
     def setUp(self):
-        """ Set up the tests. """
+        """Set up the tests."""
         self.message = DistroCreated()
 
     @mock.patch(
@@ -33,7 +33,7 @@ class TestDistroCreated(unittest.TestCase):
         new_callable=mock.PropertyMock,
     )
     def test__str__(self, mock_property):
-        """ Assert that correct string is returned. """
+        """Assert that correct string is returned."""
         mock_property.return_value = "Dummy"
 
         self.assertEqual(self.message.__str__(), "Dummy")
@@ -43,26 +43,26 @@ class TestDistroCreated(unittest.TestCase):
         new_callable=mock.PropertyMock,
     )
     def test_summary(self, mock_property):
-        """ Assert that correct summary string is returned. """
+        """Assert that correct summary string is returned."""
         mock_property.return_value = "Dummy"
 
         exp = "A new distribution, Dummy, was added to release-monitoring."
         self.assertEqual(self.message.summary, exp)
 
     def test_agent(self):
-        """ Assert that agent is returned. """
+        """Assert that agent is returned."""
         self.message.body = {"message": {"agent": "Dummy"}}
 
         self.assertEqual(self.message.agent, "Dummy")
 
     def test_distro_name(self):
-        """ Assert that distro name is returned. """
+        """Assert that distro name is returned."""
         self.message.body = {"distro": {"name": "Dummy"}}
 
         self.assertEqual(self.message.distro_name, "Dummy")
 
     def test_distro_url(self):
-        """ Assert that distro url is returned. """
+        """Assert that distro url is returned."""
         self.message.body = {"distro": {"name": "Dummy"}}
 
         self.assertEqual(
@@ -71,10 +71,10 @@ class TestDistroCreated(unittest.TestCase):
 
 
 class TestDistroEdited(unittest.TestCase):
-    """ Tests for anitya_schema.distro_messages.DistroEdited class. """
+    """Tests for anitya_schema.distro_messages.DistroEdited class."""
 
     def setUp(self):
-        """ Set up the tests. """
+        """Set up the tests."""
         self.message = DistroEdited()
 
     @mock.patch(
@@ -82,7 +82,7 @@ class TestDistroEdited(unittest.TestCase):
         new_callable=mock.PropertyMock,
     )
     def test__str__(self, mock_property):
-        """ Assert that correct string is returned. """
+        """Assert that correct string is returned."""
         mock_property.return_value = "Dummy"
 
         self.assertEqual(self.message.__str__(), "Dummy")
@@ -96,7 +96,7 @@ class TestDistroEdited(unittest.TestCase):
         new_callable=mock.PropertyMock,
     )
     def test_summary(self, mock_old_name, mock_new_name):
-        """ Assert that correct summary string is returned. """
+        """Assert that correct summary string is returned."""
         mock_new_name.return_value = "New name"
         mock_old_name.return_value = "Old name"
 
@@ -104,19 +104,19 @@ class TestDistroEdited(unittest.TestCase):
         self.assertEqual(self.message.summary, exp)
 
     def test_agent(self):
-        """ Assert that agent is returned. """
+        """Assert that agent is returned."""
         self.message.body = {"message": {"agent": "Dummy"}}
 
         self.assertEqual(self.message.agent, "Dummy")
 
     def test_name_new(self):
-        """ Assert that new_name string is returned. """
+        """Assert that new_name string is returned."""
         self.message.body = {"message": {"new": "Dummy"}}
 
         self.assertEqual(self.message.distro_name_new, "Dummy")
 
     def test_url_new(self):
-        """ Assert that correct anitya url is returned. """
+        """Assert that correct anitya url is returned."""
         self.message.body = {"message": {"new": "Dummy"}}
 
         self.assertEqual(
@@ -124,13 +124,13 @@ class TestDistroEdited(unittest.TestCase):
         )
 
     def test_name_old(self):
-        """ Assert that old_name string is returned. """
+        """Assert that old_name string is returned."""
         self.message.body = {"message": {"old": "Dummy"}}
 
         self.assertEqual(self.message.distro_name_old, "Dummy")
 
     def test_url_old(self):
-        """ Assert that correct anitya url is returned. """
+        """Assert that correct anitya url is returned."""
         self.message.body = {"message": {"old": "Dummy"}}
 
         self.assertEqual(
@@ -139,10 +139,10 @@ class TestDistroEdited(unittest.TestCase):
 
 
 class TestDistroDeleted(unittest.TestCase):
-    """ Tests for anitya_schema.distro_messages.DistroDeleted class. """
+    """Tests for anitya_schema.distro_messages.DistroDeleted class."""
 
     def setUp(self):
-        """ Set up the tests. """
+        """Set up the tests."""
         self.message = DistroDeleted()
 
     @mock.patch(
@@ -150,7 +150,7 @@ class TestDistroDeleted(unittest.TestCase):
         new_callable=mock.PropertyMock,
     )
     def test__str__(self, mock_property):
-        """ Assert that correct string is returned. """
+        """Assert that correct string is returned."""
         mock_property.return_value = "Dummy"
 
         self.assertEqual(self.message.__str__(), "Dummy")
@@ -160,26 +160,26 @@ class TestDistroDeleted(unittest.TestCase):
         new_callable=mock.PropertyMock,
     )
     def test_summary(self, mock_property):
-        """ Assert that correct summary string is returned. """
+        """Assert that correct summary string is returned."""
         mock_property.return_value = "Dummy"
 
         exp = "The Dummy distribution was removed from release-monitoring."
         self.assertEqual(self.message.summary, exp)
 
     def test_agent(self):
-        """ Assert that agent is returned. """
+        """Assert that agent is returned."""
         self.message.body = {"message": {"agent": "Dummy"}}
 
         self.assertEqual(self.message.agent, "Dummy")
 
     def test_distro_name(self):
-        """ Assert that distro name is returned. """
+        """Assert that distro name is returned."""
         self.message.body = {"distro": {"name": "Dummy"}}
 
         self.assertEqual(self.message.distro_name, "Dummy")
 
     def test_distro_url(self):
-        """ Assert that distro url is returned. """
+        """Assert that distro url is returned."""
         self.message.body = {"distro": {"name": "Dummy"}}
 
         self.assertEqual(

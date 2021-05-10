@@ -35,17 +35,17 @@ BACKEND = "Launchpad"
 
 
 class LaunchpadBackendtests(DatabaseTestCase):
-    """ Launchpad backend tests. """
+    """Launchpad backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(LaunchpadBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
 
     def create_project(self):
-        """ Create some basic projects to work with. """
+        """Create some basic projects to work with."""
         project = models.Project(
             name="exaile", homepage="https://launchpad.net/exaile", backend=BACKEND
         )
@@ -59,7 +59,7 @@ class LaunchpadBackendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_get_version(self):
-        """ Test the get_version function of the custom backend. """
+        """Test the get_version function of the custom backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "3.4.0"
@@ -73,7 +73,7 @@ class LaunchpadBackendtests(DatabaseTestCase):
         )
 
     def test_get_version_url(self):
-        """ Assert that correct url is returned. """
+        """Assert that correct url is returned."""
         project = models.Project(
             name="test", homepage="http://example.org", backend=BACKEND
         )
@@ -84,7 +84,7 @@ class LaunchpadBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_versions(self):
-        """ Test the get_versions function of the custom backend. """
+        """Test the get_versions function of the custom backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [

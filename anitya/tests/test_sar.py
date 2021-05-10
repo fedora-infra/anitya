@@ -33,11 +33,11 @@ from anitya.tests.base import DatabaseTestCase
 
 
 class SARTests(DatabaseTestCase):
-    """ SAR script tests. """
+    """SAR script tests."""
 
     @pytest.fixture(autouse=True)
     def capsys(self, capsys):
-        """ Use capsys fixture as part of this class. """
+        """Use capsys fixture as part of this class."""
         self.capsys = capsys
 
     @mock.patch.dict("os.environ", {"SAR_EMAIL": "user@fedoraproject.org"})

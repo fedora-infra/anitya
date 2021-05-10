@@ -36,17 +36,17 @@ BACKEND = "GitHub"
 
 
 class GithubBackendtests(DatabaseTestCase):
-    """ Github backend tests. """
+    """Github backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(GithubBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_projects()
 
     def create_projects(self):
-        """ Create some basic projects to work with. """
+        """Create some basic projects to work with."""
         self.projects = {}
         self.expected_versions = {}
 
@@ -394,7 +394,7 @@ class GithubBackendtests(DatabaseTestCase):
 
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
     def test_plexus_utils(self):
-        """ Regression test for issue #286 """
+        """Regression test for issue #286"""
         project = models.Project(
             version_url="codehaus-plexus/plexus-archiver",
             version_prefix="plexus-archiver-",
@@ -405,7 +405,7 @@ class GithubBackendtests(DatabaseTestCase):
 
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
     def test_get_versions_releases_only(self):
-        """ Test the get_versions functions with releases only. """
+        """Test the get_versions functions with releases only."""
         project = models.Project(
             name="the-new-hotness",
             homepage="https://github.com/fedora-infra/the-new-hotness",
@@ -436,7 +436,7 @@ class GithubBackendtests(DatabaseTestCase):
         {"GITHUB_ACCESS_TOKEN": "foobar"},
     )
     def test_get_versions_filter(self):
-        """ Test the get_versions functions with releases only. """
+        """Test the get_versions functions with releases only."""
         project = models.Project(
             name="the-new-hotness",
             homepage="https://github.com/fedora-infra/the-new-hotness",
@@ -484,7 +484,7 @@ class JsonTests(unittest.TestCase):
         )
 
     def test_prepare_query(self):
-        """ Assert query creation """
+        """Assert query creation"""
         exp = """
 {
     repository(owner: "foo", name: "bar") {
@@ -508,7 +508,7 @@ class JsonTests(unittest.TestCase):
         self.assertEqual(exp, obs)
 
     def test_prepare_query_releases(self):
-        """ Assert query creation with releases_only set """
+        """Assert query creation with releases_only set"""
         exp = """
 {
     repository(owner: "foo", name: "bar") {

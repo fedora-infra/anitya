@@ -15,12 +15,12 @@ down_revision = "e34988f3e2f4"
 
 
 def upgrade():
-    """ Add version_pattern to projects table. """
+    """Add version_pattern to projects table."""
     op.add_column(
         "projects", sa.Column("version_pattern", sa.String(200), nullable=True)
     )
 
 
 def downgrade():
-    """ Remove version_pattern from project table. """
+    """Remove version_pattern from project table."""
     op.drop_column("projects", "version_pattern")

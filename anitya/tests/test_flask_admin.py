@@ -1311,7 +1311,7 @@ class BrowseUsersTests(DatabaseTestCase):
             self.assertTrue(b"inactive@fedoraproject.org" in output.data)
 
     def test_sql_exception(self):
-        """ Assert that SQL exception is handled correctly."""
+        """Assert that SQL exception is handled correctly."""
         with mock.patch.object(
             Query,
             "filter_by",
@@ -1401,7 +1401,7 @@ class SetUserAdminStateTests(DatabaseTestCase):
             self.assertTrue(self.user.admin)
 
     def test_sql_exception(self):
-        """ Assert that SQL exception is handled correctly."""
+        """Assert that SQL exception is handled correctly."""
         with mock.patch.object(
             self.session,
             "add",
@@ -1424,7 +1424,7 @@ class SetUserAdminStateTests(DatabaseTestCase):
                 self.assertFalse(self.user.admin)
 
     def test_form_not_valid(self):
-        """ Assert that invalid form will do nothing."""
+        """Assert that invalid form will do nothing."""
         with login_user(self.flask_app, self.admin):
             output = self.client.get("/users")
             csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
@@ -1550,7 +1550,7 @@ class SetUserActiveStateTests(DatabaseTestCase):
             self.assertEqual(404, output.status_code)
 
     def test_sql_exception(self):
-        """ Assert that SQL exception is handled correctly."""
+        """Assert that SQL exception is handled correctly."""
         with mock.patch.object(
             self.session,
             "add",
@@ -1573,7 +1573,7 @@ class SetUserActiveStateTests(DatabaseTestCase):
                 self.assertTrue(self.user.active)
 
     def test_form_not_valid(self):
-        """ Assert that invalid form will do nothing."""
+        """Assert that invalid form will do nothing."""
         with login_user(self.flask_app, self.admin):
             output = self.client.get("/users")
             csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[

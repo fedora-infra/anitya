@@ -75,7 +75,7 @@ class Distro(Base):
     name = sa.Column(sa.String(200), primary_key=True)
 
     def __init__(self, name):
-        """ Constructor. """
+        """Constructor."""
         self.name = name
 
     def __json__(self):
@@ -104,7 +104,7 @@ class Distro(Base):
 
     @classmethod
     def search(cls, session, pattern, page=None, count=False):
-        """ Search the distribuutions by their name """
+        """Search the distribuutions by their name"""
 
         if "*" in pattern:
             pattern = pattern.replace("*", "%")
@@ -611,7 +611,7 @@ class Project(Base):
 
     @classmethod
     def search(cls, session, pattern, distro=None, page=None, count=False):
-        """ Search the projects by their name or package name """
+        """Search the projects by their name or package name"""
 
         query1 = session.query(cls)
 
@@ -815,7 +815,7 @@ class Run(Base):
 
     @classmethod
     def last_entry(cls, session):
-        """ Return the last log about the cron run. """
+        """Return the last log about the cron run."""
 
         query = session.query(cls).order_by(cls.created_on.desc())
         return query.first()

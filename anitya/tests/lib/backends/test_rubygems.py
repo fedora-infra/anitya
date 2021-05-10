@@ -36,17 +36,17 @@ BACKEND = "Rubygems"
 
 
 class RubygemsBackendtests(DatabaseTestCase):
-    """ Rubygems backend tests. """
+    """Rubygems backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(RubygemsBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
 
     def create_project(self):
-        """ Create some basic projects to work with. """
+        """Create some basic projects to work with."""
         project = models.Project(
             name="bio", homepage="https://rubygems.org/gems/bio", backend=BACKEND
         )
@@ -62,7 +62,7 @@ class RubygemsBackendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_get_version(self):
-        """ Test the get_version function of the rubygems backend. """
+        """Test the get_version function of the rubygems backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "1.5.1"
@@ -89,7 +89,7 @@ class RubygemsBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_versions(self):
-        """ Test the get_versions function of the rubygems backend. """
+        """Test the get_versions function of the rubygems backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = ["1.5.1"]
@@ -116,7 +116,7 @@ class RubygemsBackendtests(DatabaseTestCase):
             self.assertEqual(versions, [])
 
     def test_rubygems_check_feed(self):
-        """ Test the check_feed method of the rubygems backend. """
+        """Test the check_feed method of the rubygems backend."""
         generator = backend.RubygemsBackend.check_feed()
         items = list(generator)
 

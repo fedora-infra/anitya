@@ -11,7 +11,7 @@ from . import BaseEcosystem
 
 
 class MavenEcosystem(BaseEcosystem):
-    """ The Maven ecosystem class"""
+    """The Maven ecosystem class"""
 
     name = "maven"
     default_backend = "Maven Central"

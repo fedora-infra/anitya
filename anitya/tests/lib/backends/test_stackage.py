@@ -35,17 +35,17 @@ BACKEND = "Stackage"
 
 
 class HackageBackendtests(DatabaseTestCase):
-    """ Hackage backend tests. """
+    """Hackage backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(HackageBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
 
     def create_project(self):
-        """ Create some basic projects to work with. """
+        """Create some basic projects to work with."""
         project = models.Project(
             name="cpphs",
             homepage="https://www.stackage.org/package/cpphs",
@@ -63,7 +63,7 @@ class HackageBackendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_get_version(self):
-        """ Test the get_version function of the Stackage backend. """
+        """Test the get_version function of the Stackage backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "1.20.9.1"
@@ -90,7 +90,7 @@ class HackageBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_versions(self):
-        """ Test the get_versions function of the Stackage backend. """
+        """Test the get_versions function of the Stackage backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = ["1.20.9.1"]

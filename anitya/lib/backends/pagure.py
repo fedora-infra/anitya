@@ -16,7 +16,7 @@ from anitya.lib.exceptions import AnityaPluginException
 
 
 class PagureBackend(BaseBackend):
-    """ The pagure class for project hosted on pagure.io. """
+    """The pagure class for project hosted on pagure.io."""
 
     name = "pagure"
     examples = ["https://pagure.io/pagure", "https://pagure.io/flask-multistatic"]

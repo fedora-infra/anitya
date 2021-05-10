@@ -35,17 +35,17 @@ BACKEND = "PEAR"
 
 
 class PearBackendtests(DatabaseTestCase):
-    """ Pear backend tests. """
+    """Pear backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(PearBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
 
     def create_project(self):
-        """ Create some basic projects to work with. """
+        """Create some basic projects to work with."""
         project = models.Project(
             name="PHP-UML",
             homepage="https://pear.php.net/package/PHP_UML",
@@ -61,7 +61,7 @@ class PearBackendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_get_version(self):
-        """ Test the get_version function of the custom backend. """
+        """Test the get_version function of the custom backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "1.6.2"
@@ -101,7 +101,7 @@ class PearBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_versions(self):
-        """ Test the get_versions function of the custom backend. """
+        """Test the get_versions function of the custom backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [
@@ -133,7 +133,7 @@ class PearBackendtests(DatabaseTestCase):
         )
 
     def test_pear_check_feed(self):
-        """ Test the check_feed method of the pear backend. """
+        """Test the check_feed method of the pear backend."""
         generator = backend.PearBackend.check_feed()
         items = list(generator)
 

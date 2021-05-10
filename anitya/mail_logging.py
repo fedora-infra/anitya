@@ -67,7 +67,7 @@ class ContextInjector(logging.Filter):  # pragma: no cover
     """
 
     def filter(self, record):
-        """ Set up additional information on the record object. """
+        """Set up additional information on the record object."""
         current_process = ContextInjector.get_current_process()
         current_hostname = socket.gethostname()
 
@@ -116,7 +116,7 @@ class ContextInjector(logging.Filter):  # pragma: no cover
 
     @staticmethod
     def format_callstack():
-        """ Format the callstack to find out the stack trace. """
+        """Format the callstack to find out the stack trace."""
         ind = 0
         for ind, frame in enumerate(f[0] for f in inspect.stack()):
             if "__name__" not in frame.f_globals:
@@ -126,7 +126,7 @@ class ContextInjector(logging.Filter):  # pragma: no cover
                 break
 
         def _format_frame(frame):
-            """ Format the frame. """
+            """Format the frame."""
             return '  File "%s", line %i in %s\n    %s' % (frame)
 
         stack = traceback.extract_stack()
@@ -135,7 +135,7 @@ class ContextInjector(logging.Filter):  # pragma: no cover
 
     @staticmethod
     def get_current_process():
-        """ Return the current process (PID). """
+        """Return the current process (PID)."""
         mypid = os.getpid()
 
         if not psutil:

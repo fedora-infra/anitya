@@ -28,5 +28,5 @@ def upgrade():
 
 
 def downgrade():
-    """ No need to downgrade, there was only one versioning scheme previously """
+    """No need to downgrade, there was only one versioning scheme previously"""
     raise NotImplementedError

@@ -15,7 +15,7 @@ down_revision = "136d119ab015"
 
 
 def upgrade():
-    """ Add error_counter column to project. """
+    """Add error_counter column to project."""
     op.add_column(
         "projects",
         sa.Column(
@@ -28,6 +28,6 @@ def upgrade():
 
 
 def downgrade():
-    """ Remove error_counter column from project. """
+    """Remove error_counter column from project."""
     op.drop_column("projects", "error_counter")
     op.drop_index(op.f("ix_projects_error_counter"), table_name="projects")

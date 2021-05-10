@@ -39,7 +39,7 @@ from anitya.lib import exceptions
 
 
 class CheckerTests(DatabaseTestCase):
-    """ Checker class tests. """
+    """Checker class tests."""
 
     def setUp(self):
         """

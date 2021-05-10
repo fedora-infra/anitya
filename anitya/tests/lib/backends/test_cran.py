@@ -66,7 +66,7 @@ class CranBackendTests(DatabaseTestCase):
         self.assertEqual(obs, "0.3-2")
 
     def test_get_version_url(self):
-        """ Assert that correct url is returned. """
+        """Assert that correct url is returned."""
         project = models.Project(
             name="test", homepage="http://example.org", backend=BACKEND
         )
@@ -107,7 +107,7 @@ class CranBackendTests(DatabaseTestCase):
         )
 
     def test_get_versions(self):
-        """ Test the get_versions function of the CRAN backend. """
+        """Test the get_versions function of the CRAN backend."""
         project = models.Project(
             name="whisker",
             homepage="https://github.com/edwindj/whisker",
@@ -136,7 +136,7 @@ class CranBackendTests(DatabaseTestCase):
             self.assertEqual(versions, [])
 
     def test_check_feed(self):
-        """ Test the check_feed method of the CRAN backend. """
+        """Test the check_feed method of the CRAN backend."""
         generator = backend.CranBackend.check_feed()
         items = list(generator)
 

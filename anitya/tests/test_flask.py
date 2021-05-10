@@ -438,10 +438,10 @@ class NewProjectTests(DatabaseTestCase):
 
 
 class FlaskTest(DatabaseTestCase):
-    """ Flask tests. """
+    """Flask tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(FlaskTest, self).setUp()
 
         self.flask_app.config["TESTING"] = True
@@ -456,7 +456,7 @@ class FlaskTest(DatabaseTestCase):
         self.session.commit()
 
     def test_index(self):
-        """ Test the index function. """
+        """Test the index function."""
         output = self.app.get("/")
         self.assertEqual(output.status_code, 200)
 
@@ -479,7 +479,7 @@ class FlaskTest(DatabaseTestCase):
         self.assertTrue(expected in output.data)
 
     def test_index_redirection(self):
-        """ Test redirection when session contains next_url field. """
+        """Test redirection when session contains next_url field."""
         # Set the session variable by calling login page
         self.app.get("/login?next=%2Fproject%2F1")
 
@@ -497,7 +497,7 @@ class FlaskTest(DatabaseTestCase):
         )
 
     def test_project(self):
-        """ Test the project function. """
+        """Test the project function."""
         create_distro(self.session)
         create_project(self.session)
 
@@ -515,7 +515,7 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual(output.status_code, 404)
 
     def test_projects(self):
-        """ Test the projects function. """
+        """Test the projects function."""
         create_distro(self.session)
         create_project(self.session)
 
@@ -548,7 +548,7 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual(output.data.count(b'<a href="/project/'), 3)
 
     def test_distros(self):
-        """ Test the distros function. """
+        """Test the distros function."""
         create_distro(self.session)
         create_project(self.session)
 
@@ -563,7 +563,7 @@ class FlaskTest(DatabaseTestCase):
         self.assertTrue(expected in output.data)
 
     def test_distro(self):
-        """ Test the distro function. """
+        """Test the distro function."""
         create_distro(self.session)
         create_project(self.session)
 
@@ -592,7 +592,7 @@ class FlaskTest(DatabaseTestCase):
         self.assertTrue(b"<h1>Projects of Fedora monitored</h1>" in output.data)
 
     def test_distro_projects_search(self):
-        """ Test the distro_projects_search function. """
+        """Test the distro_projects_search function."""
         create_distro(self.session)
         create_project(self.session)
 
@@ -667,7 +667,7 @@ class FlaskTest(DatabaseTestCase):
         self.assertTrue(expected in output.data)
 
     def test_projects_search(self):
-        """ Test the projects_search function. """
+        """Test the projects_search function."""
         create_distro(self.session)
         create_project(self.session)
 
@@ -721,7 +721,7 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual("/login/", parse.urlparse(output.location).path)
 
     def test_projects_search_by_name(self):
-        """ Test the project_name function. """
+        """Test the project_name function."""
         create_project(self.session)
 
         output = self.app.get("/project/geany")
@@ -888,7 +888,7 @@ class EditProjectTests(DatabaseTestCase):
             self.assertEqual("geany", models.Project.query.get(1).name)
 
     def test_edit_project(self):
-        """ Test the edit_project function. """
+        """Test the edit_project function."""
         with login_user(self.flask_app, self.user):
             with self.flask_app.test_client() as c:
                 output = c.get("/project/1/edit", follow_redirects=False)
@@ -920,7 +920,7 @@ class EditProjectTests(DatabaseTestCase):
                 self.assertTrue(b"<h1>Project: repo_manager</h1>" in output.data)
 
     def test_edit_project_no_change(self):
-        """ Test the edit_project function. """
+        """Test the edit_project function."""
         with login_user(self.flask_app, self.user):
             with self.flask_app.test_client() as c:
                 output = c.get("/project/1/edit", follow_redirects=False)
@@ -1377,7 +1377,7 @@ class FlagProjecTests(DatabaseTestCase):
         self.client = self.flask_app.test_client()
 
     def test_flag_project(self):
-        """ Assert flaging project."""
+        """Assert flaging project."""
         with login_user(self.flask_app, self.user):
             pre_edit_output = self.client.get("/project/1/flag")
             csrf_token = pre_edit_output.data.split(
@@ -1395,7 +1395,7 @@ class FlagProjecTests(DatabaseTestCase):
             self.assertEqual(flags[0].project_id, 1)
 
     def test_invalid_project(self):
-        """ Assert abort with invalid project."""
+        """Assert abort with invalid project."""
         with login_user(self.flask_app, self.user):
             output = self.client.get("/project/99/flag")
             self.assertEqual(output.status_code, 404)
@@ -1424,13 +1424,13 @@ class UiTests(DatabaseTestCase):
     """Tests for the functions in `anitya.ui` class."""
 
     def test_format_examples(self):
-        """ Assert format examples testing. """
+        """Assert format examples testing."""
         output = ui.format_examples(["http://example.com"])
 
         self.assertEqual(output, "<a href='http://example.com'>http://example.com</a> ")
 
     def test_format_examples_none(self):
-        """ Assert format examples testing. """
+        """Assert format examples testing."""
         output = ui.format_examples(None)
 
         self.assertEqual(output, "")

@@ -36,17 +36,17 @@ BACKEND = "Debian project"
 
 
 class DebianBackendtests(DatabaseTestCase):
-    """ Debian backend tests. """
+    """Debian backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(DebianBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
 
     def create_project(self):
-        """ Create some basic projects to work with. """
+        """Create some basic projects to work with."""
         project = models.Project(
             name="guake",
             homepage="http://ftp.debian.org/debian/pool/main/g/guake/",
@@ -71,7 +71,7 @@ class DebianBackendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_get_version(self):
-        """ Test the get_version function of the debian backend. """
+        """Test the get_version function of the debian backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "0.7.2"
@@ -91,7 +91,7 @@ class DebianBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_version_url(self):
-        """ Assert that correct url is returned. """
+        """Assert that correct url is returned."""
         project = models.Project(
             name="test",
             homepage="http://example.org",
@@ -121,7 +121,7 @@ class DebianBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_versions(self):
-        """ Test the get_versions function of the debian backend. """
+        """Test the get_versions function of the debian backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = ["0.4.2", "0.4.3", "0.4.4", "0.5.0", "0.7.0", "0.7.2"]

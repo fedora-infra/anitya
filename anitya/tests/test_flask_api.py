@@ -46,10 +46,10 @@ def _read_json(output):
 
 
 class AnityaWebAPItests(DatabaseTestCase):
-    """ Flask API tests. """
+    """Flask API tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(AnityaWebAPItests, self).setUp()
 
         self.flask_app.config["TESTING"] = True
@@ -72,7 +72,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         )
 
     def test_api_projects(self):
-        """ Test the api_projects function of the API. """
+        """Test the api_projects function of the API."""
         create_distro(self.session)
 
         output = self.app.get("/api/projects")
@@ -196,7 +196,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.assertEqual(output.status_code, 400)
 
     def test_api_packages_wiki_list(self):
-        """ Test the api_packages_wiki_list function of the API. """
+        """Test the api_packages_wiki_list function of the API."""
         create_distro(self.session)
         output = self.app.get("/api/packages/wiki/")
         self.assertEqual(output.status_code, 200)
@@ -216,7 +216,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.assertEqual(output.data, exp)
 
     def test_api_projects_names(self):
-        """ Test the api_projects_names function of the API. """
+        """Test the api_projects_names function of the API."""
         create_distro(self.session)
         output = self.app.get("/api/projects/names")
         self.assertEqual(output.status_code, 200)
@@ -292,7 +292,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.assertEqual(data, exp)
 
     def test_api_get_version(self):
-        """ Test the api_get_version function of the API. """
+        """Test the api_get_version function of the API."""
         create_distro(self.session)
 
         with fml_testing.mock_sends():
@@ -358,7 +358,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.assertEqual(data, exp)
 
     def test_api_get_version_exists(self):
-        """ Test the api_get_version when returning a version. """
+        """Test the api_get_version when returning a version."""
         create_distro(self.session)
         create_project(self.session)
 
@@ -373,7 +373,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.assertEqual(data, exp)
 
     def test_api_get_project(self):
-        """ Test the api_get_project function of the API. """
+        """Test the api_get_project function of the API."""
         create_distro(self.session)
         output = self.app.get("/api/project/")
         self.assertEqual(output.status_code, 404)
@@ -415,7 +415,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.assertEqual(exp, data)
 
     def test_api_get_project_distro(self):
-        """ Test the api_get_project_distro function of the API. """
+        """Test the api_get_project_distro function of the API."""
         create_distro(self.session)
         output = self.app.get("/api/project/Fedora/geany")
         self.assertEqual(output.status_code, 404)
@@ -464,7 +464,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         self.assertEqual(data, exp)
 
     def test_api_get_project_by_ecosystem(self):
-        """ Test the api_get_project_ecosystem function of the API. """
+        """Test the api_get_project_ecosystem function of the API."""
         create_distro(self.session)
         output = self.app.get("/api/by_ecosystem/pypi/pypi_and_npm")
         self.assertEqual(output.status_code, 404)

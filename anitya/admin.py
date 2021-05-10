@@ -69,7 +69,7 @@ def edit_distro(distro_name):
 @ui_blueprint.route("/distro/<distro_name>/delete", methods=["GET", "POST"])
 @login_required
 def delete_distro(distro_name):
-    """ Delete a distro """
+    """Delete a distro"""
 
     distro = models.Distro.by_name(Session, distro_name)
     if not distro:

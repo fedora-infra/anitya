@@ -35,17 +35,17 @@ BACKEND = "CPAN (perl)"
 
 
 class CpanBackendtests(DatabaseTestCase):
-    """ custom backend tests. """
+    """custom backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(CpanBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
 
     def create_project(self):
-        """ Create some basic projects to work with. """
+        """Create some basic projects to work with."""
         project = models.Project(
             name="SOAP", homepage="http://search.cpan.org/dist/SOAP/", backend=BACKEND
         )
@@ -59,7 +59,7 @@ class CpanBackendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_cpan_get_version(self):
-        """ Test the get_version function of the custom backend. """
+        """Test the get_version function of the custom backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "0.28"
@@ -73,7 +73,7 @@ class CpanBackendtests(DatabaseTestCase):
         )
 
     def test_get_version_url(self):
-        """ Assert that correct url is returned. """
+        """Assert that correct url is returned."""
         project = models.Project(
             name="test", homepage="http://example.org", backend=BACKEND
         )
@@ -84,7 +84,7 @@ class CpanBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_cpan_get_versions(self):
-        """ Test the get_versions function of the custom backend. """
+        """Test the get_versions function of the custom backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = ["0.28"]
@@ -98,7 +98,7 @@ class CpanBackendtests(DatabaseTestCase):
         )
 
     def test_cpan_check_feed(self):
-        """ Test the check_feed method of the cpan backend. """
+        """Test the check_feed method of the cpan backend."""
         generator = backend.CpanBackend.check_feed()
         items = list(generator)
 

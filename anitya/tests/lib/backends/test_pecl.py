@@ -35,17 +35,17 @@ BACKEND = "PECL"
 
 
 class PeclBackendtests(DatabaseTestCase):
-    """ Pecl backend tests. """
+    """Pecl backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(PeclBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
 
     def create_project(self):
-        """ Create some basic projects to work with. """
+        """Create some basic projects to work with."""
         project = models.Project(
             name="inotify",
             homepage="https://pecl.php.net/package/inotify",
@@ -61,7 +61,7 @@ class PeclBackendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_get_version(self):
-        """ Test the get_version function of the custom backend. """
+        """Test the get_version function of the custom backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "0.1.6"
@@ -101,7 +101,7 @@ class PeclBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_versions(self):
-        """ Test the get_versions function of the custom backend. """
+        """Test the get_versions function of the custom backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = ["0.1.2", "0.1.3", "0.1.4", "0.1.5", "0.1.6"]
@@ -115,7 +115,7 @@ class PeclBackendtests(DatabaseTestCase):
         )
 
     def test_pecl_check_feed(self):
-        """ Test the check_feed method of the pecl backend. """
+        """Test the check_feed method of the pecl backend."""
         generator = backend.PeclBackend.check_feed()
         items = list(generator)
 

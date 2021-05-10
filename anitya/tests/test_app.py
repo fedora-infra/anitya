@@ -147,7 +147,7 @@ class AuthExceptionHandlerTests(base.DatabaseTestCase):
 
 
 class WhenUserLogInTests(base.DatabaseTestCase):
-    """ Tests for `anitya.app.when_user_log_in` function. """
+    """Tests for `anitya.app.when_user_log_in` function."""
 
     def test_without_error(self):
         """Assert that nothing happens if social_auth info is available."""
