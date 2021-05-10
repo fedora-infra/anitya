@@ -1,5 +1,7 @@
+bandit==1.7.0
 black==21.5b0
 coverage==5.5
+diff-cover==5.1.0
 flake8==3.9.1
 mock==4.0.3
 pytest==6.2.3
