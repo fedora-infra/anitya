@@ -37,17 +37,17 @@ class _PluginManager(object):
         self._base_class = base_class
 
     def get_plugins(self):
-        """ Return the list of plugins."""
+        """Return the list of plugins."""
         return load(self._namespace, subclasses=self._base_class)
 
     def get_plugin_names(self):
-        """ Return the list of plugin names. """
+        """Return the list of plugin names."""
         plugins = self.get_plugins()
         output = [plugin.name for plugin in plugins]
         return output
 
     def get_plugin(self, plugin_name):
-        """ Return the plugin corresponding to the given plugin name. """
+        """Return the plugin corresponding to the given plugin name."""
         plugins = self.get_plugins()
         for plugin in plugins:
             if plugin.name.lower() == plugin_name.lower():

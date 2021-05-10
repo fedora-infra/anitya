@@ -36,17 +36,17 @@ BACKEND = "Packagist"
 
 
 class PackagistBackendtests(DatabaseTestCase):
-    """ Packagist backend tests. """
+    """Packagist backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(PackagistBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
 
     def create_project(self):
-        """ Create some basic projects to work with. """
+        """Create some basic projects to work with."""
         project = models.Project(
             name="php-code-coverage",
             homepage="https://packagist.org/packages/phpunit/php-code-coverage",
@@ -75,7 +75,7 @@ class PackagistBackendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_packagist_get_version(self):
-        """ Test the get_version function of the packagist backend. """
+        """Test the get_version function of the packagist backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "2.0.17"
@@ -125,7 +125,7 @@ class PackagistBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_packagist_get_versions(self):
-        """ Test the get_versions function of the packagist backend. """
+        """Test the get_versions function of the packagist backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [

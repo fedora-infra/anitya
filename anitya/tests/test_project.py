@@ -30,10 +30,10 @@ from anitya.tests.base import DatabaseTestCase, create_project
 
 
 class Projecttests(DatabaseTestCase):
-    """ Project tests. """
+    """Project tests."""
 
     def test_project_init(self):
-        """ Test the __init__ function of Project. """
+        """Test the __init__ function of Project."""
         create_project(self.session)
         self.assertEqual(3, models.Project.all(self.session, count=True))
 
@@ -43,7 +43,7 @@ class Projecttests(DatabaseTestCase):
         self.assertEqual(projects[2].name, "subsurface")
 
     def test_project_by_name(self):
-        """ Test the by_name function of Project. """
+        """Test the by_name function of Project."""
         create_project(self.session)
 
         project = models.Project.by_name(self.session, "geany")
@@ -54,7 +54,7 @@ class Projecttests(DatabaseTestCase):
         self.assertEqual(project, [])
 
     def test_project_by_id(self):
-        """ Test the by_id function of Project. """
+        """Test the by_id function of Project."""
         create_project(self.session)
 
         project = models.Project.by_id(self.session, 1)
@@ -77,7 +77,7 @@ class Projecttests(DatabaseTestCase):
         self.assertEqual(project, None)
 
     def test_project_by_homepage(self):
-        """ Test the by_homepage function of Project. """
+        """Test the by_homepage function of Project."""
         create_project(self.session)
 
         projects = models.Project.by_homepage(self.session, "https://www.geany.org/")
@@ -96,7 +96,7 @@ class Projecttests(DatabaseTestCase):
         self.assertEqual(project, [])
 
     def test_project_all(self):
-        """ Test the all function of Project. """
+        """Test the all function of Project."""
         create_project(self.session)
 
         projects = models.Project.all(self.session)
@@ -109,7 +109,7 @@ class Projecttests(DatabaseTestCase):
         self.assertEqual(projects, [])
 
     def test_project_search(self):
-        """ Test the search function of Project. """
+        """Test the search function of Project."""
         create_project(self.session)
 
         projects = models.Project.search(self.session, "gea")
@@ -120,7 +120,7 @@ class Projecttests(DatabaseTestCase):
         self.assertEqual(projects[0].homepage, "https://www.geany.org/")
 
     def test_distro_repr(self):
-        """ Test the __repr__ function of Project. """
+        """Test the __repr__ function of Project."""
         create_project(self.session)
 
         obs = "<Project(geany, https://www.geany.org/)>"

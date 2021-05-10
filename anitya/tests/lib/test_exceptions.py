@@ -26,7 +26,7 @@ from anitya.lib import exceptions
 
 
 class AnityaInvalidMappingTests(unittest.TestCase):
-    """ Tests for :class:`exceptions.AnityaInvalidMappingException`."""
+    """Tests for :class:`exceptions.AnityaInvalidMappingException`."""
 
     def test_message(self):
         """Assert message creation"""

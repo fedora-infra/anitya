@@ -14,7 +14,7 @@ down_revision = "34b9bb5fa388"
 
 
 def upgrade():
-    """ Rename column `distro` in packages table. """
+    """Rename column `distro` in packages table."""
     op.alter_column("packages", "distro", new_column_name="distro_name")
 
 

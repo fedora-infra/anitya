@@ -733,7 +733,7 @@ def edit_project_mapping(project_id, pkg_id):
 
 
 def format_examples(examples):
-    """ Return the plugins examples as HTML links. """
+    """Return the plugins examples as HTML links."""
     output = ""
     if examples:
         for cnt, example in enumerate(examples):
@@ -745,7 +745,7 @@ def format_examples(examples):
 
 
 def context_class(category):
-    """ Return bootstrap context class for a given category. """
+    """Return bootstrap context class for a given category."""
     values = {"message": "default", "error": "danger", "info": "info"}
     return values.get(category, "warning")
 

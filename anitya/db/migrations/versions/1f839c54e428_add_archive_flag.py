@@ -15,7 +15,7 @@ down_revision = "d6170cfc2814"
 
 
 def upgrade():
-    """ Add archived column to the projects table. """
+    """Add archived column to the projects table."""
     op.add_column(
         "projects",
         sa.Column(
@@ -29,5 +29,5 @@ def upgrade():
 
 
 def downgrade():
-    """ Drop archived column to the projects table. """
+    """Drop archived column to the projects table."""
     op.drop_column("projects", "archived")

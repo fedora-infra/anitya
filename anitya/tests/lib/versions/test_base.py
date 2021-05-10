@@ -84,7 +84,7 @@ class VersionTests(unittest.TestCase):
         self.assertEqual("1.0.0", version.parse())
 
     def test_parse_with_multiple_prefixes(self):
-        """ Assert parsing is working when multiple prefixes are provided. """
+        """Assert parsing is working when multiple prefixes are provided."""
         version = base.Version(version="release_db-1.2.3", prefix="release_db-;release")
         self.assertEqual("1.2.3", version.parse())
 

@@ -37,10 +37,10 @@ BACKEND = "folder"
 
 
 class FolderBackendtests(DatabaseTestCase):
-    """ folder backend tests. """
+    """folder backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(FolderBackendtests, self).setUp()
 
         create_distro(self.session)
@@ -91,7 +91,7 @@ class FolderBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_version_url(self):
-        """ Assert that correct url is returned. """
+        """Assert that correct url is returned."""
         project = models.Project(
             name="test",
             homepage="http://example.org",

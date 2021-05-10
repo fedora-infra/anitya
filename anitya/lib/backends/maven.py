@@ -21,7 +21,7 @@ COORDINATES_RE = re.compile(r"([^:]+):([^:]+)")
 
 
 class MavenBackend(BaseBackend):
-    """ Backend for projects hosted on Maven Central """
+    """Backend for projects hosted on Maven Central"""
 
     name = "Maven Central"
     examples = [

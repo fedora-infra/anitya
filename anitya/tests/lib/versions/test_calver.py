@@ -327,7 +327,7 @@ class CalendarVersionTests(unittest.TestCase):
         self.assertEqual(version.split(), expected)
 
     def test_split_ubuntu_pattern(self):
-        """ Assert that Ubuntu version can be correctly split."""
+        """Assert that Ubuntu version can be correctly split."""
         version = calver.CalendarVersion(version="18.04.1", pattern="YY.0M.MICRO")
         expected = {
             "year": "18",
@@ -341,7 +341,7 @@ class CalendarVersionTests(unittest.TestCase):
         self.assertEqual(version.split(), expected)
 
     def test_split_incorrect_delimiter(self):
-        """ Assert that incorrect delimiter is detected."""
+        """Assert that incorrect delimiter is detected."""
         version = calver.CalendarVersion(version="18.04-1", pattern="YY.0M.MICRO")
         self.assertRaises(ValueError, version.split)
 

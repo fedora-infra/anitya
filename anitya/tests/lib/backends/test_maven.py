@@ -35,10 +35,10 @@ BACKEND = "Maven Central"
 
 
 class MavenBackendTest(DatabaseTestCase):
-    """ custom backend tests. """
+    """custom backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(MavenBackendTest, self).setUp()
 
         create_distro(self.session)

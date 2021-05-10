@@ -15,7 +15,7 @@ down_revision = None
 
 
 def upgrade():
-    """ Add the `insecure` column on the projects table. """
+    """Add the `insecure` column on the projects table."""
     op.add_column(
         "projects",
         sa.Column(
@@ -29,5 +29,5 @@ def upgrade():
 
 
 def downgrade():
-    """ Drop the `insecure` column of the projects table. """
+    """Drop the `insecure` column of the projects table."""
     op.drop_column("projects", "insecure")

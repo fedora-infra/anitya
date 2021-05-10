@@ -83,10 +83,10 @@ class VersionPluginsTests(unittest.TestCase):
 
 
 class Pluginstests(DatabaseTestCase):
-    """ Plugins tests. """
+    """Plugins tests."""
 
     def test_load_all_plugins(self):
-        """ Test the plugins.load_all_plugins function. """
+        """Test the plugins.load_all_plugins function."""
         all_plugins = plugins.load_all_plugins(self.session)
         backend_plugins = all_plugins["backends"]
         self.assertEqual(len(backend_plugins), len(EXPECTED_BACKENDS))
@@ -100,20 +100,20 @@ class Pluginstests(DatabaseTestCase):
         self.assertEqual(ecosystems, EXPECTED_ECOSYSTEMS)
 
     def test_load_plugins(self):
-        """ Test the plugins.load_plugins function. """
+        """Test the plugins.load_plugins function."""
         backend_plugins = plugins.load_plugins(self.session)
         self.assertEqual(len(backend_plugins), len(EXPECTED_BACKENDS))
         backend_names = sorted(plugin.name for plugin in backend_plugins)
         self.assertEqual(sorted(backend_names), sorted(EXPECTED_BACKENDS))
 
     def test_plugins_get_plugin_names(self):
-        """ Test the plugins.get_plugin_names function. """
+        """Test the plugins.get_plugin_names function."""
         plugin_names = plugins.get_plugin_names()
         self.assertEqual(len(plugin_names), len(EXPECTED_BACKENDS))
         self.assertEqual(sorted(plugin_names), sorted(EXPECTED_BACKENDS))
 
     def test_plugins_get_plugin(self):
-        """ Test the plugins.get_plugin function. """
+        """Test the plugins.get_plugin function."""
         plugin = plugins.get_plugin("PyPI")
         self.assertEqual(str(plugin), "<class 'anitya.lib.backends.pypi.PypiBackend'>")
 

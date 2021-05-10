@@ -36,17 +36,17 @@ BACKEND = "GNU project"
 
 
 class GnuBackendtests(DatabaseTestCase):
-    """ custom backend tests. """
+    """custom backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(GnuBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
 
     def create_project(self):
-        """ Create some basic projects to work with. """
+        """Create some basic projects to work with."""
         project = models.Project(
             name="gnash",
             homepage="https://www.gnu.org/software/gnash/",
@@ -74,7 +74,7 @@ class GnuBackendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_custom_get_version(self):
-        """ Test the get_version function of the custom backend. """
+        """Test the get_version function of the custom backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "0.8.10"
@@ -94,7 +94,7 @@ class GnuBackendtests(DatabaseTestCase):
         )
 
     def test_get_version_url(self):
-        """ Assert that correct url is returned. """
+        """Assert that correct url is returned."""
         project = models.Project(
             name="test", homepage="http://example.org", backend=BACKEND
         )
@@ -105,7 +105,7 @@ class GnuBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_custom_get_versions(self):
-        """ Test the get_versions function of the custom backend. """
+        """Test the get_versions function of the custom backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [

@@ -35,17 +35,17 @@ BACKEND = "Sourceforge"
 
 
 class SourceforgeBackendtests(DatabaseTestCase):
-    """ Sourceforge backend tests. """
+    """Sourceforge backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(SourceforgeBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
 
     def create_project(self):
-        """ Create some basic projects to work with. """
+        """Create some basic projects to work with."""
         project = models.Project(
             name="filezilla",
             homepage="https://sourceforge.net/projects/filezilla/",
@@ -71,7 +71,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_get_version(self):
-        """ Test the get_version function of the sourceforge backend. """
+        """Test the get_version function of the sourceforge backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "3.31.0"
@@ -152,7 +152,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_versions(self):
-        """ Test the get_versions function of the sourceforge backend. """
+        """Test the get_versions function of the sourceforge backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [

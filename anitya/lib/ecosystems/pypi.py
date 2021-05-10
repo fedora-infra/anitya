@@ -11,7 +11,7 @@ from . import BaseEcosystem
 
 
 class PypiEcosystem(BaseEcosystem):
-    """ The PyPI ecosystem class"""
+    """The PyPI ecosystem class"""
 
     name = "pypi"
     default_backend = "PyPI"

@@ -35,10 +35,10 @@ BACKEND = "PyPI"
 
 
 class PypiBackendtests(DatabaseTestCase):
-    """ pypi backend tests. """
+    """pypi backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(PypiBackendtests, self).setUp()
 
         create_distro(self.session)
@@ -58,7 +58,7 @@ class PypiBackendtests(DatabaseTestCase):
         )
 
     def test_pypi_get_version(self):
-        """ Test the get_version function of the pypi backend. """
+        """Test the get_version function of the pypi backend."""
         project = models.Project(
             name="chai", homepage="https://pypi.org/project/chai/", backend=BACKEND
         )
@@ -100,7 +100,7 @@ class PypiBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_pypi_get_versions(self):
-        """ Test the get_versions function of the pypi backend. """
+        """Test the get_versions function of the pypi backend."""
         project = models.Project(
             name="repo_manager",
             homepage="https://pypi.org/project/repo_manager/",
@@ -132,7 +132,7 @@ class PypiBackendtests(DatabaseTestCase):
             self.assertEqual(versions, [])
 
     def test_pypi_check_feed(self):
-        """ Test the check_feed method of the pypi backend. """
+        """Test the check_feed method of the pypi backend."""
         generator = backend.PypiBackend.check_feed()
         items = list(generator)
 

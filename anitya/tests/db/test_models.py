@@ -54,7 +54,7 @@ class ProjectTests(DatabaseTestCase):
     """Tests for the Project models."""
 
     def test_init_project(self):
-        """ Test the __init__ function of Project. """
+        """Test the __init__ function of Project."""
         create_project(self.session)
         self.assertEqual(3, models.Project.all(self.session, count=True))
 
@@ -149,14 +149,14 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual(len(versions), 0)
 
     def test_get_version_url_no_backend(self):
-        """ Assert that empty string is returned when backend is not specified. """
+        """Assert that empty string is returned when backend is not specified."""
         project = models.Project(
             name="test", homepage="https://example.com", ecosystem_name="pypi"
         )
         self.assertEqual("", project.get_version_url())
 
     def test_get_version_url(self):
-        """ Assert that correct url is returned. """
+        """Assert that correct url is returned."""
         project = models.Project(
             name="test",
             homepage="https://example.com",
@@ -360,7 +360,7 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual(version_class, None)
 
     def test_project_all(self):
-        """ Test the Project.all function. """
+        """Test the Project.all function."""
         create_project(self.session)
 
         projects = models.Project.all(self.session, count=True)
@@ -373,7 +373,7 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual(len(projects), 3)
 
     def test_project_search(self):
-        """ Test the Project.search function. """
+        """Test the Project.search function."""
         create_project(self.session)
         create_package(self.session)
 
@@ -413,7 +413,7 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual(len(projects), 2)
 
     def test_project_get_or_create(self):
-        """ Test the Project.get_or_create function. """
+        """Test the Project.get_or_create function."""
         project = models.Project.get_or_create(
             self.session, name="test", homepage="https://test.org", backend="custom"
         )
@@ -436,7 +436,7 @@ class ProjectTests(DatabaseTestCase):
         )
 
     def test_project_delete_cascade(self):
-        """ Assert deletion of mapped packages when project is deleted """
+        """Assert deletion of mapped packages when project is deleted"""
         project = models.Project(
             name="test",
             homepage="https://example.com",
@@ -641,10 +641,10 @@ class ProjectTests(DatabaseTestCase):
 
 
 class DistroTestCase(DatabaseTestCase):
-    """ Tests for Distro model. """
+    """Tests for Distro model."""
 
     def test_init_distro(self):
-        """ Test the __init__ function of Distro. """
+        """Test the __init__ function of Distro."""
         create_distro(self.session)
         self.assertEqual(2, models.Distro.all(self.session, count=True))
 
@@ -653,7 +653,7 @@ class DistroTestCase(DatabaseTestCase):
         self.assertEqual(distros[1].name, "Fedora")
 
     def test_distro_delete_cascade(self):
-        """ Assert deletion of mapped packages when project is deleted """
+        """Assert deletion of mapped packages when project is deleted"""
         project = models.Project(
             name="test",
             homepage="https://example.com",
@@ -687,7 +687,7 @@ class DistroTestCase(DatabaseTestCase):
         self.assertEqual(len(packages), 0)
 
     def test_distro_search_count(self):
-        """ Assert that `Distro.search` returns correct count. """
+        """Assert that `Distro.search` returns correct count."""
         create_distro(self.session)
 
         logs = models.Distro.search(self.session, "*", count=True)
@@ -727,7 +727,7 @@ class DistroTestCase(DatabaseTestCase):
 
 
 class ProjectVersion(DatabaseTestCase):
-    """ Tests for ProjectVersion model. """
+    """Tests for ProjectVersion model."""
 
     def test_pre_release(self):
         """Test the pre_release property on version."""
@@ -753,10 +753,10 @@ class ProjectVersion(DatabaseTestCase):
 
 
 class PackageTestCase(DatabaseTestCase):
-    """ Tests for Package model. """
+    """Tests for Package model."""
 
     def test_packages_by_id(self):
-        """ Test the Packages.by_id function. """
+        """Test the Packages.by_id function."""
         create_project(self.session)
         create_distro(self.session)
         create_package(self.session)
@@ -766,7 +766,7 @@ class PackageTestCase(DatabaseTestCase):
         self.assertEqual(pkg.distro_name, "Fedora")
 
     def test_packages__repr__(self):
-        """ Test the Packages.__repr__ function. """
+        """Test the Packages.__repr__ function."""
         create_project(self.session)
         create_distro(self.session)
         create_package(self.session)
@@ -776,16 +776,16 @@ class PackageTestCase(DatabaseTestCase):
 
 
 class ProjectFlagTestCase(DatabaseTestCase):
-    """ Tests for ProjectFlag model. """
+    """Tests for ProjectFlag model."""
 
     def test_project_flag__repr__(self):
-        """ Test the ProjectFlag.__repr__ function. """
+        """Test the ProjectFlag.__repr__ function."""
         flag = create_flagged_project(self.session)
 
         self.assertEqual(repr(flag), "<ProjectFlag(geany, dgay@redhat.com, open)>")
 
     def test_project_flag__json__(self):
-        """ Test the ProjectFlag.__json__ function. """
+        """Test the ProjectFlag.__json__ function."""
         flag = create_flagged_project(self.session)
         data = {
             "created_on": time.mktime(flag.created_on.timetuple()),
@@ -802,7 +802,7 @@ class ProjectFlagTestCase(DatabaseTestCase):
         self.assertEqual(flag.__json__(detailed=True), data)
 
     def test_project_flag_all(self):
-        """ Test the ProjectFlag.all function. """
+        """Test the ProjectFlag.all function."""
         create_flagged_project(self.session)
 
         flags = models.ProjectFlag.all(self.session)
@@ -1145,7 +1145,7 @@ class UserTests(DatabaseTestCase):
             self.assertTrue(user.admin)
 
     def test_to_dict(self):
-        """ Assert the correct dictionary is returned. """
+        """Assert the correct dictionary is returned."""
         user = models.User(email="user@fedoraproject.org", username="user")
         self.session.add(user)
         self.session.commit()

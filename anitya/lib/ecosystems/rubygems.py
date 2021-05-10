@@ -11,7 +11,7 @@ from . import BaseEcosystem
 
 
 class RubygemsEcosystem(BaseEcosystem):
-    """ The rubygems ecosystem class"""
+    """The rubygems ecosystem class"""
 
     name = "rubygems"
     default_backend = "Rubygems"

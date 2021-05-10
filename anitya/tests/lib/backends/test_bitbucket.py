@@ -35,17 +35,17 @@ BACKEND = "BitBucket"
 
 
 class BitBucketBackendtests(DatabaseTestCase):
-    """ BitBucket backend tests. """
+    """BitBucket backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(BitBucketBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
 
     def create_project(self):
-        """ Create some basic projects to work with. """
+        """Create some basic projects to work with."""
         project = models.Project(
             name="sqlalchemy",
             homepage="https://bitbucket.org/zzzeek/sqlalchemy",
@@ -73,7 +73,7 @@ class BitBucketBackendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_get_version(self):
-        """ Test the get_version function of the BitBucket backend. """
+        """Test the get_version function of the BitBucket backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "rel_1_1_3"
@@ -173,7 +173,7 @@ class BitBucketBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_versions(self):
-        """ Test the get_versions function of the BitBucket backend. """
+        """Test the get_versions function of the BitBucket backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [

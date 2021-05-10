@@ -117,7 +117,7 @@ def global_user():
 
 
 def shutdown_session(exception=None):
-    """ Remove the DB session at the end of each request. """
+    """Remove the DB session at the end of each request."""
     Session.remove()
 
 

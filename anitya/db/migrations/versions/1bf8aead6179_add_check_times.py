@@ -16,7 +16,7 @@ down_revision = "b13662e5d288"
 
 
 def upgrade():
-    """ Add next_check and last_check columns to the projects table. """
+    """Add next_check and last_check columns to the projects table."""
     op.add_column(
         "projects",
         sa.Column(
@@ -45,7 +45,7 @@ def upgrade():
 
 
 def downgrade():
-    """ Drop next_check and last_check columns to the projects table. """
+    """Drop next_check and last_check columns to the projects table."""
     op.drop_column("projects", "last_check")
     op.drop_column("projects", "next_check")
     op.drop_index(op.f("ix_projects_next_check"), table_name="projects")

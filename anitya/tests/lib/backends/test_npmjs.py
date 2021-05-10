@@ -36,17 +36,17 @@ BACKEND = "npmjs"
 
 
 class NpmjsBackendtests(DatabaseTestCase):
-    """ Drupal backend tests. """
+    """Drupal backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(NpmjsBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
 
     def create_project(self):
-        """ Create some basic projects to work with. """
+        """Create some basic projects to work with."""
         project = models.Project(
             name="request",
             homepage="https://www.npmjs.org/package/request",
@@ -72,7 +72,7 @@ class NpmjsBackendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_get_version(self):
-        """ Test the get_version function of the npmjs backend. """
+        """Test the get_version function of the npmjs backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "2.83.0"
@@ -118,7 +118,7 @@ class NpmjsBackendtests(DatabaseTestCase):
             self.assertEqual(versions, None)
 
     def test_get_versions(self):
-        """ Test the get_versions function of the npmjs backend. """
+        """Test the get_versions function of the npmjs backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = [
@@ -289,7 +289,7 @@ class NpmjsBackendtests(DatabaseTestCase):
             self.assertEqual(versions, [])
 
     def test_npmjs_check_feed(self):
-        """ Test the check_feed method of the npmjs backend. """
+        """Test the check_feed method of the npmjs backend."""
         generator = backend.NpmjsBackend.check_feed()
         items = sorted(generator)
 

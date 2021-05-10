@@ -167,7 +167,7 @@ class DatabaseTestCase(AnityaTestCase):
 
 
 def create_distro(session):
-    """ Create some basic distro for testing. """
+    """Create some basic distro for testing."""
     distro = models.Distro(name="Fedora")
     session.add(distro)
 
@@ -178,7 +178,7 @@ def create_distro(session):
 
 
 def create_project(session):
-    """ Create some basic projects to work with. """
+    """Create some basic projects to work with."""
     project = models.Project(
         name="geany",
         homepage="https://www.geany.org/",
@@ -241,7 +241,7 @@ def create_ecosystem_projects(session):
 
 
 def create_package(session):
-    """ Create some basic packages to work with. """
+    """Create some basic packages to work with."""
     package = models.Packages(project_id=1, distro_name="Fedora", package_name="geany")
     session.add(package)
 
@@ -254,7 +254,7 @@ def create_package(session):
 
 
 def create_flagged_project(session):
-    """ Create and flag a project. Returns the ProjectFlag. """
+    """Create and flag a project. Returns the ProjectFlag."""
     project = models.Project(
         name="geany",
         homepage="https://www.geany.org/",

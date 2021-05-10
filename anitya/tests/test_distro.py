@@ -30,10 +30,10 @@ from anitya.tests.base import DatabaseTestCase, create_distro
 
 
 class Distrotests(DatabaseTestCase):
-    """ Distro tests. """
+    """Distro tests."""
 
     def test_init_distro(self):
-        """ Test the __init__ function of Distro. """
+        """Test the __init__ function of Distro."""
         create_distro(self.session)
         self.assertEqual(2, models.Distro.all(self.session, count=True))
 
@@ -42,7 +42,7 @@ class Distrotests(DatabaseTestCase):
         self.assertEqual(distros[1].name, "Fedora")
 
     def test_distro_by_name(self):
-        """ Test the by_name function of Distro. """
+        """Test the by_name function of Distro."""
         create_distro(self.session)
 
         distro = models.Distro.by_name(self.session, "fedora")
@@ -58,7 +58,7 @@ class Distrotests(DatabaseTestCase):
         self.assertEqual(distro.name, "Debian")
 
     def test_distro_all(self):
-        """ Test the all function of Distro. """
+        """Test the all function of Distro."""
         create_distro(self.session)
 
         distro = models.Distro.all(self.session, page=2)
@@ -69,14 +69,14 @@ class Distrotests(DatabaseTestCase):
         self.assertEqual(distro, distro2)
 
     def test_distro_json(self):
-        """ Test the __json__ function of Distro. """
+        """Test the __json__ function of Distro."""
         create_distro(self.session)
 
         distro = models.Distro.by_name(self.session, "fedora")
         self.assertEqual(distro.__json__(), {"name": "Fedora"})
 
     def test_distro_search(self):
-        """ Test the search function of Distro. """
+        """Test the search function of Distro."""
         create_distro(self.session)
 
         distro = models.Distro.search(self.session, "fed")
@@ -88,7 +88,7 @@ class Distrotests(DatabaseTestCase):
         self.assertEqual(len(distro), 1)
 
     def test_distro_get_or_create(self):
-        """ Test the get_or_create function of Distro. """
+        """Test the get_or_create function of Distro."""
         create_distro(self.session)
 
         distro = models.Distro.get_or_create(self.session, "fedora")

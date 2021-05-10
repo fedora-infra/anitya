@@ -35,17 +35,17 @@ BACKEND = "Drupal6"
 
 
 class Drupal6Backendtests(DatabaseTestCase):
-    """ Drupal backend tests. """
+    """Drupal backend tests."""
 
     def setUp(self):
-        """ Set up the environnment, ran before every tests. """
+        """Set up the environnment, ran before every tests."""
         super(Drupal6Backendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
 
     def create_project(self):
-        """ Create some basic projects to work with. """
+        """Create some basic projects to work with."""
         project = models.Project(
             name="wysiwyg",
             homepage="https://www.drupal.org/project/wysiwyg",
@@ -69,7 +69,7 @@ class Drupal6Backendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_get_version(self):
-        """ Test the get_version function of the debian backend. """
+        """Test the get_version function of the debian backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "2.4"
@@ -89,7 +89,7 @@ class Drupal6Backendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_version_url(self):
-        """ Assert that correct url is returned. """
+        """Assert that correct url is returned."""
         project = models.Project(
             name="test",
             homepage="http://example.org",
@@ -135,7 +135,7 @@ class Drupal6Backendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_versions(self):
-        """ Test the get_versions function of the debian backend. """
+        """Test the get_versions function of the debian backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = ["2.x-dev", "2.0-alpha1", "2.0", "2.1", "2.2", "2.3", "2.4"]
