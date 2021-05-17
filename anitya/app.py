@@ -15,7 +15,6 @@ import logging.config
 import logging.handlers
 
 import flask
-from flask_restful import Api
 from flask_login import LoginManager, current_user, user_logged_in
 from social_core.backends.utils import load_backends
 from social_core.exceptions import AuthException
@@ -72,15 +71,17 @@ def create(config=None):
     login_manager.init_app(app)
 
     # Register the v2 API resources
-    app.api = Api(app)
-    app.api.add_resource(
-        api_v2.ProjectsResource, "/api/v2/projects/", endpoint="apiv2.projects"
+    packages_view = api_v2.PackagesResource.as_view("apiv2.packages")
+    app.add_url_rule(
+        "/api/v2/packages/", view_func=packages_view, methods=["GET", "POST"]
     )
-    app.api.add_resource(
-        api_v2.PackagesResource, "/api/v2/packages/", endpoint="apiv2.packages"
+    projects_view = api_v2.ProjectsResource.as_view("apiv2.projects")
+    app.add_url_rule(
+        "/api/v2/projects/", view_func=projects_view, methods=["GET", "POST"]
     )
-    app.api.add_resource(
-        api_v2.VersionsResource, "/api/v2/versions/", endpoint="apiv2.versions"
+    versions_view = api_v2.VersionsResource.as_view("apiv2.versions")
+    app.add_url_rule(
+        "/api/v2/versions/", view_func=versions_view, methods=["GET", "POST"]
     )
 
     # Register all the view blueprints

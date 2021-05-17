@@ -5,22 +5,22 @@ This is the version 2 HTTP API.
 It uses OpenID Connect for endpoints that require authentication.
 """
 
-from gettext import gettext as _
 import logging
 
 import flask_login
-from flask import jsonify
-from flask_restful import Resource, inputs, reqparse
+from flask import jsonify, request, abort, make_response
+from flask.views import MethodView
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
+from webargs import fields, ValidationError
+from webargs.flaskparser import FlaskParser
 
 from anitya import authentication
 from anitya.db import Session, models
 from anitya.lib import utilities
 from anitya.lib.exceptions import ProjectExists, AnityaException
 
-_BASE_ARG_PARSER = reqparse.RequestParser(trim=True, bundle_errors=True)
 _log = logging.getLogger(__name__)
 
 
@@ -41,7 +41,7 @@ def _page_validator(arg):
     """
     arg = int(arg)
     if arg < 1:
-        raise ValueError(_("Value must be greater than or equal to 1."))
+        raise ValidationError("Value must be greater than or equal to 1.")
     return arg
 
 
@@ -62,13 +62,35 @@ def _items_per_page_validator(arg):
     """
     arg = int(arg)
     if arg < 1:
-        raise ValueError(_("Value must be greater than or equal to 1."))
+        raise ValidationError("Value must be greater than or equal to 1.")
     if arg > 250:
-        raise ValueError(_("Value must be less than or equal to 250."))
+        raise ValidationError("Value must be less than or equal to 250.")
     return arg
 
 
-class PackagesResource(Resource):
+class Parser(FlaskParser):
+    """
+    Override default validation HTTP error.
+    """
+
+    DEFAULT_VALIDATION_STATUS = 400
+
+    def handle_error(self, error, req, schema, error_status_code, error_headers):
+        response_dict = {}
+        for error_value in error.messages.values():
+            for key, value in error_value.items():
+                response_dict[key] = value[0]
+        response = make_response(
+            jsonify(dict(message=response_dict)), self.DEFAULT_VALIDATION_STATUS
+        )
+        abort(response)
+
+
+# Default args parser
+parser = Parser()
+
+
+class PackagesResource(MethodView):
     """The ``api/v2/packages/`` API endpoint."""
 
     def get(self):
@@ -120,17 +142,18 @@ class PackagesResource(Resource):
                          are no projects, this will return 200.
         :statuscode 400: If one or more of the query arguments is invalid.
         """
-        parser = _BASE_ARG_PARSER.copy()
-        parser.add_argument("page", type=_page_validator, location="args")
-        parser.add_argument(
-            "items_per_page", type=_items_per_page_validator, location="args"
-        )
-        parser.add_argument("distribution", type=str, location="args")
-        parser.add_argument("name", type=str, location="args")
-        args = parser.parse_args(strict=True)
+        user_args = {
+            "page": fields.Int(validate=_page_validator, missing=1),
+            "items_per_page": fields.Int(
+                validate=_items_per_page_validator, missing=25
+            ),
+            "distribution": fields.Str(),
+            "name": fields.Str(),
+        }
+        args = parser.parse(user_args, request, location="query")
         q = models.Packages.query
-        distro = args.pop("distribution")
-        name = args.pop("name")
+        distro = args.pop("distribution", "")
+        name = args.pop("name", "")
         if distro:
             q = q.filter(func.lower(models.Packages.distro_name) == func.lower(distro))
         if name:
@@ -204,41 +227,24 @@ class PackagesResource(Resource):
         :statuscode 401: When your access token is missing or invalid
         :statuscode 409: When the package already exists.
         """
-        distribution_help = _(
-            "The name of the distribution that contains this package."
-        )
-        package_name_help = _("The name of the package in the distribution repository.")
-        project_name_help = _("The project name in Anitya.")
-        project_ecosystem_help = _(
-            "The ecosystem the project is a part of. If it's not part of an ecosystem,"
-            " use the homepage used in the Anitya project."
-        )
-
-        parser = _BASE_ARG_PARSER.copy()
-        parser.add_argument(
-            "distribution", type=str, help=distribution_help, required=True
-        )
-        parser.add_argument(
-            "package_name", type=str, help=package_name_help, required=True
-        )
-        parser.add_argument(
-            "project_name", type=str, help=project_name_help, required=True
-        )
-        parser.add_argument(
-            "project_ecosystem", type=str, help=project_ecosystem_help, required=True
-        )
-        args = parser.parse_args(strict=True)
+        user_args = {
+            "distribution": fields.Str(required=True),
+            "package_name": fields.Str(required=True),
+            "project_name": fields.Str(required=True),
+            "project_ecosystem": fields.Str(required=True),
+        }
+        args = parser.parse(user_args, request, location="form")
         try:
             project = models.Project.query.filter(
-                func.lower(models.Project.name) == func.lower(args.project_name),
+                func.lower(models.Project.name) == func.lower(args["project_name"]),
                 func.lower(models.Project.ecosystem_name)
-                == func.lower(args.project_ecosystem),
+                == func.lower(args["project_ecosystem"]),
             ).one()
         except NoResultFound:
             return (
                 {
                     "error": 'Project "{}" in ecosystem "{}" not found'.format(
-                        args.project_name, args.project_ecosystem
+                        args["project_name"], args["project_ecosystem"]
                     )
                 },
                 400,
@@ -246,17 +252,19 @@ class PackagesResource(Resource):
 
         try:
             distro = models.Distro.query.filter(
-                func.lower(models.Distro.name) == func.lower(args.distribution)
+                func.lower(models.Distro.name) == func.lower(args["distribution"])
             ).one()
         except NoResultFound:
             return (
-                {"error": 'Distribution "{}" not found'.format(args.distribution)},
+                {"error": 'Distribution "{}" not found'.format(args["distribution"])},
                 400,
             )
 
         try:
             package = models.Packages(
-                distro_name=distro.name, project=project, package_name=args.package_name
+                distro_name=distro.name,
+                project=project,
+                package_name=args["package_name"],
             )
 
             Session.add(package)
@@ -280,7 +288,7 @@ class PackagesResource(Resource):
             return {"error": "package already exists in distribution"}, 409
 
 
-class ProjectsResource(Resource):
+class ProjectsResource(MethodView):
     """
     The ``api/v2/projects/`` API endpoint.
     """
@@ -359,16 +367,17 @@ class ProjectsResource(Resource):
                          are no projects matching the query, this will return 200.
         :statuscode 400: If one or more of the query arguments is invalid.
         """
-        parser = _BASE_ARG_PARSER.copy()
-        parser.add_argument("page", type=_page_validator, location="args")
-        parser.add_argument(
-            "items_per_page", type=_items_per_page_validator, location="args"
-        )
-        parser.add_argument("ecosystem", type=str, location="args")
-        parser.add_argument("name", type=str, location="args")
-        args = parser.parse_args(strict=True)
-        ecosystem = args.pop("ecosystem")
-        name = args.pop("name")
+        user_args = {
+            "page": fields.Int(validate=_page_validator, missing=1),
+            "items_per_page": fields.Int(
+                validate=_items_per_page_validator, missing=25
+            ),
+            "ecosystem": fields.Str(),
+            "name": fields.Str(),
+        }
+        args = parser.parse(user_args, request, location="query")
+        ecosystem = args.pop("ecosystem", "")
+        name = args.pop("name", "")
         q = models.Project.query
         if ecosystem:
             q = q.filter(
@@ -455,55 +464,32 @@ class ProjectsResource(Resource):
                          problem.
         :statuscode 409: When the project already exists.
         """
-        name_help = _("The project name")
-        homepage_help = _("The project homepage URL")
-        backend_help = _("The project backend (github, folder, etc.)")
-        version_url_help = _(
-            "The URL to fetch when determining the project "
-            "version (defaults to null)"
-        )
-        version_prefix_help = _(
-            "The project version prefix, if any. For "
-            'example, some projects prefix with "v"'
-        )
-        regex_help = _("The regex to use when searching the version_url page")
-        insecure_help = _(
-            "When retrieving the versions via HTTPS, do not "
-            "validate the certificate (defaults to false)"
-        )
-        check_release_help = _(
-            "Check the release immediately after creating " "the project."
-        )
-
-        parser = _BASE_ARG_PARSER.copy()
-        parser.add_argument("name", type=str, help=name_help, required=True)
-        parser.add_argument("homepage", type=str, help=homepage_help, required=True)
-        parser.add_argument("backend", type=str, help=backend_help, required=True)
-        parser.add_argument(
-            "version_url", type=str, help=version_url_help, default=None
-        )
-        parser.add_argument(
-            "version_prefix", type=str, help=version_prefix_help, default=None
-        )
-        parser.add_argument("regex", type=str, help=regex_help, default=None)
-        parser.add_argument("insecure", type=bool, help=insecure_help, default=False)
-        parser.add_argument("check_release", type=bool, help=check_release_help)
-        args = parser.parse_args(strict=True)
+        user_args = {
+            "name": fields.Str(required=True),
+            "homepage": fields.Str(required=True),
+            "backend": fields.Str(required=True),
+            "version_url": fields.Str(missing=None),
+            "version_prefix": fields.Str(missing=None),
+            "regex": fields.Str(missing=None),
+            "insecure": fields.Bool(missing=False),
+            "check_release": fields.Bool(missing=False),
+        }
+        args = parser.parse(user_args, request, location="form")
 
         try:
             project = utilities.create_project(
                 Session,
                 user_id=flask_login.current_user.email,
-                name=args.name,
-                homepage=args.homepage,
-                backend=args.backend,
-                version_url=args.version_url,
-                version_prefix=args.version_prefix,
-                regex=args.regex,
-                insecure=args.insecure,
+                name=args["name"],
+                homepage=args["homepage"],
+                backend=args["backend"],
+                version_url=args["version_url"],
+                version_prefix=args["version_prefix"],
+                regex=args["regex"],
+                insecure=args["insecure"],
             )
             Session.commit()
-            if args.check_release:
+            if args["check_release"]:
                 try:
                     utilities.check_project_release(project, Session)
                 except AnityaException as err:
@@ -515,7 +501,7 @@ class ProjectsResource(Resource):
             return response
 
 
-class VersionsResource(Resource):
+class VersionsResource(MethodView):
     """
     The ``api/v2/versions/`` API endpoint.
     """
@@ -573,10 +559,9 @@ class VersionsResource(Resource):
         :statuscode 400: If one or more of the query arguments is invalid.
         :statuscode 404: If project with specified id doesn't exist.
         """
-        parser = _BASE_ARG_PARSER.copy()
-        parser.add_argument("project_id", type=int, location="args")
-        args = parser.parse_args(strict=True)
-        project_id = args.pop("project_id")
+        user_args = {"project_id": fields.Int()}
+        args = parser.parse(user_args, request, location="query")
+        project_id = args.pop("project_id", -1)
         project = models.Project.get(Session, project_id=project_id)
         if not project:
             response = {"output": "notok", "error": "No such project"}, 404
@@ -675,80 +660,35 @@ class VersionsResource(Resource):
         :statuscode 404: When id is provided and the project doesn't exist or is archived.
         :statuscode 500: If there is error during the check
         """
-        id_help = _(
-            "Id of the project. If provided the check is done above existing project."
-        )
-        name_help = _(
-            "The project name. Used as a filter to find existing project, "
-            "if id not provided."
-        )
-        homepage_help = _(
-            "The project homepage URL. Used as a filter to find "
-            "existing project, if id not provided."
-        )
-        backend_help = _("The project backend (github, folder, etc.).")
-        version_url_help = _(
-            "The URL to fetch when determining the " "project version."
-        )
-        version_scheme_help = _(
-            "The project version scheme " "(defaults to 'RPM' for temporary project)."
-        )
-        version_pattern_help = _("The version pattern for calendar version scheme.")
-        version_prefix_help = _("The project version prefix, if any.")
-        pre_release_filter_help = _("Filter for unstable versions.")
-        version_filter_help = _("Filter for blacklisted versions.")
-        regex_help = _(
-            "The regex to use when searching the version_url page "
-            "(defaults to none for temporary project)."
-        )
-        insecure_help = _(
-            "When retrieving the versions via HTTPS, do not "
-            "validate the certificate (defaults to false for temporary project)."
-        )
-        releases_only_help = _(
-            "When retrieving the versions, use releases "
-            "instead of tags (defaults to false for temporary project). "
-            "Only available for GitHub backend."
-        )
-        dry_run_help = _(
-            "If set, doesn't save anything (defaults to true). "
-            "Can't be set to False for temporary project."
-        )
-
-        parser = _BASE_ARG_PARSER.copy()
-        parser.add_argument("id", type=int, help=id_help)
-        parser.add_argument("name", type=str, help=name_help)
-        parser.add_argument("homepage", type=str, help=homepage_help)
-        parser.add_argument("backend", type=str, help=backend_help)
-        parser.add_argument("version_url", type=str, help=version_url_help)
-        parser.add_argument("version_scheme", type=str, help=version_scheme_help)
-        parser.add_argument("version_pattern", type=str, help=version_pattern_help)
-        parser.add_argument("version_prefix", type=str, help=version_prefix_help)
-        parser.add_argument(
-            "pre_release_filter", type=str, help=pre_release_filter_help
-        )
-        parser.add_argument("version_filter", type=str, help=version_filter_help)
-        parser.add_argument("regex", type=str, help=regex_help, default=None)
-        parser.add_argument(
-            "insecure", type=inputs.boolean, help=insecure_help, default=False
-        )
-        parser.add_argument(
-            "releases_only", type=inputs.boolean, help=releases_only_help, default=False
-        )
-        parser.add_argument(
-            "dry_run", type=inputs.boolean, help=dry_run_help, default=True
-        )
-        args = parser.parse_args(strict=True)
+        user_args = {
+            "id": fields.Int(),
+            "name": fields.Str(),
+            "homepage": fields.Str(),
+            "backend": fields.Str(),
+            "version_url": fields.Str(),
+            "version_scheme": fields.Str(),
+            "version_pattern": fields.Str(),
+            "version_prefix": fields.Str(),
+            "pre_release_filter": fields.Str(),
+            "version_filter": fields.Str(),
+            "regex": fields.Str(missing=None),
+            "insecure": fields.Bool(missing=False),
+            "releases_only": fields.Bool(missing=False),
+            "dry_run": fields.Bool(missing=True),
+        }
+        args = parser.parse(user_args, request, location="form")
+        print(args)
 
         project = None
         dry_run = args.get("dry_run")
 
         # If we have id, try to get the project
-        if args.id:
-            project = models.Project.get(Session, project_id=args.pop("id"))
+        project_id = args.get("id")
+        if project_id:
+            project = models.Project.get(Session, project_id=project_id)
 
             if not project:
-                response = "No such project", 404
+                response = jsonify("No such project"), 404
                 return response
 
         # Don't look for the project if already retrieved
@@ -767,7 +707,7 @@ class VersionsResource(Resource):
 
             if len(query_result) > 1:
                 response = (
-                    "More than one project found",
+                    jsonify("More than one project found"),
                     400,
                 )
                 return response
@@ -793,8 +733,10 @@ class VersionsResource(Resource):
 
             if missing_parameters:
                 response = (
-                    "Can't create temporary project. Missing arguments: "
-                    + str(missing_parameters),
+                    jsonify(
+                        "Can't create temporary project. Missing arguments: "
+                        + str(missing_parameters)
+                    ),
                     400,
                 )
                 return response
@@ -810,13 +752,13 @@ class VersionsResource(Resource):
                 homepage=homepage,
                 backend=backend,
                 version_url=version_url,
-                version_pattern=args.version_pattern,
-                version_scheme=args.version_scheme,
-                version_prefix=args.version_prefix,
-                pre_release_filter=args.pre_release_filter,
-                version_filter=args.version_filter,
-                regex=args.regex,
-                insecure=args.insecure,
+                version_pattern=args.get("version_pattern"),
+                version_scheme=args.get("version_scheme"),
+                version_prefix=args.get("version_prefix"),
+                pre_release_filter=args.get("pre_release_filter"),
+                version_filter=args.get("version_filter"),
+                regex=args.get("regex"),
+                insecure=args.get("insecure"),
                 dry_run=dry_run,
             )
         # If the project was retrieved, update it with provided arguments
@@ -878,7 +820,7 @@ class VersionsResource(Resource):
                     dry_run=dry_run,
                 )
             except AnityaException as err:
-                response = str(err), 500
+                response = jsonify(str(err)), 500
                 return response
 
         if project:
@@ -887,7 +829,10 @@ class VersionsResource(Resource):
                     project, Session, test=dry_run
                 )
             except AnityaException as err:
-                response = "Error when checking for new version: " + str(err), 500
+                response = (
+                    jsonify("Error when checking for new version: " + str(err)),
+                    500,
+                )
                 return response
 
             response = {

@@ -20,7 +20,7 @@
 #
 
 """
-Tests for the Flask-RESTful based v2 API
+Tests for the Flask MethodView based v2 API
 """
 from __future__ import unicode_literals
 from unittest import mock
@@ -383,11 +383,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
 
         self.assertEqual(
             data,
-            {
-                "message": {
-                    "items_per_page": "invalid literal for int() with base 10: 'twenty'"
-                }
-            },
+            {"message": {"items_per_page": "Not a valid integer."}},
         )
 
     def test_list_packages_page_negative(self):
@@ -403,14 +399,14 @@ class PackagesResourceGetTests(DatabaseTestCase):
 
     def test_list_packages_page_non_integer(self):
         """Assert a non-integer value for a page results in an error."""
-        api_endpoint = "/api/v2/projects/?page=twenty"
+        api_endpoint = "/api/v2/packages/?page=twenty"
         output = self.app.get(api_endpoint)
         self.assertEqual(output.status_code, 400)
         data = _read_json(output)
 
         self.assertEqual(
             data,
-            {"message": {"page": "invalid literal for int() with base 10: 'twenty'"}},
+            {"message": {"page": "Not a valid integer."}},
         )
 
 
@@ -1015,11 +1011,7 @@ class ProjectsResourceGetTests(DatabaseTestCase):
 
         self.assertEqual(
             data,
-            {
-                "message": {
-                    "items_per_page": "invalid literal for int() with base 10: 'twenty'"
-                }
-            },
+            {"message": {"items_per_page": "Not a valid integer."}},
         )
 
     def test_list_projects_page_negative(self):
@@ -1042,7 +1034,7 @@ class ProjectsResourceGetTests(DatabaseTestCase):
 
         self.assertEqual(
             data,
-            {"message": {"page": "invalid literal for int() with base 10: 'twenty'"}},
+            {"message": {"page": "Not a valid integer."}},
         )
 
 
