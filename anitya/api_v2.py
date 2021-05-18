@@ -75,7 +75,7 @@ class Parser(FlaskParser):
 
     DEFAULT_VALIDATION_STATUS = 400
 
-    def handle_error(self, error, req, schema, error_status_code, error_headers):
+    def handle_error(self, error, req, schema, *, error_status_code, error_headers):
         response_dict = {}
         for error_value in error.messages.values():
             for key, value in error_value.items():
