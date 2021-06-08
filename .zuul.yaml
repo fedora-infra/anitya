@@ -1,4 +1,20 @@
 - job:
+    name: tox-mypy
+    description: |
+      Run static-linker tests with mypy.
+
+      Uses tox with ``mypy`` environment.
+
+    parent: tox
+    run: ci/test-tox.yaml
+    vars:
+      tox_env: mypy
+    nodeset:
+      nodes:
+        name: test-node
+        label: pod-python-f33
+
+- job:
     name: tox-lint
     description: |
       Run lint tests using tox.
@@ -13,7 +29,6 @@
       nodes:
         name: test-node
         label: pod-python-f33
-
 - job:
     name: tox-format
     description: |
@@ -25,21 +40,6 @@
     run: ci/test-tox.yaml
     vars:
       tox_env: format
-    nodeset:
-      nodes:
-        name: test-node
-        label: pod-python-f33
-- job:
-    name: tox-mypy
-    description: |
-      Run static lint tests using tox.
-
-      Uses tox with ``mypy`` environment.
-
-    parent: tox
-    run: ci/test-tox.yaml
-    vars:
-      tox_env: mypy 
     nodeset:
       nodes:
         name: test-node
@@ -143,9 +143,9 @@
 - project:
     check:
       jobs:
+        - tox-mypy
         - tox-lint
         - tox-format
-        - tox-mypy
         - tox-python38
         - tox-python39
         - anitya-tox-docs

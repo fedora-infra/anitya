@@ -66,7 +66,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.8",
     packages=find_packages(exclude=["anitya.tests", "anitya.tests.*"]),
     include_package_data=True,
     scripts=[

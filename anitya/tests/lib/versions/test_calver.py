@@ -550,6 +550,13 @@ class CalendarVersionTests(unittest.TestCase):
         self.assertTrue(new_version >= equally_new_version)
         self.assertTrue(new_version >= old_version)
 
+    def test_eq_wrong_type(self):
+        """Assert CalendarVersion returns not implemented if other is not Version object."""
+        new_version = calver.CalendarVersion(
+            version="2019.04.23", pattern="YYYY.0M.DD-MODIFIER"
+        )
+        self.assertEqual(new_version.__eq__("2019.04.23"), NotImplemented)
+
     def test_eq(self):
         """Assert CalendarVersion supports == comparison."""
         old_version = calver.CalendarVersion(
