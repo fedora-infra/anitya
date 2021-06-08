@@ -15,7 +15,7 @@ will review your code. Please make sure you follow the guidelines below:
 Python Support
 --------------
 
-Anitya supports Python 3.6 or greater so please ensure the code
+Anitya supports Python 3.8 or greater so please ensure the code
 you submit works with these versions. The test suite will run against all supported
 Python versions to make this easier.
 

@@ -23,16 +23,12 @@ class TokenForm(FlaskForm):
 class ProjectForm(FlaskForm):
     name = StringField("Project name", [validators.DataRequired()])
     homepage = StringField("Homepage", [validators.DataRequired(), validators.URL()])
-    backend = SelectField(
-        "Backend", [validators.DataRequired()], choices=[(item, item) for item in []]
-    )
+    backend = SelectField("Backend", [validators.DataRequired()], choices=[])
     version_url = StringField("Version URL", [validators.optional()])
     version_prefix = StringField("Version prefix", [validators.optional()])
     pre_release_filter = StringField("Pre-release filter", [validators.optional()])
     version_filter = StringField("Version filter", [validators.optional()])
-    version_scheme = SelectField(
-        "Version scheme", [validators.Required()], choices=[(item, item) for item in []]
-    )
+    version_scheme = SelectField("Version scheme", [validators.Required()], choices=[])
     version_pattern = StringField("Version pattern", [validators.optional()])
     regex = StringField("Regex", [validators.optional()])
     insecure = BooleanField("Use insecure connection", [validators.optional()])

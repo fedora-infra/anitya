@@ -63,8 +63,6 @@ setup(
     download_url="https://fedorahosted.org/releases/a/n/anitya/",
     url="https://fedorahosted.org/anitya/",
     classifiers=[
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],

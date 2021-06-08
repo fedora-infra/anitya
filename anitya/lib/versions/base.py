@@ -75,10 +75,9 @@ class Version(object):
         else:
             self.prefixes = []
         self.created_on = created_on
+        self.pattern = None
         if pattern:
             self.pattern = pattern.upper()
-        else:
-            self.pattern = None
         self.cursor = cursor
         self.commit_url = commit_url
         if pre_release_filter:

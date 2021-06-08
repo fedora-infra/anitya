@@ -34,7 +34,9 @@ import flask
 
 psutil = None
 try:
-    import psutil
+    import psutil as _psutil
+
+    psutil = _psutil
 except (OSError, ImportError):  # pragma: no cover
     # We run into issues when trying to import psutil from inside mod_wsgi on
     # rhel7.  If we hit that here, then just fail quietly.

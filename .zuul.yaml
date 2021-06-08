@@ -29,22 +29,17 @@
       nodes:
         name: test-node
         label: pod-python-f33
-
 - job:
-    name: tox-python37
+    name: tox-mypy
     description: |
-      Run unit tests for a Python project under cPython version 3.7.
+      Run static lint tests using tox.
 
-      Uses tox with the ``py37`` environment.
-
-      Ensures that the python37 interpreter is installed.
+      Uses tox with ``mypy`` environment.
 
     parent: tox
     run: ci/test-tox.yaml
     vars:
-      tox_env: py37
-      dependencies:
-        - python37
+      tox_env: mypy 
     nodeset:
       nodes:
         name: test-node
@@ -150,7 +145,7 @@
       jobs:
         - tox-lint
         - tox-format
-        - tox-python37
+        - tox-mypy
         - tox-python38
         - tox-python39
         - anitya-tox-docs

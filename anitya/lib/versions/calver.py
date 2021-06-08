@@ -26,7 +26,7 @@ See `Calendar versioning`_.
 """
 import functools
 import re
-from typing import Tuple
+from typing import Optional, Tuple, TypedDict
 
 from .base import Version
 
@@ -53,6 +53,16 @@ def split_by_match(regex: str, string: str) -> Tuple[str, str]:
     return "", string
 
 
+class SplitResult(TypedDict, total=True):
+    year: Optional[str]
+    month: Optional[str]
+    day: Optional[str]
+    minor: Optional[str]
+    micro: Optional[str]
+    modifier: Optional[str]
+    rc_number: Optional[str]
+
+
 @functools.total_ordering
 class CalendarVersion(Version):
     """
@@ -70,7 +80,7 @@ class CalendarVersion(Version):
 
     name = "Calendar"
 
-    def split(self) -> dict:
+    def split(self) -> SplitResult:
         """
         Does a simple lexical analysis of the version against pattern.
 
@@ -82,14 +92,15 @@ class CalendarVersion(Version):
                 This could happen if the pattern is not correct or if
                 the version can't be parsed by the pattern.
         """
-        result_dict = {
-            "year": None,
-            "month": None,
+
+        result_dict: SplitResult = {
             "day": None,
-            "minor": None,
             "micro": None,
+            "minor": None,
             "modifier": None,
+            "month": None,
             "rc_number": None,
+            "year": None,
         }
         # Check if the pattern is correct
         if not self.pattern:
@@ -113,29 +124,32 @@ class CalendarVersion(Version):
             elif pattern_str.startswith("YY"):
                 match = re.match(r"[1-9]\d{1,2}", version_str)
                 if match:
-                    result_dict["year"] = match.group(0)
+                    year = match.group(0)
                 else:
                     raise ValueError("Can't parse version by pattern")
-                index_version = len(result_dict["year"])
+                result_dict["year"] = year
+                index_version = len(year)
                 index_pattern = 2
             elif pattern_str.startswith("0Y"):
                 match = re.match(r"[1-9]\d{1,2}|(0\d)", version_str)
                 if match:
-                    result_dict["year"] = match.group(0)
+                    year = match.group(0)
                 else:
                     raise ValueError("Can't parse version by pattern")
-                index_version = len(result_dict["year"])
+                result_dict["year"] = year
+                index_version = len(year)
                 index_pattern = 2
             elif pattern_str.startswith("MM"):
                 try:
                     match = re.match(r"(1\d)|\d", version_str)
                     if match and 1 <= int(match.group(0)) <= 12:
-                        result_dict["month"] = match.group(0)
+                        month = match.group(0)
                     else:
                         raise ValueError("Can't parse version by pattern")
                 except ValueError:
                     raise ValueError("Can't parse version by pattern")
-                index_version = len(result_dict["month"])
+                result_dict["month"] = month
+                index_version = len(month)
                 index_pattern = 2
             elif pattern_str.startswith("0M"):
                 try:
@@ -156,12 +170,13 @@ class CalendarVersion(Version):
                 try:
                     match = re.match(r"([1-3]\d)|\d", version_str)
                     if match and 1 <= int(match.group(0)) <= 31:
-                        result_dict["day"] = match.group(0)
+                        day = match.group(0)
                     else:
                         raise ValueError("Can't parse version by pattern")
                 except ValueError:
                     raise ValueError("Can't parse version by pattern")
-                index_version = len(result_dict["day"])
+                result_dict["day"] = day
+                index_version = len(day)
                 index_pattern = 2
             elif pattern_str.startswith("0D"):
                 try:
@@ -258,12 +273,16 @@ class CalendarVersion(Version):
             return True
 
         for pre_release_filter in self.pre_release_filters:
-            if pre_release_filter and pre_release_filter in self.version:
+            if (
+                pre_release_filter
+                and self.version
+                and pre_release_filter in self.version
+            ):
                 return True
 
         return False
 
-    def __eq__(self, other: Version) -> bool:
+    def __eq__(self, other) -> bool:
         """
         Compare two versions for equality using the calendar rules with pre-release
         support.
@@ -274,9 +293,11 @@ class CalendarVersion(Version):
         Returns:
             (bool) True if equal, False otherwise.
         """
+        if not isinstance(other, Version):
+            return NotImplemented
         try:
-            version_dict_self = self.split()
-            version_dict_other = other.split()
+            version_dict_self = self.split()  # type: ignore
+            version_dict_other = other.split()  # type: ignore
         except ValueError:
             # The version can't be split, so compare them as strings
             if self.parse() == other.parse():
@@ -289,6 +310,12 @@ class CalendarVersion(Version):
 
         return False
 
+    def maybe_split(self) -> Optional[SplitResult]:
+        try:
+            return self.split()
+        except ValueError:
+            return None
+
     def __lt__(self, other: Version) -> bool:
         """
         Compare two versions for lower than using the calendar rules with pre-release
@@ -300,15 +327,17 @@ class CalendarVersion(Version):
         Returns:
             (bool) True if lower than, False otherwise.
         """
-        try:
-            version_dict_self = self.split()
-        except ValueError:
+        version_dict_self = None
+        if isinstance(self, CalendarVersion):
+            version_dict_self = self.maybe_split()
+        if not version_dict_self:
             # The version can't be split, so we consider it lesser
             return True
 
-        try:
-            version_dict_other = other.split()
-        except ValueError:
+        version_dict_other = None
+        if isinstance(other, CalendarVersion):
+            version_dict_other = other.maybe_split()
+        if not version_dict_other:
             # The version can't be split, so we consider self greater
             return False
 

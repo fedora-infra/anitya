@@ -1,0 +1,2 @@
+Introduced static-type checking through inclusion of mypy in tox.
+Removed 3.6 and 3.7 from the list of supported python versions.

@@ -26,6 +26,7 @@ from datetime import timedelta
 
 # sre_constants contains re exceptions
 import sre_constants
+from typing import List
 import urllib.request as urllib
 from urllib.error import URLError
 
@@ -35,7 +36,8 @@ import arrow
 
 from anitya.config import config as anitya_config
 from anitya.lib.exceptions import AnityaPluginException
-from anitya.lib.versions import RpmVersion
+from anitya.lib.versions import GLOBAL_DEFAULT, RpmVersion
+
 import six
 
 REGEX = anitya_config["DEFAULT_REGEX"]
@@ -79,11 +81,11 @@ class BaseBackend(object):
             checking for new versions. This could be overriden by backend plugin.
     """
 
-    name = None
-    examples = None
-    default_regex = None
-    more_info = None
-    default_version_scheme = None
+    name: str
+    examples: List[str]
+    default_regex: str
+    more_info: str
+    default_version_scheme = GLOBAL_DEFAULT
     check_interval = timedelta(hours=1)
 
     @classmethod

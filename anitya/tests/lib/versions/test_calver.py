@@ -488,6 +488,7 @@ class CalendarVersionTests(unittest.TestCase):
 
     def test_lt_nonsense(self):
         """Assert CalendarVersion supports < comparison."""
+        # unclear if it should really be valid -junk modifier?
         old_version = calver.CalendarVersion(
             version="2019.04.23junk", pattern="YYYY.0M.DD-MODIFIER"
         )
