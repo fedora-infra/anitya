@@ -135,7 +135,7 @@ class DatabaseTestCase(AnityaTestCase):
 
         # We don't want our SQLAlchemy session thrown away post-request because that rolls
         # back the transaction and no database assertions can be made.
-        self.flask_app.teardown_request_funcs = {}
+        self.flask_app.teardown_request_funcs = {None: []}
 
         if engine is None:
             # In the future we could provide a postgres URI to test against various
