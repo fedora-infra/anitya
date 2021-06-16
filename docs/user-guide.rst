@@ -491,7 +491,7 @@ Reporting Issues
 
 You can report problems on our `issue tracker`_. The `source code`_ is also
 available on GitHub. The development team hangs out in ``#fedora-apps`` on the
-freenode network. Please do stop by and say hello.
+`libera <https://libera.chat/>`_ network. Please do stop by and say hello.
 
 .. _log in: https://release-monitoring.org/login
 .. _logout: https://release-monitoring.org/logout

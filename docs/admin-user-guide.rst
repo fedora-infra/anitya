@@ -160,7 +160,7 @@ Basics
 * try to not remove anything that could be of value
 * when removing something, try to create as little impact for others as possible
 * check `flags`_ once in a while
-* if in doubt, ask in #fedora-apps on freenode IRC
+* if in doubt, ask in #fedora-apps on `libera <https://libera.chat/>`_ IRC
 
 Cases
 -----
