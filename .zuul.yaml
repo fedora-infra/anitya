@@ -1,0 +1,160 @@
+- job:
+    name: tox-lint
+    description: |
+      Run lint tests using tox.
+
+      Uses tox with ``lint`` environment.
+
+    parent: tox
+    run: ci/test-tox.yaml
+    vars:
+      tox_env: lint
+    nodeset:
+      nodes:
+        name: test-node
+        label: pod-python-f33
+
+- job:
+    name: tox-format
+    description: |
+      Run format tests using tox.
+
+      Uses tox with ``format`` environment.
+
+    parent: tox
+    run: ci/test-tox.yaml
+    vars:
+      tox_env: format
+    nodeset:
+      nodes:
+        name: test-node
+        label: pod-python-f33
+
+- job:
+    name: tox-python37
+    description: |
+      Run unit tests for a Python project under cPython version 3.7.
+
+      Uses tox with the ``py37`` environment.
+
+      Ensures that the python37 interpreter is installed.
+
+    parent: tox
+    run: ci/test-tox.yaml
+    vars:
+      tox_env: py37
+      dependencies:
+        - python37
+    nodeset:
+      nodes:
+        name: test-node
+        label: pod-python-f33
+
+- job:
+    name: tox-python38
+    description: |
+      Run unit tests for a Python project under cPython version 3.8.
+
+      Uses tox with the ``py38`` environment.
+
+      Ensures that the python38 interpreter is installed.
+
+    parent: tox
+    run: ci/test-tox.yaml
+    vars:
+      tox_env: py38
+      dependencies:
+        - python38
+    nodeset:
+      nodes:
+        name: test-node
+        label: pod-python-f33
+
+- job:
+    name: tox-python39
+    description: |
+      Run unit tests for a Python project under cPython version 3.9.
+
+      Uses tox with the ``py39`` environment.
+      
+      Ensures that the python39 interpreter is installed.
+
+    parent: tox
+    run: ci/test-tox.yaml
+    vars:
+      tox_env: py39
+      dependencies:
+        - python39
+    nodeset:
+      nodes:
+        name: test-node
+        label: pod-python-f33
+
+- job:
+    name: anitya-tox-docs
+    description: |
+      Build docs in tox specifically for anitya.
+
+      Uses tox with the ``docs`` environment.
+
+      Ensure all the dependencies for docs building are
+      installed.
+
+    parent: tox
+    run: ci/test-tox.yaml
+    vars:
+      tox_env: bandit
+      dependencies:
+        - graphviz
+        - python3-sphinxcontrib-httpdomain
+        - python3-sqlalchemy_schemadisplay
+    nodeset:
+      nodes:
+        name: test-node
+        label: pod-python-f33
+
+- job:
+    name: tox-bandit
+    description: |
+      Run bandit tests on python code.
+
+      Uses tox with the ``bandit`` environment.
+
+    parent: tox
+    run: ci/test-tox.yaml
+    vars:
+      tox_env: bandit
+    nodeset:
+      nodes:
+        name: test-node
+        label: pod-python-f33
+
+- job:
+    name: tox-diff-cover
+    description: |
+      Run coverage on python code.
+
+      Uses tox with the ``diff-cover`` environment.
+
+    parent: tox
+    run: ci/test-tox.yaml
+    vars:
+      tox_env: "py38,diff-cover"
+    nodeset:
+      nodes:
+        name: test-node
+        label: pod-python-f33
+
+- project:
+    check:
+      jobs:
+        - tox-lint
+        - tox-format
+        - tox-python37
+        - tox-python38
+# Anitya wasn't tested with python 3.9 yet and there are few failing tests now
+# TODO: Fix tests for python 3.9
+#        - tox-python39
+        - anitya-tox-docs
+        - tox-bandit
+        - tox-diff-cover

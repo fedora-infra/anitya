@@ -1,0 +1,12 @@
+- hosts: all
+  tasks:
+    - name: Install dependencies
+      dnf:
+        name:
+          "{{dependencies}}"
+      when: (dependencies is defined) and (dependencies|length > 0)
+
+    - name: Run test
+      command: tox -e {{tox_env}}
+      args:
+        chdir: "{{ansible_user_dir}}/{{zuul.project.src_dir}}"
