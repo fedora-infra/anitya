@@ -101,8 +101,8 @@ class LoadTests(unittest.TestCase):
         mock_log.info.assert_called_once_with(
             "Loading Anitya configuration from /etc/anitya/anitya.toml"
         )
-        error = "Failed to parse /etc/anitya/anitya.toml: <string>(1, 1): msg"
-        self.assertEqual(error, mock_log.error.call_args_list[0][0][0])
+        error = "Failed to parse /etc/anitya/anitya.toml"
+        self.assertIn(error, mock_log.error.call_args_list[0][0][0])
 
     @mock.patch("anitya.config.open", mock.mock_open(read_data=partial_config))
     @mock.patch("anitya.config._log", autospec=True)
