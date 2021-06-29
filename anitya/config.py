@@ -24,7 +24,7 @@ import logging
 import logging.config
 import os
 
-import pytoml
+import toml
 
 
 _log = logging.getLogger(__name__)
@@ -119,10 +119,10 @@ def load():
         _log.info("Loading Anitya configuration from {}".format(config_path))
         with open(config_path) as fd:
             try:
-                file_config = pytoml.loads(fd.read())
+                file_config = toml.loads(fd.read())
                 for key in file_config:
                     config[key.upper()] = file_config[key]
-            except pytoml.core.TomlError as e:
+            except toml.core.TomlError as e:
                 _log.error("Failed to parse {}: {}".format(config_path, str(e)))
     else:
         _log.info(
