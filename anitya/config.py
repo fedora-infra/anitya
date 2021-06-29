@@ -122,7 +122,7 @@ def load():
                 file_config = toml.loads(fd.read())
                 for key in file_config:
                     config[key.upper()] = file_config[key]
-            except toml.core.TomlError as e:
+            except toml.TomlDecodeError as e:
                 _log.error("Failed to parse {}: {}".format(config_path, str(e)))
     else:
         _log.info(
