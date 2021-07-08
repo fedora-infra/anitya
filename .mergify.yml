@@ -7,8 +7,6 @@ pull_request_rules:
   conditions:
   - label!=no-mergify
   - '#approved-reviews-by>=1'
-  - check-success=continuous-integration/travis-ci/pr
-  - check-success=codecov/patch
-  - check-success=codecov/project
+  - check-success=fedora/check
   name: default
 
