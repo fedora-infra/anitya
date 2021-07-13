@@ -207,6 +207,13 @@ The backends available are:
   You need to provide **Sourceforge name** if the name on RSS feed is different then the
   project name on Sourceforge.
 
+* **Sourceforge (git) for projects hosted on
+  `sourceforge.net <https://sourceforge.net>`_
+
+  Sourceforge (git) retrieves the git tags in case a project hosted on sourceforge has them.
+  When a url to get the tags from is not provided, the sourceforge homepage of a project
+  is used to guess the version url.
+
 * **Stackage** for projects hosted on
   `www.stackage.org <https://www.stackage.org/>`_
 
