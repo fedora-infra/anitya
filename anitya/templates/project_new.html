@@ -263,7 +263,7 @@
         "'https://packagist.org/packages/phpunit/php-code-coverage' " +
         "this field should contain 'phpunit/php-code-coverage'.");
     };
-    if (str == 'Sourceforge'){
+    if (str == 'Sourceforge') || (str == 'Sourceforge (git)){
       $("label[for='version_url']").text('Sourceforge name');
       $('#version_url').prop('title', "Use this field if the name used " +
         "on the rss page of the project differs from the name of the project." );

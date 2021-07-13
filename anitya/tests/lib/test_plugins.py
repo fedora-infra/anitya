@@ -51,6 +51,7 @@ EXPECTED_BACKENDS = [
     "PyPI",
     "Rubygems",
     "Sourceforge",
+    "Sourceforge (git)",
     "Stackage",
     "custom",
     "folder",
