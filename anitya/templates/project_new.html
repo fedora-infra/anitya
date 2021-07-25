@@ -379,7 +379,7 @@
           $(btn).show(); $(btn + "-spinner").hide();
           alert(
               'Unable to retrieve the latest version from upstream!\n'
-              + 'ERROR: ' + res.responseJSON );
+              + 'ERROR: ' + JSON.stringify(res.responseJSON) );
         }
     });
   };
