@@ -103,7 +103,7 @@
     parent: tox
     run: ci/test-tox.yaml
     vars:
-      tox_env: bandit
+      tox_env: docs
       dependencies:
         - graphviz
         - python3-sphinxcontrib-httpdomain
