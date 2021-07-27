@@ -39,7 +39,7 @@ services:
     container_name: "postgres"
     network_mode: host
     volumes:
-      - .docker/data/postgres:/var/lib/postgresql/data
+      - .container/data/postgres:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 3s
