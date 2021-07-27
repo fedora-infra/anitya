@@ -1,0 +1,52 @@
+version: "2.0"
+
+services:
+  anitya:
+    build:
+      context: .
+      dockerfile: Containerfile.dev
+      args:
+        FEDORA_VERSION: 34
+    container_name: "anitya"
+    network_mode: host
+    volumes:
+      - ./:/app
+    privileged: true
+    tty: true
+    restart: unless-stopped
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  rabbitmq:
+    image: rabbitmq:3.8.16-management-alpine
+    container_name: "rabbitmq"
+    network_mode: host
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    environment:
+      - RABBITMQ_DEFAULT_USER=anitya
+      - RABBITMQ_DEFAULT_PASS=anitya
+
+  postgres:
+    image: postgres:9.6.22-buster
+    container_name: "postgres"
+    network_mode: host
+    volumes:
+      - .docker/data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    environment:
+      - POSTGRES_PASSWORD=anitya
+      - POSTGRES_USER=anitya
+      - POSTGRES_DB=anitya
+
