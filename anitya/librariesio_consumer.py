@@ -97,7 +97,7 @@ class LibrariesioConsumer(object):
         """
         # The SSE spec requires all data to be UTF-8 encoded
         try:
-            librariesio_msg = json.loads(message.data, encoding="utf-8")
+            librariesio_msg = json.loads(message.data)
         except json.JSONDecodeError:
             _log.warning(
                 "Dropping librariesio update message. Invalid json '{}'.".format(
