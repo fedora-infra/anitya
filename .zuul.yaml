@@ -152,9 +152,7 @@
         - tox-format
         - tox-python37
         - tox-python38
-# Anitya wasn't tested with python 3.9 yet and there are few failing tests now
-# TODO: Fix tests for python 3.9
-#        - tox-python39
+        - tox-python39
         - anitya-tox-docs
         - tox-bandit
         - tox-diff-cover
