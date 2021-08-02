@@ -6,6 +6,7 @@ docs/docblocks/
 *egg-info/
 *eggs/
 *.cfg
+!mypy.cfg
 *.sqlite
 *~
 *.swp

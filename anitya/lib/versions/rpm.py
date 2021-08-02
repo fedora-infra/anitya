@@ -48,10 +48,7 @@ except ImportError:
 
     warnings.warn("Failed to import 'rpm', emulating RPM label comparisons")
 
-    try:
-        from itertools import zip_longest
-    except ImportError:
-        from itertools import izip_longest as zip_longest
+    from itertools import zip_longest
 
     _subfield_pattern = re.compile(
         r"(?P<junk>[^a-zA-Z0-9]*)((?P<text>[a-zA-Z]+)|(?P<num>[0-9]+))"

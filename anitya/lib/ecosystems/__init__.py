@@ -12,6 +12,10 @@
 """
 
 
+from typing import List
+from anitya.lib.versions import GLOBAL_DEFAULT as DEFAULT_VERSION_SCHEME
+
+
 class BaseEcosystem(object):
     """
     The base class that all the different ecosystems should extend.
@@ -28,7 +32,7 @@ class BaseEcosystem(object):
             should be lowercase.
     """
 
-    name = None
-    default_backend = None
-    default_version_scheme = None
-    aliases = []
+    name: str
+    default_backend: str
+    default_version_scheme: str = DEFAULT_VERSION_SCHEME
+    aliases: List[str] = []

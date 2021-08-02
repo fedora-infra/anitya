@@ -96,7 +96,7 @@ DEFAULTS = dict(
 
 # Start with a basic logging configuration, which will be replaced by any user-
 # specified logging configuration when the configuration is loaded.
-logging.config.dictConfig(DEFAULTS["ANITYA_LOG_CONFIG"])
+logging.config.dictConfig(DEFAULTS["ANITYA_LOG_CONFIG"])  # type: ignore
 
 
 def load():

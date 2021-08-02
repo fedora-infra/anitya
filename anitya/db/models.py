@@ -19,15 +19,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """SQLAlchemy database models."""
 
-try:
-    # The Python 3.6+ API
-    from secrets import choice as random_choice
-except ImportError:  # pragma: no cover
-    # Fall back to random with os.urandom
-    import random
-
-    random = random.SystemRandom()
-    random_choice = random.choice
+from secrets import choice as random_choice
 import datetime
 import arrow
 import logging
