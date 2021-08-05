@@ -1,5 +1,5 @@
 up:
-	docker-compose -f container-compose.yml up -d anitya
+	docker-compose -f container-compose.yml up -d anitya-web
 restart:
 	docker-compose -f container-compose.yml restart
 halt:
