@@ -1,6 +1,4 @@
-############################################
-##  Containerfile of anitya libraries.io  ##
-############################################
+# Containerfile of anitya libraries.io
 
 ARG FEDORA_VERSION
 FROM fedora:${FEDORA_VERSION}

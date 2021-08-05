@@ -1,6 +1,4 @@
-############################################
-##       Containerfile of anitya web      ##
-############################################
+# Containerfile of anitya web
 
 ARG FEDORA_VERSION
 FROM fedora:${FEDORA_VERSION}
@@ -24,3 +22,13 @@ RUN dnf install -y python3 python3-pip python3-devel python36 python37 python3-b
 
 # Fedora Messaging
 RUN dnf install -y fedora-messaging
+
+COPY . .
+
+# Install local packages in editable mode
+RUN pip install -e /app
+RUN pip install -e /app/anitya_schema
+
+RUN python setup.py develop
+
+EXPOSE 5000
