@@ -1,6 +1,4 @@
-############################################
-## Containerfile of anitya check-service  ##
-############################################
+# Containerfile of anitya check-service
 
 ARG FEDORA_VERSION
 FROM fedora:${FEDORA_VERSION}
