@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Containerfile.web.dev
       args:
-        FEDORA_VERSION: 32
+        FEDORA_VERSION: 34
     container_name: "anitya-web"
     network_mode: host
     volumes:
@@ -20,33 +20,33 @@ services:
       postgres:
         condition: service_healthy
 
-  anitya-librariesio-consumer:
-    build:
-      context: .
-      dockerfile: Containerfile.lc.dev
-      args:
-        FEDORA_VERSION: 32
-    container_name: "anitya-librariesio-consumer"
-    network_mode: host
-    volumes:
-      - ./:/app
-    privileged: true
-    tty: true
-    restart: unless-stopped
-
-  anitya-check-service:
-    build:
-      context: .
-      dockerfile: Containerfile.cs.dev
-      args:
-        FEDORA_VERSION: 32
-    container_name: "anitya-check-service"
-    network_mode: host
-    volumes:
-      - ./:/app
-    privileged: true
-    tty: true
-    restart: unless-stopped
+          #  anitya-librariesio-consumer:
+          #    build:
+          #      context: .
+          #      dockerfile: Containerfile.lc.dev
+          #      args:
+          #        FEDORA_VERSION: 32
+          #    container_name: "anitya-librariesio-consumer"
+          #    network_mode: host
+          #    volumes:
+          #      - ./:/app
+          #    privileged: true
+          #    tty: true
+          #    restart: unless-stopped
+          #
+          #  anitya-check-service:
+          #    build:
+          #      context: .
+          #      dockerfile: Containerfile.cs.dev
+          #      args:
+          #        FEDORA_VERSION: 32
+          #    container_name: "anitya-check-service"
+          #    network_mode: host
+          #    volumes:
+          #      - ./:/app
+          #    privileged: true
+          #    tty: true
+          #    restart: unless-stopped
 
   rabbitmq:
     image: rabbitmq:3.8.16-management-alpine
