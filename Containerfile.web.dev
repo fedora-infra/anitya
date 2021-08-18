@@ -10,15 +10,8 @@ WORKDIR /app
 
 RUN dnf upgrade --refresh -y
 
-# Project dependencies
-RUN dnf install -y gcc graphviz make libffi-devel openssl-devel
-
 # Python3 and packages
-RUN dnf install -y python3 python3-pip python3-devel python36 python37 python3-black \
-    python3-tox python3-psycopg2 python3-sphinxcontrib-httpdomain python3-sqlalchemy_schemadisplay \
-    python3-alembic python3-arrow python3-dateutil python3-defusedxml python3-flask-login python3-flask-restful \
-    python3-flask-wtf python3-jinja2 python3-ordered-set python3-pytoml python3-semver python3-social-auth-app-flask \
-    python3-social-auth-app-flask-sqlalchemy python3-sqlalchemy python3-sseclient python3-straight-plugin python3-wtforms
+RUN dnf install -y python3-psycopg2
 
 # Fedora Messaging
 RUN dnf install -y fedora-messaging
@@ -28,8 +21,9 @@ COPY . .
 RUN mkdir -p /etc/anitya
 RUN cp /app/ansible/roles/anitya-dev/files/anitya.toml /etc/anitya
 
-# Install local packages in editable mode
+# Pip installations
 RUN pip3 install -r /app/test_requirements.txt
+RUN pip3 install -r /app/requirements.txt
 RUN pip3 install -e /app
 
 EXPOSE 5000
