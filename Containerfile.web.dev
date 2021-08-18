@@ -11,7 +11,7 @@ WORKDIR /app
 RUN dnf upgrade --refresh -y
 
 # Python3 and packages
-RUN dnf install -y python3-psycopg2
+RUN dnf install -y python3 python3-pip python3-devel python3-psycopg2
 
 # Fedora Messaging
 RUN dnf install -y fedora-messaging
