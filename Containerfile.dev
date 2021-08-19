@@ -13,12 +13,11 @@ RUN dnf upgrade --refresh -y
 # Python3 and packages
 RUN dnf install -y python3 python3-pip python3-devel python3-psycopg2
 
+RUN dnf autoremove -y && dnf clean all -y
+
 # Create aliases for python and pip
 RUN echo 'alias python="python3"' >> ~/.bashrc
 RUN echo 'alias pip="pip3"' >> ~/.bashrc
-
-# Fedora Messaging
-RUN dnf install -y fedora-messaging
 
 COPY . .
 
@@ -29,5 +28,3 @@ RUN cp /app/ansible/roles/anitya-dev/files/anitya.toml /etc/anitya
 RUN pip install -r /app/test_requirements.txt
 RUN pip install -r /app/requirements.txt
 RUN pip install -e /app
-
-EXPOSE 5000
