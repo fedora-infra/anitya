@@ -1,12 +1,16 @@
 version: "2.0"
 
 services:
-  anitya-web:
+  image-builder:
+    image: anitya-base
     build:
       context: .
       dockerfile: Containerfile.dev
       args:
         FEDORA_VERSION: 34
+
+  anitya-web:
+    image: anitya-base
     container_name: "anitya-web"
     network_mode: host
     volumes:
@@ -15,17 +19,15 @@ services:
     tty: true
     restart: unless-stopped
     depends_on:
+      image-builder:
+        condition: service_started
       rabbitmq:
         condition: service_healthy
       postgres:
         condition: service_healthy
 
   anitya-librariesio-consumer:
-    build:
-      context: .
-      dockerfile: Containerfile.dev
-      args:
-        FEDORA_VERSION: 34
+    image: anitya-base
     container_name: "anitya-librariesio-consumer"
     network_mode: host
     volumes:
@@ -34,6 +36,8 @@ services:
     tty: true
     restart: unless-stopped
     depends_on:
+      image-builder:
+        condition: service_started
       rabbitmq:
         condition: service_healthy
       postgres:
@@ -65,7 +69,7 @@ services:
       timeout: 3s
       retries: 30
     environment:
-      - POSTGRES_PASSWORD=anitya
-      - POSTGRES_USER=anitya
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=anypasswordworkslocally
       - POSTGRES_DB=anitya
 
