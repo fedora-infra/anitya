@@ -3,6 +3,8 @@
 # URL to the database
 db_url = 'postgresql://postgres:anypasswordworkslocally@localhost/anitya'
 
+amqp_url = "amqp://anitya:anitya@localhost:5672"
+
 # List of web administrators. The values should be the value of the "id" column
 # for the user in the "users" table of the database. They need to log in before
 # this record is created. An example value would be
