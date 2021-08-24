@@ -21,10 +21,6 @@ services:
     depends_on:
       image-builder:
         condition: service_started
-      rabbitmq:
-        condition: service_healthy
-      postgres:
-        condition: service_healthy
 
   anitya-librariesio-consumer:
     image: anitya-base
@@ -38,10 +34,6 @@ services:
     depends_on:
       image-builder:
         condition: service_started
-      rabbitmq:
-        condition: service_healthy
-      postgres:
-        condition: service_healthy
 
   rabbitmq:
     image: rabbitmq:3.8.16-management-alpine
