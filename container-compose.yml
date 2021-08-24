@@ -21,6 +21,10 @@ services:
     depends_on:
       image-builder:
         condition: service_started
+      postgres:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
 
   anitya-librariesio-consumer:
     image: anitya-base
@@ -33,6 +37,10 @@ services:
     restart: unless-stopped
     depends_on:
       image-builder:
+        condition: service_started
+      postgres:
+        condition: service_started
+      rabbitmq:
         condition: service_started
 
   rabbitmq:
