@@ -184,6 +184,66 @@ To run check service simply run::
 
    $ check_service.py
 
+Docker / Podman
+---------------
+
+Using Docker you will be able to control each service (anitya-web, anitya-librariesio-consumer. RabbitMQ, etc) separately. You can turn off RabbitMQ or PostgreSQL or both, then connect to external services or use them with the application.
+
+Requirements:
+
+* Docker / Podman (version +3 with podman-docker)
+* Docker Compose
+
+Next, clone the repository and start containers::
+
+    $ git clone https://github.com/fedora-infra/the-new-hotness.git
+    $ cd the-new-hotness
+    $ make up
+
+.. list-table:: Container Service Informations:
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name 1
+     - Url
+     - Credentials
+   * - RabbitMQ
+     - http://localhost:5672
+     - anitya:anitya
+   * - RabbitMQ Management UI
+     - http://localhost:15672
+     - anitya:anitya
+   * - PostgreSQL
+     - http://localhost:5432
+     - postgres:anypasswordworkslocally
+
+Makefile scripts that provide easier container management:
+
+* ``make up`` Starts all the container services
+* ``make restart`` Restarts all the container services that are either stopped or running 
+* ``make halt`` Stops and removes the containers
+* ``make bash-web`` Connects to anitya-web container
+* ``make bash-consumer`` Connects to anitya-librariesio-consumer container
+* ``make logs`` Shows all logs of all containers
+* ``make init-db`` Creates database
+* ``make dump-restore`` Import production database
+
+Project files are bound to each other with host and container. Whenever you change any project file from the host or the container, the same change will happen on the opposite side as well.
+
+Start the development web server included with Flask with::
+
+    $ make bash-web
+    $ FLASK_APP=anitya.wsgi flask run
+
+Start the libraries.io service with::
+
+    $ make bash-consumer
+    $ librariesio_consumer.py
+
+Start the check service with::
+
+    $ make bash-consumer or make-bash-web
+    $ check_service.py
 
 Python virtualenv
 -----------------
