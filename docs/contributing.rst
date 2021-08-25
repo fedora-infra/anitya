@@ -196,8 +196,8 @@ Requirements:
 
 Next, clone the repository and start containers::
 
-    $ git clone https://github.com/fedora-infra/the-new-hotness.git
-    $ cd the-new-hotness
+    $ git clone https://github.com/fedora-infra/anitya
+    $ cd anitya
     $ make up
 
 .. list-table:: Container Service Informations:
