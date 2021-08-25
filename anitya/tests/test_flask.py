@@ -572,7 +572,7 @@ class FlaskTest(DatabaseTestCase):
 
         expected = b"""
   <blockquote>
-      Oups this is embarrassing, it seems that no projects are being
+      Oops, this is embarrassing. It seems that no projects are being
       monitored currently.
   </blockquote>"""
         self.assertTrue(expected in output.data)
@@ -601,7 +601,7 @@ class FlaskTest(DatabaseTestCase):
 
         expected = b"""
     <blockquote>
-        Oups this is embarrassing, it seems that no projects are being
+        Oops, this is embarrassing. It seems that no projects are being
         monitored currently.
         <p><a href="/project/new?name=gua">Click Here</a> to add this project instead. </p>
     </blockquote>"""
