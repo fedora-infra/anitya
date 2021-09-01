@@ -16,7 +16,6 @@ services:
     volumes:
       - ./:/app
     privileged: true
-    tty: true
     restart: unless-stopped
     depends_on:
       image-builder:
@@ -33,7 +32,6 @@ services:
     volumes:
       - ./:/app
     privileged: true
-    tty: true
     restart: unless-stopped
     depends_on:
       image-builder:
@@ -58,12 +56,12 @@ services:
       - RABBITMQ_DEFAULT_PASS=anitya
 
   postgres:
-    image: postgres:9.6.22-buster
+    image: postgres:13.4
     container_name: "postgres"
     network_mode: host
     volumes:
-      - .container/data/postgres:/var/lib/postgresql/data:z
-      - .container/dump:/dump:z
+      - .container/data/postgres:/var/lib/postgresql/data
+      - .container/dump:/dump
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 3s

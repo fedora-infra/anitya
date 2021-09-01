@@ -6,8 +6,9 @@ define remove_dump
 	$(call compose) exec postgres \bash -c 'rm /dump/anitya.dump.xz'
 endef
 
+_CHECK_PODMAN := $(shell command -v podman 2> /dev/null)
 define compose
-	docker-compose -f container-compose.yml
+	$(if $(_CHECK_PODMAN), podman-compose, docker-compose) -f container-compose.yml
 endef
 
 up:
