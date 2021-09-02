@@ -1,5 +1,5 @@
 ARG FEDORA_VERSION
-FROM docker.io/library/fedora:${FEDORA_VERSION}
+FROM registry.fedoraproject.org/fedora:${FEDORA_VERSION}
 
 WORKDIR /app
 
