@@ -187,12 +187,12 @@ To run check service simply run::
 Docker / Podman
 ---------------
 
-Using Docker you will be able to control each service (anitya-web, anitya-librariesio-consumer. RabbitMQ, etc) separately. You can turn off RabbitMQ or PostgreSQL or both, then connect to external services or use them with the application.
+This way, you will be able to control each service (anitya-web, anitya-librariesio-consumer. RabbitMQ, etc) separately. You can turn off RabbitMQ or PostgreSQL or both, then connect to external services or use them with the application.
 
 Requirements:
 
-* Docker / Podman (version +3 with podman-docker)
-* Docker Compose
+* Docker / Podman
+* Docker Compose / Podman Compose
 
 Next, clone the repository and start containers::
 
@@ -220,7 +220,7 @@ Next, clone the repository and start containers::
 Makefile scripts that provide easier container management:
 
 * ``make up`` Starts all the container services
-* ``make restart`` Restarts all the container services that are either stopped or running 
+* ``make restart`` Restarts all the container services that are either stopped or running
 * ``make halt`` Stops and removes the containers
 * ``make bash-web`` Connects to anitya-web container
 * ``make bash-consumer`` Connects to anitya-librariesio-consumer container
