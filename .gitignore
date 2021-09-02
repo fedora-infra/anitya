@@ -1,4 +1,4 @@
-*.pyc
+registry.fedoraproject.org*.pyc
 build/
 dist/
 docs/_build/
@@ -32,4 +32,5 @@ pip-wheel-metadata/
 venv/
 .venv/
 .vscode/
-.container/data
+.container/postgresql/*
+!.container/postgresql/.gitkeep
