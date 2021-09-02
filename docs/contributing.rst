@@ -224,7 +224,6 @@ Makefile scripts that provide easier container management:
 * ``make halt`` Stops and removes the containers
 * ``make bash-web`` Connects to anitya-web container
 * ``make bash-consumer`` Connects to anitya-librariesio-consumer container
-* ``make logs`` Shows all logs of all containers
 * ``make init-db`` Creates database
 * ``make dump-restore`` Import production database
 

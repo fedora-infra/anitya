@@ -14,7 +14,7 @@ services:
     container_name: "anitya-web"
     network_mode: host
     volumes:
-      - ./:/app
+      - ./:/app:z
     privileged: true
     restart: unless-stopped
     depends_on:
@@ -30,7 +30,7 @@ services:
     container_name: "anitya-librariesio-consumer"
     network_mode: host
     volumes:
-      - ./:/app
+      - ./:/app:z
     privileged: true
     restart: unless-stopped
     depends_on:
