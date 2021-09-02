@@ -42,7 +42,7 @@ services:
         condition: service_started
 
   rabbitmq:
-    image: rabbitmq:3.8.16-management-alpine
+    image: docker.io/library/rabbitmq:3.8.16-management-alpine
     container_name: "rabbitmq"
     network_mode: host
     restart: unless-stopped
@@ -56,11 +56,11 @@ services:
       - RABBITMQ_DEFAULT_PASS=anitya
 
   postgres:
-    image: postgres:13.4
+    image: docker.io/library/postgres:13.4
     container_name: "postgres"
     network_mode: host
     volumes:
-      - .container/data/postgres:/var/lib/postgresql/data
+      - .container/postgresql:/var/lib/postgresql
       - .container/dump:/dump
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
