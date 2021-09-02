@@ -1,4 +1,4 @@
-registry.fedoraproject.org*.pyc
+*.pyc
 build/
 dist/
 docs/_build/
