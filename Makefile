@@ -16,7 +16,7 @@ define remove_dump
 endef
 
 up:
-	$(call compose-tool) up -d anitya-web anitya-librariesio-consumer
+	$(call compose-tool) up -d
 restart:
 	$(call compose-tool) restart
 halt:
