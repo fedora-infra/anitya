@@ -67,7 +67,7 @@ EXPECTED_ECOSYSTEMS = {
     "crates.io": "crates.io",
 }
 
-EXPECTED_VERSIONS = ["RPM", "Calendar", "Semantic"]
+EXPECTED_VERSIONS = ["RPM", "Calendar", "Python (PEP 440)", "Semantic"]
 
 
 class VersionPluginsTests(unittest.TestCase):

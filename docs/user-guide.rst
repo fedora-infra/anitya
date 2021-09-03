@@ -249,7 +249,7 @@ Version Scheme
 --------------
 
 Version scheme is used for sorting the retrieved versions for the projects.
-Anitya provides three different versions scheme.
+Anitya provides several different versions schemes.
 
 * **RPM** corresponds to versioning used by `RPM packages <https://docs.fedoraproject.org/en-US/packaging-guidelines/Versioning/>`_ 
 
@@ -258,6 +258,10 @@ Anitya provides three different versions scheme.
 
 * **Semantic** corresponds to project versions in format described
   on `Semantic Versioning 2.0.0 <https://semver.org/>`_
+
+* **Python (PEP 440)** corresponds to project versions used by
+  the `Python Package Index <https://pypi.org/>`_
+  and defined in `PEP 440 <https://www.python.org/dev/peps/pep-0440/#version-scheme>`_
 
 .. note::
     Anitya currently doesn't work well with projects that are using multiple
