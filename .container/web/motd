@@ -1,0 +1,17 @@
+Welcome to the Anitya Web development environment!
+
+Here are some tips:
+
+* The code is located at /app
+
+* Start the development server with
+FLASK_APP=anitya.wsgi flask run
+
+Once you start the development server, you can navigate to http://localhost:5000/
+in your host's browser.
+
+* To run check service simply run
+check_service.py
+
+Happy hacking!
+

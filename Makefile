@@ -22,9 +22,9 @@ restart:
 halt:
 	$(call compose-tool) down -t1
 bash-web:
-	$(call container-tool) exec -it anitya-web bash -c "cat /app/ansible/roles/anitya-dev/files/motd; bash;"
+	$(call container-tool) exec -it anitya-web bash -c "cat /app/.container/web/motd; bash;"
 bash-consumer:
-	$(call container-tool) exec -it anitya-librariesio-consumer bash -c "cat /app/ansible/roles/anitya-dev/files/motd; bash;"
+	$(call container-tool) exec -it anitya-librariesio-consumer bash -c "cat /app/.container/consumer/motd; bash;"
 init-db:
 	$(call container-tool) exec -it anitya-web bash -c "python3 createdb.py"
 dump-restore: init-db
