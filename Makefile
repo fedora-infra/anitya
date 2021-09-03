@@ -18,9 +18,9 @@ endef
 up:
 	$(call compose-tool) up -d
 restart:
-	$(call compose-tool) restart
+	$(call compose-tool) restart -t 1 anitya-web anitya-librariesio-consumer rabbitmq postgres
 halt:
-	$(call compose-tool) down
+	$(call compose-tool) down -t1
 bash-web:
 	$(call container-tool) exec -it anitya-web bash -c "cat /app/ansible/roles/anitya-dev/files/motd; bash;"
 bash-consumer:

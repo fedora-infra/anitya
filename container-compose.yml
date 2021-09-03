@@ -1,16 +1,13 @@
 version: "2.0"
 
 services:
-  image-builder:
+  anitya-web:
     image: anitya-base
     build:
       context: .
       dockerfile: Containerfile.dev
       args:
         FEDORA_VERSION: 34
-
-  anitya-web:
-    image: anitya-base
     container_name: "anitya-web"
     network_mode: host
     volumes:
@@ -27,6 +24,11 @@ services:
 
   anitya-librariesio-consumer:
     image: anitya-base
+    build:
+      context: .
+      dockerfile: Containerfile.dev
+      args:
+        FEDORA_VERSION: 34
     container_name: "anitya-librariesio-consumer"
     network_mode: host
     volumes:
