@@ -18,7 +18,7 @@ endef
 up:
 	$(call compose-tool) up -d
 restart:
-	$(call compose-tool) restart -t 1 anitya-web anitya-librariesio-consumer rabbitmq postgres
+	$(MAKE) halt && $(MAKE) up
 halt:
 	$(call compose-tool) down -t1
 bash-web:
