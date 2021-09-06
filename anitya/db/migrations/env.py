@@ -12,7 +12,9 @@ from anitya.db import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
-config = context.config
+# Don't check this with mypy, it doesn't work well with
+# proxy class
+config = context.config  # type: ignore
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
