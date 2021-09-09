@@ -24,7 +24,7 @@ from anitya.lib.versions import python
 
 # Note that the tests aren't comprehensive. We trust the packaging library
 # to order and normalize versions correctly, but we do test several edge cases
-# to verify our handling of the version obnjects is OK.
+# to verify our handling of the version objects is OK.
 
 
 class PythonVersionTests(unittest.TestCase):
@@ -49,18 +49,21 @@ class PythonVersionTests(unittest.TestCase):
         """Assert versions with RC are prerelease versions."""
         for suffix in ("rc1", "a2", "b10", ".dev3"):
             version = python.PythonVersion(version="1.0.0" + suffix)
+            self.assertEqual(str(version), "1.0.0" + suffix)
             self.assertTrue(version.prerelease())
 
     def test_prerelease_prerelease_separators(self):
         """Assert pre-release separators are normalized away."""
         for suffix in (".rc1", ".a2", ".b10", "-rc2", "-a3", "-b20"):
-            version = python.PythonVersion(version="1.0.0" + suffix[1:])
+            version = python.PythonVersion(version="1.0.0" + suffix)
+            self.assertEqual(str(version), "1.0.0" + suffix[1:])
             self.assertTrue(version.prerelease())
 
     def test_prerelease_prerelease_no_number(self):
         """Assert pre-releases without a number are still valid pre-releases."""
         for suffix in ("rc", "a", "b", ".dev"):
-            version = python.PythonVersion(version="1.0.0" + suffix + "0")
+            version = python.PythonVersion(version="1.0.0" + suffix)
+            self.assertEqual(str(version), "1.0.0" + suffix + "0")
             self.assertTrue(version.prerelease())
 
     def test_prerelease_nonsense(self):
@@ -80,6 +83,39 @@ class PythonVersionTests(unittest.TestCase):
         """Assert pre-releases will be valid if multiple filters is applied."""
         version = python.PythonVersion(version="v1.0.0", pre_release_filter="a;v")
         self.assertTrue(version.prerelease())
+
+    def test_postrelease_false(self):
+        """Assert postrelease is defined and returns False with non-postrelease versions."""
+        version = python.PythonVersion(version="1.0.0")
+        self.assertFalse(version.postrelease())
+
+    def test_postrelease_with_number(self):
+        """Assert versions with RC are postrelease versions."""
+        for suffix in (".post1", ".post2"):
+            version = python.PythonVersion(version="1.0.0" + suffix)
+            self.assertEqual(str(version), "1.0.0" + suffix)
+            self.assertTrue(version.postrelease())
+
+    def test_postrelease_postrelease_separators(self):
+        """Assert pre-release separators are normalized to dot."""
+        for suffix in ("post1", "post2"):
+            version = python.PythonVersion(version="1.0.0" + suffix)
+            self.assertEqual(str(version), "1.0.0" + "." + suffix)
+            self.assertTrue(version.postrelease())
+
+    def test_postrelease_postrelease_no_number(self):
+        """Assert pre-releases without a number are still valid pre-releases."""
+        version = python.PythonVersion(version="1.0.0post")
+        self.assertEqual(str(version), "1.0.0.post0")
+        self.assertTrue(version.postrelease())
+
+    def test_postrelease_nonsense(self):
+        """
+        Assert versions with junk following the version
+        aren't postrelease versions.
+        """
+        version = python.PythonVersion(version="1.0.0junk1")
+        self.assertFalse(version.postrelease())
 
     def test_lt(self):
         """Assert PythonVersion supports < comparison."""
@@ -199,3 +235,45 @@ class PythonVersionTests(unittest.TestCase):
         old_version = python.PythonVersion(version="1.0.0junk")
         new_version = python.PythonVersion(version="1.0.0junk")
         self.assertTrue(old_version == new_version)
+
+    def test_normalization_case(self):
+        """Assert that version tags are normalized to lowercase."""
+        version = python.PythonVersion(version="1.1RC1")
+        self.assertEqual(str(version), "1.1rc1")
+        self.assertEqual(version, python.PythonVersion(version="1.1rc1"))
+
+    def test_normalization_integer(self):
+        """Assert that numeric parts are normalized."""
+        version = python.PythonVersion(version="0900.00+foo0100")
+        self.assertEqual(str(version), "900.0+foo0100")
+
+    def test_normalization_prerelease_spelling(self):
+        """Assert that alternate prerelease speling is accepted."""
+        for alt, normal in (
+            ("alpha", "a"),
+            ("beta", "b"),
+            ("c", "rc"),
+            ("pre", "rc"),
+            ("preview", "rc"),
+        ):
+            version = python.PythonVersion(version="1.0" + alt)
+            self.assertEqual(str(version), "1.0" + normal + "0")
+
+    def test_normalization_postrelease_spelling(self):
+        """Assert that alternate postrelease speling is accepted."""
+        for alt in "rev", "r", "-":
+            version = python.PythonVersion(version="1.0" + alt + "1")
+            self.assertEqual(str(version), "1.0.post1")
+            self.assertEqual(version, python.PythonVersion(version="1.0.post1"))
+
+    def test_normalization_v(self):
+        """Assert that a leading "v" is thrown away."""
+        version = python.PythonVersion(version="v1.0.0")
+        self.assertEqual(str(version), "1.0.0")
+        self.assertEqual(version, python.PythonVersion(version="1.0.0"))
+
+    def test_normalization_ws(self):
+        """Assert that whitespace is trimmed."""
+        version = python.PythonVersion(version=" 1.0.0\n")
+        self.assertEqual(str(version), "1.0.0")
+        self.assertEqual(version, python.PythonVersion(version="1.0.0"))
