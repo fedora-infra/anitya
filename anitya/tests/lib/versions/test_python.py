@@ -90,7 +90,7 @@ class PythonVersionTests(unittest.TestCase):
         self.assertFalse(version.postrelease())
 
     def test_postrelease_with_number(self):
-        """Assert versions with RC are postrelease versions."""
+        """Assert versions with "post" are postrelease versions."""
         for suffix in (".post1", ".post2"):
             version = python.PythonVersion(version="1.0.0" + suffix)
             self.assertEqual(str(version), "1.0.0" + suffix)
@@ -152,9 +152,9 @@ class PythonVersionTests(unittest.TestCase):
         self.assertTrue(old_version < new_version)
         self.assertFalse(new_version < old_version)
 
-    def test_lt_alpha_vs_beta(self):
-        """Assert alpha prereleases are greater than beta prereleases of the same version."""
-        old_version = python.PythonVersion(version="1.0.0a2")
+    def test_lt_rc_vs_beta(self):
+        """Assert rc prereleases are greater than beta prereleases of the same version."""
+        old_version = python.PythonVersion(version="1.0.0b2")
         new_version = python.PythonVersion(version="1.0.0rc1")
         self.assertTrue(old_version < new_version)
         self.assertFalse(new_version < old_version)
@@ -248,7 +248,7 @@ class PythonVersionTests(unittest.TestCase):
         self.assertEqual(str(version), "900.0+foo0100")
 
     def test_normalization_prerelease_spelling(self):
-        """Assert that alternate prerelease speling is accepted."""
+        """Assert that alternate prerelease spelling is accepted."""
         for alt, normal in (
             ("alpha", "a"),
             ("beta", "b"),
@@ -257,10 +257,12 @@ class PythonVersionTests(unittest.TestCase):
             ("preview", "rc"),
         ):
             version = python.PythonVersion(version="1.0" + alt)
-            self.assertEqual(str(version), "1.0" + normal + "0")
+            normalized = "1.0" + normal + "0"
+            self.assertEqual(str(version), normalized)
+            self.assertEqual(version, python.PythonVersion(version=normalized))
 
     def test_normalization_postrelease_spelling(self):
-        """Assert that alternate postrelease speling is accepted."""
+        """Assert that alternate postrelease spelling is accepted."""
         for alt in "rev", "r", "-":
             version = python.PythonVersion(version="1.0" + alt + "1")
             self.assertEqual(str(version), "1.0.post1")
