@@ -226,6 +226,7 @@ Makefile scripts that provide easier container management:
 * ``make bash-consumer`` Connects to anitya-librariesio-consumer container
 * ``make init-db`` Creates database
 * ``make dump-restore`` Import production database
+* ``make logs`` Shows all logs of all containers
 
 Project files are bound to each other with host and container. Whenever you change any project file from the host or the container, the same change will happen on the opposite side as well.
 

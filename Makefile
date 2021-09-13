@@ -31,3 +31,5 @@ dump-restore: init-db
 	$(call download_dump)
 	$(call container-tool) exec -it postgres \bash -c 'runuser -l postgres -c "createuser anitya" && xzcat /dump/anitya.dump.xz | runuser -l postgres -c "psql anitya"'
 	$(call remove_dump)
+logs:
+	$(call container-tool) logs -f anitya-web anitya-librariesio-consumer rabbitmq postgres
