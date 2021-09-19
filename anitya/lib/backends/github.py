@@ -99,8 +99,9 @@ class GithubBackend(BaseBackend):
         try:
             headers = REQUEST_HEADERS.copy()
             token = config["GITHUB_ACCESS_TOKEN"]
-            if token:
-                headers["Authorization"] = "bearer %s" % token
+            if not token:
+                raise AnityaPluginException("github_access_token not configured")
+            headers["Authorization"] = "bearer %s" % token
             resp = http_session.post(
                 API_URL,
                 json={"query": query},
