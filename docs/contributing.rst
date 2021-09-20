@@ -152,6 +152,9 @@ to the Ansible provisioner inside your `Vagrantfile`::
 
     ansible.extra_vars = { import_production_database: false }
 
+The application's configuration file is ``/home/vagrant/anitya.toml``.
+You can also look at the `sample configuration <https://github.com/fedora-infra/anitya/blob/master/files/anitya.toml.sample>`_
+
 .. note::
    Please don't commit any local changes to Vagrantfile. We are managing it
    upstream.
