@@ -26,4 +26,4 @@ RUN cp /app/ansible/roles/anitya-dev/files/anitya.toml /etc/anitya
 RUN pip install -r /app/test_requirements.txt
 RUN pip install -r /app/requirements.txt
 
-CMD ["sh","-c", "pip3 install -e /app && tail -f /dev/null"]
+CMD ["sh","-c", "pip3 install -e /app && eval '$START_COMMAND'"]
