@@ -14,6 +14,9 @@ services:
       - ./:/app:z
     privileged: true
     restart: unless-stopped
+    environment:
+      - FLASK_APP=anitya.wsgi
+      - START_COMMAND=flask run
     depends_on:
       image-builder:
         condition: service_started
@@ -35,6 +38,8 @@ services:
       - ./:/app:z
     privileged: true
     restart: unless-stopped
+    environment:
+      - START_COMMAND=librariesio_consumer.py
     depends_on:
       image-builder:
         condition: service_started

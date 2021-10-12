@@ -17,6 +17,13 @@ endef
 
 up:
 	$(call compose-tool) up -d
+	sleep 3
+ifneq ($(wildcard .container/postgresql/data/.*),)
+	@echo "Database files are already exists, so they will be used."
+else
+	@echo "No database files exists, db initialization started."
+	$(MAKE) init-db
+endif
 restart:
 	$(MAKE) halt && $(MAKE) up
 halt:
