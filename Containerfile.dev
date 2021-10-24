@@ -12,7 +12,7 @@ RUN dnf upgrade --refresh -y
 RUN dnf install -y python3 python3-pip python3-devel python3-psycopg2
 
 # Dependencies for tox
-RUN dnf install -y git python3-tox
+RUN dnf install -y git python3-tox libpq libpq-devel gcc
 
 RUN dnf autoremove -y && dnf clean all -y
 
@@ -28,5 +28,6 @@ RUN cp /app/ansible/roles/anitya-dev/files/anitya.toml /etc/anitya
 # Pip installations
 RUN pip install -r /app/test_requirements.txt
 RUN pip install -r /app/requirements.txt
+RUN pip install psycopg2
 
 CMD ["sh","-c", "pip3 install -e /app && eval '$START_COMMAND'"]
