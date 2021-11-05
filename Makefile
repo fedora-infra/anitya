@@ -1,3 +1,5 @@
+.SILENT:
+
 _CHECK_PODMAN := $(shell command -v podman 2> /dev/null)
 define compose-tool
 	$(if $(_CHECK_PODMAN), podman-compose, docker-compose) -f container-compose.yml
@@ -40,3 +42,6 @@ dump-restore: init-db
 	$(call remove_dump)
 logs:
 	$(call container-tool) logs -f anitya-web anitya-librariesio-consumer rabbitmq postgres
+
+.PHONY: up restart halt bash-web bash-consumer \
+	init-db dump-restore logs
