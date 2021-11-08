@@ -28,7 +28,9 @@ class ProjectForm(FlaskForm):
     version_prefix = StringField("Version prefix", [validators.optional()])
     pre_release_filter = StringField("Pre-release filter", [validators.optional()])
     version_filter = StringField("Version filter", [validators.optional()])
-    version_scheme = SelectField("Version scheme", [validators.Required()], choices=[])
+    version_scheme = SelectField(
+        "Version scheme", [validators.InputRequired()], choices=[]
+    )
     version_pattern = StringField("Version pattern", [validators.optional()])
     regex = StringField("Regex", [validators.optional()])
     insecure = BooleanField("Use insecure connection", [validators.optional()])
