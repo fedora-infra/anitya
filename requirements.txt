@@ -18,4 +18,4 @@ sseclient>=0.0.26, <1.0.0
 straight.plugin>=1.5.0, <2.0.0
 toml>=0.10.2, <1.0.0
 webargs>=8.0.0, <9.0.0
-wtforms>=2.2.1, <3.0.0
+wtforms>=2.2.1, <4.0.0
