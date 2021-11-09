@@ -52,6 +52,7 @@
            fedora-messaging,
            python3-alembic,
            python3-arrow,
+           python-authlib,
            python3-beautifulsoup4,
            python3-dateutil,
            python3-defusedxml,

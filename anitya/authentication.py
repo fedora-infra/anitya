@@ -22,13 +22,12 @@ This module provides functions and classes for authentication and authorization.
 Anitya uses `Flask-Login`_ for user session management. It handles logging in,
 logging out, and remembering users’ sessions over extended periods of time.
 
-In addition, Anitya uses `Python Social Auth`_ to authenticate users from various
+In addition, Anitya uses `Authlib`_ to authenticate users from various
 third-party identity providers. It handles logging the user in and creating
 :class:`anitya.db.models.User` objects as necessary.
 
 .. _Flask-Login: https://flask-login.readthedocs.io/en/latest/
-.. _Python Social Auth:
-    https://python-social-auth.readthedocs.io/en/latest/
+.. _Authlib: https://docs.authlib.org/en/latest/
 """
 import logging
 import uuid

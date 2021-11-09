@@ -16,13 +16,18 @@ import logging.handlers
 
 import flask
 from flask_login import LoginManager, current_user, user_logged_in
-from social_core.backends.utils import load_backends
-from social_core.exceptions import AuthException
-from social_flask.routes import social_auth
-from social_flask_sqlalchemy import models as social_models
+from flask import url_for, render_template
+from authlib.integrations.flask_client import OAuth
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 
+<<<<<<< HEAD
+=======
+from anitya.config import config as anitya_config
+from anitya.db import Session, initialize as initialize_db, models
+from anitya.lib import utilities
+from . import ui, admin, api, api_v2, authentication, auth
+>>>>>>> ffbba79 (Migrate social_auth to authlib)
 import anitya.lib
 import anitya.mail_logging
 from anitya import __version__
@@ -54,19 +59,6 @@ def create(config=None):
     app.config.update(config)
     initialize_db(config)
 
-    app.register_blueprint(social_auth)
-    if len(social_models.UserSocialAuth.__table_args__) == 0:
-        # This is a bit of a hack - this initialization call sets up the SQLAlchemy
-        # models with our own models and multiple calls to this function will cause
-        # SQLAlchemy to fail with sqlalchemy.exc.InvalidRequestError. Only calling it
-        # when there are no table arguments should ensure we only call it one time.
-        #
-        # Be aware that altering the configuration values this function uses, namely
-        # the SOCIAL_AUTH_USER_MODEL, after the first time ``create`` has been called
-        # will *not* cause the new configuration to be used for subsequent calls to
-        # ``create``.
-        social_models.init_social(app, Session)
-
     login_manager = LoginManager()
     login_manager.user_loader(authentication.load_user_from_session)
     login_manager.request_loader(authentication.load_user_from_request)
@@ -91,10 +83,17 @@ def create(config=None):
     app.register_blueprint(ui.ui_blueprint)
     app.register_blueprint(api.api_blueprint)
 
+    oauth = OAuth(app)
+    for auth_backend in app.config.get("AUTHLIB_ENABLED_BACKENDS", []):
+        oauth.register(auth_backend.lower())
+
+    app.register_blueprint(auth.create_oauth_blueprint(oauth))
+
     app.before_request(global_user)
     app.teardown_request(shutdown_session)
     app.register_error_handler(IntegrityError, integrity_error_handler)
-    app.register_error_handler(AuthException, auth_error_handler)
+    # TODO: Need to change for authlib
+    #app.register_error_handler(AuthException, auth_error_handler)
 
     app.context_processor(inject_variable)
 
@@ -141,9 +140,7 @@ def inject_variable():
         justedit=justedit,
         cron_status=cron_status,
         user=current_user,
-        available_backends=load_backends(
-            anitya_config["SOCIAL_AUTH_AUTHENTICATION_BACKENDS"]
-        ),
+        available_backends=anitya_config["AUTHLIB_ENABLED_BACKENDS"],
     )
 
 
@@ -164,7 +161,7 @@ def integrity_error_handler(error):
         Session.rollback()
         other_user = models.User.query.filter_by(email=error.params["email"]).one()
         try:
-            social_auth_user = other_user.social_auth.filter_by(
+            social_auth_user = other_user.oauth.filter_by(
                 user_id=other_user.id
             ).one()
             msg = (
@@ -219,9 +216,10 @@ def when_user_log_in(sender, user):
         sqlalchemy.exc.IntegrityError: When user_social_auth table entry is
         missing.
     """
-    if user.social_auth.count() == 0:
-        raise IntegrityError(
-            "Missing social_auth table",
-            {"social_auth": None, "email": user.email},
-            None,
-        )
+    # TODO: new social table need to be added
+    #if user.oauth.count() == 0:
+    #    raise IntegrityError(
+    #        "Missing authlib table",
+    #        {"authlib": None, "email": user.email},
+    #        None,
+    #    )

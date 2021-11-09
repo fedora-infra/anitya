@@ -90,6 +90,17 @@ DEFAULTS = dict(
     # project will be automatically removed, if no version was retrieved yet
     CHECK_ERROR_THRESHOLD=100,
     DISTRO_MAPPING_LINKS={},
+    # Enabled authentication backends
+    AUTHLIB_ENABLED_BACKENDS=['Fedora', 'GitHub', 'Google'],
+    # Token for GitHub API
+    GITHUB_ACCESS_TOKEN_URL='https://github.com/login/oauth/access_token',
+    GITHUB_AUTHORIZE_URL='https://github.com/login/oauth/authorize',
+    GITHUB_API_BASE_URL='https://api.github.com/',
+    GITHUB_CLIENT_KWARGS={'scope': 'user:email'},
+    FEDORA_CLIENT_KWARGS={'scope': 'openid email profile'},
+    FEDORA_SERVER_METADATA_URL='https://id.fedoraproject.org/.well-known/openid-configuration',
+    GOOGLE_CLIENT_KWARGS={'scope': 'openid email profile'},
+    GOOGLE_SERVER_METADATA_URL='https://accounts.google.com/.well-known/openid-configuration',
 )
 
 # Start with a basic logging configuration, which will be replaced by any user-
