@@ -214,7 +214,8 @@ class CratesBackend(BaseBackend):
                 was in an unexpected format.
         """
         filtered_versions = cls.filter_versions(
-            [v["num"] for v in cls._get_versions(project)], project.version_filter
+            [v["num"] for v in cls._get_versions(project) if not v["yanked"]],
+            project.version_filter,
         )
         return filtered_versions
 
