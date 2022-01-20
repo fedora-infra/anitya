@@ -629,6 +629,39 @@ class CheckProjectReleaseTests(DatabaseTestCase):
 
         self.assertEqual(project.error_counter, 0)
 
+    @mock.patch(
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+        return_value=["0.9.9"],
+    )
+    def test_check_project_release_old_version(self, mock_method):
+        """
+        Test the check_project_release function for Project.
+        This test will test if the fedora message is sent even if
+        the version is not the newest.
+        """
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="pypi_and_npm",
+                homepage="https://example.com/not-a-real-npmjs-project",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+                version_scheme="RPM",
+            )
+        # Create version
+        version = models.ProjectVersion(project_id=project.id, version="1.0.0")
+        self.session.add(version)
+        self.session.commit()
+
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectVersionUpdated, anitya_schema.ProjectVersionUpdatedV2
+        ):
+            utilities.check_project_release(project, self.session)
+        versions = project.get_sorted_version_objects()
+        self.assertEqual(len(versions), 2)
+        self.assertEqual(versions[0].version, "1.0.0")
+        self.assertEqual(versions[1].version, "0.9.9")
+
 
 class MapProjectTests(DatabaseTestCase):
     """Tests for the :func:`anitya.lib.utilities.map_project` function."""

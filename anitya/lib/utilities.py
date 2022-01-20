@@ -74,7 +74,6 @@ def check_project_release(project, session, test=False):
             "Project is archived, can't check new versions"
         )
 
-    publish = False
     versions_prefix = []
     max_version = ""
 
@@ -142,49 +141,44 @@ def check_project_release(project, session, test=False):
         max_version = max_version_obj.parse()
     if project.latest_version != max_version:
         project.latest_version = max_version
-        publish = True
-    else:
+    if not upstream_versions:
         project.logs = "No new version found"
 
     if test:
         return upstream_versions[::-1]
 
-    if not test:
-        if publish:
-            publish_message(
+    if not test and upstream_versions:
+        publish_message(
+            project=project.__json__(),
+            topic="project.version.update",
+            message=dict(
                 project=project.__json__(),
-                topic="project.version.update",
-                message=dict(
-                    project=project.__json__(),
-                    upstream_version=max_version,
-                    old_version=old_version,
-                    packages=[pkg.__json__() for pkg in project.packages],
-                    versions=project.versions,
-                    stable_versions=[
-                        str(version) for version in project.stable_versions
-                    ],
-                    ecosystem=project.ecosystem_name,
-                    agent="anitya",
-                    odd_change=False,
-                ),
-            )
+                upstream_version=max_version,
+                old_version=old_version,
+                packages=[pkg.__json__() for pkg in project.packages],
+                versions=project.versions,
+                stable_versions=[str(version) for version in project.stable_versions],
+                ecosystem=project.ecosystem_name,
+                agent="anitya",
+                odd_change=False,
+            ),
+        )
 
-            publish_message(
+        publish_message(
+            project=project.__json__(),
+            topic="project.version.update.v2",
+            message=dict(
                 project=project.__json__(),
-                topic="project.version.update.v2",
-                message=dict(
-                    project=project.__json__(),
-                    upstream_versions=upstream_versions,
-                    old_version=old_version,
-                    packages=[pkg.__json__() for pkg in project.packages],
-                    versions=project.versions,
-                    stable_versions=[
-                        str(version) for version in project.stable_versions
-                    ],
-                    ecosystem=project.ecosystem_name,
-                    agent="anitya",
-                ),
-            )
+                upstream_versions=upstream_versions,
+                old_version=old_version,
+                packages=[pkg.__json__() for pkg in project.packages],
+                versions=project.versions,
+                stable_versions=[str(version) for version in project.stable_versions],
+                ecosystem=project.ecosystem_name,
+                agent="anitya",
+            ),
+        )
+
         session.add(project)
         session.commit()
 
