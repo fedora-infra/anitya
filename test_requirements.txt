@@ -26,5 +26,5 @@ types-mock==4.0.8
 types-python-dateutil==2.8.7
 types-requests==2.27.7
 types-setuptools==57.4.7
-types-six==1.16.9
+types-six==1.16.10
 types-toml==0.10.3
