@@ -145,9 +145,10 @@ def check_project_release(project, session, test=False):
         project.logs = "No new version found"
 
     if test:
+        session.close()
         return upstream_versions[::-1]
 
-    if not test and upstream_versions:
+    if upstream_versions:
         publish_message(
             project=project.__json__(),
             topic="project.version.update",
@@ -179,8 +180,8 @@ def check_project_release(project, session, test=False):
             ),
         )
 
-        session.add(project)
-        session.commit()
+    session.add(project)
+    session.commit()
 
 
 def create_project(
