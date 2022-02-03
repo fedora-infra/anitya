@@ -12,7 +12,7 @@
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f33
+        label: pod-python-f35
 
 - job:
     name: tox-lint
@@ -28,7 +28,7 @@
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f33
+        label: pod-python-f35
 - job:
     name: tox-format
     description: |
@@ -43,7 +43,7 @@
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f33
+        label: pod-python-f35
 
 - job:
     name: tox-python38
@@ -63,7 +63,7 @@
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f33
+        label: pod-python-f35
 
 - job:
     name: tox-python39
@@ -83,7 +83,7 @@
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f33
+        label: pod-python-f35
 
 - job:
     name: anitya-tox-docs
@@ -106,7 +106,7 @@
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f33
+        label: pod-python-f35
 
 - job:
     name: tox-bandit
@@ -122,7 +122,7 @@
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f33
+        label: pod-python-f35
 
 - job:
     name: tox-diff-cover
@@ -138,7 +138,7 @@
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f33
+        label: pod-python-f35
 
 - project:
     check:
