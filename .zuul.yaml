@@ -9,10 +9,12 @@
     run: ci/test-tox.yaml
     vars:
       tox_env: mypy
+      job_dependencies:
+        - tox
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f35
+        label: cloud-fedora-35
 
 - job:
     name: tox-lint
@@ -25,10 +27,12 @@
     run: ci/test-tox.yaml
     vars:
       tox_env: lint
+      job_dependencies:
+        - tox
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f35
+        label: cloud-fedora-35
 - job:
     name: tox-format
     description: |
@@ -40,10 +44,12 @@
     run: ci/test-tox.yaml
     vars:
       tox_env: format
+      job_dependencies:
+        - tox
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f35
+        label: cloud-fedora-35
 
 - job:
     name: tox-python38
@@ -58,12 +64,13 @@
     run: ci/test-tox.yaml
     vars:
       tox_env: py38
-      dependencies:
+      job_dependencies:
+        - tox
         - python38
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f35
+        label: cloud-fedora-35
 
 - job:
     name: tox-python39
@@ -78,12 +85,13 @@
     run: ci/test-tox.yaml
     vars:
       tox_env: py39
-      dependencies:
+      job_dependencies:
+        - tox
         - python39
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f35
+        label: cloud-fedora-35
 
 - job:
     name: anitya-tox-docs
@@ -99,14 +107,15 @@
     run: ci/test-tox.yaml
     vars:
       tox_env: docs
-      dependencies:
+      job_dependencies:
+        - tox
         - graphviz
         - python3-sphinxcontrib-httpdomain
         - python3-sqlalchemy_schemadisplay
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f35
+        label: cloud-fedora-35
 
 - job:
     name: tox-bandit
@@ -119,10 +128,12 @@
     run: ci/test-tox.yaml
     vars:
       tox_env: bandit
+      job_dependencies:
+        - tox
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f35
+        label: cloud-fedora-35
 
 - job:
     name: tox-diff-cover
@@ -135,10 +146,12 @@
     run: ci/test-tox.yaml
     vars:
       tox_env: "py38,diff-cover"
+      job_dependencies:
+        - tox
     nodeset:
       nodes:
         name: test-node
-        label: pod-python-f35
+        label: cloud-fedora-35
 
 - project:
     check:
