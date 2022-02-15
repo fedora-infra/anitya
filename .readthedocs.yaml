@@ -5,7 +5,15 @@ formats:
   - epub
   - pdf
 
-# Python configuration
+# Python install configuration
+python:
+  install:
+    - requirements: requirements.txt
+    - requirements: test_requirements.txt
+    - method: pip
+      path: .
+
+# Build configuration
 build:
   os: ubuntu-20.04
   tools:
