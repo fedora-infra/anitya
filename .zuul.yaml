@@ -94,6 +94,27 @@
         label: cloud-fedora-35
 
 - job:
+    name: tox-python310
+    description: |
+      Run unit tests for a Python project under cPython version 3.10.
+
+      Uses tox with the ``py310`` environment.
+      
+      Ensures that the python310 interpreter is installed.
+
+    parent: tox
+    run: ci/test-tox.yaml
+    vars:
+      tox_env: py310
+      job_dependencies:
+        - tox
+        - python310
+    nodeset:
+      nodes:
+        name: test-node
+        label: cloud-fedora-35
+
+- job:
     name: anitya-tox-docs
     description: |
       Build docs in tox specifically for anitya.
@@ -161,6 +182,7 @@
         - tox-format
         - tox-python38
         - tox-python39
+        - tox-python310
         - anitya-tox-docs
         - tox-bandit
         - tox-diff-cover
