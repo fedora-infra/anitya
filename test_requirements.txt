@@ -1,4 +1,4 @@
-bandit==1.7.2
+bandit==1.7.3
 black==22.1.0
 coverage==6.3.2
 diff-cover==6.4.4
