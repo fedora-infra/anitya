@@ -59,17 +59,13 @@ class AnityaWebAPItests(DatabaseTestCase):
         """Assert the legacy /api endpoint redirects to docs."""
         output = self.app.get("/api")
         self.assertEqual(302, output.status_code)
-        self.assertEqual(
-            "/static/docs/api.html", output.headers["Location"]
-        )
+        self.assertEqual("/static/docs/api.html", output.headers["Location"])
 
     def test_api_docs_with_slash(self):
         """Assert the legacy /api/ endpoint redirects to docs."""
         output = self.app.get("/api/")
         self.assertEqual(302, output.status_code)
-        self.assertEqual(
-            "/static/docs/api.html", output.headers["Location"]
-        )
+        self.assertEqual("/static/docs/api.html", output.headers["Location"])
 
     def test_api_projects(self):
         """Test the api_projects function of the API."""

@@ -492,9 +492,7 @@ class FlaskTest(DatabaseTestCase):
         """Assert the legacy about endpoint redirects to documentation"""
         output = self.app.get("/about")
         self.assertEqual(output.status_code, 302)
-        self.assertEqual(
-            output.headers["Location"], "/static/docs/index.html"
-        )
+        self.assertEqual(output.headers["Location"], "/static/docs/index.html")
 
     def test_project(self):
         """Test the project function."""
