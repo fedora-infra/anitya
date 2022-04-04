@@ -60,7 +60,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         output = self.app.get("/api")
         self.assertEqual(302, output.status_code)
         self.assertEqual(
-            "http://localhost/static/docs/api.html", output.headers["Location"]
+            "/static/docs/api.html", output.headers["Location"]
         )
 
     def test_api_docs_with_slash(self):
@@ -68,7 +68,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         output = self.app.get("/api/")
         self.assertEqual(302, output.status_code)
         self.assertEqual(
-            "http://localhost/static/docs/api.html", output.headers["Location"]
+            "/static/docs/api.html", output.headers["Location"]
         )
 
     def test_api_projects(self):

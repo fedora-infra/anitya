@@ -486,14 +486,14 @@ class FlaskTest(DatabaseTestCase):
         with login_user(self.flask_app, self.user):
             output = self.app.get("/")
             self.assertEqual(output.status_code, 302)
-            self.assertEqual(output.headers["Location"], "http://localhost/project/1")
+            self.assertEqual(output.headers["Location"], "/project/1")
 
     def test_about(self):
         """Assert the legacy about endpoint redirects to documentation"""
         output = self.app.get("/about")
         self.assertEqual(output.status_code, 302)
         self.assertEqual(
-            output.headers["Location"], "http://localhost/static/docs/index.html"
+            output.headers["Location"], "/static/docs/index.html"
         )
 
     def test_project(self):
@@ -710,7 +710,7 @@ class FlaskTest(DatabaseTestCase):
         with login_user(self.flask_app, self.user):
             output = self.app.get("/logout")
             self.assertEqual(output.status_code, 302)
-            self.assertEqual(output.headers["Location"], "http://localhost/")
+            self.assertEqual(output.headers["Location"], "/")
 
     def test_logout(self):
         """Assert the logout logouts user"""
