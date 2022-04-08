@@ -106,7 +106,8 @@ class PypiBackend(BaseBackend):
 
         # Filter retrieved versions
         filtered_versions = cls.filter_versions(
-            list(data["releases"].keys()), project.version_filter
+            [v for v in data["releases"] if not data["releases"][v][0]["yanked"]],
+            project.version_filter,
         )
         return filtered_versions
 
