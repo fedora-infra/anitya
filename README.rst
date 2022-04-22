@@ -9,12 +9,6 @@
   :alt: Documentation Status
   :target: https://anitya.readthedocs.io/en/latest/?badge=latest
 
-.. image:: https://codecov.io/gh/fedora-infra/anitya/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/fedora-infra/anitya
-  
-.. image:: https://travis-ci.org/fedora-infra/anitya.svg?branch=master
-  :target: https://travis-ci.org/fedora-infra/anitya
-  
 .. image:: https://img.shields.io/lgtm/alerts/g/fedora-infra/anitya.svg?logo=lgtm&logoWidth=18
   :target: https://lgtm.com/projects/g/fedora-infra/anitya/alerts/
 
