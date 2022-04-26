@@ -357,28 +357,5 @@ If you are a maintainer and wish to make a release, follow these steps:
 
 12. Upload the packages with ``twine upload dist/<dists>``.
 
-
-Fedora messaging schema
------------------------
-
-To do the release you need following python packages installed::
-
-    wheel
-    twine
-
-If you are a maintainer and wish to make a release of Anitya fedora messaging schema, follow these steps:
-
-1. Enter ``anitya_schema`` directory.
-   
-2. Change the version in ``setup.py``.
-
-3. Commit your changes with message *Anitya schema <version>*.
-
-4. Don't forget to ``git push``.
-   
-5. Build the Python packages with ``python setup.py sdist bdist_wheel``.
-
-6. Upload the packages with ``twine upload dist/<dists>``.
-
 .. _Ansible: https://www.ansible.com/
 .. _Vagrant: https://vagrantup.com/

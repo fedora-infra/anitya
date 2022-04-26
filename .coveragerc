@@ -2,7 +2,6 @@
 branch = True
 include =
     anitya/*
-    anitya_schema/anitya_schema/*
 
 
 [report]
@@ -15,4 +14,3 @@ omit =
     anitya/tests/*
     anitya/db/migrations
     anitya/db/migrations/*
-    anitya_schema/anitya_schema/tests/*
