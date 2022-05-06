@@ -76,7 +76,6 @@
   pip:
     name:
       - "{{ anitya_src }}"
-      - "{{ anitya_src }}/anitya_schema"
     extra_args: "-e"
   tags: install
 
