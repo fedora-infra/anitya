@@ -18,8 +18,6 @@ services:
       - FLASK_APP=anitya.wsgi
       - START_COMMAND=flask run
     depends_on:
-      image-builder:
-        condition: service_started
       postgres:
         condition: service_started
       rabbitmq:
@@ -41,8 +39,6 @@ services:
     environment:
       - START_COMMAND=librariesio_consumer.py
     depends_on:
-      image-builder:
-        condition: service_started
       postgres:
         condition: service_started
       rabbitmq:
