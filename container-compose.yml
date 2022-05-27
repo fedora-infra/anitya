@@ -7,9 +7,10 @@ services:
       context: .
       dockerfile: Containerfile.dev
       args:
-        FEDORA_VERSION: 34
+        FEDORA_VERSION: 36
     container_name: "anitya-web"
-    network_mode: host
+    ports:
+      - "5000:5000"
     volumes:
       - ./:/app:z
     privileged: true
@@ -29,9 +30,8 @@ services:
       context: .
       dockerfile: Containerfile.dev
       args:
-        FEDORA_VERSION: 34
+        FEDORA_VERSION: 36
     container_name: "anitya-librariesio-consumer"
-    network_mode: host
     volumes:
       - ./:/app:z
     privileged: true
@@ -47,8 +47,10 @@ services:
   rabbitmq:
     image: docker.io/library/rabbitmq:3.8.16-management-alpine
     container_name: "rabbitmq"
-    network_mode: host
     restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
     healthcheck:
       test: [ "CMD", "nc", "-z", "localhost", "5672" ]
       interval: 3s
@@ -61,7 +63,8 @@ services:
   postgres:
     image: docker.io/library/postgres:13.4
     container_name: "postgres"
-    network_mode: host
+    ports:
+      - "5432:5432"
     volumes:
       - .container/postgresql:/var/lib/postgresql
       - .container/dump:/dump

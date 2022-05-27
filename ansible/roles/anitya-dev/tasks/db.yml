@@ -8,6 +8,11 @@
       ]
       state: present
 
+- name: Update /etc/hosts
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1 postgres"
+
 - name: Initialize PostgreSQL
   command: postgresql-setup initdb
   args:
