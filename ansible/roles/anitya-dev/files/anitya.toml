@@ -1,9 +1,9 @@
 # This is a TOML-format file. For the spec, see https://github.com/toml-lang/toml#spec
 
 # URL to the database
-db_url = 'postgresql://postgres:anypasswordworkslocally@localhost/anitya'
+db_url = 'postgresql://postgres:anypasswordworkslocally@postgres/anitya'
 
-amqp_url = "amqp://anitya:anitya@localhost:5672"
+amqp_url = "amqp://anitya:anitya@rabbitmq:5672"
 
 # List of web administrators. The values should be the value of the "id" column
 # for the user in the "users" table of the database. They need to log in before

@@ -6,6 +6,11 @@
   with_items:
       - rabbitmq-server
 
+- name: Update /etc/hosts
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1 rabbitmq"
+
 - name: Create RabbitMQ systemd override directory
   file:
     path: /etc/systemd/system/rabbitmq-server.service.d/
@@ -18,6 +23,9 @@
   notify:
     - reload rabbitmq
 
+- name: start rabbitmq
+  service: name=rabbitmq-server state=started enabled=yes
+
 - name: Enables the rabbitmq management and SSL authentication plugins
   rabbitmq_plugin:
     names: rabbitmq_management,rabbitmq_auth_mechanism_ssl
@@ -29,6 +37,3 @@
     path: /var/lib/rabbitmq/.erlang.cookie
     owner: rabbitmq
     group: rabbitmq
-
-- name: start rabbitmq
-  service: name=rabbitmq-server state=started enabled=yes
