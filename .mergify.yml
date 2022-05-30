@@ -12,6 +12,7 @@ pull_request_rules:
     conditions:
     - author=dependabot[bot]
     - label!=no-mergify
+    - "#changes-requested-reviews-by=0"
     - check-success=fedora/check
 
   - name: default
