@@ -4,6 +4,17 @@ queue_rules:
       - check-success=fedora/check
 
 pull_request_rules:
+  - name: dependabot
+    actions:
+      queue:
+        method: rebase
+        name: default
+    conditions:
+    - author=dependabot[bot]
+    - label!=no-mergify
+    - "#changes-requested-reviews-by=0"
+    - check-success=fedora/check
+
   - name: default
     actions:
       queue:
@@ -12,14 +23,4 @@ pull_request_rules:
     conditions:
     - label!=no-mergify
     - '#approved-reviews-by>=1'
-    - check-success=fedora/check
-
-  - name: dependabot
-    actions:
-      queue:
-        method: rebase
-        name: default
-    conditions:
-    - author=dependabot
-    - label!=no-mergify
     - check-success=fedora/check
