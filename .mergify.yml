@@ -10,7 +10,7 @@ pull_request_rules:
         method: rebase
         name: default
     conditions:
-    - author=dependabot
+    - author=dependabot[bot]
     - label!=no-mergify
     - check-success=fedora/check
 
