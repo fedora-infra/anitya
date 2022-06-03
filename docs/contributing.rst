@@ -132,7 +132,6 @@ Next, clone the repository and start the Vagrant machine::
     $ git clone https://github.com/fedora-infra/anitya.git
     $ cd anitya
     $ vagrant up
-    $ vagrant reload
     $ vagrant ssh
 
 When you log in you'll be presented with a message of the day with more details
