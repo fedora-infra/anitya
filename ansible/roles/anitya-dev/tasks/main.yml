@@ -109,6 +109,14 @@
     chdir: /home/{{ ansible_env.SUDO_USER }}/devel/docs/
     creates: /home/{{ ansible_env.SUDO_USER }}/devel/anitya/static/docs/objects.inv
 
+# Hotfix for social_auth issue
+# Could be removed when we move away from social_auth
+- name: Hotfix for social_auth
+  replace:
+    path: /usr/local/lib/python3.9/site-packages/social_sqlalchemy/storage.py
+    regexp: 'base64\.encodestring'
+    replace: 'base64.encodebytes'
+
 - import_tasks: db.yml
 - import_tasks: librariesio.yml
 - import_tasks: rabbitmq.yml
