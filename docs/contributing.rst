@@ -207,13 +207,13 @@ Next, clone the repository and start containers::
      - Url
      - Credentials
    * - RabbitMQ
-     - http://localhost:5672
+     - localhost:5672
      - anitya:anitya
    * - RabbitMQ Management UI
      - http://localhost:15672
      - anitya:anitya
    * - PostgreSQL
-     - http://localhost:5432
+     - localhost:5432
      - postgres:anypasswordworkslocally
 
 Makefile scripts that provide easier container management:

@@ -14,18 +14,14 @@ define download_dump
 endef
 
 define remove_dump
-	$(call container-tool) exec -it postgres \bash -c 'rm /dump/anitya.dump.xz'
+	rm -f .container/dump/anitya.dump.xz
 endef
 
 up:
 	$(call compose-tool) up -d
 	sleep 3
-ifneq ($(wildcard .container/postgresql/data/.*),)
-	@echo "Database files are already exists, so they will be used."
-else
-	@echo "No database files exists, db initialization started."
 	$(MAKE) init-db
-endif
+	@echo "Empty database initialized. Run dump-restore to fill it by production dump."
 restart:
 	$(MAKE) halt && $(MAKE) up
 halt:
@@ -38,7 +34,7 @@ init-db:
 	$(call container-tool) exec -it anitya-web bash -c "python3 createdb.py"
 dump-restore: init-db
 	$(call download_dump)
-	$(call container-tool) exec -it postgres \bash -c 'runuser -l postgres -c "createuser anitya" && xzcat /dump/anitya.dump.xz | runuser -l postgres -c "psql anitya"'
+	$(call container-tool) exec -it postgres bash -c 'createuser anitya && xzcat /dump/anitya.dump.xz | psql anitya'
 	$(call remove_dump)
 logs:
 	$(call container-tool) logs -f anitya-web anitya-librariesio-consumer rabbitmq postgres
