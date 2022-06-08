@@ -1,0 +1,4 @@
+amqp_url = "amqp://anitya:anitya@rabbitmq:5672"
+
+topic_prefix = "org.release-monitoring.dev"
+publish_exchange = "amq.topic"
