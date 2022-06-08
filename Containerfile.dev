@@ -30,4 +30,8 @@ RUN pip install -r /app/test_requirements.txt
 RUN pip install -r /app/requirements.txt
 RUN pip install psycopg2
 
+# Hotfix for social_auth-sqlalchemy
+# Should be removed when we switch to something else
+RUN sed -i 's/base64.encodestring/base64.encodebytes/g' /usr/local/lib/python3.10/site-packages/social_sqlalchemy/storage.py
+
 CMD ["sh","-c", "pip3 install -e /app && eval '$START_COMMAND'"]
