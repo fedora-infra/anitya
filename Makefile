@@ -38,6 +38,8 @@ dump-restore: init-db
 	$(call remove_dump)
 logs:
 	$(call container-tool) logs -f anitya-web anitya-librariesio-consumer rabbitmq postgres
+clean: halt
+	$(call container-tool) rmi "localhost/anitya-base:latest" "docker.io/library/postgres:13.4" "docker.io/library/rabbitmq:3.8.16-management-alpine"
 
 .PHONY: up restart halt bash-web bash-consumer \
-	init-db dump-restore logs
+	init-db dump-restore logs clean
