@@ -22,8 +22,11 @@ RUN echo 'alias pip="pip3"' >> ~/.bashrc
 
 COPY . .
 
+# Copy over configuration files
 RUN mkdir -p /etc/anitya
 RUN cp /app/ansible/roles/anitya-dev/files/anitya.toml /etc/anitya
+RUN mkdir -p /etc/fedora-messaging
+RUN cp /app/.container/web/config.toml /etc/fedora-messaging
 
 # Pip installations
 RUN pip install -r /app/test_requirements.txt
