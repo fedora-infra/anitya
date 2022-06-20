@@ -2,62 +2,87 @@ interactions:
 - request:
     body: null
     headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.11.0 at release-monitoring.org]
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.3.0 at release-monitoring.org
     method: GET
     uri: https://pypi.org/pypi/ImageMetaTag/json
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAC/+1TS2/UMBD+K5HPeTnv5FhxQaJSpfZWVZFjj7NmkzjYDmWp9r9jx4VdEELAuYdI
-        mdc338w3fkFi4RJ1L4hs5iAV6tAtmaic5uBGSXnUKHyN9DATMdm49QzbaBShx35TznMwZtVdkozC
-        HLYhpnJO7ql4kHLSkVjoNhAjVSJmMkI0gyGRIWMitN7AwdOJaC24AKVR94julBwVmWexjMEHsoyb
-        rQq6Lrg7WRaL+8viGj2FiIGmSqxGyMWzYpJqz2jZpsnZz8skCXtliS4e7Qa2bU3PyAl1aeiNWS7m
-        cDGfAY7WOofoIGfoV0vkP4e1rY9wepbKdXZEJkFh0Q7u5v5dbh12t4uxHyifcLGv976Q2dW8d+C3
-        Fvthh14nYrhUs89ZlfwI1PwizXpaRSzVmLyGk2uMxJYpmIBo+KeyNK7i1hd/2oQC3TOhjRXx6cq1
-        7rp5bnqbZ6JO30cI3H4YMSSwOxqt4GHgrMHyCMjCgtXWg13DLnGIPtsL8WLvjdH5B+tdzzTGvrWP
-        do8vyIozW4DewBfzegFiBG32/JmV1jdgMrAMIG2gJASnA29a3uCSQ5myNksd6wPJysrmVk3Jh4Hz
-        vC1bXA/Q0KbKswJTBgxndGhYxeqa8SpjOR5o3maQpQVjtKK2QV46xlcnGOEQcTHBb1SN9hmi9WRv
-        PYbRqXwgutdiRB0nk4bQ0e/9NH83xWrfq21gTqtrNjileo/sFeov63UPzI4tvtpMjPO6LEO0rftT
-        MmLnmqW4jnAW4fIB511edSm2FT/fjhtNxx78ILUB5i/J89AJ5QnkSQoNaeqizIeWpbSu7X5JXQMp
-        0iKjRcmromyhJRnOOcNQtWVRkzqjHIoUJ39c2fnpvFPSb6fwdgrnbzRe6NzpBgAA
+      string: '{"info":{"author":"Malcolm Brooks","author_email":"","bugtrack_url":null,"classifiers":["Programming
+        Language :: Python :: 2.7"],"description":"","description_content_type":null,"docs_url":null,"download_url":"","downloads":{"last_day":-1,"last_month":-1,"last_week":-1},"home_page":"https://github.com/SciTools-incubator/image-meta-tag","keywords":"","license":"BSD3","maintainer":"","maintainer_email":"","name":"ImageMetaTag","package_url":"https://pypi.org/project/ImageMetaTag/","platform":"","project_url":"https://pypi.org/project/ImageMetaTag/","project_urls":{"Homepage":"https://github.com/SciTools-incubator/image-meta-tag"},"release_url":"https://pypi.org/project/ImageMetaTag/0.6.9/","requires_dist":null,"requires_python":"","summary":"Image
+        metadata tagging, database and presentation","version":"0.6.9","yanked":false,"yanked_reason":null},"last_serial":3419994,"releases":{"0.1":[],"0.6.9":[{"comment_text":"","digests":{"md5":"b1abd2ee08e5aa10bf89f815fe50d920","sha256":"685fbbff395917be8c863241cded12cb8d6d77df62d31bc392e204ddc6cee035"},"downloads":-1,"filename":"ImageMetaTag-0.6.9-py2.7.egg","has_sig":false,"md5_digest":"b1abd2ee08e5aa10bf89f815fe50d920","packagetype":"bdist_egg","python_version":"2.7","requires_python":null,"size":113755,"upload_time":"2017-12-15T13:36:01","upload_time_iso_8601":"2017-12-15T13:36:01.853875Z","url":"https://files.pythonhosted.org/packages/cf/e3/0e8a87453b9d0c77bbfa77ea4042c45f6459e9a213fd1e69547a72cfe401/ImageMetaTag-0.6.9-py2.7.egg","yanked":false,"yanked_reason":null}]},"urls":[{"comment_text":"","digests":{"md5":"b1abd2ee08e5aa10bf89f815fe50d920","sha256":"685fbbff395917be8c863241cded12cb8d6d77df62d31bc392e204ddc6cee035"},"downloads":-1,"filename":"ImageMetaTag-0.6.9-py2.7.egg","has_sig":false,"md5_digest":"b1abd2ee08e5aa10bf89f815fe50d920","packagetype":"bdist_egg","python_version":"2.7","requires_python":null,"size":113755,"upload_time":"2017-12-15T13:36:01","upload_time_iso_8601":"2017-12-15T13:36:01.853875Z","url":"https://files.pythonhosted.org/packages/cf/e3/0e8a87453b9d0c77bbfa77ea4042c45f6459e9a213fd1e69547a72cfe401/ImageMetaTag-0.6.9-py2.7.egg","yanked":false,"yanked_reason":null}],"vulnerabilities":[]}'
     headers:
-      Accept-Ranges: [bytes]
-      Access-Control-Allow-Headers: ['Content-Type, If-Match, If-Modified-Since, If-None-Match,
-          If-Unmodified-Since']
-      Access-Control-Allow-Methods: [GET]
-      Access-Control-Allow-Origin: ['*']
-      Access-Control-Expose-Headers: [X-PyPI-Last-Serial]
-      Access-Control-Max-Age: ['86400']
-      Age: ['43828']
-      Cache-Control: ['max-age=900, public']
-      Connection: [keep-alive]
-      Content-Encoding: [gzip]
-      Content-Length: ['675']
-      Content-Security-Policy: ['base-uri ''self''; block-all-mixed-content; connect-src
-          ''self'' https://2p66nmmycsj3.statuspage.io; default-src ''none''; font-src
-          ''self'' fonts.gstatic.com; form-action ''self''; frame-ancestors ''none'';
-          frame-src ''none''; img-src ''self'' https://warehouse-camo.herokuapp.com/
-          https://secure.gravatar.com; script-src ''self'' www.google-analytics.com;
-          style-src ''self'' fonts.googleapis.com']
-      Content-Type: [application/json]
-      Date: ['Thu, 01 Mar 2018 15:01:27 GMT']
-      Etag: ['"HDSJplkFI96TQghKDIR7cA"']
-      Referrer-Policy: [origin-when-cross-origin]
-      Server: [nginx]
-      Strict-Transport-Security: [max-age=31536000; includeSubDomains; preload]
-      Vary: [Accept-Encoding]
-      X-Cache: ['HIT, MISS']
-      X-Cache-Hits: ['1, 0']
-      X-Content-Type-Options: [nosniff]
-      X-Frame-Options: [deny]
-      X-Permitted-Cross-Domain-Policies: [none]
-      X-Pypi-Last-Serial: ['3419994']
-      X-Served-By: ['cache-iad2120-IAD, cache-atl6235-ATL']
-      X-Timer: ['S1519916488.524014,VS0,VE19']
-      X-XSS-Protection: [1; mode=block]
-    status: {code: 200, message: OK}
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Headers:
+      - Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-PyPI-Last-Serial
+      Access-Control-Max-Age:
+      - '86400'
+      Cache-Control:
+      - max-age=900, public
+      Connection:
+      - keep-alive
+      Content-Security-Policy:
+      - base-uri 'self'; block-all-mixed-content; connect-src 'self' https://api.github.com/repos/
+        fastly-insights.com *.fastly-insights.com *.ethicalads.io https://api.pwnedpasswords.com
+        https://2p66nmmycsj3.statuspage.io; default-src 'none'; font-src 'self' fonts.gstatic.com;
+        form-action 'self'; frame-ancestors 'none'; frame-src 'none'; img-src 'self'
+        https://warehouse-camo.ingress.cmh1.psfhosted.org/ www.google-analytics.com
+        *.fastly-insights.com *.ethicalads.io; script-src 'self' www.googletagmanager.com
+        www.google-analytics.com *.fastly-insights.com *.ethicalads.io 'sha256-U3hKDidudIaxBDEzwGJApJgPEf2mWk6cfMWghrAa6i0=';
+        style-src 'self' fonts.googleapis.com *.ethicalads.io 'sha256-2YHqZokjiizkHi1Zt+6ar0XJ0OeEy/egBnlm+MDMtrM='
+        'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='; worker-src *.fastly-insights.com
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 20 Jun 2022 10:06:27 GMT
+      ETag:
+      - '"CETchZK68Xh6KH8jznROGQ"'
+      Referrer-Policy:
+      - origin-when-cross-origin
+      Server:
+      - nginx/1.13.9
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Accept-Encoding
+      X-Cache:
+      - HIT, HIT
+      X-Cache-Hits:
+      - 11, 1
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-PyPI-Last-Serial:
+      - '3419994'
+      X-Served-By:
+      - cache-iad-kcgs7200063-IAD, cache-fra19150-FRA
+      X-Timer:
+      - S1655719588.836888,VS0,VE91
+      X-XSS-Protection:
+      - 1; mode=block
+      content-length:
+      - '2190'
+    status:
+      code: 200
+      message: OK
 version: 1

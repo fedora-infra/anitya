@@ -104,9 +104,19 @@ class PypiBackend(BaseBackend):
         except Exception:  # pragma: no cover
             raise AnityaPluginException("No JSON returned by %s" % url)
 
+        # Filter yanked versions
+        unyanked_versions = []
+        for version in data["releases"]:
+            if not data["releases"][version] == []:
+                if "yanked" in data["releases"][version][0]:
+                    if data["releases"][version][0]["yanked"]:
+                        continue
+            # Old releases doesn't contain metadata
+            unyanked_versions.append(version)
+
         # Filter retrieved versions
         filtered_versions = cls.filter_versions(
-            [v for v in data["releases"] if not data["releases"][v][0]["yanked"]],
+            unyanked_versions,
             project.version_filter,
         )
         return filtered_versions

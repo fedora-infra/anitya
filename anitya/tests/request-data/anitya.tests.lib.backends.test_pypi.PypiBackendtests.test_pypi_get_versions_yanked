@@ -1,0 +1,113 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.3.0 at release-monitoring.org
+    method: GET
+    uri: https://pypi.org/pypi/nltk/json
+  response:
+    body:
+      string: '{"info":{"author":"NLTK Team","author_email":"nltk.team@gmail.com","bugtrack_url":null,"classifiers":["Development
+        Status :: 5 - Production/Stable","Intended Audience :: Developers","Intended
+        Audience :: Education","Intended Audience :: Information Technology","Intended
+        Audience :: Science/Research","License :: OSI Approved :: Apache Software
+        License","Operating System :: OS Independent","Programming Language :: Python
+        :: 3.7","Programming Language :: Python :: 3.8","Programming Language :: Python
+        :: 3.9","Programming Language :: Python :: 3.10","Topic :: Scientific/Engineering","Topic
+        :: Scientific/Engineering :: Artificial Intelligence","Topic :: Scientific/Engineering
+        :: Human Machine Interfaces","Topic :: Scientific/Engineering :: Information
+        Analysis","Topic :: Text Processing","Topic :: Text Processing :: Filters","Topic
+        :: Text Processing :: General","Topic :: Text Processing :: Indexing","Topic
+        :: Text Processing :: Linguistic"],"description":"The Natural Language Toolkit
+        (NLTK) is a Python package for\nnatural language processing.  NLTK requires
+        Python 3.7, 3.8, 3.9 or 3.10.\n\n","description_content_type":"","docs_url":null,"download_url":"","downloads":{"last_day":-1,"last_month":-1,"last_week":-1},"home_page":"https://www.nltk.org/","keywords":"NLP,CL,natural
+        language processing,computational linguistics,parsing,tagging,tokenizing,syntax,linguistics,language,natural
+        language,text analytics","license":"Apache License, Version 2.0","maintainer":"NLTK
+        Team","maintainer_email":"nltk.team@gmail.com","name":"nltk","package_url":"https://pypi.org/project/nltk/","platform":"","project_url":"https://pypi.org/project/nltk/","project_urls":{"Documentation":"https://www.nltk.org/","Homepage":"https://www.nltk.org/","Issue
+        Tracker":"https://github.com/nltk/nltk/issues","Source Code":"https://github.com/nltk/nltk"},"release_url":"https://pypi.org/project/nltk/3.7/","requires_dist":["click","joblib","regex
+        (>=2021.8.3)","tqdm","numpy ; extra == ''all''","pyparsing ; extra == ''all''","scipy
+        ; extra == ''all''","matplotlib ; extra == ''all''","twython ; extra == ''all''","requests
+        ; extra == ''all''","scikit-learn ; extra == ''all''","python-crfsuite ; extra
+        == ''all''","requests ; extra == ''corenlp''","numpy ; extra == ''machine_learning''","python-crfsuite
+        ; extra == ''machine_learning''","scikit-learn ; extra == ''machine_learning''","scipy
+        ; extra == ''machine_learning''","matplotlib ; extra == ''plot''","pyparsing
+        ; extra == ''tgrep''","twython ; extra == ''twitter''"],"requires_python":">=3.7","summary":"Natural
+        Language Toolkit","version":"3.7","yanked":false,"yanked_reason":null},"last_serial":12838267,"releases":{"3.6.4":[{"comment_text":"","digests":{"md5":"378970029f84ca306fd875efb39ed7a9","sha256":"2b9a54bbd2142282cb41aa4b25b8a356bb96f032f509302b4cca9992eda6e793"},"downloads":-1,"filename":"nltk-3.6.4-py3-none-any.whl","has_sig":false,"md5_digest":"378970029f84ca306fd875efb39ed7a9","packagetype":"bdist_wheel","python_version":"py3","requires_python":">=3.6","size":1456040,"upload_time":"2021-10-01T01:58:39","upload_time_iso_8601":"2021-10-01T01:58:39.898963Z","url":"https://files.pythonhosted.org/packages/e7/b0/6a693aa7ddef9d5e921827fdafc264aca130f40d38adcaf71332b222d29f/nltk-3.6.4-py3-none-any.whl","yanked":true,"yanked_reason":"More
+        recent version of regex library required (https://github.com/nltk/nltk/issues/2833)"},{"comment_text":"","digests":{"md5":"fb2e55be65cd313682bf315631fa309d","sha256":"dd7e8012af25737e6aa7bc26568a319508dca789f13e62afa09798dccc7798b5"},"downloads":-1,"filename":"nltk-3.6.4.zip","has_sig":false,"md5_digest":"fb2e55be65cd313682bf315631fa309d","packagetype":"sdist","python_version":"source","requires_python":">=3.6","size":6298327,"upload_time":"2021-10-01T01:58:43","upload_time_iso_8601":"2021-10-01T01:58:43.001233Z","url":"https://files.pythonhosted.org/packages/c7/a2/f40dff57dc7b0ee55c7505d2a5586abaab6a43d308bfe50acf3c90b0f4d6/nltk-3.6.4.zip","yanked":true,"yanked_reason":"More
+        recent version of regex library required (https://github.com/nltk/nltk/issues/2833)"}],"3.7":[{"comment_text":"","digests":{"md5":"dcebc5c1dcd02d4336072872db2468e6","sha256":"ba3de02490308b248f9b94c8bc1ac0683e9aa2ec49ee78536d8667afb5e3eec8"},"downloads":-1,"filename":"nltk-3.7-py3-none-any.whl","has_sig":false,"md5_digest":"dcebc5c1dcd02d4336072872db2468e6","packagetype":"bdist_wheel","python_version":"py3","requires_python":">=3.7","size":1493226,"upload_time":"2022-02-09T12:40:48","upload_time_iso_8601":"2022-02-09T12:40:48.092093Z","url":"https://files.pythonhosted.org/packages/43/0b/8298798bc5a9a007b7cae3f846a3d9a325953e0f9c238affa478b4d59324/nltk-3.7-py3-none-any.whl","yanked":false,"yanked_reason":null},{"comment_text":"","digests":{"md5":"fbb8e6fce2d614b65bacfeb9880bcb44","sha256":"d6507d6460cec76d70afea4242a226a7542f85c669177b9c7f562b7cf1b05502"},"downloads":-1,"filename":"nltk-3.7.zip","has_sig":false,"md5_digest":"fbb8e6fce2d614b65bacfeb9880bcb44","packagetype":"sdist","python_version":"source","requires_python":">=3.7","size":3293449,"upload_time":"2022-02-09T12:40:51","upload_time_iso_8601":"2022-02-09T12:40:51.556652Z","url":"https://files.pythonhosted.org/packages/b4/e0/840a250e5f85c480389c44d4058c7888b0c9f5f5333b353c77782a8a8e23/nltk-3.7.zip","yanked":false,"yanked_reason":null}]},"urls":[{"comment_text":"","digests":{"md5":"dcebc5c1dcd02d4336072872db2468e6","sha256":"ba3de02490308b248f9b94c8bc1ac0683e9aa2ec49ee78536d8667afb5e3eec8"},"downloads":-1,"filename":"nltk-3.7-py3-none-any.whl","has_sig":false,"md5_digest":"dcebc5c1dcd02d4336072872db2468e6","packagetype":"bdist_wheel","python_version":"py3","requires_python":">=3.7","size":1493226,"upload_time":"2022-02-09T12:40:48","upload_time_iso_8601":"2022-02-09T12:40:48.092093Z","url":"https://files.pythonhosted.org/packages/43/0b/8298798bc5a9a007b7cae3f846a3d9a325953e0f9c238affa478b4d59324/nltk-3.7-py3-none-any.whl","yanked":false,"yanked_reason":null},{"comment_text":"","digests":{"md5":"fbb8e6fce2d614b65bacfeb9880bcb44","sha256":"d6507d6460cec76d70afea4242a226a7542f85c669177b9c7f562b7cf1b05502"},"downloads":-1,"filename":"nltk-3.7.zip","has_sig":false,"md5_digest":"fbb8e6fce2d614b65bacfeb9880bcb44","packagetype":"sdist","python_version":"source","requires_python":">=3.7","size":3293449,"upload_time":"2022-02-09T12:40:51","upload_time_iso_8601":"2022-02-09T12:40:51.556652Z","url":"https://files.pythonhosted.org/packages/b4/e0/840a250e5f85c480389c44d4058c7888b0c9f5f5333b353c77782a8a8e23/nltk-3.7.zip","yanked":false,"yanked_reason":null}],"vulnerabilities":[]}'
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Headers:
+      - Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-PyPI-Last-Serial
+      Access-Control-Max-Age:
+      - '86400'
+      Cache-Control:
+      - max-age=900, public
+      Connection:
+      - keep-alive
+      Content-Security-Policy:
+      - base-uri 'self'; block-all-mixed-content; connect-src 'self' https://api.github.com/repos/
+        fastly-insights.com *.fastly-insights.com *.ethicalads.io https://api.pwnedpasswords.com
+        https://2p66nmmycsj3.statuspage.io; default-src 'none'; font-src 'self' fonts.gstatic.com;
+        form-action 'self'; frame-ancestors 'none'; frame-src 'none'; img-src 'self'
+        https://warehouse-camo.ingress.cmh1.psfhosted.org/ www.google-analytics.com
+        *.fastly-insights.com *.ethicalads.io; script-src 'self' www.googletagmanager.com
+        www.google-analytics.com *.fastly-insights.com *.ethicalads.io 'sha256-U3hKDidudIaxBDEzwGJApJgPEf2mWk6cfMWghrAa6i0=';
+        style-src 'self' fonts.googleapis.com *.ethicalads.io 'sha256-2YHqZokjiizkHi1Zt+6ar0XJ0OeEy/egBnlm+MDMtrM='
+        'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='; worker-src *.fastly-insights.com
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 20 Jun 2022 10:54:38 GMT
+      ETag:
+      - '"RQeivILf+3eiuOXOfyS6Hg"'
+      Referrer-Policy:
+      - origin-when-cross-origin
+      Server:
+      - nginx/1.13.9
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Accept-Encoding
+      X-Cache:
+      - HIT, HIT
+      X-Cache-Hits:
+      - 804, 2
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-PyPI-Last-Serial:
+      - '12838267'
+      X-Served-By:
+      - cache-iad-kiad7000024-IAD, cache-fra19143-FRA
+      X-Timer:
+      - S1655722479.533347,VS0,VE0
+      X-XSS-Protection:
+      - 1; mode=block
+      content-length:
+      - '69698'
+    status:
+      code: 200
+      message: OK
+version: 1
