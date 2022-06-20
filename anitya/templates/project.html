@@ -187,7 +187,11 @@
                 <tr>
                   <td>{{ package.distro_name }}</td>
                   <td>
-                    {% if package.distro_name == 'Fedora' %}
+                    {% if package.distro_name == 'AlmaLinux' %}
+                      <a href="https://git.almalinux.org/rpms/{{ package.package_name }}">
+                        {{ package.package_name }}
+                      </a>                    
+                    {% elif package.distro_name == 'Fedora' %}
                       <a href="https://src.fedoraproject.org/rpms/{{ package.package_name }}">
                         {{ package.package_name }}
                       </a>
