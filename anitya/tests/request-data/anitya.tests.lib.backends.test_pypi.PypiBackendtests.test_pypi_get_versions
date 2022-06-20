@@ -2,68 +2,97 @@ interactions:
 - request:
     body: null
     headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.11.0 at release-monitoring.org]
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.3.0 at release-monitoring.org
     method: GET
     uri: https://pypi.org/pypi/repo_manager/json
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAC/+1VXW/bNhT9KwSf2s0fomXJtrANC/rQh3Vp0KUoirqwKfHK4iKRGknZcYP8912K
-        Tmxn6dA+bzYMQ+Q995577ofuqFSlptkd5Z2rtKEZvZJgDAw/bsGSV5XMtaKDw+0KGi5rtGml2uju
-        1/BnQIxKg0Z5t3GGFzerzqCR6up6QIuaWytL9Glp9unzgAqwhZGtk+g3owZavWq44hswS/XzyWep
-        liq76MNm5J+cyE/PcPjFg5bq1CmRlnBiG17XhLdtLQvuQxOnSbAg765+t8RDrHTaSLCj4OU1OOIq
-        hLdG/wmFy5Zq+PSzVH9g7AIyQirnWpuNxxvpqi4fFboZt/tAbnyepf9eFJ6FPfHpT38g6/WFEOs1
-        Um5RSE8PiXJF4FZah86ORPejYP8OGr2FM0hpdPPvoFc1cNVjzq4IufYJN3jpJfGOieiCaKj8rpI1
-        ENiCch3quSc3AD5DdKO6JkexdYmSgXfUaOvQRYG2RCsEl9qQsnNYKSL0Tm0MF3Bg877tn57J4YQe
-        kaqXQmMAQ154d3DLmxYZIU9k4aMeUEj2Sd4HtK+l6HrtPauXjxq2NS++j4DEopse1yvgoz9ApToH
-        7rAlfDhScU/US0Qsb4CsFWzNOrDw7Wa1P1z7kfRcct253vjE14uj0r5xByf1GXgOJz1uX4ZeeyOx
-        Chae9Nr1SWv7IamDlSCvr95s4x+RE0600IU9nWZfuVpzEc7o+8vfLt9+uKTHC+tXCY68Wwm+p1k0
-        CA+NVq46Pu4AbvDpfkArzHjVomjo7VsnCMPdwH6njY8WeB3Io5PAHk1wUymHP7Q/GB1PHvZYOFdY
-        iierCPFYWYdN1pyledDrkP4DYc9ypM1mfLg+YztGmAGcNwvfBYtGbBQF8F+dNGBXAqc57NDHo3aP
-        +1E9JGK7puEGZacXxMp+NL668s42HkbZ4oIOK7kPTO8fWfclDYfZpzuKZWlwqFcObpEN9bWXG5y3
-        3qwRCZ6xdJJylgiW5ExAUkaziKcxW3CI0jhJF4ixFZ8kKdryoohFAZAnScRmC57OShGn8XwyK6dF
-        UkLOWcyBTXKYs2ge8ThaLOKCFyyfsVkSl57oSfMN2YCWuKWeqemwz2HkuBltviCFituVlRualby2
-        MPDcVyGVb0vhMO1u3/pItq8OnvYVWR3ltP0Lwqcsv6BhPEHe0+mA4tj6QXKyJzqJ2HQYpcM4umZp
-        lsyyOELIeb/4vOwoBKhwveIrr++ewMOORTKeT8esnPOSRbM0iuOc5ymfFixiUCZ5nkTpXCxizkWe
-        cB6zlKdCLIpiOkXZi2nMxl/X6/7zfc/H/t8E/+km+Bv77GO5MQoAAA==
+      string: '{"info":{"author":"Pierre-Yves Chibon","author_email":"pingou@pingoured.fr","bugtrack_url":null,"classifiers":[],"description":"repo_manager\n============\n\n:Author:
+        Pierre-Yves Chibon <pingou@pingoured.fr>\n\n\nrepo_manager is a small application
+        to manage RPMs repositories.\n\n\nGet this project:\n-----------------\nSource:  https://github.com/pypingou/repo_manager\n\n\nActions:\n--------\n\n*
+        ``Add`` a package to an existing repository.\n* ``Remove`` a package from
+        an existing repository.\n* ``Clean`` a repository.\n  This means remove duplicates
+        while eventually keeping a number of the\n  most recent ones for future downgrade.\n*
+        ``Upgrade`` a package from a repository into another (for example moving\n  from
+        a testing repository into a production one).\n* ``Replace`` a package from
+        a repository into another (ie: replacing a\n  package in a repository with
+        one having the same `nevr`).\n* Get some ``info`` about the repository (number
+        of RPMs, duplicates,\n  applications)\n\n\nLicense:\n--------\n\nThis project
+        is licensed GPLv3+.\n","description_content_type":null,"docs_url":null,"download_url":"UNKNOWN","downloads":{"last_day":-1,"last_month":-1,"last_week":-1},"home_page":"https://github.com/pypingou/repo_manager","keywords":null,"license":"GPLv3+","maintainer":null,"maintainer_email":null,"name":"repo_manager","package_url":"https://pypi.org/project/repo_manager/","platform":"UNKNOWN","project_url":"https://pypi.org/project/repo_manager/","project_urls":{"Download":"UNKNOWN","Homepage":"https://github.com/pypingou/repo_manager"},"release_url":"https://pypi.org/project/repo_manager/0.1.0/","requires_dist":null,"requires_python":null,"summary":"A
+        simple application to manage RPM repositories","version":"0.1.0","yanked":false,"yanked_reason":null},"last_serial":1142329,"releases":{"0.1.0":[{"comment_text":"","digests":{"md5":"1626a15d15b1de5f070a6319ae063569","sha256":"acc3dceeb550179a67fd363827f4c5feba13ae12be81080a30993cac1b71753f"},"downloads":-1,"filename":"repo_manager-0.1.0.tar.gz","has_sig":false,"md5_digest":"1626a15d15b1de5f070a6319ae063569","packagetype":"sdist","python_version":"source","requires_python":null,"size":3271744,"upload_time":"2014-06-30T16:57:30","upload_time_iso_8601":"2014-06-30T16:57:30.882359Z","url":"https://files.pythonhosted.org/packages/d5/84/1f8af1076033bab6a4c101ef5bb5068d93aadb5aa316a6dd9cc44a67c431/repo_manager-0.1.0.tar.gz","yanked":false,"yanked_reason":null}]},"urls":[{"comment_text":"","digests":{"md5":"1626a15d15b1de5f070a6319ae063569","sha256":"acc3dceeb550179a67fd363827f4c5feba13ae12be81080a30993cac1b71753f"},"downloads":-1,"filename":"repo_manager-0.1.0.tar.gz","has_sig":false,"md5_digest":"1626a15d15b1de5f070a6319ae063569","packagetype":"sdist","python_version":"source","requires_python":null,"size":3271744,"upload_time":"2014-06-30T16:57:30","upload_time_iso_8601":"2014-06-30T16:57:30.882359Z","url":"https://files.pythonhosted.org/packages/d5/84/1f8af1076033bab6a4c101ef5bb5068d93aadb5aa316a6dd9cc44a67c431/repo_manager-0.1.0.tar.gz","yanked":false,"yanked_reason":null}],"vulnerabilities":[]}'
     headers:
-      Accept-Ranges: [bytes]
-      Access-Control-Allow-Headers: ['Content-Type, If-Match, If-Modified-Since, If-None-Match,
-          If-Unmodified-Since']
-      Access-Control-Allow-Methods: [GET]
-      Access-Control-Allow-Origin: ['*']
-      Access-Control-Expose-Headers: [X-PyPI-Last-Serial]
-      Access-Control-Max-Age: ['86400']
-      Age: ['783']
-      Cache-Control: ['max-age=900, public']
-      Connection: [keep-alive]
-      Content-Encoding: [gzip]
-      Content-Length: ['1009']
-      Content-Security-Policy: ['base-uri ''self''; block-all-mixed-content; connect-src
-          ''self'' https://2p66nmmycsj3.statuspage.io; default-src ''none''; font-src
-          ''self'' fonts.gstatic.com; form-action ''self''; frame-ancestors ''none'';
-          frame-src ''none''; img-src ''self'' https://warehouse-camo.herokuapp.com/
-          https://secure.gravatar.com; script-src ''self'' www.google-analytics.com;
-          style-src ''self'' fonts.googleapis.com']
-      Content-Type: [application/json]
-      Date: ['Thu, 01 Mar 2018 15:22:52 GMT']
-      Etag: ['"suo2GVfVZLGl4bBmXQTpew"']
-      Referrer-Policy: [origin-when-cross-origin]
-      Server: [nginx]
-      Strict-Transport-Security: [max-age=31536000; includeSubDomains; preload]
-      Vary: [Accept-Encoding]
-      X-Cache: ['MISS, HIT']
-      X-Cache-Hits: ['0, 1']
-      X-Content-Type-Options: [nosniff]
-      X-Frame-Options: [deny]
-      X-Permitted-Cross-Domain-Policies: [none]
-      X-Pypi-Last-Serial: ['1142329']
-      X-Served-By: ['cache-iad2146-IAD, cache-atl6250-ATL']
-      X-Timer: ['S1519917772.412822,VS0,VE3']
-      X-XSS-Protection: [1; mode=block]
-    status: {code: 200, message: OK}
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Headers:
+      - Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-PyPI-Last-Serial
+      Access-Control-Max-Age:
+      - '86400'
+      Cache-Control:
+      - max-age=900, public
+      Connection:
+      - keep-alive
+      Content-Security-Policy:
+      - base-uri 'self'; block-all-mixed-content; connect-src 'self' https://api.github.com/repos/
+        fastly-insights.com *.fastly-insights.com *.ethicalads.io https://api.pwnedpasswords.com
+        https://2p66nmmycsj3.statuspage.io; default-src 'none'; font-src 'self' fonts.gstatic.com;
+        form-action 'self'; frame-ancestors 'none'; frame-src 'none'; img-src 'self'
+        https://warehouse-camo.ingress.cmh1.psfhosted.org/ www.google-analytics.com
+        *.fastly-insights.com *.ethicalads.io; script-src 'self' www.googletagmanager.com
+        www.google-analytics.com *.fastly-insights.com *.ethicalads.io 'sha256-U3hKDidudIaxBDEzwGJApJgPEf2mWk6cfMWghrAa6i0=';
+        style-src 'self' fonts.googleapis.com *.ethicalads.io 'sha256-2YHqZokjiizkHi1Zt+6ar0XJ0OeEy/egBnlm+MDMtrM='
+        'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='; worker-src *.fastly-insights.com
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 20 Jun 2022 13:47:04 GMT
+      ETag:
+      - '"Du3kUbEFmCjODPTBwpxSow"'
+      Referrer-Policy:
+      - origin-when-cross-origin
+      Server:
+      - nginx/1.13.9
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Accept-Encoding
+      X-Cache:
+      - HIT, HIT
+      X-Cache-Hits:
+      - 14, 1
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-PyPI-Last-Serial:
+      - '1142329'
+      X-Served-By:
+      - cache-iad-kcgs7200170-IAD, cache-fra19163-FRA
+      X-Timer:
+      - S1655732824.185955,VS0,VE1
+      X-XSS-Protection:
+      - 1; mode=block
+      content-length:
+      - '3096'
+    status:
+      code: 200
+      message: OK
 version: 1

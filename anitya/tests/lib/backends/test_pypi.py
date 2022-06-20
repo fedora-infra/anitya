@@ -113,6 +113,20 @@ class PypiBackendtests(DatabaseTestCase):
         obs = backend.PypiBackend.get_versions(project)
         self.assertEqual(obs, exp)
 
+    def test_pypi_get_versions_yanked(self):
+        """Test the get_versions function filters out yanked versions."""
+        project = models.Project(
+            name="nltk",
+            homepage="https://pypi.org/project/nltk/",
+            backend=BACKEND,
+        )
+        self.session.add(project)
+        self.session.commit()
+        exp = ["3.7"]
+
+        obs = backend.PypiBackend.get_versions(project)
+        self.assertEqual(obs, exp)
+
     def test_pypi_get_versions_not_modified(self):
         """Assert that not modified response is handled correctly"""
         project = models.Project(
