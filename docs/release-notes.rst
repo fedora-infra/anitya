@@ -4,6 +4,109 @@ Release Notes
 
 .. towncrier release notes start
 
+
+1.4.0 (2022-06-21)
+==================
+
+API Changes
+-----------
+
+* Replace API v2 backend
+  (`PR#1105 <https://github.com/fedora-infra/anitya/pull/1105>`_)
+
+
+Features
+--------
+
+* Add link to AlmaLinux package to distribution mapping
+  (`PR#1386 <https://github.com/fedora-infra/anitya/pull/1386>`_)
+
+* Add sourceforge (git) backend to retrieve git tags
+  (`#223 <https://github.com/fedora-infra/anitya/issues/223>`_)
+
+* Add Python (PEP 440) versioning scheme
+  (`#1015 <https://github.com/fedora-infra/anitya/issues/1015>`_)
+
+
+Bug Fixes
+---------
+
+* KeyError: 'releases' on pypi backend
+  (`#1387 <https://github.com/fedora-infra/anitya/issues/1387>`_)
+
+* Fix documentation and javascript issues
+  (`PR#1144 <https://github.com/fedora-infra/anitya/pull/1144>`_)
+
+* Better error message when GitHub token is missing
+  (`PR#1182 <https://github.com/fedora-infra/anitya/pull/1182>`_)
+
+* Only include unyanked crate versions
+  (`PR#1272 <https://github.com/fedora-infra/anitya/pull/1272>`_)
+
+* Only include unyanked PyPI versions
+  (`PR#1334 <https://github.com/fedora-infra/anitya/pull/1334>`_)
+
+* Version Filter not applied on Test Check
+  (`#1143 <https://github.com/fedora-infra/anitya/issues/1143>`_)
+
+* Downgrade Sphinx to compatible version 4.0.3
+  (`#1148 <https://github.com/fedora-infra/anitya/issues/1148>`_)
+
+* Intermediate versions are skipped while update checking
+  (`#1273 <https://github.com/fedora-infra/anitya/issues/1273>`_)
+
+* Thread timeout in check_service
+  (`#1284 <https://github.com/fedora-infra/anitya/issues/1284>`_)
+
+
+Development Changes
+-------------------
+
+* Introduced static-type checking through inclusion of mypy in tox.
+  Removed 3.6 and 3.7 from the list of supported python versions.
+  (`PR#1114 <https://github.com/fedora-infra/anitya/pull/1114>`_)
+
+* Migrate to cloud-fedora-35 container on CI
+  (`PR#1296 <https://github.com/fedora-infra/anitya/pull/1296>`_)
+
+* Update development environments to Fedora 36
+  (`PR#1380 <https://github.com/fedora-infra/anitya/pull/1380>`_)
+
+* Separate Anitya fedora messaging schema to https://github.com/fedora-infra/anitya-messages
+  (`#RP1347 <https://github.com/fedora-infra/anitya/issues/RP1347>`_)
+
+* Create podman/docker infrastructure for containerized workflow
+  (`#936 <https://github.com/fedora-infra/anitya/issues/936>`_)
+
+* Support for Python 3.9
+  (`#1151 <https://github.com/fedora-infra/anitya/issues/1151>`_)
+
+* Update CI pods to newer Fedora
+  (`#1288 <https://github.com/fedora-infra/anitya/issues/1288>`_)
+
+* Add support for Python 3.10
+  (`#1300 <https://github.com/fedora-infra/anitya/issues/1300>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Anatoli Babenia
+* Adam Saleh
+* Carl George
+* Jerry James
+* Lenka Segura
+* Michael Scherer
+* Michal Konečný
+* Nikita Bugrovsky
+* Onur
+* mehmet
+* Otto Urpelainen
+* Petr Viktorin
+
+
 1.3.0 (2021-03-19)
 ==================
 

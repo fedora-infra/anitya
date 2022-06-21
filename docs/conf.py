@@ -70,7 +70,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "Anitya"
-copyright = "2019, Red Hat, Inc. and others"
+copyright = "2022, Red Hat, Inc. and others"
 author = "Red Hat, Inc. and others"
 
 # The version info for the project you're documenting, acts as replacement for
