@@ -127,6 +127,28 @@ class PypiBackendtests(DatabaseTestCase):
         obs = backend.PypiBackend.get_versions(project)
         self.assertEqual(obs, exp)
 
+    def test_pypi_get_versions_no_releases(self):
+        """Assert that JSON response with no releases is handled correctly"""
+        project = models.Project(
+            name="repo_manager",
+            homepage="https://pypi.org/project/repo_manager/",
+            backend=BACKEND,
+        )
+        self.session.add(project)
+        self.session.commit()
+        exp_url = "https://pypi.org/pypi/repo_manager/json"
+
+        mock_response = mock.Mock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {}
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock_response
+            versions = backend.PypiBackend.get_versions(project)
+
+            m_call.assert_called_with(exp_url, last_change=None)
+            self.assertEqual(versions, [])
+
     def test_pypi_get_versions_not_modified(self):
         """Assert that not modified response is handled correctly"""
         project = models.Project(

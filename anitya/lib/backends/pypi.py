@@ -106,7 +106,12 @@ class PypiBackend(BaseBackend):
 
         # Filter yanked versions
         unyanked_versions = []
-        for version in data["releases"]:
+
+        # Just return empty list if "releases" key is missing in json
+        if "releases" not in data:
+            return []
+
+        for version in data["releases"].keys():
             if not data["releases"][version] == []:
                 if "yanked" in data["releases"][version][0]:
                     if data["releases"][version][0]["yanked"]:
