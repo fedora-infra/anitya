@@ -210,6 +210,13 @@ class RpmVersionTests(unittest.TestCase):
         self.assertTrue(old_version < new_version)
         self.assertFalse(new_version < old_version)
 
+    def test_lt_empty_version(self):
+        """Assert that empty version is handled correctly."""
+        old_version = rpm.RpmVersion(version="")
+        new_version = rpm.RpmVersion(version="v1.1.0rc1")
+        self.assertTrue(old_version < new_version)
+        self.assertFalse(new_version < old_version)
+
     def test_lt_nonsense_version(self):
         """
         Assert nonsense version is less than right one.
@@ -262,3 +269,10 @@ class RpmVersionTests(unittest.TestCase):
         old_version = rpm.RpmVersion(version="v1.0.0-1.fc26")
         new_version = rpm.RpmVersion(version="1.0.0-1.fc26")
         self.assertTrue(new_version == old_version)
+
+    def test_eq_empty_version(self):
+        """Assert empty version is handled correctly."""
+        old_version = rpm.RpmVersion(version="")
+        new_version = rpm.RpmVersion(version="v1.0.0")
+        self.assertTrue(new_version != old_version)
+        self.assertTrue(old_version != new_version)
