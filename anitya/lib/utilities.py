@@ -119,6 +119,9 @@ def check_project_release(project, session, test=False):
     upstream_versions = []
     for version in versions:
         if version not in p_versions:
+            if not version.version:
+                # Skip empty version
+                continue
             if len(version.version) < version_column_len:
                 project.versions_obj.append(
                     models.ProjectVersion(
