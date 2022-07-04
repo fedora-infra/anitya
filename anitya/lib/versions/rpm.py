@@ -132,7 +132,7 @@ class RpmVersion(Version):
                 is one of (rc, pre, beta, alpha, dev).
         """
         match = cls._rc_upstream_regex.match(version)
-        if not match:
+        if not match or not match.group(1):
             return (version, "", "")
 
         return (match.group(1), match.group(3), match.group(4))

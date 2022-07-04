@@ -210,6 +210,16 @@ class RpmVersionTests(unittest.TestCase):
         self.assertTrue(old_version < new_version)
         self.assertFalse(new_version < old_version)
 
+    def test_lt_nonsense_version(self):
+        """
+        Assert nonsense version is less than right one.
+        See https://github.com/fedora-infra/anitya/issues/1390
+        """
+        old_version = rpm.RpmVersion(version="prerelease")
+        new_version = rpm.RpmVersion(version="1.1.0")
+        self.assertTrue(old_version < new_version)
+        self.assertFalse(new_version < old_version)
+
     def test_le(self):
         """Assert RpmVersion supports <= comparison."""
         old_version = rpm.RpmVersion(version="v1.0.0")
