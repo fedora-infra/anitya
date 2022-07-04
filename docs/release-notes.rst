@@ -5,6 +5,19 @@ Release Notes
 .. towncrier release notes start
 
 
+1.4.1 (2022-07-04)
+==================
+
+Bug Fixes
+---------
+
+* Empty versions obtained for some projects
+  (`PR#1401 <https://github.com/fedora-infra/anitya/pull/1401>`_)
+
+* Internal server errors occurring at release-monitoring
+  (`#1390 <https://github.com/fedora-infra/anitya/issues/1390>`_)
+
+
 1.4.0 (2022-06-21)
 ==================
 
