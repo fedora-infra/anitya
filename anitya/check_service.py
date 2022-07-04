@@ -119,7 +119,10 @@ class Checker:
                     message=dict(agent="anitya", project=project.name),
                 )
                 session.commit()
+            session.close()
             return
+        finally:
+            session.close()
 
         with self.success_counter_lock:
             self.success_counter += 1
