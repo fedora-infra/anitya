@@ -159,7 +159,11 @@ class RpmVersion(Version):
         support.
         """
         v1, rc1, rcn1 = self.split_rc(self.parse())
+        if not v1:
+            return False
         v2, rc2, rcn2 = self.split_rc(other.parse())
+        if not v2:
+            return False
         result = _compare_rpm_labels((None, v1, None), (None, v2, None))
         if result != 0:
             return False
@@ -171,7 +175,11 @@ class RpmVersion(Version):
 
     def __lt__(self, other):
         v1, rc1, rcn1 = self.split_rc(self.parse())
+        if not v1:
+            return True
         v2, rc2, rcn2 = self.split_rc(other.parse())
+        if not v2:
+            return False
         result = _compare_rpm_labels((None, v1, None), (None, v2, None))
         if result == -1:
             return True
