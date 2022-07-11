@@ -199,6 +199,10 @@
                       <a href="https://github.com/pld-linux/{{ package.package_name }}">
                         {{ package.package_name }}
                       </a>
+                    {% elif package.distro_name == 'Ubuntu' %}
+                      <a href="https://launchpad.net/ubuntu/+source/{{ package.package_name }}">
+                        {{ package.package_name }}
+                      </a>
                     {% else %}
                       {{ package.package_name }}
                     {% endif %}
