@@ -16,7 +16,7 @@ requests-oauthlib==1.3.1
 
 # Required to test building the docs
 # sphinxcontrib-httpdomain errors on Sphinx 4.1.x
-sphinx==5.0.2
+sphinx==5.1.0
 sphinxcontrib-httpdomain==1.8.0
 sqlalchemy_schemadisplay==1.3
 
