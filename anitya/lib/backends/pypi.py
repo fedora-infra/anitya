@@ -150,5 +150,15 @@ class PypiBackend(BaseBackend):
         for entry in items:
             title = entry["title"]["value"]
             name, version = title.rsplit(None, 1)
-            homepage = "https://pypi.org/project/%s/" % name
+
+            try:
+                req = cls.call_url(f"https://pypi.org/pypi/{name}/json")
+                homepage_data = req.json()
+                if homepage_data["info"]["home_page"] != "":
+                    homepage = homepage_data["info"]["home_page"]
+                else:
+                    homepage = "https://pypi.org/project/%s/" % name
+            except Exception: # pragma: no cover
+                homepage = "https://pypi.org/project/%s/" % name
+
             yield name, homepage, cls.name, version
