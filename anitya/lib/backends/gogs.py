@@ -39,14 +39,12 @@ class GogsBackend(BaseBackend):
         """Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
-        :arg Project project: a :class:`anitya.db.models.Project` object whose backend
-            corresponds to the current plugin.
-        :return: the latest version found upstream
-        :return type: str
-        :raise AnityaPluginException: a
-            :class:`anitya.lib.exceptions.AnityaPluginException` exception
-            when the version cannot be retrieved correctly
+        Args:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                    corresponds to the current plugin.
 
+        Returns:
+            str: latest version found on the upstream
         """
         return cls.get_ordered_versions(project)[-1]
 
@@ -55,7 +53,7 @@ class GogsBackend(BaseBackend):
         """Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
 
-        Attributes:
+        Args:
             project (:obj:`anitya.db.models.Project`): Project object whose backend
                 corresponds to the current plugin.
 
@@ -86,14 +84,12 @@ class GogsBackend(BaseBackend):
         of the projects provided, project that relies on the backend of
         this plugin.
 
-        :arg Project project: a :class:`anitya.db.models.Project` object whose backend
-            corresponds to the current plugin.
-        :return: a list of all the possible releases found
-        :return type: list
-        :raise AnityaPluginException: a
-            :class:`anitya.lib.exceptions.AnityaPluginException` exception
-            when the versions cannot be retrieved correctly
+        Args:
+            project (:obj:`anitya.db.models.Project`): Project object whose backend
+                    corresponds to the current plugin.
 
+        Returns:
+            str: a list of all the possible releases found
         """
         url = cls.get_version_url(project)
         if not url:
