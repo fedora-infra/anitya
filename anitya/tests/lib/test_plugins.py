@@ -40,6 +40,7 @@ EXPECTED_BACKENDS = [
     "Freshmeat",
     "GNOME",
     "GNU project",
+    "Gogs",
     "GitHub",
     "GitLab",
     "Hackage",
