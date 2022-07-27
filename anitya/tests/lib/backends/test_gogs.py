@@ -15,7 +15,7 @@
 #
 
 """
-Anitya tests for the GitLab backend.
+Anitya tests for the Gogs backend.
 """
 
 import unittest
