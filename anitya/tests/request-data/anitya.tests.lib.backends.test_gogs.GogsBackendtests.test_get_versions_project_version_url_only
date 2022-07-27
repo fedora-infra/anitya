@@ -1,0 +1,181 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Cookie:
+      - _csrf=T4D4MwNdDs1WjVFtegpsze7E6_Q6MTY1ODk0NzI0MDIzOTk1OTQyMw%3D%3D; lang=en-US;
+        notabug_session=4310142739df7864
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.4.1 at release-monitoring.org
+    method: GET
+    uri: https://notabug.org/libreboot/lbwww/releases
+  response:
+    body:
+      string: "<!DOCTYPE html>\n<html>\n<head data-suburl=\"\">\n\t<meta http-equiv=\"Content-Type\"
+        content=\"text/html; charset=UTF-8\" />\n\t<meta http-equiv=\"X-UA-Compatible\"
+        content=\"IE=edge\"/>\n\t\n\t\t<meta name=\"author\" content=\"libreboot\"
+        />\n\t\t<meta name=\"description\" content=\"lbwww - libreboot website\" />\n\t\t<meta
+        name=\"keywords\" content=\"go, git, self-hosted, gogs\">\n\t\n\t<meta name=\"referrer\"
+        content=\"no-referrer\" />\n\t<meta name=\"_csrf\" content=\"T4D4MwNdDs1WjVFtegpsze7E6_Q6MTY1ODk0NzI0MDIzOTk1OTQyMw==\"
+        />\n\t<meta name=\"_suburl\" content=\"\" />\n\t\n\t\n\t\n\t\t<meta property=\"og:url\"
+        content=\"https://notabug.org/libreboot/lbwww\" />\n\t\t<meta property=\"og:type\"
+        content=\"object\" />\n\t\t<meta property=\"og:title\" content=\"libreboot/lbwww\">\n\t\t<meta
+        property=\"og:description\" content=\"libreboot website\">\n\t\t<meta property=\"og:image\"
+        content=\"https://notabug.org/avatars/6431\" />\n\t\n\n\t<link rel=\"shortcut
+        icon\" href=\"/img/favicon.png\" />\n\n\t<script src=\"/js/jquery-1.11.3.min.js\"></script>\n\t<script
+        src=\"/js/libs/jquery.are-you-sure.js\"></script>\n        <link href=\"/img/icon-48.ico\"
+        rel=\"icon\" type=\"image/x-icon\" />\n        <link href=\"/img/icon-60.png\"
+        rel=\"apple-touch-icon\">\n        <link href=\"/img/icon-76.png\" rel=\"apple-touch-icon\"
+        sizes=\"76x76\">\n        <link href=\"/img/icon-120.png\" rel=\"apple-touch-icon\"
+        sizes=\"120x120\">\n        <link href=\"/img/icon-152.png\" rel=\"apple-touch-icon\"
+        sizes=\"152x152\">\n        <link href=\"/img/icon-240.png\" rel=\"apple-touch-icon\"
+        sizes=\"240x240\">\n\n\t<link rel=\"stylesheet\" href=\"/assets/font-awesome-4.6.3/css/font-awesome.min.css\">\n\t<link
+        rel=\"stylesheet\" href=\"/assets/octicons-4.3.0/octicons.min.css\">\n\n\t\n\t\n\n\t\n\n\t\n\t<link
+        rel=\"stylesheet\" href=\"/css/semantic-2.2.13.min.css\">\n\t<link rel=\"stylesheet\"
+        href=\"/css/gogs.css?v=6fc9e85aa88133794d3434ea74aa557a\">\n\t<link rel=\"stylesheet\"
+        href=\"/css/notabug.css\">\n\n\t\n\t<script src=\"/js/semantic-2.2.13.min.js\"></script>\n\t<script
+        src=\"/js/gogs.js?v=6fc9e85aa88133794d3434ea74aa557a\"></script>\n\n\t<title>Releases
+        - NotABug.org: Free code hosting</title>\n\n\t<meta name=\"theme-color\" content=\"#428bca\">\n\n\t\n\n\n<noscript><style>.nojs-popup:hover
+        > .menu { display: block ; }</style></noscript>\n\n\n</head>\n<body>\n\t<div
+        class=\"full height\">\n\t\t<noscript>Please enable JavaScript in your browser!</noscript>\n\n\t\t\n\t\t\t<div
+        id=\"header-div\" class=\"following bar light\">\n\t\t\t\t<div class=\"ui
+        container\">\n\t\t\t\t\t<div class=\"ui grid\">\n\t\t\t\t\t\t<div class=\"column\">\n\t\t\t\t\t\t\t<div
+        class=\"ui top secondary menu\">\n\t\t\t\t\t\t\t\t<a class=\"item brand\"
+        href=\"/\">\n\t\t\t\t\t\t\t\t\t<img class=\"ui mini image\" src=\"/img/favicon.png\">\n\t\t\t\t\t\t\t\t</a>\n\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<a
+        class=\"item\" href=\"/\">Home</a>\n\t\t\t\t\t\t\t\t\n\n\t\t\t\t\t\t\t\t<a
+        class=\"item\" href=\"/explore/repos\">Explore</a>\n\t\t\t\t\t\t\t\t\n\n\t\t\t\t\t\t\t\t\n\n\n\n\t\t\t\t\t\t\t\t\t<a
+        class=\"notabug-item item\" href=\"/help\" rel=\"noreferrer\">Help</a>\n\n\n\n\n\t\t\t\t\t\t\t\t\t<div
+        class=\"right menu\">\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<a class=\"item\"
+        href=\"/user/sign_up\">\n\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"octicon octicon-person\"></i>
+        Register\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<a
+        class=\"item\" href=\"/user/login?redirect_to=%2flibreboot%2flbwww%2freleases\">\n\t\t\t\t\t\t\t\t\t\t\t<i
+        class=\"octicon octicon-sign-in\"></i> Sign In\n\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\n\n\n<div
+        class=\"repository release\">\n\t<div class=\"header-wrapper\">\n\n\t<div
+        class=\"ui container\">\n\t\t<div class=\"ui vertically padded grid head\">\n\t\t\t<div
+        class=\"column\">\n\t\t\t\t<div class=\"ui header\">\n\t\t\t\t\t<div class=\"ui
+        huge breadcrumb\">\n\t\t\t\t\t\t<i class=\"mega-octicon octicon-repo\"></i>\n\t\t\t\t\t\t<a
+        href=\"/libreboot\">libreboot</a>\n\t\t\t\t\t\t<div class=\"divider\"> / </div>\n\t\t\t\t\t\t<a
+        href=\"/libreboot/lbwww\">lbwww</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t</div>\n\n\t\t\t\t\t\n\t\t\t\t\t\t<div
+        class=\"ui right\">\n\t\t\t\t\t\t\t<div class=\"ui labeled button\" tabindex=\"0\">\n\t\t\t\t\t\t\t\t<a
+        class=\"ui basic button\" href=\"/libreboot/lbwww/action/watch?redirect_to=%2flibreboot%2flbwww%2freleases\">\n\t\t\t\t\t\t\t\t\t<i
+        class=\"icon fa-eye-slash\"></i>Watch\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<a
+        class=\"ui basic label\" href=\"/libreboot/lbwww/watchers\">\n\t\t\t\t\t\t\t\t\t2\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div
+        class=\"ui labeled button\" tabindex=\"0\">\n\t\t\t\t\t\t\t\t<a class=\"ui
+        basic button\" href=\"/libreboot/lbwww/action/star?redirect_to=%2flibreboot%2flbwww%2freleases\">\n\t\t\t\t\t\t\t\t\t<i
+        class=\"icon fa-star-o\"></i>Star\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<a
+        class=\"ui basic label\" href=\"/libreboot/lbwww/stars\">\n\t\t\t\t\t\t\t\t\t1\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<div
+        class=\"ui labeled button\" tabindex=\"0\">\n\t\t\t\t\t\t\t\t\t<a class=\"ui
+        basic button \" href=\"/repo/fork/36163\">\n\t\t\t\t\t\t\t\t\t\t<i class=\"octicon
+        octicon-repo-forked\"></i>Fork\n\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t<a
+        class=\"ui basic label\" href=\"/libreboot/lbwww/forks\">\n\t\t\t\t\t\t\t\t\t\t13\n\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\n\n\t<div
+        class=\"ui tabs container\">\n\t\t<div class=\"ui tabular menu navbar\">\n\t\t\t\n\t\t\t\t<a
+        class=\"active item\" href=\"/libreboot/lbwww\">\n\t\t\t\t\t<i class=\"octicon
+        octicon-file-text\"></i> Files\n\t\t\t\t</a>\n\t\t\t\n\t\t\t\n\t\t\t\t<a class=\"
+        item\" href=\"/libreboot/lbwww/issues\">\n\t\t\t\t\t<i class=\"octicon octicon-issue-opened\"></i>
+        Issues <span class=\"ui blue small label\">10</span>\n\t\t\t\t</a>\n\t\t\t\n\t\t\t\n\t\t\t\t<a
+        class=\" item\" href=\"/libreboot/lbwww/pulls\">\n\t\t\t\t\t<i class=\"octicon
+        octicon-git-pull-request\"></i> Pull Requests <span class=\"ui blue small
+        label\">2</span>\n\t\t\t\t</a>\n\t\t\t\n\t\t\t\n\t\t\t\t<a class=\" item\"
+        href=\"/libreboot/lbwww/wiki\">\n\t\t\t\t\t<i class=\"octicon octicon-book\"></i>
+        Wiki\n\t\t\t\t</a>\n\t\t\t\n\t\t\t\n\t\t</div>\n\t</div>\n\t<div class=\"ui
+        tabs divider\"></div>\n\n</div>\n\n\t<div class=\"ui container\">\n\t\t\n\n\n\n\n\t\t<h2
+        class=\"ui header\">\n\t\t\tReleases\n\t\t\t\n\t\t</h2>\n\t\t<ul id=\"release-list\">\n\t\t\t\n\t\t\t\t<li
+        class=\"ui grid\">\n\t\t\t\t\t<div class=\"ui four wide column meta\">\n\t\t\t\t\t\t\n\t\t\t\t\t\t<span
+        class=\"commit\">\n\t\t\t\t\t\t\t<a href=\"/libreboot/lbwww/src/e2b488105e3c11a7c234843fc0054682fb697ed7\"
+        rel=\"nofollow\"><i class=\"code icon\"></i> e2b488105e</a>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div
+        class=\"ui twelve wide column detail\">\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<h4>\n\t\t\t\t\t\t\t\t<a
+        href=\"/libreboot/lbwww/src/20220710\" rel=\"nofollow\"><i class=\"tag icon\"></i>
+        20220710</a>\n\t\t\t\t\t\t\t</h4>\n\t\t\t\t\t\t\t<div class=\"download\">\n\t\t\t\t\t\t\t\t<a
+        href=\"/libreboot/lbwww/archive/20220710.zip\" rel=\"nofollow\"><i class=\"octicon
+        octicon-file-zip\"></i>ZIP</a>\n\t\t\t\t\t\t\t\t<a href=\"/libreboot/lbwww/archive/20220710.tar.gz\"><i
+        class=\"octicon octicon-file-zip\"></i>TAR.GZ</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\n\t\t\t\t\t\t<span
+        class=\"dot\">&nbsp;</span>\n\t\t\t\t\t</div>\n\t\t\t\t</li>\n\t\t\t\n\t\t\t\t<li
+        class=\"ui grid\">\n\t\t\t\t\t<div class=\"ui four wide column meta\">\n\t\t\t\t\t\t\n\t\t\t\t\t\t<span
+        class=\"commit\">\n\t\t\t\t\t\t\t<a href=\"/libreboot/lbwww/src/f6c86170c6bc2edf36f8f7fca3a1b07764e77390\"
+        rel=\"nofollow\"><i class=\"code icon\"></i> f6c86170c6</a>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div
+        class=\"ui twelve wide column detail\">\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<h4>\n\t\t\t\t\t\t\t\t<a
+        href=\"/libreboot/lbwww/src/20211122\" rel=\"nofollow\"><i class=\"tag icon\"></i>
+        20211122</a>\n\t\t\t\t\t\t\t</h4>\n\t\t\t\t\t\t\t<div class=\"download\">\n\t\t\t\t\t\t\t\t<a
+        href=\"/libreboot/lbwww/archive/20211122.zip\" rel=\"nofollow\"><i class=\"octicon
+        octicon-file-zip\"></i>ZIP</a>\n\t\t\t\t\t\t\t\t<a href=\"/libreboot/lbwww/archive/20211122.tar.gz\"><i
+        class=\"octicon octicon-file-zip\"></i>TAR.GZ</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\n\t\t\t\t\t\t<span
+        class=\"dot\">&nbsp;</span>\n\t\t\t\t\t</div>\n\t\t\t\t</li>\n\t\t\t\n\t\t</ul>\n\t\t<div
+        class=\"center\">\n\t\t\t<a class=\"ui small button disabled\" >\n\t\t\t\tPrevious\n\t\t\t</a>\n\t\t\t<a
+        class=\"ui small button disabled\" >\n\t\t\t\tNext\n\t\t\t</a>\n\t\t</div>\n\t</div>\n</div>\n\n\t</div>\n\t<footer>\n\t\t<div
+        class=\"ui container\">\n\t\t\t<div class=\"ui left\">\n\n\n\n\t\t\t\t<a href=\"/tos\">Terms
+        of Service</a>\n\t\t\t\t&bull;\n\t\t\t\t<a href=\"/about\">About us</a>\n\t\t\t\t&bull;\n\t\t\t\t<a
+        href=\"/outages\">Outages</a>\n\t\t\t\t&bull;\n\t\t\t\t<a href=\"/hp/gogs/issues\">Report
+        a problem</a>\n\t\t\t\t&bull;\n\t\t\t\t<a href=\"/assets/librejs/librejs.html\"
+        data-jslicense=\"1\">Javascript licenses</a>\n\t\t\t\t&bull;\n\t\t\t\t<a href=\"/fingerprints\">SSH
+        Fingerprints</a>\n\n\n\n\t\t\t</div>\n\t\t\t<div class=\"ui right links\">\n\t\t\t\t\n\t\t\t\t<div
+        class=\"ui language bottom floating slide up dropdown link item\">\n\t\t\t\t\t<i
+        class=\"world icon\"></i>\n\t\t\t\t\t<div class=\"text\">English</div>\n\t\t\t\t\t<div
+        class=\"menu\">\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a class=\"item active selected\"
+        href=\"#\">English</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a class=\"item \" href=\"/libreboot/lbwww/releases?lang=zh-CN\">\u7B80\u4F53\u4E2D\u6587</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=zh-HK\">\u7E41\u9AD4\u4E2D\u6587\uFF08\u9999\u6E2F\uFF09</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=zh-TW\">\u7E41\u9AD4\u4E2D\u6587\uFF08\u81FA\u7063\uFF09</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=de-DE\">Deutsch</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=fr-FR\">fran\xE7ais</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=nl-NL\">Nederlands</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=lv-LV\">latvie\u0161u</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=ru-RU\">\u0440\u0443\u0441\u0441\u043A\u0438\u0439</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=ja-JP\">\u65E5\u672C\u8A9E</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=es-ES\">espa\xF1ol</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=pt-BR\">portugu\xEAs
+        do Brasil</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a class=\"item \" href=\"/libreboot/lbwww/releases?lang=pl-PL\">polski</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=bg-BG\">\u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=it-IT\">italiano</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=fi-FI\">suomi</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=tr-TR\">T\xFCrk\xE7e</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=cs-CZ\">\u010De\u0161tina</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=sr-SP\">\u0441\u0440\u043F\u0441\u043A\u0438</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=sv-SE\">svenska</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=ko-KR\">\uD55C\uAD6D\uC5B4</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=gl-ES\">galego</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=uk-UA\">\u0443\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=en-GB\">English (United
+        Kingdom)</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a class=\"item \" href=\"/libreboot/lbwww/releases?lang=hu-HU\">Magyar</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=sk-SK\">Sloven\u010Dina</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=id-ID\">Indonesian</a>\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t<a
+        class=\"item \" href=\"/libreboot/lbwww/releases?lang=fa-IR\">Persian</a>\n\t\t\t\t\t\t\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\n\n\t\t\t\t\n\t\t\t</div>\n\t\t</div>\n\t</footer>\n</body>\n\n\n\n\n\n\n<script
+        src=\"/js/libs/emojify-1.1.0.min.js\"></script>\n<script src=\"/js/libs/clipboard-1.5.9.min.js\"></script>\n\t\n</html>\n\n"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Security-Policy:
+      - default-src 'self'; connect-src 'self'; img-src *; script-src 'self'; style-src
+        'self' 'unsafe-inline'; font-src 'self' data:;
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Wed, 27 Jul 2022 18:40:44 GMT
+      Server:
+      - nginx/1.20.2
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Clacks-Overhead:
+      - GNU Terry Pratchett
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      content-length:
+      - '10675'
+    status:
+      code: 200
+      message: OK
+version: 1
