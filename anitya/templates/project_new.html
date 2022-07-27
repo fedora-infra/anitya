@@ -248,6 +248,12 @@
       $("#version_url").prop('title', "This field should be filled when " +
       "homepage doesn't point to GitLab URL.");
     };
+    if (str == 'Gogs'){
+      $("label[for='version_url']").text('Gogs project url');
+      $('#version_url_row').show();
+      $("#version_url").prop('title', "This field should be filled when " +
+        "homepage doesn't point to Gogs URL.");
+    };
     if (str == 'BitBucket'){
       $("label[for='version_url']").text('BitBucket owner/project');
       $('#version_url_row').show();
