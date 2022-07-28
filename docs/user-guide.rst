@@ -163,6 +163,11 @@ The backends available are:
   `download.gnome.org <https://download.gnome.org/sources/>`_
 
 * **GNU Project** for projects hosted on `gnu.org <https://www.gnu.org/software/>`_
+
+* **Gogs** for projects hosted on `Gogs server <https://gogs.io/>`_
+
+  You need to provide **Gogs project url** which needs to point to project root on
+  Gogs server.
  
 * **Google code** for projects hosted on
   `code.google.com <https://code.google.com/>`_
