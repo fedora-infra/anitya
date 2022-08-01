@@ -1,0 +1,684 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.4.1 at release-monitoring.org
+    method: GET
+    uri: https://git.zx2c4.com/cgit/refs/tags
+  response:
+    body:
+      string: "<!DOCTYPE html>\n<html lang='en'>\n<head>\n<title>cgit - A hyperfast
+        web frontend for git repositories written in C.</title>\n<meta name='generator'
+        content='cgit v1.2.3-11-g984f'/>\n<meta name='robots' content='index, nofollow'/>\n<link
+        rel='stylesheet' type='text/css' href='/cgit.css'/>\n<link rel='shortcut icon'
+        href='/favicon.ico'/>\n<link rel='alternate' title='Atom feed' href='https://git.zx2c4.com/cgit/atom/?h=master'
+        type='application/atom+xml'/>\n<link rel='vcs-git' href='https://git.zx2c4.com/cgit'
+        title='cgit Git repository'/>\n<link rel='vcs-git' href='git://git.zx2c4.com/cgit'
+        title='cgit Git repository'/>\n<link rel='vcs-git' href='ssh://git@git.zx2c4.com/cgit'
+        title='cgit Git repository'/>\n</head>\n<body>\n<div id='cgit'><table id='header'>\n<tr>\n<td
+        class='logo' rowspan='2'><a href='http://www.zx2c4.com/'><img src='/cgit.png'
+        alt='cgit logo'/></a></td>\n<td class='main'><a href='/'>index</a> : <a title='cgit'
+        href='/cgit/'>cgit</a></td><td class='form'><form method='get'>\n<select name='h'
+        onchange='this.form.submit();'>\n<option value='ch/about-head'>ch/about-head</option>\n<option
+        value='ch/about-link'>ch/about-link</option>\n<option value='ch/atom'>ch/atom</option>\n<option
+        value='ch/cgitrc'>ch/cgitrc</option>\n<option value='ch/default-pages'>ch/default-pages</option>\n<option
+        value='ch/dynamic-aging'>ch/dynamic-aging</option>\n<option value='ch/for-jason'>ch/for-jason</option>\n<option
+        value='ch/git-2-37'>ch/git-2-37</option>\n<option value='ch/html-fmt'>ch/html-fmt</option>\n<option
+        value='jd/render-filter'>jd/render-filter</option>\n<option value='jd/zx2c4-deployment'>jd/zx2c4-deployment</option>\n<option
+        value='jk/collapsible-sections'>jk/collapsible-sections</option>\n<option
+        value='lf/filter'>lf/filter</option>\n<option value='lf/for-jason'>lf/for-jason</option>\n<option
+        value='lh/grep'>lh/grep</option>\n<option value='lh/pretty-blob-view'>lh/pretty-blob-view</option>\n<option
+        value='master' selected='selected'>master</option>\n<option value='rm/namespace'>rm/namespace</option>\n<option
+        value='wiki'>wiki</option>\n</select> <input type='submit' value='switch'/></form></td></tr>\n<tr><td
+        class='sub'>A hyperfast web frontend for git repositories written in C.</td><td
+        class='sub right'>Jason A. Donenfeld</td></tr></table>\n<table class='tabs'><tr><td>\n<a
+        href='/cgit/about/'>about</a><a href='/cgit/'>summary</a><a class='active'
+        href='/cgit/refs/'>refs</a><a href='/cgit/log/'>log</a><a href='/cgit/tree/'>tree</a><a
+        href='/cgit/commit/'>commit</a><a href='/cgit/diff/'>diff</a><a href='/cgit/stats/'>stats</a></td><td
+        class='form'><form class='right' method='get' action='/cgit/log/'>\n<select
+        name='qt'>\n<option value='grep'>log msg</option>\n<option value='author'>author</option>\n<option
+        value='committer'>committer</option>\n<option value='range'>range</option>\n</select>\n<input
+        class='txt' type='search' size='10' name='q' value=''/>\n<input type='submit'
+        value='search'/>\n</form>\n</td></tr></table>\n<div class='content'><table
+        class='list nowrap'><tr class='nohover'><th class='left'>Tag</th><th class='left'>Download</th><th
+        class='left'>Author</th><th class='left' colspan='2'>Age</th></tr>\n<tr><td><a
+        href='/cgit/tag/?h=v1.2.3'>v1.2.3</a></td><td><a href='/cgit/snapshot/cgit-1.2.3.tar.xz'>cgit-1.2.3.tar.xz</a>
+        (<a href='/cgit/snapshot/cgit-1.2.3.tar.asc'>sig</a>)&nbsp;&nbsp;<a href='/cgit/snapshot/cgit-1.2.3.zip'>cgit-1.2.3.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2020-03-13
+        17:50:24 -0600'>2 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v1.2.2'>v1.2.2</a></td><td><a
+        href='/cgit/snapshot/cgit-1.2.2.tar.xz'>cgit-1.2.2.tar.xz</a> (<a href='/cgit/snapshot/cgit-1.2.2.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-1.2.2.zip'>cgit-1.2.2.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2020-01-13
+        15:04:29 -0500'>3 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v1.2.1'>v1.2.1</a></td><td><a
+        href='/cgit/snapshot/cgit-1.2.1.tar.xz'>cgit-1.2.1.tar.xz</a> (<a href='/cgit/snapshot/cgit-1.2.1.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-1.2.1.zip'>cgit-1.2.1.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2018-08-03
+        17:06:54 +0200'>4 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v1.2'>v1.2</a></td><td><a
+        href='/cgit/snapshot/cgit-1.2.tar.xz'>cgit-1.2.tar.xz</a> (<a href='/cgit/snapshot/cgit-1.2.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-1.2.zip'>cgit-1.2.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2018-07-13
+        22:41:11 +0200'>4 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v1.1'>v1.1</a></td><td><a
+        href='/cgit/snapshot/cgit-1.1.tar.xz'>cgit-1.1.tar.xz</a> (<a href='/cgit/snapshot/cgit-1.1.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-1.1.zip'>cgit-1.1.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2016-11-23
+        05:25:45 +0100'>6 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v1.0'>v1.0</a></td><td><a
+        href='/cgit/snapshot/cgit-1.0.tar.xz'>cgit-1.0.tar.xz</a> (<a href='/cgit/snapshot/cgit-1.0.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-1.0.zip'>cgit-1.0.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2016-06-07
+        14:45:25 +0200'>6 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.12'>v0.12</a></td><td><a
+        href='/cgit/snapshot/cgit-0.12.tar.xz'>cgit-0.12.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.12.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.12.zip'>cgit-0.12.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2016-01-14
+        15:44:20 +0100'>7 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.11.2'>v0.11.2</a></td><td><a
+        href='/cgit/snapshot/cgit-0.11.2.tar.xz'>cgit-0.11.2.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.11.2.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.11.2.zip'>cgit-0.11.2.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2015-03-13
+        16:22:20 +0100'>7 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.11.1'>v0.11.1</a></td><td><a
+        href='/cgit/snapshot/cgit-0.11.1.tar.xz'>cgit-0.11.1.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.11.1.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.11.1.zip'>cgit-0.11.1.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2015-03-05
+        15:58:58 +0100'>7 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.11.0'>v0.11.0</a></td><td><a
+        href='/cgit/snapshot/cgit-0.11.0.tar.xz'>cgit-0.11.0.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.11.0.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.11.0.zip'>cgit-0.11.0.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2015-02-15
+        22:12:18 +0100'>7 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.10.2'>v0.10.2</a></td><td><a
+        href='/cgit/snapshot/cgit-0.10.2.tar.xz'>cgit-0.10.2.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.10.2.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.10.2.zip'>cgit-0.10.2.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2014-06-30
+        15:16:04 +0200'>8 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.10.1'>v0.10.1</a></td><td><a
+        href='/cgit/snapshot/cgit-0.10.1.tar.xz'>cgit-0.10.1.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.10.1.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.10.1.zip'>cgit-0.10.1.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2014-02-28
+        00:13:19 +0100'>8 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.10'>v0.10</a></td><td><a
+        href='/cgit/snapshot/cgit-0.10.tar.xz'>cgit-0.10.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.10.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.10.zip'>cgit-0.10.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2014-01-17
+        16:09:55 +0100'>9 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.9.2'>v0.9.2</a></td><td><a
+        href='/cgit/snapshot/cgit-0.9.2.tar.xz'>cgit-0.9.2.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.9.2.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.9.2.zip'>cgit-0.9.2.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2013-05-27
+        22:18:22 +0200'>9 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.9.1'>v0.9.1</a></td><td><a
+        href='/cgit/snapshot/cgit-0.9.1.tar.xz'>cgit-0.9.1.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.9.1.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.9.1.zip'>cgit-0.9.1.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/06aae0ca3c86b226344de46ba05e2c9b?s=128&amp;d=retro'
+        /></span>Jason A. Donenfeld</td><td colspan='2'><span class='age-years' title='2012-11-15
+        01:30:55 +0100'>10 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.9.0.3'>v0.9.0.3</a></td><td><a
+        href='/cgit/snapshot/cgit-0.9.0.3.tar.xz'>cgit-0.9.0.3.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.9.0.3.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.9.0.3.zip'>cgit-0.9.0.3.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2012-03-18
+        10:19:04 +0000'>10 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.9.0.2'>v0.9.0.2</a></td><td><a
+        href='/cgit/snapshot/cgit-0.9.0.2.tar.xz'>cgit-0.9.0.2.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.9.0.2.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.9.0.2.zip'>cgit-0.9.0.2.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2011-07-21
+        14:24:53 +0000'>11 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.9.0.1'>v0.9.0.1</a></td><td><a
+        href='/cgit/snapshot/cgit-0.9.0.1.tar.xz'>cgit-0.9.0.1.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.9.0.1.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.9.0.1.zip'>cgit-0.9.0.1.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2011-06-13
+        12:38:22 +0000'>11 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.9'>v0.9</a></td><td><a
+        href='/cgit/snapshot/cgit-0.9.tar.xz'>cgit-0.9.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.9.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.9.zip'>cgit-0.9.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2011-03-05
+        14:23:24 +0100'>11 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.8.3.5'>v0.8.3.5</a></td><td><a
+        href='/cgit/snapshot/cgit-0.8.3.5.tar.xz'>cgit-0.8.3.5.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.8.3.5.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.8.3.5.zip'>cgit-0.8.3.5.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2011-03-05
+        13:53:08 +0100'>11 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.8.3.4'>v0.8.3.4</a></td><td><a
+        href='/cgit/snapshot/cgit-0.8.3.4.tar.xz'>cgit-0.8.3.4.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.8.3.4.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.8.3.4.zip'>cgit-0.8.3.4.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2010-09-27
+        08:22:25 +0200'>12 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.8.3.3'>v0.8.3.3</a></td><td><a
+        href='/cgit/snapshot/cgit-0.8.3.3.tar.xz'>cgit-0.8.3.3.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.8.3.3.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.8.3.3.zip'>cgit-0.8.3.3.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2010-08-03
+        22:51:14 +0200'>12 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.8.3.2'>v0.8.3.2</a></td><td><a
+        href='/cgit/snapshot/cgit-0.8.3.2.tar.xz'>cgit-0.8.3.2.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.8.3.2.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.8.3.2.zip'>cgit-0.8.3.2.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2010-06-19
+        11:51:58 +0200'>12 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.8.3.1'>v0.8.3.1</a></td><td><a
+        href='/cgit/snapshot/cgit-0.8.3.1.tar.xz'>cgit-0.8.3.1.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.8.3.1.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.8.3.1.zip'>cgit-0.8.3.1.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2009-12-12
+        12:09:07 +0100'>13 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.8.3'>v0.8.3</a></td><td><a
+        href='/cgit/snapshot/cgit-0.8.3.tar.xz'>cgit-0.8.3.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.8.3.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.8.3.zip'>cgit-0.8.3.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2009-09-13
+        22:17:10 +0200'>13 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.8.2.2'>v0.8.2.2</a></td><td><a
+        href='/cgit/snapshot/cgit-0.8.2.2.tar.xz'>cgit-0.8.2.2.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.8.2.2.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.8.2.2.zip'>cgit-0.8.2.2.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2009-09-13
+        22:15:05 +0200'>13 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.8.2.1'>v0.8.2.1</a></td><td><a
+        href='/cgit/snapshot/cgit-0.8.2.1.tar.xz'>cgit-0.8.2.1.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.8.2.1.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.8.2.1.zip'>cgit-0.8.2.1.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2009-03-15
+        09:31:20 +0100'>13 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.8.2'>v0.8.2</a></td><td><a
+        href='/cgit/snapshot/cgit-0.8.2.tar.xz'>cgit-0.8.2.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.8.2.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.8.2.zip'>cgit-0.8.2.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2009-02-01
+        19:31:56 +0100'>14 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.8.1.1'>v0.8.1.1</a></td><td><a
+        href='/cgit/snapshot/cgit-0.8.1.1.tar.xz'>cgit-0.8.1.1.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.8.1.1.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.8.1.1.zip'>cgit-0.8.1.1.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2009-01-27
+        20:36:34 +0100'>14 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.8.1'>v0.8.1</a></td><td><a
+        href='/cgit/snapshot/cgit-0.8.1.tar.xz'>cgit-0.8.1.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.8.1.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.8.1.zip'>cgit-0.8.1.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2008-10-11
+        20:23:10 +0200'>14 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.8'>v0.8</a></td><td><a
+        href='/cgit/snapshot/cgit-0.8.tar.xz'>cgit-0.8.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.8.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.8.zip'>cgit-0.8.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2008-10-05
+        21:24:13 +0200'>14 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.7.2'>v0.7.2</a></td><td><a
+        href='/cgit/snapshot/cgit-0.7.2.tar.xz'>cgit-0.7.2.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.7.2.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.7.2.zip'>cgit-0.7.2.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2008-01-10
+        13:51:19 +0100'>15 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.7.1'>v0.7.1</a></td><td><a
+        href='/cgit/snapshot/cgit-0.7.1.tar.xz'>cgit-0.7.1.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.7.1.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.7.1.zip'>cgit-0.7.1.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2007-11-09
+        13:53:10 +0100'>15 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.7'>v0.7</a></td><td><a
+        href='/cgit/snapshot/cgit-0.7.tar.xz'>cgit-0.7.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.7.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.7.zip'>cgit-0.7.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2007-11-03
+        11:37:01 +0100'>15 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.6.3'>v0.6.3</a></td><td><a
+        href='/cgit/snapshot/cgit-0.6.3.tar.xz'>cgit-0.6.3.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.6.3.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.6.3.zip'>cgit-0.6.3.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2007-09-20
+        01:14:52 +0200'>15 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.6.2'>v0.6.2</a></td><td><a
+        href='/cgit/snapshot/cgit-0.6.2.tar.xz'>cgit-0.6.2.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.6.2.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.6.2.zip'>cgit-0.6.2.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2007-09-08
+        19:11:39 +0200'>15 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.6.1'>v0.6.1</a></td><td><a
+        href='/cgit/snapshot/cgit-0.6.1.tar.xz'>cgit-0.6.1.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.6.1.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.6.1.zip'>cgit-0.6.1.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2007-09-08
+        15:55:34 +0200'>15 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.6'>v0.6</a></td><td><a
+        href='/cgit/snapshot/cgit-0.6.tar.xz'>cgit-0.6.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.6.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.6.zip'>cgit-0.6.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2007-09-04
+        11:55:00 +0200'>15 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.5'>v0.5</a></td><td><a
+        href='/cgit/snapshot/cgit-0.5.tar.xz'>cgit-0.5.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.5.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.5.zip'>cgit-0.5.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2007-05-24
+        00:19:45 +0200'>15 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.4'>v0.4</a></td><td><a
+        href='/cgit/snapshot/cgit-0.4.tar.xz'>cgit-0.4.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.4.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.4.zip'>cgit-0.4.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2007-05-13
+        23:28:33 +0200'>15 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.3'>v0.3</a></td><td><a
+        href='/cgit/snapshot/cgit-0.3.tar.xz'>cgit-0.3.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.3.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.3.zip'>cgit-0.3.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2007-05-11
+        12:16:00 +0200'>15 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.2'>v0.2</a></td><td><a
+        href='/cgit/snapshot/cgit-0.2.tar.xz'>cgit-0.2.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.2.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.2.zip'>cgit-0.2.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2007-02-05
+        00:22:48 +0100'>15 years</span></td></tr>\n<tr><td><a href='/cgit/tag/?h=v0.1'>v0.1</a></td><td><a
+        href='/cgit/snapshot/cgit-0.1.tar.xz'>cgit-0.1.tar.xz</a> (<a href='/cgit/snapshot/cgit-0.1.tar.asc'>sig</a>)&nbsp;&nbsp;<a
+        href='/cgit/snapshot/cgit-0.1.zip'>cgit-0.1.zip</a>&nbsp;&nbsp;</td><td><span
+        class='libravatar'><img class='inline' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=13&amp;d=retro'
+        /><img class='onhover' src='https://seccdn.libravatar.org/avatar/3b0d25799af76340d36a521e61d1f464?s=128&amp;d=retro'
+        /></span>Lars Hjemli</td><td colspan='2'><span class='age-years' title='2006-12-21
+        00:58:12 +0100'>16 years</span></td></tr>\n</table></div> <!-- class=content
+        -->\n<div class='footer'>Copyright &copy; 1996 &ndash; 2021 Jason A. Donenfeld.
+        All Rights Reverse Engineered.</div>\n<script type=\"text/javascript\">\n
+        \ var _gaq = _gaq || [];\n  _gaq.push(['_setAccount', 'UA-135234-5']);\n  _gaq.push(['_trackPageview']);\n
+        \ (function() {\n    var ga = document.createElement('script'); ga.type =
+        'text/javascript'; ga.async = true;\n    ga.src = ('https:' == document.location.protocol
+        ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';\n    var
+        s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga,
+        s);\n  })();\n</script>\n</div> <!-- id=cgit -->\n</body>\n</html>\n"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Mon, 01 Aug 2022 21:14:27 GMT
+      Expires:
+      - Mon, 01 Aug 2022 21:15:27 GMT
+      Keep-Alive:
+      - timeout=20
+      Last-Modified:
+      - Mon, 01 Aug 2022 21:14:27 GMT
+      Server:
+      - ZX2C4 Web Server
+      Strict-Transport-Security:
+      - max-age=15768020; preload
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - sameorigin
+      X-XSS-Protection:
+      - 1; mode=block
+      content-length:
+      - '31658'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.4.1 at release-monitoring.org
+    method: GET
+    uri: https://git.savannah.gnu.org/cgit/gnuzilla.git/refs/tags
+  response:
+    body:
+      string: '<!DOCTYPE html>
+
+        <html lang=''en''>
+
+        <head>
+
+        <title>gnuzilla.git - GNUzilla and IceCat</title>
+
+        <meta name=''generator'' content=''cgit v1.1''/>
+
+        <meta name=''robots'' content=''index, nofollow''/>
+
+        <link rel=''stylesheet'' type=''text/css'' href=''/cgit-css/cgit.css''/>
+
+        <link rel=''shortcut icon'' href=''/gitweb/git-favicon.png''/>
+
+        <link rel=''alternate'' title=''Atom feed'' href=''https://git.savannah.gnu.org/cgit/gnuzilla.git/atom/?h=master''
+        type=''application/atom+xml''/>
+
+        <link rel=''vcs-git'' href=''git://git.savannah.gnu.org/gnuzilla.git'' title=''gnuzilla.git
+        Git repository''/>
+
+        <link rel=''vcs-git'' href=''https://git.savannah.gnu.org/git/gnuzilla.git''
+        title=''gnuzilla.git Git repository''/>
+
+        <link rel=''vcs-git'' href=''ssh://git.savannah.gnu.org/srv/git/gnuzilla.git''
+        title=''gnuzilla.git Git repository''/>
+
+        </head>
+
+        <body>
+
+        <div id=''cgit''><table id=''header''>
+
+        <tr>
+
+        <td class=''logo'' rowspan=''2''><a href=''/cgit/''><img src=''/cgit-css/cgit.png''
+        alt=''cgit logo''/></a></td>
+
+        <td class=''main''><a href=''/cgit/''>index</a> : <a title=''gnuzilla.git''
+        href=''/cgit/gnuzilla.git/''>gnuzilla.git</a></td><td class=''form''><form
+        method=''get''>
+
+        <select name=''h'' onchange=''this.form.submit();''>
+
+        <option value=''38''>38</option>
+
+        <option value=''68''>68</option>
+
+        <option value=''master'' selected=''selected''>master</option>
+
+        <option value=''test''>test</option>
+
+        </select> <input type=''submit'' value=''switch''/></form></td></tr>
+
+        <tr><td class=''sub''>GNUzilla and IceCat</td><td class=''sub right''></td></tr></table>
+
+        <table class=''tabs''><tr><td>
+
+        <a href=''/cgit/gnuzilla.git/''>summary</a><a class=''active'' href=''/cgit/gnuzilla.git/refs/''>refs</a><a
+        href=''/cgit/gnuzilla.git/log/''>log</a><a href=''/cgit/gnuzilla.git/tree/''>tree</a><a
+        href=''/cgit/gnuzilla.git/commit/''>commit</a><a href=''/cgit/gnuzilla.git/diff/''>diff</a></td><td
+        class=''form''><form class=''right'' method=''get'' action=''/cgit/gnuzilla.git/log/''>
+
+        <select name=''qt''>
+
+        <option value=''grep''>log msg</option>
+
+        <option value=''author''>author</option>
+
+        <option value=''committer''>committer</option>
+
+        <option value=''range''>range</option>
+
+        </select>
+
+        <input class=''txt'' type=''text'' size=''10'' name=''q'' value=''''/>
+
+        <input type=''submit'' value=''search''/>
+
+        </form>
+
+        </td></tr></table>
+
+        <div class=''content''><table class=''list nowrap''><tr class=''nohover''><th
+        class=''left''>Tag</th><th class=''left''>Download</th><th class=''left''>Author</th><th
+        class=''left'' colspan=''2''>Age</th></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v60.7.0''>v60.7.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-60.7.0.tar.gz''>gnuzilla-60.7.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2019-05-29
+        21:12:36 +0000''>3 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v60.3.0''>v60.3.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-60.3.0.tar.gz''>gnuzilla-60.3.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2018-11-09
+        20:46:03 +0000''>4 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v60.2.0''>v60.2.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-60.2.0.tar.gz''>gnuzilla-60.2.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2018-09-14
+        01:02:13 +0000''>4 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v52.1.0''>v52.1.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-52.1.0.tar.gz''>gnuzilla-52.1.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2017-05-05
+        15:19:58 +0000''>5 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v52.0.2''>v52.0.2</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-52.0.2.tar.gz''>gnuzilla-52.0.2.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2017-04-16
+        02:02:02 +0000''>5 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v45.7.0''>v45.7.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-45.7.0.tar.gz''>gnuzilla-45.7.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2017-03-05
+        16:16:56 +0000''>5 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v38.3.0''>v38.3.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-38.3.0.tar.gz''>gnuzilla-38.3.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2015-10-13
+        04:21:50 +0000''>7 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v31.8.0''>v31.8.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-31.8.0.tar.gz''>gnuzilla-31.8.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2015-07-14
+        04:00:02 +0000''>7 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v31.6.0''>v31.6.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-31.6.0.tar.gz''>gnuzilla-31.6.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2015-04-03
+        21:19:09 +0000''>7 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v31.5.0''>v31.5.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-31.5.0.tar.gz''>gnuzilla-31.5.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2015-03-09
+        20:23:46 +0000''>7 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v31.4.0''>v31.4.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-31.4.0.tar.gz''>gnuzilla-31.4.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2015-01-28
+        21:16:14 +0000''>8 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v31.2.0''>v31.2.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-31.2.0.tar.gz''>gnuzilla-31.2.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2014-10-21
+        22:48:54 +0000''>8 years</span></td></tr>
+
+        </table></div> <!-- class=content -->
+
+        <div class=''footer''>generated by <a href=''https://git.zx2c4.com/cgit/about/''>cgit
+        v1.1</a> at 2022-08-01 21:14:28 +0000</div>
+
+        </div> <!-- id=cgit -->
+
+        </body>
+
+        </html>
+
+        '
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Mon, 01 Aug 2022 21:14:28 GMT
+      Expires:
+      - Mon, 01 Aug 2022 21:19:27 GMT
+      Last-Modified:
+      - Mon, 01 Aug 2022 21:14:27 GMT
+      Server:
+      - nginx/1.14.0 (Trisquel GNU/Linux)
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.4.1 at release-monitoring.org
+    method: GET
+    uri: https://git.savannah.gnu.org/cgit/alisp.git/refs/tags
+  response:
+    body:
+      string: '<!DOCTYPE html>
+
+        <html lang=''en''>
+
+        <head>
+
+        <title>alisp.git - </title>
+
+        <meta name=''generator'' content=''cgit v1.1''/>
+
+        <meta name=''robots'' content=''index, nofollow''/>
+
+        <link rel=''stylesheet'' type=''text/css'' href=''/cgit-css/cgit.css''/>
+
+        <link rel=''shortcut icon'' href=''/gitweb/git-favicon.png''/>
+
+        <link rel=''alternate'' title=''Atom feed'' href=''https://git.savannah.gnu.org/cgit/alisp.git/atom/?h=master''
+        type=''application/atom+xml''/>
+
+        <link rel=''vcs-git'' href=''git://git.savannah.gnu.org/alisp.git'' title=''alisp.git
+        Git repository''/>
+
+        <link rel=''vcs-git'' href=''https://git.savannah.gnu.org/git/alisp.git''
+        title=''alisp.git Git repository''/>
+
+        <link rel=''vcs-git'' href=''ssh://git.savannah.gnu.org/srv/git/alisp.git''
+        title=''alisp.git Git repository''/>
+
+        </head>
+
+        <body>
+
+        <div id=''cgit''><table id=''header''>
+
+        <tr>
+
+        <td class=''logo'' rowspan=''2''><a href=''/cgit/''><img src=''/cgit-css/cgit.png''
+        alt=''cgit logo''/></a></td>
+
+        <td class=''main''><a href=''/cgit/''>index</a> : <a title=''alisp.git'' href=''/cgit/alisp.git/''>alisp.git</a></td><td
+        class=''form''><form method=''get''>
+
+        <select name=''h'' onchange=''this.form.submit();''>
+
+        <option value=''master'' selected=''selected''>master</option>
+
+        </select> <input type=''submit'' value=''switch''/></form></td></tr>
+
+        <tr><td class=''sub''></td><td class=''sub right''></td></tr></table>
+
+        <table class=''tabs''><tr><td>
+
+        <a href=''/cgit/alisp.git/''>summary</a><a class=''active'' href=''/cgit/alisp.git/refs/''>refs</a><a
+        href=''/cgit/alisp.git/log/''>log</a><a href=''/cgit/alisp.git/tree/''>tree</a><a
+        href=''/cgit/alisp.git/commit/''>commit</a><a href=''/cgit/alisp.git/diff/''>diff</a></td><td
+        class=''form''><form class=''right'' method=''get'' action=''/cgit/alisp.git/log/''>
+
+        <select name=''qt''>
+
+        <option value=''grep''>log msg</option>
+
+        <option value=''author''>author</option>
+
+        <option value=''committer''>committer</option>
+
+        <option value=''range''>range</option>
+
+        </select>
+
+        <input class=''txt'' type=''text'' size=''10'' name=''q'' value=''''/>
+
+        <input type=''submit'' value=''search''/>
+
+        </form>
+
+        </td></tr></table>
+
+        <div class=''content''><table class=''list nowrap''></table></div> <!-- class=content
+        -->
+
+        <div class=''footer''>generated by <a href=''https://git.zx2c4.com/cgit/about/''>cgit
+        v1.1</a> at 2022-08-01 21:14:29 +0000</div>
+
+        </div> <!-- id=cgit -->
+
+        </body>
+
+        </html>
+
+        '
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Mon, 01 Aug 2022 21:14:29 GMT
+      Expires:
+      - Mon, 01 Aug 2022 21:19:28 GMT
+      Last-Modified:
+      - Mon, 01 Aug 2022 21:14:28 GMT
+      Server:
+      - nginx/1.14.0 (Trisquel GNU/Linux)
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+    status:
+      code: 200
+      message: OK
+version: 1

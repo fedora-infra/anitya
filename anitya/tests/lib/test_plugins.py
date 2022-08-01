@@ -31,6 +31,7 @@ from anitya.tests.base import DatabaseTestCase
 
 EXPECTED_BACKENDS = [
     "BitBucket",
+    "cgit",
     "CPAN (perl)",
     "CRAN (R)",
     "crates.io",
