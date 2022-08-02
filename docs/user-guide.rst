@@ -119,6 +119,11 @@ The backends available are:
   You need to provide **BitBucket owner/project**. For example if project is hosted on
   *https://bitbucket.org/zzzeek/sqlalchemy* this field needs to contain *zzzeek/sqlalchemy*
 
+* **Cgit** for projects hosted on `Cgit server <https://git.zx2c4.com/cgit/about/>`_
+
+  You need to provide **Cgit project url** which needs to point to project root on
+  Cgit server.
+
 * **CPAN** for perl projects hosted on `CPAN <https://www.cpan.org/>`_
 
 * **CRAN** for R projects hosted on `CRAN <https://cran.r-project.org/>`_
