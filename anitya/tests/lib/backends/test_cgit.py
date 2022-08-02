@@ -15,7 +15,7 @@
 #
 
 """
-Anitya tests for the cgit backend.
+Anitya tests for the Cgit backend.
 """
 
 import unittest
@@ -25,11 +25,11 @@ from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
-BACKEND = "cgit"
+BACKEND = "Cgit"
 
 
 class CgitBackendtests(DatabaseTestCase):
-    """cgit backend tests."""
+    """Cgit backend tests."""
 
     def setUp(self):
         """Set up the environment, ran before every tests."""
@@ -44,7 +44,7 @@ class CgitBackendtests(DatabaseTestCase):
 
         project = models.Project(
             homepage="https://git.zx2c4.com/cgit",
-            name="cgit",
+            name="Cgit",
             backend=BACKEND,
         )
         self.session.add(project)
@@ -70,7 +70,7 @@ class CgitBackendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_get_version(self):
-        """Test the get_version function of the cgit backend."""
+        """Test the get_version function of the Cgit backend."""
 
         project = self.projects["valid_with_homepage"]
         exp = "v1.2.3"
