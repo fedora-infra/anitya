@@ -20,13 +20,13 @@ REGEX = "<tr><td><a href='.*'>(.*)</a></td>"
 
 
 class CgitBackend(BaseBackend):
-    """The custom class for projects hosted on cgit
+    """The custom class for projects hosted on Cgit
 
     This backend allows to specify a version_url that will
     be used to retrieve the version information.
     """
 
-    name = "cgit"
+    name = "Cgit"
     examples = [
         "https://git.savannah.gnu.org/cgit/gnuzilla.git",
         "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/",
