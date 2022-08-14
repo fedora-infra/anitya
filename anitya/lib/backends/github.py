@@ -88,7 +88,9 @@ class GithubBackend(BaseBackend):
             url = url[:-1]
 
         if url:
-            url = "https://github.com/{}/tags".format(url)
+            url_template = "https://github.com/%(repo)s/%(release_or_tag)s"
+            release_or_tag = "releases" if project.releases_only else "tags"
+            return url_template % {"repo": url, "release_or_tag": release_or_tag}
 
         return url
 
@@ -155,7 +157,8 @@ class GithubBackend(BaseBackend):
         url = cls.get_version_url(project)
         if url:
             url = url.replace("https://github.com/", "")
-            url = url.replace("/tags", "")
+            url = url.rstrip("/tags")
+            url = url.rstrip("/releases")
         else:
             raise AnityaPluginException(
                 "Project %s was incorrectly set up." % project.name

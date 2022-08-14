@@ -257,6 +257,44 @@ class GithubBackendtests(DatabaseTestCase):
 
         self.assertEqual(obs, exp)
 
+    def test_get_version_url_project_releases_only(self):
+        """
+        Assert that correct url is returned when
+        releases_only is marked
+        """
+        project = models.Project(
+            name="test",
+            homepage="https://github.com/test/test",
+            backend=BACKEND,
+            releases_only=True,
+        )
+        exp = "https://github.com/test/test/releases"
+        obs = backend.GithubBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_project_version_url_contains_tags(self):
+        """
+        Assert that correct url is returned when
+        version_url contains tags
+        """
+        project = models.Project(
+            name="Tags Repository", version_url="fedora-infra/tags", backend=BACKEND
+        )
+        exp = "https://github.com/fedora-infra/tags/tags"
+        obs = backend.GithubBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_project_version_url_contains_releases(self):
+        project = models.Project(
+            name="Releases Repository",
+            version_url="fedora-infra/releases",
+            backend=BACKEND,
+            releases_only=True,
+        )
+        exp = "https://github.com/fedora-infra/releases/releases"
+        obs = backend.GithubBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
+
     def test_get_version_url_homepage_slash(self):
         """
         Assert that correct url is returned when
