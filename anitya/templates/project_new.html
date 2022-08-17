@@ -307,7 +307,7 @@
     if ($('#name').val()) {
       temp = temp.replace('{project name}', $('#name').val());
     }
-    if (default_version_plugin[str]) {
+    if (default_version_plugin[str] && !$(`#version_scheme`).val()) {
       $('#version_scheme').val("default_version_plugin[str]");
     }
     $('#regex_example_txt').html('<div id="default_regex_txt">' + temp + '</div>');
