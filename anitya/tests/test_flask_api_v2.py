@@ -87,7 +87,10 @@ class PackagesResourceGetTests(DatabaseTestCase):
     def test_packages(self):
         """Assert packages are returned when they exist."""
         project = models.Project(
-            name="requests", homepage="https://pypi.io/project/requests", backend="PyPI"
+            name="requests",
+            homepage="https://pypi.io/project/requests",
+            backend="PyPI",
+            latest_version="1",
         )
         fedora_package = models.Packages(
             distro_name="Fedora", project=project, package_name="python-requests"
@@ -115,18 +118,21 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "name": "python-requests",
                     "project": "requests",
                     "ecosystem": "pypi",
+                    "version": "1",
                 },
                 {
                     "distribution": "Debian",
                     "name": "python-requests",
                     "project": "requests",
                     "ecosystem": "pypi",
+                    "version": "1",
                 },
                 {
                     "distribution": "jcline linux",
                     "name": "requests",
                     "project": "requests",
                     "ecosystem": "pypi",
+                    "version": "1",
                 },
             ],
         }
@@ -136,7 +142,10 @@ class PackagesResourceGetTests(DatabaseTestCase):
     def test_filter_packages_by_name(self):
         """Assert filtering packages by name works."""
         project = models.Project(
-            name="requests", homepage="https://pypi.io/project/requests", backend="PyPI"
+            name="requests",
+            homepage="https://pypi.io/project/requests",
+            backend="PyPI",
+            latest_version="1",
         )
         fedora_package = models.Packages(
             distro_name="Fedora", project=project, package_name="python-requests"
@@ -164,12 +173,14 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "name": "python-requests",
                     "project": "requests",
                     "ecosystem": "pypi",
+                    "version": "1",
                 },
                 {
                     "distribution": "Debian",
                     "name": "python-requests",
                     "project": "requests",
                     "ecosystem": "pypi",
+                    "version": "1",
                 },
             ],
         }
@@ -179,7 +190,10 @@ class PackagesResourceGetTests(DatabaseTestCase):
     def test_filter_packages_by_name_case_insensitive(self):
         """Assert filtering packages by case insensitive name works."""
         project = models.Project(
-            name="requests", homepage="https://pypi.io/project/requests", backend="PyPI"
+            name="requests",
+            homepage="https://pypi.io/project/requests",
+            backend="PyPI",
+            latest_version="1",
         )
         fedora_package = models.Packages(
             distro_name="Fedora", project=project, package_name="python-requests"
@@ -207,12 +221,14 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "name": "python-requests",
                     "project": "requests",
                     "ecosystem": "pypi",
+                    "version": "1",
                 },
                 {
                     "distribution": "Debian",
                     "name": "python-requests",
                     "project": "requests",
                     "ecosystem": "pypi",
+                    "version": "1",
                 },
             ],
         }
@@ -233,7 +249,10 @@ class PackagesResourceGetTests(DatabaseTestCase):
     def test_list_packages_items_per_page(self):
         """Assert pagination works and page size is adjustable."""
         project = models.Project(
-            name="requests", homepage="https://pypi.io/project/requests", backend="PyPI"
+            name="requests",
+            homepage="https://pypi.io/project/requests",
+            backend="PyPI",
+            latest_version="1",
         )
         fedora_package = models.Packages(
             distro_name="Fedora", project=project, package_name="python-requests"
@@ -257,6 +276,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "name": "python-requests",
                     "project": "requests",
                     "ecosystem": "pypi",
+                    "version": "1",
                 }
             ],
         }
@@ -266,7 +286,10 @@ class PackagesResourceGetTests(DatabaseTestCase):
     def test_list_packages_items_per_page_with_page(self):
         """Assert retrieving other pages works."""
         project = models.Project(
-            name="requests", homepage="https://pypi.io/project/requests", backend="PyPI"
+            name="requests",
+            homepage="https://pypi.io/project/requests",
+            backend="PyPI",
+            latest_version="1",
         )
         fedora_package = models.Packages(
             distro_name="Fedora", project=project, package_name="python-requests"
@@ -290,6 +313,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "name": "python-requests",
                     "project": "requests",
                     "ecosystem": "pypi",
+                    "version": "1",
                 }
             ],
         }
@@ -299,7 +323,10 @@ class PackagesResourceGetTests(DatabaseTestCase):
     def test_filter_distribution(self):
         """Assert retrieving other pages works."""
         project = models.Project(
-            name="requests", homepage="https://pypi.io/project/requests", backend="PyPI"
+            name="requests",
+            homepage="https://pypi.io/project/requests",
+            backend="PyPI",
+            latest_version="1",
         )
         fedora_package = models.Packages(
             distro_name="Fedora", project=project, package_name="python-requests"
@@ -326,6 +353,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "name": "python-requests",
                     "project": "requests",
                     "ecosystem": "pypi",
+                    "version": "1",
                 }
             ],
         }
@@ -339,6 +367,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "name": "python-requests",
                     "project": "requests",
                     "ecosystem": "pypi",
+                    "version": "1",
                 }
             ],
         }
