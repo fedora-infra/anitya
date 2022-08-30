@@ -4,6 +4,51 @@ Release Notes
 
 .. towncrier release notes start
 
+1.5.0 (2022-08-30)
+==================
+
+API Changes
+-----------
+
+* /api/v2/packages/ endpoint now returns latest version info too.
+  (`#1442 <https://github.com/fedora-infra/anitya/issues/1442>`_)
+
+
+Features
+--------
+
+* Add Ubuntu links to project page.
+  (`PR#1403 <https://github.com/fedora-infra/anitya/pull/1403>`_)
+
+* Add cgit backend
+  (`#1037 <https://github.com/fedora-infra/anitya/issues/1037>`_)
+
+* Add Gogs backend
+  (`#1222 <https://github.com/fedora-infra/anitya/issues/1222>`_)
+
+
+Bug Fixes
+---------
+
+* Fixed version check url for GitHub projects those marked with "Check releases instead of tags"
+  (`#1013 <https://github.com/fedora-infra/anitya/issues/1013>`_)
+
+* Folder backend returns wrong version
+  (`#1286 <https://github.com/fedora-infra/anitya/issues/1286>`_)
+
+* Saved "Version scheme" value is not loaded
+  (`#1389 <https://github.com/fedora-infra/anitya/issues/1389>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Erol Keskin
+* Michal Konečný
+* Steve Beattie
+
 
 1.4.1 (2022-07-04)
 ==================
