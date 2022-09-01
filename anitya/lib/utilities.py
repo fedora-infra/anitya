@@ -546,3 +546,10 @@ def set_flag_state(session, flag, state, user_id):
 def get_last_cron(session):
     """Retrieve the last log entry about the cron"""
     return models.Run.last_entry(session)
+
+
+def remove_suffix(str, suffix):
+    """Removes suffix from the given str"""
+    if str.endswith(suffix):
+        return str[: -len(suffix)]
+    return str
