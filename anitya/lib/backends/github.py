@@ -12,6 +12,7 @@
 from anitya.lib.backends import BaseBackend, http_session, REQUEST_HEADERS
 from anitya.lib.exceptions import AnityaPluginException, RateLimitException
 from anitya.config import config
+from anitya.lib import utilities
 import logging
 
 API_URL = "https://api.github.com/graphql"
@@ -157,8 +158,8 @@ class GithubBackend(BaseBackend):
         url = cls.get_version_url(project)
         if url:
             url = url.replace("https://github.com/", "")
-            url = url.rstrip("/tags")
-            url = url.rstrip("/releases")
+            url = utilities.remove_suffix(url, "/releases")
+            url = utilities.remove_suffix(url, "/tags")
         else:
             raise AnityaPluginException(
                 "Project %s was incorrectly set up." % project.name

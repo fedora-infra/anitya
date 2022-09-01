@@ -19,6 +19,7 @@
 # of Red Hat, Inc.
 """Tests for the :mod:`anitya.lib.utilities` module."""
 
+import unittest
 import mock
 
 import arrow
@@ -957,3 +958,66 @@ class SetFlagStateTests(DatabaseTestCase):
                     state="closed",
                     user_id="noreply@fedoraproject.org",
                 )
+
+
+class RemoveSuffixTests(unittest.TestCase):
+    """Tests for the :func:`anitya.lib.utilities.remove_suffix` function."""
+
+    def test_remove_suffix_no_change(self):
+        url = "https://github.com/baresip/re"
+        self.assertEqual(
+            utilities.remove_suffix(url, "/releases"), "https://github.com/baresip/re"
+        )
+        self.assertEqual(
+            utilities.remove_suffix(url, "/tags"), "https://github.com/baresip/re"
+        )
+
+        url = "https://github.com/libexpat/libexpat"
+        self.assertEqual(
+            utilities.remove_suffix(url, "/releases"),
+            "https://github.com/libexpat/libexpat",
+        )
+        self.assertEqual(
+            utilities.remove_suffix(url, "/tags"),
+            "https://github.com/libexpat/libexpat",
+        )
+
+    def test_remove_suffix_remove_releases(self):
+        url = "https://github.com/baresip/re/releases"
+        self.assertEqual(
+            utilities.remove_suffix(url, "/releases"), "https://github.com/baresip/re"
+        )
+        self.assertEqual(
+            utilities.remove_suffix(url, "/tags"),
+            "https://github.com/baresip/re/releases",
+        )
+
+        url = "https://github.com/libexpat/libexpat/releases"
+        self.assertEqual(
+            utilities.remove_suffix(url, "/releases"),
+            "https://github.com/libexpat/libexpat",
+        )
+        self.assertEqual(
+            utilities.remove_suffix(url, "/tags"),
+            "https://github.com/libexpat/libexpat/releases",
+        )
+
+    def test_remove_suffix_remove_tags(self):
+        url = "https://github.com/baresip/re/tags"
+        self.assertEqual(
+            utilities.remove_suffix(url, "/releases"),
+            "https://github.com/baresip/re/tags",
+        )
+        self.assertEqual(
+            utilities.remove_suffix(url, "/tags"), "https://github.com/baresip/re"
+        )
+
+        url = "https://github.com/libexpat/libexpat/tags"
+        self.assertEqual(
+            utilities.remove_suffix(url, "/releases"),
+            "https://github.com/libexpat/libexpat/tags",
+        )
+        self.assertEqual(
+            utilities.remove_suffix(url, "/tags"),
+            "https://github.com/libexpat/libexpat",
+        )
