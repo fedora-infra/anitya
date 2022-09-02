@@ -4,6 +4,24 @@ Release Notes
 
 .. towncrier release notes start
 
+1.5.1 (2022-09-02)
+==================
+
+Bug Fixes
+---------
+
+* Fix wrong url replacement in GitHub backend.
+  (`PR#1449 <https://github.com/fedora-infra/anitya/pull/1449>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Erol Keskin
+
+
 1.5.0 (2022-08-30)
 ==================
 
