@@ -341,6 +341,13 @@ If you are a maintainer and wish to make a release, follow these steps:
     Just ignore this and remove all of them manually; release notes will be generated
     anyway.
 
+.. note::
+    You need to have Anitya installed as well for ``towncrier`` to see the newest
+    version. I recommend doing this in separate virtualenv and installing the Anitya
+    with ``pip install -e .``, which will automatically reflect any change made to
+    code in the installation. The ``towncrier`` needs to be installed in the same
+    python virtualenv to see those changes.
+
 5. Remove every remaining news fragment from ``news`` folder.
 
 6. Generate new DB schema image by running ``./generate_db_schema`` in ``docs`` folder.
