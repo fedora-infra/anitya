@@ -7,7 +7,7 @@ mock==4.0.3
 pytest==7.1.2
 pytest-cov==3.0.0
 unittest2==1.1.0
-vcrpy==4.2.0
+vcrpy==4.2.1
 psycopg2-binary==2.9.3
 
 # Authentication integration testing
