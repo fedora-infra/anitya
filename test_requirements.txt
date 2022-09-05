@@ -1,5 +1,5 @@
 bandit==1.7.4
-black==22.6.0
+black==22.8.0
 coverage==6.4.4
 diff-cover==6.5.1
 flake8==5.0.4
