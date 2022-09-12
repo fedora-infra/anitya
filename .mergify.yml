@@ -4,13 +4,13 @@ queue_rules:
       - check-success=fedora/check
 
 pull_request_rules:
-  - name: dependabot
+  - name: renovate
     actions:
       queue:
         method: rebase
         name: default
     conditions:
-    - author=dependabot[bot]
+    - author=renovate[bot]
     - label!=no-mergify
     - "#changes-requested-reviews-by=0"
     - check-success=fedora/check
