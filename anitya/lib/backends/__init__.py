@@ -141,7 +141,7 @@ class BaseBackend(object):
         return url
 
     @classmethod
-    def get_version(self, project):  # pragma: no cover
+    def get_version(cls, project):  # pragma: no cover
         """Method called to retrieve the latest version of the projects
         provided, project that relies on the backend of this plugin.
 
@@ -158,7 +158,7 @@ class BaseBackend(object):
                 when the versions cannot be retrieved correctly
 
         """
-        pass
+        return cls.get_ordered_versions(project)[-1]
 
     @classmethod
     def get_version_url(cls, project):  # pragma: no cover
