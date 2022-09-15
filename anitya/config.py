@@ -92,6 +92,7 @@ DEFAULTS = dict(
     # When this number of failed checks is reached,
     # project will be automatically removed, if no version was retrieved yet
     CHECK_ERROR_THRESHOLD=100,
+    DISTRO_MAPPING_LINKS={},
 )
 
 # Start with a basic logging configuration, which will be replaced by any user-

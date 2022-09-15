@@ -187,20 +187,8 @@
                 <tr>
                   <td>{{ package.distro_name }}</td>
                   <td>
-                    {% if package.distro_name == 'AlmaLinux' %}
-                      <a href="https://git.almalinux.org/rpms/{{ package.package_name }}">
-                        {{ package.package_name }}
-                      </a>                    
-                    {% elif package.distro_name == 'Fedora' %}
-                      <a href="https://src.fedoraproject.org/rpms/{{ package.package_name }}">
-                        {{ package.package_name }}
-                      </a>
-                    {% elif package.distro_name == 'PLD-Linux' %}
-                      <a href="https://github.com/pld-linux/{{ package.package_name }}">
-                        {{ package.package_name }}
-                      </a>
-                    {% elif package.distro_name == 'Ubuntu' %}
-                      <a href="https://launchpad.net/ubuntu/+source/{{ package.package_name }}">
+                    {% if package.distro_name in links %}
+                      <a href="{{ links.get(package.distro_name) % package.package_name}}">
                         {{ package.package_name }}
                       </a>
                     {% else %}

@@ -6,6 +6,7 @@ from flask_login import login_required, logout_user, current_user
 import flask
 from sqlalchemy.exc import SQLAlchemyError
 
+from anitya.config import config as anitya_config
 from anitya.db import Session, models
 from anitya.lib import utilities, exceptions, plugins as anitya_plugins
 import anitya
@@ -108,7 +109,12 @@ def project(project_id):
     if not project:
         flask.abort(404)
 
-    return flask.render_template("project.html", current="project", project=project)
+    return flask.render_template(
+        "project.html",
+        current="project",
+        project=project,
+        links=anitya_config.get("DISTRO_MAPPING_LINKS", {}),
+    )
 
 
 @ui_blueprint.route("/project/<project_name>")

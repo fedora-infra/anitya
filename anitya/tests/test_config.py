@@ -55,7 +55,12 @@ sse_feed = "http://firehose.libraries.io/events"
 
 default_regex = "a*b*"
 github_access_token = "foobar"
-legacy_messaging = true
+
+[distro_mapping_links]
+AlmaLinux = "https://git.almalinux.org/rpms/%s"
+Fedora = "https://src.fedoraproject.org/rpms/%s"
+PLD-Linux = "https://github.com/pld-linux/%s"
+Ubuntu = "https://launchpad.net/ubuntu/+source/%s"
 
 [anitya_log_config]
     version = 1
@@ -170,11 +175,16 @@ class LoadTests(unittest.TestCase):
             "LIBRARIESIO_PLATFORM_WHITELIST": ["pypi", "rubygems"],
             "DEFAULT_REGEX": "a*b*",
             "GITHUB_ACCESS_TOKEN": "foobar",
-            "LEGACY_MESSAGING": True,
             "SSE_FEED": "http://firehose.libraries.io/events",
             "CRON_POOL": 10,
             "CHECK_TIMEOUT": 600,
             "CHECK_ERROR_THRESHOLD": 100,
+            "DISTRO_MAPPING_LINKS": {
+                "AlmaLinux": "https://git.almalinux.org/rpms/%s",
+                "Fedora": "https://src.fedoraproject.org/rpms/%s",
+                "PLD-Linux": "https://github.com/pld-linux/%s",
+                "Ubuntu": "https://launchpad.net/ubuntu/+source/%s",
+            },
         }
         config = anitya_config.load()
         self.assertEqual(sorted(expected_config.keys()), sorted(config.keys()))

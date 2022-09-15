@@ -76,6 +76,15 @@ check_timeout = 600
 # project will be automatically removed, if no version was retrieved yet
 check_error_threshold=100
 
+# Configurable links to package repositories for package mappings in distributions
+# If you want to add any new distribution just add a new entry to this section
+# %s will be filled in HTML template by the name of package mapping
+[distro_mapping_links]
+AlmaLinux = "https://git.almalinux.org/rpms/%s"
+Fedora = "https://src.fedoraproject.org/rpms/%s"
+PLD-Linux = "https://github.com/pld-linux/%s"
+Ubuntu = "https://launchpad.net/ubuntu/+source/%s"
+
 # The logging configuration, in Python dictConfig format.
 [anitya_log_config]
     version = 1
