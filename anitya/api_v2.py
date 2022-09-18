@@ -449,8 +449,12 @@ class ProjectsResource(MethodView):
         :reqjson string backend: The project backend (github, folder, etc.).
         :reqjson string version_url: The URL to fetch when determining the
                                      project version (defaults to null).
+        :reqjson string version_scheme: The project version scheme.
+        :reqjson string version_pattern: The version pattern for calendar version scheme.
         :reqjson string version_prefix: The project version prefix, if any. For
                                         example, some projects prefix with "v".
+        :reqjson string pre_release_filter: Filter for unstable versions.
+        :reqjson string version_filter: Filter for blacklisted versions.
         :reqjson string regex: The regex to use when searching the
                                ``version_url`` page.
         :reqjson bool insecure: When retrieving the versions via HTTPS, do not
@@ -471,7 +475,11 @@ class ProjectsResource(MethodView):
             "homepage": fields.Str(required=True),
             "backend": fields.Str(required=True),
             "version_url": fields.Str(missing=None),
+            "version_scheme": fields.Str(missing=None),
+            "version_pattern": fields.Str(missing=None),
             "version_prefix": fields.Str(missing=None),
+            "pre_release_filter": fields.Str(missing=None),
+            "version_filter": fields.Str(missing=None),
             "regex": fields.Str(missing=None),
             "insecure": fields.Bool(missing=False),
             "check_release": fields.Bool(missing=False),
@@ -486,7 +494,11 @@ class ProjectsResource(MethodView):
                 homepage=args["homepage"],
                 backend=args["backend"],
                 version_url=args["version_url"],
+                version_pattern=args["version_pattern"],
+                version_scheme=args["version_scheme"],
                 version_prefix=args["version_prefix"],
+                pre_release_filter=args["pre_release_filter"],
+                version_filter=args["version_filter"],
                 regex=args["regex"],
                 insecure=args["insecure"],
             )
