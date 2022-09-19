@@ -449,7 +449,7 @@ class ProjectsResource(MethodView):
         :reqjson string backend: The project backend (github, folder, etc.).
         :reqjson string version_url: The URL to fetch when determining the
                                      project version (defaults to null).
-        :reqjson string version_scheme: The project version scheme.
+        :reqjson string version_scheme: The project version scheme. If missing, it's set to "RPM".
         :reqjson string version_pattern: The version pattern for calendar version scheme.
         :reqjson string version_prefix: The project version prefix, if any. For
                                         example, some projects prefix with "v".
@@ -475,7 +475,7 @@ class ProjectsResource(MethodView):
             "homepage": fields.Str(required=True),
             "backend": fields.Str(required=True),
             "version_url": fields.Str(missing=None),
-            "version_scheme": fields.Str(missing=None),
+            "version_scheme": fields.Str(missing="RPM"),
             "version_pattern": fields.Str(missing=None),
             "version_prefix": fields.Str(missing=None),
             "pre_release_filter": fields.Str(missing=None),
