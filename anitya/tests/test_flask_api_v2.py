@@ -570,6 +570,39 @@ class PackagesResourcePostTests(DatabaseTestCase):
             topic="project.map.new", project=project, distro=distro, message=message
         )
 
+    @mock.patch("anitya.lib.utilities.publish_message")
+    def test_valid_request_json(self, mock_publish):
+        """Assert packages can be created with json."""
+        request_data = {
+            "project_ecosystem": "pypi",
+            "project_name": "requests",
+            "package_name": "python-requests",
+            "distribution": "Fedora",
+        }
+
+        output = self.app.post(
+            "/api/v2/packages/", headers=self.auth, json=request_data
+        )
+        self.assertEqual(output.status_code, 201)
+        data = _read_json(output)
+        self.assertEqual({"distribution": "Fedora", "name": "python-requests"}, data)
+
+        project = models.Project.query.filter_by(
+            name="requests", ecosystem_name="pypi"
+        ).one()
+
+        project = dict(project.__json__())
+        distro = {"name": "Fedora"}
+        message = {
+            "agent": "user@fedoraproject.org",
+            "project": "requests",
+            "distro": "Fedora",
+            "new": "python-requests",
+        }
+        mock_publish.assert_called_with(
+            topic="project.map.new", project=project, distro=distro, message=message
+        )
+
     def test_same_package_two_distros(self):
         """Assert packages can be created."""
         Session.add(models.Distro("Debian"))
@@ -1083,7 +1116,9 @@ class ProjectsResourcePostTests(DatabaseTestCase):
         session.add(self.api_token)
         session.commit()
 
-        self.auth = {"Authorization": "Token " + self.api_token.token}
+        self.auth = {
+            "Authorization": "Token " + self.api_token.token,
+        }
 
     def test_unauthenticated(self):
         """Assert unauthenticated requests result in a HTTP 401 response."""
@@ -1180,6 +1215,32 @@ class ProjectsResourcePostTests(DatabaseTestCase):
         with fml_testing.mock_sends(anitya_schema.ProjectCreated):
             output = self.app.post(
                 "/api/v2/projects/", headers=self.auth, data=request_data
+            )
+
+        data = _read_json(output)
+        self.assertEqual(output.status_code, 201)
+        self.assertIn("backend", data)
+        self.assertIn("homepage", data)
+        self.assertIn("name", data)
+        self.assertEqual("PyPI", data["backend"])
+        self.assertEqual("http://python-requests.org", data["homepage"])
+        self.assertEqual("requests", data["name"])
+
+    def test_valid_request_json(self):
+        """
+        Assert that request with header specifying json will be handled as well.
+        """
+        request_data = {
+            "backend": "PyPI",
+            "homepage": "http://python-requests.org",
+            "name": "requests",
+        }
+
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            output = self.app.post(
+                "/api/v2/projects/",
+                headers=self.auth,
+                json=request_data,
             )
 
         data = _read_json(output)
@@ -1480,6 +1541,38 @@ class VersionsResourcePostTests(DatabaseTestCase):
 
         output = self.app.post(
             "/api/v2/versions/", headers=self.auth, data=request_data
+        )
+
+        data = _read_json(output)
+        exp = {
+            "latest_version": None,
+            "found_versions": ["1.0.0", "0.9.9"],
+            "versions": [],
+            "stable_versions": [],
+        }
+        self.assertEqual(data, exp)
+
+        mock_check.assert_called_once_with(mock.ANY, mock.ANY, test=True)
+        self.assertEqual(output.status_code, 200)
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_one_project_found_json(self, mock_check):
+        """
+        Assert that sending json request works correctly.
+        """
+        project = models.Project(
+            name="requests", homepage="https://requests.com", backend="custom"
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        mock_check.return_value = ["1.0.0", "0.9.9"]
+        request_data = {
+            "name": "requests",
+        }
+
+        output = self.app.post(
+            "/api/v2/versions/", headers=self.auth, json=request_data
         )
 
         data = _read_json(output)
