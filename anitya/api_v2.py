@@ -235,7 +235,10 @@ class PackagesResource(MethodView):
             "project_name": fields.Str(required=True),
             "project_ecosystem": fields.Str(required=True),
         }
-        args = parser.parse(user_args, request, location="form")
+        if not request.is_json:
+            args = parser.parse(user_args, request, location="form")
+        else:
+            args = parser.parse(user_args, request, location="json")
         try:
             project = models.Project.query.filter(
                 func.lower(models.Project.name) == func.lower(args["project_name"]),
@@ -484,7 +487,10 @@ class ProjectsResource(MethodView):
             "insecure": fields.Bool(missing=False),
             "check_release": fields.Bool(missing=False),
         }
-        args = parser.parse(user_args, request, location="form")
+        if not request.is_json:
+            args = parser.parse(user_args, request, location="form")
+        else:
+            args = parser.parse(user_args, request, location="json")
 
         try:
             project = utilities.create_project(
@@ -690,8 +696,10 @@ class VersionsResource(MethodView):
             "releases_only": fields.Bool(missing=False),
             "dry_run": fields.Bool(missing=True),
         }
-        args = parser.parse(user_args, request, location="form")
-        print(args)
+        if not request.is_json:
+            args = parser.parse(user_args, request, location="form")
+        else:
+            args = parser.parse(user_args, request, location="json")
 
         project = None
         dry_run = args.get("dry_run")
