@@ -8,5 +8,11 @@
   ],
   "docker": {
       "enabled": false
-  }
+  },
+  "packageRules": [
+      {
+        "mactchPackageNames": ["Werkzeug"],
+        "groupName": null
+      }
+  ]
 }
