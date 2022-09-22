@@ -11,7 +11,7 @@
   },
   "packageRules": [
       {
-        "mactchPackageNames": ["Werkzeug"],
+        "matchPackageNames": ["Werkzeug"],
         "groupName": null
       }
   ]
