@@ -33,4 +33,5 @@ venv/
 .venv/
 .vscode/
 .container/postgresql/*
+.container/dump/*
 !.container/postgresql/.gitkeep
