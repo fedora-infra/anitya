@@ -319,10 +319,17 @@ class Checker:
         return list(ord_set)
 
 
-if __name__ == "__main__":
-    # Main
+def main():
+    """
+    Main function.
+    """
     db.initialize(config)
     checker = Checker()
     while True:
         checker.run()
         sleep(WAIT_TIME)
+
+
+if __name__ == "__main__":
+    # Main
+    main()

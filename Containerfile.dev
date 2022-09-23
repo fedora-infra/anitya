@@ -9,18 +9,17 @@ WORKDIR /app
 RUN dnf upgrade --refresh -y
 
 # Python3 and packages
-RUN dnf install -y python3 python3-pip python3-devel python3-psycopg2
+RUN dnf install -y python3 python3-devel python3-psycopg2 poetry
 
 # Dependencies for tox
 RUN dnf install -y git python3-tox libpq libpq-devel gcc graphviz
 
 RUN dnf autoremove -y && dnf clean all -y
 
-# Create aliases for python and pip
-RUN echo 'alias python="python3"' >> ~/.bashrc
-RUN echo 'alias pip="pip3"' >> ~/.bashrc
-
-COPY . .
+COPY anitya ./anitya
+COPY ansible ./ansible
+COPY .container ./.container
+COPY alembic.ini anitya.wsgi createdb.py pyproject.toml tox.ini README.rst .
 
 # Copy over configuration files
 RUN mkdir -p /etc/anitya
@@ -29,12 +28,11 @@ RUN mkdir -p /etc/fedora-messaging
 RUN cp /app/.container/web/config.toml /etc/fedora-messaging
 
 # Pip installations
-RUN pip install -r /app/test_requirements.txt
-RUN pip install -r /app/requirements.txt
-RUN pip install psycopg2
+RUN poetry config virtualenvs.create false
+RUN poetry install
 
 # Hotfix for social_auth-sqlalchemy
 # Should be removed when we switch to something else
 RUN sed -i 's/base64.encodestring/base64.encodebytes/g' /usr/local/lib/python3.10/site-packages/social_sqlalchemy/storage.py
 
-CMD ["sh","-c", "pip3 install -e /app && eval '$START_COMMAND'"]
+CMD ["sh","-c", "poetry install && eval '$START_COMMAND'"]
