@@ -8,8 +8,6 @@ formats:
 # Python install configuration
 python:
   install:
-    - requirements: requirements.txt
-    - requirements: test_requirements.txt
     - method: pip
       path: .
 

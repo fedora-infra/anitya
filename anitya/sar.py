@@ -45,6 +45,7 @@ def main():
     """
     Retrieve database entry for user.
     """
+    _log.debug("SAR script start")
     db.initialize(config)
     sar_username = os.getenv("SAR_USERNAME")
     sar_email = os.getenv("SAR_EMAIL")
@@ -80,9 +81,8 @@ def main():
         users_list.append(user_dict)
 
     json.dump(users_list, sys.stdout)
+    _log.debug("SAR script end")
 
 
 if __name__ == "__main__":
-    _log.debug("SAR script start")
     main()
-    _log.debug("SAR script end")

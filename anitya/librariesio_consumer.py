@@ -178,9 +178,16 @@ class LibrariesioConsumer(object):
         Session.remove()
 
 
+def main():
+    """
+    Main function.
+    """
+    client = LibrariesioConsumer()
+    client.run()
+
+
 if __name__ == "__main__":
     """
     Main section.
     """
-    client = LibrariesioConsumer()
-    client.run()
+    main()
