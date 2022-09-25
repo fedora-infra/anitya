@@ -1,0 +1,157 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.5.1 at release-monitoring.org
+    method: GET
+    uri: https://git.sr.ht/~sircmpwn/scdoc/refs/rss.xml
+  response:
+    body:
+      string: "<rss version=\"2.0\"><channel><title>~sircmpwn/scdoc refs</title><link>https://git.sr.ht/~sircmpwn/scdoc/refs</link><description>Git
+        refs for ~sircmpwn/scdoc</description><language>en</language><item><title>1.11.2</title><description>scdoc
+        1.11.2&lt;br /&gt;&lt;br /&gt;Connor Kuehl (1):&lt;br /&gt;      Add uninstall
+        target&lt;br /&gt;&lt;br /&gt;Cormac Stephenson (1):&lt;br /&gt;      Escape
+        ' at the beginning of lines&lt;br /&gt;&lt;br /&gt;Manuel Arg\xFCelles (1):&lt;br
+        /&gt;      Clean up the installation process&lt;br /&gt;&lt;br /&gt;Sebastian
+        (2):&lt;br /&gt;      Check for and abort on failed memory allocations&lt;br
+        /&gt;      Disallows differing row lengths in table</description><author>sir@cmpwn.com
+        (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.11.2</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.11.2</guid><pubDate>Sat,
+        13 Nov 2021 09:04:45 +0100</pubDate></item><item><title>1.11.1</title><description>scdoc
+        1.11.1&lt;br /&gt;&lt;br /&gt;Bor Gro\u0161elj Simi\u0107 (1):&lt;br /&gt;
+        \     string.c: swap calloc arguments&lt;br /&gt;&lt;br /&gt;Drew DeVault
+        (4):&lt;br /&gt;      .build.yml: drop annotations&lt;br /&gt;      .build.yml:
+        remove unused secret&lt;br /&gt;      Drop flex/bison from .build.yml&lt;br
+        /&gt;      Cast ctype.h inputs to unsigned char&lt;br /&gt;&lt;br /&gt;kst
+        (1):&lt;br /&gt;      Suppress sentence spacing after end-of-sentence characters.</description><author>sir@cmpwn.com
+        (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.11.1</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.11.1</guid><pubDate>Sun,
+        06 Dec 2020 08:59:32 -0500</pubDate></item><item><title>1.11.0</title><description>scdoc
+        1.11.0&lt;br /&gt;&lt;br /&gt;Damien Tardy-Panis (5):&lt;br /&gt;      Section
+        needs to be explicitly defined&lt;br /&gt;      Allow subsection in preamble&lt;br
+        /&gt;      Add basic working tests for line breaks parsing&lt;br /&gt;      Fix
+        parsing of line breaks without newline&lt;br /&gt;      Fix parsing of line
+        breaks followed by underlined text</description><author>sir@cmpwn.com (Drew
+        DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.11.0</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.11.0</guid><pubDate>Sun,
+        14 Jun 2020 11:21:58 -0400</pubDate></item><item><title>1.10.1</title><description>scdoc
+        1.10.1&lt;br /&gt;&lt;br /&gt;Drew DeVault (2):&lt;br /&gt;      Replace str_t
+        with struct str&lt;br /&gt;      Expand preamble written to man page output&lt;br
+        /&gt;&lt;br /&gt;Raymond E. Pasco (2):&lt;br /&gt;      Fix timezone-dependent
+        tests&lt;br /&gt;      Fix `date --date` dependent test</description><author>sir@cmpwn.com
+        (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.10.1</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.10.1</guid><pubDate>Fri,
+        14 Feb 2020 16:38:03 -0500</pubDate></item><item><title>1.10.0</title><description>scdoc
+        1.10.0&lt;br /&gt;&lt;br /&gt;Drew DeVault (2):&lt;br /&gt;      tables: add
+        expand options&lt;br /&gt;      Add contrib/_incr_version</description><author>sir@cmpwn.com
+        (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.10.0</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.10.0</guid><pubDate>Wed,
+        11 Sep 2019 15:15:23 -0400</pubDate></item><item><title>1.9.7</title><description>scdoc
+        1.9.7&lt;br /&gt;&lt;br /&gt;Zandr Martin (2):&lt;br /&gt;      remove unnecessary
+        `closed` variable in parse_list&lt;br /&gt;      fix bug preventing indented
+        literal blocks</description><author>git@zandr.me (Zandr Martin)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.7</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.7</guid><pubDate>Tue,
+        13 Aug 2019 07:49:18 -0400</pubDate></item><item><title>1.9.6</title><description>scdoc
+        1.9.6&lt;br /&gt;&lt;br /&gt;Drew DeVault (1):&lt;br /&gt;      Fix regression
+        with manual name check</description><author>sir@cmpwn.com (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.6</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.6</guid><pubDate>Wed,
+        10 Jul 2019 14:09:27 -0400</pubDate></item><item><title>1.9.5</title><description>scdoc
+        1.9.5&lt;br /&gt;&lt;br /&gt;Drew DeVault (2):&lt;br /&gt;      Add .build.yml&lt;br
+        /&gt;      Revert \"fix enforcement of 1-step indentation\"&lt;br /&gt;&lt;br
+        /&gt;Henrik Riomar (1):&lt;br /&gt;      use TZ=UTC in test case&lt;br /&gt;&lt;br
+        /&gt;Zandr Martin (3):&lt;br /&gt;      disallow invalid name characters&lt;br
+        /&gt;      fix enforcement of 1-step indentation&lt;br /&gt;      enforce
+        1-step indentation</description><author>sir@cmpwn.com (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.5</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.5</guid><pubDate>Wed,
+        10 Jul 2019 11:29:17 -0400</pubDate></item><item><title>1.9.4</title><description>scdoc
+        1.9.4&lt;br /&gt;&lt;br /&gt;Drew DeVault (1):&lt;br /&gt;      Fix SOURCE_DATE_EPOCH
+        test w/busybox date&lt;br /&gt;&lt;br /&gt;Jan Beich (1):&lt;br /&gt;      Drop
+        install -D flag after acb0f64a7b73&lt;br /&gt;&lt;br /&gt;Michael Weiss (1):&lt;br
+        /&gt;      Fix the \"Ignores underscores in underlined words\" test&lt;br
+        /&gt;&lt;br /&gt;emersion (1):&lt;br /&gt;      Add a pkg-config template</description><author>sir@cmpwn.com
+        (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.4</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.4</guid><pubDate>Mon,
+        04 Mar 2019 10:43:31 -0500</pubDate></item><item><title>1.9.3</title><description>scdoc
+        1.9.3&lt;br /&gt;&lt;br /&gt;Drew DeVault (1):&lt;br /&gt;      Fix installation
+        on FreeBSD</description><author>sir@cmpwn.com (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.3</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.3</guid><pubDate>Fri,
+        01 Mar 2019 12:11:42 -0700</pubDate></item><item><title>1.9.2</title><description>scdoc
+        1.9.2&lt;br /&gt;&lt;br /&gt;Brian Ashworth (1):&lt;br /&gt;      parse_text:
+        return if next is UTF8_INVALID</description><author>sir@cmpwn.com (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.2</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.2</guid><pubDate>Fri,
+        01 Mar 2019 13:53:08 -0500</pubDate></item><item><title>1.9.1</title><description>scdoc
+        1.9.1&lt;br /&gt;&lt;br /&gt;Carlo Abelli (1):&lt;br /&gt;      fix underscores
+        in underlined words</description><author>sir@cmpwn.com (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.1</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.1</guid><pubDate>Wed,
+        27 Feb 2019 19:09:09 -0500</pubDate></item><item><title>1.9.0</title><description>scdoc
+        1.9.0&lt;br /&gt;&lt;br /&gt;Birger Schacht (1):&lt;br /&gt;      Replace
+        localtime with gmtime&lt;br /&gt;&lt;br /&gt;Drew DeVault (2):&lt;br /&gt;
+        \     Add pkg-config file, scdoc -v&lt;br /&gt;      Allow continuation of
+        table cells on the next line&lt;br /&gt;&lt;br /&gt;Francis Dinh (1):&lt;br
+        /&gt;      Fix link to mailing list in README</description><author>sir@cmpwn.com
+        (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.0</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.9.0</guid><pubDate>Sun,
+        24 Feb 2019 12:20:09 -0500</pubDate></item><item><title>1.8.1</title><description>scdoc
+        1.8.1&lt;br /&gt;&lt;br /&gt;Drew DeVault (1):&lt;br /&gt;      Use !isalnum
+        instead of isspace for this_stuff</description><author>sir@cmpwn.com (Drew
+        DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.8.1</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.8.1</guid><pubDate>Wed,
+        30 Jan 2019 12:13:04 -0500</pubDate></item><item><title>1.8.0</title><description>scdoc
+        1.8.0&lt;br /&gt;&lt;br /&gt;Drew DeVault (6):&lt;br /&gt;      Ignore underscores
+        in the middle_of_a_word&lt;br /&gt;      Deal with bogus uninitialized warning
+        (thx gcc)&lt;br /&gt;      Use a more robust approach for in-word-underscores&lt;br
+        /&gt;      Update version to 1.8.0</description><author>sir@cmpwn.com (Drew
+        DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.8.0</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.8.0</guid><pubDate>Sun,
+        27 Jan 2019 11:09:10 -0500</pubDate></item><item><title>1.6.1</title><description>scdoc
+        1.6.1&lt;br /&gt;&lt;br /&gt;Drew DeVault (3):&lt;br /&gt;      Fixup readme
+        (thanks rvi 64!)&lt;br /&gt;      Add CONVENTIONS to scdoc(5)&lt;br /&gt;
+        \     Update version to 1.6.1&lt;br /&gt;&lt;br /&gt;Noah Loomans (1):&lt;br
+        /&gt;      Fixup readme fixup&lt;br /&gt;&lt;br /&gt;Silvan Jegen (1):&lt;br
+        /&gt;      Don't use a GNU-extension for $SOURCE_DATE_EPOCH parsing&lt;br
+        /&gt;&lt;br /&gt;Stephen Gregoratto (2):&lt;br /&gt;      Omit needless words,
+        change description to UNIX/BSD style.&lt;br /&gt;      Redefine _XOPEN_SOURCE
+        to value 600.</description><author>sir@cmpwn.com (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.6.1</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.6.1</guid><pubDate>Sun,
+        20 Jan 2019 10:25:12 -0500</pubDate></item><item><title>1.6.0</title><description>scdoc
+        1.6.0&lt;br /&gt;&lt;br /&gt;Drew DeVault (3):&lt;br /&gt;      Update README.md&lt;br
+        /&gt;      Add .editorconfig&lt;br /&gt;      Don't have side effects in assert&lt;br
+        /&gt;&lt;br /&gt;Jakub K\u0105dzio\u0142ka (3):&lt;br /&gt;      Test for
+        empty table cells&lt;br /&gt;      Remove empty string handling edge-cases&lt;br
+        /&gt;      Support empty table cells&lt;br /&gt;&lt;br /&gt;Michael Weiss
+        (1):&lt;br /&gt;      Support $SOURCE_DATE_EPOCH for reproducible man pages</description><author>sir@cmpwn.com
+        (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.6.0</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.6.0</guid><pubDate>Sun,
+        18 Nov 2018 10:26:04 -0500</pubDate></item><item><title>1.5.2</title><description>scdoc
+        1.5.2&lt;br /&gt;&lt;br /&gt;Drew DeVault (1):&lt;br /&gt;      Add '.' to
+        characters permitted in man page titles</description><author>sir@cmpwn.com
+        (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.5.2</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.5.2</guid><pubDate>Thu,
+        18 Oct 2018 08:18:40 -0400</pubDate></item><item><title>1.5.1</title><description>scdoc
+        1.5.1&lt;br /&gt;&lt;br /&gt;Drew DeVault (1):&lt;br /&gt;      Fix build
+        of scdoc.5</description><author>sir@cmpwn.com (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.5.1</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.5.1</guid><pubDate>Sun,
+        07 Oct 2018 11:54:39 -0400</pubDate></item><item><title>1.5.0</title><description>scdoc
+        1.5.0&lt;br /&gt;&lt;br /&gt;Drew DeVault (6):&lt;br /&gt;      Split scdoc(5)
+        from scdoc(1)&lt;br /&gt;      Show origin of nested formatting issues&lt;br
+        /&gt;      Error if formatting continues to next paragraph&lt;br /&gt;      Move
+        premable comments from roff to C&lt;br /&gt;      s/Generated content/Begin
+        generated content/&lt;br /&gt;      Add support for explicit line breaks</description><author>sir@cmpwn.com
+        (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/scdoc/refs/1.5.0</link><guid>https://git.sr.ht/~sircmpwn/scdoc/refs/1.5.0</guid><pubDate>Sun,
+        07 Oct 2018 11:53:15 -0400</pubDate></item></channel></rss>"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '11113'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'self' 'unsafe-inline'; img-src * data:; script-src
+        'self' 'unsafe-inline'
+      Content-Type:
+      - application/rss+xml; charset=utf-8
+      Date:
+      - Sun, 25 Sep 2022 19:11:54 GMT
+      Permissions-Policy:
+      - interest-cohort=()
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Clacks-Overhead:
+      - GNU Terry Pratchett
+    status:
+      code: 200
+      message: OK
+version: 1

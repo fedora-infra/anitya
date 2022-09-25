@@ -54,6 +54,7 @@ EXPECTED_BACKENDS = [
     "Rubygems",
     "Sourceforge",
     "Sourceforge (git)",
+    "SourceHut",
     "Stackage",
     "custom",
     "folder",
