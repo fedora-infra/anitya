@@ -242,6 +242,14 @@
         "this field should contain 'fedora-infra/fedocal'.");
       $('#releases_only_row').show();
     };
+    if (str == 'SourceHut'){
+      $("label[for='version_url']").text('SourceHut owner/project');
+      $('#version_url_row').show();
+      $("#version_url").prop('title', "Owner/project from SourceHut. " +
+        "For example if the project URL is 'https://git.sr.ht/~sircmpwn/scdoc/' " +
+        "this field should contain 'sircmpwn/scdoc'. As can be seen on example, " +
+        "leading ~ should be deleted.");
+    };
     if (str == 'GitLab'){
       $("label[for='version_url']").text('GitLab project url');
       $('#version_url_row').show();
