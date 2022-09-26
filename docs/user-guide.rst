@@ -224,6 +224,14 @@ The backends available are:
   When a url to get the tags from is not provided, the sourceforge homepage of a project
   is used to guess the version url.
 
+* **SourceHut** for projects hosted on `sr.ht <https://sr.ht/>`_.
+  This backend uses RSS feeds on projects. For example: 
+  `scdoc rss feed <https://git.sr.ht/~sircmpwn/scdoc/refs/rss.xml>`_
+  
+  You need to provide **SourceHut owner/project**. For example if project is hosted on
+  *https://git.sr.ht/~sircmpwn/scdoc* this field needs to contain *sircmpwn/scdoc*.
+  Notice the *~* character, it's not a part of **owner/project**.
+
 * **Stackage** for projects hosted on
   `www.stackage.org <https://www.stackage.org/>`_
 
