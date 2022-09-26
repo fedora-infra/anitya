@@ -19,6 +19,7 @@ Anitya tests for the SourceHut backend.
 """
 
 import unittest
+import mock
 
 import anitya.lib.backends.sourcehut as backend
 from anitya.db import models
@@ -111,6 +112,60 @@ class SourceHutBackendTests(DatabaseTestCase):
         obs = backend.SourceHutBackend.get_version_url(project)
 
         self.assertEqual(obs, exp)
+
+    def test_get_versions_invalid_url(self):
+        """
+        Assert that exception is raised
+        when invalid url is specified
+        """
+        project = models.Project(
+            homepage="https://git.sr.ht/~",
+            name="invalid",
+            backend=BACKEND,
+        )
+
+        self.assertRaises(
+            AnityaPluginException, backend.SourceHutBackend.get_versions, project
+        )
+
+    def test_get_versions_invalid_status_code(self):
+        """
+        Assert that exception is raised
+        when invalid url is specified
+        """
+        project = models.Project(
+            homepage="https://git.sr.ht/~sircmpwn/hare",
+            name="invalid",
+            backend=BACKEND,
+        )
+        exp_url = "https://git.sr.ht/~sircmpwn/hare/refs/rss.xml"
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=404)
+            self.assertRaises(
+                AnityaPluginException, backend.SourceHutBackend.get_versions, project
+            )
+
+            m_call.assert_called_with(exp_url, None)
+
+    def test_get_versions_not_modified(self):
+        """
+        Assert that get_version behave correctly
+        when url returns response with 304 status code
+        """
+        project = models.Project(
+            homepage="https://git.sr.ht/~sircmpwn/hare",
+            name="invalid",
+            backend=BACKEND,
+        )
+        exp_url = "https://git.sr.ht/~sircmpwn/hare/refs/rss.xml"
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=304)
+            versions = backend.SourceHutBackend.get_versions(project)
+
+            m_call.assert_called_with(exp_url, None)
+            self.assertEqual(versions, [])
 
     def test_get_versions_project_homepage_only(self):
         """

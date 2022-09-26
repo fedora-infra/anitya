@@ -17,7 +17,7 @@
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 
-from xml.etree import ElementTree
+from defusedxml import ElementTree
 
 
 class SourceHutBackend(BaseBackend):
