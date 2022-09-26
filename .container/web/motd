@@ -5,14 +5,13 @@ Here are some tips:
 
 * The code is located at /app
 
-* Start the development server with
-FLASK_APP=anitya.wsgi flask run
+The development server is running on http://localhost:5000/.
 
-Once you start the development server, you can navigate to http://localhost:5000/
-in your host's browser.
+* To start check service simply run `check_service`
 
-* To run check service simply run
-check_service.py
+* To start tests run `tox`
+
+* To apply changes run `make restart` outside the container
 
 Happy hacking!
 

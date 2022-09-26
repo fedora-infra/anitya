@@ -230,20 +230,17 @@ Makefile scripts that provide easier container management:
 
 Project files are bound to each other with host and container. Whenever you change any project file from the host or the container, the same change will happen on the opposite side as well.
 
-Start the development web server included with Flask with::
-
-    $ make bash-web
-    $ FLASK_APP=anitya.wsgi flask run
-
-Start the libraries.io service with::
-
-    $ make bash-consumer
-    $ librariesio_consumer.py
+Anitya is accessible on http://localhost:5000
 
 Start the check service with::
 
     $ make bash-consumer or make-bash-web
     $ check_service.py
+
+To apply changes run::
+    $ make restart
+
+This will restart the container, deploy the changes in code and start the development instance again.
 
 Python virtualenv
 -----------------
