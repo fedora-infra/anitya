@@ -14,7 +14,7 @@ build:
     post_install:
       - pip install poetry
       - poetry config virtualenvs.create false
-      - poetry intall
+      - poetry install
 
 # Sphinx configuration
 sphinx:
