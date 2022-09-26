@@ -19,7 +19,7 @@ RUN dnf autoremove -y && dnf clean all -y
 COPY anitya ./anitya
 COPY ansible ./ansible
 COPY .container ./.container
-COPY alembic.ini anitya.wsgi createdb.py pyproject.toml tox.ini README.rst .
+COPY mypy.cfg alembic.ini anitya.wsgi createdb.py pyproject.toml tox.ini README.rst poetry.lock .
 
 # Copy over configuration files
 RUN mkdir -p /etc/anitya
@@ -27,12 +27,12 @@ RUN cp /app/ansible/roles/anitya-dev/files/anitya.toml /etc/anitya
 RUN mkdir -p /etc/fedora-messaging
 RUN cp /app/.container/web/config.toml /etc/fedora-messaging
 
-# Pip installations
-RUN poetry config virtualenvs.create false
-RUN poetry install
+# Poetry installation
+RUN poetry build
+RUN pip install dist/*.whl
 
 # Hotfix for social_auth-sqlalchemy
 # Should be removed when we switch to something else
 RUN sed -i 's/base64.encodestring/base64.encodebytes/g' /usr/local/lib/python3.10/site-packages/social_sqlalchemy/storage.py
 
-CMD ["sh","-c", "poetry install && eval '$START_COMMAND'"]
+CMD ["sh","-c", "poetry build && pip install dist/*.whl && eval '$START_COMMAND'"]

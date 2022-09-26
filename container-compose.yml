@@ -12,7 +12,8 @@ services:
     ports:
       - "127.0.0.1:5000:5000"
     volumes:
-      - ./:/app:z
+      - ./anitya/:/app/anitya:z
+      - ./docs/:/app/docs:z
     restart: unless-stopped
     environment:
       - FLASK_APP=anitya.wsgi
@@ -32,10 +33,11 @@ services:
         FEDORA_VERSION: 36
     container_name: "anitya-librariesio-consumer"
     volumes:
-      - ./:/app:z
+      - ./anitya/:/app/anitya:z
+      - ./docs/:/app/docs:z
     restart: unless-stopped
     environment:
-      - START_COMMAND=librariesio_consumer.py
+      - START_COMMAND=librariesio_consumer
     depends_on:
       postgres:
         condition: service_started
