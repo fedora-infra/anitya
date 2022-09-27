@@ -74,7 +74,15 @@ classifiers = [
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10"
 ]
-exclude = ["anitya/tests"]
+exclude = [
+  "anitya/tests"
+]
+include = [
+  "LICENSE", "README.rst",
+  "createdb.py", "alembic.ini",
+  "files/anitya.toml.sample", "files/config.toml.sample",
+  "anitya/templates/", "anitya/static"
+]
 
 [tool.poetry.scripts]
 check_service = "anitya.check_service:main"
