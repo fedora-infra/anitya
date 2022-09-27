@@ -81,7 +81,7 @@ include = [
   "LICENSE", "README.rst",
   "createdb.py", "alembic.ini",
   "files/anitya.toml.sample", "files/config.toml.sample",
-  "anitya/templates/", "anitya/static"
+  "anitya/static/docs/**/*"
 ]
 
 [tool.poetry.scripts]
