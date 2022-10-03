@@ -250,29 +250,22 @@ Python virtualenv
 
 Anitya can also be run in a Python virtualenv. For Fedora::
 
+    $ dnf install poetry
     $ git clone https://github.com/fedora-infra/anitya.git
     $ cd anitya
-    $ sudo dnf install python3-virtualenvwrapper
-    $ source /usr/bin/virtualenvwrapper.sh
-    $ mkvirtualenv anitya
-    $ workon anitya
 
-Issuing that last command should change your prompt to indicate that you are
-operating in an active virtualenv.
+Next, install Anitya. Poetry will create a virtualenv for the project::
 
-Next, install Anitya::
-
-    (anitya)$ pip install -r test_requirements.txt
-    (anitya)$ pip install -e .
+    $ poetry install
 
 Create the database, by default it will be a sqlite database located at
 ``/var/tmp/anitya-dev.sqlite``::
 
-    (anitya) $ python createdb.py
+    $ poetry run python createdb.py
 
 You can start the development web server included with Flask with::
 
-    (anitya)$ FLASK_APP=anitya.wsgi flask run
+    $ FLASK_APP=anitya.wsgi poetry run flask run
 
 If you want to change the application's configuration, create a valid configuration
 file and start the application with the ``ANITYA_WEB_CONFIG`` environment variable
@@ -316,14 +309,13 @@ Anitya
 
 To do the release you need following python packages installed::
 
-    wheel
-    twine
+    poetry
     towncrier
 
 If you are a maintainer and wish to make a release, follow these steps:
 
-1. Change the version in ``anitya.__init__.__version__``. This is used to set the
-   version in the documentation project and the setup.py file.
+1. Change the version using ``poetry version <version>``.
+   This is used to set the version in the documentation.
 
 2. Add any missing news fragments to the ``news`` folder.
 
@@ -344,7 +336,7 @@ If you are a maintainer and wish to make a release, follow these steps:
 .. note::
     You need to have Anitya installed as well for ``towncrier`` to see the newest
     version. I recommend doing this in separate virtualenv and installing the Anitya
-    with ``pip install -e .``, which will automatically reflect any change made to
+    with ``poetry install``, which will automatically reflect any change made to
     code in the installation. The ``towncrier`` needs to be installed in the same
     python virtualenv to see those changes.
 
@@ -354,15 +346,29 @@ If you are a maintainer and wish to make a release, follow these steps:
 
 7. Commit your changes with message *Anitya <version>*.
 
-8. Tag a release with ``git tag -s <version>``.
+8. Tag a release with ``git tag -s <version>`` with description *Anitya <version>*.
 
 9. Don't forget to ``git push --tags``.
 
 10. Sometimes you need to also do ``git push``.
 
-11. Build the Python packages with ``python setup.py sdist bdist_wheel``.
+11. Build the Python packages with ``poetry build``.
 
-12. Upload the packages with ``twine upload dist/<dists>``.
+12. Upload the packages with ``poetry publish``.
+
+13. Create new release on `GitHub releases <https://github.com/fedora-infra/the-new-hotness/releases>`_.
+
+14. Deploy the new version in staging::
+
+     $ git checkout staging
+     $ git rebase master
+     $ git push origin staging
+
+15. When successfully tested in staging deploy to production::
+
+     $ git checkout production
+     $ git rebase staging
+     $ git push origin production
 
 .. _Ansible: https://www.ansible.com/
 .. _Vagrant: https://vagrantup.com/
