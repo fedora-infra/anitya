@@ -4,6 +4,57 @@ Release Notes
 
 .. towncrier release notes start
 
+
+1.6.0 (2022-10-05)
+==================
+
+API Changes
+-----------
+
+* Add missing optional parameters to the `POST /api/v2/projects/` API endpoint.
+  (`#1463 <https://github.com/fedora-infra/anitya/issues/1463>`_)
+
+* Fix handling of JSON requests in API v2
+  (`#1464 <https://github.com/fedora-infra/anitya/issues/1464>`_)
+
+
+Features
+--------
+
+* Created SourceHut backend.
+  (`#999 <https://github.com/fedora-infra/anitya/issues/999>`_)
+
+* Add configuration for distro links
+  (`#1066 <https://github.com/fedora-infra/anitya/issues/1066>`_)
+
+
+Development Changes
+-------------------
+
+* Migrate Anitya project to poetry
+  (`PR#1475 <https://github.com/fedora-infra/anitya/pull/1475>`_)
+
+* Removed duplicated implementation of get_version on backends
+  (`#1453 <https://github.com/fedora-infra/anitya/issues/1453>`_)
+
+
+Other Changes
+-------------
+
+* Migrate from dependabot to renovate
+  (`PR#1459 <https://github.com/fedora-infra/anitya/pull/1459>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Fabio Valentini
+* Erol Keskin
+* Michal Konečný
+
+
 1.5.1 (2022-09-02)
 ==================
 
