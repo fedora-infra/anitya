@@ -282,9 +282,11 @@ def delete_project_version(project_id, version):
         if confirm:
             utilities.publish_message(
                 project=project.__json__(),
-                topic="project.version.remove",
+                topic="project.version.remove.v2",
                 message=dict(
-                    agent=flask.g.user.username, project=project.name, version=version
+                    agent=flask.g.user.username,
+                    project=project.name,
+                    versions=[version],
                 ),
             )
 

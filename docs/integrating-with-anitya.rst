@@ -57,7 +57,9 @@ sending and in what situation.
   for the project. This message differentiate between stable and
   not stable releases.
 * *anitya.project.version.remove* is sent when an existing release is
-  deleted from project.
+  deleted from project. This topic is now deprecated.
+* *anitya.project.version.remove.v2* is sent when an existing release is
+  deleted from project. Adds support for batch deletion.
 
 You can found out more about Anitya messages in `Fedora messaging schema`_.
 The schema should be used by every consumer that consumes Anitya messages.
