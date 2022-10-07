@@ -844,7 +844,7 @@ class DeleteProjectVersionsTests(DatabaseTestCase):
             self.assertEqual(404, output.status_code)
 
     def test_admin_post(self):
-        """Assert admin users can filter project versions."""
+        """Assert admin users can delete project versions."""
         self.project.latest_version = "1.0.0"
         with login_user(self.flask_app, self.admin):
             output = self.client.get("/project/1/delete/versions")
@@ -853,7 +853,34 @@ class DeleteProjectVersionsTests(DatabaseTestCase):
             ].split(b'">')[0]
             data = {"confirm": True, "csrf_token": csrf_token}
 
-            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeleted):
+            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeletedV2):
+                output = self.client.post(
+                    "/project/1/delete/versions", data=data, follow_redirects=True
+                )
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(0, len(models.ProjectVersion.query.all()))
+            self.assertEqual(self.project.latest_version, None)
+
+    def test_admin_post_multiple_versions(self):
+        """
+        Assert admin users can delete multiple project versions
+        and only one message is sent.
+        """
+        self.project.latest_version = "1.0.0"
+        version = models.ProjectVersion(project=self.project, version="1.0.1")
+        self.session.add(version)
+        self.session.commit()
+
+        self.assertEqual(2, len(models.ProjectVersion.query.all()))
+
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get("/project/1/delete/versions")
+            csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
+                1
+            ].split(b'">')[0]
+            data = {"confirm": True, "csrf_token": csrf_token}
+
+            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeletedV2):
                 output = self.client.post(
                     "/project/1/delete/versions", data=data, follow_redirects=True
                 )
