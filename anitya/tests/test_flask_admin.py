@@ -685,7 +685,7 @@ class DeleteProjectVersionTests(DatabaseTestCase):
             ].split(b'">')[0]
             data = {"confirm": True, "csrf_token": csrf_token}
 
-            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeleted):
+            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeletedV2):
                 output = self.client.post(
                     "/project/1/delete/1.0.0", data=data, follow_redirects=True
                 )
@@ -707,7 +707,7 @@ class DeleteProjectVersionTests(DatabaseTestCase):
             ].split(b'">')[0]
             data = {"confirm": True, "csrf_token": csrf_token}
 
-            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeleted):
+            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeletedV2):
                 output = self.client.post(
                     "/project/1/delete/1.0.1", data=data, follow_redirects=True
                 )
@@ -732,7 +732,7 @@ class DeleteProjectVersionTests(DatabaseTestCase):
             ].split(b'">')[0]
             data = {"confirm": True, "csrf_token": csrf_token}
 
-            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeleted):
+            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeletedV2):
                 output = self.client.post(
                     "/project/1/delete/v1.0.1", data=data, follow_redirects=True
                 )
@@ -754,7 +754,7 @@ class DeleteProjectVersionTests(DatabaseTestCase):
             ].split(b'">')[0]
             data = {"confirm": True, "csrf_token": csrf_token}
 
-            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeleted):
+            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeletedV2):
                 output = self.client.post(
                     "/project/1/delete/1.0.0", data=data, follow_redirects=True
                 )
