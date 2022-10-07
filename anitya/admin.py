@@ -331,21 +331,25 @@ def delete_project_versions(project_id):
 
     if form.validate_on_submit():
         if confirm:
-            for version in project.versions_obj:
-                # Delete the record of the version for this project
-                Session.delete(version)
+            versions = []
 
-                utilities.publish_message(
-                    project=project.__json__(),
-                    topic="project.version.remove",
-                    message=dict(
-                        agent=flask.g.user.username,
-                        project=project.name,
-                        version=str(version),
-                    ),
-                )
+            # Delete the versions on this project
+            for version in project.versions_obj:
+                Session.delete(version)
+                versions.append(str(version))
 
             project.latest_version = None
+
+            utilities.publish_message(
+                project=project.__json__(),
+                topic="project.version.remove.v2",
+                message=dict(
+                    agent=flask.g.user.username,
+                    project=project.name,
+                    versions=versions,
+                ),
+            )
+
             Session.add(project)
             Session.commit()
 
