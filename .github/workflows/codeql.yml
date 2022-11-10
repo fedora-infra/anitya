@@ -40,3 +40,29 @@ jobs:
         uses: github/codeql-action/analyze@v2
         with:
           category: "/language:${{ matrix.language }}"
+          upload: False
+          output: sarif-results
+
+      - name: filter-sarif
+        uses: advanced-security/filter-sarif@main
+        with:
+          # filter out all test files
+          # filter out all static files
+          patterns: |
+            -anitya/tests/*.py
+            -anitya/static/*.js
+          input: sarif-results/${{ matrix.language }}.sarif
+          output: sarif-results/${{ matrix.language }}.sarif
+
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: sarif-results/${{ matrix.language }}.sarif
+
+      # optional: for debugging the uploaded sarif
+      - name: Upload loc as a Build Artifact
+        uses: actions/upload-artifact@v2.2.0
+        with:
+          name: sarif-results
+          path: sarif-results
+          retention-days: 1
