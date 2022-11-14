@@ -15,7 +15,7 @@ from anitya.lib.exceptions import AnityaPluginException
 
 
 VERSION_REGEX = re.compile(r"\<a[^>]+\>(\d[^</]*)")
-MAVEN_HOMEPAGE_RE = re.compile(r"https?://repo\d+.maven.org/")
+MAVEN_HOMEPAGE_RE = re.compile(r"https?://repo\d+\.maven.org/")
 # Maven artifact coordinates in format artifactId:groupId
 COORDINATES_RE = re.compile(r"([^:]+):([^:]+)")
 
