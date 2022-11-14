@@ -15,6 +15,11 @@ To install it from PyPI::
 
     $ pip install anitya
 
+.. note:: Javascript dependencies are not part of Anitya PyPI package. To install
+          them you need to have `npm <https://www.npmjs.com/>`_ installed and
+          run `npm install` inside ``anitya/static`` folder.
+
+
 Configuration
 =============
 

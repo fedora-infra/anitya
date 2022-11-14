@@ -463,14 +463,14 @@ class FlaskTest(DatabaseTestCase):
         print(output.data)
 
         expected = b"""
-      <h2><span class="glyphicon glyphicon-bullhorn"></span> Announce</h2>
+      <h2>Announce</h2>
       <p>We monitor upstream releases and broadcast them on
       <a href="https://fedora-messaging.readthedocs.io/en/latest">Fedora messaging</a> bus. </p>"""
 
         self.assertTrue(expected in output.data)
 
         expected = b"""
-      <h2><span class="glyphicon glyphicon-search"></span> Search</h2>
+      <h2>Search</h2>
       <p>Currently 0 projects are being monitored by Anitya.
       Your project of interest might be there, or not. To check it
       <a href="/projects/">browse the list of all projects</a>
@@ -575,8 +575,7 @@ class FlaskTest(DatabaseTestCase):
   </blockquote>"""
         self.assertTrue(expected in output.data)
         self.assertTrue(
-            b'form action="/distro/Fedora/search/" role="form" '
-            b'class="form-inline">' in output.data
+            b'form action="/distro/Fedora/search/" role="form"' in output.data
         )
         self.assertTrue(b"<h1>Projects of Fedora monitored</h1>" in output.data)
 
@@ -584,8 +583,7 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual(output.status_code, 200)
         self.assertTrue(expected in output.data)
         self.assertTrue(
-            b'form action="/distro/Fedora/search/" role="form" '
-            b'class="form-inline">' in output.data
+            b'form action="/distro/Fedora/search/" role="form"' in output.data
         )
         self.assertTrue(b"<h1>Projects of Fedora monitored</h1>" in output.data)
 
@@ -599,12 +597,12 @@ class FlaskTest(DatabaseTestCase):
 
         expected = b"""
     <blockquote>
-        Oops, this is embarrassing. It seems that no projects are being
-        monitored currently.
-        <p><a href="/project/new?name=gua">Click Here</a> to add this project instead. </p>
+      Oops, this is embarrassing. It seems that no projects are being
+      monitored currently.
+      <p><a href="/project/new?name=gua">Click Here</a> to add this project instead. </p>
     </blockquote>"""
         self.assertIn(expected, output.data)
-        self.assertIn(b'form action="/distro/Fedora/search/">', output.data)
+        self.assertIn(b'form action="/distro/Fedora/search/"', output.data)
         self.assertIn(b"<h1>Search projects in Fedora</h1>", output.data)
 
     def test_distro_projects_search_pattern(self):
@@ -675,10 +673,7 @@ class FlaskTest(DatabaseTestCase):
 
         output = self.app.get("/projects/search/g*")
         self.assertEqual(output.status_code, 200)
-        expected = b"""
-                  <a href="https://www.geany.org/" target="_blank" rel="noopener noreferrer">
-                    https://www.geany.org/
-                  </a>"""
+        expected = b'<a href="https://www.geany.org/" target="_blank" rel="noopener noreferrer">'
         self.assertTrue(expected in output.data)
 
         self.assertEqual(output.data.count(b'<a href="/project/1'), 1)

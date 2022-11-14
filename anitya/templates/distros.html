@@ -12,25 +12,27 @@
   <div class="col-sm-6">
     {% if total_page > 1 %}
     <ul class="pagination pagination-sm">
-        <li>
-            {% if page > 1%}
-              <a href="{{ url_for('anitya_ui.distros') }}?page={{page - 1}}">
+        {% if page > 1%}
+        <li class="page-item">
+            <a class="page-link" href="{{ page_url }}?page={{page - 1}}">
                 «
-              </a>
-            {% else %}
-              <a> « </a>
+            </a>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link"> « </a>
             {% endif %}
         </li>
-        <li>
-            <a> {{ page }} / {{ total_page }} </a>
+        <li class="page-item disabled">
+            <a class="page-link"> {{ page }} / {{ total_page }} </a>
         </li>
-        <li>
-            {% if page < total_page %}
-              <a href="{{ url_for('anitya_ui.distros') }}?page={{page + 1}}">
+        {% if page < total_page %}
+        <li class="page-item">
+            <a class="page-link" href="{{ page_url }}?page={{page + 1}}">
                 »
-              </a>
-            {% else %}
-              <a> » </a>
+            </a>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link"> » </a>
             {% endif %}
         </li>
     </ul>
@@ -44,36 +46,32 @@
   </p>
   <p>
     <a href="{{ url_for('anitya_ui.add_distro') }}">
-      <button type="submit" class="btn btn-success">
-        <span class="glyphicon glyphicon-edit"></span>
+      <button type="submit" class="btn btn-outline-success">
         Add a new distribution
       </button>
     </a>
   </p>
   <div class="list-group">
   {% for distro in distros %}
-    <span class="list-group-item">
-      <h4 class="list-group-item-heading">
-        <a href="{{ url_for('anitya_ui.distro', distroname=distro.name) }}">
+    <div class="list-group-item">
+      <a href="{{ url_for('anitya_ui.distro', distroname=distro.name) }}">
           {{distro.name}}
-        </a>
-      </h4>
+      </a>
       {% if is_admin %}
-      <a href="{{ url_for('anitya_ui.edit_distro', distro_name=distro.name) }}">
-        <button type="submit" class="btn btn-info">
-          <span class="glyphicon glyphicon-edit"></span>
-          Edit
-        </button>
-      </a>
-      <a href="{{ url_for('anitya_ui.delete_distro', distro_name=distro.name) }}">
-        <button type="submit" class="btn btn-warning btn-sm pull-right">
-          <span class="glyphicon glyphicon-remove"></span>
-            Delete
-        </button>
-      </a>
+      <div class="d-flex float-end">
+        <a href="{{ url_for('anitya_ui.edit_distro', distro_name=distro.name) }}">
+            <button type="submit" class="btn btn-info btn-sm me-2">
+            Edit
+            </button>
+        </a>
+        <a href="{{ url_for('anitya_ui.delete_distro', distro_name=distro.name) }}">
+            <button type="submit" class="btn btn-warning btn-sm">
+                Delete
+            </button>
+        </a>
+      </div>
       {% endif %}
-      <div class="clearfix"></div>
-    </span>
+    </div>
   {% else %}
   <blockquote>
       Oops, this is embarrassing. It seems that no distributions are participating

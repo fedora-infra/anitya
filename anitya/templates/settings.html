@@ -23,43 +23,50 @@
       </p>
   </div>
 
-  <div class="col-md-8 col-md-offset-2">
-    {% if user.api_tokens %}
-    <ul class="list-group list-group-flush">
-    {% for api_token in user.api_tokens %}
-        <li class="list-group-item">
-          <div>
-            <strong>{{ api_token.description or '' }}</strong>
+  {% if user.api_tokens %}
+  <div class="list-group mt-2">
+  {% for api_token in user.api_tokens %}
+    <div class="list-group-item">
+      <div class="row me-2">
+        <form role="form" class="d-flex gap-2" method="POST"
+        action="{{ url_for('.delete_token', token=api_token.token) }}">
+          <div class="col-3">
+            <label for="{{ api_token.token }}" class="col-form-label">
+                {{ api_token.description or '' }}
+            </label>
           </div>
-          <form class="pull-right" style="margin-left: 14px" method="POST"
-	      action="{{ url_for('.delete_token', token=api_token.token) }}">
-            <button class="btn btn-danger" type="submit"
+          <div class="col-7">
+            <input id="{{ api_token.token }}" class="form-control input-sm disabled"
+                type="text" value="{{ api_token.token }}" readonly>
+          </div>
+          <div class="col-2">
+            <button class="btn btn-danger w-100" type="submit"
                 onclick="return confirm('Are you sure to delete this token?');"
                 title="Remove API Token">
-	      Remove API Token
+                Remove API Token
             </button>
-            {{ form.csrf_token }}
-          </form>
-          <div class="form-group">
-            <div class="input-group">
-              <div class="input-group-addon">
-                <span class="oi" data-glyph="key"></span>
-              </div>
-              <input class="form-control" type="text" value="{{ api_token.token }}" readonly>
-            </div>
           </div>
-        </li>
-    {% endfor %}
-    </ul>
-    {% endif %}
-    <div class="card-block">
-      <form action="{{ url_for('.new_token') }}" method="POST">
-        {{ form.description.label }}: {{ form.description(size=30) }}
-        <button class="btn btn-primary" type="submit" title="Create API Token">
+          {{ form.csrf_token }}
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="row mt-2">
+    <form role="form" class="d-flex gap-2" action="{{ url_for('.new_token') }}" method="POST">
+      <div class="col-3">
+        {{ form.description.label(class="col-form-label") }}
+      </div>
+      <div class="col-7">
+        {{ form.description(class="form-control input-sm") }}
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary w-100" type="submit" title="Create API Token">
           Create API Token
         </button>
-        {{ form.csrf_token }}
-      </form>
-    </div>
-  </div>
+      </div>
+      {{ form.csrf_token }}
+    </form>
 {% endblock %}

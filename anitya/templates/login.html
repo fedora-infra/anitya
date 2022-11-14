@@ -3,28 +3,21 @@
 {% block title %}Login · Anitya{% endblock %}
 
 {% block body %}
-<div class="socialaccount_ballot">
-  <ul class="socialaccount_providers list-inline">
+<div class="d-flex align-itmes-start gap-3">
     {% for name, backend in available_backends.items() %}
-      <li>
-	{% if name == 'openid'%}
-          <form role="form" action="{{url_for('social.auth', backend=name)}}" method="post">
-            <input name="openid_identifier" placeholder="https://id.openid.server">
-            <span class="pull-right">
+        {% if name == 'openid'%}
+            <form role="form" action="{{url_for('social.auth', backend=name)}}" method="post" class="d-flex">
+                <input name="openid_identifier" placeholder="https://id.openid.server" class="form-control me-2">
                 <button type="submit" class="btn btn-success">
-                    <span class="glyphicon glyphicon-plus"></span>
                     Login</button>
-            </span>
-          </form>
+            </form>
         {% elif name == 'google-oauth2' %}
-          <a title="{{ Google }}" class="socialaccount_provider openid btn btn-default"
-             href="{{url_for('social.auth', backend=name)}}">Google</a>
+            <a title="{{ Google }}" class="btn btn-primary" role="button"
+                href="{{url_for('social.auth', backend=name)}}">Google</a>
         {% else %}
-          <a title="{{ name.capitalize() }}" class="socialaccount_provider openid btn btn-default"
-             href="{{url_for('social.auth', backend=name)}}">{{ name.capitalize() }}</a>
+            <a title="{{ name.capitalize() }}" class="btn btn-primary" role="button"
+                href="{{url_for('social.auth', backend=name)}}">{{ name.capitalize() }}</a>
         {% endif %}
-      </li>
     {% endfor %}
-  </ul>
 </div>
 {% endblock %}

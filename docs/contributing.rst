@@ -19,6 +19,14 @@ Anitya supports Python 3.8 or greater so please ensure the code
 you submit works with these versions. The test suite will run against all supported
 Python versions to make this easier.
 
+Dependency management
+---------------------
+
+Anitya is using two dependency management tool. One is `poetry <https://python-poetry.org/>`_
+for python packages and `npm <https://www.npmjs.com/>`_ for javascript/CSS packages.
+Anitya also uses `renovate <https://docs.renovatebot.com/>`_ to keep those dependencies up to
+date in repository.
+
 
 Code Style
 ----------
@@ -247,13 +255,19 @@ Python virtualenv
 
 Anitya can also be run in a Python virtualenv. For Fedora::
 
-    $ dnf install poetry
+    $ dnf install poetry npm
     $ git clone https://github.com/fedora-infra/anitya.git
     $ cd anitya
 
 Next, install Anitya. Poetry will create a virtualenv for the project::
 
     $ poetry install
+
+Install javascript dependencies::
+
+    $ pushd anitya/static
+    $ npm install
+    $ popd
 
 Create the database, by default it will be a sqlite database located at
 ``/var/tmp/anitya-dev.sqlite``::

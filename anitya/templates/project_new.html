@@ -16,10 +16,9 @@
 {%- endif %}
   <div class="row">
     <div class="col-md-6">
-      <p> {{ context }} your project</p>
       <div class="list-group">
-        <span class="list-group-item">
-          <table class="table table-condensed">
+        <div class="list-group-item">
+          <table class="table">
             <tr>
               {{ render_field_in_row(form.name, tabindex=1) }}
             </tr>
@@ -78,20 +77,18 @@
             </tr>
             {%- endif -%}
           </table>
-          <button type="submit" class="btn btn-success btn-sm pull-right"
+          <button type="submit" class="btn btn-outline-success btn-sm float-end"
                   id="testcheck" tabindex=16>
-              <span class="glyphicon glyphicon-refresh"></span>
               Test check
           </button>
           <img src="{{url_for('anitya_ui.static', filename='img/spinner.gif')}}"
                id="testcheck-spinner" class="pull-right"
                style="display: none; padding-top: 12px; padding-right: 25px;"/>
-        </span>
+        </div>
       </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-success" tabindex=17>
-    <span class="glyphicon glyphicon-plus"></span>
+  <button type="submit" class="btn btn-success me-2 mt-2" tabindex=17>
     Submit
   </button>
 
@@ -100,8 +97,7 @@
   {%- elif context == 'Edit' -%}
   <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
   {%- endif -%}
-    <button type="button" class="btn btn-danger" tabindex=11>
-      <span class="glyphicon glyphicon-ban-circle"></span>
+    <button type="button" class="btn btn-danger mt-2" tabindex=11>
       Cancel
     </button>
   </a>

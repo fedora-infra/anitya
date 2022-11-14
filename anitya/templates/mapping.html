@@ -20,8 +20,8 @@
   <div class="row">
     <div class="col-md-6">
       <div class="list-group">
-        <span class="list-group-item">
-          <table class="table table-condensed">
+        <div class="list-group-item">
+          <table class="table">
             <tr>
               {{ render_field_in_row(form.distro) }}
               <td></td>
@@ -32,23 +32,20 @@
               <td></td>
             </tr>
          </table>
-        </span>
+        </div>
       </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-success">
+  <button type="submit" class="btn btn-success me-2 mt-2">
     {% if package %}
-    <span class="glyphicon glyphicon-refresh"></span>
     Edit mapping
     {% else %}
-    <span class="glyphicon glyphicon-plus"></span>
     Add mapping to project
     {% endif %}
   </button>
 
   <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
-    <button type="button" class="btn btn-danger">
-      <span class="glyphicon glyphicon-ban-circle"></span>
+    <button type="button" class="btn btn-danger mt-2">
       Cancel
     </button>
   </a>
@@ -70,37 +67,5 @@
   // Tooltips
   $("#distro").prop('title', "Official distribution name");
   $("#package_name").prop('title', "Package name used in the distribution");
-
-  $('#choices_url').change(function(){
-    var name = $('#package_name').val();
-    if (!name){
-      name = '<insert name here>';
-    }
-    $('#version_url').val($(this).val() + ':' + name);
-  })
-  $('#choices_regex').change(function(){
-    var name = $('#package_name').val();
-    if (!name){
-      name = '<insert name here>';
-    }
-    $('#regex').val($(this).val() + ':' + name);
-  })
-
-  $(function() {
-    $('#distro').autocomplete({
-        source: function( request, response ) {
-            $.getJSON(
-              "{{ url_for('anitya_apiv1.api_distro_names') }}", {
-                pattern: request.term
-              },
-              function( data ) {
-                response( data.distro );
-              }
-            );
-        },
-        minLength: 2,
-        delay: 200,
-    });
-  });
 </script>
 {% endblock %}

@@ -24,7 +24,8 @@
            openssl-devel,
            postgresql-devel,
            python3-devel,
-           python3-psycopg2
+           python3-psycopg2,
+           npm
           ]
     state: present
 
@@ -71,6 +72,11 @@
 - name: Install Anitya flask configuration
   become_user: "{{ ansible_env.SUDO_USER }}"
   copy: src=anitya.toml dest=/home/{{ ansible_env.SUDO_USER }}/anitya.toml
+
+- name: Download package dependencies
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /home/{{ ansible_env.SUDO_USER }}/devel/anitya/static
 
 - name: Install Anitya into the virtualenv
   pip:
