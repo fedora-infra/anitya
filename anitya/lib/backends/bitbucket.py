@@ -44,7 +44,7 @@ class BitBucketBackend(BaseBackend):
         url = ""
         if project.version_url:
             url = project.version_url.replace("https://bitbucket.org/", "")
-        elif project.homepage.startswith("https://bitbucket.org"):
+        elif project.homepage.startswith("https://bitbucket.org/"):
             url = project.homepage.replace("https://bitbucket.org/", "")
 
         if url.endswith("/"):

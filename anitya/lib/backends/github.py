@@ -62,7 +62,7 @@ class GithubBackend(BaseBackend):
         url = ""
         if project.version_url:
             url = project.version_url
-        elif project.homepage.startswith("https://github.com"):
+        elif project.homepage.startswith("https://github.com/"):
             url = project.homepage.replace("https://github.com/", "")
 
         if url.endswith("/"):
