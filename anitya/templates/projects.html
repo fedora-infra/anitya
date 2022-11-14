@@ -18,43 +18,43 @@
   <div class="col-sm-6">
     {% if total_page > 1 %}
     <ul class="pagination pagination-sm">
-        <li>
-            {% if page > 1%}
-              <a href="{{ page_url }}?page={{page - 1}}">
-                «
-              </a>
-            {% else %}
-              <a> « </a>
-            {% endif %}
-        </li>
-        <li>
-            <a> {{ page }} / {{ total_page }} </a>
-        </li>
-        <li>
-            {% if page < total_page %}
-              <a href="{{ page_url }}?page={{page + 1}}">
-                »
-              </a>
-            {% else %}
-              <a> » </a>
-            {% endif %}
-        </li>
+      {% if page > 1%}
+      <li class="page-item">
+        <a class="page-link" href="{{ page_url }}?page={{page - 1}}">
+          «
+        </a>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"> « </a>
+      {% endif %}
+      </li>
+      <li class="page-item disabled">
+        <a class="page-link"> {{ page }} / {{ total_page }} </a>
+      </li>
+      {% if page < total_page %}
+      <li class="page-item">
+        <a class="page-link" href="{{ page_url }}?page={{page + 1}}">
+            »
+        </a>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"> » </a>
+      {% endif %}
+      </li>
     </ul>
     {% endif %}
   </div>
 
   <div class="col-sm-6">
     {% if distroname %}
-    <form action="{{ url_for('anitya_ui.distro_projects_search', distroname=distroname)}}" role="form" class="form-inline">
+    <form action="{{ url_for('anitya_ui.distro_projects_search', distroname=distroname)}}" role="form" class="d-flex gap-2">
     {% else %}
-    <form action="{{ url_for('anitya_ui.projects_search') }}" role="form" class="form-inline">
+    <form action="{{ url_for('anitya_ui.projects_search') }}" role="form" class="d-flex gap-2">
     {% endif %}
-      <div class="form-group">
         <input type="text" name="pattern" placeholder="Project name" class="form-control input-sm"/>
-        <button type="submit" class="btn btn-sm btn-default">
+        <button type="submit" class="btn btn-sm btn-outline-success w-100">
           Search {% if distroname %} {{ distroname }} {% endif %}
         </button>
-      </div>
     </form>
   </div>
 </div>
@@ -63,14 +63,14 @@
   <p>{{ projects_count }} projects found</p>
   <div class="list-group">
     {% if projects %}
-    <span class="list-group-item">
-      <h4 class="list-group-item-heading">
-        <table class="table table-condensed">
-            <tr>
-              <th>Name</th>
-              <th>Homepage</th>
-              <th>Backend</th>
-            </tr>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Homepage</th>
+                    <th scope="col">Backend</th>
+                </tr>
+            </thead>
         {% for project in projects %}
             <tr>
               <td>
@@ -87,9 +87,6 @@
             </tr>
           {% endfor %}
           </table>
-      </h4>
-      <div class="clearfix"></div>
-    </span>
   {% else %}
   <blockquote>
       Oops, this is embarrassing. It seems that no projects are being
@@ -103,27 +100,29 @@
   <div class="col-sm-6">
     {% if total_page > 1 %}
     <ul class="pagination pagination-sm">
-        <li>
-            {% if page > 1%}
-              <a href="{{ page_url }}?page={{page - 1}}">
-                «
-              </a>
-            {% else %}
-              <a> « </a>
-            {% endif %}
-        </li>
-        <li>
-            <a> {{ page }} / {{ total_page }} </a>
-        </li>
-        <li>
-            {% if page < total_page %}
-              <a href="{{ page_url }}?page={{page + 1}}">
-                »
-              </a>
-            {% else %}
-              <a> » </a>
-            {% endif %}
-        </li>
+      {% if page > 1%}
+      <li class="page-item">
+        <a class="page-link" href="{{ page_url }}?page={{page - 1}}">
+            «
+        </a>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"> « </a>
+        {% endif %}
+      </li>
+      <li class="page-item disabled">
+        <a class="page-link"> {{ page }} / {{ total_page }} </a>
+      </li>
+      {% if page < total_page %}
+      <li class="page-item">
+        <a class="page-link" href="{{ page_url }}?page={{page + 1}}">
+            »
+        </a>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"> » </a>
+        {% endif %}
+      </li>
     </ul>
     {% endif %}
   </div>

@@ -6,71 +6,46 @@
   <h1>Project: {{ project.name }} - Delete package</h1>
 </div>
 
-<div class="row">
-
-    <form method="POST" action="{{
-        url_for('anitya_ui.delete_project_mapping',
-                project_id=project.id,
-                distro_name=package.distro_name,
-                pkg_name=package.package_name) }}" >
-      {{ form.csrf_token }}
-      <table id="input_table">
-        <tr>
-          <th>Linux distribution</th>
-          <td>
+<div class="row mt-2">
+  <div class="col-md-5">
+    <div class="list-group">
+      <form method="POST" action="{{
+          url_for('anitya_ui.delete_project_mapping',
+                  project_id=project.id,
+                  distro_name=package.distro_name,
+                  pkg_name=package.package_name) }}" >
+        {{ form.csrf_token }}
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">
+            Linux distribution
+          </h4>
+          <div class="list-group-item-text">
             {{ package.distro_name }}
-          </td>
-        </tr>
-        <tr>
-          <th>Package name</th>
-          <td>
-            {{ package.package_name }}
-          </td>
-        </tr>
-      </table>
+          </div>
+        </div>
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">
+            Package name
+          </h4>
+          <div class="list-group-item-text">
+              {{ package.package_name }}
+          </div>
+        </div>
 
-      <button type="submit" name="confirm" value="Yes" class="btn btn-warning">
-        <span class="glyphicon glyphicon-remove"></span>
-        Delete mapping
-      </button>
-
-      <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
-        <button type="button" class="btn btn-danger">
-          <span class="glyphicon glyphicon-ban-circle"></span>
-          Cancel
+        <button type="submit" name="confirm" value="Yes" class="btn btn-warning mt-2">
+          Delete mapping
         </button>
-      </a>
 
-    </form>
+        <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
+          <button type="button" class="btn btn-danger mt-2">
+            Cancel
+          </button>
+        </a>
 
+      </form>
+
+    </div>
+  </div>
 </div>
 
-{% endblock %}
-
-{% block jscript %}
-<script>
-    function add_row(tableID) {
-        var table = document.getElementById(tableID);
-        var rowCount = table.rows.length;
-        var row = table.insertRow(rowCount);
-
-        var colCount = table.rows[0].cells.length;
-        for (var i = 0; i < colCount; i++) {
-            var newcell = row.insertCell(i);
-            newcell.innerHTML = table.rows[1].cells[i].innerHTML;
-            switch (newcell.childNodes[1].type) {
-                case "text":
-                    newcell.childNodes[1].value = "";
-                    break;
-                case "checkbox":
-                    newcell.childNodes[1].checked = false;
-                    break;
-                case "select-one":
-                    newcell.childNodes[1].selectedIndex = 0;
-                    break;
-            }
-        }
-        return false;
-    };
-</script>
 {% endblock %}

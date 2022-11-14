@@ -21,19 +21,18 @@
   <div class="row">
     <div class="col-md-6">
       <div class="list-group">
-        <span class="list-group-item">
-          <table class="table table-condensed">
+        <div class="list-group-item">
+          <table class="table">
             <tr>
               {{ render_field_in_row(form.name, tabindex=1) }}
               <td></td>
             </tr>
          </table>
-        </span>
+        </div>
       </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-success" tabindex=2>
-    <span class="glyphicon glyphicon-plus"></span>
+  <button type="submit" class="btn btn-success me-2 mt-2" tabindex=2>
     {% if context == 'Add' -%}
     Add distribution
     {%- elif context == 'Edit' -%}
@@ -41,13 +40,13 @@
     {%- endif %}
   </button>
   <a href="{{ url_for('anitya_ui.distros') }}">
-    <button type="button" class="btn btn-danger" tabindex=3>
-      <span class="glyphicon glyphicon-ban-circle"></span>
+    <button type="button" class="btn btn-danger mt-2" tabindex=3>
       Cancel
     </button>
   </a>
   {{ form.csrf_token }}
 </form>
+
 {% if context == 'Add' -%}
 <br/>
 <div class="row">
@@ -96,24 +95,25 @@
     }
 
     $(document).ready(function(){
-      if ({{ context }} == 'Add') {
-        check_name();
-        ("#name").prop('title', "Official distribution name");
-        ("#name").focusout(function() {
-         check_name()
-        );
-        ("#distro").submit(function( event ) {
-         if ($('#info_field_list').html()) {
-           var items = [];
-           $("#info_field li").each(function(index) {
-             items.push($(this).text());
-           });
-           response = confirm("Are you sure you want to create this distro?\n\n" +
-             "There are distro(s) with similar name(s):\n" + items.join("\r\n"));
-           return response;
-         }
-        );
-      }
+    {% if context == 'Add' %}
+      check_name();
+      $("#name").prop('title', "Official distribution name");
+      $("#name").focusout(function() {
+        check_name()
+        }
+      );
+      $("#distro").submit(function( event ) {
+       if ($('#info_field_list').html()) {
+         var items = [];
+         $("#info_field li").each(function(index) {
+           items.push($(this).text());
+         });
+         response = confirm("Are you sure you want to create this distro?\n\n" +
+           "There are distro(s) with similar name(s):\n" + items.join("\r\n"));
+         return response;
+       }
+      });
+    {% endif %}
     });
 </script>
 {% endblock %}

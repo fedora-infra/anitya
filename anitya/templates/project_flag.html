@@ -15,23 +15,21 @@
           be deleted or otherwise changed in a way that can't be done by a regular
           user.</p>
       <div class="list-group">
-        <span class="list-group-item">
-          <table class="table table-condensed">
+        <div class="list-group-item">
+          <table class="table">
             <tr>
               {{ render_field_in_row(form.reason, tabindex=1) }}
             </tr>
           </table>
-        </span>
+        </div>
       </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-success" id="submit_btn" tabindex=2>
-    <span class="glyphicon glyphicon-plus"></span>
+  <button type="submit" class="btn btn-success mt-2" id="submit_btn" tabindex=2>
     Submit
   </button>
   <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
-    <button type="button" class="btn btn-danger" tabindex=3>
-      <span class="glyphicon glyphicon-ban-circle"></span>
+    <button type="button" class="btn btn-danger mt-2" tabindex=3>
       Cancel
     </button>
   </a>

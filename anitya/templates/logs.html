@@ -17,45 +17,45 @@
   <p>This page should refresh automatically every 5 seconds</p>
   <a href="{{ url_for('anitya_ui.browse_logs') }}?page={{page}}">
     <button type="submit" class="btn btn-danger" id="checknow">
-      <span class="glyphicon glyphicon-remove-sign"></span>
       Remove auto-refresh
     </button>
   </a>
   {% else %}
   <a href="{{ url_for('anitya_ui.browse_logs') }}?page={{page}}&refresh=True">
     <button type="submit" class="btn btn-success" id="checknow">
-      <span class="glyphicon glyphicon-refresh"></span>
       Activate auto-refresh
     </button>
   </a>
   {% endif %}
 </div>
 
-<div class="row show-grid">
+<div class="row show-grid mt-2">
   <div class="col-sm-4">
     {% if total_page > 1 %}
     <ul class="pagination pagination-sm">
-        <li>
-            {% if page > 1 %}
-              <a href="{{ url_for('anitya_ui.browse_logs', page=page-1) }}">
-                «
-              </a>
-            {% else %}
-              <a> « </a>
-            {% endif %}
-        </li>
-        <li>
-            <a> {{ page }} / {{ total_page }} </a>
-        </li>
-        <li>
-            {% if page < total_page %}
-              <a href="{{ url_for('anitya_ui.browse_logs', page=page+1) }}">
-                »
-              </a>
-            {% else %}
-              <a> » </a>
-            {% endif %}
-        </li>
+      {% if page > 1%}
+      <li class="page-item">
+        <a class="page-link" href="{{ page_url }}?page={{page - 1}}">
+            «
+        </a>
+        {% else %}
+      <li class="page-item disabled">
+          <a class="page-link"> « </a>
+          {% endif %}
+      </li>
+      <li class="page-item disabled">
+        <a class="page-link"> {{ page }} / {{ total_page }} </a>
+      </li>
+      {% if page < total_page %}
+      <li class="page-item">
+        <a class="page-link" href="{{ page_url }}?page={{page + 1}}">
+            »
+        </a>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"> » </a>
+        {% endif %}
+      </li>
     </ul>
     {% endif %}
   </div>
@@ -90,8 +90,4 @@
 {% endfor %}
 </table>
 
-{% endblock %}
-
-{% block jscript %}
-{{ super() }}
 {% endblock %}

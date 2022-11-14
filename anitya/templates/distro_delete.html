@@ -11,12 +11,10 @@
 
 <form method="POST" action="{{ url_for('anitya_ui.delete_distro', distro_name=distro.name) }}" >
   <button type="submit" class="btn btn-success">
-    <span class="glyphicon glyphicon-plus"></span>
     Submit
   </button>
   <a href="{{ url_for('anitya_ui.distros') }}">
     <button type="button" class="btn btn-danger">
-      <span class="glyphicon glyphicon-ban-circle"></span>
       Cancel
     </button>
   </a>
