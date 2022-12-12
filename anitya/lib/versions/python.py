@@ -44,7 +44,7 @@ class PythonVersion(base.Version):
 
     name = "Python (PEP 440)"
 
-    def parse(self):
+    def version_object(self):
         """
         Parse the version string to an object representing the version.
 
@@ -64,12 +64,18 @@ class PythonVersion(base.Version):
         except packaging.version.InvalidVersion as e:
             raise base.InvalidVersion(str(e)) from e
 
+    def parse(self):
+        """
+        Return string representation of the version object
+        """
+        return str(self.version_object())
+
     def prerelease(self):
         """
         Check this is a pre-release version.
         """
         try:
-            parsed = self.parse()
+            ver_obj = self.version_object()
         except base.InvalidVersion:
             return False
 
@@ -77,14 +83,14 @@ class PythonVersion(base.Version):
             if pre_release_filter and pre_release_filter in self.version:
                 return True
 
-        return parsed.is_prerelease
+        return ver_obj.is_prerelease
 
     def postrelease(self):
         """
         Check this is a post-release version.
         """
         try:
-            parsed = self.parse()
+            ver_obj = self.version_object()
         except base.InvalidVersion:
             return False
-        return parsed.is_postrelease
+        return ver_obj.is_postrelease
