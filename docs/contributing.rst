@@ -133,7 +133,12 @@ The `Vagrant`_ development environment is set up using `Ansible`_.
 
 To get started, install Vagrant and Ansible. On Fedora::
 
-    $ sudo dnf install vagrant libvirt vagrant-libvirt vagrant-sshfs ansible
+    $ sudo dnf install @virtualization vagrant vagrant-libvirt vagrant-sshfs ansible
+
+Make sure that the following services are enabled & started on the host::
+
+    $ sudo systemctl enable --now virtnetworkd
+    $ sudo systemctl enable --now libvirtd
 
 Next, clone the repository and start the Vagrant machine::
 
@@ -147,11 +152,15 @@ about the environment.
 
 To start the Anitya instance in vagrant you can run::
 
-    $ systemctl --user start anitya
+    $ systemctl --user enable --now anitya.service
 
 You may then access Anitya on your host at::
 
     http://127.0.0.1:5000
+
+or::
+
+    http://localhost:5000
 
 By default, Anitya imports the production database so you've got something
 to start with. If instead you prefer an empty database, add the following
@@ -183,13 +192,13 @@ another ``psql`` commands::
 
 For additional ``psql`` commands see ``man psql``.
 
-To run libraries.io service simply run::
+To run libraries.io service in the guest vm simply run::
 
-   $ librariesio_consumer.py
+   $ systemctl --user enable --now librariesio-consumer.service
 
-To run check service simply run::
+To run check service in the guest vm simply run::
 
-   $ check_service.py
+   $ systemctl --user enable --now check-service.service
 
 Docker / Podman
 ---------------
