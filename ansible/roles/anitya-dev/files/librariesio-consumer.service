@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Environment="ANITYA_WEB_CONFIG=/home/vagrant/anitya.toml"
-ExecStart=librariesio_consumer.py
+ExecStart=/usr/local/bin/librariesio_consumer
 Type=simple
 Restart=on-failure
 
