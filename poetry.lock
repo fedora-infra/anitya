@@ -1027,20 +1027,20 @@ files = [
 
 [[package]]
 name = "mock"
-version = "4.0.3"
+version = "5.0.0"
 description = "Rolling backport of unittest.mock for all Pythons"
 category = "dev"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "mock-4.0.3-py3-none-any.whl", hash = "sha256:122fcb64ee37cfad5b3f48d7a7d51875d7031aaf3d8be7c42e2bee25044eee62"},
-    {file = "mock-4.0.3.tar.gz", hash = "sha256:7d3fbbde18228f4ff2f1f119a45cdffa458b4c0dee32eb4d2bb2f82554bac7bc"},
+    {file = "mock-5.0.0-py3-none-any.whl", hash = "sha256:335ef0bf9bcd27505c0c1720d4eac2783f18d07d6f45ac49542b57885a1996dd"},
+    {file = "mock-5.0.0.tar.gz", hash = "sha256:fd552787228eb2ab8352f270470fa93c9ad8b9cbc565c5558ee3faed8edb3853"},
 ]
 
 [package.extras]
 build = ["blurb", "twine", "wheel"]
 docs = ["sphinx"]
-test = ["pytest (<5.4)", "pytest-cov"]
+test = ["pytest", "pytest-cov"]
 
 [[package]]
 name = "multidict"
@@ -2701,4 +2701,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "ab4ac5c2936de5c832bb073515289d349268af872fa0159326afeda766e20c38"
+content-hash = "44028025c15aa6488b99d05193b4c07981ffcc65862dab8b67d1d80523f93564"
