@@ -4,6 +4,51 @@ Release Notes
 
 .. towncrier release notes start
 
+1.7.0 (2023-01-26)
+==================
+
+Features
+--------
+
+* Delete all versions throws 504 Gateway Timeout
+  (`#1468 <https://github.com/fedora-infra/anitya/issues/1468>`_)
+
+* Migrate to Bootstrap 5
+  (`#1504 <https://github.com/fedora-infra/anitya/issues/1504>`_)
+
+
+Bug Fixes
+---------
+
+* Fix Python versioning parse doesn't return string
+  (`#1402 <https://github.com/fedora-infra/anitya/issues/1402>`_)
+
+
+Development Changes
+-------------------
+
+* Use npm for javascript package management
+  (`#1504 <https://github.com/fedora-infra/anitya/issues/1504>`_)
+
+* Improve Vagrant Development Environment
+  (`#1520 <https://github.com/fedora-infra/anitya/issues/1520>`_)
+
+
+Other Changes
+-------------
+
+* Use `anitya.project.version.remove.v2` instead of `anitya.project.version.remove`
+  (`PR#1495 <https://github.com/fedora-infra/anitya/pull/1495>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Nikita Bugrovsky
+* Michal Konečný
+
 
 1.6.0 (2022-10-05)
 ==================
