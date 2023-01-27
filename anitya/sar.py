@@ -38,6 +38,8 @@ import sys
 from anitya import db
 from anitya.config import config
 
+from sqlalchemy import select, text
+
 _log = logging.getLogger("anitya")
 
 
@@ -64,7 +66,11 @@ def main():
     for user in users:
         user_dict = user.to_dict()
         user_social_auths = db.Session.execute(
-            "SELECT provider,extra_data,uid FROM social_auth_usersocialauth WHERE user_id = :val",
+            select(
+                text(
+                    "provider,extra_data,uid FROM social_auth_usersocialauth WHERE user_id = :val"
+                )
+            ),
             {"val": str(user.id)},
         )
         user_dict["user_social_auths"] = []
