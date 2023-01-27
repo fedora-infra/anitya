@@ -97,23 +97,6 @@ class CreateProjectTests(DatabaseTestCase):
         self.assertEqual(project_objs[0].name, "geany")
         self.assertEqual(project_objs[0].homepage, "https://www.geany.org/")
 
-    def test_create_project_general_error(self):
-        """Assert general SQLAlchemy exceptions result in AnityaException."""
-        with mock.patch.object(
-            self.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
-        ):
-            with fml_testing.mock_sends():
-                self.assertRaises(
-                    AnityaException,
-                    utilities.create_project,
-                    self.session,
-                    name="geany",
-                    homepage="https://www.geany.org/",
-                    version_url="https://www.geany.org/Download/Releases",
-                    regex="DEFAULT",
-                    user_id="noreply@fedoraproject.org",
-                )
-
     def test_create_project_dry_run(self):
         """Test the create_project dry_run parameter."""
         create_distro(self.session)

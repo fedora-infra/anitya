@@ -88,7 +88,7 @@ def _configure_db(db_uri="sqlite://"):
         @event.listens_for(engine, "begin")
         def begin_event(conn):
             """Emit our own 'BEGIN' instead of letting pysqlite do it."""
-            conn.execute("BEGIN")
+            conn.exec_driver_sql("BEGIN")
 
     @event.listens_for(Session, "after_transaction_end")
     def restart_savepoint(session, transaction):
@@ -147,7 +147,7 @@ class DatabaseTestCase(AnityaTestCase):
         self.connection = engine.connect()
         Base.metadata.create_all(bind=self.connection)
         PSABase.metadata.create_all(bind=self.connection)
-        self.transaction = self.connection.begin()
+        self.transaction = self.connection.begin_nested()
 
         Session.remove()
         Session.configure(bind=self.connection, autoflush=False)
