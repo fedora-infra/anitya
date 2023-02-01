@@ -119,7 +119,7 @@ WTForms = "^3.0.1"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.4"
-black = "^22.8.0"
+black = "^23.0.0"
 coverage = "^7.0.0"
 diff-cover = "^7.0.1"
 flake8 = "^6.0.0"
