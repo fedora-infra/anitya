@@ -29,7 +29,6 @@ def is_admin(user=None):
 @ui_blueprint.route("/distro/<distro_name>/edit", methods=["GET", "POST"])
 @login_required
 def edit_distro(distro_name):
-
     distro = models.Distro.by_name(Session, distro_name)
     if not distro:
         flask.abort(404)
@@ -100,7 +99,6 @@ def delete_distro(distro_name):
 @ui_blueprint.route("/project/<project_id>/delete", methods=["GET", "POST"])
 @login_required
 def delete_project(project_id):
-
     project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
@@ -143,7 +141,6 @@ def delete_project(project_id):
 )
 @login_required
 def set_project_archive_state(project_id, state):
-
     if not is_admin():
         flask.abort(401)
 
@@ -207,7 +204,6 @@ def set_project_archive_state(project_id, state):
 )
 @login_required
 def delete_project_mapping(project_id, distro_name, pkg_name):
-
     project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
@@ -256,7 +252,6 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
 @ui_blueprint.route("/project/<project_id>/delete/<version>", methods=["GET", "POST"])
 @login_required
 def delete_project_version(project_id, version):
-
     project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
@@ -369,7 +364,6 @@ def delete_project_versions(project_id):
 @ui_blueprint.route("/flags")
 @login_required
 def browse_flags():
-
     if not is_admin():
         flask.abort(401)
 
@@ -454,7 +448,6 @@ def browse_flags():
 @ui_blueprint.route("/flags/<flag_id>/set/<state>", methods=["POST"])
 @login_required
 def set_flag_state(flag_id, state):
-
     if not is_admin():
         flask.abort(401)
 
@@ -483,7 +476,6 @@ def set_flag_state(flag_id, state):
 @ui_blueprint.route("/users", methods=["GET"])
 @login_required
 def browse_users():
-
     if not is_admin():
         flask.abort(401)
 
@@ -583,7 +575,6 @@ def browse_users():
 @ui_blueprint.route("/users/<user_id>/admin/<state>", methods=["POST"])
 @login_required
 def set_user_admin_state(user_id, state):
-
     if not is_admin():
         flask.abort(401)
 
@@ -625,7 +616,6 @@ def set_user_admin_state(user_id, state):
 @ui_blueprint.route("/users/<user_id>/active/<state>", methods=["POST"])
 @login_required
 def set_user_active_state(user_id, state):
-
     if not is_admin():
         flask.abort(401)
 

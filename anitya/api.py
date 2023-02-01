@@ -371,7 +371,6 @@ def api_get_version():
         output = {"output": "notok", "error": errors}
         httpcode = 400
     else:
-
         project = models.Project.get(Session, project_id=project_id)
 
         if not project:

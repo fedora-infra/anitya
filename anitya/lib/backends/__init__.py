@@ -399,7 +399,6 @@ def get_versions_by_regex_for_text(text, url, regex, project):
         raise AnityaPluginException("%s: invalid regular expression" % project.name)
 
     for index, version in enumerate(upstream_versions):
-
         # If the version retrieved is a tuple, re-constitute it
         if type(version) == tuple:
             version = ".".join([v for v in version if not v == ""])

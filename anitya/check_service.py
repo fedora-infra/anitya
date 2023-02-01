@@ -283,7 +283,7 @@ class Checker:
         queue = []
         # Add blacklisted items first
         backends = []
-        for (backend, reset_time) in self.blacklist_dict.items():
+        for backend, reset_time in self.blacklist_dict.items():
             if reset_time < time:
                 with self.ratelimit_queue_lock:
                     queue += self.ratelimit_queue[backend]

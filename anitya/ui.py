@@ -103,7 +103,6 @@ def delete_token(token):
 @ui_blueprint.route("/project/<int:project_id>")
 @ui_blueprint.route("/project/<int:project_id>/")
 def project(project_id):
-
     project = models.Project.by_id(Session, project_id)
 
     if not project:
@@ -120,7 +119,6 @@ def project(project_id):
 @ui_blueprint.route("/project/<project_name>")
 @ui_blueprint.route("/project/<project_name>/")
 def project_name(project_name):
-
     page = flask.request.args.get("page", 1)
 
     try:
@@ -150,7 +148,6 @@ def project_name(project_name):
 @ui_blueprint.route("/projects")
 @ui_blueprint.route("/projects/")
 def projects():
-
     page = flask.request.args.get("page", 1)
 
     try:
@@ -177,7 +174,6 @@ def projects():
 @ui_blueprint.route("/projects/updates/")
 @ui_blueprint.route("/projects/updates/<status>")
 def projects_updated(status="updated"):
-
     page = flask.request.args.get("page", 1)
     name = flask.request.args.get("name", None)
     log = flask.request.args.get("log", None)
@@ -225,7 +221,6 @@ def projects_updated(status="updated"):
 @ui_blueprint.route("/logs")
 @login_required
 def browse_logs():
-
     refresh = flask.request.args.get("refresh", False)
     page = flask.request.args.get("page", 1)
 
@@ -260,7 +255,6 @@ def browse_logs():
 @ui_blueprint.route("/distros")
 @ui_blueprint.route("/distros/")
 def distros():
-
     page = flask.request.args.get("page", 1)
 
     try:
@@ -286,7 +280,6 @@ def distros():
 @ui_blueprint.route("/distro/<distroname>")
 @ui_blueprint.route("/distro/<distroname>/")
 def distro(distroname):
-
     page = flask.request.args.get("page", 1)
 
     try:
@@ -313,7 +306,6 @@ def distro(distroname):
 @ui_blueprint.route("/distro/add", methods=["GET", "POST"])
 @login_required
 def add_distro():
-
     form = anitya.forms.DistroForm()
 
     if form.validate_on_submit():
@@ -345,7 +337,6 @@ def add_distro():
 @ui_blueprint.route("/projects/search/")
 @ui_blueprint.route("/projects/search/<pattern>")
 def projects_search(pattern=None):
-
     pattern = flask.request.args.get("pattern", pattern) or "*"
     page = flask.request.args.get("page", 1)
     exact = flask.request.args.get("exact", 0)
@@ -393,7 +384,6 @@ def projects_search(pattern=None):
 @ui_blueprint.route("/distro/<distroname>/search/")
 @ui_blueprint.route("/distro/<distroname>/search/<pattern>")
 def distro_projects_search(distroname, pattern=None):
-
     pattern = flask.request.args.get("pattern", pattern) or "*"
     page = flask.request.args.get("page", 1)
     exact = flask.request.args.get("exact", 0)
@@ -558,7 +548,6 @@ def new_project():
 @ui_blueprint.route("/project/<project_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_project(project_id):
-
     project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
@@ -631,7 +620,6 @@ def edit_project(project_id):
 @ui_blueprint.route("/project/<project_id>/flag", methods=["GET", "POST"])
 @login_required
 def flag_project(project_id):
-
     project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
@@ -665,7 +653,6 @@ def flag_project(project_id):
 @ui_blueprint.route("/project/<project_id>/map", methods=["GET", "POST"])
 @login_required
 def map_project(project_id):
-
     project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
@@ -709,7 +696,6 @@ def map_project(project_id):
 @ui_blueprint.route("/project/<project_id>/map/<pkg_id>", methods=["GET", "POST"])
 @login_required
 def edit_project_mapping(project_id, pkg_id):
-
     project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
@@ -731,7 +717,6 @@ def edit_project_mapping(project_id, pkg_id):
     )
 
     if form.validate_on_submit():
-
         try:
             utilities.map_project(
                 Session,
