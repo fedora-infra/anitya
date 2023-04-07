@@ -304,6 +304,19 @@ class Project(Base):
         sorted_versions = self.get_sorted_version_objects()
         return [version for version in sorted_versions if not version.prerelease()]
 
+    @property
+    def latest_stable_version(self):
+        """
+        Return latest stable version.
+
+        Returns:
+           `string`: Latest stable version if exists, otherwise None.
+        """
+        stable_versions = self.stable_versions
+        if stable_versions:
+            return str(stable_versions[0])
+        return None
+
     def get_last_created_version(self):
         """
         Returns last obtained release by date.
