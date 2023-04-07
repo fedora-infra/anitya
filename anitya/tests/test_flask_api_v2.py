@@ -101,7 +101,10 @@ class PackagesResourceGetTests(DatabaseTestCase):
         jcline_package = models.Packages(
             distro_name="jcline linux", project=project, package_name="requests"
         )
-        Session.add_all([project, fedora_package, debian_package, jcline_package])
+        version = models.ProjectVersion(project=project, version="1")
+        Session.add_all(
+            [project, fedora_package, debian_package, jcline_package, version]
+        )
         Session.commit()
 
         output = self.app.get("/api/v2/packages/")
@@ -119,6 +122,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "project": "requests",
                     "ecosystem": "pypi",
                     "version": "1",
+                    "stable_version": "1",
                 },
                 {
                     "distribution": "Debian",
@@ -126,6 +130,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "project": "requests",
                     "ecosystem": "pypi",
                     "version": "1",
+                    "stable_version": "1",
                 },
                 {
                     "distribution": "jcline linux",
@@ -133,6 +138,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "project": "requests",
                     "ecosystem": "pypi",
                     "version": "1",
+                    "stable_version": "1",
                 },
             ],
         }
@@ -174,6 +180,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "project": "requests",
                     "ecosystem": "pypi",
                     "version": "1",
+                    "stable_version": None,
                 },
                 {
                     "distribution": "Debian",
@@ -181,6 +188,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "project": "requests",
                     "ecosystem": "pypi",
                     "version": "1",
+                    "stable_version": None,
                 },
             ],
         }
@@ -222,6 +230,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "project": "requests",
                     "ecosystem": "pypi",
                     "version": "1",
+                    "stable_version": None,
                 },
                 {
                     "distribution": "Debian",
@@ -229,6 +238,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "project": "requests",
                     "ecosystem": "pypi",
                     "version": "1",
+                    "stable_version": None,
                 },
             ],
         }
@@ -277,6 +287,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "project": "requests",
                     "ecosystem": "pypi",
                     "version": "1",
+                    "stable_version": None,
                 }
             ],
         }
@@ -314,6 +325,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "project": "requests",
                     "ecosystem": "pypi",
                     "version": "1",
+                    "stable_version": None,
                 }
             ],
         }
@@ -354,6 +366,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "project": "requests",
                     "ecosystem": "pypi",
                     "version": "1",
+                    "stable_version": None,
                 }
             ],
         }
@@ -368,6 +381,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
                     "project": "requests",
                     "ecosystem": "pypi",
                     "version": "1",
+                    "stable_version": None,
                 }
             ],
         }

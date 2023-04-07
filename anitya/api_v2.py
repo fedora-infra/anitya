@@ -125,7 +125,8 @@ class PackagesResource(MethodView):
                         "name": "python-requests"
                         "project": "requests",
                         "ecosystem": "pypi",
-                        "version": "2.28.1"
+                        "version": "2.28.1",
+                        "stable_version": "2.28.1"
                     }
                 ],
                 "items_per_page": 25,
@@ -168,6 +169,7 @@ class PackagesResource(MethodView):
                     "project": package.project.name,
                     "ecosystem": package.project.ecosystem_name,
                     "version": package.project.latest_version,
+                    "stable_version": package.project.latest_stable_version,
                 }
                 for package in page.items
             ],
