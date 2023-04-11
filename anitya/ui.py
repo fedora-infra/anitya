@@ -49,7 +49,11 @@ def about():
 @ui_blueprint.route("/login/", methods=("GET", "POST"))
 @ui_blueprint.route("/login", methods=("GET", "POST"))
 def login():
-    flask.session["next_url"] = flask.request.args.get("next", "/")
+    next_url = flask.request.args.get("next", "/")
+    if not next_url.startswith("/"):
+        next_url = "/"
+
+    flask.session["next_url"] = next_url
     return flask.render_template("login.html")
 
 
