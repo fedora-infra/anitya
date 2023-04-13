@@ -488,6 +488,15 @@ class FlaskTest(DatabaseTestCase):
             self.assertEqual(output.status_code, 302)
             self.assertEqual(output.headers["Location"], "/project/1")
 
+    def test_login_arbitrary_redirection(self):
+        """Test redirection when session contains outside next_url field."""
+        self.app.get("/login?next=http://example.com")
+
+        with login_user(self.flask_app, self.user):
+            output = self.app.get("/")
+            self.assertEqual(output.status_code, 302)
+            self.assertEqual(output.headers["Location"], "/")
+
     def test_about(self):
         """Assert the legacy about endpoint redirects to documentation"""
         output = self.app.get("/about")
