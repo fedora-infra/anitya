@@ -67,7 +67,7 @@
 
 - name: Apply database migrations
   become_user: "{{ ansible_env.SUDO_USER }}"
-  command: alembic-3 upgrade head
+  command: python3 -m alembic.config upgrade head
   args:
       chdir: /home/vagrant/
   when: import_production_database
