@@ -47,7 +47,6 @@
            python3-dateutil,
            python3-defusedxml,
            python3-flask-login,
-           python3-flask-restful,
            python3-flask-wtf,
            python3-jinja2,
            python3-ordered-set,
@@ -119,7 +118,7 @@
 # Could be removed when we move away from social_auth
 - name: Hotfix for social_auth
   replace:
-    path: /usr/local/lib/python3.10/site-packages/social_sqlalchemy/storage.py
+    path: /usr/local/lib/python3.11/site-packages/social_sqlalchemy/storage.py
     regexp: 'base64\.encodestring'
     replace: 'base64.encodebytes'
 
