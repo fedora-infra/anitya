@@ -4,6 +4,37 @@ Release Notes
 
 .. towncrier release notes start
 
+1.8.0 (2023-04-27)
+==================
+
+API Changes
+-----------
+
+* add stable_version as output in PackagesResource
+  (`#1033 <https://github.com/fedora-infra/anitya/issues/1033>`_)
+
+
+Bug Fixes
+---------
+
+* project page: Remove fixed column widths
+  (`PR#1557 <https://github.com/fedora-infra/anitya/pull/1557>`_)
+
+* Fix the arbitrary URL jumping vulnerability of /login
+  (`PR#1562 <https://github.com/fedora-infra/anitya/pull/1562>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Arthur Zamarin
+* FeRD (Frank Dana)
+* lu4nx
+* Michal Konečný
+
+
 1.7.0 (2023-01-26)
 ==================
 
