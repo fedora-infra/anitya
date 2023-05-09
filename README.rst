@@ -8,6 +8,9 @@
 .. image:: https://readthedocs.org/projects/anitya/badge/?version=latest
   :alt: Documentation Status
   :target: https://anitya.readthedocs.io/en/latest/?badge=latest
+  
+.. image:: https://img.shields.io/badge/renovate-enabled-brightgreen.svg
+  :target: https://renovatebot.com/
 
 .. image:: https://img.shields.io/lgtm/alerts/g/fedora-infra/anitya.svg?logo=lgtm&logoWidth=18
   :target: https://lgtm.com/projects/g/fedora-infra/anitya/alerts/
