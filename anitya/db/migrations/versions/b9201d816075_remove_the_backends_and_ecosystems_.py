@@ -7,8 +7,8 @@ Create Date: 2017-03-22 18:46:06.281100
 
 """
 
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
 
 from anitya.lib import plugins
 

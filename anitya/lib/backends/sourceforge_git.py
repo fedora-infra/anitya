@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup
 
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException

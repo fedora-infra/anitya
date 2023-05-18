@@ -2,8 +2,7 @@
 
 """ Forms used in anitya. """
 
-from wtforms import StringField, TextAreaField, validators, SelectField
-from wtforms import BooleanField
+from wtforms import BooleanField, SelectField, StringField, TextAreaField, validators
 
 from anitya.compat import FlaskForm
 

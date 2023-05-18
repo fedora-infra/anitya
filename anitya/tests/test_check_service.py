@@ -24,18 +24,18 @@ Anitya tests for check service.
 """
 
 import unittest
-from unittest import mock
-from datetime import timedelta
 from concurrent.futures import TimeoutError
+from datetime import timedelta
+from unittest import mock
 
+import anitya_schema
 import arrow
 from fedora_messaging import testing as fml_testing
 
-import anitya_schema
-from anitya.db import models
-from anitya.tests.base import DatabaseTestCase
 from anitya.check_service import Checker
+from anitya.db import models
 from anitya.lib import exceptions
+from anitya.tests.base import DatabaseTestCase
 
 
 class CheckerTests(DatabaseTestCase):

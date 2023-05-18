@@ -19,13 +19,12 @@
 # of Red Hat, Inc.
 """This module is responsible for loading the application configuration."""
 
-from datetime import timedelta
 import logging
 import logging.config
 import os
+from datetime import timedelta
 
 import toml
-
 
 _log = logging.getLogger(__name__)
 

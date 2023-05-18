@@ -58,6 +58,9 @@ exclude = '''
 )
 '''
 
+[tool.isort]
+profile = "black"
+
 [tool.poetry]
 name = "anitya"
 version = "1.8.0"

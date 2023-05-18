@@ -13,5 +13,4 @@ This is intended to be run with the Flask CLI for development purposes only::
 
 from anitya.app import create
 
-
 app = create()

@@ -30,15 +30,14 @@ third-party identity providers. It handles logging the user in and creating
 .. _Python Social Auth:
     https://python-social-auth.readthedocs.io/en/latest/
 """
-from functools import wraps
 import logging
 import uuid
+from functools import wraps
 
 import flask_login
 from sqlalchemy.orm.exc import NoResultFound
 
-from anitya.db import User, ApiToken
-
+from anitya.db import ApiToken, User
 
 _log = logging.getLogger(__name__)
 

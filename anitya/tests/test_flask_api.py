@@ -26,6 +26,7 @@ anitya tests for the flask API.
 import json
 import unittest
 
+import anitya_schema
 from fedora_messaging import testing as fml_testing
 
 from anitya.db import models
@@ -33,11 +34,10 @@ from anitya.lib.backends import REGEX
 from anitya.tests.base import (
     DatabaseTestCase,
     create_distro,
-    create_project,
-    create_package,
     create_ecosystem_projects,
+    create_package,
+    create_project,
 )
-import anitya_schema
 
 
 # Py3 compatibility: UTF-8 decoding and JSON decoding may be separate steps

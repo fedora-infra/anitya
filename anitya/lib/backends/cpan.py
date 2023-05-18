@@ -13,7 +13,7 @@ import logging
 
 from defusedxml import ElementTree as ET
 
-from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
+from anitya.lib.backends import REGEX, BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 
 _log = logging.getLogger(__name__)

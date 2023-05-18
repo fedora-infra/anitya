@@ -22,11 +22,10 @@ This module provides Anitya's HTTP API.
 
 import flask
 
-from anitya.db import Session, models
-from anitya.lib import utilities
 import anitya
 import anitya.lib.plugins
-
+from anitya.db import Session, models
+from anitya.lib import utilities
 
 api_blueprint = flask.Blueprint("anitya_apiv1", __name__)
 

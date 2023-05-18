@@ -22,18 +22,18 @@ This is a service that is checking for new releases in projects added to Anitya.
 """
 
 import logging
-from threading import Lock
-from typing import List
+from concurrent.futures import ThreadPoolExecutor, TimeoutError, as_completed
 from datetime import datetime
+from threading import Lock
 from time import sleep
-from concurrent.futures import ThreadPoolExecutor, as_completed, TimeoutError
+from typing import List
 
-import sqlalchemy as sa
 import arrow
+import sqlalchemy as sa
 from ordered_set import OrderedSet
 
-from anitya.config import config
 from anitya import db
+from anitya.config import config
 from anitya.lib import utilities
 from anitya.lib.exceptions import AnityaException, RateLimitException
 

@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from dateutil import parser
-from math import ceil
 import logging
+from math import ceil
 
 import flask
+from dateutil import parser
 
-from anitya.lib import utilities
-from anitya.db import models, Session
 import anitya
 import anitya.forms
-
+from anitya.db import Session, models
+from anitya.lib import utilities
 from anitya.ui import login_required, ui_blueprint
-
 
 _log = logging.getLogger(__name__)
 

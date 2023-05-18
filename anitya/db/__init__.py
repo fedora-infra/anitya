@@ -21,18 +21,17 @@ This package contains all the database-related code, including SQLAlchemy models
 Alembic migrations, and a scoped session object configured from :mod:`anitya.config`
 """
 
-from .meta import initialize, Session, Base, Page, BaseQuery  # noqa: F401
-from .models import (  # noqa: F401
-    Distro,
-    Packages,
-    Project,
-    ProjectVersion,
-    ProjectFlag,
-    Run,
-    User,
-    ApiToken,
-)
-
 # You need to import the events to register them with application
 # If they are not imported, there wouldn't be triggered
 from . import events  # noqa: F401
+from .meta import Base, BaseQuery, Page, Session, initialize  # noqa: F401
+from .models import Project  # noqa: F401
+from .models import (  # noqa: F401
+    ApiToken,
+    Distro,
+    Packages,
+    ProjectFlag,
+    ProjectVersion,
+    Run,
+    User,
+)

@@ -24,13 +24,13 @@ Anitya tests for the GitLab backend.
 """
 
 import unittest
+
 import mock
 
 import anitya.lib.backends.gitlab as backend
 from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
-
 
 BACKEND = "GitLab"
 

@@ -17,7 +17,6 @@
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 
-
 REGEX = '<i class="tag icon"></i> (.*)</a>'
 
 

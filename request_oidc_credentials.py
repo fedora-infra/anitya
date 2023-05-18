@@ -7,8 +7,8 @@ import webbrowser
 
 try:
     # Default to Python 3
-    from http.server import HTTPServer, BaseHTTPRequestHandler
-    from urllib.parse import urlparse, parse_qs
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+    from urllib.parse import parse_qs, urlparse
 except ImportError:
     # Handle running on Python 2 (otherwise we'd just use asyncio)
     from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler

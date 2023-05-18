@@ -21,9 +21,9 @@
 import logging
 import unittest
 
-from social_flask_sqlalchemy import models as social_models
 from social_core.exceptions import AuthException
-from sqlalchemy.exc import UnboundExecutionError, IntegrityError
+from social_flask_sqlalchemy import models as social_models
+from sqlalchemy.exc import IntegrityError, UnboundExecutionError
 
 from anitya import app
 from anitya.config import config as anitya_config

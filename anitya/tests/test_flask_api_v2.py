@@ -23,15 +23,17 @@
 Tests for the Flask MethodView based v2 API
 """
 from __future__ import unicode_literals
-from unittest import mock
 
 import json
+from unittest import mock
+
+import anitya_schema
 from fedora_messaging import testing as fml_testing
 from social_flask_sqlalchemy import models as social_models
 
 from anitya.db import Session, models
 from anitya.lib import exceptions
-import anitya_schema
+
 from .base import DatabaseTestCase, create_project
 
 

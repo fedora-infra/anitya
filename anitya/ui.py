@@ -2,15 +2,16 @@
 
 from math import ceil
 
-from flask_login import login_required, logout_user, current_user
 import flask
+from flask_login import current_user, login_required, logout_user
 from sqlalchemy.exc import SQLAlchemyError
 
+import anitya
 from anitya.config import config as anitya_config
 from anitya.db import Session, models
-from anitya.lib import utilities, exceptions, plugins as anitya_plugins
-import anitya
-
+from anitya.lib import exceptions
+from anitya.lib import plugins as anitya_plugins
+from anitya.lib import utilities
 
 ui_blueprint = flask.Blueprint(
     "anitya_ui", __name__, static_folder="static", template_folder="templates"

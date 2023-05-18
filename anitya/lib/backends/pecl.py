@@ -10,7 +10,6 @@
 """
 
 import anitya.lib.xml2dict as xml2dict
-
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 

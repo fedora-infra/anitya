@@ -23,9 +23,10 @@
 anitya tests for GDPR SAR script.
 """
 
-import pytest
-import mock
 import json
+
+import mock
+import pytest
 
 import anitya.sar as sar
 from anitya.db import models

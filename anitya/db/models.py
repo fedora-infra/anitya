@@ -19,26 +19,26 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """SQLAlchemy database models."""
 
-from secrets import choice as random_choice
 import datetime
-import arrow
 import logging
-import time
 import string
+import time
 import uuid
+from secrets import choice as random_choice
 
+import arrow
 import six
 import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import validates
 from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy.types import TypeDecorator, CHAR
+from sqlalchemy.types import CHAR, TypeDecorator
 
 from anitya.config import config as anitya_config
+from anitya.lib.plugins import BACKEND_PLUGINS, ECOSYSTEM_PLUGINS, VERSION_PLUGINS
 from anitya.lib.versions import GLOBAL_DEFAULT as DEFAULT_VERSION_SCHEME
-from anitya.lib.plugins import ECOSYSTEM_PLUGINS, BACKEND_PLUGINS, VERSION_PLUGINS
-from .meta import Base
 
+from .meta import Base
 
 _log = logging.getLogger(__name__)
 

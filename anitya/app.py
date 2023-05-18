@@ -23,13 +23,16 @@ from social_flask_sqlalchemy import models as social_models
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 
-from anitya.config import config as anitya_config
-from anitya.db import Session, initialize as initialize_db, models
-from anitya.lib import utilities
-from . import ui, admin, api, api_v2, authentication
 import anitya.lib
 import anitya.mail_logging
 from anitya import __version__
+from anitya.config import config as anitya_config
+from anitya.db import Session
+from anitya.db import initialize as initialize_db
+from anitya.db import models
+from anitya.lib import utilities
+
+from . import admin, api, api_v2, authentication, ui
 
 
 def create(config=None):

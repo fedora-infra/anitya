@@ -24,13 +24,13 @@ anitya tests for the custom backend.
 """
 
 import unittest
+
 import mock
 
 import anitya.lib.backends.npmjs as backend
 from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
-
 
 BACKEND = "npmjs"
 

@@ -19,8 +19,8 @@ import logging
 from sqlalchemy import event
 
 from anitya.lib import plugins
-from .models import Project
 
+from .models import Project
 
 _log = logging.getLogger(__name__)
 

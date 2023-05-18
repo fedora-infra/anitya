@@ -27,7 +27,6 @@ import re
 
 from .base import Version
 
-
 try:
     from rpm import labelCompare as _compare_rpm_labels
 except ImportError:

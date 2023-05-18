@@ -25,11 +25,10 @@ anitya tests for the Maven backend.
 
 import unittest
 
-from anitya.lib.backends.maven import MavenBackend
 from anitya.db import models
+from anitya.lib.backends.maven import MavenBackend
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
-
 
 BACKEND = "Maven Central"
 

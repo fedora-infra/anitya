@@ -32,7 +32,6 @@ from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException  # NOQA
 from anitya.tests.base import DatabaseTestCase, create_distro  # NOQA
 
-
 BACKEND = "folder"
 
 
