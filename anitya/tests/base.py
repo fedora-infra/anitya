@@ -22,19 +22,18 @@ Base class for Anitya tests.
 """
 from __future__ import print_function
 
-from contextlib import contextmanager
-import unittest
 import os
+import unittest
+from contextlib import contextmanager
 
+import flask_login
+import vcr
 from flask import request_started
 from social_flask_sqlalchemy.models import PSABase
 from sqlalchemy import create_engine, event
-import flask_login
-import vcr
 
 from anitya import app, config
-from anitya.db import models, Base, Session
-
+from anitya.db import Base, Session, models
 
 engine = None
 

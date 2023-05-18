@@ -23,15 +23,15 @@ Tests for the libraries.io SSE client.
 import unittest
 from unittest import mock
 
-from fedora_messaging import testing as fml_testing
+import anitya_schema
 import sseclient
+from fedora_messaging import testing as fml_testing
 
 from anitya import config
 from anitya.db import Project
-from anitya.lib.exceptions import AnityaPluginException, AnityaException
+from anitya.lib.exceptions import AnityaException, AnityaPluginException
 from anitya.librariesio_consumer import LibrariesioConsumer
 from anitya.tests.base import DatabaseTestCase
-import anitya_schema
 
 
 class LibrariesioConsumerTests(DatabaseTestCase):

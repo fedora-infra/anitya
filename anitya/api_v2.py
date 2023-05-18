@@ -8,18 +8,18 @@ It uses OpenID Connect for endpoints that require authentication.
 import logging
 
 import flask_login
-from flask import jsonify, request, abort, make_response
+from flask import abort, jsonify, make_response, request
 from flask.views import MethodView
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
-from webargs import fields, ValidationError
+from webargs import ValidationError, fields
 from webargs.flaskparser import FlaskParser
 
 from anitya import authentication
 from anitya.db import Session, models
 from anitya.lib import utilities
-from anitya.lib.exceptions import ProjectExists, AnityaException
+from anitya.lib.exceptions import AnityaException, ProjectExists
 
 _log = logging.getLogger(__name__)
 

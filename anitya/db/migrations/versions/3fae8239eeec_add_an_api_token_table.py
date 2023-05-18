@@ -24,11 +24,10 @@ Create Date: 2017-07-31 20:13:54.179584
 """
 import uuid
 
+import sqlalchemy as sa
 from alembic import op
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.types import TypeDecorator, CHAR
-import sqlalchemy as sa
-
+from sqlalchemy.types import CHAR, TypeDecorator
 
 # revision identifiers, used by Alembic.
 revision = "3fae8239eeec"

@@ -9,7 +9,7 @@
 """
 
 
-from anitya.lib.backends import BaseBackend, get_versions_by_regex, REGEX
+from anitya.lib.backends import REGEX, BaseBackend, get_versions_by_regex
 
 
 class LaunchpadBackend(BaseBackend):

@@ -23,19 +23,19 @@ Unit tests for the anitya.lib.backends module.
 """
 from __future__ import absolute_import, unicode_literals
 
-import unittest
 import re
-
-import mock
+import unittest
 import urllib.request as urllib
 from urllib.error import URLError
-import arrow
 
+import arrow
+import mock
+
+import anitya
 from anitya.config import config
 from anitya.lib import backends
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import AnityaTestCase
-import anitya
 
 
 class BaseBackendTests(AnityaTestCase):

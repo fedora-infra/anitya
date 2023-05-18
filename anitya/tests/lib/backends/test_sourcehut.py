@@ -19,6 +19,7 @@ Anitya tests for the SourceHut backend.
 """
 
 import unittest
+
 import mock
 
 import anitya.lib.backends.sourcehut as backend

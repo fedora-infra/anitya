@@ -20,13 +20,12 @@
 
 import uuid
 
-import six
 import mock
-
+import six
 from social_flask_sqlalchemy import models as social_models
 
 from anitya import authentication
-from anitya.db import Session, ApiToken, models
+from anitya.db import ApiToken, Session, models
 from anitya.tests.base import DatabaseTestCase
 
 

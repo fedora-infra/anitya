@@ -23,11 +23,10 @@ from __future__ import unicode_literals
 
 import functools
 import re
-from typing import Optional
 from datetime import datetime
+from typing import Optional
 
 from anitya.lib.exceptions import InvalidVersion
-
 
 #: A regular expression to determine if the version string contains a 'v' prefix.
 v_prefix = re.compile(r"v\d.*")

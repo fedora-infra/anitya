@@ -22,7 +22,9 @@
 import logging
 
 import arrow
-from fedora_messaging import api, message as fm_message, exceptions as fm_exceptions
+from fedora_messaging import api
+from fedora_messaging import exceptions as fm_exceptions
+from fedora_messaging import message as fm_message
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm.exc import NoResultFound
 

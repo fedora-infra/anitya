@@ -22,10 +22,9 @@
 """
 Mail handler for logging.
 """
+import inspect
 import logging
 import logging.handlers
-
-import inspect
 import os
 import socket
 import traceback

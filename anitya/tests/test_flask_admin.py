@@ -19,17 +19,16 @@
 # of Red Hat, Inc.
 """Tests for the :mod:`anitya.admin` module."""
 
+import anitya_schema
 import mock
 import six
-
 from fedora_messaging import testing as fml_testing
 from social_flask_sqlalchemy import models as social_models
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm.query import Query
-import anitya_schema
 
 from anitya import admin
-from anitya.db import models, Session
+from anitya.db import Session, models
 from anitya.tests.base import DatabaseTestCase, login_user
 
 

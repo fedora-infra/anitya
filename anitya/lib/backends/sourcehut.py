@@ -14,10 +14,10 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 
+from defusedxml import ElementTree
+
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
-
-from defusedxml import ElementTree
 
 
 class SourceHutBackend(BaseBackend):

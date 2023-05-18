@@ -20,21 +20,21 @@
 """Tests for the :mod:`anitya.lib.utilities` module."""
 
 import unittest
-import mock
-
-import arrow
-from sqlalchemy.exc import SQLAlchemyError
-from fedora_messaging import testing as fml_testing
 
 import anitya_schema
+import arrow
+import mock
+from fedora_messaging import testing as fml_testing
+from sqlalchemy.exc import SQLAlchemyError
+
 from anitya.db import models
-from anitya.lib import utilities, exceptions, plugins
+from anitya.lib import exceptions, plugins, utilities
 from anitya.lib.exceptions import AnityaException, ProjectExists
 from anitya.tests.base import (
     DatabaseTestCase,
     create_distro,
-    create_project,
     create_flagged_project,
+    create_project,
 )
 
 

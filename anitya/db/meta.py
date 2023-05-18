@@ -30,8 +30,8 @@ import collections
 
 from sqlalchemy import create_engine, event
 from sqlalchemy.ext import declarative
-from sqlalchemy.orm import sessionmaker, scoped_session, query as sa_query
-
+from sqlalchemy.orm import query as sa_query
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 #: This is a configured scoped session. It creates thread-local sessions. This
 #: means that ``Session() is Session()`` is ``True``. This is a convenient way
