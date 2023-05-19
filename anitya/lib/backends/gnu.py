@@ -8,11 +8,10 @@
 
 """
 
-from anitya.lib.backends import BaseBackend, REGEX, get_versions_by_regex_for_text
-from anitya.lib.exceptions import AnityaPluginException
-
 import six
 
+from anitya.lib.backends import REGEX, BaseBackend, get_versions_by_regex_for_text
+from anitya.lib.exceptions import AnityaPluginException
 
 DEFAULT_REGEX = 'href="([0-9][0-9.]*)/"'
 

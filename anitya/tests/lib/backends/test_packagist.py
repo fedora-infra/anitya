@@ -24,13 +24,13 @@ anitya tests for the packagist backend.
 """
 
 import unittest
+
 import mock
 
 import anitya.lib.backends.packagist as backend
 from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
-
 
 BACKEND = "Packagist"
 

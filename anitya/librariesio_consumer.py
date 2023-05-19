@@ -28,14 +28,14 @@ the release is really available upstream before announce the new version.
 .. _libraries.io firehose: https://github.com/librariesio/firehose
 .. _sseclient: https://pypi.python.org/pypi/sseclient/
 """
-import logging
 import json
-
-from anitya import config
-from anitya.db import models, Session, initialize
-from anitya.lib import exceptions, plugins, utilities
+import logging
 
 from sseclient import SSEClient
+
+from anitya import config
+from anitya.db import Session, initialize, models
+from anitya.lib import exceptions, plugins, utilities
 
 _log = logging.getLogger(__name__)
 

@@ -23,31 +23,30 @@
 anitya tests of the models.
 """
 
-from uuid import uuid4, UUID
-import unittest
-import time
-import mock
 import datetime
+import time
+import unittest
+from uuid import UUID, uuid4
 
-from fedora_messaging import testing as fml_testing
-from sqlalchemy.dialects import postgresql, sqlite
-from sqlalchemy.types import CHAR
-from sqlalchemy.exc import IntegrityError
-from social_flask_sqlalchemy import models as social_models
-import six
+import anitya_schema
 import arrow
+import mock
+import six
+from fedora_messaging import testing as fml_testing
+from social_flask_sqlalchemy import models as social_models
+from sqlalchemy.dialects import postgresql, sqlite
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.types import CHAR
 
 from anitya.db import models
-from anitya.lib import versions
+from anitya.lib import utilities, versions
 from anitya.tests.base import (
     DatabaseTestCase,
     create_distro,
-    create_project,
-    create_package,
     create_flagged_project,
+    create_package,
+    create_project,
 )
-from anitya.lib import utilities
-import anitya_schema
 
 
 class ProjectTests(DatabaseTestCase):

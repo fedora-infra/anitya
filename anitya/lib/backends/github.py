@@ -9,11 +9,12 @@
 
 """
 
-from anitya.lib.backends import BaseBackend, http_session, REQUEST_HEADERS
-from anitya.lib.exceptions import AnityaPluginException, RateLimitException
+import logging
+
 from anitya.config import config
 from anitya.lib import utilities
-import logging
+from anitya.lib.backends import REQUEST_HEADERS, BaseBackend, http_session
+from anitya.lib.exceptions import AnityaPluginException, RateLimitException
 
 API_URL = "https://api.github.com/graphql"
 

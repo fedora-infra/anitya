@@ -25,12 +25,11 @@ anitya tests for the debian backend.
 
 import unittest
 
-from anitya.lib.exceptions import AnityaPluginException
-from anitya.lib.backends import get_versions_by_regex_for_text
-from anitya.tests.base import DatabaseTestCase, create_distro
 import anitya.lib.backends.debian as backend
 from anitya.db import models
-
+from anitya.lib.backends import get_versions_by_regex_for_text
+from anitya.lib.exceptions import AnityaPluginException
+from anitya.tests.base import DatabaseTestCase, create_distro
 
 BACKEND = "Debian project"
 

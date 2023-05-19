@@ -10,7 +10,6 @@
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 
-
 # Debian packagers upload the original source tarball in the format
 # <name>_<version>.orig.<compression format>. So, for example,
 # reprepro_4.13.1.orig.tar.gz.

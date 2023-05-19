@@ -30,7 +30,6 @@ from anitya.db import models
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.tests.base import DatabaseTestCase, create_distro
 
-
 BACKEND = "PEAR"
 
 

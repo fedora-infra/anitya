@@ -10,7 +10,6 @@
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 
-
 REGEX = '<a href="/projects/[^/]*/releases/[0-9]*">([^<]*)</a>'
 
 

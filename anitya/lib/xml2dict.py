@@ -6,8 +6,8 @@ Adjusted by Pierre-Yves Chibon <pingou@pingoured.fr>
 """
 
 import re
-import defusedxml.ElementTree as ET
 
+import defusedxml.ElementTree as ET
 import six
 
 

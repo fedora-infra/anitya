@@ -11,6 +11,7 @@
 
 
 from __future__ import print_function
+
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 

@@ -26,10 +26,10 @@ import unittest
 
 import mock
 
-from anitya.lib.exceptions import AnityaPluginException
-from anitya.lib.backends import crates
-from anitya.tests.base import DatabaseTestCase
 from anitya.db import models
+from anitya.lib.backends import crates
+from anitya.lib.exceptions import AnityaPluginException
+from anitya.tests.base import DatabaseTestCase
 
 
 class CratesBackendTests(DatabaseTestCase):

@@ -30,13 +30,13 @@ getting data from database.
    Michal Konecny <mkonecny@redhat.com>
 """
 
+import json
 import logging
 import os
-import json
 import sys
 
-from anitya.config import config
 from anitya import db
+from anitya.config import config
 
 _log = logging.getLogger("anitya")
 

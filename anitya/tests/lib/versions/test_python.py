@@ -21,7 +21,6 @@ import unittest
 
 from anitya.lib.versions import python
 
-
 # Note that the tests aren't comprehensive. We trust the packaging library
 # to order and normalize versions correctly, but we do test several edge cases
 # to verify our handling of the version objects is OK.

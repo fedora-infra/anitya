@@ -23,24 +23,23 @@
 anitya tests for the flask application.
 """
 
-from sqlalchemy.exc import SQLAlchemyError
-from six.moves.urllib import parse
-import mock
-
 import anitya_schema
+import mock
 from fedora_messaging import testing as fml_testing
+from six.moves.urllib import parse
 from social_flask_sqlalchemy import models as social_models
+from sqlalchemy.exc import SQLAlchemyError
 
 from anitya import ui
-from anitya.db import models, Session
+from anitya.db import Session, models
 from anitya.lib import exceptions
 from anitya.tests.base import (
     AnityaTestCase,
     DatabaseTestCase,
     create_distro,
+    create_package,
     create_project,
     login_user,
-    create_package,
 )
 
 

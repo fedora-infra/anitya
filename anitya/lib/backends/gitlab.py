@@ -24,10 +24,10 @@
 
 """
 
+import logging
+
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
-
-import logging
 
 _log = logging.getLogger(__name__)
 

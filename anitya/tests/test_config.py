@@ -20,8 +20,8 @@
 """Tests for the :mod:`anitya.config` module."""
 from __future__ import unicode_literals
 
-from datetime import timedelta
 import unittest
+from datetime import timedelta
 
 import mock
 

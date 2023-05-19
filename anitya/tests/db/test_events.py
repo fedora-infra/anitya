@@ -20,7 +20,7 @@
 # of Red Hat, Inc.
 """Tests for the :mod:`anitya.db.events` module."""
 
-from anitya.db import models, Session
+from anitya.db import Session, models
 from anitya.tests.base import DatabaseTestCase
 
 

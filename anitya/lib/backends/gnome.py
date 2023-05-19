@@ -13,7 +13,6 @@ import logging
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 
-
 REGEX = 'href="([0-9][0-9.]*)/"'
 
 

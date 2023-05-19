@@ -22,23 +22,22 @@ import fnmatch
 import logging
 import re
 import socket
-from datetime import timedelta
 
 # sre_constants contains re exceptions
 import sre_constants
-from typing import List
 import urllib.request as urllib
+from datetime import timedelta
+from typing import List
 from urllib.error import URLError
 
+import arrow
 import pkg_resources
 import requests
-import arrow
+import six
 
 from anitya.config import config as anitya_config
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.lib.versions import GLOBAL_DEFAULT, RpmVersion
-
-import six
 
 REGEX = anitya_config["DEFAULT_REGEX"]
 
