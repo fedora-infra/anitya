@@ -68,7 +68,11 @@ class PythonVersion(base.Version):
         """
         Return string representation of the version object
         """
-        return str(self.version_object())
+        try:
+            return str(self.version_object())
+        except base.InvalidVersion:
+            # When the version can't be validated by packaging.version module just return the string
+            return super().parse()
 
     def prerelease(self):
         """
