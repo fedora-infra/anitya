@@ -8,6 +8,7 @@
         - fi-tox-python38
         - fi-tox-python39
         - fi-tox-python310
+        - fi-tox-python311
         - fi-tox-docs:
             vars:
               dependencies:
