@@ -39,6 +39,11 @@ class PythonVersionTests(unittest.TestCase):
         """
         self.assertEqual("Python (PEP 440)", python.PythonVersion.name)
 
+    def test_non_version_string(self):
+        """Assert that version string which is not version will be handled correctly."""
+        version = python.PythonVersion(version="unstable")
+        self.assertEqual(version.parse(), "unstable")
+
     def test_prerelease_false(self):
         """Assert prerelease is defined and returns False with non-prerelease versions."""
         version = python.PythonVersion(version="1.0.0")
