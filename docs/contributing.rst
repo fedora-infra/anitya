@@ -37,7 +37,7 @@ run the tests to ensure your code follows the style. If the unit test passes, yo
 good to go!
 
 To automatically format the code run the following in project root. The ``.tox`` folder
-will be created when ``tox`` will be run.
+will be created when ``poetry run tox`` will be run.
 
 .. code-block:: bash
 
@@ -48,7 +48,7 @@ Unit Tests
 ----------
 
 The test suites can be run using `tox <http://tox.readthedocs.io/>`_ by simply running
-``tox`` from the repository root. These tests include unit tests, a linter to ensure
+``poetry run tox`` from the repository root. These tests include unit tests, a linter to ensure
 Python code style is correct, checks for possible security issues, and checks the
 documentation for Sphinx warnings or errors.
 
@@ -118,7 +118,7 @@ and the content of the file would be:
 Matching the issue title.
 
 The text inside the file will be used as entry text.
-A preview of the release notes can be generated with ``towncrier --draft``.
+A preview of the release notes can be generated with ``poetry towncrier --draft``.
 
 Development Environment
 =======================
@@ -330,7 +330,6 @@ Anitya
 To do the release you need following python packages installed::
 
     poetry
-    towncrier
 
 If you are a maintainer and wish to make a release, follow these steps:
 
@@ -345,7 +344,9 @@ If you are a maintainer and wish to make a release, follow these steps:
    This script must be executed in ``news`` folder, because it
    creates files in current working directory.
 
-4. Generate the changelog by running ``towncrier``.
+4. Install Anitya in virtual environment by ``poetry install``.
+
+5. Generate the changelog by running ``poetry run towncrier``.
 
 .. note::
     If you added any news fragment in the previous step, you might see ``towncrier``
@@ -353,38 +354,31 @@ If you are a maintainer and wish to make a release, follow these steps:
     Just ignore this and remove all of them manually; release notes will be generated
     anyway.
 
-.. note::
-    You need to have Anitya installed as well for ``towncrier`` to see the newest
-    version. I recommend doing this in separate virtualenv and installing the Anitya
-    with ``poetry install``, which will automatically reflect any change made to
-    code in the installation. The ``towncrier`` needs to be installed in the same
-    python virtualenv to see those changes.
+6. Remove every remaining news fragment from ``news`` folder.
 
-5. Remove every remaining news fragment from ``news`` folder.
+7. Generate new DB schema image by running ``./generate_db_schema`` in ``docs`` folder.
 
-6. Generate new DB schema image by running ``./generate_db_schema`` in ``docs`` folder.
+8. Commit your changes with message *Anitya <version>*.
 
-7. Commit your changes with message *Anitya <version>*.
+9. Tag a release with ``git tag -s <version>`` with description *Anitya <version>*.
 
-8. Tag a release with ``git tag -s <version>`` with description *Anitya <version>*.
+10. Don't forget to ``git push --tags``.
 
-9. Don't forget to ``git push --tags``.
+11. Sometimes you need to also do ``git push``.
 
-10. Sometimes you need to also do ``git push``.
+12. Build the Python packages with ``poetry build``.
 
-11. Build the Python packages with ``poetry build``.
+13. Upload the packages with ``poetry publish``.
 
-12. Upload the packages with ``poetry publish``.
+14. Create new release on `GitHub releases <https://github.com/fedora-infra/the-new-hotness/releases>`_.
 
-13. Create new release on `GitHub releases <https://github.com/fedora-infra/the-new-hotness/releases>`_.
-
-14. Deploy the new version in staging::
+15. Deploy the new version in staging::
 
      $ git checkout staging
      $ git rebase master
      $ git push origin staging
 
-15. When successfully tested in staging deploy to production::
+16. When successfully tested in staging deploy to production::
 
      $ git checkout production
      $ git rebase staging
