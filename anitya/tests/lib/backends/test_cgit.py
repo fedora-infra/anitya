@@ -73,12 +73,12 @@ class CgitBackendtests(DatabaseTestCase):
         """Test the get_version function of the Cgit backend."""
 
         project = self.projects["valid_with_homepage"]
-        exp = "v1.2.3"
+        exp = "1.2.3"
         obs = backend.CgitBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         project = self.projects["valid_with_version_url"]
-        exp = "v60.7.0"
+        exp = "60.7.0"
         obs = backend.CgitBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -144,49 +144,49 @@ class CgitBackendtests(DatabaseTestCase):
 
         project = self.projects["valid_with_homepage"]
         exp = [
-            "v0.1",
-            "v0.2",
-            "v0.3",
-            "v0.4",
-            "v0.5",
-            "v0.6",
-            "v0.6.1",
-            "v0.6.2",
-            "v0.6.3",
-            "v0.7",
-            "v0.7.1",
-            "v0.7.2",
-            "v0.8",
-            "v0.8.1",
-            "v0.8.1.1",
-            "v0.8.2",
-            "v0.8.2.1",
-            "v0.8.2.2",
-            "v0.8.3",
-            "v0.8.3.1",
-            "v0.8.3.2",
-            "v0.8.3.3",
-            "v0.8.3.4",
-            "v0.8.3.5",
-            "v0.9",
-            "v0.9.0.1",
-            "v0.9.0.2",
-            "v0.9.0.3",
-            "v0.9.1",
-            "v0.9.2",
-            "v0.10",
-            "v0.10.1",
-            "v0.10.2",
-            "v0.11.0",
-            "v0.11.1",
-            "v0.11.2",
-            "v0.12",
-            "v1.0",
-            "v1.1",
-            "v1.2",
-            "v1.2.1",
-            "v1.2.2",
-            "v1.2.3",
+            "0.1",
+            "0.2",
+            "0.3",
+            "0.4",
+            "0.5",
+            "0.6",
+            "0.6.1",
+            "0.6.2",
+            "0.6.3",
+            "0.7",
+            "0.7.1",
+            "0.7.2",
+            "0.8",
+            "0.8.1",
+            "0.8.1.1",
+            "0.8.2",
+            "0.8.2.1",
+            "0.8.2.2",
+            "0.8.3",
+            "0.8.3.1",
+            "0.8.3.2",
+            "0.8.3.3",
+            "0.8.3.4",
+            "0.8.3.5",
+            "0.9",
+            "0.9.0.1",
+            "0.9.0.2",
+            "0.9.0.3",
+            "0.9.1",
+            "0.9.2",
+            "0.10",
+            "0.10.1",
+            "0.10.2",
+            "0.11.0",
+            "0.11.1",
+            "0.11.2",
+            "0.12",
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.2.1",
+            "1.2.2",
+            "1.2.3",
         ]
         obs = backend.CgitBackend.get_ordered_versions(project)
 
@@ -200,18 +200,18 @@ class CgitBackendtests(DatabaseTestCase):
 
         project = self.projects["valid_with_version_url"]
         exp = [
-            "v31.2.0",
-            "v31.4.0",
-            "v31.5.0",
-            "v31.6.0",
-            "v31.8.0",
-            "v38.3.0",
-            "v45.7.0",
-            "v52.0.2",
-            "v52.1.0",
-            "v60.2.0",
-            "v60.3.0",
-            "v60.7.0",
+            "31.2.0",
+            "31.4.0",
+            "31.5.0",
+            "31.6.0",
+            "31.8.0",
+            "38.3.0",
+            "45.7.0",
+            "52.0.2",
+            "52.1.0",
+            "60.2.0",
+            "60.3.0",
+            "60.7.0",
         ]
         obs = backend.CgitBackend.get_ordered_versions(project)
 
