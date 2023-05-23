@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+""" Module anitya.admin """
 import logging
 from math import ceil
 
@@ -22,11 +23,13 @@ def is_admin(user=None):
     user = user or flask.g.user
     if user.is_authenticated:
         return user.is_admin
+    return False
 
 
 @ui_blueprint.route("/distro/<distro_name>/edit", methods=["GET", "POST"])
 @login_required
 def edit_distro(distro_name):
+    """Edit distribution"""
     distro = models.Distro.by_name(Session, distro_name)
     if not distro:
         flask.abort(404)
@@ -86,7 +89,7 @@ def delete_distro(distro_name):
 
         Session.delete(distro)
         Session.commit()
-        flask.flash("Distro %s has been removed" % distro_name)
+        flask.flash(f"Distro {distro_name} has been removed")
         return flask.redirect(flask.url_for("anitya_ui.distros"))
 
     return flask.render_template(
@@ -97,6 +100,7 @@ def delete_distro(distro_name):
 @ui_blueprint.route("/project/<project_id>/delete", methods=["GET", "POST"])
 @login_required
 def delete_project(project_id):
+    """Delete project"""
     project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
@@ -122,7 +126,7 @@ def delete_project(project_id):
 
             Session.delete(project)
             Session.commit()
-            flask.flash("Project %s has been removed" % project_name)
+            flask.flash(f"Project {project_name} has been removed")
             return flask.redirect(flask.url_for("anitya_ui.projects"))
         else:
             return flask.redirect(
@@ -139,6 +143,7 @@ def delete_project(project_id):
 )
 @login_required
 def set_project_archive_state(project_id, state):
+    """Set project archive state"""
     if not is_admin():
         flask.abort(401)
 
@@ -178,11 +183,9 @@ def set_project_archive_state(project_id, state):
                     user_id=flask.g.user.username,
                 )
                 if bool(archive):
-                    flask.flash("Project '{0}' archived".format(project.name))
+                    flask.flash(f"Project '{project.name}' archived")
                 else:
-                    flask.flash(
-                        "Project '{0}' is no longer archived".format(project.name)
-                    )
+                    flask.flash(f"Project '{project.name}' is no longer archived")
             except anitya.lib.exceptions.AnityaException as err:
                 flask.flash(str(err), "errors")
 
@@ -202,6 +205,7 @@ def set_project_archive_state(project_id, state):
 )
 @login_required
 def delete_project_mapping(project_id, distro_name, pkg_name):
+    """Delete project mapping"""
     project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
@@ -235,7 +239,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
             Session.delete(package)
             Session.commit()
 
-            flask.flash("Mapping for %s has been removed" % project.name)
+            flask.flash(f"Mapping for {project.name} has been removed")
         return flask.redirect(flask.url_for("anitya_ui.project", project_id=project.id))
 
     return flask.render_template(
@@ -250,6 +254,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
 @ui_blueprint.route("/project/<project_id>/delete/<version>", methods=["GET", "POST"])
 @login_required
 def delete_project_version(project_id, version):
+    """Delect project version"""
     project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
@@ -261,9 +266,7 @@ def delete_project_version(project_id, version):
             break
 
     if version_obj is None:
-        flask.abort(
-            404, "Version %s not found for project %s" % (version, project.name)
-        )
+        flask.abort(404, f"Version {version} not found for project {project.name}")
 
     if not is_admin():
         flask.abort(401)
@@ -295,7 +298,7 @@ def delete_project_version(project_id, version):
                 Session.add(project)
             Session.commit()
 
-            flask.flash("Version for %s has been removed" % version)
+            flask.flash(f"Version for {version} has been removed")
         return flask.redirect(flask.url_for("anitya_ui.project", project_id=project.id))
 
     return flask.render_template(
@@ -362,6 +365,7 @@ def delete_project_versions(project_id):
 @ui_blueprint.route("/flags")
 @login_required
 def browse_flags():
+    """Brows flags"""
     if not is_admin():
         flask.abort(401)
 
@@ -446,6 +450,7 @@ def browse_flags():
 @ui_blueprint.route("/flags/<flag_id>/set/<state>", methods=["POST"])
 @login_required
 def set_flag_state(flag_id, state):
+    """Set flag state"""
     if not is_admin():
         flask.abort(401)
 
@@ -464,7 +469,7 @@ def set_flag_state(flag_id, state):
             utilities.set_flag_state(
                 Session, flag=flag, state=state, user_id=flask.g.user.username
             )
-            flask.flash("Flag {0} set to {1}".format(flag.id, state))
+            flask.flash(f"Flag {flag.id} set to {state}")
         except anitya.lib.exceptions.AnityaException as err:
             flask.flash(str(err), "errors")
 
@@ -474,6 +479,7 @@ def set_flag_state(flag_id, state):
 @ui_blueprint.route("/users", methods=["GET"])
 @login_required
 def browse_users():
+    """Browse users"""
     if not is_admin():
         flask.abort(401)
 
@@ -573,6 +579,7 @@ def browse_users():
 @ui_blueprint.route("/users/<user_id>/admin/<state>", methods=["POST"])
 @login_required
 def set_user_admin_state(user_id, state):
+    """Set user admin state"""
     if not is_admin():
         flask.abort(401)
 
@@ -600,9 +607,9 @@ def set_user_admin_state(user_id, state):
             Session.add(user)
             Session.commit()
             if state:
-                flask.flash("User {0} is now admin".format(user.username))
+                flask.flash(f"User {user.username} is now admin")
             else:
-                flask.flash("User {0} is not admin anymore".format(user.username))
+                flask.flash(f"User {user.username} is not admin anymore")
         except Exception as err:
             _log.exception(err)
             flask.flash(str(err), "errors")
@@ -614,6 +621,7 @@ def set_user_admin_state(user_id, state):
 @ui_blueprint.route("/users/<user_id>/active/<state>", methods=["POST"])
 @login_required
 def set_user_active_state(user_id, state):
+    """Set user active state"""
     if not is_admin():
         flask.abort(401)
 
@@ -641,9 +649,9 @@ def set_user_active_state(user_id, state):
             Session.add(user)
             Session.commit()
             if state:
-                flask.flash("User {0} is no longer banned".format(user.username))
+                flask.flash(f"User {user.username} is no longer banned")
             else:
-                flask.flash("User {0} is banned".format(user.username))
+                flask.flash(f"User {user.username} is banned")
         except Exception as err:
             _log.exception(err)
             flask.flash(str(err), "errors")
