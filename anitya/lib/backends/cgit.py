@@ -16,7 +16,7 @@
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 
-REGEX = "<tr><td><a href='.*'>(.*)</a></td>"
+REGEX = r"<a href='.*'>(?:%(name)s-)?(.*)\.(?:tar|tar\.[bglx]z|tbz2|zip)</a>"
 
 
 class CgitBackend(BaseBackend):
@@ -63,4 +63,5 @@ class CgitBackend(BaseBackend):
             str: a list of all the possible releases found
         """
         url = cls.get_version_url(project)
-        return get_versions_by_regex(url, REGEX, project, url.startswith("http://"))
+        regex = REGEX % {"name": project.name.lower()}
+        return get_versions_by_regex(url, regex, project, url.startswith("http://"))
