@@ -158,3 +158,13 @@ towncrier = "^22.12.0"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pylint]
+disable = [
+  "no-member",
+  "broad-exception-caught",
+  "no-else-return",
+  "use-dict-literal",
+  "too-many-branches",
+  "too-many-statements"
+]
