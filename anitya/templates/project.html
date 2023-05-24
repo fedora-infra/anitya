@@ -179,7 +179,7 @@
                   {% endif %}
                 </tr>
 
-                {% for package in project.packages %}
+                {% for package in project.packages|sort(attribute='distro_name,package_name') %}
                 <tr>
                   <td>{{ package.distro_name }}</td>
                   <td>
