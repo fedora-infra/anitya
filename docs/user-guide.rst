@@ -149,7 +149,7 @@ The backends available are:
 
 * **GitHub** for projects hosted on `github.com <https://github.com/>`_.
   This backend is using `Github v4 API <https://developer.github.com/v4/>`_.
-  
+
   You need to provide **GitHub owner/project**. For example if project is hosted on
   *https://github.com/zzzeek/sqlalchemy* this field needs to contain *zzzeek/sqlalchemy*.
 
@@ -225,9 +225,9 @@ The backends available are:
   is used to guess the version url.
 
 * **SourceHut** for projects hosted on `sr.ht <https://sr.ht/>`_.
-  This backend uses RSS feeds on projects. For example: 
+  This backend uses RSS feeds on projects. For example:
   `scdoc rss feed <https://git.sr.ht/~sircmpwn/scdoc/refs/rss.xml>`_
-  
+
   You need to provide **SourceHut owner/project**. For example if project is hosted on
   *https://git.sr.ht/~sircmpwn/scdoc* this field needs to contain *sircmpwn/scdoc*.
   Notice the *~* character, it's not a part of **owner/project**.
@@ -408,6 +408,12 @@ If you selected the distribution you must write the package name under which the
 is known in distribution. For example python projects in Fedora distribution are prefixed
 with ``python3-`` prefix, so the project *alembic* will be called ``python3-alembic`` in
 Fedora. However the name of the project in Anitya should still be *alembic*.
+
+.. note::
+    You can add any number of distribution mappings as long as the mapping is unique in Anitya.
+
+.. note::
+    One project could be mapped against multiple packages in one distribution.
 
 
 Test check
