@@ -191,6 +191,13 @@ class PythonVersionTests(unittest.TestCase):
         self.assertTrue(old_version < new_version)
         self.assertFalse(new_version < old_version)
 
+    def test_lt_both_nonsense(self):
+        """Assert PythonVersion supports < comparison."""
+        old_version = python.PythonVersion(version="1.0.0junk")
+        new_version = python.PythonVersion(version="1.1.0junk")
+        self.assertLess(old_version, new_version)
+        self.assertGreaterEqual(new_version, old_version)
+
     def test_le(self):
         """Assert PythonVersion supports <= comparison."""
         old_version = python.PythonVersion(version="1.0.0")
@@ -283,3 +290,76 @@ class PythonVersionTests(unittest.TestCase):
         version = python.PythonVersion(version=" 1.0.0\n")
         self.assertEqual(str(version), "1.0.0")
         self.assertEqual(version, python.PythonVersion(version="1.0.0"))
+
+    def test_sorting(self):
+        """
+        Assert that https://github.com/fedora-infra/anitya/issues/1586
+        is fixed.
+        """
+        versions = [
+            "4.0.0",
+            "4.0.0rc1",
+            "4.0.0rc0",
+            "4.0.0b2",
+            "4.0.0b1",
+            "4.0.0b0",
+            "4.0.0a9",
+            "4.0.0a8",
+            "4.0.0a7",
+            "4.0.0a6",
+            "4.0.0a4",
+            "4.0.0a37",
+            "4.0.0a36",
+            "4.0.0a35",
+            "4.0.0a34",
+        ]
+        python_versions = [python.PythonVersion(v) for v in versions]
+        python_versions.sort()
+
+        exp = [
+            "4.0.0a4",
+            "4.0.0a6",
+            "4.0.0a7",
+            "4.0.0a8",
+            "4.0.0a9",
+            "4.0.0a34",
+            "4.0.0a35",
+            "4.0.0a36",
+            "4.0.0a37",
+            "4.0.0b0",
+            "4.0.0b1",
+            "4.0.0b2",
+            "4.0.0rc0",
+            "4.0.0rc1",
+            "4.0.0",
+        ]
+
+        self.assertEqual([str(version) for version in python_versions], exp)
+
+    def test_newer(self):
+        """Assert that newer version is correctly found."""
+        version = python.PythonVersion(version="4.0.0")
+        versions = [
+            "4.0.0rc1",
+            "4.0.0rc0",
+            "4.0.0b2",
+            "4.0.0b1",
+            "4.0.0b0",
+            "4.0.0a9",
+            "4.0.0a8",
+            "4.0.0a7",
+            "4.0.0a6",
+            "4.0.0a4",
+            "4.0.0a37",
+            "4.0.0a36",
+            "4.0.0a35",
+            "4.0.0a34",
+        ]
+        self.assertEqual(version.newer(versions), True)
+
+    def test_newer_string(self):
+        """Assert that newer version is correctly found."""
+        version = python.PythonVersion(version="4.0.0")
+        versions = "4.0.0rc1"
+
+        self.assertEqual(version.newer(versions), True)
