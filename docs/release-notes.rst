@@ -41,7 +41,7 @@ Other Changes
   (`PR#1596 <https://github.com/fedora-infra/anitya/pull/1596>`_)
 
 * Document what kind of "package name" to use in a distribution mapping
-  (`#1154 <https://github.com/fedora-infra/anitya/issues/1154>`_)
+  (`#1554 <https://github.com/fedora-infra/anitya/issues/1554>`_)
 
 
 Contributors
