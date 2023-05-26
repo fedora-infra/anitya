@@ -63,7 +63,7 @@ profile = "black"
 
 [tool.poetry]
 name = "anitya"
-version = "1.8.0"
+version = "1.8.1"
 description = "A cross-distribution upstream release monitoring project"
 authors = ["Pierre-Yves Chibon <pingou@pingoured.fr>"]
 maintainers = ["Michal Konecny <mkonecny@redhat.com>"]

@@ -4,6 +4,57 @@ Release Notes
 
 .. towncrier release notes start
 
+1.8.1 (2023-05-26)
+==================
+
+Features
+--------
+
+* Sort the list of distributions in the project view
+  (`PR#1599 <https://github.com/fedora-infra/anitya/pull/1599>`_)
+
+
+Bug Fixes
+---------
+
+* Error when checking for versions in cgit backend
+  (`#1536 <https://github.com/fedora-infra/anitya/issues/1536>`_)
+
+* Fix bug in PEP440 sorting
+  (`#1586 <https://github.com/fedora-infra/anitya/issues/1586>`_)
+
+* Fix 500 when accesing project with PYTHON versioning scheme when the version is not a correct version
+  (`#1590 <https://github.com/fedora-infra/anitya/issues/1590>`_)
+
+
+Development Changes
+-------------------
+
+* Add python 3.11 support
+  (`#1592 <https://github.com/fedora-infra/anitya/issues/1592>`_)
+
+
+Other Changes
+-------------
+
+* Add tox and towncrier to dev dependencies
+  (`PR#1596 <https://github.com/fedora-infra/anitya/pull/1596>`_)
+
+* Document what kind of "package name" to use in a distribution mapping
+  (`#1154 <https://github.com/fedora-infra/anitya/issues/1154>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Dan Fandrich
+* Liora Milbaum
+* AsciiWolf
+* Michal Konečný
+
+
 1.8.0 (2023-04-27)
 ==================
 
