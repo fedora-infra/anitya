@@ -25,8 +25,7 @@ import arrow
 from fedora_messaging import api
 from fedora_messaging import exceptions as fm_exceptions
 from fedora_messaging import message as fm_message
-from sqlalchemy.exc import IntegrityError, SQLAlchemyError
-from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy import exc, orm
 
 from anitya.db import models
 
@@ -48,7 +47,7 @@ def publish_message(topic, project=None, distro=None, message=None):  # pragma: 
     msg = dict(project=project, distro=distro, message=message)
     try:
         message_class = fm_message.get_class("anitya." + topic)
-        api.publish(message_class(topic="anitya.{}".format(topic), body=msg))
+        api.publish(message_class(topic=f"anitya.{topic}", body=msg))
     except (
         fm_exceptions.ConnectionException,
         fm_exceptions.PublishException,
@@ -68,7 +67,7 @@ def check_project_release(project, session, test=False):
     backend = plugins.get_plugin(project.backend)
     if not backend:
         raise exceptions.AnityaException(
-            'No backend was found for "%s"' % project.backend
+            f'No backend was found for "{project.backend}"'
         )
 
     if project.archived:
@@ -86,9 +85,9 @@ def check_project_release(project, session, test=False):
 
     try:
         versions_prefix = backend.get_versions(project)
-        _log.debug("Versions retrieved: '{}'".format(versions_prefix))
+        _log.debug("Versions retrieved: '%s'", versions_prefix)
     except exceptions.RateLimitException as err:
-        _log.error(f"{project.name} ({project.backend}): {str(err)}")
+        _log.error("%s (%s): %s", project.name, project.backend, str(err))
         if not test:
             project.logs = str(err)
             project.next_check = err.reset_time.to("utc").datetime
@@ -97,7 +96,7 @@ def check_project_release(project, session, test=False):
             session.commit()
         raise
     except exceptions.AnityaPluginException as err:
-        _log.error(f"{project.name} ({project.backend}): {str(err)}")
+        _log.error("%s (%s): %s", project.name, project.backend, str(err))
         if not test:
             project.logs = str(err)
             project.check_successful = False
@@ -135,9 +134,7 @@ def check_project_release(project, session, test=False):
                 upstream_versions.append(version.parse())
             else:
                 _log.info(
-                    "Version '{}' was skipped. Reason: too long.".format(
-                        version.version
-                    )
+                    "Version '%s' was skipped. Reason: too long.", version.version
                 )
 
     sorted_versions = project.get_sorted_version_objects()
@@ -226,10 +223,10 @@ def create_project(
 
     try:
         session.flush()
-    except IntegrityError:
+    except exc.IntegrityError as exception:
         session.rollback()
-        raise exceptions.ProjectExists(project)
-    except SQLAlchemyError as err:
+        raise exceptions.ProjectExists(project) from exception
+    except exc.SQLAlchemyError as err:
         _log.exception(err)
         session.rollback()
         raise exceptions.AnityaException("Could not add this project, already exists?")
@@ -350,7 +347,7 @@ def edit_project(
         else:
             session.add(project)
             session.flush()
-    except SQLAlchemyError as err:
+    except exc.SQLAlchemyError as err:
         _log.exception(err)
         session.rollback()
         raise exceptions.AnityaException(
@@ -393,13 +390,13 @@ def map_project(
         session.add(distro_obj)
         try:
             session.flush()
-        except SQLAlchemyError:
+        except exc.SQLAlchemyError as exception:
             session.rollback()
             raise exceptions.AnityaException(
-                "Could not add the distribution %s to the database, "
-                "please inform an admin." % distribution,
+                f"Could not add the distribution {distribution} to the database, "
+                "please inform an admin.",
                 "errors",
-            )
+            ) from exception
 
         publish_message(
             distro=distro_obj.__json__(),
@@ -409,14 +406,14 @@ def map_project(
         session.add(distro_obj)
         try:
             session.flush()
-        except SQLAlchemyError:  # pragma: no cover
+        except exc.SQLAlchemyError as exception:  # pragma: no cover
             # We cannot test this situation
             session.rollback()
             raise exceptions.AnityaException(
-                "Could not add the distribution %s to the database, "
-                "please inform an admin." % distribution,
+                f"Could not add the distribution {distribution} to the database, "
+                "please inform an admin.",
                 "errors",
-            )
+            ) from exception
 
     pkgname = old_package_name or package_name
     distro = old_distro_name or distribution
@@ -427,7 +424,7 @@ def map_project(
         other_pkg = models.Packages.query.filter_by(
             distro_name=distribution, package_name=package_name
         ).one()
-    except NoResultFound:
+    except orm.exc.NoResultFound:
         other_pkg = None
     # Only raise exception if the package is already associated
     # to project
@@ -466,12 +463,12 @@ def map_project(
     session.add(pkg)
     try:
         session.flush()
-    except SQLAlchemyError as err:
+    except exc.SQLAlchemyError as err:
         _log.exception(err)
         session.rollback()
         raise exceptions.AnityaException(
-            "Could not add the mapping of %s to %s, please inform an "
-            "admin." % (package_name, distribution)
+            f"Could not add the mapping of {package_name} to {distribution}, please inform an "
+            "admin."
         )
 
     message = dict(
@@ -500,7 +497,7 @@ def flag_project(session, project, reason, user_email, user_id):
 
     try:
         session.flush()
-    except SQLAlchemyError as err:
+    except exc.SQLAlchemyError as err:
         _log.exception(err)
         session.rollback()
         raise exceptions.AnityaException("Could not flag this project.")
@@ -532,7 +529,7 @@ def set_flag_state(session, flag, state, user_id):
 
     try:
         session.flush()
-    except SQLAlchemyError as err:
+    except exc.SQLAlchemyError as err:
         _log.exception(err)
         session.rollback()
         raise exceptions.AnityaException("Could not set the state of this flag.")
@@ -550,8 +547,8 @@ def get_last_cron(session):
     return models.Run.last_entry(session)
 
 
-def remove_suffix(str, suffix):
+def remove_suffix(string, suffix):
     """Removes suffix from the given str"""
-    if str.endswith(suffix):
-        return str[: -len(suffix)]
-    return str
+    if string.endswith(suffix):
+        return string[: -len(suffix)]
+    return string
