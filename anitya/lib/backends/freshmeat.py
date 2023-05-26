@@ -62,3 +62,21 @@ class FreshmeatBackend(BaseBackend):
         url = cls.get_version_url(project)
 
         return get_versions_by_regex(url, REGEX, project)
+
+    @classmethod
+    def check_feed(cls):
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()
