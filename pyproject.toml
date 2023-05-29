@@ -166,5 +166,11 @@ disable = [
   "no-else-return",
   "use-dict-literal",
   "too-many-branches",
-  "too-many-statements"
+  "too-many-statements",
+  "too-many-arguments",
+  "too-many-locals",
+  "inconsistent-return-statements",
+  "too-many-ancestors",
+  "too-few-public-methods",
+  "useless-object-inheritance"
 ]

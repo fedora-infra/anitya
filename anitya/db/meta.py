@@ -137,9 +137,9 @@ class BaseQuery(sa_query.Query):
         if not isinstance(order_by, tuple):
             order_by = (order_by,)
 
-        q = self.order_by(*order_by)
-        total_items = q.count()
-        items = q.limit(items_per_page).offset(items_per_page * (page - 1)).all()
+        result = self.order_by(*order_by)
+        total_items = result.count()
+        items = result.limit(items_per_page).offset(items_per_page * (page - 1)).all()
         return Page(
             items=items,
             page=page,
