@@ -53,11 +53,11 @@ def main():
     users = []
 
     if sar_email:
-        _log.debug("Find users by e-mail {}".format(sar_email))
+        _log.debug("Find users by e-mail %s", sar_email)
         users = users + db.User.query.filter_by(email=sar_email).all()
 
     if sar_username:
-        _log.debug("Find users by username {}".format(sar_username))
+        _log.debug("Find users by username %s", sar_username)
         users = users + db.User.query.filter_by(username=sar_username).all()
 
     users_list = []
