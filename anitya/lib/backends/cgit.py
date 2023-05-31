@@ -14,6 +14,9 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 
+"""
+A backend for cgit
+"""
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 
 REGEX = r"<a href='.*'>(?:%(name)s-)?(.*)\.(?:tar|tar\.[bglx]z|tbz2|zip)</a>"
@@ -65,3 +68,21 @@ class CgitBackend(BaseBackend):
         url = cls.get_version_url(project)
         regex = REGEX % {"name": project.name.lower()}
         return get_versions_by_regex(url, regex, project, url.startswith("http://"))
+
+    @classmethod
+    def check_feed(cls):
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()
