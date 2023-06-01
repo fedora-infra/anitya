@@ -172,5 +172,8 @@ disable = [
   "inconsistent-return-statements",
   "too-many-ancestors",
   "too-few-public-methods",
-  "useless-object-inheritance"
+  "useless-object-inheritance",
+  "invalid-name",
+  "too-many-public-methods",
+  "unnecessary-dunder-call"
 ]
