@@ -18,4 +18,5 @@ def upgrade():
 
 
 def downgrade():
+    """Do nothing"""
     pass
