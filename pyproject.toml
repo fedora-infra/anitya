@@ -161,19 +161,20 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pylint]
 disable = [
-  "no-member",
   "broad-exception-caught",
-  "no-else-return",
-  "use-dict-literal",
-  "too-many-branches",
-  "too-many-statements",
-  "too-many-arguments",
-  "too-many-locals",
   "inconsistent-return-statements",
-  "too-many-ancestors",
-  "too-few-public-methods",
-  "useless-object-inheritance",
   "invalid-name",
+  "no-else-return",
+  "no-member",
+  "too-few-public-methods",
+  "too-many-ancestors",
+  "too-many-arguments",
+  "too-many-branches",
+  "too-many-locals",
   "too-many-public-methods",
-  "unnecessary-dunder-call"
+  "too-many-statements",
+  "unnecessary-dunder-call",
+  "unnecessary-pass",
+  "use-dict-literal",
+  "useless-object-inheritance"
 ]
