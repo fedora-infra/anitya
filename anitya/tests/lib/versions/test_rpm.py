@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-  # pylint: disable=R0401
+# -*- coding: utf-8 -*-
 #
 # Copyright © 2017  Red Hat, Inc.
 #

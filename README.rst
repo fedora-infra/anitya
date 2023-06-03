@@ -12,6 +12,9 @@
 .. image:: https://img.shields.io/badge/renovate-enabled-brightgreen.svg
   :target: https://renovatebot.com/
 
+.. image::  https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit
+  :target:  https://pre-commit.com/
+
 .. image:: https://img.shields.io/lgtm/alerts/g/fedora-infra/anitya.svg?logo=lgtm&logoWidth=18
   :target: https://lgtm.com/projects/g/fedora-infra/anitya/alerts/
 
