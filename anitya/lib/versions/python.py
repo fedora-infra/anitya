@@ -29,8 +29,8 @@ See `Version scheme` in PEP 440.
    https://pypi.org/
 """
 
-from datetime import datetime
 import functools
+from datetime import datetime
 from typing import Optional
 
 # Import entire modules so it's clear which "Version" and "InvalidVersion"

@@ -163,6 +163,7 @@ build-backend = "poetry.core.masonry.api"
 disable = [
   "attribute-defined-outside-init",
   "broad-exception-caught",
+  "cyclic-import",
   "duplicate-code",
   "inconsistent-return-statements",
   "invalid-name",
