@@ -63,6 +63,7 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual(projects[2].name, "subsurface")
 
     def test_validate_backend(self):
+        """Validate backend"""
         project = models.Project(
             name="test", homepage="https://example.com", backend="custom"
         )
@@ -72,6 +73,7 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual("custom", self.session.query(models.Project).one().backend)
 
     def test_validate_backend_bad(self):
+        """Test bad backend"""
         self.assertRaises(
             ValueError,
             models.Project,
@@ -81,6 +83,7 @@ class ProjectTests(DatabaseTestCase):
         )
 
     def test_validate_ecosystem_good(self):
+        """Validate ecosystem"""
         project = models.Project(
             name="test",
             homepage="https://example.com",
@@ -120,12 +123,12 @@ class ProjectTests(DatabaseTestCase):
 
         versions_list = ["test-0.1.0", "test-0.2.0", "test-0.3.0"]
 
-        versions = project.create_version_objects(versions_list)
+        version_objects = project.create_version_objects(versions_list)
 
-        self.assertEqual(len(versions), 3)
-        self.assertEqual(str(versions[0]), "0.1.0")
-        self.assertEqual(str(versions[1]), "0.2.0")
-        self.assertEqual(str(versions[2]), "0.3.0")
+        self.assertEqual(len(version_objects), 3)
+        self.assertEqual(str(version_objects[0]), "0.1.0")
+        self.assertEqual(str(version_objects[1]), "0.2.0")
+        self.assertEqual(str(version_objects[2]), "0.3.0")
 
     def test_create_version_objects_empty(self):
         """
@@ -143,9 +146,9 @@ class ProjectTests(DatabaseTestCase):
 
         versions_list = []
 
-        versions = project.create_version_objects(versions_list)
+        version_objects = project.create_version_objects(versions_list)
 
-        self.assertEqual(len(versions), 0)
+        self.assertEqual(len(version_objects), 0)
 
     def test_get_version_url_no_backend(self):
         """Assert that empty string is returned when backend is not specified."""
@@ -186,9 +189,9 @@ class ProjectTests(DatabaseTestCase):
         self.session.add(version_pre_release)
         self.session.commit()
 
-        versions = project.stable_versions
+        version_objects = project.stable_versions
 
-        self.assertEqual([str(version) for version in versions], ["1.0.0"])
+        self.assertEqual([str(version) for version in version_objects], ["1.0.0"])
 
     def test_get_last_created_version(self):
         """
@@ -296,11 +299,11 @@ class ProjectTests(DatabaseTestCase):
         self.session.add(version_second)
         self.session.commit()
 
-        versions = project.get_sorted_version_objects()
+        version_objects = project.get_sorted_version_objects()
 
-        self.assertEqual(len(versions), 2)
-        self.assertEqual(versions[0].version, version_second.version)
-        self.assertEqual(versions[1].version, version_first.version)
+        self.assertEqual(len(version_objects), 2)
+        self.assertEqual(version_objects[0].version, version_second.version)
+        self.assertEqual(version_objects[1].version, version_first.version)
 
     def test_latest_version_object_with_versions(self):
         """Test the latest_version_object property with versions."""
@@ -337,6 +340,7 @@ class ProjectTests(DatabaseTestCase):
         self.assertIsNone(project.latest_version_object)
 
     def test_get_version_class(self):
+        """Test get_version_class function"""
         project = models.Project(
             name="test",
             homepage="https://example.com",
@@ -348,6 +352,7 @@ class ProjectTests(DatabaseTestCase):
         self.assertEqual(version_class, versions.RpmVersion)
 
     def test_get_version_class_missing(self):
+        """Test missing version class"""
         project = models.Project(
             name="test",
             homepage="https://example.com",
@@ -1038,6 +1043,8 @@ class GuidTests(unittest.TestCase):
 
 
 class UserTests(DatabaseTestCase):
+    """UserTests class"""
+
     def test_user_id(self):
         """Assert Users have a UUID id assigned to them."""
         user = models.User(email="user@fedoraproject.org", username="user")
@@ -1161,6 +1168,8 @@ class UserTests(DatabaseTestCase):
 
 
 class ApiTokenTests(DatabaseTestCase):
+    """ApiTokenTests class"""
+
     def test_token_default(self):
         """Assert creating an ApiToken generates a random token."""
         user = models.User(email="user@fedoraproject.org", username="user")
