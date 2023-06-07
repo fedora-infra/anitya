@@ -153,7 +153,7 @@ types-toml = "^0.10.8"
 
 [tool.poetry.group.dev.dependencies]
 tox = "^4.5.1"
-towncrier = "^22.12.0"
+towncrier = "^23.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
