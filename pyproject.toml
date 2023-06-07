@@ -176,6 +176,7 @@ disable = [
   "too-many-statements",
   "unnecessary-dunder-call",
   "unnecessary-pass",
+  "unused-argument",
   "use-dict-literal",
   "useless-object-inheritance"
 ]

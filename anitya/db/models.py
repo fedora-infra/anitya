@@ -62,6 +62,8 @@ def _paginate_query(query, page):
 
 
 class Distro(Base):
+    """Class Distro"""
+
     __tablename__ = "distros"
 
     name = sa.Column(sa.String(200), primary_key=True)
@@ -75,6 +77,7 @@ class Distro(Base):
 
     @classmethod
     def by_name(cls, session, name):
+        """Get Distro name"""
         query = session.query(cls).filter(
             sa.func.lower(cls.name) == sa.func.lower(name)
         )
@@ -85,6 +88,7 @@ class Distro(Base):
 
     @classmethod
     def all(cls, session, page=None, count=False):
+        """Distro all"""
         query = session.query(cls).order_by(cls.name)
 
         query = _paginate_query(query, page)
@@ -117,6 +121,7 @@ class Distro(Base):
 
     @classmethod
     def get_or_create(cls, session, name):
+        """Get distro or create it"""
         distro = cls.by_name(session, name)
         if not distro:
             distro = cls(name=name)
@@ -126,6 +131,8 @@ class Distro(Base):
 
 
 class Packages(Base):
+    """Class Packages"""
+
     __tablename__ = "packages"
 
     id = sa.Column(sa.Integer, primary_key=True)
@@ -150,21 +157,19 @@ class Packages(Base):
     )
 
     def __repr__(self):
-        return "<Packages(%s, %s: %s)>" % (
-            self.project_id,
-            self.distro_name,
-            self.package_name,
-        )
+        return f"<Packages({self.project_id}, {self.distro_name}: {self.package_name})>"
 
     def __json__(self):
         return dict(package_name=self.package_name, distro=self.distro_name)
 
     @classmethod
     def by_id(cls, session, pkg_id):
+        """Packages by id"""
         return session.query(cls).filter_by(id=pkg_id).first()
 
     @classmethod
     def get(cls, session, project_id, distro_name, package_name):
+        """Get Packages"""
         query = (
             session.query(cls)
             .filter(cls.project_id == project_id)
@@ -175,6 +180,7 @@ class Packages(Base):
 
     @classmethod
     def by_package_name_distro(cls, session, package_name, distro_name):
+        """Get package by package name distro"""
         query = (
             session.query(cls)
             .filter(cls.package_name == package_name)
@@ -279,8 +285,9 @@ class Project(Base):
 
     @validates("backend")
     def validate_backend(self, key, value):
+        """Validate backend"""
         if value not in BACKEND_PLUGINS.get_plugin_names():
-            raise ValueError('Backend "{}" is not supported.'.format(value))
+            raise ValueError(f"Backend '{value}' is not supported.")
         return value
 
     @property
@@ -419,6 +426,7 @@ class Project(Base):
 
     @property
     def latest_version_object(self):
+        """Latest version object"""
         sorted_versions = self.get_sorted_version_objects()
         if sorted_versions:
             return sorted_versions[0]
@@ -457,7 +465,7 @@ class Project(Base):
         return VERSION_PLUGINS.get_plugin(version_scheme)
 
     def __repr__(self):
-        return "<Project(%s, %s)>" % (self.name, self.homepage)
+        return f"<Project({self.name}, {self.homepage})>"
 
     def __json__(self, detailed=False):
         output = dict(
@@ -485,6 +493,7 @@ class Project(Base):
 
     @classmethod
     def get_or_create(cls, session, name, homepage, backend="custom"):
+        """Get or Create"""
         project = cls.by_name_and_homepage(session, name, homepage)
         if not project:
             project = cls(name=name, homepage=homepage, backend=backend)
@@ -494,20 +503,24 @@ class Project(Base):
 
     @classmethod
     def by_name(cls, session, name):
+        """By name"""
         return session.query(cls).filter_by(name=name).all()
 
     @classmethod
     def by_id(cls, session, project_id):
+        """By id"""
         return session.query(cls).filter_by(id=project_id).first()
 
     get = by_id
 
     @classmethod
     def by_homepage(cls, session, homepage):
+        """By homepage"""
         return session.query(cls).filter_by(homepage=homepage).all()
 
     @classmethod
     def by_name_and_homepage(cls, session, name, homepage):
+        """By  name and homepage"""
         query = (
             session.query(cls).filter(cls.name == name).filter(cls.homepage == homepage)
         )
@@ -515,6 +528,7 @@ class Project(Base):
 
     @classmethod
     def by_name_and_ecosystem(cls, session, name, ecosystem):
+        """By name and ecosystem"""
         try:
             query = session.query(cls)
             query = query.filter(cls.name == name, cls.ecosystem_name == ecosystem)
@@ -524,6 +538,7 @@ class Project(Base):
 
     @classmethod
     def all(cls, session, page=None, count=False):
+        """all"""
         query = session.query(Project).order_by(sa.func.lower(Project.name))
 
         query = _paginate_query(query, page)
@@ -535,6 +550,7 @@ class Project(Base):
 
     @classmethod
     def by_distro(cls, session, distro, page=None, count=False):
+        """By distro"""
         query = (
             session.query(Project)
             .filter(Project.id == Packages.project_id)
@@ -704,6 +720,8 @@ class ProjectVersion(Base):
 
 
 class ProjectFlag(Base):
+    """Class ProjectFlag"""
+
     __tablename__ = "projects_flags"
 
     id = sa.Column(sa.Integer, primary_key=True)
@@ -725,7 +743,7 @@ class ProjectFlag(Base):
     )
 
     def __repr__(self):
-        return "<ProjectFlag(%s, %s, %s)>" % (self.project.name, self.user, self.state)
+        return f"<ProjectFlag({self.project.name}, {self.user}, {self.state})>"
 
     def __json__(self, detailed=False):
         output = dict(
@@ -743,6 +761,7 @@ class ProjectFlag(Base):
 
     @classmethod
     def all(cls, session, page=None, count=False):
+        """all"""
         query = session.query(ProjectFlag).order_by(ProjectFlag.created_on)
 
         return query.all()
@@ -803,11 +822,14 @@ class ProjectFlag(Base):
 
     @classmethod
     def get(cls, session, flag_id):
+        """get"""
         query = session.query(cls).filter(cls.id == flag_id)
         return query.first()
 
 
 class Run(Base):
+    """Class Run"""
+
     __tablename__ = "runs"
 
     total_count = sa.Column(sa.Integer)
@@ -871,10 +893,10 @@ class GUID(TypeDecorator):
             return str(value)
         else:
             if not isinstance(value, uuid.UUID):
-                return "%.32x" % uuid.UUID(value).int
+                return f"{uuid.UUID(value).int:032x}"
             else:
                 # hexstring
-                return "%.32x" % value.int
+                return f"{value.int:032x}"
 
     def process_result_value(self, value, dialect):
         """
@@ -891,6 +913,29 @@ class GUID(TypeDecorator):
             return value
         else:
             return uuid.UUID(value)
+
+    def process_literal_param(self, value, dialect):
+        """Receive a literal parameter value to be rendered inline within
+        a statement.
+
+        .. note::
+
+            This method is called during the **SQL compilation** phase of a
+            statement, when rendering a SQL string. Unlike other SQL
+            compilation methods, it is passed a specific Python value to be
+            rendered as a string. However it should not be confused with the
+            :meth:`_types.TypeDecorator.process_bind_param` method, which is
+            the more typical method that processes the actual value passed to a
+            particular parameter at statement execution time.
+
+        Custom subclasses of :class:`_types.TypeDecorator` should override
+        this method to provide custom behaviors for incoming data values
+        that are in the special case of being rendered as literals.
+
+        The returned string will be rendered into the output string.
+
+        """
+        raise NotImplementedError()
 
 
 class User(Base):
