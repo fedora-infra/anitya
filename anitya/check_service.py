@@ -22,7 +22,7 @@ This is a service that is checking for new releases in projects added to Anitya.
 """
 
 import logging
-from concurrent.futures import ThreadPoolExecutor, TimeoutError, as_completed
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from threading import Lock
 from time import sleep
@@ -93,22 +93,22 @@ class Checker:
         if project.backend in self.blacklist_dict:
             self.blacklist_project(project, self.blacklist_dict[project.backend])
             _log.info(
-                "{}: Backend is blacklisted. Rescheduling to {}".format(
-                    project.name, self.blacklist_dict[project.backend]
-                )
+                "%s: Backend is blacklisted. Rescheduling to %s",
+                project.name,
+                self.blacklist_dict[project.backend],
             )
             project.next_check = self.blacklist_dict[project.backend]
             session.add(project)
             session.commit()
             return
         try:
-            _log.debug(f"Checking project {project.name}")
+            _log.debug("Checking project %s", project.name)
             utilities.check_project_release(project, session)
         except RateLimitException as err:
             self.blacklist_project(project, err.reset_time)
             return
         except AnityaException as err:
-            _log.info(f"{project.name} : {str(err)}")
+            _log.info("%s : %s", project.name, str(err))
             with self.error_counter_lock:
                 self.error_counter += 1
             if self.is_delete_candidate(project):
@@ -144,10 +144,7 @@ class Checker:
             return False
         packages = db.Packages.query.filter(db.Packages.project_id == project.id).all()
         if packages:
-            if not project.versions:
-                return True
-            else:
-                return False
+            return bool(not project.versions)
 
         return True
 
@@ -163,9 +160,8 @@ class Checker:
         with self.blacklist_dict_lock:
             if project.backend not in self.blacklist_dict:
                 _log.debug(
-                    "Rate limit threshold reached. Adding {} to blacklist.".format(
-                        project.backend
-                    )
+                    "Rate limit threshold reached. Adding %s to blacklist",
+                    project.backend,
                 )
                 self.blacklist_dict[project.backend] = reset_time.to("utc").datetime
         with self.ratelimit_queue_lock:
@@ -199,9 +195,7 @@ class Checker:
             return
 
         # 2. Execution
-        _log.info(
-            "Starting check on {} for total of {} projects".format(time, total_count)
-        )
+        _log.info("Starting check on %s for total of %s projects", time, total_count)
 
         futures = {}
         pool_size = config.get("CRON_POOL")
@@ -238,12 +232,11 @@ class Checker:
 
         # 3. Finalize
         _log.info(
-            "Check done. Checked ({}): error ({}), success ({}), limit ({})".format(
-                total_count,
-                self.error_counter,
-                self.success_counter,
-                self.ratelimit_counter,
-            )
+            "Check done. Checked (%s): error (%s), success (%s), limit (%s)",
+            total_count,
+            self.error_counter,
+            self.success_counter,
+            self.ratelimit_counter,
         )
 
         run = db.Run(
@@ -306,7 +299,7 @@ class Checker:
         # Create list of projects that should be checked but belong to blacklisted backend
         blacklisted_projects = []
         for project in projects:
-            if project.backend in self.blacklist_dict.keys():
+            if project.backend in self.blacklist_dict:
                 blacklisted_projects.append(project)
 
         queue += [
