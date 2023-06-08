@@ -24,7 +24,6 @@ Anitya tests for check service.
 """
 
 import unittest
-from concurrent.futures import TimeoutError
 from datetime import timedelta
 from unittest import mock
 
@@ -45,7 +44,7 @@ class CheckerTests(DatabaseTestCase):
         """
         Prepare the Checker object.
         """
-        super(CheckerTests, self).setUp()
+        super().setUp()
         self.checker = Checker()
 
     @mock.patch("anitya.lib.utilities.check_project_release")
