@@ -46,7 +46,7 @@ class LibrariesioConsumerTests(DatabaseTestCase):
         """
         Set up the test environments.
         """
-        super(LibrariesioConsumerTests, self).setUp()
+        super().setUp()
 
         self.client = LibrariesioConsumer()
 
