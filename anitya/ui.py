@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""UI"""
 from math import ceil
 
 import flask
@@ -32,6 +32,7 @@ def get_extended_pattern(pattern):
 
 @ui_blueprint.route("/")
 def index():
+    """index"""
     total = models.Project.all(Session, count=True)
     if current_user.is_authenticated and flask.session.get("next_url", ""):
         next_url = flask.session.get("next_url")
@@ -50,6 +51,7 @@ def about():
 @ui_blueprint.route("/login/", methods=("GET", "POST"))
 @ui_blueprint.route("/login", methods=("GET", "POST"))
 def login():
+    """login"""
     next_url = flask.request.args.get("next", "/")
     if not next_url.startswith("/"):
         next_url = "/"
@@ -62,6 +64,7 @@ def login():
 @ui_blueprint.route("/logout")
 @login_required
 def logout():
+    """logout"""
     logout_user()
     return flask.redirect("/")
 
@@ -108,6 +111,7 @@ def delete_token(token):
 @ui_blueprint.route("/project/<int:project_id>")
 @ui_blueprint.route("/project/<int:project_id>/")
 def project(project_id):
+    """project"""
     project = models.Project.by_id(Session, project_id)
 
     if not project:
@@ -124,6 +128,7 @@ def project(project_id):
 @ui_blueprint.route("/project/<project_name>")
 @ui_blueprint.route("/project/<project_name>/")
 def project_name(project_name):
+    """Project name"""
     page = flask.request.args.get("page", 1)
 
     try:
@@ -153,6 +158,7 @@ def project_name(project_name):
 @ui_blueprint.route("/projects")
 @ui_blueprint.route("/projects/")
 def projects():
+    """Projects"""
     page = flask.request.args.get("page", 1)
 
     try:
@@ -179,6 +185,7 @@ def projects():
 @ui_blueprint.route("/projects/updates/")
 @ui_blueprint.route("/projects/updates/<status>")
 def projects_updated(status="updated"):
+    """Projects updated"""
     page = flask.request.args.get("page", 1)
     name = flask.request.args.get("name", None)
     log = flask.request.args.get("log", None)
@@ -192,8 +199,8 @@ def projects_updated(status="updated"):
 
     if status not in statuses:
         flask.flash(
-            "%s is invalid, you should use one of: %s; using default: "
-            "`updated`" % (status, ", ".join(statuses)),
+            f"{status} is invalid, you should use one of: "
+            f"{', '.join(statuses)}; using default: `updated`",
             "errors",
         )
         flask.flash(
@@ -226,6 +233,7 @@ def projects_updated(status="updated"):
 @ui_blueprint.route("/logs")
 @login_required
 def browse_logs():
+    """Browse logs"""
     refresh = flask.request.args.get("refresh", False)
     page = flask.request.args.get("page", 1)
 
@@ -260,6 +268,7 @@ def browse_logs():
 @ui_blueprint.route("/distros")
 @ui_blueprint.route("/distros/")
 def distros():
+    """distros"""
     page = flask.request.args.get("page", 1)
 
     try:
@@ -285,6 +294,7 @@ def distros():
 @ui_blueprint.route("/distro/<distroname>")
 @ui_blueprint.route("/distro/<distroname>/")
 def distro(distroname):
+    """distro"""
     page = flask.request.args.get("page", 1)
 
     try:
@@ -311,6 +321,7 @@ def distro(distroname):
 @ui_blueprint.route("/distro/add", methods=["GET", "POST"])
 @login_required
 def add_distro():
+    """add distro"""
     form = anitya.forms.DistroForm()
 
     if form.validate_on_submit():
@@ -342,6 +353,7 @@ def add_distro():
 @ui_blueprint.route("/projects/search/")
 @ui_blueprint.route("/projects/search/<pattern>")
 def projects_search(pattern=None):
+    """Search projects"""
     pattern = flask.request.args.get("pattern", pattern) or "*"
     page = flask.request.args.get("page", 1)
     exact = flask.request.args.get("exact", 0)
@@ -353,7 +365,7 @@ def projects_search(pattern=None):
 
     projects = models.Project.search(Session, pattern=pattern, page=page)
 
-    if not str(exact).lower() in ["1", "true"]:
+    if str(exact).lower() not in ["1", "true"]:
         # Extends the search
         for proj in models.Project.search(
             Session, pattern=get_extended_pattern(pattern), page=page
@@ -389,6 +401,7 @@ def projects_search(pattern=None):
 @ui_blueprint.route("/distro/<distroname>/search/")
 @ui_blueprint.route("/distro/<distroname>/search/<pattern>")
 def distro_projects_search(distroname, pattern=None):
+    """Search distro projects"""
     pattern = flask.request.args.get("pattern", pattern) or "*"
     page = flask.request.args.get("page", 1)
     exact = flask.request.args.get("exact", 0)
@@ -402,7 +415,7 @@ def distro_projects_search(distroname, pattern=None):
         Session, pattern=pattern, distro=distroname, page=page
     )
 
-    if not str(exact).lower() in ["1", "true"]:
+    if str(exact).lower() not in ["1", "true"]:
         # Extends the search
         for proj in models.Project.search(
             Session, pattern=get_extended_pattern(pattern), distro=distroname, page=page
@@ -553,6 +566,7 @@ def new_project():
 @ui_blueprint.route("/project/<project_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_project(project_id):
+    """Edit project"""
     project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
@@ -625,6 +639,7 @@ def edit_project(project_id):
 @ui_blueprint.route("/project/<project_id>/flag", methods=["GET", "POST"])
 @login_required
 def flag_project(project_id):
+    """Flag project"""
     project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
@@ -658,6 +673,7 @@ def flag_project(project_id):
 @ui_blueprint.route("/project/<project_id>/map", methods=["GET", "POST"])
 @login_required
 def map_project(project_id):
+    """Map project"""
     project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
@@ -701,6 +717,7 @@ def map_project(project_id):
 @ui_blueprint.route("/project/<project_id>/map/<pkg_id>", methods=["GET", "POST"])
 @login_required
 def edit_project_mapping(project_id, pkg_id):
+    """Edit project mapping"""
     project = models.Project.get(Session, project_id)
     if not project:
         flask.abort(404)
@@ -755,7 +772,7 @@ def format_examples(examples):
         for cnt, example in enumerate(examples):
             if cnt > 0:
                 output += " <br /> "
-            output += "<a href='%(url)s'>%(url)s</a> " % ({"url": example})
+            output += f"<a href='{example}'>{example}</a> "
 
     return output
 
