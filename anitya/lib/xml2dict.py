@@ -44,6 +44,8 @@ class object_dict(dict):
 
 
 class XML2Dict(object):
+    """Class XML2Dict"""
+
     def _parse_node(self, node):
         node_tree = object_dict()
         # Save attrs and text, hope there will not be a child with same name
@@ -81,8 +83,8 @@ class XML2Dict(object):
 
     def parse(self, file):
         """parse a xml file to a dict"""
-        f = open(file, "rb")
-        return self.fromstring(f.read())
+        with open(file, "rb") as f:  # pragma: no cover
+            return self.fromstring(f.read())
 
     def fromstring(self, s):
         """parse a string"""

@@ -161,6 +161,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pylint]
 disable = [
+  "attribute-defined-outside-init",
   "broad-exception-caught",
   "inconsistent-return-statements",
   "invalid-name",
