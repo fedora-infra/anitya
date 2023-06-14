@@ -35,9 +35,7 @@ class RubygemsBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = "https://rubygems.org/api/v1/versions/%(name)s/latest.json" % {
-            "name": project.name
-        }
+        url = f"https://rubygems.org/api/v1/versions/{project.name}/latest.json"
 
         return url
 
@@ -61,8 +59,8 @@ class RubygemsBackend(BaseBackend):
         last_change = project.get_time_last_created_version()
         try:
             req = cls.call_url(url, last_change=last_change)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("Could not contact %s" % url)
+        except Exception as exc:  # pragma: no cover
+            raise AnityaPluginException(f"Could not contact {url}") from exc
 
         # Not modified
         if req.status_code == 304:
@@ -70,11 +68,13 @@ class RubygemsBackend(BaseBackend):
 
         try:
             data = req.json()
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("No JSON returned by %s" % url)
+        except Exception as exc:  # pragma: no cover
+            raise AnityaPluginException(f"No JSON returned by {url}") from exc
 
         if data["version"] == "unknown":
-            raise AnityaPluginException("Project or version unknown at %s" % url)
+            raise AnityaPluginException(
+                f"Project or version unknown at {url}"
+            )  # pragma: no cover
 
         # Filter retrieved versions
         filtered_versions = cls.filter_versions(
@@ -93,15 +93,15 @@ class RubygemsBackend(BaseBackend):
 
         try:
             response = cls.call_url(url)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("Could not contact %s" % url)
+        except Exception as exc:  # pragma: no cover
+            raise AnityaPluginException(f"Could not contact {url}") from exc
 
         try:
             data = response.json()
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("No XML returned by %s" % url)
+        except Exception as exc:  # pragma: no cover
+            raise AnityaPluginException(f"No XML returned by {url}") from exc
 
         for item in data:
             name, version = item["name"], item["version"]
-            homepage = "https://rubygems.org/gems/%s" % name
+            homepage = f"https://rubygems.org/gems/{name}"
             yield name, homepage, cls.name, version
