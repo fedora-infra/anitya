@@ -38,7 +38,7 @@ class PearBackendtests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
-        super(PearBackendtests, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
         self.create_project()
