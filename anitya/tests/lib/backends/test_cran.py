@@ -33,7 +33,7 @@ class CranBackendTests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environment, ran before every tests."""
-        super(CranBackendTests, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
 

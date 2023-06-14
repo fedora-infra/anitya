@@ -242,8 +242,7 @@ def browse_logs():
     except ValueError:
         page = 1
 
-    if page < 1:
-        page = 1
+    page = max(page, 1)
 
     page_obj = models.Project.query.paginate(
         page=page, order_by=models.Project.last_check.desc()
