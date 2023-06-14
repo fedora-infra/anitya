@@ -167,10 +167,7 @@ class RpmVersion(Version):
         if result != 0:
             return False
 
-        if rc1 == rc2 and rcn1 == rcn2:
-            return True
-        else:
-            return False
+        return bool(rc1 == rc2 and rcn1 == rcn2)
 
     def __lt__(self, other):
         v1, rc1, rcn1 = self.split_rc(self.parse())
