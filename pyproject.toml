@@ -167,6 +167,7 @@ disable = [
   "invalid-name",
   "no-else-return",
   "no-member",
+  "redefined-outer-name",
   "too-few-public-methods",
   "too-many-ancestors",
   "too-many-arguments",
