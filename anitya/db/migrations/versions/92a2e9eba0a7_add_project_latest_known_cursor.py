@@ -14,6 +14,7 @@ down_revision = "5e209766aead"
 
 
 def upgrade():
+    """Upgrade"""
     op.add_column(
         "projects",
         sa.Column("latest_known_cursor", sa.String(length=200), nullable=True),
@@ -21,5 +22,6 @@ def upgrade():
 
 
 def downgrade():
+    """Downgrade"""
     with op.batch_alter_table("projects") as batch_op:
         batch_op.drop_column("latest_known_cursor")

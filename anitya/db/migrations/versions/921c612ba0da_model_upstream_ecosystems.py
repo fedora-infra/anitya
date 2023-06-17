@@ -15,6 +15,7 @@ down_revision = "2925648d8cc3"
 
 
 def upgrade():
+    """Upgrade"""
     op.add_column(
         "projects", sa.Column("ecosystem_name", sa.String(length=200), nullable=True)
     )
@@ -33,6 +34,7 @@ def upgrade():
 
 
 def downgrade():
+    """Downgrade"""
     op.drop_constraint("FK_ECOSYSTEM_FOR_PROJECT", "projects", type_="foreignkey")
     op.drop_constraint("UNIQ_PROJECT_NAME_PER_ECOSYSTEM", "projects", type_="unique")
     op.drop_column("projects", "ecosystem_name")

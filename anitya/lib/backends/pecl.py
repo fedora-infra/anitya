@@ -18,8 +18,8 @@ def _get_versions(url):
     """Retrieve the versions for the provided url."""
     try:
         req = PeclBackend.call_url(url)
-    except Exception:  # pragma: no cover
-        raise AnityaPluginException("Could not contact %s" % url)
+    except Exception as exc:  # pragma: no cover
+        raise AnityaPluginException(f"Could not contact {url}") from exc
 
     data = req.text
     versions = []
@@ -101,9 +101,7 @@ class PeclBackend(BaseBackend):
         versions = _get_versions(url)
 
         if not versions:
-            raise AnityaPluginException(
-                "No versions found for %s" % project.name.lower()
-            )
+            raise AnityaPluginException(f"No versions found for {project.name.lower()}")
 
         # Filter retrieved versions
         filtered_versions = BaseBackend.filter_versions(
@@ -122,18 +120,18 @@ class PeclBackend(BaseBackend):
 
         try:
             response = cls.call_url(url)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("Could not contact %s" % url)
+        except Exception as exc:  # pragma: no cover
+            raise AnityaPluginException(f"Could not contact {url}") from exc
 
         try:
             parser = xml2dict.XML2Dict()
             data = parser.fromstring(response.text)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("No XML returned by %s" % url)
+        except Exception as exc:  # pragma: no cover
+            raise AnityaPluginException(f"No XML returned by {url}") from exc
 
         items = data["RDF"]["item"]
         for entry in items:
             title = entry["title"]["value"]
             name, version = title.rsplit(None, 1)
-            homepage = "https://pecl.php.net/package/%s" % name
+            homepage = f"https://pecl.php.net/package/{name}"
             yield name, homepage, cls.name, version

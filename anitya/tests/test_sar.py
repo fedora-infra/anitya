@@ -28,7 +28,7 @@ import json
 import mock
 import pytest
 
-import anitya.sar as sar
+from anitya import sar
 from anitya.db import models
 from anitya.tests.base import DatabaseTestCase
 
@@ -68,7 +68,7 @@ class SARTests(DatabaseTestCase):
 
         sar.main()
 
-        out, err = self.capsys.readouterr()
+        out, _ = self.capsys.readouterr()
 
         obs = json.loads(out)
 
@@ -101,7 +101,7 @@ class SARTests(DatabaseTestCase):
 
         sar.main()
 
-        out, err = self.capsys.readouterr()
+        out, _ = self.capsys.readouterr()
 
         obs = json.loads(out)
 
@@ -122,6 +122,6 @@ class SARTests(DatabaseTestCase):
 
         sar.main()
 
-        out, err = self.capsys.readouterr()
+        out, _ = self.capsys.readouterr()
 
         self.assertEqual("[]", out)

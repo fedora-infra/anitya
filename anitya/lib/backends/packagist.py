@@ -66,14 +66,14 @@ class PackagistBackend(BaseBackend):
         url = cls.get_version_url(project)
         if not url:
             raise AnityaPluginException(
-                "Project {} is not correctly set up.".format(project.name)
+                f"Project {project.name} is not correctly set up."
             )
 
         last_change = project.get_time_last_created_version()
         try:
             req = cls.call_url(url, last_change=last_change)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("Could not contact %s" % url)
+        except Exception as exc:  # pragma: no cover
+            raise AnityaPluginException(f"Could not contact {url}") from exc
 
         # Not modified
         if req.status_code == 304:
@@ -81,8 +81,8 @@ class PackagistBackend(BaseBackend):
 
         try:
             data = req.json()
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("No JSON returned by %s" % url)
+        except Exception as exc:  # pragma: no cover
+            raise AnityaPluginException(f"No JSON returned by {url}") from exc
 
         if "package" in data and "versions" in data["package"]:
             # Filter retrieved versions
@@ -94,4 +94,26 @@ class PackagistBackend(BaseBackend):
         elif "status" in data and data["status"] == "error" and "message" in data:
             raise AnityaPluginException(data["message"])
         else:
-            raise AnityaPluginException("Invalid JSON returned by %s" % url)
+            raise AnityaPluginException(f"Invalid JSON returned by {url}")
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not all backends may support this.  It can be used to look for updates
+        much more quickly than scanning all known projects.
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+            AnityaPluginException: A
+                :obj:`anitya.lib.exceptions.AnityaPluginException` exception
+                when the versions cannot be retrieved correctly
+            NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

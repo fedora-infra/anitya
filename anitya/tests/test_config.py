@@ -100,6 +100,7 @@ class LoadTests(unittest.TestCase):
     @mock.patch("anitya.config._log", autospec=True)
     @mock.patch("anitya.config.os.path.exists", return_value=True)
     def test_bad_config_file(self, mock_exists, mock_log):
+        """Test bad config file"""
         config = anitya_config.load()
         self.assertEqual(anitya_config.DEFAULTS, config)
         mock_exists.assert_called_once_with("/etc/anitya/anitya.toml")
@@ -113,6 +114,7 @@ class LoadTests(unittest.TestCase):
     @mock.patch("anitya.config._log", autospec=True)
     @mock.patch("anitya.config.os.path.exists", return_value=True)
     def test_partial_config_file(self, mock_exists, mock_log):
+        """Test partial config file"""
         config = anitya_config.load()
         self.assertNotEqual("muchsecretverysafe", anitya_config.DEFAULTS["SECRET_KEY"])
         self.assertEqual("muchsecretverysafe", config["SECRET_KEY"])
@@ -126,6 +128,7 @@ class LoadTests(unittest.TestCase):
     @mock.patch("anitya.config._log", autospec=True)
     @mock.patch("anitya.config.os.path.exists", return_value=True)
     def test_full_config_file(self, mock_exists, mock_log):
+        """Test full config file"""
         expected_config = {
             "SECRET_KEY": "very_secret",
             "PERMANENT_SESSION_LIFETIME": timedelta(seconds=3600),
@@ -188,8 +191,8 @@ class LoadTests(unittest.TestCase):
         }
         config = anitya_config.load()
         self.assertEqual(sorted(expected_config.keys()), sorted(config.keys()))
-        for key in expected_config:
-            self.assertEqual(expected_config[key], config[key])
+        for key, value in expected_config.items():
+            self.assertEqual(value, config[key])
         mock_exists.assert_called_once_with("/etc/anitya/anitya.toml")
         mock_log.info.assert_called_once_with(
             "Loading Anitya configuration from /etc/anitya/anitya.toml"
@@ -201,6 +204,7 @@ class LoadTests(unittest.TestCase):
     @mock.patch("anitya.config._log", autospec=True)
     @mock.patch("anitya.config.os.path.exists", return_value=True)
     def test_custom_config_file(self, mock_exists, mock_log):
+        """Test custom config file"""
         config = anitya_config.load()
         self.assertNotEqual("muchsecretverysafe", anitya_config.DEFAULTS["SECRET_KEY"])
         self.assertEqual("muchsecretverysafe", config["SECRET_KEY"])
