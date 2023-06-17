@@ -44,7 +44,7 @@ class CpanBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = "https://metacpan.org/release/%(name)s/" % {"name": project.name}
+        url = f"https://metacpan.org/release/{project.name}/"
 
         return url
 
@@ -80,13 +80,13 @@ class CpanBackend(BaseBackend):
 
         try:
             response = cls.call_url(url)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("Could not contact %s" % url)
+        except Exception as exc:  # pragma: no cover
+            raise AnityaPluginException(f"Could not contact {url}") from exc
 
         try:
             root = ET.fromstring(response.text)
-        except ET.ParseError:
-            raise AnityaPluginException("No XML returned by %s" % url)
+        except ET.ParseError as exc:
+            raise AnityaPluginException(f"No XML returned by {url}") from exc
 
         for item in root.iter(tag="{http://purl.org/rss/1.0/}item"):
             title = item.find("{http://purl.org/rss/1.0/}title")
@@ -94,5 +94,5 @@ class CpanBackend(BaseBackend):
                 name, version = title.text.rsplit("-", 1)
             except ValueError:
                 _log.info("Unable to parse CPAN package %s into a name and version")
-            homepage = "https://metacpan.org/release/%s/" % name
+            homepage = f"https://metacpan.org/release/{name}/"
             yield name, homepage, cls.name, version

@@ -63,3 +63,25 @@ class SourceforgeBackend(BaseBackend):
         regex = REGEX % {"name": project.name.replace("+", r"\+")}
 
         return get_versions_by_regex(url, regex, project)
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not all backends may support this.  It can be used to look for updates
+        much more quickly than scanning all known projects.
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+            AnityaPluginException: A
+                :obj:`anitya.lib.exceptions.AnityaPluginException` exception
+                when the versions cannot be retrieved correctly
+            NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

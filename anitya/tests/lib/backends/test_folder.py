@@ -40,7 +40,7 @@ class FolderBackendtests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
-        super(FolderBackendtests, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
 

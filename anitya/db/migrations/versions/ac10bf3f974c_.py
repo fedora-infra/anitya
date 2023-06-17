@@ -11,8 +11,10 @@ down_revision = ("c8735fa14a0a", "7a8c4aa92678")
 
 
 def upgrade():
+    """Upgrade"""
     pass
 
 
 def downgrade():
+    """Downgrade"""
     pass

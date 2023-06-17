@@ -14,6 +14,7 @@ down_revision = "921c612ba0da"
 
 
 def upgrade():
+    """Upgrade"""
     # We use a subquery instead of an UPDATE FROM with a table join
     # due to the fact that SQLite doesn't allow joins in update statements
     op.execute(
@@ -32,6 +33,7 @@ def upgrade():
 
 
 def downgrade():
+    """Downgrade"""
     # Do nothing on downgrade - column removal will be handled by previous
     # revision
     pass

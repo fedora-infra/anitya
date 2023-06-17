@@ -34,7 +34,7 @@ revision = "3fae8239eeec"
 down_revision = "feeaa70ead67"
 
 
-class GUID(TypeDecorator):
+class GUID(TypeDecorator):  # pylint: disable=W0223
     """
     Platform-independent GUID type.
 
@@ -79,10 +79,10 @@ class GUID(TypeDecorator):
             return str(value)
         else:
             if not isinstance(value, uuid.UUID):
-                return "%.32x" % uuid.UUID(value).int
+                return f"{uuid.UUID(value).int:032x}"
             else:
                 # hexstring
-                return "%.32x" % value.int
+                return f"{value.int:032x}"
 
     def process_result_value(self, value, dialect):
         """

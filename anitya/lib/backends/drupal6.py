@@ -50,9 +50,7 @@ class Drupal6Backend(BaseBackend):
         if "-" in project.name:
             name = project.name.replace("-", "_")
 
-        url_template = "https://updates.drupal.org/release-history/" "%(name)s/6.x"
-
-        url = url_template % {"name": name}
+        url = f"https://updates.drupal.org/release-history/{name}/6.x"
 
         return url
 
@@ -84,3 +82,25 @@ class Drupal6Backend(BaseBackend):
             raise err
 
         return versions
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not all backends may support this.  It can be used to look for updates
+        much more quickly than scanning all known projects.
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+            AnityaPluginException: A
+                :obj:`anitya.lib.exceptions.AnityaPluginException` exception
+                when the versions cannot be retrieved correctly
+            NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()
