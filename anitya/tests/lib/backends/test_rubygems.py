@@ -40,7 +40,7 @@ class RubygemsBackendtests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
-        super(RubygemsBackendtests, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
         self.create_project()

@@ -37,7 +37,7 @@ class CratesBackendTests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environnment, run before every test"""
-        super(CratesBackendTests, self).setUp()
+        super().setUp()
         self.create_project()
 
     def create_project(self):
@@ -97,7 +97,7 @@ class CratesBackendTests(DatabaseTestCase):
         mock_call_url.return_value.json.side_effect = ValueError
         project = models.Project.by_id(self.session, 1)
         with self.assertRaises(AnityaPluginException) as context_manager:
-            crates.CratesBackend._get_versions(project)
+            crates.CratesBackend._get_versions(project)  # pylint: disable=W0212
             self.assertIn("Failed to decode JSON", str(context_manager.exception))
 
     def test_get_versions_not_modified(self):

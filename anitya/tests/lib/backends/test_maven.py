@@ -38,24 +38,28 @@ class MavenBackendTest(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
-        super(MavenBackendTest, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
 
     def assert_plexus_version(self, **kwargs):
+        """assert_plexus_version"""
         project = models.Project(backend=BACKEND, **kwargs)
         exp = "1.3.8"
         obs = MavenBackend.get_version(project)
         self.assertEqual(obs, exp)
 
     def assert_invalid(self, **kwargs):
+        """assert_invalid"""
         project = models.Project(backend=BACKEND, **kwargs)
         self.assertRaises(AnityaPluginException, MavenBackend.get_version, project)
 
     def test_maven_nonexistent(self):
+        """test_maven_nonexistent"""
         self.assert_invalid(name="foo", homepage="https://example.com")
 
     def test_maven_coordinates_in_version_url(self):
+        """test_maven_coordinates_in_version_url"""
         self.assert_plexus_version(
             name="plexus-maven-plugin",
             version_url="org.codehaus.plexus:plexus-maven-plugin",
@@ -63,12 +67,14 @@ class MavenBackendTest(DatabaseTestCase):
         )
 
     def test_maven_coordinates_in_name(self):
+        """test_maven_coordinates_in_name"""
         self.assert_plexus_version(
             name="org.codehaus.plexus:plexus-maven-plugin",
             homepage="https://plexus.codehaus.org/",
         )
 
     def test_maven_bad_coordinates(self):
+        """test_maven_bad_coordinates"""
         self.assert_invalid(
             name="plexus-maven-plugin",
             homepage="https://plexus.codehaus.org/",
@@ -76,6 +82,7 @@ class MavenBackendTest(DatabaseTestCase):
         )
 
     def test_maven_get_version_by_url(self):
+        """test_maven_get_version_by_url"""
         self.assert_plexus_version(
             name="plexus-maven-plugin",
             homepage="https://repo1.maven.org/maven2/"
@@ -83,6 +90,7 @@ class MavenBackendTest(DatabaseTestCase):
         )
 
     def test_dots_in_artifact_id(self):
+        """test_dots_in_artifact_id"""
         project = models.Project(
             backend=BACKEND,
             name="felix-gogo-shell",
@@ -156,6 +164,7 @@ class MavenBackendTest(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_maven_get_versions(self):
+        """test_maven_get_versions"""
         project = models.Project(
             backend=BACKEND,
             name="plexus-maven-plugin",

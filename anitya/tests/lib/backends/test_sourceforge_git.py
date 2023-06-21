@@ -38,7 +38,7 @@ class SourceforgeGitBackendtests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
-        super(SourceforgeGitBackendtests, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
         self.create_project()
@@ -250,6 +250,7 @@ class SourceforgeGitBackendtests(DatabaseTestCase):
         self.assertEqual(sorted(obs), exp)
 
     def test_get_versions_url_not_valid(self):
+        """Test get versions url not valid"""
         pid = 2
         project = models.Project.get(self.session, pid)
         self.assertRaises(

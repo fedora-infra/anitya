@@ -33,7 +33,7 @@ class GogsBackendtests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environment, ran before every tests."""
-        super(GogsBackendtests, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
         self.create_project()

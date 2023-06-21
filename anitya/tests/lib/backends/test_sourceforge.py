@@ -38,7 +38,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
-        super(SourceforgeBackendtests, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
         self.create_project()

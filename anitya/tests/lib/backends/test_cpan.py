@@ -38,7 +38,7 @@ class CpanBackendtests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
-        super(CpanBackendtests, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
         self.create_project()
