@@ -45,8 +45,8 @@ class NpmjsBackend(BaseBackend):
 
         try:
             req = cls.call_url(url, last_change=last_change)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("Could not contact %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"Could not contact {url}") from err
 
         # Not modified
         if req.status_code == 304:
@@ -54,8 +54,8 @@ class NpmjsBackend(BaseBackend):
 
         try:
             data = req.json()
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("No JSON returned by %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"No JSON returned by {url}") from err
 
         if "dist-tags" in data and "latest" in data["dist-tags"]:
             return data["dist-tags"]["latest"]
@@ -100,8 +100,8 @@ class NpmjsBackend(BaseBackend):
 
         try:
             req = cls.call_url(url, last_change=last_change)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("Could not contact %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"Could not contact {url}") from err
 
         # Not modified
         if req.status_code == 304:
@@ -109,11 +109,11 @@ class NpmjsBackend(BaseBackend):
 
         try:
             data = req.json()
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("No JSON returned by %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"No JSON returned by {url}") from err
 
         if "error" in data or "versions" not in data:
-            raise AnityaPluginException("No versions found at %s" % url)
+            raise AnityaPluginException(f"No versions found at {url}")
 
         # Filter retrieved versions
         filtered_versions = BaseBackend.filter_versions(
@@ -139,19 +139,19 @@ class NpmjsBackend(BaseBackend):
 
         try:
             response = cls.call_url(url)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("Could not contact %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"Could not contact {url}") from err
 
         try:
             data = response.json()
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("No JSON returned by %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"No JSON returned by {url}") from err
 
         for item in data["results"]:
             if item.get("deleted"):
                 continue
             doc = item["doc"]
             name = doc["name"]
-            homepage = doc.get("homepage", "https://npmjs.org/package/%s" % name)
+            homepage = doc.get("homepage", f"https://npmjs.org/package/{name}")
             for version in doc.get("versions", []):
                 yield name, homepage, cls.name, version

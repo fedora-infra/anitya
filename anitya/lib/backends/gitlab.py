@@ -93,7 +93,7 @@ class GitlabBackend(BaseBackend):
         url = cls.get_version_url(project)
         if not url:
             raise AnityaPluginException(
-                "Project %s was incorrectly set up." % project.name
+                f"Project {project.name} was incorrectly set up."
             )
 
         last_change = project.get_time_last_created_version()
@@ -106,21 +106,37 @@ class GitlabBackend(BaseBackend):
             if resp.status_code == 304:
                 return []
             raise AnityaPluginException(
-                '%s: Server responded with status "%s": "%s"'
-                % (project.name, resp.status_code, resp.reason)
+                f"{project.name}: Server responded with status "
+                f'"{resp.status_code}": "{resp.reason}"'
             )
 
-        _log.debug("Received %d tags for %s" % (len(json), project.name))
+        _log.debug("Received %s tags for %s", len(json), project.name)
 
         tags = []
         for tag in json:
             tags.append(tag["name"])
 
         if len(tags) == 0:
-            raise AnityaPluginException(
-                "%s: No upstream version found." % (project.name)
-            )
+            raise AnityaPluginException(f"{project.name}: No upstream version found.")
 
         # Filter retrieved versions
         filtered_versions = cls.filter_versions(tags, project.version_filter)
         return filtered_versions
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

@@ -49,8 +49,9 @@ class MavenBackend(BaseBackend):
                 return ""
             group_id = match.group(1)
             artifact_id = match.group(2)
-            url = "https://repo1.maven.org/maven2/{group_id}/{artifact_id}/".format(
-                group_id=group_id.replace(".", "/"), artifact_id=artifact_id
+            url = (
+                "https://repo1.maven.org/maven2/"
+                f"{group_id.replace('.', '/')}/{artifact_id}/"
             )
 
         return url
@@ -77,3 +78,21 @@ class MavenBackend(BaseBackend):
             )
 
         return get_versions_by_regex(url, VERSION_REGEX, project)
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

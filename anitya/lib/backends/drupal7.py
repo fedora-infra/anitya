@@ -50,11 +50,7 @@ class Drupal7Backend(BaseBackend):
         if "-" in project.name:
             name = project.name.replace("-", "_")
 
-        url_template = "https://updates.drupal.org/release-history/" "%(name)s/7.x"
-
-        url = url_template % {"name": name}
-
-        return url
+        return f"https://updates.drupal.org/release-history/{name}/7.x"
 
     @classmethod
     def get_versions(cls, project):
@@ -84,3 +80,21 @@ class Drupal7Backend(BaseBackend):
             raise err
 
         return versions
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

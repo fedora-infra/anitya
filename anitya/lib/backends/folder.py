@@ -65,9 +65,8 @@ class FolderBackend(BaseBackend):
             req = cls.call_url(url, last_change=last_change, insecure=project.insecure)
         except Exception as err:
             raise AnityaPluginException(
-                'Could not call : "%s" of "%s", with error: %s'
-                % (url, project.name, str(err))
-            )
+                f'Could not call : "{url}" of "{project.name}", with error: {str(err)}'
+            ) from err
 
         versions = []
 
@@ -85,3 +84,21 @@ class FolderBackend(BaseBackend):
             versions = get_versions_by_regex_for_text(req, url, DEFAULT_REGEX, project)
 
         return versions
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

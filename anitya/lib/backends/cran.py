@@ -70,31 +70,30 @@ class CranBackend(BaseBackend):
                 format.
 
         """
-        url = "https://crandb.r-pkg.org/{name}".format(name=project.name)
+        url = f"https://crandb.r-pkg.org/{project.name}"
 
         last_change = project.get_time_last_created_version()
         try:
             response = cls.call_url(url, last_change=last_change)
         except requests.RequestException as e:  # pragma: no cover
-            raise AnityaPluginException("Could not contact {}: {}".format(url, str(e)))
+            raise AnityaPluginException(f"Could not contact {url}: {str(e)}") from e
 
         if response.status_code != 200:
             # Not modified
             if response.status_code == 304:
                 return None
             raise AnityaPluginException(
-                "Failed to download from {}: {} {}".format(
-                    url, response.status_code, response.reason
-                )
+                f"Failed to download from {url}: {response.status_code} "
+                f"{response.reason}"
             )
 
         try:
             data = response.json()
-        except json.JSONDecodeError:  # pragma: no cover
-            raise AnityaPluginException("No JSON returned by {}".format(url))
+        except json.JSONDecodeError as e:  # pragma: no cover
+            raise AnityaPluginException(f"No JSON returned by {url}") from e
 
         if "error" in data or "Version" not in data:  # pragma: no cover
-            raise AnityaPluginException("No versions found at {}".format(url))
+            raise AnityaPluginException(f"No versions found at {url}")
 
         return data["Version"]
 
@@ -110,7 +109,7 @@ class CranBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = "https://crandb.r-pkg.org/{name}/all".format(name=project.name)
+        url = f"https://crandb.r-pkg.org/{project.name}/all"
 
         return url
 
@@ -136,25 +135,24 @@ class CranBackend(BaseBackend):
         try:
             response = cls.call_url(url, last_change=last_change)
         except requests.RequestException as e:  # pragma: no cover
-            raise AnityaPluginException("Could not contact {}: {}".format(url, str(e)))
+            raise AnityaPluginException(f"Could not contact {url}: {str(e)}") from e
 
         if response.status_code != 200:
             # Not modified
             if response.status_code == 304:
                 return []
             raise AnityaPluginException(
-                "Failed to download from {}: {} {}".format(
-                    url, response.status_code, response.reason
-                )
+                f"Failed to download from {url}: {response.status_code} "
+                f"{response.reason}"
             )
 
         try:
             data = response.json()
-        except json.JSONDecodeError:  # pragma: no cover
-            raise AnityaPluginException("No JSON returned by {}".format(url))
+        except json.JSONDecodeError as e:  # pragma: no cover
+            raise AnityaPluginException(f"No JSON returned by {url}") from e
 
         if "error" in data or "versions" not in data:  # pragma: no cover
-            raise AnityaPluginException("No versions found at {}".format(url))
+            raise AnityaPluginException(f"No versions found at {url}")
 
         filtered_versions = cls.filter_versions(
             list(data["versions"].keys()), project.version_filter
@@ -184,19 +182,18 @@ class CranBackend(BaseBackend):
         try:
             response = cls.call_url(url)
         except requests.RequestException as e:  # pragma: no cover
-            raise AnityaPluginException("Could not contact {}: {}".format(url, str(e)))
+            raise AnityaPluginException(f"Could not contact {url}: {str(e)}") from e
 
         if response.status_code != 200:  # pragma: no cover
             raise AnityaPluginException(
-                "Failed to download from {}: {} {}".format(
-                    url, response.status_code, response.reason
-                )
+                f"Failed to download from {url}: {response.status_code} "
+                f"{response.reason}"
             )
 
         try:
             data = response.json()
-        except json.JSONDecodeError:  # pragma: no cover
-            raise AnityaPluginException("No JSON returned by {}".format(url))
+        except json.JSONDecodeError as err:  # pragma: no cover
+            raise AnityaPluginException(f"No JSON returned by {url}") from err
 
         for item in data:
             name = item["name"]

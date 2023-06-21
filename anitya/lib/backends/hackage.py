@@ -37,7 +37,7 @@ class HackageBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = "https://hackage.haskell.org/package/%(name)s" % {"name": project.name}
+        url = f"https://hackage.haskell.org/package/{project.name}"
 
         return url
 

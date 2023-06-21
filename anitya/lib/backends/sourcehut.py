@@ -13,7 +13,7 @@
 # with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
-
+"""sourcehut"""
 from defusedxml import ElementTree
 
 from anitya.lib.backends import BaseBackend
@@ -72,7 +72,7 @@ class SourceHutBackend(BaseBackend):
         url = cls.get_version_url(project)
         if not url:
             raise AnityaPluginException(
-                "Project %s was incorrectly set up" % project.name
+                f"Project {project.name} was incorrectly set up"
             )
 
         last_change = project.get_time_last_created_version()
@@ -83,16 +83,33 @@ class SourceHutBackend(BaseBackend):
             return []
         else:
             raise AnityaPluginException(
-                '%s: Server responded with status "%s": "%s"'
-                % (project.name, res.status_code, res.reason)
+                f"{project.name}: Server responded with status "
+                f'"{res.status_code}": "{res.reason}"'
             )
 
         versions = [i.find("title").text for i in xml.find("channel").findall("item")]
 
         if len(versions) == 0:
             raise AnityaPluginException(
-                "%(name)s: no upstream version found. - %(url)s -  "
-                % {"name": project.name, "url": url}
+                f"{project.name}: no upstream version found. - {url} -  "
             )
 
         return cls.filter_versions(versions, project.version_filter)
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

@@ -38,7 +38,7 @@ class GnuBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = "https://ftp.gnu.org/gnu/%(name)s/" % {"name": project.name}
+        url = f"https://ftp.gnu.org/gnu/{project.name}/"
 
         return url
 
@@ -62,10 +62,10 @@ class GnuBackend(BaseBackend):
 
         try:
             req = cls.call_url(url, last_change=last_change)
-        except Exception:  # pragma: no cover
+        except Exception as err:  # pragma: no cover
             raise AnityaPluginException(
-                'Could not call : "%s" of "%s"' % (url, project.name)
-            )
+                f'Could not call : "{url}" of "{project.name}"'
+            ) from err
 
         versions = []
         if not isinstance(req, six.string_types):
@@ -82,3 +82,21 @@ class GnuBackend(BaseBackend):
             )
 
         return versions
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

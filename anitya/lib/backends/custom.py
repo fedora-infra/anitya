@@ -73,3 +73,21 @@ class CustomBackend(BaseBackend):
             regex = regex % {"name": project.name.replace("+", r"\+")}
 
         return get_versions_by_regex(url, regex, project, insecure=project.insecure)
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

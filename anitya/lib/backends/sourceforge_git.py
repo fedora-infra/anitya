@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""sourceforge_git"""
 import requests
 from bs4 import BeautifulSoup
 
@@ -99,12 +99,12 @@ class SourceforgeGitBackend(BaseBackend):
         """
         namespace, repo = cls.get_namespace_repo(project)
         url = project.get_version_url()
-        git_tag_request = requests.get(url)
+        git_tag_request = requests.get(url)  # pylint: disable=W3101
 
         if git_tag_request.status_code == 404:
             raise AnityaPluginException(
-                'Could not call : "%s" of "%s", with error: %s'
-                % (url, project.name, git_tag_request.status_code)
+                f'Could not call : "{url}" of "{project.name}", with error: '
+                f"{git_tag_request.status_code}"
             )
 
         soup = BeautifulSoup(git_tag_request.content, "html.parser")
@@ -124,3 +124,21 @@ class SourceforgeGitBackend(BaseBackend):
             release_tags.append(release_tag_text)
 
         return release_tags
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

@@ -155,11 +155,9 @@ class CratesBackend(BaseBackend):
                 return []
             data = req.json()
         except requests.RequestException as e:
-            raise AnityaPluginException(
-                "Could not contact {url}: " "{reason!r}".format(url=url, reason=e)
-            )
+            raise AnityaPluginException(f"Could not contact {url}: {e!r}") from e
         except ValueError as e:
-            raise AnityaPluginException("Failed to decode JSON: {!r}".format(e))
+            raise AnityaPluginException(f"Failed to decode JSON: {e!r}") from e
 
         return data["versions"]
 
@@ -193,7 +191,7 @@ class CratesBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = "https://crates.io/api/v1/crates/{}/versions".format(project.name)
+        url = f"https://crates.io/api/v1/crates/{project.name}/versions"
 
         return url
 
@@ -237,3 +235,21 @@ class CratesBackend(BaseBackend):
         """
         # crates API returns already ordered versions
         return cls.get_versions(project)
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

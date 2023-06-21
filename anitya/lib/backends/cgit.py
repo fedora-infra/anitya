@@ -70,7 +70,7 @@ class CgitBackend(BaseBackend):
         return get_versions_by_regex(url, regex, project, url.startswith("http://"))
 
     @classmethod
-    def check_feed(cls):
+    def check_feed(cls):  # pragma: no cover
         """Method called to retrieve the latest uploads to a given backend,
         via, for example, RSS or an API.
 

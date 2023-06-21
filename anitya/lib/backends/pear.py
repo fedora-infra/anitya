@@ -10,7 +10,7 @@
 
 """
 
-import anitya.lib.xml2dict as xml2dict
+from anitya.lib import xml2dict
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 
@@ -19,8 +19,8 @@ def _get_versions(url):
     """Retrieve the versions for the provided url."""
     try:
         req = PearBackend.call_url(url)
-    except Exception:  # pragma: no cover
-        raise AnityaPluginException("Could not contact %s" % url)
+    except Exception as err:  # pragma: no cover
+        raise AnityaPluginException(f"Could not contact {url}") from err
 
     data = req.text
     versions = []
@@ -102,9 +102,7 @@ class PearBackend(BaseBackend):
         versions = _get_versions(url)
 
         if not versions:
-            raise AnityaPluginException(
-                "No versions found for %s" % project.name.lower()
-            )
+            raise AnityaPluginException(f"No versions found for {project.name.lower()}")
 
         # Filter retrieved versions
         filtered_versions = cls.filter_versions(versions, project.version_filter)
@@ -122,18 +120,18 @@ class PearBackend(BaseBackend):
 
         try:
             response = cls.call_url(url)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("Could not contact %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"Could not contact {url}") from err
 
         try:
             parser = xml2dict.XML2Dict()
             data = parser.fromstring(response.text)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("No XML returned by %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"No XML returned by {url}") from err
 
         items = data["RDF"]["item"]
         for entry in items:
             title = entry["title"]["value"]
             name, version = title.rsplit(None, 1)
-            homepage = "https://pear.php.net/package/%s" % name
+            homepage = f"https://pear.php.net/package/{name}"
             yield name, homepage, cls.name, version

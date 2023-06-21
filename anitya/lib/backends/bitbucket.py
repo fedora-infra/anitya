@@ -39,7 +39,6 @@ class BitBucketBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url_template = "https://bitbucket.org/%(version_url)s/" "downloads?tab=tags"
         url = ""
         if project.version_url:
             url = project.version_url.replace("https://bitbucket.org/", "")
@@ -50,7 +49,7 @@ class BitBucketBackend(BaseBackend):
             url = url[:-1]
 
         if url:
-            url = url_template % {"version_url": url}
+            url = f"https://bitbucket.org/{url}/downloads?tab=tags"
 
         return url
 
@@ -72,7 +71,25 @@ class BitBucketBackend(BaseBackend):
         url = cls.get_version_url(project)
         if not url:
             raise AnityaPluginException(
-                "Project %s was incorrectly set up." % project.name
+                f"Project {project.name} was incorrectly set up."
             )
 
         return get_versions_by_regex(url, REGEX, project)
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()
