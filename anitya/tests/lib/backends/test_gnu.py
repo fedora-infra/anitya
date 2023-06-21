@@ -40,7 +40,7 @@ class GnuBackendtests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
-        super(GnuBackendtests, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
         self.create_project()

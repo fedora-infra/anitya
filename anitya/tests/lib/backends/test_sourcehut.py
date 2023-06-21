@@ -35,7 +35,7 @@ class SourceHutBackendTests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environment, ran before every tests."""
-        super(SourceHutBackendTests, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
         self.create_project()

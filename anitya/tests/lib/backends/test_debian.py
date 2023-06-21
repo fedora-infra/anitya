@@ -39,7 +39,7 @@ class DebianBackendtests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
-        super(DebianBackendtests, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
         self.create_project()

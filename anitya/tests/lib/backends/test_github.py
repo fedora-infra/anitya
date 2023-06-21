@@ -40,7 +40,7 @@ class GithubBackendtests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
-        super(GithubBackendtests, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
         self.create_projects()
@@ -285,6 +285,7 @@ class GithubBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_version_url_project_version_url_contains_releases(self):
+        """test_get_version_url_project_version_url_contains_releases"""
         project = models.Project(
             name="Releases Repository",
             version_url="fedora-infra/releases",
@@ -512,7 +513,7 @@ class JsonTests(unittest.TestCase):
     """
 
     def __init__(self, *args, **kwargs):
-        super(JsonTests, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.maxDiff = None
         self.project = models.Project(
             name="foobar",

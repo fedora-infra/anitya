@@ -38,7 +38,7 @@ class Drupal6Backendtests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
-        super(Drupal6Backendtests, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
         self.create_project()

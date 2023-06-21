@@ -33,7 +33,7 @@ class CgitBackendtests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environment, ran before every tests."""
-        super(CgitBackendtests, self).setUp()
+        super().setUp()
 
         create_distro(self.session)
         self.create_project()

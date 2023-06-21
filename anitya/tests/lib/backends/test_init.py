@@ -39,13 +39,13 @@ from anitya.tests.base import AnityaTestCase
 
 
 class BaseBackendTests(AnityaTestCase):
+    """BaseBackendTests"""
+
     def setUp(self):
-        super(BaseBackendTests, self).setUp()
+        super().setUp()
         self.backend = backends.BaseBackend()
         self.headers = {
-            "User-Agent": "Anitya {0} at release-monitoring.org".format(
-                anitya.app.__version__
-            ),
+            "User-Agent": f"Anitya {anitya.app.__version__} at release-monitoring.org",
             "From": config.get("ADMIN_EMAIL"),
             "If-modified-since": "Thu, 01 Jan 1970 00:00:00 GMT",
         }
@@ -82,7 +82,7 @@ class BaseBackendTests(AnityaTestCase):
 
         mock_urllib.assert_called_once_with(mock.ANY)
 
-        args, kwargs = mock_urllib.call_args
+        args, _ = mock_urllib.call_args
         req = args[0]
 
         self.assertEqual(req_exp.get_full_url(), req.get_full_url())
@@ -138,6 +138,7 @@ class BaseBackendTests(AnityaTestCase):
 
     @mock.patch("anitya.lib.backends.http_session")
     def test_call_url_last_change(self, mock_http_session):
+        """Test call url last change"""
         url = "https://www.example.com/"
         exp_headers = self.headers.copy()
         time = arrow.utcnow()
