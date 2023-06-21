@@ -34,7 +34,7 @@ class StackageBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = "https://www.stackage.org/package/%(name)s" % {"name": project.name}
+        url = f"https://www.stackage.org/package/{project.name}"
 
         return url
 
@@ -54,8 +54,26 @@ class StackageBackend(BaseBackend):
         url = cls.get_version_url(project)
 
         regex = (
-            r"<a href=\"https://hackage.haskell.org/package/%s\"><span class=\"version\">"
-            r"([\d.]*).*</span></a>" % project.name
+            rf"<a href=\"https://hackage.haskell.org/package/{project.name}\">"
+            r"<span class=\"version\">([\d.]*).*</span></a>"
         )
 
         return get_versions_by_regex(url, regex, project)
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

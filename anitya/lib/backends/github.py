@@ -85,7 +85,7 @@ class GithubBackend(BaseBackend):
             token = config["GITHUB_ACCESS_TOKEN"]
             if not token:
                 raise AnityaPluginException("github_access_token not configured")
-            headers["Authorization"] = "bearer %s" % token
+            headers["Authorization"] = f"bearer {token}"
             resp = http_session.post(
                 API_URL,
                 json={"query": query},
@@ -94,10 +94,10 @@ class GithubBackend(BaseBackend):
                 verify=True,
             )
         except Exception as err:
-            _log.debug("%s ERROR: %s" % (project.name, str(err)))
+            _log.debug("%s ERROR: %s", project.name, str(err))
             raise AnityaPluginException(
-                'Could not call : "%s" of "%s", with error: %s'
-                % (API_URL, project.name, str(err))
+                f'Could not call : "{API_URL}" of "{project.name}", '
+                f"with error: {str(err)}"
             ) from err
 
         if resp.ok:
@@ -107,12 +107,12 @@ class GithubBackend(BaseBackend):
             raise RateLimitException(reset_time)
         else:
             raise AnityaPluginException(
-                '%s: Server responded with status "%s": "%s"'
-                % (project.name, resp.status_code, resp.reason)
+                f"{project.name}: Server responded with status "
+                f'"{resp.status_code}": "{resp.reason}"'
             )
 
         versions = parse_json(json, project)
-        _log.debug(f"Retrieved versions: {versions}")
+        _log.debug("Retrieved versions: %s", versions)
         return versions
 
     @classmethod
@@ -143,25 +143,21 @@ class GithubBackend(BaseBackend):
             url = utilities.remove_suffix(url, "/tags")
         else:
             raise AnityaPluginException(
-                "Project %s was incorrectly set up." % project.name
+                f"Project {project.name} was incorrectly set up."
             )
 
         try:
             (owner, repo) = url.split("/")
-        except ValueError:
+        except ValueError as err:
             raise AnityaPluginException(
-                """Project {} was incorrectly set up.
-                Can\'t parse owner and repo.""".format(
-                    project.name
-                )
-            )
+                f"""Project {project.name} was incorrectly set up.
+                Can't parse owner and repo."""
+            ) from err
 
         versions = cls._retrieve_versions(owner, repo, project)
 
         if len(versions) == 0:
-            raise AnityaPluginException(
-                "%s: No upstream version found." % (project.name)
-            )
+            raise AnityaPluginException(f"{project.name}: No upstream version found.")
 
         # Filter retrieved versions
         filtered_versions = cls.filter_versions(
@@ -170,6 +166,24 @@ class GithubBackend(BaseBackend):
         return [
             version for version in versions if version["version"] in filtered_versions
         ]
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()
 
 
 def parse_json(json, project):
@@ -192,7 +206,7 @@ def parse_json(json, project):
             when rate limit threshold is reached.
 
     """
-    global reset_time
+    global reset_time  # pylint: disable=W0603
     # We need to check limit first,
     # because exceeding the limit will also return error
     try:
@@ -200,8 +214,9 @@ def parse_json(json, project):
         remaining = json["data"]["rateLimit"]["remaining"]
         reset_time = json["data"]["rateLimit"]["resetAt"]
         _log.debug(
-            "Github API ratelimit remains %s, will reset at %s UTC"
-            % (remaining, reset_time)
+            "Github API ratelimit remains %s, will reset at %s UTC",
+            remaining,
+            reset_time,
         )
 
         if (remaining / limit) <= RATE_LIMIT_THRESHOLD:
@@ -212,9 +227,9 @@ def parse_json(json, project):
     if "errors" in json:
         error_str = ""
         for error in json["errors"]:
-            error_str += '"%s": "%s"\n' % (error["type"], error["message"])
+            error_str += f"\"{error['type']}\": \"{error['message']}\"\n"
         raise AnityaPluginException(
-            "%s: Server responded with following errors\n%s" % (project.name, error_str)
+            f"{project.name}: Server responded with following errors\n{error_str}"
         )
     if project.releases_only:
         json_data = json["data"]["repository"]["releases"]
@@ -224,9 +239,9 @@ def parse_json(json, project):
     total_count = json_data["totalCount"]
 
     if project.releases_only:
-        _log.debug("Received %s releases for %s" % (total_count, project.name))
+        _log.debug("Received %s releases for %s", total_count, project.name)
     else:
-        _log.debug("Received %s tags for %s" % (total_count, project.name))
+        _log.debug("Received %s tags for %s", total_count, project.name)
 
     versions = []
 
@@ -243,8 +258,9 @@ def parse_json(json, project):
             versions.append(version)
         else:
             _log.info(
-                "Skipping release %s on %s, because it doesn't have associated tag"
-                % (edge["node"]["name"], project.name)
+                "Skipping release %s on %s, because it doesn't have associated tag",
+                edge["node"]["name"],
+                project.name,
             )
 
     return versions

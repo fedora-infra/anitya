@@ -34,7 +34,7 @@ class LaunchpadBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = "https://launchpad.net/%(name)s/+download" % {"name": project.name}
+        url = f"https://launchpad.net/{project.name}/+download"
 
         return url
 
@@ -58,3 +58,21 @@ class LaunchpadBackend(BaseBackend):
         regex = REGEX % {"name": project.name}
 
         return get_versions_by_regex(url, regex, project)
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

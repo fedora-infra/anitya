@@ -44,16 +44,13 @@ class DebianBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url_template = "http://ftp.debian.org/debian/pool/main/" "%(short)s/%(name)s/"
 
         if project.name.startswith("lib"):
             short = project.name[:4]
         else:
             short = project.name[0]
 
-        url = url_template % {"short": short, "name": project.name}
-
-        return url
+        return f"http://ftp.debian.org/debian/pool/main/{short}/{project.name}/"
 
     @classmethod
     def get_versions(cls, project):
@@ -74,3 +71,21 @@ class DebianBackend(BaseBackend):
         regex = DEBIAN_REGEX % {"name": project.name}
 
         return get_versions_by_regex(url, regex, project)
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

@@ -73,7 +73,7 @@ class GnomeBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = "https://download.gnome.org/sources/%(name)s/" % {"name": project.name}
+        url = f"https://download.gnome.org/sources/{project.name}/"
 
         return url
 
@@ -102,3 +102,21 @@ class GnomeBackend(BaseBackend):
             output = use_gnome_regex(project)
 
         return output
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

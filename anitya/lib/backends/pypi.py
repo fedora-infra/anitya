@@ -10,7 +10,7 @@
 
 """
 
-import anitya.lib.xml2dict as xml2dict
+from anitya.lib import xml2dict
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 
@@ -42,8 +42,8 @@ class PypiBackend(BaseBackend):
         last_change = project.get_time_last_created_version()
         try:
             req = cls.call_url(url, last_change=last_change)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("Could not contact %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"Could not contact {url}") from err
 
         # Not modified
         if req.status_code == 304:
@@ -51,8 +51,8 @@ class PypiBackend(BaseBackend):
 
         try:
             data = req.json()
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("No JSON returned by %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"No JSON returned by {url}") from err
 
         return data["info"]["version"]
 
@@ -68,7 +68,7 @@ class PypiBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = "https://pypi.org/pypi/%s/json" % project.name
+        url = f"https://pypi.org/pypi/{project.name}/json"
 
         return url
 
@@ -91,8 +91,8 @@ class PypiBackend(BaseBackend):
         last_change = project.get_time_last_created_version()
         try:
             req = cls.call_url(url, last_change=last_change)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("Could not contact %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"Could not contact {url}") from err
 
         # Not modified
         if req.status_code == 304:
@@ -100,8 +100,8 @@ class PypiBackend(BaseBackend):
 
         try:
             data = req.json()
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("No JSON returned by %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"No JSON returned by {url}") from err
 
         # Filter yanked versions
         unyanked_versions = []
@@ -136,18 +136,18 @@ class PypiBackend(BaseBackend):
 
         try:
             response = cls.call_url(url)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("Could not contact %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"Could not contact {url}") from err
 
         try:
             parser = xml2dict.XML2Dict()
             data = parser.fromstring(response.text)
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("No XML returned by %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"No XML returned by {url}") from err
 
         items = data["rss"]["channel"]["item"]
         for entry in items:
             title = entry["title"]["value"]
             name, version = title.rsplit(None, 1)
-            homepage = "https://pypi.org/project/%s/" % name
+            homepage = f"https://pypi.org/project/{name}/"
             yield name, homepage, cls.name, version

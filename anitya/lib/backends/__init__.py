@@ -24,7 +24,7 @@ import re
 import socket
 
 # sre_constants contains re exceptions
-import sre_constants
+import sre_constants  # pylint: disable=W4901
 import urllib.request as urllib
 from datetime import timedelta
 from typing import List
@@ -43,8 +43,8 @@ REGEX = anitya_config["DEFAULT_REGEX"]
 
 # Default headers for requests
 REQUEST_HEADERS = {
-    "User-Agent": "Anitya %s at release-monitoring.org"
-    % pkg_resources.get_distribution("anitya").version,
+    "User-Agent": f"Anitya {pkg_resources.get_distribution('anitya').version} "
+    "at release-monitoring.org",
     "From": anitya_config.get("ADMIN_EMAIL"),
     "If-modified-since": arrow.Arrow(1970, 1, 1).format("ddd, DD MMM YYYY HH:mm:ss")
     + " GMT",
@@ -88,7 +88,7 @@ class BaseBackend(object):
     check_interval = timedelta(hours=1)
 
     @classmethod
-    def expand_subdirs(self, url, last_change=None, glob_char="*"):
+    def expand_subdirs(cls, url, last_change=None, glob_char="*"):
         """Expand dirs containing ``glob_char`` in the given URL with the latest
         Example URL: ``https://www.example.com/foo/*/``
 
@@ -99,7 +99,7 @@ class BaseBackend(object):
         `cnucnu <https://fedorapeople.org/cgit/till/public_git/cnucnu.git/>`_
 
         """
-        glob_pattern = "/([^/]*%s[^/]*)/" % re.escape(glob_char)
+        glob_pattern = f"/([^/]*{re.escape(glob_char)}[^/]*)/"
         glob_match = re.search(glob_pattern, url)
         if not glob_match:
             return url
@@ -115,7 +115,7 @@ class BaseBackend(object):
         text_regex = re.compile(r"^d.+\s(\S+)\s*$", re.I | re.M)
 
         if url_prefix != "":
-            resp = self.call_url(url_prefix, last_change=last_change)
+            resp = cls.call_url(url_prefix, last_change=last_change)
             # When FTP server is called, Response object is not created
             # and we get binary string instead
             try:
@@ -135,8 +135,8 @@ class BaseBackend(object):
             sorted_subdirs = sorted([RpmVersion(s) for s in subdirs])
             latest = sorted_subdirs[-1].version
 
-            url = "%s%s/%s" % (url_prefix, latest, url_suffix)
-            return self.expand_subdirs(url, glob_char)
+            url = f"{url_prefix}{latest}/{url_suffix}"
+            return cls.expand_subdirs(url, glob_char)
         return url
 
     @classmethod
@@ -174,7 +174,7 @@ class BaseBackend(object):
         pass
 
     @classmethod
-    def get_versions(self, project):  # pragma: no cover
+    def get_versions(cls, project):  # pragma: no cover
         """Method called to retrieve all the versions (that can be found)
         of the projects provided, project that relies on the backend of
         this plugin.
@@ -197,7 +197,7 @@ class BaseBackend(object):
         pass
 
     @classmethod
-    def check_feed(self):
+    def check_feed(cls):
         """Method called to retrieve the latest uploads to a given backend,
         via, for example, RSS or an API.
 
@@ -219,7 +219,7 @@ class BaseBackend(object):
         raise NotImplementedError()
 
     @classmethod
-    def get_ordered_versions(self, project):
+    def get_ordered_versions(cls, project):
         """Method called to retrieve all the versions (that can be found)
         of the projects provided, ordered from the oldest to the newest.
 
@@ -236,12 +236,12 @@ class BaseBackend(object):
                 when the versions cannot be retrieved correctly
 
         """
-        vlist = self.get_versions(project)
+        vlist = cls.get_versions(project)
         sorted_versions = project.create_version_objects(vlist)
         return [v.version for v in sorted_versions]
 
     @classmethod
-    def _filter_versions(self, version, filter_list):
+    def _filter_versions(cls, version, filter_list):
         """
         Method used to call as argument of Python filter function.
 
@@ -258,7 +258,7 @@ class BaseBackend(object):
         return False
 
     @classmethod
-    def filter_versions(self, versions, filter_string):
+    def filter_versions(cls, versions, filter_string):
         """Method called to filter versions list by filter_string.
         Filter string is first parsed by delimiter and then applied on list of versions.
         For example: list of versions ["1.0.0", "1.0.0-alpha", "1.0.0-beta"]
@@ -272,23 +272,21 @@ class BaseBackend(object):
         Returns:
             :obj:`list`: A list of filtered versions.
         """
-        _log.debug(
-            "Filtering versions '{}' by filter '{}'".format(versions, filter_string)
-        )
+        _log.debug("Filtering versions '%s' by filter '%s'", versions, filter_string)
         filtered_versions = versions
         if filter_string:
             filter_list = filter_string.split(";")
             filtered_versions = [
                 version
                 for version in versions
-                if not self._filter_versions(version, filter_list)
+                if not cls._filter_versions(version, filter_list)
             ]
 
-        _log.debug("Filtered versions '{}'".format(filtered_versions))
+        _log.debug("Filtered versions '%s'", filtered_versions)
         return filtered_versions
 
     @classmethod
-    def call_url(self, url, last_change=None, insecure=False):
+    def call_url(cls, url, last_change=None, insecure=False):
         """Dedicated method to query a URL.
 
         It is important to use this method as it allows to query them with
@@ -317,7 +315,7 @@ class BaseBackend(object):
                 last_change.format("ddd, DD MMM YYYY HH:mm:ss") + " GMT"
             )
         if "*" in url:
-            url = self.expand_subdirs(url, last_change)
+            url = cls.expand_subdirs(url, last_change)  # pragma: no cover
 
         if url.startswith("ftp://") or url.startswith("ftps://"):
             socket.setdefaulttimeout(30)
@@ -327,16 +325,16 @@ class BaseBackend(object):
             req.add_header("From", headers["From"])
             try:
                 # Ignore this bandit issue, the url is checked above
-                resp = urllib.urlopen(req)  # nosec
+                resp = urllib.urlopen(req)  # nosec # pylint: disable=R1732
                 content = resp.read().decode()
             except URLError as e:
                 raise AnityaPluginException(
-                    'Could not call "%s" with error: %s' % (url, e.reason)
-                )
-            except UnicodeDecodeError:
+                    f'Could not call "{url}" with error: {e.reason}'
+                ) from e
+            except UnicodeDecodeError as e:
                 raise AnityaPluginException(
-                    "FTP response cannot be decoded with UTF-8: %s" % url
-                )
+                    f"FTP response cannot be decoded with UTF-8: {url}"
+                ) from e
 
             return content
 
@@ -371,11 +369,10 @@ def get_versions_by_regex(url, regex, project, insecure=False):
     try:
         req = BaseBackend.call_url(url, last_change=last_change, insecure=insecure)
     except Exception as err:
-        _log.debug("%s ERROR: %s" % (project.name, str(err)))
+        _log.debug("%s ERROR: %s", project.name, str(err))
         raise AnityaPluginException(
-            'Could not call : "%s" of "%s", with error: %s'
-            % (url, project.name, str(err))
-        )
+            f'Could not call : "{url}" of "{project.name}", with error: {str(err)}'
+        ) from err
 
     if not isinstance(req, six.string_types):
         # Not modified
@@ -394,25 +391,26 @@ def get_versions_by_regex_for_text(text, url, regex, project):
 
     try:
         upstream_versions = list(set(re.findall(regex, text)))
-    except sre_constants.error:  # pragma: no cover
-        raise AnityaPluginException("%s: invalid regular expression" % project.name)
+    except sre_constants.error as err:  # pragma: no cover
+        raise AnityaPluginException(
+            f"{project.name}: invalid regular expression"
+        ) from err
 
     for index, version in enumerate(upstream_versions):
         # If the version retrieved is a tuple, re-constitute it
-        if type(version) == tuple:
+        if isinstance(version, tuple):
             version = ".".join([v for v in version if not v == ""])
 
         upstream_versions[index] = version
 
         if " " in version:
             raise AnityaPluginException(
-                "%s: invalid upstream version:>%s< - %s - %s "
-                % (project.name, version, url, regex)
+                f"{project.name}: invalid upstream version:>{version}< - {url} "
+                f"- {regex} "
             )
     if len(upstream_versions) == 0:
         raise AnityaPluginException(
-            "%(name)s: no upstream version found. - %(url)s -  "
-            "%(regex)s" % {"name": project.name, "url": url, "regex": regex}
+            f"{project.name}: no upstream version found. - {url} -  {regex}"
         )
     # Filter retrieved versions
     filtered_versions = BaseBackend.filter_versions(

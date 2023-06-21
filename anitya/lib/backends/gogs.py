@@ -13,7 +13,7 @@
 # with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
-
+"""gogs"""
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 
@@ -79,7 +79,25 @@ class GogsBackend(BaseBackend):
         url = cls.get_version_url(project)
         if not url:
             raise AnityaPluginException(
-                "Project %s was incorrectly set up" % project.name
+                f"Project {project.name} was incorrectly set up"
             )
 
         return get_versions_by_regex(url, REGEX, project, url.startswith("http://"))
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()

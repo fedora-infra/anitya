@@ -52,7 +52,7 @@ class PagureBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = "https://pagure.io/api/0/%s/git/tags" % project.name
+        url = f"https://pagure.io/api/0/{project.name}/git/tags"
 
         return url
 
@@ -76,7 +76,7 @@ class PagureBackend(BaseBackend):
         try:
             req = cls.call_url(url, last_change=last_change)
         except Exception as err:  # pragma: no cover
-            raise AnityaPluginException("Could not contact %s: %s" % (url, str(err)))
+            raise AnityaPluginException(f"Could not contact {url}: {str(err)}") from err
 
         # Not modified
         if req.status_code == 304:
@@ -84,8 +84,8 @@ class PagureBackend(BaseBackend):
 
         try:
             data = req.json()
-        except Exception:  # pragma: no cover
-            raise AnityaPluginException("No JSON returned by %s" % url)
+        except Exception as err:  # pragma: no cover
+            raise AnityaPluginException(f"No JSON returned by {url}") from err
 
         # Filter retrieved versions
         filtered_versions = cls.filter_versions(
@@ -93,3 +93,21 @@ class PagureBackend(BaseBackend):
         )
 
         return filtered_versions
+
+    @classmethod
+    def check_feed(cls):  # pragma: no cover
+        """Method called to retrieve the latest uploads to a given backend,
+        via, for example, RSS or an API.
+
+        Not Supported
+
+        Returns:
+            :obj:`list`: A list of 4-tuples, containing the project name, homepage, the
+            backend, and the version.
+
+        Raises:
+             NotImplementedError: If backend does not
+                support batch updates.
+
+        """
+        raise NotImplementedError()
