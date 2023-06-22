@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+"""createdb"""
 import os
 from argparse import ArgumentParser
 from pathlib import Path
@@ -52,7 +52,7 @@ social_models.PSABase.metadata.create_all(engine)
 if alembic_config is None:
     alembic_config = os.path.join(script_dir, "alembic.ini")
     if args.verbose and os.path.isfile(alembic_config):
-        print("No alembic config specified, defaulting to: {}".format(alembic_config))
+        print(f"No alembic config specified, defaulting to: {alembic_config}")
 
 if alembic_config and os.path.isfile(alembic_config):
     alembic_cfg = Config(alembic_config)

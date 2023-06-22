@@ -71,7 +71,7 @@ def _configure_db(db_uri="sqlite://"):
         db_uri (str): The URI to use when creating the engine. This defaults
             to an in-memory SQLite database.
     """
-    global engine
+    global engine  # pylint: disable=W0603
     engine = create_engine(db_uri)
 
     if db_uri.startswith("sqlite://"):
@@ -93,7 +93,10 @@ def _configure_db(db_uri="sqlite://"):
     @event.listens_for(Session, "after_transaction_end")
     def restart_savepoint(session, transaction):
         """Allow tests to call rollback on the session."""
-        if transaction.nested and not transaction._parent.nested:
+        if (
+            transaction.nested
+            and not transaction._parent.nested  # pylint: disable=W0212
+        ):
             session.expire_all()
             session.begin_nested()
 
@@ -130,7 +133,7 @@ class DatabaseTestCase(AnityaTestCase):
     """
 
     def setUp(self):
-        super(DatabaseTestCase, self).setUp()
+        super().setUp()
 
         # We don't want our SQLAlchemy session thrown away post-request because that rolls
         # back the transaction and no database assertions can be made.
@@ -162,7 +165,7 @@ class DatabaseTestCase(AnityaTestCase):
         self.transaction.rollback()
         self.connection.close()
         Session.remove()
-        super(DatabaseTestCase, self).tearDown()
+        super().tearDown()
 
 
 def create_distro(session):

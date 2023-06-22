@@ -33,7 +33,7 @@ class LoadUserFromRequestTests(DatabaseTestCase):
     """Tests for the :class:`anitya.authentication.SessionInterface`` class."""
 
     def setUp(self):
-        super(LoadUserFromRequestTests, self).setUp()
+        super().setUp()
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
@@ -78,7 +78,7 @@ class LoadUserFromSessionTests(DatabaseTestCase):
     """Tests for the :func:`anitya.authentication.load_user_from_session`` functions."""
 
     def setUp(self):
-        super(LoadUserFromSessionTests, self).setUp()
+        super().setUp()
 
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
@@ -110,7 +110,7 @@ class RequireTokenTests(DatabaseTestCase):
     """Tests for the :func:`anitya.authentication.require_token` decorator."""
 
     def setUp(self):
-        super(RequireTokenTests, self).setUp()
+        super().setUp()
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")

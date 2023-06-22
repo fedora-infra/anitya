@@ -56,9 +56,11 @@ class ShutdownSessionTests(AnityaTestCase):
 
 
 class SettingsTests(DatabaseTestCase):
+    """SettingsTests"""
+
     def setUp(self):
         """Set up the Flask testing environnment"""
-        super(SettingsTests, self).setUp()
+        super().setUp()
         self.app = self.flask_app.test_client()
         self.user = models.User(email="user@fedoraproject.org", username="user")
         user_social_auth = social_models.UserSocialAuth(
@@ -124,7 +126,7 @@ class SettingsTests(DatabaseTestCase):
                 data = {"csrf_token": csrf_token}
 
                 output = c.post(
-                    "/settings/tokens/delete/{}/".format(token.token),
+                    f"/settings/tokens/delete/{token.token}/",
                     data=data,
                     follow_redirects=True,
                 )
@@ -165,7 +167,7 @@ class SettingsTests(DatabaseTestCase):
                 data = {"csrf_token": "not a valid token"}
 
                 output = c.post(
-                    "/settings/tokens/delete/{}/".format(token.token),
+                    f"/settings/tokens/delete/{token.token}/",
                     data=data,
                     follow_redirects=True,
                 )
@@ -181,7 +183,7 @@ class NewProjectTests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the Flask testing environnment"""
-        super(NewProjectTests, self).setUp()
+        super().setUp()
         create_distro(self.session)
         self.app = self.flask_app.test_client()
         self.user = models.User(email="user@fedoraproject.org", username="user")
@@ -321,6 +323,7 @@ class NewProjectTests(DatabaseTestCase):
 
     @mock.patch("anitya.lib.utilities.check_project_release")
     def test_new_project_with_check_release(self, patched):
+        """test_new_project_with_check_release"""
         output = self.app.get("/project/new", follow_redirects=True)
         with login_user(self.flask_app, self.user):
             with self.flask_app.test_client() as c:
@@ -441,7 +444,7 @@ class FlaskTest(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
-        super(FlaskTest, self).setUp()
+        super().setUp()
 
         self.flask_app.config["TESTING"] = True
         self.app = self.flask_app.test_client()
@@ -830,9 +833,11 @@ class FlaskTest(DatabaseTestCase):
 
 
 class EditProjectTests(DatabaseTestCase):
+    """EditProjectTests"""
+
     def setUp(self):
         """Set up the Flask testing environnment"""
-        super(EditProjectTests, self).setUp()
+        super().setUp()
         self.app = self.flask_app.test_client()
         # Make a user to login with
         self.user = models.User(email="user@fedoraproject.org", username="user")
@@ -1012,7 +1017,7 @@ class MapProjectTests(DatabaseTestCase):
     """Tests for the :func:`anitya.ui.map_project` view."""
 
     def setUp(self):
-        super(MapProjectTests, self).setUp()
+        super().setUp()
         create_distro(self.session)
         create_project(self.session)
         self.client = self.flask_app.test_client()
@@ -1120,7 +1125,7 @@ class EditProjectMappingTests(DatabaseTestCase):
     """Tests for the :func:`anitya.ui.edit_project_mapping` view."""
 
     def setUp(self):
-        super(EditProjectMappingTests, self).setUp()
+        super().setUp()
 
         # Set up a mapping to edit
         session = Session()
@@ -1283,7 +1288,7 @@ class AddDistroTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.add_distro` view function."""
 
     def setUp(self):
-        super(AddDistroTests, self).setUp()
+        super().setUp()
 
         # Add a regular user and an admin user
         session = Session()
@@ -1365,7 +1370,7 @@ class FlagProjecTests(DatabaseTestCase):
     """Tests for the :func:`anitya.ui.flag_project` view."""
 
     def setUp(self):
-        super(FlagProjecTests, self).setUp()
+        super().setUp()
 
         create_project(self.session)
         self.user = models.User(email="user@fedoraproject.org", username="user")

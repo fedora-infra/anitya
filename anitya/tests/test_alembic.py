@@ -33,13 +33,12 @@ class TestAlembic(unittest.TestCase):
         This test runs the `alembic history | grep ' (head), '` command,
         and ensure it returns only one line.
         """
-        proc1 = subprocess.Popen(
+        proc1 = subprocess.Popen(  # pylint: disable=R1732
             ["alembic", "history"], cwd=REPO_PATH, stdout=subprocess.PIPE
         )
-        proc2 = subprocess.Popen(
+        proc2 = subprocess.Popen(  # pylint: disable=R1732
             ["grep", " (head), "], stdin=proc1.stdout, stdout=subprocess.PIPE
         )
-
         stdout = proc2.communicate()[0]
         stdout = stdout.strip().split(b"\n")
         self.assertEqual(len(stdout), 1)

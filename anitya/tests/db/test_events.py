@@ -25,6 +25,8 @@ from anitya.tests.base import DatabaseTestCase
 
 
 class SetEcosystemBackendTests(DatabaseTestCase):
+    """SetEcosystemBackendTests"""
+
     def test_set_backend(self):
         """Assert the ecosystem gets set to correct backend."""
         project = models.Project(
@@ -81,6 +83,8 @@ class SetEcosystemBackendTests(DatabaseTestCase):
 
 
 class SetEcosystemHomepageTests(DatabaseTestCase):
+    """SetEcosystemHomepageTests"""
+
     def test_set_backend(self):
         """Assert the ecosystem gets set to correct backend, even when homepage is changed."""
         project = models.Project(

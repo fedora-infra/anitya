@@ -17,6 +17,7 @@
 # code or documentation are not subject to the GNU General Public
 # License and may only be used or replicated with the express permission
 # of Red Hat, Inc.
+"""Test wsgi"""
 import unittest
 
 import flask
@@ -28,4 +29,5 @@ class WsgiTests(unittest.TestCase):
     """Tests for the :mod:`wsgi` module."""
 
     def test_application_object(self):
+        """Test application object"""
         self.assertTrue(isinstance(wsgi.application, flask.Flask))

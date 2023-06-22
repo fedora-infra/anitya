@@ -17,6 +17,7 @@
 # code or documentation are not subject to the GNU General Public
 # License and may only be used or replicated with the express permission
 # of Red Hat, Inc.
+"""test meta"""
 import unittest
 
 import mock
@@ -26,9 +27,12 @@ from anitya.tests.base import DatabaseTestCase, create_project
 
 
 class InitalizeTests(unittest.TestCase):
+    """InitalizeTests"""
+
     @mock.patch("anitya.db.meta.create_engine")
     @mock.patch("anitya.db.meta.Session")
     def test_initialize(self, mock_session, mock_create_engine):
+        """test_initialize"""
         config = {"DB_URL": "postgresql://postgres:pass@localhost/mydb"}
         engine = meta.initialize(config)
         mock_create_engine.assert_called_once_with(config["DB_URL"], echo=False)
@@ -39,6 +43,7 @@ class InitalizeTests(unittest.TestCase):
     @mock.patch("anitya.db.meta.event.listen")
     @mock.patch("anitya.db.meta.Session")
     def test_initalize_sqlite(self, mock_session, mock_listen, mock_create_engine):
+        """test_initalize_sqlite"""
         config = {"DB_URL": "sqlite://", "SQL_DEBUG": True}
         engine = meta.initialize(config)
         mock_create_engine.assert_called_once_with(config["DB_URL"], echo=True)
@@ -52,7 +57,7 @@ class BaseQueryPaginateTests(DatabaseTestCase):
     """Tests for the BaseQuery queries."""
 
     def setUp(self):
-        super(BaseQueryPaginateTests, self).setUp()
+        super().setUp()
         self.query = meta.BaseQuery(models.Project, session=self.session)
 
     def test_defaults(self):
@@ -114,6 +119,7 @@ class BaseQueryPaginateTests(DatabaseTestCase):
         self.assertEqual(page.items[2].name, "subsurface")
 
     def test_as_dict(self):
+        """test_as_dict"""
         expected_dict = {
             "items_per_page": 1,
             "page": 1,

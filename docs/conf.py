@@ -30,7 +30,7 @@
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-
+"""confg"""
 import os
 import sys
 
@@ -70,7 +70,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "Anitya"
-copyright = "2022, Red Hat, Inc. and others"
+copyright = "2022, Red Hat, Inc. and others"  # pylint: disable=W0622
 author = "Red Hat, Inc. and others"
 
 # The version info for the project you're documenting, acts as replacement for
