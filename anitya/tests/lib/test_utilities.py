@@ -964,6 +964,7 @@ class RemoveSuffixTests(unittest.TestCase):
     """Tests for the :func:`anitya.lib.utilities.remove_suffix` function."""
 
     def test_remove_suffix_no_change(self):
+        """Test remove suffix no change"""
         url = "https://github.com/baresip/re"
         self.assertEqual(
             utilities.remove_suffix(url, "/releases"), "https://github.com/baresip/re"
@@ -983,6 +984,7 @@ class RemoveSuffixTests(unittest.TestCase):
         )
 
     def test_remove_suffix_remove_releases(self):
+        """Test remove suffix remove releases"""
         url = "https://github.com/baresip/re/releases"
         self.assertEqual(
             utilities.remove_suffix(url, "/releases"), "https://github.com/baresip/re"
@@ -1003,6 +1005,7 @@ class RemoveSuffixTests(unittest.TestCase):
         )
 
     def test_remove_suffix_remove_tags(self):
+        """Test remove suffix remove tags"""
         url = "https://github.com/baresip/re/tags"
         self.assertEqual(
             utilities.remove_suffix(url, "/releases"),
