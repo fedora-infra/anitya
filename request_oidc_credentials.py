@@ -26,6 +26,7 @@ class OAuthCallbackHandler(BaseHTTPRequestHandler):
     """Callback handler to log the details of received OAuth callbacks"""
 
     def do_GET(self):
+        """do GET"""
         self.server.oauth_callbacks.append(self.path)
         self.send_response(200)
         self.send_header("Content-type", "text/plain")
@@ -58,7 +59,8 @@ def receive_oauth_callback(timeout):
 
 
 def main():
-    with open(SECRETS_FILE) as f:
+    """main"""
+    with open(SECRETS_FILE, encoding="utf-8") as f:
         client_details = json.load(f)["web"]
     client_id = client_details["client_id"]
     client_secret = client_details["client_secret"]
@@ -87,7 +89,7 @@ def main():
         token_uri, code=authorization_code, client_secret=client_secret
     )
     oidc_credentials = {"client_details": client_details, "client_token": client_token}
-    with open(CREDENTIALS_FILE, "w") as f:
+    with open(CREDENTIALS_FILE, "w", encoding="utf-8") as f:
         json.dump(oidc_credentials, f)
     print("OIDC client access details saved as " + CREDENTIALS_FILE)
 

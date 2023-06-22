@@ -50,7 +50,7 @@ class AnityaWebAPItests(DatabaseTestCase):
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
-        super(AnityaWebAPItests, self).setUp()
+        super().setUp()
 
         self.flask_app.config["TESTING"] = True
         self.app = self.flask_app.test_client()

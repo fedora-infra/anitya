@@ -46,7 +46,7 @@ class PackagesResourceGetTests(DatabaseTestCase):
     """Tests for HTTP GET on the ``api/v2/packages/`` resource."""
 
     def setUp(self):
-        super(PackagesResourceGetTests, self).setUp()
+        super().setUp()
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
@@ -456,8 +456,10 @@ class PackagesResourceGetTests(DatabaseTestCase):
 
 
 class PackagesResourcePostTests(DatabaseTestCase):
+    """PackagesResourcePostTests"""
+
     def setUp(self):
-        super(PackagesResourcePostTests, self).setUp()
+        super().setUp()
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
@@ -704,8 +706,10 @@ class PackagesResourcePostTests(DatabaseTestCase):
 
 
 class ProjectsResourceGetTests(DatabaseTestCase):
+    """ProjectsResourceGetTests"""
+
     def setUp(self):
-        super(ProjectsResourceGetTests, self).setUp()
+        super().setUp()
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
@@ -1117,8 +1121,10 @@ class ProjectsResourceGetTests(DatabaseTestCase):
 
 
 class ProjectsResourcePostTests(DatabaseTestCase):
+    """ProjectsResourcePostTests"""
+
     def setUp(self):
-        super(ProjectsResourcePostTests, self).setUp()
+        super().setUp()
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
@@ -1196,6 +1202,7 @@ class ProjectsResourcePostTests(DatabaseTestCase):
         self.assertIn("name", error_details)
 
     def test_conflicting_request(self):
+        """Test conflicting request"""
         request_data = {
             "backend": "PyPI",
             "homepage": "http://python-requests.org",
@@ -1222,6 +1229,7 @@ class ProjectsResourcePostTests(DatabaseTestCase):
         self.assertEqual("requests", data["requested_project"]["name"])
 
     def test_valid_request(self):
+        """Test valid request"""
         request_data = {
             "backend": "PyPI",
             "homepage": "http://python-requests.org",
@@ -1317,7 +1325,7 @@ class VersionsResourceGetTests(DatabaseTestCase):
     """Tests for ``api/v2/versions/`` API endpooint - GET method."""
 
     def setUp(self):
-        super(VersionsResourceGetTests, self).setUp()
+        super().setUp()
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
@@ -1423,8 +1431,10 @@ class VersionsResourceGetTests(DatabaseTestCase):
 
 
 class VersionsResourcePostTests(DatabaseTestCase):
+    """VersionsResourcePostTests"""
+
     def setUp(self):
-        super(VersionsResourcePostTests, self).setUp()
+        super().setUp()
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")

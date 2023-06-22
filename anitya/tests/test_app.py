@@ -42,8 +42,8 @@ class CreateTests(unittest.TestCase):
     def test_default_config(self):
         """Assert when no configuration is provided, :data:`anitya.config.config` is used."""
         application = app.create()
-        for key in anitya_config:
-            self.assertEqual(anitya_config[key], application.config[key])
+        for key, value in anitya_config.items():
+            self.assertEqual(value, application.config[key])
 
     def test_email_config(self):
         """Assert a SMTPHandler is added to the anitya logger when ``EMAIL_ERRORS=True``."""
@@ -76,8 +76,10 @@ class CreateTests(unittest.TestCase):
 
 
 class IntegrityErrorHandlerTests(base.DatabaseTestCase):
+    """IntegrityErrorHandlerTests"""
+
     def setUp(self):
-        super(IntegrityErrorHandlerTests, self).setUp()
+        super().setUp()
         session = Session()
         self.user = models.User(email="user@example.com", username="user")
         session.add(self.user)
@@ -129,8 +131,10 @@ class IntegrityErrorHandlerTests(base.DatabaseTestCase):
 
 
 class AuthExceptionHandlerTests(base.DatabaseTestCase):
-    def setUp(self):
-        super(AuthExceptionHandlerTests, self).setUp()
+    """AuthExceptionHandlerTests"""
+
+    def setUp(self):  # pylint: disable=W0246
+        super().setUp()
 
     def test_exception_handling(self):
         """Assert an AuthException results in a 400 error"""

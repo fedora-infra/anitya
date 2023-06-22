@@ -36,7 +36,7 @@ class IsAdminTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.is_admin` function."""
 
     def setUp(self):
-        super(IsAdminTests, self).setUp()
+        super().setUp()
 
         # Add a regular user and an admin user
         session = Session()
@@ -73,7 +73,7 @@ class EditDistroTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.edit_distro` view function."""
 
     def setUp(self):
-        super(EditDistroTests, self).setUp()
+        super().setUp()
 
         # Add a regular user and an admin user
         session = Session()
@@ -165,7 +165,7 @@ class DeleteDistroTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.delete_distro` view function."""
 
     def setUp(self):
-        super(DeleteDistroTests, self).setUp()
+        super().setUp()
 
         # Add a regular user and an admin user
         session = Session()
@@ -255,7 +255,7 @@ class DeleteProjectTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.delete_projects` view function."""
 
     def setUp(self):
-        super(DeleteProjectTests, self).setUp()
+        super().setUp()
         self.project = models.Project(
             name="test_project",
             homepage="https://example.com/test_project",
@@ -290,13 +290,13 @@ class DeleteProjectTests(DatabaseTestCase):
     def test_non_admin_get(self):
         """Assert non-admin users cannot GET the delete project view."""
         with login_user(self.flask_app, self.user):
-            output = self.client.get("/project/{0}/delete".format(self.project.id))
+            output = self.client.get(f"/project/{self.project.id}/delete")
             self.assertEqual(401, output.status_code)
 
     def test_non_admin_post(self):
         """Assert non-admin users cannot POST to the delete project view."""
         with login_user(self.flask_app, self.user):
-            output = self.client.post("/project/{0}/delete".format(self.project.id))
+            output = self.client.post(f"/project/{self.project.id}/delete")
             self.assertEqual(401, output.status_code)
 
     def test_missing_project(self):
@@ -308,13 +308,13 @@ class DeleteProjectTests(DatabaseTestCase):
     def test_admin_get(self):
         """Assert admin users can get the delete project view."""
         with login_user(self.flask_app, self.admin):
-            output = self.client.get("/project/{0}/delete".format(self.project.id))
+            output = self.client.get(f"/project/{self.project.id}/delete")
             self.assertEqual(200, output.status_code)
 
     def test_admin_post(self):
         """Assert admin users can delete projects."""
         with login_user(self.flask_app, self.admin):
-            output = self.client.get("/project/{0}/delete".format(self.project.id))
+            output = self.client.get(f"/project/{self.project.id}/delete")
             csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
                 1
             ].split(b'">')[0]
@@ -322,7 +322,7 @@ class DeleteProjectTests(DatabaseTestCase):
 
             with fml_testing.mock_sends(anitya_schema.ProjectDeleted):
                 output = self.client.post(
-                    "/project/{0}/delete".format(self.project.id),
+                    f"/project/{self.project.id}/delete",
                     data=data,
                     follow_redirects=True,
                 )
@@ -333,15 +333,13 @@ class DeleteProjectTests(DatabaseTestCase):
     def test_admin_post_unconfirmed(self):
         """Assert admin users must confirm deleting projects."""
         with login_user(self.flask_app, self.admin):
-            output = self.client.get("/project/{0}/delete".format(self.project.id))
+            output = self.client.get(f"/project/{self.project.id}/delete")
             csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
                 1
             ].split(b'">')[0]
             data = {"csrf_token": csrf_token}
 
-            output = self.client.post(
-                "/project/{0}/delete".format(self.project.id), data=data
-            )
+            output = self.client.post(f"/project/{self.project.id}/delete", data=data)
 
             self.assertEqual(302, output.status_code)
             self.assertEqual(1, len(models.Project.query.all()))
@@ -351,7 +349,7 @@ class SetProjectArchiveState(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.set_project_archive_state` view function."""
 
     def setUp(self):
-        super(SetProjectArchiveState, self).setUp()
+        super().setUp()
         self.project = models.Project(
             name="test_project",
             homepage="https://example.com/test_project",
@@ -386,17 +384,13 @@ class SetProjectArchiveState(DatabaseTestCase):
     def test_non_admin_get(self):
         """Assert non-admin users cannot GET the archive project view."""
         with login_user(self.flask_app, self.user):
-            output = self.client.get(
-                "/project/{0}/archive/set/true".format(self.project.id)
-            )
+            output = self.client.get(f"/project/{self.project.id}/archive/set/true")
             self.assertEqual(401, output.status_code)
 
     def test_non_admin_post(self):
         """Assert non-admin users cannot POST to the archive project view."""
         with login_user(self.flask_app, self.user):
-            output = self.client.post(
-                "/project/{0}/archive/set/true".format(self.project.id)
-            )
+            output = self.client.post(f"/project/{self.project.id}/archive/set/true")
             self.assertEqual(401, output.status_code)
 
     def test_missing_project(self):
@@ -409,16 +403,14 @@ class SetProjectArchiveState(DatabaseTestCase):
         """Assert HTTP 404 is returned if the state doesn't exist."""
         with login_user(self.flask_app, self.admin):
             output = self.client.post(
-                "/project/{0}/archive/set/nonsense".format(self.project.id)
+                f"/project/{self.project.id}/archive/set/nonsense"
             )
             self.assertEqual(422, output.status_code)
 
     def test_admin_post(self):
         """Assert admin users can archive projects."""
         with login_user(self.flask_app, self.admin):
-            output = self.client.get(
-                "/project/{0}/archive/set/true".format(self.project.id)
-            )
+            output = self.client.get(f"/project/{self.project.id}/archive/set/true")
             csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
                 1
             ].split(b'">')[0]
@@ -426,7 +418,7 @@ class SetProjectArchiveState(DatabaseTestCase):
 
             with fml_testing.mock_sends(anitya_schema.ProjectEdited):
                 output = self.client.post(
-                    "/project/{0}/archive/set/true".format(self.project.id),
+                    f"/project/{self.project.id}/archive/set/true",
                     data=data,
                     follow_redirects=True,
                 )
@@ -442,9 +434,7 @@ class SetProjectArchiveState(DatabaseTestCase):
         self.session.add(self.project)
         self.session.commit()
         with login_user(self.flask_app, self.admin):
-            output = self.client.get(
-                "/project/{0}/archive/set/false".format(self.project.id)
-            )
+            output = self.client.get(f"/project/{self.project.id}/archive/set/false")
             csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
                 1
             ].split(b'">')[0]
@@ -452,7 +442,7 @@ class SetProjectArchiveState(DatabaseTestCase):
 
             with fml_testing.mock_sends(anitya_schema.ProjectEdited):
                 output = self.client.post(
-                    "/project/{0}/archive/set/false".format(self.project.id),
+                    f"/project/{self.project.id}/archive/set/false",
                     data=data,
                     follow_redirects=True,
                 )
@@ -465,16 +455,14 @@ class SetProjectArchiveState(DatabaseTestCase):
     def test_admin_post_unconfirmed(self):
         """Assert admin users must confirm archiving projects."""
         with login_user(self.flask_app, self.admin):
-            output = self.client.get(
-                "/project/{0}/archive/set/true".format(self.project.id)
-            )
+            output = self.client.get(f"/project/{self.project.id}/archive/set/true")
             csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
                 1
             ].split(b'">')[0]
             data = {"csrf_token": csrf_token}
 
             output = self.client.post(
-                "/project/{0}/archive/set/true".format(self.project.id), data=data
+                f"/project/{self.project.id}/archive/set/true", data=data
             )
 
             project = models.Project.query.one()
@@ -487,7 +475,7 @@ class DeleteProjectMappingTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.delete_project_mapping` view."""
 
     def setUp(self):
-        super(DeleteProjectMappingTests, self).setUp()
+        super().setUp()
         self.project = models.Project(
             name="test_project",
             homepage="https://example.com/test_project",
@@ -605,7 +593,7 @@ class DeleteProjectVersionTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.delete_project_version` view."""
 
     def setUp(self):
-        super(DeleteProjectVersionTests, self).setUp()
+        super().setUp()
         self.session = Session()
 
         # Add a project with a version to delete.
@@ -779,7 +767,7 @@ class DeleteProjectVersionsTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.delete_project_versions` view."""
 
     def setUp(self):
-        super(DeleteProjectVersionsTests, self).setUp()
+        super().setUp()
         self.session = Session()
 
         # Add a project with a version to delete.
@@ -905,7 +893,7 @@ class BrowseFlagsTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.browse_flags` view function."""
 
     def setUp(self):
-        super(BrowseFlagsTests, self).setUp()
+        super().setUp()
         session = Session()
 
         # Add a regular user and an admin user
@@ -1009,7 +997,7 @@ class SetFlagStateTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.set_flag_state` view function."""
 
     def setUp(self):
-        super(SetFlagStateTests, self).setUp()
+        super().setUp()
         session = Session()
 
         # Add a regular user and an admin user
@@ -1101,7 +1089,7 @@ class BrowseUsersTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.browse_users` view function."""
 
     def setUp(self):
-        super(BrowseUsersTests, self).setUp()
+        super().setUp()
         session = Session()
 
         # Add a regular user and an admin user
@@ -1196,9 +1184,7 @@ class BrowseUsersTests(DatabaseTestCase):
     def test_filter_user_id(self):
         """Assert filter by user_id works."""
         with login_user(self.flask_app, self.admin):
-            output = self.client.get(
-                "/users?user_id={}".format(six.text_type(self.admin.id))
-            )
+            output = self.client.get(f"/users?user_id={six.text_type(self.admin.id)}")
 
             self.assertEqual(200, output.status_code)
             self.assertTrue(b"admin@example.com" in output.data)
@@ -1216,7 +1202,7 @@ class BrowseUsersTests(DatabaseTestCase):
     def test_filter_username(self):
         """Assert filter by username works."""
         with login_user(self.flask_app, self.admin):
-            output = self.client.get("/users?username={}".format(self.admin.username))
+            output = self.client.get(f"/users?username={self.admin.username}")
 
             self.assertEqual(200, output.status_code)
             self.assertTrue(b"admin@example.com" in output.data)
@@ -1234,7 +1220,7 @@ class BrowseUsersTests(DatabaseTestCase):
     def test_filter_email(self):
         """Assert filter by email works."""
         with login_user(self.flask_app, self.admin):
-            output = self.client.get("/users?email={}".format(self.admin.email))
+            output = self.client.get(f"/users?email={self.admin.email}")
 
             self.assertEqual(200, output.status_code)
             self.assertTrue(b"admin@example.com" in output.data)
@@ -1356,7 +1342,7 @@ class SetUserAdminStateTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.set_user_admin_state` view function."""
 
     def setUp(self):
-        super(SetUserAdminStateTests, self).setUp()
+        super().setUp()
         session = Session()
 
         # Add a regular user and an admin user
@@ -1382,7 +1368,7 @@ class SetUserAdminStateTests(DatabaseTestCase):
         """Assert non-admin users can't set flags."""
         with login_user(self.flask_app, self.user):
             output = self.client.post(
-                "/users/{}/admin/True".format(six.text_type(self.user.id))
+                f"/users/{six.text_type(self.user.id)}/admin/True"
             )
             self.assertEqual(401, output.status_code)
 
@@ -1390,16 +1376,14 @@ class SetUserAdminStateTests(DatabaseTestCase):
         """Assert an invalid state results in HTTP 422."""
         with login_user(self.flask_app, self.admin):
             output = self.client.post(
-                "/users/{}/admin/wrong".format(six.text_type(self.user.id))
+                f"/users/{six.text_type(self.user.id)}/admin/wrong"
             )
             self.assertEqual(422, output.status_code)
 
     def test_missing_state(self):
         """Assert an missing state results in HTTP 404."""
         with login_user(self.flask_app, self.admin):
-            output = self.client.post(
-                "/users/{}/admin/".format(six.text_type(self.user.id))
-            )
+            output = self.client.post(f"/users/{six.text_type(self.user.id)}/admin/")
             self.assertEqual(404, output.status_code)
 
     def test_missing_user(self):
@@ -1417,7 +1401,7 @@ class SetUserAdminStateTests(DatabaseTestCase):
             ].split(b'">')[0]
 
             output = self.client.post(
-                "/users/{}/admin/True".format(six.text_type(self.user.id)),
+                f"/users/{six.text_type(self.user.id)}/admin/True",
                 data={"csrf_token": csrf_token},
                 follow_redirects=True,
             )
@@ -1440,7 +1424,7 @@ class SetUserAdminStateTests(DatabaseTestCase):
                 )[1].split(b'">')[0]
 
                 output = self.client.post(
-                    "/users/{}/admin/True".format(six.text_type(self.user.id)),
+                    f"/users/{six.text_type(self.user.id)}/admin/True",
                     data={"csrf_token": csrf_token},
                     follow_redirects=True,
                 )
@@ -1460,7 +1444,7 @@ class SetUserAdminStateTests(DatabaseTestCase):
             with mock.patch("anitya.forms.ConfirmationForm") as mock_form:
                 mock_form.return_value.validate_on_submit.return_value = False
                 output = self.client.post(
-                    "/users/{}/admin/True".format(six.text_type(self.user.id)),
+                    f"/users/{six.text_type(self.user.id)}/admin/True",
                     data={"csrf_token": csrf_token},
                     follow_redirects=True,
                 )
@@ -1481,7 +1465,7 @@ class SetUserAdminStateTests(DatabaseTestCase):
 
             self.assertTrue(self.user.admin)
             output = self.client.post(
-                "/users/{}/admin/False".format(six.text_type(self.user.id)),
+                f"/users/{six.text_type(self.user.id)}/admin/False",
                 data={"csrf_token": csrf_token},
                 follow_redirects=True,
             )
@@ -1499,7 +1483,7 @@ class SetUserAdminStateTests(DatabaseTestCase):
             ].split(b'">')[0]
 
             output = self.client.post(
-                "/users/{}/admin/False".format(six.text_type(self.admin.id)),
+                f"/users/{six.text_type(self.admin.id)}/admin/False",
                 data={"csrf_token": csrf_token},
                 follow_redirects=True,
             )
@@ -1512,7 +1496,7 @@ class SetUserActiveStateTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.set_user_admin_state` view function."""
 
     def setUp(self):
-        super(SetUserActiveStateTests, self).setUp()
+        super().setUp()
         session = Session()
 
         # Add a regular user and an admin user
@@ -1549,7 +1533,7 @@ class SetUserActiveStateTests(DatabaseTestCase):
         """Assert non-admin users can't set flags."""
         with login_user(self.flask_app, self.user):
             output = self.client.post(
-                "/users/{}/active/True".format(six.text_type(self.user.id))
+                f"/users/{six.text_type(self.user.id)}/active/True"
             )
             self.assertEqual(401, output.status_code)
 
@@ -1557,16 +1541,14 @@ class SetUserActiveStateTests(DatabaseTestCase):
         """Assert an invalid state results in HTTP 422."""
         with login_user(self.flask_app, self.admin):
             output = self.client.post(
-                "/users/{}/active/wrong".format(six.text_type(self.user.id))
+                f"/users/{six.text_type(self.user.id)}/active/wrong"
             )
             self.assertEqual(422, output.status_code)
 
     def test_missing_state(self):
         """Assert an missing state results in HTTP 404."""
         with login_user(self.flask_app, self.admin):
-            output = self.client.post(
-                "/users/{}/active/".format(six.text_type(self.user.id))
-            )
+            output = self.client.post(f"/users/{six.text_type(self.user.id)}/active/")
             self.assertEqual(404, output.status_code)
 
     def test_missing_user(self):
@@ -1589,7 +1571,7 @@ class SetUserActiveStateTests(DatabaseTestCase):
                 )[1].split(b'">')[0]
 
                 output = self.client.post(
-                    "/users/{}/active/False".format(six.text_type(self.user.id)),
+                    f"/users/{six.text_type(self.user.id)}/active/False",
                     data={"csrf_token": csrf_token},
                     follow_redirects=True,
                 )
@@ -1609,7 +1591,7 @@ class SetUserActiveStateTests(DatabaseTestCase):
             with mock.patch("anitya.forms.ConfirmationForm") as mock_form:
                 mock_form.return_value.validate_on_submit.return_value = False
                 output = self.client.post(
-                    "/users/{}/active/False".format(six.text_type(self.user.id)),
+                    f"/users/{six.text_type(self.user.id)}/active/False",
                     data={"csrf_token": csrf_token},
                     follow_redirects=True,
                 )
@@ -1628,7 +1610,7 @@ class SetUserActiveStateTests(DatabaseTestCase):
             ].split(b'">')[0]
 
             output = self.client.post(
-                "/users/{}/active/True".format(six.text_type(self.inactive_user.id)),
+                f"/users/{six.text_type(self.inactive_user.id)}/active/True",
                 data={"csrf_token": csrf_token},
                 follow_redirects=True,
             )
@@ -1646,7 +1628,7 @@ class SetUserActiveStateTests(DatabaseTestCase):
             ].split(b'">')[0]
 
             output = self.client.post(
-                "/users/{}/active/False".format(six.text_type(self.user.id)),
+                f"/users/{six.text_type(self.user.id)}/active/False",
                 data={"csrf_token": csrf_token},
                 follow_redirects=True,
             )
@@ -1660,7 +1642,7 @@ class BrowseLogsTests(DatabaseTestCase):
     """Tests for the :func:`anitya.admin.browse_logs` view function."""
 
     def setUp(self):
-        super(BrowseLogsTests, self).setUp()
+        super().setUp()
         session = Session()
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")

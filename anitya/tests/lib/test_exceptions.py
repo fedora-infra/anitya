@@ -17,7 +17,7 @@
 # code or documentation are not subject to the GNU General Public
 # License and may only be used or replicated with the express permission
 # of Red Hat, Inc.
-
+"""Test exceptions"""
 import unittest
 
 import arrow
@@ -38,17 +38,10 @@ class AnityaInvalidMappingTests(unittest.TestCase):
         project_name = "Cthulhu"
         link = "link"
         exp = (
-            "Could not edit the mapping of {pkgname} on "
-            "{distro}, there is already a package {found_pkgname} on "
-            '{found_distro} as part of the project <a href="{link}">'
-            "{project_name}</a>.".format(
-                pkgname=pkgname,
-                distro=distro,
-                found_pkgname=found_pkgname,
-                found_distro=found_distro,
-                project_name=project_name,
-                link=None,
-            )
+            f"Could not edit the mapping of {pkgname} on "
+            f"{distro}, there is already a package {found_pkgname} on "
+            f'{found_distro} as part of the project <a href="None">'
+            f"{project_name}</a>."
         )
         e = exceptions.AnityaInvalidMappingException(
             pkgname, distro, found_pkgname, found_distro, project_id, project_name
@@ -56,17 +49,10 @@ class AnityaInvalidMappingTests(unittest.TestCase):
         self.assertEqual(exp, e.message)
 
         exp = (
-            "Could not edit the mapping of {pkgname} on "
-            "{distro}, there is already a package {found_pkgname} on "
-            '{found_distro} as part of the project <a href="{link}">'
-            "{project_name}</a>.".format(
-                pkgname=pkgname,
-                distro=distro,
-                found_pkgname=found_pkgname,
-                found_distro=found_distro,
-                project_name=project_name,
-                link=link,
-            )
+            f"Could not edit the mapping of {pkgname} on "
+            f"{distro}, there is already a package {found_pkgname} on "
+            f'{found_distro} as part of the project <a href="{link}">'
+            f"{project_name}</a>."
         )
         e = exceptions.AnityaInvalidMappingException(
             pkgname, distro, found_pkgname, found_distro, project_id, project_name, link

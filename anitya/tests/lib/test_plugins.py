@@ -77,10 +77,12 @@ class VersionPluginsTests(unittest.TestCase):
     """Tests for the version scheme plugins."""
 
     def test_version_plugin_names(self):
+        """Test version plugin names"""
         plugin_names = plugins.VERSION_PLUGINS.get_plugin_names()
         self.assertEqual(sorted(EXPECTED_VERSIONS), sorted(plugin_names))
 
     def test_version_plugin_classes(self):
+        """Test version plugin classes"""
         version_plugins = plugins.VERSION_PLUGINS.get_plugins()
         for plugin in version_plugins:
             self.assertTrue(issubclass(plugin, Version))
