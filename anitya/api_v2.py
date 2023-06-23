@@ -250,9 +250,8 @@ class PackagesResource(MethodView):
         except NoResultFound:
             return (
                 {
-                    "error": 'Project "{}" in ecosystem "{}" not found'.format(
-                        args["project_name"], args["project_ecosystem"]
-                    )
+                    "error": f'Project "{args["project_name"]}" in ecosystem '
+                    f'"{args["project_ecosystem"]}" not found'
                 },
                 400,
             )
@@ -263,7 +262,7 @@ class PackagesResource(MethodView):
             ).one()
         except NoResultFound:
             return (
-                {"error": 'Distribution "{}" not found'.format(args["distribution"])},
+                {"error": f"Distribution \"{args['distribution']}\" not found"},
                 400,
             )
 

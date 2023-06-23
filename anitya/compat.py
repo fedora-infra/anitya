@@ -23,6 +23,8 @@ from __future__ import absolute_import, unicode_literals
 # flask_wtf.Form was renamed to flask_wtf.FlaskForm
 # flask_wtf.Form will be removed in flask_wtf-1.0.
 try:
-    from flask_wtf import FlaskForm
+    from flask_wtf import FlaskForm  # pylint: disable=W0611
 except ImportError:
-    from flask_wtf import Form as FlaskForm  # NOQA
+    from flask_wtf import (  # pylint: disable=W0611 # pragma: no cover # noqa: F401
+        Form as FlaskForm,
+    )

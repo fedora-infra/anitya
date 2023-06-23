@@ -54,6 +54,8 @@ def split_by_match(regex: str, string: str) -> Tuple[str, str]:
 
 
 class SplitResult(TypedDict, total=True):
+    """SplitResult"""
+
     year: Optional[str]
     month: Optional[str]
     day: Optional[str]
@@ -146,8 +148,8 @@ class CalendarVersion(Version):
                         month = match.group(0)
                     else:
                         raise ValueError("Can't parse version by pattern")
-                except ValueError:
-                    raise ValueError("Can't parse version by pattern")
+                except ValueError as err:
+                    raise ValueError("Can't parse version by pattern") from err
                 result_dict["month"] = month
                 index_version = len(month)
                 index_pattern = 2
@@ -162,8 +164,8 @@ class CalendarVersion(Version):
                         result_dict["month"] = version
                     else:
                         raise ValueError("Can't parse version by pattern")
-                except ValueError:
-                    raise ValueError("Can't parse version by pattern")
+                except ValueError as err:
+                    raise ValueError("Can't parse version by pattern") from err
                 index_version = 2
                 index_pattern = 2
             elif pattern_str.startswith("DD"):
@@ -173,8 +175,8 @@ class CalendarVersion(Version):
                         day = match.group(0)
                     else:
                         raise ValueError("Can't parse version by pattern")
-                except ValueError:
-                    raise ValueError("Can't parse version by pattern")
+                except ValueError as err:
+                    raise ValueError("Can't parse version by pattern") from err
                 result_dict["day"] = day
                 index_version = len(day)
                 index_pattern = 2
@@ -189,13 +191,13 @@ class CalendarVersion(Version):
                         result_dict["day"] = version
                     else:
                         raise ValueError("Can't parse version by pattern")
-                except ValueError:
-                    raise ValueError("Can't parse version by pattern")
+                except ValueError as err:
+                    raise ValueError("Can't parse version by pattern") from err
                 index_version = 2
                 index_pattern = 2
             elif pattern_str.startswith("MINOR"):
                 for index in range(1, len(version_str) + 1):
-                    if version_str[:index].isdigit():
+                    if version_str[:index].isdigit():  # pylint: disable=R1724
                         continue
                     else:
                         # First character is not number
@@ -211,7 +213,7 @@ class CalendarVersion(Version):
                 index_pattern = 5
             elif pattern_str.startswith("MICRO"):
                 for index in range(1, len(version_str) + 1):
-                    if version_str[:index].isdigit():
+                    if version_str[:index].isdigit():  # pylint: disable=R1724
                         continue
                     else:
                         # First character is not number
@@ -300,10 +302,7 @@ class CalendarVersion(Version):
             version_dict_other = other.split()  # type: ignore
         except ValueError:
             # The version can't be split, so compare them as strings
-            if self.parse() == other.parse():
-                return True
-            else:
-                return False
+            return bool(self.parse() == other.parse())
 
         if version_dict_self == version_dict_other:
             return True
@@ -311,6 +310,7 @@ class CalendarVersion(Version):
         return False
 
     def maybe_split(self) -> Optional[SplitResult]:
+        """maybe_split"""
         try:
             return self.split()
         except ValueError:

@@ -117,7 +117,7 @@ def create(config=None):
 
 def global_user():
     """Set the flask.g variables using the session information if the user is logged in."""
-    flask.g.user = current_user._get_current_object()
+    flask.g.user = current_user._get_current_object()  # pylint: disable=W0212
 
 
 def shutdown_session(exception=None):
@@ -169,7 +169,7 @@ def integrity_error_handler(error):
             ).one()
             msg = (
                 "Error: There's already an account associated with your email, "
-                "authenticate with {}.".format(social_auth_user.provider)
+                f"authenticate with {social_auth_user.provider}."
             )
             return msg, 400
         # This error happens only if there is account without provider info
@@ -199,8 +199,8 @@ def auth_error_handler(error):
     # Because social auth openId backend provides route and raises the exceptions,
     # this is the simplest way to turn error into nicely formatted error message.
     msg = (
-        "Error: There was an error during authentication '{}', "
-        "please check the provided url.".format(error)
+        f"Error: There was an error during authentication '{error}', "
+        "please check the provided url."
     )
     return msg, 400
 

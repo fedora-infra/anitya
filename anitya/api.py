@@ -193,11 +193,7 @@ def api_packages_wiki_list():
     projects = []
     for project in project_objs:
         for package in project.packages:
-            tmp = "* {name} {regex} {version_url}".format(
-                name=package.package_name,
-                regex=project.regex,
-                version_url=project.version_url,
-            )
+            tmp = f"* {package.package_name} {project.regex} {project.version_url}"
             projects.append(tmp)
 
     return flask.Response("\n".join(projects), content_type="text/plain;charset=UTF-8")
@@ -495,7 +491,7 @@ def api_get_project_distro(distro, package_name):
     if not package:
         output = {
             "output": "notok",
-            "error": 'No package "%s" found in distro "%s"' % (package_name, distro),
+            "error": f'No package "{package_name}" found in distro "{distro}"',
         }
         httpcode = 404
 
@@ -570,8 +566,7 @@ def api_get_project_ecosystem(ecosystem, project_name):
     if not project:
         output = {
             "output": "notok",
-            "error": 'No project "%s" found in ecosystem "%s"'
-            % (project_name, ecosystem),
+            "error": f'No project "{project_name}" found in ecosystem "{ecosystem}"',
         }
         httpcode = 404
 
