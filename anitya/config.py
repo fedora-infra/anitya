@@ -116,17 +116,27 @@ def load():
         config_path = "/etc/anitya/anitya.toml"
 
     if os.path.exists(config_path):
-        _log.info("Loading Anitya configuration from {}".format(config_path))
-        with open(config_path) as fd:
+        _log.info(
+            "Loading Anitya configuration from {}".format(  # pylint: disable=C0209,W1202
+                config_path
+            )
+        )
+        with open(config_path, encoding="utf-8") as fd:
             try:
                 file_config = toml.loads(fd.read())
                 for key in file_config:
                     config[key.upper()] = file_config[key]
             except toml.TomlDecodeError as e:
-                _log.error("Failed to parse {}: {}".format(config_path, str(e)))
+                _log.error(
+                    "Failed to parse {}: {}".format(  # pylint: disable=C0209,W1202
+                        config_path, str(e)
+                    )
+                )
     else:
         _log.info(
-            "The Anitya configuration file, {}, does not exist.".format(config_path)
+            "The Anitya configuration file, {}, does not exist.".format(  # pylint: disable=C0209,W1202 # noqa: E501
+                config_path
+            )
         )
 
     if not isinstance(config["PERMANENT_SESSION_LIFETIME"], timedelta):

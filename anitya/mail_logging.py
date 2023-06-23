@@ -109,7 +109,7 @@ class ContextInjector(logging.Filter):  # pragma: no cover
         except RuntimeError:
             pass
         try:
-            record.username = "%s -- %s" % (flask.g.user.id, flask.g.user.email)
+            record.username = f"{flask.g.user.id} -- {flask.g.user.email}"
         except Exception:
             pass
 
@@ -128,7 +128,7 @@ class ContextInjector(logging.Filter):  # pragma: no cover
 
         def _format_frame(frame):
             """Format the frame."""
-            return '  File "%s", line %i in %s\n    %s' % (frame)
+            return f'  File "{frame}", line %i in {frame}\n    {frame}'
 
         stack = traceback.extract_stack()
         stack = stack[:-ind]
@@ -140,14 +140,14 @@ class ContextInjector(logging.Filter):  # pragma: no cover
         mypid = os.getpid()
 
         if not psutil:
-            return "Could not import psutil for %r" % mypid
+            return f"Could not import psutil for {mypid!r}"
 
         for proc in psutil.process_iter():
             if proc.pid == mypid:
                 return proc
 
         # This should be impossible.
-        raise ValueError("Could not find process %r" % mypid)
+        raise ValueError(f"Could not find process {mypid!r}")
 
 
 MSG_FORMAT = """Process Details

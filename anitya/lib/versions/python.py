@@ -69,7 +69,7 @@ class PythonVersion(base.Version):
             commit_url: A URL pointing to the commit tagged as the version.
             pre_release_filter: A filter used to identify pre-release versions
         """
-        super(PythonVersion, self).__init__(
+        super().__init__(
             version, prefix, created_on, pattern, cursor, commit_url, pre_release_filter
         )
 
@@ -158,7 +158,9 @@ class PythonVersion(base.Version):
             if not isinstance(version, type(self)):
                 version = type(self)(version=version)
             cast_versions.append(version)
-        return all([self.version_object > v.version_object for v in cast_versions])
+        return all(  # pylint: disable=R1729
+            [self.version_object > v.version_object for v in cast_versions]
+        )
 
     def __lt__(self, other):
         """Support < comparison via objects returned from :meth:`version_object`"""

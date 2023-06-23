@@ -169,7 +169,9 @@ class Version(object):
             if not isinstance(version, type(self)):
                 version = type(self)(version=version)
             cast_versions.append(version)
-        return all([self.parse() > v.parse() for v in cast_versions])
+        return all(  # pylint: disable=R1729
+            [self.parse() > v.parse() for v in cast_versions]
+        )
 
     def __lt__(self, other):
         """Support < comparison via objects returned from :meth:`parse`"""

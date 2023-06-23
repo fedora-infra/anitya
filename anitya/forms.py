@@ -20,6 +20,8 @@ class TokenForm(FlaskForm):
 
 
 class ProjectForm(FlaskForm):
+    """ProjectForm"""
+
     name = StringField("Project name", [validators.DataRequired()])
     homepage = StringField("Homepage", [validators.DataRequired(), validators.URL()])
     backend = SelectField("Backend", [validators.DataRequired()], choices=[])
@@ -48,7 +50,7 @@ class ProjectForm(FlaskForm):
         uses the list of backends provided to fill the choices of the
         drop-down list.
         """
-        super(ProjectForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         if "backends" in kwargs:
             self.backend.choices = [
                 (backend, backend) for backend in sorted(kwargs["backends"])
@@ -67,16 +69,20 @@ class ProjectForm(FlaskForm):
 
 
 class FlagProjectForm(FlaskForm):
+    """FlagProjectForm"""
+
     reason = TextAreaField("Reason for flagging", [validators.DataRequired()])
 
 
 class MappingForm(FlaskForm):
+    """MappingForm"""
+
     distro = SelectField("Distribution", [validators.DataRequired()], choices=[])
     package_name = StringField("Package name", [validators.DataRequired()])
 
     def __init__(self, *args, **kwargs):
         """Calls the default constructor and fill in additional information."""
-        super(MappingForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         if "distros" in kwargs:
             self.distro.choices = [
@@ -86,8 +92,12 @@ class MappingForm(FlaskForm):
 
 
 class ConfirmationForm(FlaskForm):
+    """ConfirmationForm"""
+
     pass
 
 
 class DistroForm(FlaskForm):
+    """DistroForm"""
+
     name = StringField("Distribution name", [validators.DataRequired()])

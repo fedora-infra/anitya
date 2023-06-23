@@ -51,6 +51,7 @@ class ProjectExists(AnityaException):
         self.requested_project = requested_project
 
     def to_dict(self):
+        """to_dict"""
         return {"requested_project": self.requested_project.__json__()}
 
     def __str__(self):
@@ -80,18 +81,12 @@ class AnityaInvalidMappingException(AnityaException):
 
     @property
     def message(self):
+        """message"""
         return (
-            "Could not edit the mapping of {pkgname} on "
-            "{distro}, there is already a package {found_pkgname} on "
-            '{found_distro} as part of the project <a href="{link}">'
-            "{project_name}</a>.".format(
-                pkgname=self.pkgname,
-                distro=self.distro,
-                found_pkgname=self.found_pkgname,
-                found_distro=self.found_distro,
-                project_name=self.project_name,
-                link=self.link,
-            )
+            f"Could not edit the mapping of {self.pkgname} on "
+            f"{self.distro}, there is already a package {self.found_pkgname} on "
+            f'{self.found_distro} as part of the project <a href="{self.link}">'
+            f"{self.project_name}</a>."
         )
 
 
@@ -110,11 +105,9 @@ class InvalidVersion(AnityaException):
 
     def __str__(self):
         if self.exception:
-            return 'Invalid version "{v}": {e}'.format(
-                v=self.version, e=str(self.exception)
-            )
+            return f'Invalid version "{self.version}": {str(self.exception)}'
         else:
-            return 'Invalid version "{v}"'.format(v=self.version)
+            return f'Invalid version "{self.version}"'
 
 
 class RateLimitException(AnityaException):
@@ -135,6 +128,4 @@ class RateLimitException(AnityaException):
         self.reset_time = arrow.get(reset_time)
 
     def __str__(self):
-        return 'Rate limit was reached. Will be reset in "{0}".'.format(
-            str(self.reset_time)
-        )
+        return f'Rate limit was reached. Will be reset in "{str(self.reset_time)}".'

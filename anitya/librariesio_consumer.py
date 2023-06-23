@@ -57,7 +57,7 @@ class LibrariesioConsumer(object):
         """
         self.feed = config.config["SSE_FEED"]
         self.whitelist = config.config["LIBRARIESIO_PLATFORM_WHITELIST"]
-        _log.info("Subscribing to the following SSE feed: {}".format(self.feed))
+        _log.info("Subscribing to the following SSE feed: %s", self.feed)
 
         initialize(config.config)
 
@@ -67,14 +67,14 @@ class LibrariesioConsumer(object):
         This call is blocking and will continue until the underlying TCP
         connection is closed.
         """
-        _log.info("Starting Server-Sent Events client for {}".format(self.feed))
+        _log.info("Starting Server-Sent Events client for %s", self.feed)
         sse_stream = SSEClient(self.feed)
         for sse_message in sse_stream:
             # If the server sends too many newlines the client can generate
             # messages that are completely empty, so we filter those here.
             if sse_message.data:
                 self.process_message(sse_message)
-                _log.debug("Received message from SSE: {}".format(sse_message))
+                _log.debug("Received message from SSE: %s", sse_message)
 
     def process_message(self, message):
         """
@@ -100,7 +100,7 @@ class LibrariesioConsumer(object):
             librariesio_msg = json.loads(message.data)
         except json.JSONDecodeError:
             _log.warning(
-                "Dropping librariesio update message. Invalid json '{}'.".format(
+                "Dropping librariesio update message. Invalid json '{}'.".format(  # pylint: disable=C0209,W1202  # noqa: E501
                     message.data
                 )
             )
@@ -114,7 +114,7 @@ class LibrariesioConsumer(object):
                 break
         else:
             _log.debug(
-                "Dropped librariesio update to {} for {} ({}) since"
+                "Dropped librariesio update to {} for {} ({}) since"  # pylint: disable=C0209,W1202
                 " it is on the unsupported {} platform".format(
                     version, name, homepage, platform
                 )
@@ -132,23 +132,25 @@ class LibrariesioConsumer(object):
                 )
                 utilities.check_project_release(project, Session)
                 _log.info(
-                    "Discovered new project at version {} via libraries.io: {}".format(
-                        version, project
-                    )
+                    "Discovered new project at version %s via libraries.io: %s",
+                    version,
+                    project,
                 )
             except exceptions.AnityaException as e:
                 _log.error(
-                    "A new project was discovered via libraries.io, {}, "
+                    "A new project was discovered via libraries.io, {}, "  # pylint: disable=C0209,W1202  # noqa: E501
                     'but we failed with "{}"'.format(name, str(e))
                 )
         elif project is None:
             _log.info(
-                "Discovered new project, {}, on the {} platform, but anitya is "
-                "configured to not create the project".format(name, platform)
+                "Discovered new project, %s, on the %s platform, but anitya is "  # pylint: disable=C0209,W1202  # noqa: E501
+                "configured to not create the project",
+                name,
+                platform,
             )
         else:
             _log.info(
-                "libraries.io has found an update (version {}) for project {}".format(
+                "libraries.io has found an update (version {}) for project {}".format(  # pylint: disable=C0209,W1202  # noqa: E501
                     version, project.name
                 )
             )
@@ -158,9 +160,9 @@ class LibrariesioConsumer(object):
                 utilities.check_project_release(project, session)
             except exceptions.AnityaPluginException as e:
                 _log.warning(
-                    "libraries.io found an update for {}, but we failed with {}".format(
-                        project, str(e)
-                    )
+                    "libraries.io found an update for %s, but we failed with %s",
+                    project,
+                    str(e),
                 )
 
         # Refresh the project object that was committed by either
@@ -170,9 +172,10 @@ class LibrariesioConsumer(object):
         ).one_or_none()
         if project and project.latest_version != version:
             _log.info(
-                "libraries.io found {} had a latest version of {}, but Anitya found {}".format(
-                    project, version, project.latest_version
-                )
+                "libraries.io found %s had a latest version of %s, but Anitya found %s",
+                project,
+                version,
+                project.latest_version,
             )
 
         Session.remove()
@@ -187,7 +190,5 @@ def main():
 
 
 if __name__ == "__main__":
-    """
-    Main section.
-    """
+    """Main section"""  # pylint: disable=W0105
     main()
