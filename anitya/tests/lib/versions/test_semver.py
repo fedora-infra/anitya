@@ -17,6 +17,7 @@
 # code or documentation are not subject to the GNU General Public
 # License and may only be used or replicated with the express permission
 # of Red Hat, Inc.
+"""Test semver"""
 import unittest
 
 from anitya.lib.versions import semver
