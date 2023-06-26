@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-  # pylint: disable=R0401
 #
 # Copyright © 2017  Red Hat, Inc.
 #
@@ -17,6 +17,7 @@
 # code or documentation are not subject to the GNU General Public
 # License and may only be used or replicated with the express permission
 # of Red Hat, Inc.
+"""Test rpm"""
 from __future__ import unicode_literals
 
 import unittest
@@ -41,10 +42,12 @@ class RpmVersionTests(unittest.TestCase):
         self.assertEqual("RPM", rpm.RpmVersion.name)
 
     def test_split_rc_prerelease_tag(self):
+        """test_split_rc_prerelease_tag"""
         result = rpm.RpmVersion.split_rc("1.8.23-alpha1")
         self.assertEqual(("1.8.23", "alpha", "1"), result)
 
     def test_split_rc_no_prerelease_tag(self):
+        """test_split_rc_no_prerelease_tag"""
         result = rpm.RpmVersion.split_rc("1.8.23")
         self.assertEqual(("1.8.23", "", ""), result)
 
