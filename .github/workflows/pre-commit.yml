@@ -8,8 +8,8 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3.5.2
-    - uses: actions/setup-python@v4.6.0
+    - uses: actions/checkout@v3.5.3
+    - uses: actions/setup-python@v4.6.1
     - name: Install dependencies
       run: |
         pip install poetry==1.5.1 pylint==2.17.4
