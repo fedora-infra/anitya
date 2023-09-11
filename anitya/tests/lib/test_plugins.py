@@ -39,6 +39,7 @@ EXPECTED_BACKENDS = [
     "Drupal6",
     "Drupal7",
     "Freshmeat",
+    "Gitea",
     "GNOME",
     "GNU project",
     "Gogs",

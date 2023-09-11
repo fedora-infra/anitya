@@ -164,6 +164,15 @@ The backends available are:
   You need to provide **GitLab project url** which needs to point to project root on
   GitLab server.
 
+* **Gitea** for projects hosted on
+  `Gitea server <https://docs.gitea.com/>`_.
+  This backend can also be used for projects that are hosted on 
+  `Forgejo server <https://forgejo.org/>`_ as Forgejo API is one-to-one compatible with
+  Gitea API.
+
+  You need to provide **Gitea/Forgejo project url** which needs to point to project root on
+  either Gitea server or Forgejo server.
+
 * **GNOME** for projects hosted on
   `download.gnome.org <https://download.gnome.org/sources/>`_
 

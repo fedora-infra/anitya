@@ -252,6 +252,13 @@
       $("#version_url").prop('title', "This field should be filled when " +
       "homepage doesn't point to GitLab URL.");
     };
+    if (str == 'Gitea'){
+      $("label[for='version_url']").text('Gitea/Forgejo project url');
+      $('#version_url_row').show();
+      $("#version_url").prop('title', "This field should be filled when " +
+      "homepage doesn't point to Gitea or Forgejo URL.");
+      $('#releases_only_row').show();
+    };
     if (str == 'Gogs'){
       $("label[for='version_url']").text('Gogs project url');
       $('#version_url_row').show();
