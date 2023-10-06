@@ -50,8 +50,6 @@ social_auth_login_url = "/login/"
 social_auth_login_redirect_url = "/"
 social_auth_login_error_url = "/login-error/"
 
-librariesio_platform_whitelist = ['pypi', 'rubygems']
-sse_feed = "http://firehose.libraries.io/events"
 
 default_regex = "a*b*"
 github_access_token = "foobar"
@@ -175,10 +173,8 @@ class LoadTests(unittest.TestCase):
             "SOCIAL_AUTH_LOGIN_URL": "/login/",
             "SOCIAL_AUTH_LOGIN_REDIRECT_URL": "/",
             "SOCIAL_AUTH_LOGIN_ERROR_URL": "/login-error/",
-            "LIBRARIESIO_PLATFORM_WHITELIST": ["pypi", "rubygems"],
             "DEFAULT_REGEX": "a*b*",
             "GITHUB_ACCESS_TOKEN": "foobar",
-            "SSE_FEED": "http://firehose.libraries.io/events",
             "CRON_POOL": 10,
             "CHECK_TIMEOUT": 600,
             "CHECK_ERROR_THRESHOLD": 100,

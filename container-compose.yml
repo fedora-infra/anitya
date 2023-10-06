@@ -24,26 +24,6 @@ services:
       rabbitmq:
         condition: service_started
 
-  anitya-librariesio-consumer:
-    image: anitya-base
-    build:
-      context: .
-      dockerfile: Containerfile.dev
-      args:
-        FEDORA_VERSION: 38
-    container_name: "anitya-librariesio-consumer"
-    volumes:
-      - ./anitya/:/app/anitya:z
-      - ./docs/:/app/docs:z
-    restart: unless-stopped
-    environment:
-      - START_COMMAND=librariesio_consumer
-    depends_on:
-      postgres:
-        condition: service_started
-      rabbitmq:
-        condition: service_started
-
   rabbitmq:
     image: docker.io/library/rabbitmq:3.8.16-management-alpine
     container_name: "rabbitmq"

@@ -15,11 +15,6 @@ Here are some tips:
 
 * All logs are viewable through `journalctl --user-unit check-service.service`
 
-* Start and stop the librariesio-consumer with
-  `systemctl --user {action} librariesio-consumer.service`
-
-* All logs are viewable through `journalctl --user-unit librariesio-consumer.service`
-
 Once you start the development server, you can navigate to http://localhost:5000/
 in your host's browser.
 

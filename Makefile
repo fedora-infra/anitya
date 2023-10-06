@@ -28,8 +28,6 @@ halt:
 	$(call compose-tool) down -t1
 bash-web:
 	$(call container-tool) exec -it anitya-web bash -c "cat /app/.container/web/motd; bash;"
-bash-consumer:
-	$(call container-tool) exec -it anitya-librariesio-consumer bash -c "cat /app/.container/consumer/motd; bash;"
 init-db:
 	$(call container-tool) exec -it anitya-web bash -c "python3 createdb.py"
 dump-restore: init-db
@@ -37,7 +35,7 @@ dump-restore: init-db
 	$(call container-tool) exec -it postgres bash -c 'createuser anitya && xzcat /dump/anitya.dump.xz | psql anitya'
 	$(call remove_dump)
 logs:
-	$(call container-tool) logs -f anitya-web anitya-librariesio-consumer rabbitmq postgres
+	$(call container-tool) logs -f anitya-web rabbitmq postgres
 clean: halt
 	$(call container-tool) rmi "localhost/anitya-base:latest" "docker.io/library/postgres:13.4" "docker.io/library/rabbitmq:3.8.16-management-alpine"
 

@@ -123,5 +123,4 @@
     replace: 'base64.encodebytes'
 
 - import_tasks: db.yml
-- import_tasks: librariesio.yml
 - import_tasks: rabbitmq.yml

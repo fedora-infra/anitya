@@ -5,9 +5,6 @@ Here are some tips:
 
 * The code is located at /app
 
-* To run libraries.io service simply run
-librariesio_consumer
-
 * To run check service simply run
 check_service
 

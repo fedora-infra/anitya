@@ -16,8 +16,6 @@ social_auth_redirect_is_https = false
 
 blacklisted_users = []
 
-sse_feed = "http://firehose.libraries.io/events"
-
 # The logging configuration, in dictConfig format.
 [anitya_log_config]
     version = 1

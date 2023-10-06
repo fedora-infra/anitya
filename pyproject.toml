@@ -91,7 +91,6 @@ include = [
 [tool.poetry.scripts]
 check_service = "anitya.check_service:main"
 sar = "anitya.sar:main"
-librariesio_consumer = "anitya.librariesio_consumer:main"
 
 [tool.poetry.dependencies]
 python = "^3.8.1"
@@ -113,7 +112,6 @@ semver = "^3.0.0"
 social-auth-app-flask = "^1.0.0"
 social-auth-app-flask-sqlalchemy = "^1.0.1"
 SQLAlchemy = "^1.4.41"
-sseclient = "^0.0.27"
 # Limit the package till https://github.com/maxcountryman/flask-login/issues/686 is fixed
 Werkzeug = "2.3.7"
 "straight.plugin" = "^1.5.0"
