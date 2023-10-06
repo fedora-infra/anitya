@@ -50,7 +50,7 @@ Services
 ========
 
 Anitya is made up of a :ref:`wsgi-app`, an :ref:`update-service` that could be run
-separately, an optional :ref:`sse-client`, :ref:`sar-script`, and requires a :ref:`database`.
+separately, an optional :ref:`sar-script`, and requires a :ref:`database`.
 
 .. _wsgi-app:
 
@@ -76,22 +76,6 @@ Update Service
 The service that checks for project updates is located at
 ``anitya/check_service.py`` in the git repository and Python package.
 To enable it, just start this service.
-
-.. note::
-   This script should be also available system wide, installed by ```scripts``
-   argument in python setup. See `python setup documentation`_
-   for more info.
-
-.. _sse-client:
-
-Libraries.io SSE client
------------------------
-
-This optional service listens to SSE feed for messages published by the
-`libraries.io`_ service.
-
-The service is located at ``anitya/librariesio_consumer.py``. To enable
-it just start the service.
 
 .. note::
    This script should be also available system wide, installed by ```scripts``
@@ -148,7 +132,6 @@ The Anitya needs to connect to RabbitMQ server which will listen for it's messag
 of your own RabbitMQ server please look at the `official documentation <https://www.rabbitmq.com/>`_.
 
 
-.. _libraries.io: https://libraries.io/
 .. _release-monitoring.org: https://release-monitoring.org/
 .. _deployment role: https://pagure.io/fedora-infra/ansible/blob/master/f/roles/openshift-apps/release-monitoring
 .. _python setup documentation: https://docs.python.org/3/distutils/setupscript.html#installing-scripts

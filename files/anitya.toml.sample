@@ -46,13 +46,6 @@ social_auth_authentication_backends = [
 # Force the application to require HTTPS on authentication redirects.
 social_auth_redirect_is_https = true
 
-# List of platforms for which Anitya should automatically create new projects
-# when Libraries.io announces a new version. See https://libraries.io/ for the
-# list of valid platforms. By default, Anitya will only update existing projects
-# via Libraries.io.
-librariesio_platform_whitelist = []
-sse_feed = "http://firehose.libraries.io/events"
-
 # Default regular expression used for custom backend
 default_regex = """\
                 (?i)%(name)s(?:[-_]?(?:minsrc|src|source))?[-_](+[^-/_\\s]+?(?:[-_]\

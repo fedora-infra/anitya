@@ -192,10 +192,6 @@ another ``psql`` commands::
 
 For additional ``psql`` commands see ``man psql``.
 
-To run libraries.io service in the guest vm simply run::
-
-   $ systemctl --user enable --now librariesio-consumer.service
-
 To run check service in the guest vm simply run::
 
    $ systemctl --user enable --now check-service.service
@@ -203,7 +199,7 @@ To run check service in the guest vm simply run::
 Docker / Podman
 ---------------
 
-This way, you will be able to control each service (anitya-web, anitya-librariesio-consumer. RabbitMQ, etc) separately. You can turn off RabbitMQ or PostgreSQL or both, then connect to external services or use them with the application.
+This way, you will be able to control each service (anitya-web, RabbitMQ, etc) separately. You can turn off RabbitMQ or PostgreSQL or both, then connect to external services or use them with the application.
 
 Requirements:
 
@@ -239,7 +235,6 @@ Makefile scripts that provide easier container management:
 * ``make restart`` Restarts all the container services that are either stopped or running
 * ``make halt`` Stops and removes the containers
 * ``make bash-web`` Connects to anitya-web container
-* ``make bash-consumer`` Connects to anitya-librariesio-consumer container
 * ``make init-db`` Creates database
 * ``make dump-restore`` Import production database
 * ``make logs`` Shows all logs of all containers
