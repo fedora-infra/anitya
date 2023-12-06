@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-    - uses: actions/setup-python@v4.8.0
+    - uses: actions/setup-python@v5.0.0
     - name: Install dependencies
       run: |
         pip install poetry==1.5.1 pylint==2.17.4
