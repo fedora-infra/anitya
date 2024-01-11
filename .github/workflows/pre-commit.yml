@@ -10,9 +10,5 @@ jobs:
     steps:
     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
     - uses: actions/setup-python@v5.0.0
-    - name: Install dependencies
-      run: |
-        pip install poetry==1.5.1 pylint==2.17.4
-        poetry export --with dev --output requirements.txt
-        python -m pip install -r requirements.txt
+    - uses: snok/install-poetry@v1
     - uses: pre-commit/action@v3.0.1
