@@ -11,7 +11,9 @@ jobs:
     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
     - uses: actions/setup-python@v5.0.0
     - uses: snok/install-poetry@v1
-    - name: Run pre-commit
+    - name: Install dependencies
       run: |
-        python -m pip install tox
-        tox -e pre-commit
+        pip install poetry pylint
+        poetry export --with dev --output requirements.txt
+        python -m pip install -r requirements.txt
+    - uses: pre-commit/action@v3.0.0
