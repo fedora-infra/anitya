@@ -11,4 +11,8 @@ jobs:
     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
     - uses: actions/setup-python@v5.0.0
     - uses: snok/install-poetry@v1
-    - uses: pre-commit/action@v3.0.0
+    - name: Run pre-commit
+      run: |
+        poetry install
+        pre-commit run --show-diff-on-failure --color=always --all-files
+
