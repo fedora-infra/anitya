@@ -1,0 +1,27 @@
+name: Apply labels when deployed
+
+on:
+  push:
+    branches:
+      - staging
+      - production
+
+jobs:
+  label:
+    name: Apply labels
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Staging deployment
+        uses: fedora-infra/label-when-in-branch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: staging
+          label: deployed:staging
+
+      - name: Production deployment
+        uses: fedora-infra/label-when-in-branch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: production
+          label: deployed:prod
