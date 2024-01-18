@@ -14,15 +14,6 @@
 
 .. image::  https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit
   :target:  https://pre-commit.com/
-
-.. image:: https://img.shields.io/lgtm/alerts/g/fedora-infra/anitya.svg?logo=lgtm&logoWidth=18
-  :target: https://lgtm.com/projects/g/fedora-infra/anitya/alerts/
-
-.. image:: https://img.shields.io/lgtm/grade/javascript/g/fedora-infra/anitya.svg?logo=lgtm&logoWidth=18
-  :target: https://lgtm.com/projects/g/fedora-infra/anitya/context:javascript
-  
-.. image:: https://img.shields.io/lgtm/grade/python/g/fedora-infra/anitya.svg?logo=lgtm&logoWidth=18
-  :target: https://lgtm.com/projects/g/fedora-infra/anitya/context:python
   
 
 ======
