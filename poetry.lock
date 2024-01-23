@@ -2669,21 +2669,22 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [[package]]
 name = "vcrpy"
-version = "5.0.0"
+version = "6.0.0"
 description = "Automatically mock your HTTP interactions to simplify and speed up testing"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "vcrpy-5.0.0-py2.py3-none-any.whl", hash = "sha256:28b66c87be7678896e9e78fee4f6695e3fb153d5d7e5f635416a33658452bb44"},
-    {file = "vcrpy-5.0.0.tar.gz", hash = "sha256:1ef3ddea819a26eda10b560c70bd74c41855241d431745712e31a5b2de2d05a8"},
+    {file = "vcrpy-6.0.0.tar.gz", hash = "sha256:04fc36b53981b32680d7a860bf4ceca0fbe9948349b2ac7ffd4d8f7324b77006"},
 ]
 
 [package.dependencies]
 PyYAML = "*"
-six = ">=1.5"
-urllib3 = {version = "<2", markers = "python_version < \"3.10\""}
+urllib3 = {version = "<2", markers = "platform_python_implementation == \"PyPy\" or python_version < \"3.10\""}
 wrapt = "*"
 yarl = "*"
+
+[package.extras]
+tests = ["Werkzeug (==2.0.3)", "aiohttp", "boto3", "httplib2", "httpx", "pytest", "pytest-aiohttp", "pytest-asyncio", "pytest-cov", "pytest-httpbin", "requests (>=2.22.0)", "tornado", "urllib3"]
 
 [[package]]
 name = "virtualenv"
@@ -3002,4 +3003,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.10"
-content-hash = "7d23cf9a5335220c584bdffa117a6d1732b9b6260581cb38b4b669f1240e3ab3"
+content-hash = "9cd7f67ac5b816844674f150f8ecd63765815a0565c8e6e57bcd592023c6c1ca"
