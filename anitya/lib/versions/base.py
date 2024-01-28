@@ -122,13 +122,24 @@ class Version(object):
 
         return version
 
-    def prerelease(self):
+    def prerelease(self) -> bool:
         """
         Check if a version is a pre-release version.
 
         This basic version implementation does not have a concept of
         pre-releases.
         """
+
+        if not self.version:
+            return False
+
+        for pre_release_filter in self.pre_release_filters:
+            if not pre_release_filter:
+                return False
+
+            if pre_release_filter in self.version:
+                return True
+
         return False
 
     def postrelease(self):

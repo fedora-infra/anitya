@@ -42,7 +42,7 @@ class SemanticVersion(Version):
 
     name = "Semantic"
 
-    def prerelease(self):
+    def prerelease(self) -> bool:
         """
         Check if a version is a pre-release version.
 
@@ -64,11 +64,7 @@ class SemanticVersion(Version):
         if version_info.prerelease:
             return True
 
-        for pre_release_filter in self.pre_release_filters:
-            if pre_release_filter and pre_release_filter in self.version:
-                return True
-
-        return False
+        return super().prerelease()
 
     def __eq__(self, other):
         """

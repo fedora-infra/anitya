@@ -107,18 +107,17 @@ class PythonVersion(base.Version):
         else:
             return super().parse()
 
-    def prerelease(self):
+    def prerelease(self) -> bool:
         """
         Check this is a pre-release version.
         """
         if not self.version_object:
             return False
 
-        for pre_release_filter in self.pre_release_filters:
-            if pre_release_filter and pre_release_filter in self.version:
-                return True
+        if self.version_object.is_prerelease:
+            return True
 
-        return self.version_object.is_prerelease
+        return super().prerelease()
 
     def postrelease(self):
         """
