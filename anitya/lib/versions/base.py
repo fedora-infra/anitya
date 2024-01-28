@@ -26,6 +26,8 @@ import re
 from datetime import datetime
 from typing import Optional
 
+import packaging.version
+
 from anitya.lib.exceptions import InvalidVersion
 
 #: A regular expression to determine if the version string contains a 'v' prefix.
@@ -137,7 +139,36 @@ class Version(object):
             if not pre_release_filter:
                 return False
 
-            if pre_release_filter in self.version:
+            # special filter mode "odds"
+            #
+            # The following is an attempt to filter versions for packages
+            # that may use odd-numbered versions for development releases.
+            # This mode attempts to use the `packaging` version parsing to
+            # extract a possible release tuple from the provided version
+            # string, which should work for most version schemas. If an odd
+            # value is detected for the target field, the filter will flag. By
+            # default, this mode will target the "minor" field, but this can
+            # be overridden by appending a target index via `!odds:<idx>`. For
+            # example, `!odds:2` will attempt to use the "micro" field. For
+            # cases where the version cannot be parsed due to an unsupported
+            # schema, the filter processing will just ignore/skip the entry.
+            if pre_release_filter.startswith("!odds"):
+                # determine the specific field to use when considering "odd"
+                # releases -- by default, the "minor" (index 1) will be used
+                _, _, raw_target_idx = pre_release_filter.partition(":")
+                try:
+                    target_idx = int(raw_target_idx)
+                except ValueError:
+                    target_idx = 1
+
+                try:
+                    rguess = packaging.version.Version(self.version).release
+                    if 0 <= target_idx < len(rguess):
+                        if rguess[target_idx] % 2 == 1:
+                            return True
+                except packaging.version.InvalidVersion:
+                    continue
+            elif pre_release_filter in self.version:
                 return True
 
         return False

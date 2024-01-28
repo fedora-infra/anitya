@@ -99,9 +99,64 @@ class VersionTests(unittest.TestCase):
         version = base.Version(version="release_db-1.2.3", prefix="release_db-; ")
         self.assertEqual("1.2.3", version.parse())
 
-    def test_prerelease(self):
+    def test_prerelease_default(self):
         """Assert prerelease is defined and returns False"""
         version = base.Version(version="v1.0.0")
+        self.assertFalse(version.prerelease())
+
+    def test_prerelease_str_single(self):
+        """Assert pre-releases will be valid if filter is applied."""
+        version = base.Version(version="1.0.0", pre_release_filter="1.")
+        self.assertTrue(version.prerelease())
+
+    def test_prerelease_str_multiple(self):
+        """Assert pre-releases will be valid if multiple filters is applied."""
+        version = base.Version(version="v1.0.0", pre_release_filter="a;v")
+        self.assertTrue(version.prerelease())
+
+    def test_prerelease_odds_default_even(self):
+        """Assert even pre-releases are not flagged with odds-check."""
+        version = base.Version(version="v1.2.0", pre_release_filter="!odds")
+        self.assertFalse(version.prerelease())
+
+    def test_prerelease_odds_default_odd(self):
+        """Assert odd pre-releases are flagged with odds-check."""
+        version = base.Version(version="v1.3.0", pre_release_filter="!odds")
+        self.assertTrue(version.prerelease())
+
+    def test_prerelease_odds_micro_even(self):
+        """Assert even-micro pre-releases are not flagged with odds-check."""
+        version = base.Version(version="2.0.6", pre_release_filter="!odds:2")
+        self.assertFalse(version.prerelease())
+
+    def test_prerelease_odds_micro_odd(self):
+        """Assert odd-micro pre-releases are flagged with odds-check."""
+        version = base.Version(version="2.0.7", pre_release_filter="!odds:2")
+        self.assertTrue(version.prerelease())
+
+    def test_prerelease_odds_invalid_index(self):
+        """Assert prerelease ignores an odds-check with an invalid index."""
+        version = base.Version(version="v1.3.0", pre_release_filter="!odds:5")
+        self.assertFalse(version.prerelease())
+
+    def test_prerelease_odds_unsupported_version(self):
+        """Assert prerelease ignores an odds-check with an unsupported version."""
+        version = base.Version(version="latest", pre_release_filter="!odds")
+        self.assertFalse(version.prerelease())
+
+    def test_prerelease_odds_multiple(self):
+        """Assert pre-releases will be valid if multiple filters is applied."""
+        version = base.Version(version="v1.3.0", pre_release_filter="alpha;!odds")
+        self.assertTrue(version.prerelease())
+
+    def test_prerelease_misc_invalid_filter(self):
+        """Assert prerelease ignores invalid filters."""
+        version = base.Version(version="1.0.0", pre_release_filter=";")
+        self.assertFalse(version.prerelease())
+
+    def test_prerelease_misc_invalid_version(self):
+        """Assert prerelease ignores invalid version."""
+        version = base.Version(version=None)
         self.assertFalse(version.prerelease())
 
     def test_postrelease(self):

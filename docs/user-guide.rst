@@ -326,15 +326,27 @@ More concrete examples:
 Pre-release filter
 ------------------
 
-Sometimes the recognition of stable and unstable versions by :ref:`version-scheme` isn't
-working for the project and in this field you can specify strings that will be considered
-as unstable release.
+Anitya will attempt recognition of stable and unstable versions for projects
+using :ref:`version schemes <version-scheme>`. Sometimes recognition may not
+work for a project and in this field a user can specify strings that will be
+considered as unstable release.
 
 For example, if the project's version are: ``1.2alpha``, you can set the
 pre-release filter to ``alpha`` to tell Anitya to treat this release as unstable.
 
 You can specify multiple filters by separating them by ``;``. For example
 ``alpha;beta`` will mark versions with ``alpha`` and ``beta`` as unstable.
+
+For projects using odd-numbered versions for development releases, the filter
+pattern ``!odds[:n]`` can be used to help identify development releases as
+pre-releases. For projects which use an odd minor version to identify
+development releases, a filter ``!odds`` can be used (e.g. versions ``1.0`` and
+``1.2`` is considered a stable version, where ``1.1`` is considered a
+pre-release version). For projects which use a different field as a marker for
+old versions, an offset value (``n``) can be provided. For example, the filter
+``!odds:2`` can be used to configure an odd micro version to identify
+development releases (e.g. versions ``1.0.4`` and ``1.0.6`` is considered a
+stable version, where ``1.0.5`` is considered a pre-release version).
 
 .. note::
    This filter is applied after recognition of unstable versions by :ref:`version-scheme`.
