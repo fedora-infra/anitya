@@ -136,7 +136,7 @@ class RpmVersion(Version):
 
         return (match.group(1), match.group(3), match.group(4))
 
-    def prerelease(self):
+    def prerelease(self) -> bool:
         """
         Check if a version is a pre-release version.
 
@@ -146,11 +146,7 @@ class RpmVersion(Version):
         if self.split_rc(self.parse())[1]:
             return True
 
-        for pre_release_filter in self.pre_release_filters:
-            if pre_release_filter and pre_release_filter in self.version:
-                return True
-
-        return False
+        return super().prerelease()
 
     def __eq__(self, other):
         """
