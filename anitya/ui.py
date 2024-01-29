@@ -499,18 +499,24 @@ def new_project():
                 homepage=form.homepage.data.strip(),
                 backend=form.backend.data.strip(),
                 version_scheme=form.version_scheme.data.strip(),
-                version_url=form.version_url.data.strip()
-                if form.version_url.data
-                else None,
-                version_prefix=form.version_prefix.data.strip()
-                if form.version_prefix.data
-                else None,
-                pre_release_filter=form.pre_release_filter.data.strip()
-                if form.pre_release_filter.data
-                else None,
-                version_filter=form.version_filter.data.strip()
-                if form.version_filter.data
-                else None,
+                version_url=(
+                    form.version_url.data.strip() if form.version_url.data else None
+                ),
+                version_prefix=(
+                    form.version_prefix.data.strip()
+                    if form.version_prefix.data
+                    else None
+                ),
+                pre_release_filter=(
+                    form.pre_release_filter.data.strip()
+                    if form.pre_release_filter.data
+                    else None
+                ),
+                version_filter=(
+                    form.version_filter.data.strip()
+                    if form.version_filter.data
+                    else None
+                ),
                 regex=form.regex.data.strip() if form.regex.data else None,
                 user_id=flask.g.user.username,
                 releases_only=form.releases_only.data,
@@ -591,24 +597,34 @@ def edit_project(project_id):
                 name=form.name.data.strip(),
                 homepage=form.homepage.data.strip(),
                 backend=form.backend.data.strip(),
-                version_scheme=form.version_scheme.data.strip()
-                if form.version_scheme.data
-                else None,
-                version_pattern=form.version_pattern.data.strip()
-                if form.version_pattern.data
-                else None,
-                version_url=form.version_url.data.strip()
-                if form.version_url.data
-                else None,
-                version_prefix=form.version_prefix.data.strip()
-                if form.version_prefix.data
-                else None,
-                pre_release_filter=form.pre_release_filter.data.strip()
-                if form.pre_release_filter.data
-                else None,
-                version_filter=form.version_filter.data.strip()
-                if form.version_filter.data
-                else None,
+                version_scheme=(
+                    form.version_scheme.data.strip()
+                    if form.version_scheme.data
+                    else None
+                ),
+                version_pattern=(
+                    form.version_pattern.data.strip()
+                    if form.version_pattern.data
+                    else None
+                ),
+                version_url=(
+                    form.version_url.data.strip() if form.version_url.data else None
+                ),
+                version_prefix=(
+                    form.version_prefix.data.strip()
+                    if form.version_prefix.data
+                    else None
+                ),
+                pre_release_filter=(
+                    form.pre_release_filter.data.strip()
+                    if form.pre_release_filter.data
+                    else None
+                ),
+                version_filter=(
+                    form.version_filter.data.strip()
+                    if form.version_filter.data
+                    else None
+                ),
                 regex=form.regex.data.strip() if form.regex.data else None,
                 insecure=form.insecure.data,
                 user_id=flask.g.user.username,

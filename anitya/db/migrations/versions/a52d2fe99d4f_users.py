@@ -5,6 +5,7 @@ Revision ID: a52d2fe99d4f
 Revises: 8040ef9a9dda
 Create Date: 2017-07-06 18:08:56.027650
 """
+
 import uuid
 
 import sqlalchemy as sa
