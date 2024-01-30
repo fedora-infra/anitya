@@ -102,7 +102,7 @@ defusedxml = "^0.7.1"
 fedora-messaging = "^3.1.0"
 Flask = "^2.1.2"
 Flask-Login = "^0.6.3"
-Flask-WTF = "^1.0.1"
+Flask-WTF = "^1.2.1"
 # https://github.com/sphinx-doc/sphinx/issues/10306
 Jinja2 = "<3.1.4"
 ordered-set = "^4.1.0"
