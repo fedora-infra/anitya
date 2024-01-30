@@ -351,7 +351,7 @@ If you are a maintainer and wish to make a release, follow these steps:
 
 6. Remove every remaining news fragment from ``news`` folder.
 
-7. Generate new DB schema image by running ``./generate_db_schema`` in ``docs`` folder.
+7. Generate new DB schema image by running ``poetry run ./generate_db_schema`` in ``docs`` folder.
 
 8. Commit your changes with message *Anitya <version>*.
 

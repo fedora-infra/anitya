@@ -4,6 +4,37 @@ Release Notes
 
 .. towncrier release notes start
 
+1.9.0 (2024-01-30)
+==================
+
+Features
+--------
+
+* Support odd-numbered pre-release version filtering
+  (`PR#1708 <https://github.com/fedora-infra/anitya/pull/1708>`_)
+
+* Created Gitea backend.
+  (`#1566 <https://github.com/fedora-infra/anitya/issues/1566>`_)
+
+
+Bug Fixes
+---------
+
+* libraries.io consumer crashing
+  (`#1666 <https://github.com/fedora-infra/anitya/issues/1666>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Erol Keskin
+* James Knight
+* Liora Milbaum
+* Michal Konecny
+
+
 1.8.1 (2023-05-26)
 ==================
 
