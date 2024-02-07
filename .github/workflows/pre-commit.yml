@@ -15,4 +15,4 @@ jobs:
         pip install poetry==1.5.1 pylint==2.17.4
         poetry export --with dev --output requirements.txt
         python -m pip install -r requirements.txt
-    - uses: pre-commit/action@v3.0.0
+    - uses: pre-commit/action@v3.0.1
