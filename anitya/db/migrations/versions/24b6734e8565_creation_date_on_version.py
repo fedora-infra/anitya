@@ -17,7 +17,7 @@ def upgrade():
     """Add `created_on` date column to projects_versions table."""
     op.add_column(
         "projects_versions",
-        sa.Column("created_on", sa.DateTime, default=sa.func.current_timestamp()),
+        sa.Column("created_on", sa.DateTime, default=sa.sql.functions.current_timestamp()),
     )
 
 

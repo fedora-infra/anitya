@@ -22,7 +22,7 @@ def upgrade():
             "last_check",
             sa.TIMESTAMP(timezone=True),
             default=arrow.utcnow().datetime,
-            server_default=sa.func.current_timestamp(),
+            server_default=sa.sql.functions.current_timestamp(),
         ),
     )
 
@@ -32,7 +32,7 @@ def upgrade():
             "next_check",
             sa.TIMESTAMP(timezone=True),
             default=arrow.utcnow().datetime,
-            server_default=sa.func.current_timestamp(),
+            server_default=sa.sql.functions.current_timestamp(),
         ),
     )
     op.create_index(

@@ -270,7 +270,9 @@ class Project(Base):
     )
 
     updated_on = sa.Column(
-        sa.DateTime, server_default=sa.func.now(), onupdate=sa.func.current_timestamp()
+        sa.DateTime,
+        server_default=sa.sql.functions.now(),
+        onupdate=sa.sql.functions.current_timestamp(),
     )
     created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
 
@@ -735,7 +737,9 @@ class ProjectFlag(Base):
     state = sa.Column(sa.String(50), default="open", nullable=False)
     created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
     updated_on = sa.Column(
-        sa.DateTime, server_default=sa.func.now(), onupdate=sa.func.current_timestamp()
+        sa.DateTime,
+        server_default=sa.sql.functions.now(),
+        onupdate=sa.sql.functions.current_timestamp(),
     )
 
     project = sa.orm.relationship(
