@@ -170,6 +170,7 @@ disable = [
   "inconsistent-return-statements",
   "invalid-name",
   "no-else-return",
+  "no-name-in-module",
   "no-member",
   "redefined-outer-name",
   "too-few-public-methods",
