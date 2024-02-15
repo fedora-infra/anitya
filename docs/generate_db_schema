@@ -4,6 +4,7 @@ Generate an image of the database schema
 """
 from sqlalchemy_schemadisplay import create_schema_graph
 
+from anitya.config import config
 from anitya.db import meta
 
 
@@ -16,6 +17,7 @@ def write_graph(filename):
         filename (str): Output file where image will be written
     """
     graph = create_schema_graph(
+        engine=meta.initialize(config),
         metadata=meta.metadata,
         show_datatypes=False,
         show_indexes=False,
