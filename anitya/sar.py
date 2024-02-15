@@ -35,10 +35,10 @@ import logging
 import os
 import sys
 
+from sqlalchemy import select, text
+
 from anitya import db
 from anitya.config import config
-
-from sqlalchemy import select, text
 
 _log = logging.getLogger("anitya")
 
@@ -76,6 +76,7 @@ def main():
         user_dict["user_social_auths"] = []
         # This part is working in postgresql, but in tests we are using sqlite
         # which doesn't know the UUID type
+        # pylint: disable=not-an-iterable
         for user_social_auth in user_social_auths:  # pragma: no cover
             user_dict["user_social_auths"].append(
                 {
