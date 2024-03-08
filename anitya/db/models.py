@@ -915,6 +915,8 @@ class GUID(TypeDecorator):
         """
         if value is None:
             return value
+        if isinstance(value, uuid.UUID):
+            return value
         else:
             return uuid.UUID(value)
 
