@@ -278,19 +278,19 @@ Create the database, by default it will be a sqlite database located at
 
     $ poetry run python createdb.py
 
-Configure social_sqlalchemy for Flask applications if needed. This step is optional and depends on your use case:
-#Example configuration for social_sqlalchemy in a Flask application
-from flask import Flask
-from social_flask_sqlalchemy.models import init_social
+Configure social_sqlalchemy for Flask applications if needed. This step is optional and depends on your use case: ::
+    #Example configuration for social_sqlalchemy in a Flask application
+    from flask import Flask
+    from social_flask_sqlalchemy.models import init_social
 
-app = Flask(__name__)
+    app = Flask(__name__)
 
-#Configure SQLAlchemy database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your_database.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    #Configure SQLAlchemy database
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your_database.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-#Initialize social_sqlalchemy
-init_social(app, app.config['SQLALCHEMY_ENGINE'])
+    #Initialize social_sqlalchemy 
+    init_social(app, app.config['SQLALCHEMY_ENGINE'])
 
 
 You can start the development web server included with Flask with::
