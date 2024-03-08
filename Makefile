@@ -19,7 +19,9 @@ endef
 
 up:
 	$(call compose-tool) up -d
-	sleep 3
+# It takes some time before the postgres container is up, we need to wait before calling
+# the next step
+	sleep 10
 	$(MAKE) init-db
 	@echo "Empty database initialized. Run dump-restore to fill it by production dump."
 restart:
@@ -39,5 +41,5 @@ logs:
 clean: halt
 	$(call container-tool) rmi "localhost/anitya-base:latest" "docker.io/library/postgres:13.4" "docker.io/library/rabbitmq:3.8.16-management-alpine"
 
-.PHONY: up restart halt bash-web bash-consumer \
+.PHONY: up restart halt bash-web \
 	init-db dump-restore logs clean
