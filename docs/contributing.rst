@@ -287,7 +287,7 @@ in `anitya/config.py`::
     app = Flask(__name__)
 
     #Configure SQLAlchemy database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your_database.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://your_database.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     #Initialize social_sqlalchemy 
