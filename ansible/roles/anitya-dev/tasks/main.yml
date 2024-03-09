@@ -32,9 +32,24 @@
 - name: Install documentation build dependencies
   dnf:
     name: [
-           python3-sphinxcontrib-httpdomain,
-           python3-sqlalchemy_schemadisplay
+           #python3-sphinxcontrib-httpdomain,
+           # The version 2.0 will be available in F40
+           #python3-sqlalchemy_schemadisplay
           ]
+    state: present
+
+# Anitya needs 2.0 version of sqlalchemy_schemadisplay,
+# but it's not available in <F40, let's install it from pip till
+# F40 vagrant box will be available
+# Anitya needs 1.8.0 version of sphinxcontrib-httpdomain,
+# but it's not available in Fedora yet, let's install it from pip now
+- name: Install pip dev dependencies
+  pip:
+    name:
+      [
+        sqlalchemy_schemadisplay,
+        sphinxcontrib-httpdomain
+      ]
     state: present
 
 - name: Install dependencies packaged in Fedora
@@ -106,14 +121,6 @@
   become_user: "{{ ansible_env.SUDO_USER }}"
   command: systemctl --user daemon-reload
 
-- name: Build the Anitya documentation
-  become_user: "{{ ansible_env.SUDO_USER }}"
-  shell: >
-      make install
-  args:
-    chdir: /home/{{ ansible_env.SUDO_USER }}/devel/docs/
-    creates: /home/{{ ansible_env.SUDO_USER }}/devel/anitya/static/docs/objects.inv
-
 # Hotfix for social_auth issue
 # Could be removed when we move away from social_auth
 - name: Hotfix for social_auth
@@ -124,3 +131,12 @@
 
 - import_tasks: db.yml
 - import_tasks: rabbitmq.yml
+
+  # sqlalchemy_schemadisplay needs running database
+- name: Build the Anitya documentation
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+      make install
+  args:
+    chdir: /home/{{ ansible_env.SUDO_USER }}/devel/docs/
+    creates: /home/{{ ansible_env.SUDO_USER }}/devel/anitya/static/docs/objects.inv
