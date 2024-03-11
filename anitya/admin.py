@@ -12,6 +12,8 @@ import anitya.forms
 from anitya.db import Session, models
 from anitya.lib import utilities
 from anitya.ui import login_required, ui_blueprint
+from sqlalchemy.orm.exc import NoResultFound
+from social_flask_sqlalchemy import models as social_models
 
 _log = logging.getLogger(__name__)
 
@@ -658,3 +660,41 @@ def set_user_active_state(user_id, state):
             Session.rollback()
 
     return flask.redirect(flask.url_for("anitya_ui.browse_users"))
+
+
+@ui_blueprint.route("/users/<user_id>/delete", methods=["GET", "POST"])
+@login_required
+def delete_user(user_id):
+    """Delete user"""
+    try:
+        user = Session.query(models.User).filter(models.User.id == user_id).one()
+    except NoResultFound:
+        flask.abort(404)
+
+    user_name = user.username
+    form = anitya.forms.ConfirmationForm()
+    confirm = flask.request.form.get("confirm", False)
+
+    if form.validate_on_submit():
+        if confirm:
+            try:
+                social_auth_records = (
+                    Session.query(social_models.UserSocialAuth)
+                    .filter_by(user_id=user_id)
+                    .all()
+                )
+                for record in social_auth_records:
+                    Session.delete(record)
+                Session.delete(user)
+                Session.commit()
+                flask.flash(f"User {user_name} has been removed", "success")
+                return flask.redirect(flask.url_for("anitya_ui.browse_users"))
+
+            except Exception as err:
+                _log.exception(err)
+                flask.flash(str(err), "errors")
+                Session.rollback()
+
+    return flask.render_template(
+        "user_delete.html", current="users", distro=user, form=form
+    )
