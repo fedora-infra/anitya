@@ -278,8 +278,8 @@ Create the database, by default it will be a sqlite database located at
 
     $ poetry run python createdb.py
 
-Configure social_sqlalchemy for Anitya if needed. This step is optional and depends on your use case: 
-in `anitya/config.py`::
+Configure social_sqlalchemy for Anitya if needed. This step is optional and depends on your use case: ::
+
     #Example configuration for social_sqlalchemy in a Anitya
     from flask import Flask
     from social_flask_sqlalchemy.models import init_social
