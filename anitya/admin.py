@@ -696,5 +696,5 @@ def delete_user(user_id):
                 Session.rollback()
 
     return flask.render_template(
-        "user_delete.html", current="users", distro=user, form=form
+        "user_delete.html", current="users", user=user, form=form
     )
