@@ -281,6 +281,7 @@ Create the database, by default it will be a sqlite database located at
 Configure social_sqlalchemy for Anitya if needed. This step is optional and depends on your use case: ::
 
     #Example configuration for social_sqlalchemy in a Anitya
+    #in anitya/config.py
     from flask import Flask
     from social_flask_sqlalchemy.models import init_social
 
