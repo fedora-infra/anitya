@@ -106,7 +106,7 @@ Flask-WTF = "^1.2.1"
 # https://github.com/sphinx-doc/sphinx/issues/10306
 Jinja2 = "<3.1.4"
 ordered-set = "^4.1.0"
-packaging = "^23.0"
+packaging = "^24.0"
 python-dateutil = "^2.8.2"
 semver = "^3.0.0"
 social-auth-app-flask = "^1.0.0"
