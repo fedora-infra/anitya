@@ -278,6 +278,23 @@ Create the database, by default it will be a sqlite database located at
 
     $ poetry run python createdb.py
 
+Configure social_sqlalchemy for Anitya if needed. This step is optional and depends on your use case: ::
+
+    #Example configuration for social_sqlalchemy in a Anitya
+    #in anitya/config.py
+    from flask import Flask
+    from social_flask_sqlalchemy.models import init_social
+
+    app = Flask(__name__)
+
+    #Configure SQLAlchemy database
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your_database.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    #Initialize social_sqlalchemy 
+    init_social(app, app.config['SQLALCHEMY_ENGINE'])
+
+
 You can start the development web server included with Flask with::
 
     $ FLASK_APP=anitya.wsgi poetry run flask run
