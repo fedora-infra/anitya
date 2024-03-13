@@ -6,14 +6,14 @@ from math import ceil
 
 import flask
 from dateutil import parser
+from social_flask_sqlalchemy import models as social_models
+from sqlalchemy.orm.exc import NoResultFound
 
 import anitya
 import anitya.forms
 from anitya.db import Session, models
 from anitya.lib import utilities
 from anitya.ui import login_required, ui_blueprint
-from sqlalchemy.orm.exc import NoResultFound
-from social_flask_sqlalchemy import models as social_models
 
 _log = logging.getLogger(__name__)
 
@@ -677,23 +677,17 @@ def delete_user(user_id):
 
     if form.validate_on_submit():
         if confirm:
-            try:
-                social_auth_records = (
-                    Session.query(social_models.UserSocialAuth)
-                    .filter_by(user_id=user_id)
-                    .all()
-                )
-                for record in social_auth_records:
-                    Session.delete(record)
-                Session.delete(user)
-                Session.commit()
-                flask.flash(f"User {user_name} has been removed", "success")
-                return flask.redirect(flask.url_for("anitya_ui.browse_users"))
-
-            except Exception as err:
-                _log.exception(err)
-                flask.flash(str(err), "errors")
-                Session.rollback()
+            social_auth_records = (
+                Session.query(social_models.UserSocialAuth)
+                .filter_by(user_id=user_id)
+                .all()
+            )
+            for record in social_auth_records:
+                Session.delete(record)
+            Session.delete(user)
+            Session.commit()
+            flask.flash(f"User {user_name} has been removed", "success")
+            return flask.redirect(flask.url_for("anitya_ui.browse_users"))
 
     return flask.render_template(
         "user_delete.html", current="users", user=user, form=form

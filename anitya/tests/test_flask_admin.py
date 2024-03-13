@@ -1692,3 +1692,77 @@ class BrowseLogsTests(DatabaseTestCase):
 
             self.assertEqual(200, output.status_code)
             self.assertTrue(b"/logs?page=1" in output.data)
+
+
+class DeleteUserTests(DatabaseTestCase):
+    """Tests for the :func: `anitya.admin.delete_user` view function."""
+
+    def setUp(self):
+        super().setUp()
+        self.project = models.Project(
+            name="test_user",
+            homepage="https://example.com/test_user",
+            backend="PyPI",
+        )
+
+        session = Session()
+        self.user = models.User(
+            email="user@fedoraproject.org", username="user", admin=False
+        )
+        user_social_auth = social_models.UserSocialAuth(
+            user_id=self.user.id, user=self.user
+        )
+
+        session.add(self.user)
+        session.add(user_social_auth)
+        self.admin = models.User(
+            email="admin@example.com", username="admin", admin=True
+        )
+        admin_social_auth = social_models.UserSocialAuth(
+            user_id=self.admin.id, user=self.admin
+        )
+
+        session.add_all([admin_social_auth, self.admin, self.user])
+        session.commit()
+
+        mock_config = mock.patch.dict(
+            models.anitya_config, {"ANITYA_WEB_ADMINS": [six.text_type(self.admin.id)]}
+        )
+        mock_config.start()
+        self.addCleanup(mock_config.stop)
+
+        self.client = self.flask_app.test_client()
+
+    def test_missing_user(self):
+        """Assert HTTP 404 is returned if the user doesn't exist."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.post(
+                "/users/00000000-0000-0000-0000-000000000000/delete"
+            )
+            self.assertEqual(404, output.status_code)
+
+    def test_admin_get(self):
+        """Assert admin users can get the delete user view."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get(f"/users/{self.user.id}/delete")
+            self.assertEqual(200, output.status_code)
+
+    def test_admin_post(self):
+        """Assert admin users can delete users."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get(f"/users/{self.user.id}/delete")
+            csrf_token = (
+                output.data.split(b'name="csrf_token" type="hidden" value="')[1]
+                .split(b'">')[0]
+                .decode("utf-8")
+            )
+
+            data = {"confirm": "true", "csrf_token": csrf_token}
+
+            output = self.client.post(
+                f"/users/{self.user.id}/delete",
+                data=data,
+                follow_redirects=True,
+            )
+
+            self.assertEqual(200, output.status_code)
