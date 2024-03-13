@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """sourceforge_git"""
-import requests
 from bs4 import BeautifulSoup
 
-from anitya.lib.backends import BaseBackend
+from anitya.lib.backends import REQUEST_HEADERS, BaseBackend, http_session
 from anitya.lib.exceptions import AnityaPluginException
 
 
@@ -99,7 +98,9 @@ class SourceforgeGitBackend(BaseBackend):
         """
         namespace, repo = cls.get_namespace_repo(project)
         url = project.get_version_url()
-        git_tag_request = requests.get(url)  # pylint: disable=W3101
+        git_tag_request = http_session.get(
+            url, headers=REQUEST_HEADERS, timeout=60, verify=True
+        )  # pylint: disable=W3101
 
         if git_tag_request.status_code == 404:
             raise AnityaPluginException(
