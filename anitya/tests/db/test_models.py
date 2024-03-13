@@ -1041,6 +1041,16 @@ class GuidTests(unittest.TestCase):
         self.assertTrue(isinstance(result, UUID))
         self.assertEqual(uuid, result)
 
+    def test_process_result_uuid(self):
+        """Assert when the result value is a UUID it is returned."""
+        guid = models.GUID()
+        uuid = uuid4()
+
+        result = guid.process_result_value(uuid, sqlite.dialect())
+
+        self.assertTrue(isinstance(result, UUID))
+        self.assertEqual(uuid, result)
+
 
 class UserTests(DatabaseTestCase):
     """UserTests class"""
