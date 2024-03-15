@@ -104,16 +104,51 @@
   {{ form.csrf_token }}
 </form>
 
-  <div class="row">
+<button type="button" id="fill-defaults-btn" class="btn btn-primary">Fill Defaults</button>
+
+<div class="row">
     <div class="col-md-6" id="info_field">
-      <div class="list-group">
-        <span class="list-group-item">
-          <p id="info_field_title"></p>
-          <ul id="info_field_list"></ul>
-        </span>
-      </div>
+        <div class="list-group">
+            <span class="list-group-item">
+                <p id="info_field_title"></p>
+                <ul id="info_field_list"></ul>
+            </span>
+        </div>
     </div>
-  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+ $(document).ready(function() {
+    $('#fill-defaults-btn').click(function() {
+        var backend = $('#backend').val();  
+        console.log('Selected backend:', backend); 
+
+        $.ajax({
+            url: '/get_default_values_for_backend',
+            type: 'GET',
+            data: { backend: backend },
+            dataType: 'json',
+            success: function(response) {
+                $('#name').val(response.name);
+                $('#homepage').val(response.homepage);
+                $('#version_url').val(response.version_url);
+                $('#version_scheme').val(response.version_scheme);
+                $('#version_pattern').val(response.version_pattern);
+                $('#version_prefix').val(response.version_prefix);
+                $('#pre_release_filter').val(response.pre_release_filter);
+                $('#version_filter').val(response.version_filter);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+});
+
+
+</script>
+
 {% endblock %}
 
 

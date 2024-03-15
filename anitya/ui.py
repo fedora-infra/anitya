@@ -451,7 +451,7 @@ def distro_projects_search(distroname, pattern=None):
         page=page,
     )
 
-
+from flask import request
 @ui_blueprint.route("/project/new", methods=["GET", "POST"])
 @login_required
 def new_project():
@@ -468,21 +468,20 @@ def new_project():
     version_plg_names = [plugin.name for plugin in version_plugins]
     # Get all available distros name
     distros = models.Distro.all(Session)
-    distro_names = []
-    for distro in distros:
-        distro_names.append(distro.name)
+    distro_names = [distro.name for distro in distros]
 
     form = anitya.forms.ProjectForm(
         backends=plg_names, version_schemes=version_plg_names, distros=distro_names
     )
 
-    if flask.request.method == "GET":
-        form.name.data = flask.request.args.get("name", "")
-        form.homepage.data = flask.request.args.get("homepage", "")
-        form.backend.data = flask.request.args.get("backend", "")
-        form.version_scheme.data = flask.request.args.get("version_scheme", "")
-        form.distro.data = flask.request.args.get("distro", "")
-        form.package_name.data = flask.request.args.get("package_name", "")
+    if request.method == "GET":
+        # Populate form fields with default values based on selected backend
+        backend = request.args.get("backend")
+        if backend:
+            default_values = get_default_values_for_backend(backend)
+            for field, value in default_values.items():
+                setattr(form, field, value)
+
         return flask.render_template(
             "project_new.html",
             context="Add",
@@ -566,6 +565,44 @@ def new_project():
         ),
         400,
     )
+
+from flask import Flask, request, jsonify
+@ui_blueprint.route('/get_default_values_for_backend', methods=['GET'])
+def get_default_values_for_backend():
+    backend = request.args.get('backend')
+    default_values = {}
+
+    if backend == "PyPI":
+        default_values["name"] = "Project 1"
+        default_values["homepage"] = "https://pypi.org/project/<name>"
+        default_values["version_url"] = "https://pypi.org/project/<name>"
+        default_values["version_scheme"] = "Semantic Versioning"
+        default_values["version_pattern"] = "<version_pattern>"
+        default_values["version_prefix"] = "<version_prefix>"
+        default_values["pre_release_filter"] = "<pre_release_filter>"
+        default_values["version_filter"] = "<version_filter>"
+       
+    elif backend == "GitHub":
+        default_values["name"] = "Project 1"
+        default_values["homepage"] = "https://github.com/<owner>/<repo>"
+        default_values["version_url"] = "https://github.com/<owner>/<repo>/releases"
+        default_values["version_scheme"] = "Semantic Versioning"
+        default_values["version_pattern"] = "<version_pattern>"
+        default_values["version_prefix"] = "<version_prefix>"
+        default_values["pre_release_filter"] = "<pre_release_filter>"
+        default_values["version_filter"] = "<version_filter>"
+    else:
+        # Example default values for other backends
+        default_values["name"] = "Project 1"
+        default_values["homepage"] = "https://example.com/project/<name>"
+        default_values["version_url"] = "https://example.com/project/<name>"
+        default_values["version_scheme"] = "Versioning Scheme"
+        default_values["version_pattern"] = "<version_pattern>"
+        default_values["version_prefix"] = "<version_prefix>"
+        default_values["pre_release_filter"] = "<pre_release_filter>"
+        default_values["version_filter"] = "<version_filter>"
+
+    return jsonify(default_values)
 
 
 @ui_blueprint.route("/project/<project_id>/edit", methods=["GET", "POST"])
