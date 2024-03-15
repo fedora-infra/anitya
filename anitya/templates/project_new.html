@@ -13,7 +13,7 @@
 <form method="POST" action="{{ url_for('anitya_ui.new_project') }}" >
 {%- elif context == 'Edit' -%}
 <form method="POST" action="{{ url_for('anitya_ui.edit_project', project_id=project.id) }}" >
-{%- endif %}
+  {%- endif %}
   <div class="row">
     <div class="col-md-6">
       <div class="list-group">
@@ -41,48 +41,49 @@
               {{ render_field_in_row(form.version_prefix, tabindex=7) }}
             </tr>
             <tr id="pre_release_filter_row">
-                {{ render_field_in_row(form.pre_release_filter, tabindex=8) }}
-            <tr id="version_filter_row">
+              {{ render_field_in_row(form.pre_release_filter, tabindex=8) }}
+              <tr id="version_filter_row">
                 {{ render_field_in_row(form.version_filter, tabindex=9) }}
-            </tr>
-            <tr id="regex_row">
-              {{ render_field_in_row(form.regex, tabindex=10) }}
-            </tr>
-            <tr id="default_regex_row">
-              <td><label>Default regex:</label></td>
-              <td id="regex_example_txt"></td>
-            </tr>
-            <tr id="examples_row">
-              <td><label>Examples:</label></td>
-              <td id="example_urls"></td>
-            </tr>
-            <tr id="releases_only_row">
-              {{ render_field_in_row(form.releases_only, tabindex=11) }}
-            </tr>
-            <tr id="insecure_row">
-              {{ render_field_in_row(form.insecure, tabindex=12) }}
-            </tr>
-            <tr id="check_release_row">
-              {{ render_field_in_row(form.check_release, tabindex=13) }}
-            </tr>
-
-            {%- if context == 'Add' -%}
-            <tr>
-              {{ render_field_in_row(form.distro, tabindex=14) }}
-              <td></td>
-            </tr>
-            <tr>
-              {{ render_field_in_row(form.package_name, tabindex=15) }}
-              <td></td>
-            </tr>
-            {%- endif -%}
-          </table>
-          <button type="submit" class="btn btn-outline-success btn-sm float-end"
-                  id="testcheck" tabindex=16>
-              Test check
+              </tr>
+              <tr id="regex_row">
+                {{ render_field_in_row(form.regex, tabindex=10) }}
+              </tr>
+              <tr id="default_regex_row">
+                <td><label>Default regex:</label></td>
+                <td id="regex_example_txt"></td>
+              </tr>
+              <tr id="examples_row">
+                <td><label>Examples:</label></td>
+                <td id="example_urls"></td>
+              </tr>
+              <tr id="releases_only_row">
+                {{ render_field_in_row(form.releases_only, tabindex=11) }}
+              </tr>
+              <tr id="insecure_row">
+                {{ render_field_in_row(form.insecure, tabindex=12) }}
+              </tr>
+              <tr id="check_release_row">
+                {{ render_field_in_row(form.check_release, tabindex=13) }}
+              </tr>
+              
+              {%- if context == 'Add' -%}
+              <tr>
+                {{ render_field_in_row(form.distro, tabindex=14) }}
+                <td></td>
+              </tr>
+              <tr>
+                {{ render_field_in_row(form.package_name, tabindex=15) }}
+                <td></td>
+              </tr>
+              {%- endif -%}
+            </table>
+            <button type="button" id="fill-defaults-btn" class="btn btn-primary">Fill Defaults</button>
+            <button type="submit" class="btn btn-outline-success btn-sm float-end"
+            id="testcheck" tabindex=16>
+            Test check
           </button>
           <img src="{{url_for('anitya_ui.static', filename='img/spinner.gif')}}"
-               id="testcheck-spinner" class="pull-right"
+          id="testcheck-spinner" class="pull-right"
                style="display: none; padding-top: 12px; padding-right: 25px;"/>
         </div>
       </div>
@@ -104,7 +105,6 @@
   {{ form.csrf_token }}
 </form>
 
-<button type="button" id="fill-defaults-btn" class="btn btn-primary">Fill Defaults</button>
 
 <div class="row">
     <div class="col-md-6" id="info_field">
