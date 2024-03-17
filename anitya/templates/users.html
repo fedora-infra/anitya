@@ -118,7 +118,15 @@
         <button type="submit" class="btn btn-success btn-sm float-end">
           Remove ban
         </button>
-        {% endif %}
+        {% endif %} 
+        {{ form.csrf_token }}
+      </form>
+    </td>
+    <td>
+      <form method="POST" action="{{ url_for('anitya_ui.delete_user', user_id=user.id)}}" class="d-flex float-end">
+        <button type="submit" class="btn btn-danger btn-sm float-end">
+          Delete user
+        </button>
         {{ form.csrf_token }}
       </form>
     </td>
