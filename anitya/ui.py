@@ -12,6 +12,8 @@ from anitya.db import Session, models
 from anitya.lib import exceptions
 from anitya.lib import plugins as anitya_plugins
 from anitya.lib import utilities
+from flask import request, jsonify
+import requests
 
 ui_blueprint = flask.Blueprint(
     "anitya_ui", __name__, static_folder="static", template_folder="templates"
@@ -452,6 +454,7 @@ def distro_projects_search(distroname, pattern=None):
     )
 
 from flask import request
+
 @ui_blueprint.route("/project/new", methods=["GET", "POST"])
 @login_required
 def new_project():
@@ -475,13 +478,6 @@ def new_project():
     )
 
     if request.method == "GET":
-        # Populate form fields with default values based on selected backend
-        backend = request.args.get("backend")
-        if backend:
-            default_values = get_default_values_for_backend(backend)
-            for field, value in default_values.items():
-                setattr(form, field, value)
-
         return flask.render_template(
             "project_new.html",
             context="Add",
@@ -566,43 +562,28 @@ def new_project():
         400,
     )
 
-from flask import Flask, request, jsonify
-@ui_blueprint.route('/get_default_values_for_backend', methods=['GET'])
-def get_default_values_for_backend():
-    backend = request.args.get('backend')
-    default_values = {}
 
-    if backend == "PyPI":
-        default_values["name"] = "Project 1"
-        default_values["homepage"] = "https://pypi.org/project/<name>"
-        default_values["version_url"] = "https://pypi.org/project/<name>"
-        default_values["version_scheme"] = "Semantic Versioning"
-        default_values["version_pattern"] = "<version_pattern>"
-        default_values["version_prefix"] = "<version_prefix>"
-        default_values["pre_release_filter"] = "<pre_release_filter>"
-        default_values["version_filter"] = "<version_filter>"
-       
-    elif backend == "GitHub":
-        default_values["name"] = "Project 1"
-        default_values["homepage"] = "https://github.com/<owner>/<repo>"
-        default_values["version_url"] = "https://github.com/<owner>/<repo>/releases"
-        default_values["version_scheme"] = "Semantic Versioning"
-        default_values["version_pattern"] = "<version_pattern>"
-        default_values["version_prefix"] = "<version_prefix>"
-        default_values["pre_release_filter"] = "<pre_release_filter>"
-        default_values["version_filter"] = "<version_filter>"
+
+RELEASE_MONITORING_API_BASE_URL = "https://release-monitoring.org/api/v2/projects/"
+
+@ui_blueprint.route('/get_project_info', methods=['GET'])
+def get_project_info():
+    homepage_url = request.args.get('homepage')
+
+    print("Received homepage URL:", homepage_url)
+
+    response = requests.get(RELEASE_MONITORING_API_BASE_URL, params={'homepage': homepage_url})
+
+    print("Response status code:", response.status_code)
+
+    if response.status_code == 200:
+        project_info = response.json()['items'][-1]
+        return jsonify(project_info), 200
     else:
-        # Example default values for other backends
-        default_values["name"] = "Project 1"
-        default_values["homepage"] = "https://example.com/project/<name>"
-        default_values["version_url"] = "https://example.com/project/<name>"
-        default_values["version_scheme"] = "Versioning Scheme"
-        default_values["version_pattern"] = "<version_pattern>"
-        default_values["version_prefix"] = "<version_prefix>"
-        default_values["pre_release_filter"] = "<pre_release_filter>"
-        default_values["version_filter"] = "<version_filter>"
+        error_message = response.json().get('message', 'Unknown error')
+        print("Error message:", error_message)
+        return jsonify({'error': error_message}), response.status_code
 
-    return jsonify(default_values)
 
 
 @ui_blueprint.route("/project/<project_id>/edit", methods=["GET", "POST"])

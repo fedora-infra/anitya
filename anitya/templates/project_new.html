@@ -116,41 +116,38 @@
         </div>
     </div>
 </div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript">
- $(document).ready(function() {
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  console.log("Starting")
+    // Event listener for the Fill Defaults button
     $('#fill-defaults-btn').click(function() {
-        var backend = $('#backend').val();  
-        console.log('Selected backend:', backend); 
+        var projectUrl = $('#homepage').val();  // Get the project URL from the homepage field
+        console.log('Project URL:', projectUrl);  // Log the project URL
 
+        // AJAX request to retrieve project information based on the provided URL
         $.ajax({
-            url: '/get_default_values_for_backend',
+            url: '/get_project_info',
             type: 'GET',
-            data: { backend: backend },
+            data: { homepage: projectUrl },
             dataType: 'json',
             success: function(response) {
+                console.log('Success:', response);  // Log the successful response
+                // Populate form fields with project information received from the server
                 $('#name').val(response.name);
-                $('#homepage').val(response.homepage);
-                $('#version_url').val(response.version_url);
-                $('#version_scheme').val(response.version_scheme);
-                $('#version_pattern').val(response.version_pattern);
-                $('#version_prefix').val(response.version_prefix);
-                $('#pre_release_filter').val(response.pre_release_filter);
-                $('#version_filter').val(response.version_filter);
+                $('#version_url').val(response.version);
+                // Populate other form fields as needed
             },
             error: function(xhr, status, error) {
-                console.error('Error:', error);
+                console.error('Error:', error);  // Log the error message
             }
         });
     });
 });
 
-
 </script>
 
 {% endblock %}
-
 
 {% block jscript %}
 <script type="text/javascript">
