@@ -672,6 +672,24 @@ class Project(Base):
         else:
             return query.all()
 
+    @classmethod
+    def sort_projects(cls, projects, sort):
+        """
+        Sorts a list of projects objects based on a sort parameter.
+        """
+        sort_attr, _, sort_order = sort.partition("_")
+
+        attr_map = {"name": "name", "homepage": "homepage", "backend": "backend"}
+
+        sort_by = attr_map.get(sort_attr, "name")
+
+        projects.sort(
+            key=lambda project: getattr(project, sort_by, "").lower(),
+            reverse=sort_order == "desc",
+        )
+
+        return projects
+
 
 class ProjectVersion(Base):
     """

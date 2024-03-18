@@ -160,7 +160,7 @@ def project_name(project_name):
 def projects():
     """Projects"""
     page = flask.request.args.get("page", 1)
-
+    sort = flask.request.args.get("sort", None)
     try:
         page = int(page)
     except ValueError:
@@ -168,6 +168,9 @@ def projects():
 
     projects = models.Project.all(Session, page=page)
     projects_count = models.Project.all(Session, count=True)
+
+    if sort:
+        projects = models.Project.sort_projects(projects, sort)
 
     total_page = int(ceil(projects_count / float(50)))
 
@@ -355,6 +358,7 @@ def projects_search(pattern=None):
     """Search projects"""
     pattern = flask.request.args.get("pattern", pattern) or "*"
     page = flask.request.args.get("page", 1)
+    sort = flask.request.args.get("sort", "name_asc")
     exact = flask.request.args.get("exact", 0)
 
     try:
@@ -383,6 +387,8 @@ def projects_search(pattern=None):
             flask.url_for("anitya_ui.project", project_id=projects[0].id)
         )
 
+    projects = models.Project.sort_projects(projects, sort)
+
     total_page = int(ceil(projects_count / float(50)))
 
     return flask.render_template(
@@ -393,6 +399,7 @@ def projects_search(pattern=None):
         total_page=total_page,
         projects_count=projects_count,
         page=page,
+        sort=sort,
     )
 
 
