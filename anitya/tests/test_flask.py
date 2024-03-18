@@ -553,6 +553,7 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual(output.data.count(b'<a href="/project/'), 3)
 
         output = self.app.get("/projects/?page=ab")
+        output = self.app.get("/projects/?sort=name_asc")
         self.assertEqual(output.status_code, 200)
         self.assertEqual(output.data.count(b'<a href="/project/'), 3)
 

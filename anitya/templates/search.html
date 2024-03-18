@@ -73,9 +73,18 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Homepage</th>
-            <th scope="col">Backend</th>
+            <th scope="col">Name
+              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='name_asc') }}"><span class="sort-arrow arrow-up"></span></a>
+              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='name_desc') }}"><span class="sort-arrow arrow-down"></span></a>
+            </th>
+            <th scope="col">Homepage
+              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='homepage_asc') }}"><span class="sort-arrow arrow-up"></span></a>
+              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='homepage_desc') }}"><span class="sort-arrow arrow-down"></span></a>
+            </th>
+            <th scope="col">Backend
+              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='backend_asc') }}"><span class="sort-arrow arrow-up"></span></a>
+              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='backend_desc') }}"><span class="sort-arrow arrow-down"></span></a>
+            </th>
             <th scope="col">Latest version</th>
           </tr>
         </thead>
