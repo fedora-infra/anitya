@@ -6,6 +6,8 @@ from math import ceil
 
 import flask
 from dateutil import parser
+from social_flask_sqlalchemy import models as social_models
+from sqlalchemy.orm.exc import NoResultFound
 
 import anitya
 import anitya.forms
@@ -658,3 +660,35 @@ def set_user_active_state(user_id, state):
             Session.rollback()
 
     return flask.redirect(flask.url_for("anitya_ui.browse_users"))
+
+
+@ui_blueprint.route("/users/<user_id>/delete", methods=["GET", "POST"])
+@login_required
+def delete_user(user_id):
+    """Delete user"""
+    try:
+        user = Session.query(models.User).filter(models.User.id == user_id).one()
+    except NoResultFound:
+        flask.abort(404)
+
+    user_name = user.username
+    form = anitya.forms.ConfirmationForm()
+    confirm = flask.request.form.get("confirm", False)
+
+    if form.validate_on_submit():
+        if confirm:
+            social_auth_records = (
+                Session.query(social_models.UserSocialAuth)
+                .filter_by(user_id=user_id)
+                .all()
+            )
+            for record in social_auth_records:
+                Session.delete(record)
+            Session.delete(user)
+            Session.commit()
+            flask.flash(f"User {user_name} has been removed", "success")
+            return flask.redirect(flask.url_for("anitya_ui.browse_users"))
+
+    return flask.render_template(
+        "user_delete.html", current="users", user=user, form=form
+    )
