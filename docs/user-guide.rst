@@ -296,6 +296,18 @@ Anitya provides several different versions schemes.
     recent scheme and the rest will be moved to bottom unsorted.
 
 
+
+Version Pattern
+---------------
+
+The version pattern is used to extract and match version numbers from project releases. When defining a version pattern, you can use regular expressions to specify the format of the version numbers.
+
+In many cases, projects follow a format like `X.Y.Z` where `X`, `Y`, and `Z` are integers representing major, minor, and patch versions respectively. To match this format, you can use the following regular expression:
+
+v?(\d+\.\d+\.\d+)
+
+
+
 Version Prefix
 --------------
 
