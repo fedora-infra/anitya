@@ -1,0 +1,49 @@
+{% extends "master.html" %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Project: {{ project.name }} - Delete version</h1>
+</div>
+
+<div class="row mt-2">
+  <div class="col-md-5">
+    <div class="list-group">
+      <form method="POST" action="{{
+          url_for('anitya_ui.delete_project_version',
+                  project_id=project.id,
+                  version=version) }}" >
+        {{ form.csrf_token }}
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">
+            Project
+          </h4>
+          <div class="list-group-item-text">
+            {{ project.name }}
+          </div>
+        </div>
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">
+            Version
+          </h4>
+          <div class="list-group-item-text">
+            {{ version }}
+          </div>
+        </div>
+
+        <button type="submit" name="confirm" value="Yes" class="btn btn-warning mt-2">
+          Delete version
+        </button>
+
+        <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
+          <button type="button" class="btn btn-danger mt-2">
+            Cancel
+          </button>
+        </a>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

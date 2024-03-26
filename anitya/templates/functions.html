@@ -1,0 +1,17 @@
+{% macro render_field_in_row(field, after="", docs="") %}
+    <td>
+      {%- if docs -%}<a href="{{ docs }}">{%- endif -%}
+      {{ field.label }}
+      {%- if docs -%}</a>{%- endif -%}
+    </td>
+    <td>
+      {{ field(**kwargs)|safe }}
+    </td>
+{%- if after -%} <td>{{ after }}</td>{%- endif -%}
+{%- if field.errors -%}
+{%- for error in field.errors -%}
+<td class="errors">{{ error }}</td>
+{%- endfor -%}
+{%- endif -%}
+
+{% endmacro %}

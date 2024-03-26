@@ -1,0 +1,104 @@
+# This is a TOML-format file. For the spec, see https://github.com/toml-lang/toml#spec
+
+# Secret key used to generate the CSRF token in the forms.
+secret_key = "changeme please"
+
+# The lifetime of the session, in seconds.
+permanent_session_lifetime = 3600
+
+# URL to the database
+db_url = "sqlite:////var/tmp/anitya-dev.sqlite"
+
+# List of web administrators. The values should be the value of the "id" column
+# for the user in the "users" table of the database. They need to log in before
+# this record is created. An example value would be
+# "65536ed7-bdd3-4a1e-8252-10d874fd706b"
+# You can also find this infromation in the settings page when logged in to Anitya
+anitya_web_admins = []
+
+# The email to use in the 'From' header when sending emails.
+admin_email = "admin@fedoraproject.org"
+
+# The SMTP server to send mail through
+smtp_server = "smtp.example.com"
+
+# Whether or not to send emails to MAIL_ADMIN via SMTP_SERVER when HTTP 500
+# errors occur.
+email_errors = false
+
+# List of users that are not allowed to sign in, by "id" from the "users" table.
+blacklisted_users = []
+
+# The type of session protection used by social-auth.
+session_protection = "strong"
+
+# The authentication backends to use. For valid values, see social-auth's
+# documentation.
+social_auth_authentication_backends = [
+    "social_core.backends.fedora.FedoraOpenId",
+    "social_core.backends.gitlab.GitLabOAuth2",
+    "social_core.backends.github.GithubOAuth2",
+    "social_core.backends.google.GoogleOAuth2",
+    "social_core.backends.yahoo.YahooOAuth2",
+    "social_core.backends.open_id.OpenIdAuth"
+]
+
+# Force the application to require HTTPS on authentication redirects.
+social_auth_redirect_is_https = true
+
+# Default regular expression used for custom backend
+default_regex = """\
+                (?i)%(name)s(?:[-_]?(?:minsrc|src|source))?[-_](+[^-/_\\s]+?(?:[-_]\
+                (?:rc|devel|dev|alpha|beta)\\d+)?)(?:[-_](?:minsrc|src|source|asc|release))?\
+                \.(?:tar|t[bglx]z|tbz2|zip)\
+                """
+
+# Github access token
+# This is used by GitHub API for github backend
+# Permission needed by Anitya:
+# * repo:status
+# * public_repo
+github_access_token = "foobar"
+
+# Check service configuration
+# Number of workers
+cron_pool = 10
+# Worker timeout in seconds
+check_timeout = 600
+# When this number of failed checks is reached,
+# project will be automatically removed, if no version was retrieved yet
+check_error_threshold=100
+
+# Configurable links to package repositories for package mappings in distributions
+# If you want to add any new distribution just add a new entry to this section
+# %s will be filled in HTML template by the name of package mapping
+[distro_mapping_links]
+AlmaLinux = "https://git.almalinux.org/rpms/%s"
+Fedora = "https://src.fedoraproject.org/rpms/%s"
+PLD-Linux = "https://github.com/pld-linux/%s"
+Ubuntu = "https://launchpad.net/ubuntu/+source/%s"
+
+# The logging configuration, in Python dictConfig format.
+[anitya_log_config]
+    version = 1
+    disable_existing_loggers = true
+
+    [anitya_log_config.formatters]
+        [anitya_log_config.formatters.simple]
+            format = "[%(name)s %(levelname)s] %(message)s"
+
+    [anitya_log_config.handlers]
+        [anitya_log_config.handlers.console]
+            class = "logging.StreamHandler"
+            formatter = "simple"
+            stream = "ext://sys.stdout"
+
+    [anitya_log_config.loggers]
+        [anitya_log_config.loggers.anitya]
+            level = "WARNING"
+            propagate = false
+            handlers = ["console"]
+
+    [anitya_log_config.root]
+        level = "ERROR"
+        handlers = ["console"]

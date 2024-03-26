@@ -1,0 +1,484 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
+    method: GET
+    uri: https://metacpan.org/feed/recent
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<rdf:RDF\n xmlns:rdf=\"\
+        http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n xmlns=\"http://purl.org/rss/1.0/\"\
+        \n xmlns:admin=\"http://webns.net/mvcb/\"\n xmlns:atom=\"http://www.w3.org/2005/Atom\"\
+        \n xmlns:content=\"http://purl.org/rss/1.0/modules/content/\"\n xmlns:dc=\"\
+        http://purl.org/dc/elements/1.1/\"\n xmlns:dcterms=\"http://purl.org/dc/terms/\"\
+        \n xmlns:geo=\"http://www.w3.org/2003/01/geo/wgs84_pos#\"\n xmlns:syn=\"http://purl.org/rss/1.0/modules/syndication/\"\
+        \n xmlns:taxo=\"http://purl.org/rss/1.0/modules/taxonomy/\"\n>\n\n<channel\
+        \ rdf:about=\"/\">\n<title>Recent CPAN uploads - MetaCPAN</title>\n<link>/</link>\n\
+        <description></description>\n<items>\n <rdf:Seq>\n  <rdf:li rdf:resource=\"\
+        https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_06\" />\n  <rdf:li rdf:resource=\"\
+        https://metacpan.org/release/HOWARS/Model-Envoy-0.2.4\" />\n  <rdf:li rdf:resource=\"\
+        https://metacpan.org/release/KUERBIS/Term-Form-0.320\" />\n  <rdf:li rdf:resource=\"\
+        https://metacpan.org/release/VKON/Tcl-1.19\" />\n  <rdf:li rdf:resource=\"\
+        https://metacpan.org/release/JMASLAK/JTM-Boilerplate-2.182001\" />\n  <rdf:li\
+        \ rdf:resource=\"https://metacpan.org/release/JMASLAK/JTM-Boilerplate-2.182000\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/DWHEELER/URI-db-0.19\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/LNATION/Time-Random-0.01\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/OETIKER/Zimbra-Expect-0.1.1\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/LTHEISEN/Maven-Agent-1.15\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/HOWARS/Model-Envoy-0.2.3\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/NHORNE/CGI-Buffer-0.81\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/JEFFOBER/Ion-0.07_01\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/VLYON/Dist-Zilla-Plugin-UseBuildPL-0.3\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/VIY/File-Lock-ParentLock-0.08\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/JHTHORSEN/Mojo-GoogleAnalytics-0.04\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/GBROWN/Net-RDAP-0.8\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/JHTHORSEN/Mojolicious-Plugin-AssetPack-2.04\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/VIY/File-Lock-ParentLock-0.07\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/SULLR/IO-Socket-SSL-2.058\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/JHTHORSEN/Mojo-GoogleAnalytics-0.03\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/NML/Test-TCP-2.19_01-TRIAL\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/WYANT/Astro-Coord-ECI-TLE-Iridium-0.100_01\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/WYANT/Astro-SpaceTrack-0.112_01\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/SONGMU/DBIx-Sunny-0.9991\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/SHADKAM/QuickTermChart-QuickTermChart-0.01\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/YANICK/Parallel-ForkManager-1.20\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/SHADKAM/quick_term_chart_180718\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/ZIALI/Mojolicious-Plugin-JSONAPI-2.0\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/ZIALI/JSONAPI-Document-2.2\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/ROMM/Sport-Analytics-NHL-1.11\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/TOBYINK/Types-HTML5-0.001\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/BORISD/App-Unding-0.006\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/TMUELLER/HTTP-Exception-0.04007\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/JEFFOBER/Ion-0.07-TRIAL\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/RAPHI/InfluxDB-HTTP-0.04\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/KUERBIS/Term-Choose-1.607\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/SULLR/IO-Socket-SSL-2.057\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_05\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/MANWAR/Map-Tube-CLI-0.48\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/HOUSTON/Password-Policy-Rule-Pwned-0.00_02\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/VKON/Tcl-1.18\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/EXODIST/Test2-Harness-0.001067\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/MELMOTHX/Text-Amuse-Compile-1.06\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/KWAKWA/Task-BeLike-KWAKWA-0.02\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_04\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/ALTREUS/OpusVL-Preferences-0.31\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/MELMOTHX/Text-Amuse-Preprocessor-0.55\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/MCICHRA/Test-APIcast-0.15\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/KUERBIS/Term-Choose-1.606\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/TULAMILI/App-matrixpack-0.0014\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/KUERBIS/Term-Choose-1.605\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/TULAMILI/App-matrixpack-0.0013\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/TULAMILI/App-matrixpack-0.0012\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/SONGMU/DBIx-Sunny-0.9990\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/JMASLAK/File-ByLine-1.181990\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/JDHEDDEN/Thread-Queue-3.13\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/ROCKY/Devel-Callsite-1.0.1\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/ROCKY/Devel-Callsite-1.0.0\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/GENEHACK/Git-Wrapper-0.048_090\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_03\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/HEXFUSION/Net-Etcd-0.022\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/EXODIST/Test-Simple-1.302139-TRIAL\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/DDUMONT/Software-LicenseMoreUtils-1.002\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/MELMOTHX/Text-Amuse-Compile-1.05\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/CORION/Finance-Bank-Postbank_de-0.51\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/MANWAR/Map-Tube-Madrid-0.13\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/JILLROWE/BioSAILs-Command-1.0\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/PAVELSR/Kayako-RestAPI-0.06\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/WILLBELL/EPFL-Net-ipv6Test-1.01\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/EKAWAS/WSRF-Lite-0.8.3.2\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/TOBYINK/Object-Util-0.009\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/PJDEVOPS/File-Tabular-Web-0.25\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/MLAWREN/App-githook-perltidy-0.11.11_1\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/MEMOWE/EventStore-Tiny-0.4\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/VKON/Tcl-1.17\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/TOBYINK/Exporter-Tiny-1.002001\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/TOBYINK/Exporter-Tiny-1.002000\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/MARTINGO/MikroTik-API-1.0.5\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/PAVELSR/Kayako-RestAPI-0.05\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/PEVANS/Devel-MAT-0.36\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/NALOBIN/Net-Whois-Raw-2.99016\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/PEVANS/Devel-MAT-Dumper-0.36\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/SGRAY/Apache-Defaults-1.01\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/WILLBELL/EPFL-Net-ipv6Test-1.00\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/NML/Danga-Socket-1.62_01-TRIAL\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/JMASLAK/File-ByLine-1.181981-TRIAL\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/OALDERS/lazy-0.000006\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/WYANT/Astro-satpass-0.099_01\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/BINARY/Math-Business-BlackscholesMerton-1.24\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/JMASLAK/File-ByLine-1.181980-TRIAL\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/ROMM/Sport-Analytics-NHL-1.10\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/AMIRI/Elasticsearch-Model-0.1.4\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_02\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/TURNERJW/Tk-HListbox-2.1\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/BYTERAZOR/Git-LowLevel-0.1\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/BLHOTSKY/App-ElasticSearch-Utilities-5.8\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/CORION/Finance-Bank-Postbank_de-0.50\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/MANWAR/BankAccount-Validator-UK-0.41\"\
+        \ />\n  <rdf:li rdf:resource=\"https://metacpan.org/release/LLAP/Net-Amazon-S3-0.84\"\
+        \ />\n </rdf:Seq>\n</items>\n</channel>\n<item rdf:about=\"https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_06\"\
+        >\n<title>URI-Fast-0.38_06</title>\n<link>https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_06</link>\n\
+        <description>A fast(er) URI parser</description>\n<dc:creator>JEFFOBER</dc:creator>\n\
+        <dc:date>2018-07-19T17:54:25</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/HOWARS/Model-Envoy-0.2.4\"\
+        >\n<title>Model-Envoy-0.2.4</title>\n<link>https://metacpan.org/release/HOWARS/Model-Envoy-0.2.4</link>\n\
+        <description>A Moose Role that can be used to build a model layer that keeps\
+        \ business logic separate from your storage layer.</description>\n<dc:creator>HOWARS</dc:creator>\n\
+        <dc:date>2018-07-19T16:37:03</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/KUERBIS/Term-Form-0.320\"\
+        >\n<title>Term-Form-0.320</title>\n<link>https://metacpan.org/release/KUERBIS/Term-Form-0.320</link>\n\
+        <description>Read lines from STDIN.</description>\n<dc:creator>KUERBIS</dc:creator>\n\
+        <dc:date>2018-07-19T16:31:42</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/VKON/Tcl-1.19\"\
+        >\n<title>Tcl-1.19</title>\n<link>https://metacpan.org/release/VKON/Tcl-1.19</link>\n\
+        <description>Tcl extension module for Perl</description>\n<dc:creator>VKON</dc:creator>\n\
+        <dc:date>2018-07-19T16:25:01</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/JMASLAK/JTM-Boilerplate-2.182001\"\
+        >\n<title>JTM-Boilerplate-2.182001</title>\n<link>https://metacpan.org/release/JMASLAK/JTM-Boilerplate-2.182001</link>\n\
+        <description>Default Boilerplate for Joelle Maslak&#x26;#39;s Code</description>\n\
+        <dc:creator>JMASLAK</dc:creator>\n<dc:date>2018-07-19T15:45:22</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/JMASLAK/JTM-Boilerplate-2.182000\"\
+        >\n<title>JTM-Boilerplate-2.182000</title>\n<link>https://metacpan.org/release/JMASLAK/JTM-Boilerplate-2.182000</link>\n\
+        <description>Default Boilerplate for Joelle Maslak&#x26;#39;s Code</description>\n\
+        <dc:creator>JMASLAK</dc:creator>\n<dc:date>2018-07-19T15:42:31</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/DWHEELER/URI-db-0.19\"\
+        >\n<title>URI-db-0.19</title>\n<link>https://metacpan.org/release/DWHEELER/URI-db-0.19</link>\n\
+        <description>Database URIs</description>\n<dc:creator>DWHEELER</dc:creator>\n\
+        <dc:date>2018-07-19T15:16:59</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/LNATION/Time-Random-0.01\"\
+        >\n<title>Time-Random-0.01</title>\n<link>https://metacpan.org/release/LNATION/Time-Random-0.01</link>\n\
+        <description>Generate a random time in time.</description>\n<dc:creator>LNATION</dc:creator>\n\
+        <dc:date>2018-07-19T14:40:04</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/OETIKER/Zimbra-Expect-0.1.1\"\
+        >\n<title>Zimbra-Expect-0.1.1</title>\n<link>https://metacpan.org/release/OETIKER/Zimbra-Expect-0.1.1</link>\n\
+        <description>Execute multiple commands with a single instance of zmprov or\
+        \ zmmailbox and thus run magnitudes faster</description>\n<dc:creator>OETIKER</dc:creator>\n\
+        <dc:date>2018-07-19T14:30:53</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/LTHEISEN/Maven-Agent-1.15\"\
+        >\n<title>Maven-Agent-1.15</title>\n<link>https://metacpan.org/release/LTHEISEN/Maven-Agent-1.15</link>\n\
+        <description>A base agent for working with maven</description>\n<dc:creator>LTHEISEN</dc:creator>\n\
+        <dc:date>2018-07-19T14:10:15</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/HOWARS/Model-Envoy-0.2.3\"\
+        >\n<title>Model-Envoy-0.2.3</title>\n<link>https://metacpan.org/release/HOWARS/Model-Envoy-0.2.3</link>\n\
+        <description>A Moose Role that can be used to build a model layer that keeps\
+        \ business logic separate from your storage layer.</description>\n<dc:creator>HOWARS</dc:creator>\n\
+        <dc:date>2018-07-19T14:07:16</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/NHORNE/CGI-Buffer-0.81\"\
+        >\n<title>CGI-Buffer-0.81</title>\n<link>https://metacpan.org/release/NHORNE/CGI-Buffer-0.81</link>\n\
+        <description>Verify, Cache and Optimise CGI Output</description>\n<dc:creator>NHORNE</dc:creator>\n\
+        <dc:date>2018-07-19T12:54:34</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/JEFFOBER/Ion-0.07_01\"\
+        >\n<title>Ion-0.07_01</title>\n<link>https://metacpan.org/release/JEFFOBER/Ion-0.07_01</link>\n\
+        <description>A clear and concise API for writing TCP servers and clients</description>\n\
+        <dc:creator>JEFFOBER</dc:creator>\n<dc:date>2018-07-19T12:53:04</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/VLYON/Dist-Zilla-Plugin-UseBuildPL-0.3\"\
+        >\n<title>Dist-Zilla-Plugin-UseBuildPL-0.3</title>\n<link>https://metacpan.org/release/VLYON/Dist-Zilla-Plugin-UseBuildPL-0.3</link>\n\
+        <description>BYOB (Bring Your Own Build.PL)</description>\n<dc:creator>VLYON</dc:creator>\n\
+        <dc:date>2018-07-19T12:37:39</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/VIY/File-Lock-ParentLock-0.08\"\
+        >\n<title>File-Lock-ParentLock-0.08</title>\n<link>https://metacpan.org/release/VIY/File-Lock-ParentLock-0.08</link>\n\
+        <description>share lock among child processes of given pid.</description>\n\
+        <dc:creator>VIY</dc:creator>\n<dc:date>2018-07-19T11:27:48</dc:date>\n</item>\n\
+        <item rdf:about=\"https://metacpan.org/release/JHTHORSEN/Mojo-GoogleAnalytics-0.04\"\
+        >\n<title>Mojo-GoogleAnalytics-0.04</title>\n<link>https://metacpan.org/release/JHTHORSEN/Mojo-GoogleAnalytics-0.04</link>\n\
+        <description>Extract data from Google Analytics using Mojo UserAgent</description>\n\
+        <dc:creator>JHTHORSEN</dc:creator>\n<dc:date>2018-07-19T11:06:02</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/GBROWN/Net-RDAP-0.8\"\
+        >\n<title>Net-RDAP-0.8</title>\n<link>https://metacpan.org/release/GBROWN/Net-RDAP-0.8</link>\n\
+        <description>an interface to the Registration Data Access Protocol (RDAP).</description>\n\
+        <dc:creator>GBROWN</dc:creator>\n<dc:date>2018-07-19T10:38:55</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/JHTHORSEN/Mojolicious-Plugin-AssetPack-2.04\"\
+        >\n<title>Mojolicious-Plugin-AssetPack-2.04</title>\n<link>https://metacpan.org/release/JHTHORSEN/Mojolicious-Plugin-AssetPack-2.04</link>\n\
+        <description>Compress and convert css, less, sass, javascript and coffeescript\
+        \ files</description>\n<dc:creator>JHTHORSEN</dc:creator>\n<dc:date>2018-07-19T09:39:51</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/VIY/File-Lock-ParentLock-0.07\"\
+        >\n<title>File-Lock-ParentLock-0.07</title>\n<link>https://metacpan.org/release/VIY/File-Lock-ParentLock-0.07</link>\n\
+        <description>share lock among child processes of given pid.</description>\n\
+        <dc:creator>VIY</dc:creator>\n<dc:date>2018-07-19T08:37:46</dc:date>\n</item>\n\
+        <item rdf:about=\"https://metacpan.org/release/SULLR/IO-Socket-SSL-2.058\"\
+        >\n<title>IO-Socket-SSL-2.058</title>\n<link>https://metacpan.org/release/SULLR/IO-Socket-SSL-2.058</link>\n\
+        <description>Nearly transparent SSL encapsulation for IO::Socket::INET.</description>\n\
+        <dc:creator>SULLR</dc:creator>\n<dc:date>2018-07-19T07:54:24</dc:date>\n</item>\n\
+        <item rdf:about=\"https://metacpan.org/release/JHTHORSEN/Mojo-GoogleAnalytics-0.03\"\
+        >\n<title>Mojo-GoogleAnalytics-0.03</title>\n<link>https://metacpan.org/release/JHTHORSEN/Mojo-GoogleAnalytics-0.03</link>\n\
+        <description>Extract data from Google Analytics using Mojo UserAgent</description>\n\
+        <dc:creator>JHTHORSEN</dc:creator>\n<dc:date>2018-07-19T07:02:13</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/NML/Test-TCP-2.19_01-TRIAL\"\
+        >\n<title>Test-TCP-2.19_01-TRIAL</title>\n<link>https://metacpan.org/release/NML/Test-TCP-2.19_01-TRIAL</link>\n\
+        <description>testing TCP program</description>\n<dc:creator>NML</dc:creator>\n\
+        <dc:date>2018-07-19T05:32:28</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/WYANT/Astro-Coord-ECI-TLE-Iridium-0.100_01\"\
+        >\n<title>Astro-Coord-ECI-TLE-Iridium-0.100_01</title>\n<link>https://metacpan.org/release/WYANT/Astro-Coord-ECI-TLE-Iridium-0.100_01</link>\n\
+        <description>Class to compute Iridium Classic flares</description>\n<dc:creator>WYANT</dc:creator>\n\
+        <dc:date>2018-07-19T02:40:45</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/WYANT/Astro-SpaceTrack-0.112_01\"\
+        >\n<title>Astro-SpaceTrack-0.112_01</title>\n<link>https://metacpan.org/release/WYANT/Astro-SpaceTrack-0.112_01</link>\n\
+        <description>Download satellite orbital elements from Space Track</description>\n\
+        <dc:creator>WYANT</dc:creator>\n<dc:date>2018-07-19T02:37:59</dc:date>\n</item>\n\
+        <item rdf:about=\"https://metacpan.org/release/SONGMU/DBIx-Sunny-0.9991\"\
+        >\n<title>DBIx-Sunny-0.9991</title>\n<link>https://metacpan.org/release/SONGMU/DBIx-Sunny-0.9991</link>\n\
+        <description>Simple DBI wrapper</description>\n<dc:creator>SONGMU</dc:creator>\n\
+        <dc:date>2018-07-19T01:19:25</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/SHADKAM/QuickTermChart-QuickTermChart-0.01\"\
+        >\n<title>QuickTermChart-QuickTermChart-0.01</title>\n<link>https://metacpan.org/release/SHADKAM/QuickTermChart-QuickTermChart-0.01</link>\n\
+        <description>QuickTermChart/QuickTermChart.pm</description>\n<dc:creator>SHADKAM</dc:creator>\n\
+        <dc:date>2018-07-19T01:01:28</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/YANICK/Parallel-ForkManager-1.20\"\
+        >\n<title>Parallel-ForkManager-1.20</title>\n<link>https://metacpan.org/release/YANICK/Parallel-ForkManager-1.20</link>\n\
+        <description>A simple parallel processing fork manager</description>\n<dc:creator>YANICK</dc:creator>\n\
+        <dc:date>2018-07-19T00:48:24</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/SHADKAM/quick_term_chart_180718\"\
+        >\n<title>quick_term_chart_180718</title>\n<link>https://metacpan.org/release/SHADKAM/quick_term_chart_180718</link>\n\
+        <description>a light perl script to quickly draw chart within the terminal\
+        \ input data can be piped to it</description>\n<dc:creator>SHADKAM</dc:creator>\n\
+        <dc:date>2018-07-19T00:09:04</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/ZIALI/Mojolicious-Plugin-JSONAPI-2.0\"\
+        >\n<title>Mojolicious-Plugin-JSONAPI-2.0</title>\n<link>https://metacpan.org/release/ZIALI/Mojolicious-Plugin-JSONAPI-2.0</link>\n\
+        <description>Mojolicious Plugin for building JSON API compliant applications.</description>\n\
+        <dc:creator>ZIALI</dc:creator>\n<dc:date>2018-07-18T22:24:07</dc:date>\n</item>\n\
+        <item rdf:about=\"https://metacpan.org/release/ZIALI/JSONAPI-Document-2.2\"\
+        >\n<title>JSONAPI-Document-2.2</title>\n<link>https://metacpan.org/release/ZIALI/JSONAPI-Document-2.2</link>\n\
+        <description>Turn DBIx results into JSON API documents.</description>\n<dc:creator>ZIALI</dc:creator>\n\
+        <dc:date>2018-07-18T22:04:46</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/ROMM/Sport-Analytics-NHL-1.11\"\
+        >\n<title>Sport-Analytics-NHL-1.11</title>\n<link>https://metacpan.org/release/ROMM/Sport-Analytics-NHL-1.11</link>\n\
+        <description>Interface to the National Hockey League data</description>\n\
+        <dc:creator>ROMM</dc:creator>\n<dc:date>2018-07-18T21:59:04</dc:date>\n</item>\n\
+        <item rdf:about=\"https://metacpan.org/release/TOBYINK/Types-HTML5-0.001\"\
+        >\n<title>Types-HTML5-0.001</title>\n<link>https://metacpan.org/release/TOBYINK/Types-HTML5-0.001</link>\n\
+        <description>types for parsing strings of HTML into DOMs</description>\n<dc:creator>TOBYINK</dc:creator>\n\
+        <dc:date>2018-07-18T21:47:24</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/BORISD/App-Unding-0.006\"\
+        >\n<title>App-Unding-0.006</title>\n<link>https://metacpan.org/release/BORISD/App-Unding-0.006</link>\n\
+        <description>dark magic, encrypted wallet</description>\n<dc:creator>BORISD</dc:creator>\n\
+        <dc:date>2018-07-18T21:29:27</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/TMUELLER/HTTP-Exception-0.04007\"\
+        >\n<title>HTTP-Exception-0.04007</title>\n<link>https://metacpan.org/release/TMUELLER/HTTP-Exception-0.04007</link>\n\
+        <description>throw HTTP-Errors as (Exception::Class-) Exceptions</description>\n\
+        <dc:creator>TMUELLER</dc:creator>\n<dc:date>2018-07-18T20:52:27</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/JEFFOBER/Ion-0.07-TRIAL\"\
+        >\n<title>Ion-0.07-TRIAL</title>\n<link>https://metacpan.org/release/JEFFOBER/Ion-0.07-TRIAL</link>\n\
+        <description>A clear and concise API for writing TCP servers and clients</description>\n\
+        <dc:creator>JEFFOBER</dc:creator>\n<dc:date>2018-07-18T19:59:16</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/RAPHI/InfluxDB-HTTP-0.04\"\
+        >\n<title>InfluxDB-HTTP-0.04</title>\n<link>https://metacpan.org/release/RAPHI/InfluxDB-HTTP-0.04</link>\n\
+        <description>The Perl way to interact with InfluxDB!</description>\n<dc:creator>RAPHI</dc:creator>\n\
+        <dc:date>2018-07-18T19:41:14</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/KUERBIS/Term-Choose-1.607\"\
+        >\n<title>Term-Choose-1.607</title>\n<link>https://metacpan.org/release/KUERBIS/Term-Choose-1.607</link>\n\
+        <description>Choose items from a list interactively.</description>\n<dc:creator>KUERBIS</dc:creator>\n\
+        <dc:date>2018-07-18T19:41:02</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/SULLR/IO-Socket-SSL-2.057\"\
+        >\n<title>IO-Socket-SSL-2.057</title>\n<link>https://metacpan.org/release/SULLR/IO-Socket-SSL-2.057</link>\n\
+        <description>Nearly transparent SSL encapsulation for IO::Socket::INET.</description>\n\
+        <dc:creator>SULLR</dc:creator>\n<dc:date>2018-07-18T19:16:28</dc:date>\n</item>\n\
+        <item rdf:about=\"https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_05\"\
+        >\n<title>URI-Fast-0.38_05</title>\n<link>https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_05</link>\n\
+        <description>A fast(er) URI parser</description>\n<dc:creator>JEFFOBER</dc:creator>\n\
+        <dc:date>2018-07-18T17:51:45</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/MANWAR/Map-Tube-CLI-0.48\"\
+        >\n<title>Map-Tube-CLI-0.48</title>\n<link>https://metacpan.org/release/MANWAR/Map-Tube-CLI-0.48</link>\n\
+        <description>Command Line Interface for Map::Tube::* map.</description>\n\
+        <dc:creator>MANWAR</dc:creator>\n<dc:date>2018-07-18T17:40:03</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/HOUSTON/Password-Policy-Rule-Pwned-0.00_02\"\
+        >\n<title>Password-Policy-Rule-Pwned-0.00_02</title>\n<link>https://metacpan.org/release/HOUSTON/Password-Policy-Rule-Pwned-0.00_02</link>\n\
+        <description>Compare text to known pwned passwords list</description>\n<dc:creator>HOUSTON</dc:creator>\n\
+        <dc:date>2018-07-18T17:00:44</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/VKON/Tcl-1.18\"\
+        >\n<title>Tcl-1.18</title>\n<link>https://metacpan.org/release/VKON/Tcl-1.18</link>\n\
+        <description>Tcl extension module for Perl</description>\n<dc:creator>VKON</dc:creator>\n\
+        <dc:date>2018-07-18T15:54:30</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/EXODIST/Test2-Harness-0.001067\"\
+        >\n<title>Test2-Harness-0.001067</title>\n<link>https://metacpan.org/release/EXODIST/Test2-Harness-0.001067</link>\n\
+        <description>Test2 Harness designed for the Test2 event system</description>\n\
+        <dc:creator>EXODIST</dc:creator>\n<dc:date>2018-07-18T14:45:51</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/MELMOTHX/Text-Amuse-Compile-1.06\"\
+        >\n<title>Text-Amuse-Compile-1.06</title>\n<link>https://metacpan.org/release/MELMOTHX/Text-Amuse-Compile-1.06</link>\n\
+        <description>Compiler for Text::Amuse</description>\n<dc:creator>MELMOTHX</dc:creator>\n\
+        <dc:date>2018-07-18T14:21:19</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/KWAKWA/Task-BeLike-KWAKWA-0.02\"\
+        >\n<title>Task-BeLike-KWAKWA-0.02</title>\n<link>https://metacpan.org/release/KWAKWA/Task-BeLike-KWAKWA-0.02</link>\n\
+        <description>Be more like KWAKWA - use the modules he likes!</description>\n\
+        <dc:creator>KWAKWA</dc:creator>\n<dc:date>2018-07-18T13:55:48</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_04\"\
+        >\n<title>URI-Fast-0.38_04</title>\n<link>https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_04</link>\n\
+        <description>A fast(er) URI parser</description>\n<dc:creator>JEFFOBER</dc:creator>\n\
+        <dc:date>2018-07-18T13:55:36</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/ALTREUS/OpusVL-Preferences-0.31\"\
+        >\n<title>OpusVL-Preferences-0.31</title>\n<link>https://metacpan.org/release/ALTREUS/OpusVL-Preferences-0.31</link>\n\
+        <description>Generic DBIC preferences module</description>\n<dc:creator>ALTREUS</dc:creator>\n\
+        <dc:date>2018-07-18T13:23:07</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/MELMOTHX/Text-Amuse-Preprocessor-0.55\"\
+        >\n<title>Text-Amuse-Preprocessor-0.55</title>\n<link>https://metacpan.org/release/MELMOTHX/Text-Amuse-Preprocessor-0.55</link>\n\
+        <description>Helpers for Text::Amuse document formatting.</description>\n\
+        <dc:creator>MELMOTHX</dc:creator>\n<dc:date>2018-07-18T12:24:41</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/MCICHRA/Test-APIcast-0.15\"\
+        >\n<title>Test-APIcast-0.15</title>\n<link>https://metacpan.org/release/MCICHRA/Test-APIcast-0.15</link>\n\
+        <description>Testing framework for APIcast.</description>\n<dc:creator>MCICHRA</dc:creator>\n\
+        <dc:date>2018-07-18T10:46:03</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/KUERBIS/Term-Choose-1.606\"\
+        >\n<title>Term-Choose-1.606</title>\n<link>https://metacpan.org/release/KUERBIS/Term-Choose-1.606</link>\n\
+        <description>Choose items from a list interactively.</description>\n<dc:creator>KUERBIS</dc:creator>\n\
+        <dc:date>2018-07-18T10:12:37</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/TULAMILI/App-matrixpack-0.0014\"\
+        >\n<title>App-matrixpack-0.0014</title>\n<link>https://metacpan.org/release/TULAMILI/App-matrixpack-0.0014</link>\n\
+        <description>Bundles multiple input lines with tab character into one repeatedly.\
+        \ Useful a little more than &#x26;quot;column&#x26;quot; command.</description>\n\
+        <dc:creator>TULAMILI</dc:creator>\n<dc:date>2018-07-18T09:20:40</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/KUERBIS/Term-Choose-1.605\"\
+        >\n<title>Term-Choose-1.605</title>\n<link>https://metacpan.org/release/KUERBIS/Term-Choose-1.605</link>\n\
+        <description>Choose items from a list interactively.</description>\n<dc:creator>KUERBIS</dc:creator>\n\
+        <dc:date>2018-07-18T09:17:44</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/TULAMILI/App-matrixpack-0.0013\"\
+        >\n<title>App-matrixpack-0.0013</title>\n<link>https://metacpan.org/release/TULAMILI/App-matrixpack-0.0013</link>\n\
+        <description>The great new App::matrixpack!</description>\n<dc:creator>TULAMILI</dc:creator>\n\
+        <dc:date>2018-07-18T09:11:09</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/TULAMILI/App-matrixpack-0.0012\"\
+        >\n<title>App-matrixpack-0.0012</title>\n<link>https://metacpan.org/release/TULAMILI/App-matrixpack-0.0012</link>\n\
+        <description>The great new App::matrixpack!</description>\n<dc:creator>TULAMILI</dc:creator>\n\
+        <dc:date>2018-07-18T06:21:56</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/SONGMU/DBIx-Sunny-0.9990\"\
+        >\n<title>DBIx-Sunny-0.9990</title>\n<link>https://metacpan.org/release/SONGMU/DBIx-Sunny-0.9990</link>\n\
+        <description>Simple DBI wrapper</description>\n<dc:creator>SONGMU</dc:creator>\n\
+        <dc:date>2018-07-18T06:03:52</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/JMASLAK/File-ByLine-1.181990\"\
+        >\n<title>File-ByLine-1.181990</title>\n<link>https://metacpan.org/release/JMASLAK/File-ByLine-1.181990</link>\n\
+        <description>Line-by-line file access loops</description>\n<dc:creator>JMASLAK</dc:creator>\n\
+        <dc:date>2018-07-18T03:44:51</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/JDHEDDEN/Thread-Queue-3.13\"\
+        >\n<title>Thread-Queue-3.13</title>\n<link>https://metacpan.org/release/JDHEDDEN/Thread-Queue-3.13</link>\n\
+        <description>Thread-safe queues</description>\n<dc:creator>JDHEDDEN</dc:creator>\n\
+        <dc:date>2018-07-18T02:32:40</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/ROCKY/Devel-Callsite-1.0.1\"\
+        >\n<title>Devel-Callsite-1.0.1</title>\n<link>https://metacpan.org/release/ROCKY/Devel-Callsite-1.0.1</link>\n\
+        <description>Get caller return OP address and Perl interpreter context</description>\n\
+        <dc:creator>ROCKY</dc:creator>\n<dc:date>2018-07-17T23:16:58</dc:date>\n</item>\n\
+        <item rdf:about=\"https://metacpan.org/release/ROCKY/Devel-Callsite-1.0.0\"\
+        >\n<title>Devel-Callsite-1.0.0</title>\n<link>https://metacpan.org/release/ROCKY/Devel-Callsite-1.0.0</link>\n\
+        <description>Get caller return OP address and Perl interpreter context</description>\n\
+        <dc:creator>ROCKY</dc:creator>\n<dc:date>2018-07-17T22:28:42</dc:date>\n</item>\n\
+        <item rdf:about=\"https://metacpan.org/release/GENEHACK/Git-Wrapper-0.048_090\"\
+        >\n<title>Git-Wrapper-0.048_090</title>\n<link>https://metacpan.org/release/GENEHACK/Git-Wrapper-0.048_090</link>\n\
+        <description>Wrap git(7) command-line interface</description>\n<dc:creator>GENEHACK</dc:creator>\n\
+        <dc:date>2018-07-17T21:21:39</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_03\"\
+        >\n<title>URI-Fast-0.38_03</title>\n<link>https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_03</link>\n\
+        <description>A fast(er) URI parser</description>\n<dc:creator>JEFFOBER</dc:creator>\n\
+        <dc:date>2018-07-17T20:54:56</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/HEXFUSION/Net-Etcd-0.022\"\
+        >\n<title>Net-Etcd-0.022</title>\n<link>https://metacpan.org/release/HEXFUSION/Net-Etcd-0.022</link>\n\
+        <description>Provide access to the etcd v3 API.</description>\n<dc:creator>HEXFUSION</dc:creator>\n\
+        <dc:date>2018-07-17T20:16:26</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/EXODIST/Test-Simple-1.302139-TRIAL\"\
+        >\n<title>Test-Simple-1.302139-TRIAL</title>\n<link>https://metacpan.org/release/EXODIST/Test-Simple-1.302139-TRIAL</link>\n\
+        <description>Basic utilities for writing tests.</description>\n<dc:creator>EXODIST</dc:creator>\n\
+        <dc:date>2018-07-17T19:40:50</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/DDUMONT/Software-LicenseMoreUtils-1.002\"\
+        >\n<title>Software-LicenseMoreUtils-1.002</title>\n<link>https://metacpan.org/release/DDUMONT/Software-LicenseMoreUtils-1.002</link>\n\
+        <description>More utilities and a summary for Software::License</description>\n\
+        <dc:creator>DDUMONT</dc:creator>\n<dc:date>2018-07-17T17:05:27</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/MELMOTHX/Text-Amuse-Compile-1.05\"\
+        >\n<title>Text-Amuse-Compile-1.05</title>\n<link>https://metacpan.org/release/MELMOTHX/Text-Amuse-Compile-1.05</link>\n\
+        <description>Compiler for Text::Amuse</description>\n<dc:creator>MELMOTHX</dc:creator>\n\
+        <dc:date>2018-07-17T16:45:55</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/CORION/Finance-Bank-Postbank_de-0.51\"\
+        >\n<title>Finance-Bank-Postbank_de-0.51</title>\n<link>https://metacpan.org/release/CORION/Finance-Bank-Postbank_de-0.51</link>\n\
+        <description>Check your Postbank.de bank account from Perl</description>\n\
+        <dc:creator>CORION</dc:creator>\n<dc:date>2018-07-17T16:35:30</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/MANWAR/Map-Tube-Madrid-0.13\"\
+        >\n<title>Map-Tube-Madrid-0.13</title>\n<link>https://metacpan.org/release/MANWAR/Map-Tube-Madrid-0.13</link>\n\
+        <description>Interface to the Madrid Metro Map.</description>\n<dc:creator>MANWAR</dc:creator>\n\
+        <dc:date>2018-07-17T15:59:47</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/JILLROWE/BioSAILs-Command-1.0\"\
+        >\n<title>BioSAILs-Command-1.0</title>\n<link>https://metacpan.org/release/JILLROWE/BioSAILs-Command-1.0</link>\n\
+        <description>Command line wrapper for the BioX-Workflow-Command and HPC-Runner-Command\
+        \ libraries.</description>\n<dc:creator>JILLROWE</dc:creator>\n<dc:date>2018-07-17T15:51:57</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/PAVELSR/Kayako-RestAPI-0.06\"\
+        >\n<title>Kayako-RestAPI-0.06</title>\n<link>https://metacpan.org/release/PAVELSR/Kayako-RestAPI-0.06</link>\n\
+        <description>Perl library for working with Kayako REST API. Tested with</description>\n\
+        <dc:creator>PAVELSR</dc:creator>\n<dc:date>2018-07-17T13:55:07</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/WILLBELL/EPFL-Net-ipv6Test-1.01\"\
+        >\n<title>EPFL-Net-ipv6Test-1.01</title>\n<link>https://metacpan.org/release/WILLBELL/EPFL-Net-ipv6Test-1.01</link>\n\
+        <description>Website IPv6 accessibility validator API</description>\n<dc:creator>WILLBELL</dc:creator>\n\
+        <dc:date>2018-07-17T12:59:21</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/EKAWAS/WSRF-Lite-0.8.3.2\"\
+        >\n<title>WSRF-Lite-0.8.3.2</title>\n<link>https://metacpan.org/release/EKAWAS/WSRF-Lite-0.8.3.2</link>\n\
+        <description>Implementation of WSRF</description>\n<dc:creator>EKAWAS</dc:creator>\n\
+        <dc:date>2018-07-17T12:16:49</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/TOBYINK/Object-Util-0.009\"\
+        >\n<title>Object-Util-0.009</title>\n<link>https://metacpan.org/release/TOBYINK/Object-Util-0.009</link>\n\
+        <description>a selection of utility methods that can be called on blessed\
+        \ objects</description>\n<dc:creator>TOBYINK</dc:creator>\n<dc:date>2018-07-17T11:51:13</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/PJDEVOPS/File-Tabular-Web-0.25\"\
+        >\n<title>File-Tabular-Web-0.25</title>\n<link>https://metacpan.org/release/PJDEVOPS/File-Tabular-Web-0.25</link>\n\
+        <description>turn tabular files into web applications</description>\n<dc:creator>PJDEVOPS</dc:creator>\n\
+        <dc:date>2018-07-17T11:51:02</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/MLAWREN/App-githook-perltidy-0.11.11_1\"\
+        >\n<title>App-githook-perltidy-0.11.11_1</title>\n<link>https://metacpan.org/release/MLAWREN/App-githook-perltidy-0.11.11_1</link>\n\
+        <description>run perltidy and podtidy before Git commits</description>\n<dc:creator>MLAWREN</dc:creator>\n\
+        <dc:date>2018-07-17T11:50:50</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/MEMOWE/EventStore-Tiny-0.4\"\
+        >\n<title>EventStore-Tiny-0.4</title>\n<link>https://metacpan.org/release/MEMOWE/EventStore-Tiny-0.4</link>\n\
+        <description>A minimal event sourcing framework.</description>\n<dc:creator>MEMOWE</dc:creator>\n\
+        <dc:date>2018-07-17T11:35:19</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/VKON/Tcl-1.17\"\
+        >\n<title>Tcl-1.17</title>\n<link>https://metacpan.org/release/VKON/Tcl-1.17</link>\n\
+        <description>Tcl extension module for Perl</description>\n<dc:creator>VKON</dc:creator>\n\
+        <dc:date>2018-07-17T11:29:52</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/TOBYINK/Exporter-Tiny-1.002001\"\
+        >\n<title>Exporter-Tiny-1.002001</title>\n<link>https://metacpan.org/release/TOBYINK/Exporter-Tiny-1.002001</link>\n\
+        <description>an exporter with the features of Sub::Exporter but only core\
+        \ dependencies</description>\n<dc:creator>TOBYINK</dc:creator>\n<dc:date>2018-07-17T11:01:49</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/TOBYINK/Exporter-Tiny-1.002000\"\
+        >\n<title>Exporter-Tiny-1.002000</title>\n<link>https://metacpan.org/release/TOBYINK/Exporter-Tiny-1.002000</link>\n\
+        <description>an exporter with the features of Sub::Exporter but only core\
+        \ dependencies</description>\n<dc:creator>TOBYINK</dc:creator>\n<dc:date>2018-07-17T10:56:32</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/MARTINGO/MikroTik-API-1.0.5\"\
+        >\n<title>MikroTik-API-1.0.5</title>\n<link>https://metacpan.org/release/MARTINGO/MikroTik-API-1.0.5</link>\n\
+        <description>Client to MikroTik RouterOS API</description>\n<dc:creator>MARTINGO</dc:creator>\n\
+        <dc:date>2018-07-17T10:55:04</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/PAVELSR/Kayako-RestAPI-0.05\"\
+        >\n<title>Kayako-RestAPI-0.05</title>\n<link>https://metacpan.org/release/PAVELSR/Kayako-RestAPI-0.05</link>\n\
+        <description>Perl library for working with Kayako REST API. Tested with</description>\n\
+        <dc:creator>PAVELSR</dc:creator>\n<dc:date>2018-07-17T10:47:13</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/PEVANS/Devel-MAT-0.36\"\
+        >\n<title>Devel-MAT-0.36</title>\n<link>https://metacpan.org/release/PEVANS/Devel-MAT-0.36</link>\n\
+        <description>Perl Memory Analysis Tool</description>\n<dc:creator>PEVANS</dc:creator>\n\
+        <dc:date>2018-07-17T10:20:44</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/NALOBIN/Net-Whois-Raw-2.99016\"\
+        >\n<title>Net-Whois-Raw-2.99016</title>\n<link>https://metacpan.org/release/NALOBIN/Net-Whois-Raw-2.99016</link>\n\
+        <description>Get Whois information of domains and IP addresses.</description>\n\
+        <dc:creator>NALOBIN</dc:creator>\n<dc:date>2018-07-17T09:49:46</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/PEVANS/Devel-MAT-Dumper-0.36\"\
+        >\n<title>Devel-MAT-Dumper-0.36</title>\n<link>https://metacpan.org/release/PEVANS/Devel-MAT-Dumper-0.36</link>\n\
+        <description>write a heap dump file for later analysis</description>\n<dc:creator>PEVANS</dc:creator>\n\
+        <dc:date>2018-07-17T09:48:19</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/SGRAY/Apache-Defaults-1.01\"\
+        >\n<title>Apache-Defaults-1.01</title>\n<link>https://metacpan.org/release/SGRAY/Apache-Defaults-1.01</link>\n\
+        <description>Get default settings for Apache httpd daemon</description>\n\
+        <dc:creator>SGRAY</dc:creator>\n<dc:date>2018-07-17T07:46:53</dc:date>\n</item>\n\
+        <item rdf:about=\"https://metacpan.org/release/WILLBELL/EPFL-Net-ipv6Test-1.00\"\
+        >\n<title>EPFL-Net-ipv6Test-1.00</title>\n<link>https://metacpan.org/release/WILLBELL/EPFL-Net-ipv6Test-1.00</link>\n\
+        <description>Website IPv6 accessibility validator API</description>\n<dc:creator>WILLBELL</dc:creator>\n\
+        <dc:date>2018-07-17T07:31:28</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/NML/Danga-Socket-1.62_01-TRIAL\"\
+        >\n<title>Danga-Socket-1.62_01-TRIAL</title>\n<link>https://metacpan.org/release/NML/Danga-Socket-1.62_01-TRIAL</link>\n\
+        <description>Async socket class</description>\n<dc:creator>NML</dc:creator>\n\
+        <dc:date>2018-07-17T04:33:28</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/JMASLAK/File-ByLine-1.181981-TRIAL\"\
+        >\n<title>File-ByLine-1.181981-TRIAL</title>\n<link>https://metacpan.org/release/JMASLAK/File-ByLine-1.181981-TRIAL</link>\n\
+        <description>Line-by-line file access loops</description>\n<dc:creator>JMASLAK</dc:creator>\n\
+        <dc:date>2018-07-17T03:35:15</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/OALDERS/lazy-0.000006\"\
+        >\n<title>lazy-0.000006</title>\n<link>https://metacpan.org/release/OALDERS/lazy-0.000006</link>\n\
+        <description>Lazily install missing Perl modules</description>\n<dc:creator>OALDERS</dc:creator>\n\
+        <dc:date>2018-07-17T02:50:50</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/WYANT/Astro-satpass-0.099_01\"\
+        >\n<title>Astro-satpass-0.099_01</title>\n<link>https://metacpan.org/release/WYANT/Astro-satpass-0.099_01</link>\n\
+        <description>Classes and app to compute satellite visibility</description>\n\
+        <dc:creator>WYANT</dc:creator>\n<dc:date>2018-07-17T01:57:39</dc:date>\n</item>\n\
+        <item rdf:about=\"https://metacpan.org/release/BINARY/Math-Business-BlackscholesMerton-1.24\"\
+        >\n<title>Math-Business-BlackscholesMerton-1.24</title>\n<link>https://metacpan.org/release/BINARY/Math-Business-BlackscholesMerton-1.24</link>\n\
+        <description>Algorithm of Math::Business::BlackScholesMerton for binary and\
+        \ non-binary options</description>\n<dc:creator>BINARY</dc:creator>\n<dc:date>2018-07-17T01:52:11</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/JMASLAK/File-ByLine-1.181980-TRIAL\"\
+        >\n<title>File-ByLine-1.181980-TRIAL</title>\n<link>https://metacpan.org/release/JMASLAK/File-ByLine-1.181980-TRIAL</link>\n\
+        <description>Line-by-line file access loops</description>\n<dc:creator>JMASLAK</dc:creator>\n\
+        <dc:date>2018-07-17T01:02:46</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/ROMM/Sport-Analytics-NHL-1.10\"\
+        >\n<title>Sport-Analytics-NHL-1.10</title>\n<link>https://metacpan.org/release/ROMM/Sport-Analytics-NHL-1.10</link>\n\
+        <description>Interface to the National Hockey League data</description>\n\
+        <dc:creator>ROMM</dc:creator>\n<dc:date>2018-07-16T23:33:46</dc:date>\n</item>\n\
+        <item rdf:about=\"https://metacpan.org/release/AMIRI/Elasticsearch-Model-0.1.4\"\
+        >\n<title>Elasticsearch-Model-0.1.4</title>\n<link>https://metacpan.org/release/AMIRI/Elasticsearch-Model-0.1.4</link>\n\
+        <description>Does one thing only: helps to deploy a Moose model and accompanying\
+        \ document classes to Elasticsearch.</description>\n<dc:creator>AMIRI</dc:creator>\n\
+        <dc:date>2018-07-16T22:17:17</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_02\"\
+        >\n<title>URI-Fast-0.38_02</title>\n<link>https://metacpan.org/release/JEFFOBER/URI-Fast-0.38_02</link>\n\
+        <description>A fast(er) URI parser</description>\n<dc:creator>JEFFOBER</dc:creator>\n\
+        <dc:date>2018-07-16T20:37:50</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/TURNERJW/Tk-HListbox-2.1\"\
+        >\n<title>Tk-HListbox-2.1</title>\n<link>https://metacpan.org/release/TURNERJW/Tk-HListbox-2.1</link>\n\
+        <description>Tk Listbox widget supporting images and text entries, Tk::HList\
+        \ based drop-in replacement for Tk::Listbox.</description>\n<dc:creator>TURNERJW</dc:creator>\n\
+        <dc:date>2018-07-16T20:04:46</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/BYTERAZOR/Git-LowLevel-0.1\"\
+        >\n<title>Git-LowLevel-0.1</title>\n<link>https://metacpan.org/release/BYTERAZOR/Git-LowLevel-0.1</link>\n\
+        <description>LowLevel Blob/Tree/Commit operations on a GIT Repository</description>\n\
+        <dc:creator>BYTERAZOR</dc:creator>\n<dc:date>2018-07-16T19:59:19</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/BLHOTSKY/App-ElasticSearch-Utilities-5.8\"\
+        >\n<title>App-ElasticSearch-Utilities-5.8</title>\n<link>https://metacpan.org/release/BLHOTSKY/App-ElasticSearch-Utilities-5.8</link>\n\
+        <description>Utilities for Monitoring ElasticSearch</description>\n<dc:creator>BLHOTSKY</dc:creator>\n\
+        <dc:date>2018-07-16T19:20:53</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/CORION/Finance-Bank-Postbank_de-0.50\"\
+        >\n<title>Finance-Bank-Postbank_de-0.50</title>\n<link>https://metacpan.org/release/CORION/Finance-Bank-Postbank_de-0.50</link>\n\
+        <description>Check your Postbank.de bank account from Perl</description>\n\
+        <dc:creator>CORION</dc:creator>\n<dc:date>2018-07-16T19:09:12</dc:date>\n\
+        </item>\n<item rdf:about=\"https://metacpan.org/release/MANWAR/BankAccount-Validator-UK-0.41\"\
+        >\n<title>BankAccount-Validator-UK-0.41</title>\n<link>https://metacpan.org/release/MANWAR/BankAccount-Validator-UK-0.41</link>\n\
+        <description>Interface to validate UK bank account.</description>\n<dc:creator>MANWAR</dc:creator>\n\
+        <dc:date>2018-07-16T18:03:47</dc:date>\n</item>\n<item rdf:about=\"https://metacpan.org/release/LLAP/Net-Amazon-S3-0.84\"\
+        >\n<title>Net-Amazon-S3-0.84</title>\n<link>https://metacpan.org/release/LLAP/Net-Amazon-S3-0.84</link>\n\
+        <description>Use the Amazon S3 - Simple Storage Service</description>\n<dc:creator>LLAP</dc:creator>\n\
+        <dc:date>2018-07-16T17:18:18</dc:date>\n</item>\n</rdf:RDF>"}
+    headers:
+      Accept-Ranges: [bytes]
+      Age: ['90']
+      Cache-Control: [max-age=60]
+      Connection: [keep-alive]
+      Content-Length: ['43238']
+      Content-Type: [application/rss+xml; charset=UTF-8]
+      Date: ['Thu, 19 Jul 2018 17:57:07 GMT']
+      Server: [nginx]
+      Via: [1.1 varnish, 1.1 varnish]
+      X-Cache: ['HIT, MISS']
+      X-Cache-Hits: ['1, 0']
+      X-Runtime: ['0.473060']
+      X-Served-By: ['cache-lax8642-LAX, cache-dca17740-DCA']
+      X-Timer: ['S1532023028.573810,VS0,VE60']
+    status: {code: 200, message: OK}
+version: 1

@@ -1,0 +1,51 @@
+{% extends "master.html" %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Project: {{ project.name }} - Delete package</h1>
+</div>
+
+<div class="row mt-2">
+  <div class="col-md-5">
+    <div class="list-group">
+      <form method="POST" action="{{
+          url_for('anitya_ui.delete_project_mapping',
+                  project_id=project.id,
+                  distro_name=package.distro_name,
+                  pkg_name=package.package_name) }}" >
+        {{ form.csrf_token }}
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">
+            Linux distribution
+          </h4>
+          <div class="list-group-item-text">
+            {{ package.distro_name }}
+          </div>
+        </div>
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">
+            Package name
+          </h4>
+          <div class="list-group-item-text">
+              {{ package.package_name }}
+          </div>
+        </div>
+
+        <button type="submit" name="confirm" value="Yes" class="btn btn-warning mt-2">
+          Delete mapping
+        </button>
+
+        <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
+          <button type="button" class="btn btn-danger mt-2">
+            Cancel
+          </button>
+        </a>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.11.0 at release-monitoring.org]
+    method: GET
+    uri: https://repo1.maven.org/maven2/org/apache/felix/org.apache.felix.gogo.shell/
+  response:
+    body: {string: !!python/unicode "<!DOCTYPE html>\n<html>\n\n<head>\n\t<title>Central\
+        \ Repository: org/apache/felix/org.apache.felix.gogo.shell</title>\n\t<meta\
+        \ name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\t\
+        <style>\nbody {\n\tbackground: #fff;\n}\n\t</style>\n</head>\n\n<body>\n\t\
+        <header>\n\t\t<h1>org/apache/felix/org.apache.felix.gogo.shell</h1>\n\t</header>\n\
+        \t<hr/>\n\t<main>\n\t\t<pre id=\"contents\">\n<a href=\"../\">../</a>\n<a\
+        \ href=\"0.10.0/\" title=\"0.10.0/\">0.10.0/</a>                         \
+        \                  2011-06-16 15:50         -      \n<a href=\"0.12.0/\" title=\"\
+        0.12.0/\">0.12.0/</a>                                           2015-10-01\
+        \ 08:23         -      \n<a href=\"0.6.0/\" title=\"0.6.0/\">0.6.0/</a>  \
+        \                                          2010-06-07 16:05         -    \
+        \  \n<a href=\"0.6.1/\" title=\"0.6.1/\">0.6.1/</a>                      \
+        \                      2010-09-22 20:20         -      \n<a href=\"0.8.0/\"\
+        \ title=\"0.8.0/\">0.8.0/</a>                                            2011-01-11\
+        \ 20:26         -      \n<a href=\"1.0.0/\" title=\"1.0.0/\">1.0.0/</a>  \
+        \                                          2016-10-11 19:24         -    \
+        \  \n<a href=\"maven-metadata.xml\" title=\"maven-metadata.xml\">maven-metadata.xml</a>\
+        \                                2016-10-17 13:57       507      \n<a href=\"\
+        maven-metadata.xml.md5\" title=\"maven-metadata.xml.md5\">maven-metadata.xml.md5</a>\
+        \                            2016-10-17 13:57        32      \n<a href=\"\
+        maven-metadata.xml.sha1\" title=\"maven-metadata.xml.sha1\">maven-metadata.xml.sha1</a>\
+        \                           2016-10-17 13:57        40      \n\t\t</pre>\n\
+        \t</main>\n\t<hr/>\n</body>\n\n</html>"}
+    headers:
+      accept-ranges: [bytes]
+      age: ['0']
+      connection: [keep-alive]
+      content-length: ['1589']
+      content-type: [text/html]
+      date: ['Sun, 11 Mar 2018 07:01:03 GMT']
+      etag: ['"3b60ca901b33661fbd4a29553816568e"']
+      fastly-debug-digest: [9fc1dd1aeb4578b98d0d1fbea6f59e98c011c203e5459400902ab3d4a95f49ae]
+      last-modified: ['Thu, 22 Jun 2017 20:30:25 GMT']
+      via: [1.1 varnish, 1.1 varnish]
+      x-cache: ['HIT, MISS']
+      x-cache-hits: ['1, 0']
+      x-served-by: ['cache-iad2145-IAD, cache-ord1721-ORD']
+      x-timer: ['S1520751664.928479,VS0,VE26']
+    status: {code: 200, message: OK}
+version: 1

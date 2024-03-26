@@ -1,0 +1,42 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.13.0 at release-monitoring.org]
+    method: GET
+    uri: https://gitlab.com/api/v4/projects/Shukat%2Fproject_1/repository/tags
+  response:
+    body: {string: !!python/unicode '[]'}
+    headers:
+      cache-control: ['max-age=0, private, must-revalidate']
+      content-length: ['2']
+      content-type: [application/json]
+      date: ['Thu, 20 Sep 2018 09:26:00 GMT']
+      etag: [W/"d751713988987e9331980363e24189ce"]
+      link: ['<https://gitlab.com/api/v4/projects/Shukat%2Fproject_1/repository/tags?id=Shukat%2Fproject_1&order_by=updated&page=1&per_page=20&sort=desc>;
+          rel="first", <https://gitlab.com/api/v4/projects/Shukat%2Fproject_1/repository/tags?id=Shukat%2Fproject_1&order_by=updated&page=1&per_page=20&sort=desc>;
+          rel="last"']
+      ratelimit-limit: ['600']
+      ratelimit-observed: ['1']
+      ratelimit-remaining: ['599']
+      ratelimit-reset: ['1537435620']
+      ratelimit-resettime: ['Fri, 20 Sep 2018 09:27:00 GMT']
+      server: [nginx]
+      strict-transport-security: [max-age=31536000]
+      vary: [Origin]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-next-page: ['']
+      x-page: ['1']
+      x-per-page: ['20']
+      x-prev-page: ['']
+      x-request-id: [a4373198-a859-4195-b7c2-e414f5ab15a2]
+      x-runtime: ['0.029071']
+      x-total: ['0']
+      x-total-pages: ['1']
+    status: {code: 200, message: OK}
+version: 1

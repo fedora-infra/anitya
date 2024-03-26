@@ -1,0 +1,401 @@
+{% extends "master.html" %}
+
+{% block title %}{{ project.name }} · Anitya{% endblock %}
+
+{% block body %}
+
+<div class="page-header">
+  {% if project.archived %}
+    <h1>Project: {{ project.name }} - archived</h1>
+    <p>This project is archived. It can't be edited and it's not checked for new versions. To unarchive project, please create a request using flag mechanism.</p>
+  {% else %}
+    <h1>Project: {{ project.name }}</h1>
+  {% endif %}
+</div>
+
+<div class="row justify-content-center" resource="{{ project.homepage }}" typeof="doap:Project">
+  <div class="col col-md">
+
+    <div class="d-grid gap-3">
+      <div class="list-group">
+        <div class="list-group-item list-group-item-secondary">
+          <div class="row">
+            <div class="col-8">
+              <h3 property="doap:name">{{ project.name }}</h3>
+            </div>
+            <div class="col-2">
+              {% if not project.archived %}
+              <a href="{{ url_for('anitya_ui.edit_project', project_id=project.id) }}"
+              role=button type="submit" class="btn btn-info float-end"
+              id="edit_btn" tabindex=1>
+                  Edit
+              </a>
+            </div>
+            <div class="col-2">
+              {% endif %}
+              <a href="{{ url_for('anitya_ui.flag_project', project_id=project.id) }}"
+              title="Ask for an admin intervention (delete version/project, fix mapping...)."
+              type="submit" class="btn btn-warning float-end" role="button"
+              id="flag_btn" tabindex=2>
+                  Flag
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="list-group-item">
+          <div class="row">
+            <div class="col-md-8">
+                <h4 class="list-group-item-heading">Latest version</h4>
+                <div class="list-group-item-text">
+                  {% if project.versions %}
+                    {% if project.latest_version_object and project.latest_version_object.commit_url %}
+                      <div property="doap:release" typeof="doap:Version">{{ project.latest_version }} (<a href="{{ project.latest_version_object.commit_url }}">commit</a>)</div>
+                    {% else %}
+                      <div property="doap:release" typeof="doap:Version">{{ project.latest_version }}</div>
+                    {% endif %}
+                  {% else %}
+                    <p id="version_info">No version available for this package</p>
+                  {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4">
+              {% if user and user.is_authenticated and not project.archived and (not project.versions or is_admin
+                or justedit) %}
+              <button type="submit" class="btn btn-success btn-sm float-end"
+                  id="testcheck" tabindex=3>
+                Test check
+              </button>
+              <img src="{{url_for('anitya_ui.static', filename='img/spinner.gif')}}"
+                id="testcheck-spinner" class="float-end"
+                style="display: none; padding-top: 12px; padding-right: 25px;"/>
+              <button type="submit" class="btn btn-success btn-sm mt-2 float-end"
+                  id="checknow" tabindex=4>
+                Full check
+              </button>
+              <img src="{{url_for('anitya_ui.static', filename='img/spinner.gif')}}"
+                id="checknow-spinner" class="float-end"
+                style="display: none; padding-top: 12px; padding-right: 25px;"/>
+              {% endif %}
+            </div>
+          </div>
+        </div><!-- end list-group-item -->
+
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Homepage</h4>
+          <div class="list-group-item-text">
+            <p><a property="doap:homepage" href="{{ project.homepage }}"
+               target="_blank" rel="noopener noreferrer">{{ project.homepage }}
+             </a><p>
+          </div>
+        </div><!-- end list-group-item -->
+
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading"><a href="{{ url_for('anitya_ui.static', filename='docs/user-guide.html') }}#backends">Backend</a></h4>
+          <div class="list-group-item-text">
+            <p>{{ project.backend }}</p>
+          </div>
+        </div><!-- end list-group-item -->
+
+        {% if is_admin %}
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Ecosystem</h4>
+          <div class="list-group-item-text">
+            <p>{{ project.ecosystem_name }}</p>
+          </div>
+        </div><!-- end list-group-item -->
+        {% endif %}
+
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Version scheme</h4>
+          <div class="list-group-item-text">
+            <p>{{ project.get_version_class().name }}</p>
+          </div>
+        </div><!-- end list-group-item -->
+
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Version check url</h4>
+          <div class="list-group-item-text">
+            <p><a href="{{ project.get_version_url() }}">
+              {{ project.get_version_url() }}
+            </a></p>
+          </div>
+        </div><!-- end list-group-item -->
+
+      {% if is_admin %}
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Whoah..</h4>
+          <div class="list-group-item-text">
+            <a href="{{url_for('anitya_ui.delete_project', project_id=project.id) }}">
+              <button type="submit" class="btn btn-danger btn-sm float-end">
+                Delete
+              </button>
+            </a>
+            <p>Delete this project all-together?</p>
+          </div>
+        </div><!-- end list-group-item -->
+        {% if not project.archived %}
+        <div class="list-group-item">
+          <div class="list-group-item-text">
+              <a href="{{url_for('anitya_ui.set_project_archive_state', project_id=project.id, state='true' ) }}">
+                  <button type="submit" class="btn btn-warning btn-sm float-end">
+                      Archive
+                  </button>
+              </a>
+              <p>Archive project?</p>
+          </div>
+        </div><!-- end list-group-item -->
+        {% else %}
+        <div class="list-group-item">
+          <div class="list-group-item-text">
+              <a href="{{url_for('anitya_ui.set_project_archive_state', project_id=project.id, state='false' ) }}">
+                  <button type="submit" class="btn btn-success btn-sm float-end">
+                      Unarchive
+                  </button>
+              </a>
+              <p>Unarchive project?</p>
+          </div>
+        </div><!-- end list-group-item -->
+        {% endif %}
+      {% endif %}
+      </div><!-- end list-group -->
+
+
+      <div class="list-group">
+        <div class="list-group-item list-group-item-secondary">
+          <h3>Mappings</h3>
+        </div>
+
+        <div class="list-group-item">
+          <div class="list-group-item-text">
+            <dl class="dl-horizontal">
+              <table class="table table-condensed">
+                <tr>
+                  <th>Distribution</th>
+                  <th>Package name </th>
+                  <th>Edit</th>
+                  {% if is_admin %}
+                  <th>Delete</th>
+                  {% endif %}
+                </tr>
+
+                {% for package in project.packages|sort(attribute='distro_name,package_name') %}
+                <tr>
+                  <td>{{ package.distro_name }}</td>
+                  <td>
+                    {% if package.distro_name in links %}
+                      <a href="{{ links.get(package.distro_name) % package.package_name}}">
+                        {{ package.package_name }}
+                      </a>
+                    {% else %}
+                      {{ package.package_name }}
+                    {% endif %}
+                  </td>
+                  <td>
+                    <a href="{{
+                      url_for('anitya_ui.edit_project_mapping',
+                              project_id=project.id,
+                              pkg_id=package.id) }}">
+                      <button type="submit" class="btn btn-info btn-sm float-end">
+                        Edit
+                      </button>
+                    </a>
+                  </td>
+                  {% if is_admin %}
+                  <td>
+                    <a href="{{
+                      url_for('anitya_ui.delete_project_mapping',
+                              project_id=project.id,
+                              distro_name=package.distro_name,
+                              pkg_name=package.package_name) }}">
+                      <button type="submit" class="btn btn-warning btn-sm float-end"
+                          tabindex=7>
+                        Delete
+                      </button>
+                    </a>
+                  </td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+
+              </table>
+            </dl>
+          </div><!-- end group-item-text -->
+        </div><!-- end group-item -->
+        {% if user and user.is_authenticated and not project.archived %}
+        <div class="list-group-item">
+          <div class="list-group-item-text">
+            <p><a href="{{ url_for('anitya_ui.map_project', project_id=project.id) }}">
+            <button type="submit" class="btn btn-info btn-sm float-end" tabindex=6>
+              Add new distribution mapping
+            </button>
+          </a></p>
+        <div class="clearfix"></div>
+          </div><!-- end group-item-text -->
+        </div><!-- end group-item -->
+        {% endif %}
+      </div><!-- end-group -->
+    </div><!-- end column -->
+  </div><!-- end d-grid -->
+
+  <div class="col col-md">
+    <div class="d-grid gap-3">
+      <div class="list-group">
+        <div class="list-group-item list-group-item-secondary">
+          <h3>Status</h3>
+        </div>
+        <span class="list-group-item">
+          <table class="table table-condensed">
+            <tr>
+              <th>Status</th>
+              {% if project.check_successful is not none and project.check_successful == false %}
+              <th>Checks failed</th>
+              {% endif %}
+              <th>Updated</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              {% if project.check_successful is none %}
+              <td>Not updated</td>
+              {% elif not project.check_successful %}
+              <td style="color:red;">Fail</td>
+              <td>{{ project.error_counter }}</td>
+              {% else %}
+              <td style="color:green;">OK</td>
+              {% endif %}
+              <td>{{ project.last_check.strftime('%Y-%m-%d %H:%M:%S') }} (UTC)</td>
+              <td>{{ project.logs }}</td>
+            </tr>
+          </table>
+          <div class="clearfix"></div>
+        </span>
+      </div><!-- end list-group -->
+
+      <div class="list-group">
+        <div class="list-group-item list-group-item-secondary">
+          <h3>Versions</h3>
+        </div>
+        <span class="list-group-item">
+          {% if project.versions %}
+          <table class="table table-condensed">
+            <tr>
+              <th>Version</th>
+              <th>Retrieved on (UTC)</th>
+              <th>Pre-release</th>
+              {% if is_admin %}
+              <th>Raw version</th>
+              <th>Delete</th>
+              {% endif %}
+            </tr>
+            {% for version in project.get_sorted_version_objects() %}
+            <tr property="doap:release" typeof="doap:Version">
+              <td property="doap:revision">{{ version.parse() }}</td>
+              {% if version.created_on %}
+              <td>{{ version.created_on.strftime('%Y-%m-%d %H:%M') }}</td>
+              {% else %}
+              <td>Date information unavailable</td>
+              {% endif %}
+              <td>
+                  {% if version.prerelease() %}
+                  <input type="checkbox" checked disabled >
+                  {% else %}
+                  <input type="checkbox" disabled >
+                  {% endif %}
+              </td>
+              {% if is_admin %}
+              <td>{{ version.version }}</td>
+              <td>
+                <a href="{{ url_for('anitya_ui.delete_project_version',
+                            project_id=project.id,
+                            version=version.version) }}"
+                title="Delete this version">[x]</a>
+              </td>
+              {% endif %}
+            {% endfor %}
+          </table>
+          {% else %}
+          <p id="version_info">No version available for this package</p>
+          {% endif %}
+          {% if is_admin %}
+          <a href="{{url_for('anitya_ui.delete_project_versions', project_id=project.id) }}">
+              <button type="submit" class="btn btn-danger btn-sm float-end">
+                  Delete versions
+              </button>
+          </a>
+          {% endif %}
+        </span>
+      </div> <!-- end list-group -->
+    </div><!-- end d-grid -->
+  </div><!-- end column -->
+</div><!-- end row -->
+
+{% endblock %}
+
+{% block jscript %}
+<script>
+  function checkrelease(test){
+    if(!test) {
+        // This might be null. Let's default to false.
+        test = false;
+    };
+    var btn = '#checknow';
+    if (test) {
+      btn = '#testcheck';
+    }
+    $(btn).hide(); $(btn + "-spinner").show();
+    var _id = "{{ project.id }}";
+    var _url = "{{ url_for('apiv2.versions')}}";
+    data = {id: _id};
+    data.dry_run = test;
+    $.ajax({
+        url: _url ,
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function(res) {
+          if (test) {
+            alert(
+                'New versions: \n' + res.found_versions.join(', ') + '\n' +
+                'All versions: \n' + res.versions.join(', ') + '\n' +
+                'Latest version: ' + res.latest_version
+            );
+          } else {
+            window.location.reload(false);
+          }
+          $(btn).show(); $(btn + "-spinner").hide();
+        },
+        error: function(res) {
+          $(btn).show(); $(btn + "-spinner").hide();
+          alert(
+              'Unable to retrieve the latest version from upstream!\n'
+              + 'ERROR: ' + res.responseJSON );
+        }
+    });
+  };
+
+  $('body').bind('keyup', function(event) {
+    if (event.ctrlKey){
+        return false;
+    }
+    if (event.which == 69 && !$("#searchbox").is(':focus')) { //e
+      window.location.replace("{{ url_for('anitya_ui.edit_project', project_id=project.id) }}");
+    }
+    {% if user and user.is_authenticated and (not project.versions or is_admin) %}
+    if (event.which == 67 && !$("#searchbox").is(':focus')) { //c
+      checkrelease();
+      return false;
+    }
+    {% endif %}
+  });
+
+  $('#checknow').click(function(){
+    checkrelease();
+    return false;
+  });
+
+  $('#testcheck').click(function(){
+    checkrelease(test=true);
+    return false;
+  });
+</script>
+{% endblock %}

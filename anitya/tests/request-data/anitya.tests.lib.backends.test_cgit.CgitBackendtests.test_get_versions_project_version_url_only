@@ -1,0 +1,203 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.4.1 at release-monitoring.org
+    method: GET
+    uri: https://git.savannah.gnu.org/cgit/gnuzilla.git/refs/tags
+  response:
+    body:
+      string: '<!DOCTYPE html>
+
+        <html lang=''en''>
+
+        <head>
+
+        <title>gnuzilla.git - GNUzilla and IceCat</title>
+
+        <meta name=''generator'' content=''cgit v1.1''/>
+
+        <meta name=''robots'' content=''index, nofollow''/>
+
+        <link rel=''stylesheet'' type=''text/css'' href=''/cgit-css/cgit.css''/>
+
+        <link rel=''shortcut icon'' href=''/gitweb/git-favicon.png''/>
+
+        <link rel=''alternate'' title=''Atom feed'' href=''https://git.savannah.gnu.org/cgit/gnuzilla.git/atom/?h=master''
+        type=''application/atom+xml''/>
+
+        <link rel=''vcs-git'' href=''git://git.savannah.gnu.org/gnuzilla.git'' title=''gnuzilla.git
+        Git repository''/>
+
+        <link rel=''vcs-git'' href=''https://git.savannah.gnu.org/git/gnuzilla.git''
+        title=''gnuzilla.git Git repository''/>
+
+        <link rel=''vcs-git'' href=''ssh://git.savannah.gnu.org/srv/git/gnuzilla.git''
+        title=''gnuzilla.git Git repository''/>
+
+        </head>
+
+        <body>
+
+        <div id=''cgit''><table id=''header''>
+
+        <tr>
+
+        <td class=''logo'' rowspan=''2''><a href=''/cgit/''><img src=''/cgit-css/cgit.png''
+        alt=''cgit logo''/></a></td>
+
+        <td class=''main''><a href=''/cgit/''>index</a> : <a title=''gnuzilla.git''
+        href=''/cgit/gnuzilla.git/''>gnuzilla.git</a></td><td class=''form''><form
+        method=''get''>
+
+        <select name=''h'' onchange=''this.form.submit();''>
+
+        <option value=''38''>38</option>
+
+        <option value=''68''>68</option>
+
+        <option value=''master'' selected=''selected''>master</option>
+
+        <option value=''test''>test</option>
+
+        </select> <input type=''submit'' value=''switch''/></form></td></tr>
+
+        <tr><td class=''sub''>GNUzilla and IceCat</td><td class=''sub right''></td></tr></table>
+
+        <table class=''tabs''><tr><td>
+
+        <a href=''/cgit/gnuzilla.git/''>summary</a><a class=''active'' href=''/cgit/gnuzilla.git/refs/''>refs</a><a
+        href=''/cgit/gnuzilla.git/log/''>log</a><a href=''/cgit/gnuzilla.git/tree/''>tree</a><a
+        href=''/cgit/gnuzilla.git/commit/''>commit</a><a href=''/cgit/gnuzilla.git/diff/''>diff</a></td><td
+        class=''form''><form class=''right'' method=''get'' action=''/cgit/gnuzilla.git/log/''>
+
+        <select name=''qt''>
+
+        <option value=''grep''>log msg</option>
+
+        <option value=''author''>author</option>
+
+        <option value=''committer''>committer</option>
+
+        <option value=''range''>range</option>
+
+        </select>
+
+        <input class=''txt'' type=''text'' size=''10'' name=''q'' value=''''/>
+
+        <input type=''submit'' value=''search''/>
+
+        </form>
+
+        </td></tr></table>
+
+        <div class=''content''><table class=''list nowrap''><tr class=''nohover''><th
+        class=''left''>Tag</th><th class=''left''>Download</th><th class=''left''>Author</th><th
+        class=''left'' colspan=''2''>Age</th></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v60.7.0''>v60.7.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-60.7.0.tar.gz''>gnuzilla-60.7.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2019-05-29
+        21:12:36 +0000''>3 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v60.3.0''>v60.3.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-60.3.0.tar.gz''>gnuzilla-60.3.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2018-11-09
+        20:46:03 +0000''>4 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v60.2.0''>v60.2.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-60.2.0.tar.gz''>gnuzilla-60.2.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2018-09-14
+        01:02:13 +0000''>4 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v52.1.0''>v52.1.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-52.1.0.tar.gz''>gnuzilla-52.1.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2017-05-05
+        15:19:58 +0000''>5 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v52.0.2''>v52.0.2</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-52.0.2.tar.gz''>gnuzilla-52.0.2.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2017-04-16
+        02:02:02 +0000''>5 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v45.7.0''>v45.7.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-45.7.0.tar.gz''>gnuzilla-45.7.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2017-03-05
+        16:16:56 +0000''>5 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v38.3.0''>v38.3.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-38.3.0.tar.gz''>gnuzilla-38.3.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2015-10-13
+        04:21:50 +0000''>7 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v31.8.0''>v31.8.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-31.8.0.tar.gz''>gnuzilla-31.8.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2015-07-14
+        04:00:02 +0000''>7 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v31.6.0''>v31.6.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-31.6.0.tar.gz''>gnuzilla-31.6.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2015-04-03
+        21:19:09 +0000''>7 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v31.5.0''>v31.5.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-31.5.0.tar.gz''>gnuzilla-31.5.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2015-03-09
+        20:23:46 +0000''>7 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v31.4.0''>v31.4.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-31.4.0.tar.gz''>gnuzilla-31.4.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2015-01-28
+        21:16:14 +0000''>8 years</span></td></tr>
+
+        <tr><td><a href=''/cgit/gnuzilla.git/tag/?h=v31.2.0''>v31.2.0</a></td><td><a
+        href=''/cgit/gnuzilla.git/snapshot/gnuzilla-31.2.0.tar.gz''>gnuzilla-31.2.0.tar.gz</a>&nbsp;&nbsp;</td><td>Ruben
+        Rodriguez</td><td colspan=''2''><span class=''age-years'' title=''2014-10-21
+        22:48:54 +0000''>8 years</span></td></tr>
+
+        </table></div> <!-- class=content -->
+
+        <div class=''footer''>generated by <a href=''https://git.zx2c4.com/cgit/about/''>cgit
+        v1.1</a> at 2022-08-01 21:14:28 +0000</div>
+
+        </div> <!-- id=cgit -->
+
+        </body>
+
+        </html>
+
+        '
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Mon, 01 Aug 2022 21:14:30 GMT
+      Expires:
+      - Mon, 01 Aug 2022 21:19:27 GMT
+      Last-Modified:
+      - Mon, 01 Aug 2022 21:14:27 GMT
+      Server:
+      - nginx/1.14.0 (Trisquel GNU/Linux)
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+    status:
+      code: 200
+      message: OK
+version: 1

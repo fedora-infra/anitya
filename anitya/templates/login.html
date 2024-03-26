@@ -1,0 +1,23 @@
+{% extends "master.html" %}
+
+{% block title %}Login · Anitya{% endblock %}
+
+{% block body %}
+<div class="d-flex align-itmes-start gap-3">
+    {% for name, backend in available_backends.items() %}
+        {% if name == 'openid'%}
+            <form role="form" action="{{url_for('social.auth', backend=name)}}" method="post" class="d-flex">
+                <input name="openid_identifier" placeholder="https://id.openid.server" class="form-control me-2">
+                <button type="submit" class="btn btn-success">
+                    Login</button>
+            </form>
+        {% elif name == 'google-oauth2' %}
+            <a title="{{ Google }}" class="btn btn-primary" role="button"
+                href="{{url_for('social.auth', backend=name)}}">Google</a>
+        {% else %}
+            <a title="{{ name.capitalize() }}" class="btn btn-primary" role="button"
+                href="{{url_for('social.auth', backend=name)}}">{{ name.capitalize() }}</a>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

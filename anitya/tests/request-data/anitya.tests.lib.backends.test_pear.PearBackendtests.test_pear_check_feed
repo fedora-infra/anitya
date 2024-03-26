@@ -1,0 +1,177 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.9.1 at release-monitoring.org]
+    method: GET
+    uri: https://pear.php.net/feeds/latest.rss
+  response:
+    body: {string: !!python/unicode "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<rdf:RDF\n
+        \   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n    xmlns=\"http://purl.org/rss/1.0/\"\n
+        \   xmlns:content=\"http://purl.org/rss/1.0/modules/content/\"\n    xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n>\n
+        \   <channel rdf:about=\"http://pear.php.net\">\n    <link>http://pear.php.net/</link>\n
+        \   <dc:creator>pear-webmaster@lists.php.net</dc:creator>\n    <dc:publisher>pear-webmaster@lists.php.net</dc:publisher>\n
+        \   <dc:language>en-us</dc:language><items>\n<rdf:Seq><rdf:li rdf:resource=\"http://pear.php.net/package/File_Therion/download/0.1.0/\"/>\n<rdf:li
+        rdf:resource=\"http://pear.php.net/package/Net_URL2/download/2.1.2/\"/>\n<rdf:li
+        rdf:resource=\"http://pear.php.net/package/Net_URL2/download/2.2.1/\"/>\n<rdf:li
+        rdf:resource=\"http://pear.php.net/package/Crypt_GPG/download/1.4.1/\"/>\n<rdf:li
+        rdf:resource=\"http://pear.php.net/package/Log/download/1.13.1/\"/>\n<rdf:li
+        rdf:resource=\"http://pear.php.net/package/Math_BigInteger/download/1.0.3/\"/>\n<rdf:li
+        rdf:resource=\"http://pear.php.net/package/SQL_Parser/download/0.7.0/\"/>\n<rdf:li
+        rdf:resource=\"http://pear.php.net/package/PHP_CodeSniffer/download/2.6.0/\"/>\n<rdf:li
+        rdf:resource=\"http://pear.php.net/package/Log/download/1.13.0/\"/>\n<rdf:li
+        rdf:resource=\"http://pear.php.net/package/Config_Lite/download/0.2.5/\"/>\n</rdf:Seq>\n</items>\n\n<title>PEAR:
+        Latest releases</title>\n<description>The latest releases in PEAR.</description>\n</channel>\n\n<item
+        rdf:about=\"http://pear.php.net/package/File_Therion/download/0.1.0/\">\n
+        <title>File_Therion 0.1.0</title>\n <link>http://pear.php.net/package/File_Therion/download/0.1.0/</link>\n
+        <content:encoded>Initial release of first API. Still in development!&lt;br
+        /&gt;\nTherion data model core features should be mostly supported already;&lt;br
+        /&gt;\nthat means survey structure and centreline data should be usable mostly.&lt;br
+        /&gt;\nThe package is still not stable and API may change in future versions.&lt;br
+        /&gt;\n&lt;br /&gt;\nPlease refer to the TODO tags in the API to get an idea
+        what is still missing.&lt;br /&gt;\nYou can expect basic survey structure,
+        important metadata and centreline to be working.&lt;br /&gt;\nScraps, Maps,
+        surface and many data fields are still unsupported however should parse OK
+        silently.&lt;br /&gt;\n&lt;br /&gt;\n&lt;br /&gt;\nThis release is dedicated
+        to my friend Dr. Stefan Dahm, who died in the&lt;br /&gt;\nHirlatz cave (Dachstein,
+        Austria) on 28.02.2016 while conducting an&lt;br /&gt;\nexpedition. We miss
+        you Stefan! Your work will be continued...\n </content:encoded>\n <dc:date>2016-04-23T14:44:32-05:00</dc:date>\n
+        <dc:publisher>beni</dc:publisher>\n</item>\n<item rdf:about=\"http://pear.php.net/package/Net_URL2/download/2.1.2/\">\n
+        <title>Net_URL2 2.1.2</title>\n <link>http://pear.php.net/package/Net_URL2/download/2.1.2/</link>\n
+        <content:encoded>* Fix: Correct case of method call name&lt;br /&gt;\n* Fix:
+        Travis PHP 5.2&lt;br /&gt;\n* Fix: Correct earlier regex delimiter&lt;br /&gt;\n*
+        New: Test with PHP 7 and HHVM on Travis CI\n </content:encoded>\n <dc:date>2016-04-18T18:41:42-05:00</dc:date>\n
+        <dc:publisher>tkli</dc:publisher>\n</item>\n<item rdf:about=\"http://pear.php.net/package/Net_URL2/download/2.2.1/\">\n
+        <title>Net_URL2 2.2.1</title>\n <link>http://pear.php.net/package/Net_URL2/download/2.2.1/</link>\n
+        <content:encoded>* Fix: Correct earlier regex delimiter&lt;br /&gt;\n* Fix:
+        Travis missing hhvm-nightly&lt;br /&gt;\n* Fix: Travis PHP 5.2&lt;br /&gt;\n*
+        Fix: Correct case of method call name\n </content:encoded>\n <dc:date>2016-04-18T18:41:07-05:00</dc:date>\n
+        <dc:publisher>tkli</dc:publisher>\n</item>\n<item rdf:about=\"http://pear.php.net/package/Crypt_GPG/download/1.4.1/\">\n
+        <title>Crypt_GPG 1.4.1</title>\n <link>http://pear.php.net/package/Crypt_GPG/download/1.4.1/</link>\n
+        <content:encoded>This release fixes following bugs:&lt;br /&gt;\n&lt;br /&gt;\nFix
+        Bug #21016: Decryption hangs due to missing SETKEYINFO support (GnuPG 2.0.28
+        and up).&lt;br /&gt;\nFix Bug #19925: Don't throw exception when specified
+        gpg-agent does not exist on GnuPG 1.x.&lt;br /&gt;\nFix Bug #21034: Missing
+        agent exception thrown when checking version.&lt;br /&gt;\nFixed invalid error
+        message in Crypt_GPG_BadPassphraseException.&lt;br /&gt;\nFixed more PinEntry
+        issues on composer installations.&lt;br /&gt;\n&lt;br /&gt;\nAdditionally
+        this release adds possibility to use external debug handler.\n </content:encoded>\n
+        <dc:date>2016-04-17T03:21:58-05:00</dc:date>\n <dc:publisher>alec</dc:publisher>\n</item>\n<item
+        rdf:about=\"http://pear.php.net/package/Log/download/1.13.1/\">\n <title>Log
+        1.13.1</title>\n <link>http://pear.php.net/package/Log/download/1.13.1/</link>\n
+        <content:encoded>Use rand() to make instance identifiers more unique than
+        microtime()'s resolution.\n </content:encoded>\n <dc:date>2016-04-15T20:53:30-05:00</dc:date>\n
+        <dc:publisher>jon</dc:publisher>\n</item>\n<item rdf:about=\"http://pear.php.net/package/Math_BigInteger/download/1.0.3/\">\n
+        <title>Math_BigInteger 1.0.3</title>\n <link>http://pear.php.net/package/Math_BigInteger/download/1.0.3/</link>\n
+        <content:encoded>- Fix PHP7 constructor deprecation notice\n </content:encoded>\n
+        <dc:date>2016-04-12T02:30:13-05:00</dc:date>\n <dc:publisher>cweiske</dc:publisher>\n</item>\n<item
+        rdf:about=\"http://pear.php.net/package/SQL_Parser/download/0.7.0/\">\n <title>SQL_Parser
+        0.7.0</title>\n <link>http://pear.php.net/package/SQL_Parser/download/0.7.0/</link>\n
+        <content:encoded>Minor Feature / bug fixes release&lt;br /&gt;\n * basic create
+        table, alter table support &lt;br /&gt;\n &lt;br /&gt;\n fix #18647 - extral
+        lexemes for mysql dialect&lt;br /&gt;\n fix #18298 - document the options
+        for dialect a bit better&lt;br /&gt;\n fix #18559 - update parsing (bug got
+        lost somewhere)&lt;br /&gt;\n fix #18648 - index table options support (thomas
+        ernest1)&lt;br /&gt;\n fix #16129 - support columns without column names&lt;br
+        /&gt;\n fix #4089 - IF EXISTS support for drop table\n </content:encoded>\n
+        <dc:date>2016-04-06T21:50:18-05:00</dc:date>\n <dc:publisher>alan_k</dc:publisher>\n</item>\n<item
+        rdf:about=\"http://pear.php.net/package/PHP_CodeSniffer/download/2.6.0/\">\n
+        <title>PHP_CodeSniffer 2.6.0</title>\n <link>http://pear.php.net/package/PHP_CodeSniffer/download/2.6.0/</link>\n
+        <content:encoded>- Paths used when setting CLI arguments inside ruleset.xml
+        files are now relative to the ruleset location (request #847)&lt;br /&gt;\n
+        \ -- This change only applies to paths within ARG tags, used to set CLI arguments&lt;br
+        /&gt;\n  -- Previously, the paths were relative to the directory PHPCS was
+        being run from&lt;br /&gt;\n  -- Absolute paths are still allowed and work
+        the same way they always have&lt;br /&gt;\n  -- This change allows ruleset.xml
+        files to be more portable&lt;br /&gt;\n- Content passed via STDIN will now
+        be processed even if files are specified on the command line or in a ruleset&lt;br
+        /&gt;\n- When passing content via STDIN, you can now specify the file path
+        to use on the command line (request #934)&lt;br /&gt;\n  -- This allows sniffs
+        that check file paths to work correctly&lt;br /&gt;\n  -- This is the same
+        functionality provided by the phpcs_input_file line, except it is available
+        on the command line&lt;br /&gt;\n- Files processed with custom tokenizers
+        will no longer be skipped if they appear minified (request #877)&lt;br /&gt;\n
+        \ -- If the custom tokenizer wants minified files skipped, it can set a $skipMinified
+        member var to TRUE&lt;br /&gt;\n  -- See the included JS and CSS tokenizers
+        for an example&lt;br /&gt;\n- Config vars set in ruleset.xml files are now
+        processed earlier, allowing them to be used during sniff registration&lt;br
+        /&gt;\n  -- Among other things, this allows the installed_paths config var
+        to be set in ruleset.xml files&lt;br /&gt;\n  -- Thanks to Pieter Frenssen
+        for the patch&lt;br /&gt;\n- Improved detection of regular expressions in
+        the JS tokenizer&lt;br /&gt;\n- Generic PHP Syntax sniff now uses PHP_BINARY
+        (if available) to determine the path to PHP if no other path is available&lt;br
+        /&gt;\n  -- You can still manually set php_path to use a specific binary for
+        testing&lt;br /&gt;\n  -- Thanks to Andrew Berry for the patch&lt;br /&gt;\n-
+        The PHP-supplied T_POW_EQUAL token has been replicated for PHP versions before
+        5.6&lt;br /&gt;\n- Added support for PHP7 use group declarations (request
+        #878)&lt;br /&gt;\n  -- New tokens T_OPEN_USE_GROUP and T_CLOSE_USE_GROUP
+        are assigned to the open and close curly braces&lt;br /&gt;\n- Generic ScopeIndent
+        sniff now reports errors for every line that needs the indent changed (request
+        #903)&lt;br /&gt;\n  -- Previously, it ignored lines that were indented correctly
+        in the context of their block&lt;br /&gt;\n  -- This change produces more
+        technically accurate error messages, but is much more verbose&lt;br /&gt;\n-
+        The PSR2 and Squiz standards now allow multi-line default values in function
+        declarations (request #542)&lt;br /&gt;\n  -- Previously, these would automatically
+        make the function a multi-line declaration&lt;br /&gt;\n- Squiz InlineCommentSniff
+        now allows docblocks on require(_once) and include(_once) statements&lt;br
+        /&gt;\n  -- Thanks to Gary Jones for the patch&lt;br /&gt;\n- Squiz and PEAR
+        Class and File sniffs no longer assume the first comment in a file is always
+        a file comment&lt;br /&gt;\n  -- phpDocumentor assigns the comment to the
+        file only if it is not followed by a structural element&lt;br /&gt;\n  --
+        These sniffs now follow this same rule&lt;br /&gt;\n- Squiz ClassCommentSniff
+        no longer checks for blank lines before class comments&lt;br /&gt;\n  -- Removes
+        the error Squiz.Commenting.ClassComment.SpaceBefore&lt;br /&gt;\n- Renamed
+        Squiz.CSS.Opacity.SpacingAfterPoint to Squiz.CSS.Opacity.DecimalPrecision&lt;br
+        /&gt;\n  -- Please update your ruleset if you are referencing this error code
+        directly&lt;br /&gt;\n- Fixed PHP tokenizer problem that caused an infinite
+        loop when checking a comment with specific content&lt;br /&gt;\n- Generic
+        Disallow Space and Tab indent sniffs now detect and fix indents inside embedded
+        HTML chunks (request #882)&lt;br /&gt;\n- Squiz CSS IndentationSniff no longer
+        assumes the class opening brace is at the end of a line&lt;br /&gt;\n- Squiz
+        FunctionCommentThrowTagSniff now ignores non-docblock comments&lt;br /&gt;\n-
+        Squiz ComparisonOperatorUsageSniff now allows conditions like while(true)&lt;br
+        /&gt;\n- PEAR FunctionCallSignatureSniff (and the Squiz and PSR2 sniffs that
+        use it) now correctly check the first argument&lt;br /&gt;\n  -- Further fix
+        for bug #698&lt;br /&gt;\n- Fixed bug #791 : codingStandardsChangeSetting
+        settings not working with namespaces&lt;br /&gt;\n- Fixed bug #872 : Incorrect
+        detection of blank lines between CSS class names&lt;br /&gt;\n- Fixed bug
+        #879 : Generic InlineControlStructureSniff can create parse error when case/if/elseif/else
+        have mixed brace and braceless definitions&lt;br /&gt;\n- Fixed bug #883 :
+        PSR2 is not checking for blank lines at the start and end of control structures&lt;br
+        /&gt;\n- Fixed bug #884 : Incorrect indentation notice for anonymous classes&lt;br
+        /&gt;\n- Fixed bug #887 : Using curly braces for a shared CASE/DEFAULT statement
+        can generate an error in PSR2 SwitchDeclaration&lt;br /&gt;\n- Fixed bug #889
+        : Closure inside catch/else/elseif causes indentation error&lt;br /&gt;\n-
+        Fixed bug #890 : Function call inside returned short array value can cause
+        indentation error inside CASE statements&lt;br /&gt;\n- Fixed bug #897 : Generic.Functions.CallTimePassByReference.NotAllowed
+        false positive when short array syntax&lt;br /&gt;\n- Fixed bug #900 : Squiz.Functions.FunctionDeclarationArgumentSpacing
+        bug when no space between type hint and argument&lt;br /&gt;\n- Fixed bug
+        #902 : T_OR_EQUAL and T_POW_EQUAL are not seen as assignment tokens&lt;br
+        /&gt;\n- Fixed bug #910 : Unrecognized &quot;extends&quot; and indentation
+        on anonymous classes&lt;br /&gt;\n- Fixed bug #915 : JS Tokenizer generates
+        errors when processing some decimals&lt;br /&gt;\n- Fixed bug #928 : Endless
+        loop when sniffing a PHP file with a git merge conflict inside a function&lt;br
+        /&gt;\n- Fixed bug #937 : Shebang can cause PSR1 SideEffects warning&lt;br
+        /&gt;\n  -- Thanks to Clay Loveless for the patch&lt;br /&gt;\n- Fixed bug
+        #938 : CallTimePassByReferenceSniff ignores functions with return value\n
+        </content:encoded>\n <dc:date>2016-04-03T19:05:41-05:00</dc:date>\n <dc:publisher>squiz</dc:publisher>\n</item>\n<item
+        rdf:about=\"http://pear.php.net/package/Log/download/1.13.0/\">\n <title>Log
+        1.13.0</title>\n <link>http://pear.php.net/package/Log/download/1.13.0/</link>\n
+        <content:encoded>Deprecate PHP4-style constructors.\n </content:encoded>\n
+        <dc:date>2016-04-02T23:31:58-05:00</dc:date>\n <dc:publisher>jon</dc:publisher>\n</item>\n<item
+        rdf:about=\"http://pear.php.net/package/Config_Lite/download/0.2.5/\">\n <title>Config_Lite
+        0.2.5</title>\n <link>http://pear.php.net/package/Config_Lite/download/0.2.5/</link>\n
+        <content:encoded>* get without parameters returns all sections as documented\n
+        </content:encoded>\n <dc:date>2016-03-30T04:05:06-05:00</dc:date>\n <dc:publisher>pce</dc:publisher>\n</item>\n\n</rdf:RDF>"}
+    headers:
+      connection: [close]
+      content-type: [text/xml; charset=iso-8859-1]
+      date: ['Wed, 11 May 2016 03:37:21 GMT']
+      server: [Apache/2.2.15]
+      x-powered-by: [PHP/5.6.16]
+    status: {code: 200, message: OK}
+version: 1

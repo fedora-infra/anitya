@@ -1,0 +1,33 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.11.0 at release-monitoring.org]
+    method: GET
+    uri: https://crandb.r-pkg.org/whisker
+  response:
+    body: {string: !!python/unicode '{"Package":"whisker","Maintainer":"Edwin de Jonge
+        <edwindjonge@gmail.com>","License":"GPL-3","Title":"{{mustache}} for R, logicless
+        templating","Type":"Package","LazyLoad":"yes","Author":"Edwin de Jonge","Description":"logicless
+        templating, reuse templates in many programming<U+000a>languages including
+        R","Version":"0.3-2","URL":"http://github.com/edwindj/whisker","Date":"2010-12-23","Collate":"''whisker.R''
+        ''section.R'' ''parseTemplate.R'' ''partials.R''<U+000a>''inverted.R'' ''pkg.R''
+        ''iteratelist.R'' ''delim.R'' ''markdown.R''<U+000a>''rowsplit.R''","Repository":"CRAN","Date/Publication":"2013-04-28
+        07:55:20","crandb_file_date":"2013-04-28 01:55:21","Suggests":{"markdown":"*"},"Packaged":"2013-04-27
+        22:49:33 UTC; Edwin","NeedsCompilation":"no","date":"2013-04-28T07:55:20+00:00","releases":["3.0.1","3.0.2","3.0.3","3.1.0","3.1.1"]}'}
+    headers:
+      connection: [keep-alive]
+      content-length: ['827']
+      content-type: [application/json]
+      date: ['Wed, 14 Mar 2018 03:43:47 GMT']
+      etag: ['"9DG53ZQA3SWD31JBGQC35B0FH"']
+      server: [nginx/1.4.6 (Ubuntu)]
+      vary: [Accept]
+      x-couch-request-id: [c392ddd81e]
+      x-couchdb-body-time: ['0']
+    status: {code: 200, message: OK}
+version: 1

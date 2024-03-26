@@ -1,0 +1,142 @@
+---
+
+- name: Install helpful development packages
+  dnf:
+    name: [
+           git,
+           vim-enhanced,
+           python-devel,
+           python36,
+           python37,
+           python3-black,
+           python3-tox,
+           tmux
+          ]
+    state: present
+
+- name: Install anitya system dependencies
+  dnf:
+    name: [
+           gcc,
+           graphviz,
+           make,
+           libffi-devel,
+           openssl-devel,
+           postgresql-devel,
+           python3-devel,
+           python3-psycopg2,
+           npm
+          ]
+    state: present
+
+- name: Install documentation build dependencies
+  dnf:
+    name: [
+           #python3-sphinxcontrib-httpdomain,
+           # The version 2.0 will be available in F40
+           #python3-sqlalchemy_schemadisplay
+          ]
+    state: present
+
+# Anitya needs 2.0 version of sqlalchemy_schemadisplay,
+# but it's not available in <F40, let's install it from pip till
+# F40 vagrant box will be available
+# Anitya needs 1.8.0 version of sphinxcontrib-httpdomain,
+# but it's not available in Fedora yet, let's install it from pip now
+- name: Install pip dev dependencies
+  pip:
+    name:
+      [
+        sqlalchemy_schemadisplay,
+        sphinxcontrib-httpdomain
+      ]
+    state: present
+
+- name: Install dependencies packaged in Fedora
+  dnf:
+    name: [
+           fedora-messaging,
+           python3-alembic,
+           python3-arrow,
+           python3-beautifulsoup4,
+           python3-dateutil,
+           python3-defusedxml,
+           python3-flask-login,
+           python3-flask-wtf,
+           python3-jinja2,
+           python3-ordered-set,
+           python3-toml,
+           python3-semver,
+           python3-sqlalchemy,
+           python3-sseclient,
+           python3-straight-plugin,
+           python3-wtforms
+          ]
+    state: present
+  tags: packages
+
+# Add various helpful configuration files
+- name: Install a custom bashrc
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  copy: src=bashrc dest=/home/{{ ansible_env.SUDO_USER }}/.bashrc
+
+- name: Install the message of the day
+  copy: src=motd dest=/etc/motd
+
+- name: Install Anitya flask configuration
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  copy: src=anitya.toml dest=/home/{{ ansible_env.SUDO_USER }}/anitya.toml
+
+- name: Download package dependencies
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /home/{{ ansible_env.SUDO_USER }}/devel/anitya/static
+
+- name: Install Anitya into the virtualenv
+  pip:
+    name:
+      - "{{ anitya_src }}"
+    extra_args: "-e"
+  tags: install
+
+- name: Create user systemd directory
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  file:
+    path: /home/{{ ansible_env.SUDO_USER }}/.config/systemd/user/
+    state: directory
+
+- name: Install the Anitya systemd service file
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  copy:
+    src: anitya.service
+    dest: /home/{{ ansible_env.SUDO_USER }}/.config/systemd/user/anitya.service
+
+- name: Install the Anitya check service systemd file
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  copy:
+    src: check-service.service
+    dest: /home/{{ ansible_env.SUDO_USER }}/.config/systemd/user/check-service.service
+
+- name: Reload the systemd daemon
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  command: systemctl --user daemon-reload
+
+# Hotfix for social_auth issue
+# Could be removed when we move away from social_auth
+- name: Hotfix for social_auth
+  replace:
+    path: /usr/local/lib/python3.11/site-packages/social_sqlalchemy/storage.py
+    regexp: 'base64\.encodestring'
+    replace: 'base64.encodebytes'
+
+- import_tasks: db.yml
+- import_tasks: rabbitmq.yml
+
+  # sqlalchemy_schemadisplay needs running database
+- name: Build the Anitya documentation
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  shell: >
+      make install
+  args:
+    chdir: /home/{{ ansible_env.SUDO_USER }}/devel/docs/
+    creates: /home/{{ ansible_env.SUDO_USER }}/devel/anitya/static/docs/objects.inv

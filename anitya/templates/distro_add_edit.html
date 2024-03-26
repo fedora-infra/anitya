@@ -1,0 +1,119 @@
+{% extends "master.html" %}
+{% from "functions.html" import render_field_in_row %}
+
+{% block title %}{{ context }} Distribution · Anitya{% endblock %}
+
+{% block body %}
+
+<div class="page-header">
+  {% if context == 'Add' -%}
+  <h1>Add a new distribution</h1>
+  {%- elif context == 'Edit' -%}
+  <h1>Edit disribution: {{ distro.name }}</h1>
+  {%- endif %}
+</div>
+
+{% if context == 'Add' -%}
+<form id="distro" method="POST" action="{{ url_for('anitya_ui.add_distro') }}" >
+{%- elif context == 'Edit' -%}
+<form method="POST" action="{{ url_for('anitya_ui.edit_distro', distro_name=distro.name) }}" >
+{%- endif %}
+  <div class="row">
+    <div class="col-md-6">
+      <div class="list-group">
+        <div class="list-group-item">
+          <table class="table">
+            <tr>
+              {{ render_field_in_row(form.name, tabindex=1) }}
+              <td></td>
+            </tr>
+         </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-success me-2 mt-2" tabindex=2>
+    {% if context == 'Add' -%}
+    Add distribution
+    {%- elif context == 'Edit' -%}
+    Submit
+    {%- endif %}
+  </button>
+  <a href="{{ url_for('anitya_ui.distros') }}">
+    <button type="button" class="btn btn-danger mt-2" tabindex=3>
+      Cancel
+    </button>
+  </a>
+  {{ form.csrf_token }}
+</form>
+
+{% if context == 'Add' -%}
+<br/>
+<div class="row">
+  <div class="col-md-6" id="info_field">
+    <div class="list-group">
+      <span class="list-group-item">
+        <p id="info_field_title"></p>
+        <ul id="info_field_list"></ul>
+      </span>
+    </div>
+  </div>
+</div>
+{%- endif %}
+{% endblock %}
+
+{% block jscript %}
+<script type="text/javascript">
+    function check_name() {
+      var _name = $('#name').val().trim();
+      if (_name) {
+        show_similar_distros();
+      } else {
+        $('#info_field_list').html('');
+        $('#info_field').hide();
+      }
+    }
+
+    function show_similar_distros() {
+      $.getJSON(
+        "{{ url_for('anitya_apiv1.api_distro_names') }}", {
+          pattern: $("#name").val().trim()
+        })
+        .done(function( res ) {
+          $('#info_field_list').html('');
+          if (res.total > 0){
+            $('#info_field_title').html('Distros with the similar name');
+            for (i = 0; i < res.distro.length; i++){
+              $('#info_field_list').append(
+                '<li>'+ res.distro[i] + '</li>');
+            }
+            $('#info_field').show();
+          } else {
+            $('#info_field').hide();
+          }
+        });
+    }
+
+    $(document).ready(function(){
+    {% if context == 'Add' %}
+      check_name();
+      $("#name").prop('title', "Official distribution name");
+      $("#name").focusout(function() {
+        check_name()
+        }
+      );
+      $("#distro").submit(function( event ) {
+       if ($('#info_field_list').html()) {
+         var items = [];
+         $("#info_field li").each(function(index) {
+           items.push($(this).text());
+         });
+         response = confirm("Are you sure you want to create this distro?\n\n" +
+           "There are distro(s) with similar name(s):\n" + items.join("\r\n"));
+         return response;
+       }
+      });
+    {% endif %}
+    });
+</script>
+{% endblock %}

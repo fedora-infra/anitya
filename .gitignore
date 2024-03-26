@@ -1,0 +1,48 @@
+# Python
+*.pyc
+build/
+dist/
+*egg-info/
+*eggs/
+.cache/
+*.egg
+*.retry
+pip-wheel-metadata/
+venv/
+.venv/
+
+# Docs
+anitya/static/docs/
+docs/_build/
+docs/docblocks/
+
+# Anitya
+anitya.db
+*.sqlite
+*.cfg
+
+# Tests
+coverage.xml
+htmlcov
+.pytest_cache/
+.tox
+.coverage
+!mypy.cfg
+
+# IDE related files
+.vscode/
+.idea/
+*~
+*.swp
+*.swo
+
+# Vagrant dev environment
+.vagrant/
+
+# Container dev environment
+.container/postgresql/*
+.container/dump/*
+!.container/postgresql/.gitkeep
+
+# Javascript
+anitya/static/node_modules/

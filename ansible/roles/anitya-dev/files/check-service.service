@@ -1,0 +1,12 @@
+[Unit]
+Description=Release check service for Anitya
+After=network.target
+Documentation=https://github.com/fedora-infra/anitya/
+
+[Service]
+Environment="ANITYA_WEB_CONFIG=/home/vagrant/anitya.toml"
+ExecStart=/usr/local/bin/check_service
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,1268 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.1.3 at release-monitoring.org
+    method: GET
+    uri: https://www.phpmyadmin.net/files/
+  response:
+    body:
+      string: "\n\n\n<!DOCTYPE html>\n<html lang=\"en\">\n  <head profile=\"http://purl.org/uF/2008/03/
+        http://purl.org/uF/hAtom/0.1/\">\n    <meta charset=\"utf-8\">\n    <meta
+        http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"viewport\"
+        content=\"width=device-width, initial-scale=1\">\n  <meta name=\"author\"
+        content=\"phpMyAdmin contributors\" />\n  <meta name=\"copyright\" content=\"Copyright
+        &copy; 2003 - 2021 phpMyAdmin contributors\" />\n  <link rel=\"copyright\"
+        href=\"/license/\" />\n  <title>phpMyAdmin - Files</title>\n  \n  <link rel=\"alternate\"
+        type=\"application/rss+xml\" href=\"/files/feed/\" title=\"phpMyAdmin releases\"/>\n
+        \ \n  <link rel=\"stylesheet\" type=\"text/css\" href=\"/static/bootstrap/css/bootstrap.min.css\"
+        />\n<link rel=\"stylesheet\" href=\"/static/CACHE/css/output.5b989b7546c3.css\"
+        type=\"text/css\">\n  <link rel=\"shortcut icon\" href=\"/static/favicon.ico\"
+        type=\"image/x-icon\" />\n  <link rel=\"icon\" href=\"/static/favicon.ico\"
+        type=\"image/x-icon\" />\n  \n  <meta property=\"og:title\" content=\"Files\"
+        />\n  \n  <meta property=\"og:site_name\" content=\"phpMyAdmin\" />\n  <meta
+        property=\"og:image\" content=\"https://www.phpmyadmin.net/static/images/logo-og.png\"
+        />\n  \n  <meta property=\"og:type\" content=\"website\" />\n  \n  <link rel=\"image_src\"
+        href=\"/static/images/logo-og.png\" title=\"phpMyAdmin\"/>\n  <link rel=\"vcs-git\"
+        href=\"https://github.com/phpmyadmin/phpmyadmin.git\" title=\"phpMyAdmin Git
+        repository\" />\n  <link rel=\"vcs-browse\" href=\"https://github.com/phpmyadmin/\"
+        title=\"phpMyAdmin Git repository browser\" />\n<script src=\"/static/CACHE/js/output.5129cbac2a2f.js\"></script>\n
+        \ <meta name=\"verify-v1\" content=\"3AM2eNj0zQ1Ao/N2eGE02S45V3p5KQxAyMIxdUJhtEQ=\"
+        />\n  <meta name=\"robots\" content=\"index, follow\" />\n </head>\n <body>\n
+        \ <header>\n    <nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n
+        \     <div class=\"container\">\n        <button class=\"navbar-toggler\"
+        type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\"
+        aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle
+        navigation\">\n          <span class=\"navbar-toggler-icon\"></span>\n        </button>\n\n
+        \       <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n
+        \         <ul class=\"navbar-nav mr-auto\">\n            \n            <li
+        class=\"nav-item\">\n              <a class=\"nav-link\" href=\"/\">Home</a>\n
+        \           </li>\n            \n            <li class=\"nav-item\">\n              <a
+        class=\"nav-link\" href=\"/news/\">News</a>\n            </li>\n            \n
+        \           <li class=\"nav-item\">\n              <a class=\"nav-link\" href=\"/security/\">Security</a>\n
+        \           </li>\n            \n            <li class=\"nav-item\">\n              <a
+        class=\"nav-link\" href=\"/support/\">Support</a>\n            </li>\n            \n
+        \           <li class=\"nav-item\">\n              <a class=\"nav-link\" href=\"/docs/\">Docs</a>\n
+        \           </li>\n            \n            <li class=\"nav-item\">\n              <a
+        class=\"nav-link\" href=\"/try/\">Try</a>\n            </li>\n            \n
+        \           <li class=\"nav-item\">\n              <a class=\"nav-link\" href=\"/contribute/\">Contribute</a>\n
+        \           </li>\n            \n            <li class=\"nav-item\">\n              <a
+        class=\"nav-link\" href=\"/sponsors/\">Sponsors</a>\n            </li>\n            \n
+        \           <li class=\"nav-item\">\n              <a class=\"nav-link\" href=\"/themes/\">Themes</a>\n
+        \           </li>\n            \n            <li class=\"nav-item\">\n              <a
+        class=\"nav-link\" href=\"/downloads/\">Download</a>\n            </li>\n
+        \           \n          </ul>\n          <ul class=\"navbar-nav mr-0\">\n
+        \           <li class=\"nav-item\">\n              <a class=\"nav-link\" href=\"https://github.com/phpmyadmin/phpmyadmin\"
+        title=\"phpMyAdmin is developed on GitHub\"><i class=\"fa fa-github\"></i>
+        GitHub</a>\n            </li>\n          </ul>\n        </div>\n      </div>\n
+        \   </nav>\n\n  <div class=\"container mt-4\">\n  <div class=\"row\">\n  <div
+        class=\"col-sm-9\">\n    <h1><a href=\"/\" rel=\"home\"><span id=\"logo\">phpMyAdmin</span></a>
+        <span class=\"hidden-sm hidden-xs\">Bringing MySQL to the web</span></h1>\n
+        \ </div>\n  <div class=\"col-sm-3 boxes\">\n    \n    \n    \n    <a class=\"btn
+        btn-success download_popup\" href=\"https://files.phpmyadmin.net/phpMyAdmin/5.1.0/phpMyAdmin-5.1.0-all-languages.zip\"
+        title=\"Download zip compressed release, 14.4\_MB\" rel=\"quick-download\"
+        data-sha256=\"2f29fbfc8884c42290f950b077e0a8af2766507f959f30caef0edaa5fd3e04b9\"
+        data-pgp=\"https://files.phpmyadmin.net/phpMyAdmin/5.1.0/phpMyAdmin-5.1.0-all-languages.zip.asc\"><i
+        class=\"fa fa-download\"></i> Download 5.1.0</a>\n\n\n\n\n\n\n    <a class=\"btn
+        btn-success\" href=\"https://demo.phpmyadmin.net/master-config/\" title=\"Go
+        to demo server\"><i class=\"fa fa-search\"></i> Try demo</a>\n\n    <a class=\"btn
+        btn-success\" href=\"/donate/\" rel=\"payment\"><i class=\"fa fa-credit-card\"></i>
+        Donate</a>\n\n    \n    </div>\n  </div>\n  </div>\n  </header>\n\n  <content>\n<div
+        class=\"container\">\n  \n\n<p>Archive of phpMyAdmin releases, you can find
+        currently supported versions <a href=\"/downloads/\">on downloads page</a>.</p>\n\n<table
+        class=\"table table-condensed table-striped\"> \n<thead>\n<tr>\n    <th>Release</th>\n
+        \   <th>Date</th>\n    <th>Quick download</th>\n    <th>Size</th>\n    <th>Verification</th>\n</tr>\n</thead>\n<tbody>\n\n<tr>\n
+        \   <th><a href=\"/files/5.1.0/\">5.1.0</a></th>\n    <td>2021-02-24</td>\n\n\n
+        \   <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.1.0/phpMyAdmin-5.1.0-all-languages.zip\">phpMyAdmin-5.1.0-all-languages.zip</a></td>\n
+        \       <td class=\"size\">14.4\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/5.1.0/phpMyAdmin-5.1.0-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.1.0/phpMyAdmin-5.1.0-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/5.1.0-rc2/\">5.1.0-rc2</a></th>\n
+        \   <td>2021-02-10</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.1.0-rc2/phpMyAdmin-5.1.0-rc2-all-languages.zip\">phpMyAdmin-5.1.0-rc2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">82.5\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/5.1.0-rc2/phpMyAdmin-5.1.0-rc2-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.1.0-rc2/phpMyAdmin-5.1.0-rc2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/5.1.0-rc1/\">5.1.0-rc1</a></th>\n
+        \   <td>2020-12-18</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.1.0-rc1/phpMyAdmin-5.1.0-rc1-all-languages.zip\">phpMyAdmin-5.1.0-rc1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">15.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/5.1.0-rc1/phpMyAdmin-5.1.0-rc1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.1.0-rc1/phpMyAdmin-5.1.0-rc1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/5.0.4/\">5.0.4</a></th>\n
+        \   <td>2020-10-15</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.zip\">phpMyAdmin-5.0.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">13.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/5.0.3/\">5.0.3</a></th>\n
+        \   <td>2020-10-10</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.3/phpMyAdmin-5.0.3-all-languages.zip\">phpMyAdmin-5.0.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">12.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.3/phpMyAdmin-5.0.3-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.3/phpMyAdmin-5.0.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/5.0.2/\">5.0.2</a></th>\n
+        \   <td>2020-03-21</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.2/phpMyAdmin-5.0.2-all-languages.zip\">phpMyAdmin-5.0.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">13.5\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.2/phpMyAdmin-5.0.2-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.2/phpMyAdmin-5.0.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/5.0.1/\">5.0.1</a></th>\n
+        \   <td>2020-01-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.1/phpMyAdmin-5.0.1-all-languages.zip\">phpMyAdmin-5.0.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">13.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.1/phpMyAdmin-5.0.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.1/phpMyAdmin-5.0.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/5.0.0/\">5.0.0</a></th>\n
+        \   <td>2019-12-26</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.0/phpMyAdmin-5.0.0-all-languages.zip\">phpMyAdmin-5.0.0-all-languages.zip</a></td>\n
+        \       <td class=\"size\">13.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.0/phpMyAdmin-5.0.0-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.0/phpMyAdmin-5.0.0-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/5.0.0-rc1/\">5.0.0-rc1</a></th>\n
+        \   <td>2019-11-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.0-rc1/phpMyAdmin-5.0.0-rc1-all-languages.zip\">phpMyAdmin-5.0.0-rc1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">13.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.0-rc1/phpMyAdmin-5.0.0-rc1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.0-rc1/phpMyAdmin-5.0.0-rc1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/5.0.0-alpha1/\">5.0.0-alpha1</a></th>\n
+        \   <td>2019-07-09</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.0-alpha1/phpMyAdmin-5.0.0-alpha1-all-languages.zip\">phpMyAdmin-5.0.0-alpha1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">14.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.0-alpha1/phpMyAdmin-5.0.0-alpha1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/5.0.0-alpha1/phpMyAdmin-5.0.0-alpha1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.9.7/\">4.9.7</a></th>\n
+        \   <td>2020-10-15</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.7/phpMyAdmin-4.9.7-all-languages.zip\">phpMyAdmin-4.9.7-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.7/phpMyAdmin-4.9.7-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.7/phpMyAdmin-4.9.7-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.9.6/\">4.9.6</a></th>\n
+        \   <td>2020-10-10</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.6/phpMyAdmin-4.9.6-all-languages.zip\">phpMyAdmin-4.9.6-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.4\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.6/phpMyAdmin-4.9.6-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.6/phpMyAdmin-4.9.6-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.9.5/\">4.9.5</a></th>\n
+        \   <td>2020-03-21</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.zip\">phpMyAdmin-4.9.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.9.4/\">4.9.4</a></th>\n
+        \   <td>2020-01-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.4/phpMyAdmin-4.9.4-all-languages.zip\">phpMyAdmin-4.9.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.4/phpMyAdmin-4.9.4-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.4/phpMyAdmin-4.9.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.9.3/\">4.9.3</a></th>\n
+        \   <td>2019-12-26</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.3/phpMyAdmin-4.9.3-all-languages.zip\">phpMyAdmin-4.9.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.3/phpMyAdmin-4.9.3-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.3/phpMyAdmin-4.9.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.9.2/\">4.9.2</a></th>\n
+        \   <td>2019-11-22</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.2/phpMyAdmin-4.9.2-all-languages.zip\">phpMyAdmin-4.9.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.2/phpMyAdmin-4.9.2-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.2/phpMyAdmin-4.9.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.9.1/\">4.9.1</a></th>\n
+        \   <td>2019-09-21</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.1/phpMyAdmin-4.9.1-all-languages.zip\">phpMyAdmin-4.9.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.1/phpMyAdmin-4.9.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.1/phpMyAdmin-4.9.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.9.0.1/\">4.9.0.1</a></th>\n
+        \   <td>2019-06-04</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.0.1/phpMyAdmin-4.9.0.1-all-languages.zip\">phpMyAdmin-4.9.0.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.5\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.0.1/phpMyAdmin-4.9.0.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.0.1/phpMyAdmin-4.9.0.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.9.0/\">4.9.0</a></th>\n
+        \   <td>2019-06-04</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.0/phpMyAdmin-4.9.0-all-languages.zip\">phpMyAdmin-4.9.0-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.5\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.0/phpMyAdmin-4.9.0-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.9.0/phpMyAdmin-4.9.0-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.8.5/\">4.8.5</a></th>\n
+        \   <td>2019-01-26</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.5/phpMyAdmin-4.8.5-all-languages.zip\">phpMyAdmin-4.8.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.3\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.5/phpMyAdmin-4.8.5-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.5/phpMyAdmin-4.8.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.8.4/\">4.8.4</a></th>\n
+        \   <td>2018-12-11</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.4/phpMyAdmin-4.8.4-all-languages.zip\">phpMyAdmin-4.8.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.3\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.4/phpMyAdmin-4.8.4-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.4/phpMyAdmin-4.8.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.8.3/\">4.8.3</a></th>\n
+        \   <td>2018-08-22</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.3/phpMyAdmin-4.8.3-all-languages.zip\">phpMyAdmin-4.8.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.3/phpMyAdmin-4.8.3-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.3/phpMyAdmin-4.8.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.8.2/\">4.8.2</a></th>\n
+        \   <td>2018-06-21</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.2/phpMyAdmin-4.8.2-all-languages.zip\">phpMyAdmin-4.8.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.2/phpMyAdmin-4.8.2-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.2/phpMyAdmin-4.8.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.8.1/\">4.8.1</a></th>\n
+        \   <td>2018-05-25</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.1/phpMyAdmin-4.8.1-all-languages.zip\">phpMyAdmin-4.8.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.1/phpMyAdmin-4.8.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.1/phpMyAdmin-4.8.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.8.0.1/\">4.8.0.1</a></th>\n
+        \   <td>2018-04-19</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.0.1/phpMyAdmin-4.8.0.1-all-languages.zip\">phpMyAdmin-4.8.0.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.0.1/phpMyAdmin-4.8.0.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.0.1/phpMyAdmin-4.8.0.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.8.0/\">4.8.0</a></th>\n
+        \   <td>2018-04-07</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.0/phpMyAdmin-4.8.0-all-languages.zip\">phpMyAdmin-4.8.0-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.0/phpMyAdmin-4.8.0-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.0/phpMyAdmin-4.8.0-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.8.0-rc1/\">4.8.0-rc1</a></th>\n
+        \   <td>2018-03-27</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.0-rc1/phpMyAdmin-4.8.0-rc1-all-languages.zip\">phpMyAdmin-4.8.0-rc1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.0-rc1/phpMyAdmin-4.8.0-rc1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.0-rc1/phpMyAdmin-4.8.0-rc1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.8.0-alpha1/\">4.8.0-alpha1</a></th>\n
+        \   <td>2018-02-27</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.0-alpha1/phpMyAdmin-4.8.0-alpha1-all-languages.zip\">phpMyAdmin-4.8.0-alpha1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.0-alpha1/phpMyAdmin-4.8.0-alpha1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.8.0-alpha1/phpMyAdmin-4.8.0-alpha1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.7.9/\">4.7.9</a></th>\n
+        \   <td>2018-03-05</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.9/phpMyAdmin-4.7.9-all-languages.zip\">phpMyAdmin-4.7.9-all-languages.zip</a></td>\n
+        \       <td class=\"size\">11.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.9/phpMyAdmin-4.7.9-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.9/phpMyAdmin-4.7.9-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.7.8/\">4.7.8</a></th>\n
+        \   <td>2018-02-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.8/phpMyAdmin-4.7.8-all-languages.zip\">phpMyAdmin-4.7.8-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.8/phpMyAdmin-4.7.8-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.8/phpMyAdmin-4.7.8-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.7.7/\">4.7.7</a></th>\n
+        \   <td>2017-12-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.7/phpMyAdmin-4.7.7-all-languages.zip\">phpMyAdmin-4.7.7-all-languages.zip</a></td>\n
+        \       <td class=\"size\">11.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.7/phpMyAdmin-4.7.7-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.7/phpMyAdmin-4.7.7-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.7.6/\">4.7.6</a></th>\n
+        \   <td>2017-12-01</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.6/phpMyAdmin-4.7.6-all-languages.zip\">phpMyAdmin-4.7.6-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.6/phpMyAdmin-4.7.6-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.6/phpMyAdmin-4.7.6-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.7.5/\">4.7.5</a></th>\n
+        \   <td>2017-10-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.5/phpMyAdmin-4.7.5-all-languages.zip\">phpMyAdmin-4.7.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.5/phpMyAdmin-4.7.5-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.5/phpMyAdmin-4.7.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.7.4/\">4.7.4</a></th>\n
+        \   <td>2017-08-24</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.4/phpMyAdmin-4.7.4-all-languages.zip\">phpMyAdmin-4.7.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.4/phpMyAdmin-4.7.4-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.4/phpMyAdmin-4.7.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.7.3/\">4.7.3</a></th>\n
+        \   <td>2017-07-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.3/phpMyAdmin-4.7.3-all-languages.zip\">phpMyAdmin-4.7.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.3/phpMyAdmin-4.7.3-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.3/phpMyAdmin-4.7.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.7.2/\">4.7.2</a></th>\n
+        \   <td>2017-06-29</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.2/phpMyAdmin-4.7.2-all-languages.zip\">phpMyAdmin-4.7.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.5\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.2/phpMyAdmin-4.7.2-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.2/phpMyAdmin-4.7.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.7.1/\">4.7.1</a></th>\n
+        \   <td>2017-05-26</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.1/phpMyAdmin-4.7.1-all-languages.zip\">phpMyAdmin-4.7.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.3\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.1/phpMyAdmin-4.7.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.1/phpMyAdmin-4.7.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.7.0/\">4.7.0</a></th>\n
+        \   <td>2017-03-29</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.0/phpMyAdmin-4.7.0-all-languages.zip\">phpMyAdmin-4.7.0-all-languages.zip</a></td>\n
+        \       <td class=\"size\">13.5\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.0/phpMyAdmin-4.7.0-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.0/phpMyAdmin-4.7.0-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.7.0-rc1/\">4.7.0-rc1</a></th>\n
+        \   <td>2017-03-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.0-rc1/phpMyAdmin-4.7.0-rc1-all-languages.zip\">phpMyAdmin-4.7.0-rc1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">13.5\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.0-rc1/phpMyAdmin-4.7.0-rc1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.0-rc1/phpMyAdmin-4.7.0-rc1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.7.0-beta1/\">4.7.0-beta1</a></th>\n
+        \   <td>2017-01-26</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.0-beta1/phpMyAdmin-4.7.0-beta1-all-languages.zip\">phpMyAdmin-4.7.0-beta1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.0-beta1/phpMyAdmin-4.7.0-beta1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.7.0-beta1/phpMyAdmin-4.7.0-beta1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.6.6/\">4.6.6</a></th>\n
+        \   <td>2017-01-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.6/phpMyAdmin-4.6.6-all-languages.zip\">phpMyAdmin-4.6.6-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.6/phpMyAdmin-4.6.6-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.6/phpMyAdmin-4.6.6-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.6.5.2/\">4.6.5.2</a></th>\n
+        \   <td>2016-12-05</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.5.2/phpMyAdmin-4.6.5.2-all-languages.zip\">phpMyAdmin-4.6.5.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.5.2/phpMyAdmin-4.6.5.2-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.5.2/phpMyAdmin-4.6.5.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.6.5.1/\">4.6.5.1</a></th>\n
+        \   <td>2016-11-26</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.5.1/phpMyAdmin-4.6.5.1-all-languages.zip\">phpMyAdmin-4.6.5.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.5.1/phpMyAdmin-4.6.5.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.5.1/phpMyAdmin-4.6.5.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.6.5/\">4.6.5</a></th>\n
+        \   <td>2016-11-25</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.5/phpMyAdmin-4.6.5-all-languages.zip\">phpMyAdmin-4.6.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.5/phpMyAdmin-4.6.5-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.5/phpMyAdmin-4.6.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.6.4/\">4.6.4</a></th>\n
+        \   <td>2016-08-16</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.4/phpMyAdmin-4.6.4-all-languages.zip\">phpMyAdmin-4.6.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.4/phpMyAdmin-4.6.4-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.4/phpMyAdmin-4.6.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.6.3/\">4.6.3</a></th>\n
+        \   <td>2016-06-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.3/phpMyAdmin-4.6.3-all-languages.zip\">phpMyAdmin-4.6.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.3/phpMyAdmin-4.6.3-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.3/phpMyAdmin-4.6.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.6.2/\">4.6.2</a></th>\n
+        \   <td>2016-05-25</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.2/phpMyAdmin-4.6.2-all-languages.zip\">phpMyAdmin-4.6.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.2/phpMyAdmin-4.6.2-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.2/phpMyAdmin-4.6.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.6.1/\">4.6.1</a></th>\n
+        \   <td>2016-05-03</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.1/phpMyAdmin-4.6.1-all-languages.zip\">phpMyAdmin-4.6.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.1/phpMyAdmin-4.6.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.1/phpMyAdmin-4.6.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.6.0/\">4.6.0</a></th>\n
+        \   <td>2016-03-22</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.0/phpMyAdmin-4.6.0-all-languages.zip\">phpMyAdmin-4.6.0-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.0/phpMyAdmin-4.6.0-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.0/phpMyAdmin-4.6.0-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.6.0-rc2/\">4.6.0-rc2</a></th>\n
+        \   <td>2016-03-01</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.0-rc2/phpMyAdmin-4.6.0-rc2-all-languages.zip\">phpMyAdmin-4.6.0-rc2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.0-rc2/phpMyAdmin-4.6.0-rc2-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.0-rc2/phpMyAdmin-4.6.0-rc2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.6.0-rc1/\">4.6.0-rc1</a></th>\n
+        \   <td>2016-02-29</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.0-rc1/phpMyAdmin-4.6.0-rc1-all-languages.zip\">phpMyAdmin-4.6.0-rc1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.0-rc1/phpMyAdmin-4.6.0-rc1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.0-rc1/phpMyAdmin-4.6.0-rc1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.6.0-alpha1/\">4.6.0-alpha1</a></th>\n
+        \   <td>2016-02-10</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.0-alpha1/phpMyAdmin-4.6.0-alpha1-all-languages.zip\">phpMyAdmin-4.6.0-alpha1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.0-alpha1/phpMyAdmin-4.6.0-alpha1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.6.0-alpha1/phpMyAdmin-4.6.0-alpha1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.5.5.1/\">4.5.5.1</a></th>\n
+        \   <td>2016-02-29</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.5.1/phpMyAdmin-4.5.5.1-all-languages.zip\">phpMyAdmin-4.5.5.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.5\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.5.1/phpMyAdmin-4.5.5.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.5.1/phpMyAdmin-4.5.5.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.5.5/\">4.5.5</a></th>\n
+        \   <td>2016-02-22</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.5/phpMyAdmin-4.5.5-all-languages.zip\">phpMyAdmin-4.5.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.5/phpMyAdmin-4.5.5-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.5/phpMyAdmin-4.5.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.5.4.1/\">4.5.4.1</a></th>\n
+        \   <td>2016-01-29</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.4.1/phpMyAdmin-4.5.4.1-all-languages.zip\">phpMyAdmin-4.5.4.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.4.1/phpMyAdmin-4.5.4.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.4.1/phpMyAdmin-4.5.4.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.5.4/\">4.5.4</a></th>\n
+        \   <td>2016-01-28</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.4/phpMyAdmin-4.5.4-all-languages.zip\">phpMyAdmin-4.5.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.4/phpMyAdmin-4.5.4-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.4/phpMyAdmin-4.5.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.5.3.1/\">4.5.3.1</a></th>\n
+        \   <td>2015-12-25</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.3.1/phpMyAdmin-4.5.3.1-all-languages.zip\">phpMyAdmin-4.5.3.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.3.1/phpMyAdmin-4.5.3.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.3.1/phpMyAdmin-4.5.3.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.5.3/\">4.5.3</a></th>\n
+        \   <td>2015-12-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.3/phpMyAdmin-4.5.3-all-languages.zip\">phpMyAdmin-4.5.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.3/phpMyAdmin-4.5.3-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.3/phpMyAdmin-4.5.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.5.2/\">4.5.2</a></th>\n
+        \   <td>2015-11-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.2/phpMyAdmin-4.5.2-all-languages.zip\">phpMyAdmin-4.5.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.2/phpMyAdmin-4.5.2-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.2/phpMyAdmin-4.5.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.5.1/\">4.5.1</a></th>\n
+        \   <td>2015-10-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.1/phpMyAdmin-4.5.1-all-languages.zip\">phpMyAdmin-4.5.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.1/phpMyAdmin-4.5.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.1/phpMyAdmin-4.5.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.5.0.2/\">4.5.0.2</a></th>\n
+        \   <td>2015-09-25</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.0.2/phpMyAdmin-4.5.0.2-all-languages.zip\">phpMyAdmin-4.5.0.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.0.2/phpMyAdmin-4.5.0.2-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.0.2/phpMyAdmin-4.5.0.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.5.0.1/\">4.5.0.1</a></th>\n
+        \   <td>2015-09-24</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.0.1/phpMyAdmin-4.5.0.1-all-languages.zip\">phpMyAdmin-4.5.0.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.0.1/phpMyAdmin-4.5.0.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.0.1/phpMyAdmin-4.5.0.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.5.0/\">4.5.0</a></th>\n
+        \   <td>2015-09-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.0/phpMyAdmin-4.5.0-all-languages.zip\">phpMyAdmin-4.5.0-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.0/phpMyAdmin-4.5.0-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.5.0/phpMyAdmin-4.5.0-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.15.10/\">4.4.15.10</a></th>\n
+        \   <td>2017-01-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.10/phpMyAdmin-4.4.15.10-all-languages.zip\">phpMyAdmin-4.4.15.10-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.10/phpMyAdmin-4.4.15.10-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.10/phpMyAdmin-4.4.15.10-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.15.9/\">4.4.15.9</a></th>\n
+        \   <td>2016-11-25</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.9/phpMyAdmin-4.4.15.9-all-languages.zip\">phpMyAdmin-4.4.15.9-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.9/phpMyAdmin-4.4.15.9-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.9/phpMyAdmin-4.4.15.9-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.15.8/\">4.4.15.8</a></th>\n
+        \   <td>2016-08-16</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.8/phpMyAdmin-4.4.15.8-all-languages.zip\">phpMyAdmin-4.4.15.8-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.8/phpMyAdmin-4.4.15.8-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.8/phpMyAdmin-4.4.15.8-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.15.7/\">4.4.15.7</a></th>\n
+        \   <td>2016-06-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.7/phpMyAdmin-4.4.15.7-all-languages.zip\">phpMyAdmin-4.4.15.7-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.7/phpMyAdmin-4.4.15.7-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.7/phpMyAdmin-4.4.15.7-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.15.6/\">4.4.15.6</a></th>\n
+        \   <td>2016-05-25</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.6/phpMyAdmin-4.4.15.6-all-languages.zip\">phpMyAdmin-4.4.15.6-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.6/phpMyAdmin-4.4.15.6-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.6/phpMyAdmin-4.4.15.6-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.15.5/\">4.4.15.5</a></th>\n
+        \   <td>2016-02-29</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.5/phpMyAdmin-4.4.15.5-all-languages.zip\">phpMyAdmin-4.4.15.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">10.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.5/phpMyAdmin-4.4.15.5-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.5/phpMyAdmin-4.4.15.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.15.4/\">4.4.15.4</a></th>\n
+        \   <td>2016-01-29</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.4/phpMyAdmin-4.4.15.4-all-languages.zip\">phpMyAdmin-4.4.15.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.4/phpMyAdmin-4.4.15.4-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.4/phpMyAdmin-4.4.15.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.15.3/\">4.4.15.3</a></th>\n
+        \   <td>2016-01-28</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.3/phpMyAdmin-4.4.15.3-all-languages.zip\">phpMyAdmin-4.4.15.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.3/phpMyAdmin-4.4.15.3-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.3/phpMyAdmin-4.4.15.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.15.2/\">4.4.15.2</a></th>\n
+        \   <td>2015-12-25</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.2/phpMyAdmin-4.4.15.2-all-languages.zip\">phpMyAdmin-4.4.15.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.2/phpMyAdmin-4.4.15.2-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.2/phpMyAdmin-4.4.15.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.15.1/\">4.4.15.1</a></th>\n
+        \   <td>2015-10-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.1/phpMyAdmin-4.4.15.1-all-languages.zip\">phpMyAdmin-4.4.15.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.1/phpMyAdmin-4.4.15.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15.1/phpMyAdmin-4.4.15.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.15/\">4.4.15</a></th>\n
+        \   <td>2015-09-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15/phpMyAdmin-4.4.15-all-languages.zip\">phpMyAdmin-4.4.15-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15/phpMyAdmin-4.4.15-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.15/phpMyAdmin-4.4.15-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.14.1/\">4.4.14.1</a></th>\n
+        \   <td>2015-09-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.14.1/phpMyAdmin-4.4.14.1-all-languages.zip\">phpMyAdmin-4.4.14.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.14.1/phpMyAdmin-4.4.14.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.14.1/phpMyAdmin-4.4.14.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.14/\">4.4.14</a></th>\n
+        \   <td>2015-08-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.14/phpMyAdmin-4.4.14-all-languages.zip\">phpMyAdmin-4.4.14-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.14/phpMyAdmin-4.4.14-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.14/phpMyAdmin-4.4.14-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.13.1/\">4.4.13.1</a></th>\n
+        \   <td>2015-08-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.13.1/phpMyAdmin-4.4.13.1-all-languages.zip\">phpMyAdmin-4.4.13.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.13.1/phpMyAdmin-4.4.13.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.13.1/phpMyAdmin-4.4.13.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.13/\">4.4.13</a></th>\n
+        \   <td>2015-08-07</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.13/phpMyAdmin-4.4.13-all-languages.zip\">phpMyAdmin-4.4.13-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.13/phpMyAdmin-4.4.13-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.13/phpMyAdmin-4.4.13-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.12/\">4.4.12</a></th>\n
+        \   <td>2015-07-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.12/phpMyAdmin-4.4.12-all-languages.zip\">phpMyAdmin-4.4.12-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.5\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.12/phpMyAdmin-4.4.12-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.12/phpMyAdmin-4.4.12-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.11/\">4.4.11</a></th>\n
+        \   <td>2015-07-06</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.11/phpMyAdmin-4.4.11-all-languages.zip\">phpMyAdmin-4.4.11-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.5\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.11/phpMyAdmin-4.4.11-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.11/phpMyAdmin-4.4.11-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.10/\">4.4.10</a></th>\n
+        \   <td>2015-06-17</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.10/phpMyAdmin-4.4.10-all-languages.zip\">phpMyAdmin-4.4.10-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.5\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.10/phpMyAdmin-4.4.10-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.10/phpMyAdmin-4.4.10-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.9/\">4.4.9</a></th>\n
+        \   <td>2015-06-04</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.9/phpMyAdmin-4.4.9-all-languages.zip\">phpMyAdmin-4.4.9-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.5\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.9/phpMyAdmin-4.4.9-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.8/\">4.4.8</a></th>\n
+        \   <td>2015-05-28</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.8/phpMyAdmin-4.4.8-all-languages.zip\">phpMyAdmin-4.4.8-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.8/phpMyAdmin-4.4.8-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.7/\">4.4.7</a></th>\n
+        \   <td>2015-05-16</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.7/phpMyAdmin-4.4.7-all-languages.zip\">phpMyAdmin-4.4.7-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.5\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.7/phpMyAdmin-4.4.7-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.6.1/\">4.4.6.1</a></th>\n
+        \   <td>2015-05-13</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.6.1/phpMyAdmin-4.4.6.1-all-languages.zip\">phpMyAdmin-4.4.6.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.6.1/phpMyAdmin-4.4.6.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.6/\">4.4.6</a></th>\n
+        \   <td>2015-05-07</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.6/phpMyAdmin-4.4.6-all-languages.zip\">phpMyAdmin-4.4.6-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.6/phpMyAdmin-4.4.6-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.5/\">4.4.5</a></th>\n
+        \   <td>2015-05-05</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.5/phpMyAdmin-4.4.5-all-languages.zip\">phpMyAdmin-4.4.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.5/phpMyAdmin-4.4.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.4/\">4.4.4</a></th>\n
+        \   <td>2015-04-26</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.4/phpMyAdmin-4.4.4-all-languages.zip\">phpMyAdmin-4.4.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.5\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.4/phpMyAdmin-4.4.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.3/\">4.4.3</a></th>\n
+        \   <td>2015-04-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.3/phpMyAdmin-4.4.3-all-languages.zip\">phpMyAdmin-4.4.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.3/phpMyAdmin-4.4.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.2/\">4.4.2</a></th>\n
+        \   <td>2015-04-13</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.2/phpMyAdmin-4.4.2-all-languages.zip\">phpMyAdmin-4.4.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.2/phpMyAdmin-4.4.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.1.1/\">4.4.1.1</a></th>\n
+        \   <td>2015-04-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.1.1/phpMyAdmin-4.4.1.1-all-languages.zip\">phpMyAdmin-4.4.1.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.1.1/phpMyAdmin-4.4.1.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.1/\">4.4.1</a></th>\n
+        \   <td>2015-04-07</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.1/phpMyAdmin-4.4.1-all-languages.zip\">phpMyAdmin-4.4.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.1/phpMyAdmin-4.4.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.4.0/\">4.4.0</a></th>\n
+        \   <td>2015-04-01</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.0/phpMyAdmin-4.4.0-all-languages.zip\">phpMyAdmin-4.4.0-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.4.0/phpMyAdmin-4.4.0-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.13.3/\">4.3.13.3</a></th>\n
+        \   <td>2015-09-09</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.13.3/phpMyAdmin-4.3.13.3-all-languages.zip\">phpMyAdmin-4.3.13.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.13.3/phpMyAdmin-4.3.13.3-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.13.3/phpMyAdmin-4.3.13.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.13.2/\">4.3.13.2</a></th>\n
+        \   <td>2015-09-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.13.2/phpMyAdmin-4.3.13.2-all-languages.zip\">phpMyAdmin-4.3.13.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.13.2/phpMyAdmin-4.3.13.2-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.13.2/phpMyAdmin-4.3.13.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.13.1/\">4.3.13.1</a></th>\n
+        \   <td>2015-05-13</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.13.1/phpMyAdmin-4.3.13.1-all-languages.zip\">phpMyAdmin-4.3.13.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.13.1/phpMyAdmin-4.3.13.1-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.13.1/phpMyAdmin-4.3.13.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.13/\">4.3.13</a></th>\n
+        \   <td>2015-03-29</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.13/phpMyAdmin-4.3.13-all-languages.zip\">phpMyAdmin-4.3.13-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.13/phpMyAdmin-4.3.13-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.12/\">4.3.12</a></th>\n
+        \   <td>2015-03-14</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.12/phpMyAdmin-4.3.12-all-languages.zip\">phpMyAdmin-4.3.12-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.12/phpMyAdmin-4.3.12-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.11.1/\">4.3.11.1</a></th>\n
+        \   <td>2015-03-04</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.11.1/phpMyAdmin-4.3.11.1-all-languages.zip\">phpMyAdmin-4.3.11.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.11.1/phpMyAdmin-4.3.11.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.11/\">4.3.11</a></th>\n
+        \   <td>2015-03-02</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.11/phpMyAdmin-4.3.11-all-languages.zip\">phpMyAdmin-4.3.11-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.11/phpMyAdmin-4.3.11-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.10/\">4.3.10</a></th>\n
+        \   <td>2015-02-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.10/phpMyAdmin-4.3.10-all-languages.zip\">phpMyAdmin-4.3.10-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.10/phpMyAdmin-4.3.10-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.9/\">4.3.9</a></th>\n
+        \   <td>2015-02-05</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.9/phpMyAdmin-4.3.9-all-languages.zip\">phpMyAdmin-4.3.9-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.9/phpMyAdmin-4.3.9-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.8/\">4.3.8</a></th>\n
+        \   <td>2015-01-24</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.8/phpMyAdmin-4.3.8-all-languages.zip\">phpMyAdmin-4.3.8-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.8/phpMyAdmin-4.3.8-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.7/\">4.3.7</a></th>\n
+        \   <td>2015-01-15</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.7/phpMyAdmin-4.3.7-all-languages.zip\">phpMyAdmin-4.3.7-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.7/phpMyAdmin-4.3.7-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.6/\">4.3.6</a></th>\n
+        \   <td>2015-01-07</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.6/phpMyAdmin-4.3.6-all-languages.zip\">phpMyAdmin-4.3.6-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.6/phpMyAdmin-4.3.6-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.5/\">4.3.5</a></th>\n
+        \   <td>2015-01-05</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.5/phpMyAdmin-4.3.5-all-languages.zip\">phpMyAdmin-4.3.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.5/phpMyAdmin-4.3.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.4/\">4.3.4</a></th>\n
+        \   <td>2014-12-29</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.4/phpMyAdmin-4.3.4-all-languages.zip\">phpMyAdmin-4.3.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.4/phpMyAdmin-4.3.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.3/\">4.3.3</a></th>\n
+        \   <td>2014-12-21</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.3/phpMyAdmin-4.3.3-all-languages.zip\">phpMyAdmin-4.3.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.3/phpMyAdmin-4.3.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.2/\">4.3.2</a></th>\n
+        \   <td>2014-12-12</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.2/phpMyAdmin-4.3.2-all-languages.zip\">phpMyAdmin-4.3.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.2/phpMyAdmin-4.3.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.1/\">4.3.1</a></th>\n
+        \   <td>2014-12-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.1/phpMyAdmin-4.3.1-all-languages.zip\">phpMyAdmin-4.3.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.1/phpMyAdmin-4.3.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.3.0/\">4.3.0</a></th>\n
+        \   <td>2014-12-05</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.0/phpMyAdmin-4.3.0-all-languages.zip\">phpMyAdmin-4.3.0-all-languages.zip</a></td>\n
+        \       <td class=\"size\">9.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.3.0/phpMyAdmin-4.3.0-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.13.3/\">4.2.13.3</a></th>\n
+        \   <td>2015-05-13</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.13.3/phpMyAdmin-4.2.13.3-all-languages.zip\">phpMyAdmin-4.2.13.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.13.3/phpMyAdmin-4.2.13.3-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.13.3/phpMyAdmin-4.2.13.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.13.2/\">4.2.13.2</a></th>\n
+        \   <td>2015-03-04</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.13.2/phpMyAdmin-4.2.13.2-all-languages.zip\">phpMyAdmin-4.2.13.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.13.2/phpMyAdmin-4.2.13.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.13.1/\">4.2.13.1</a></th>\n
+        \   <td>2014-12-03</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.13.1/phpMyAdmin-4.2.13.1-all-languages.zip\">phpMyAdmin-4.2.13.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.13.1/phpMyAdmin-4.2.13.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.13/\">4.2.13</a></th>\n
+        \   <td>2014-11-30</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.13/phpMyAdmin-4.2.13-all-languages.zip\">phpMyAdmin-4.2.13-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.13/phpMyAdmin-4.2.13-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.12/\">4.2.12</a></th>\n
+        \   <td>2014-11-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.12/phpMyAdmin-4.2.12-all-languages.zip\">phpMyAdmin-4.2.12-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.12/phpMyAdmin-4.2.12-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.11/\">4.2.11</a></th>\n
+        \   <td>2014-10-31</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.11/phpMyAdmin-4.2.11-all-languages.zip\">phpMyAdmin-4.2.11-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.11/phpMyAdmin-4.2.11-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.10.1/\">4.2.10.1</a></th>\n
+        \   <td>2014-10-21</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.10.1/phpMyAdmin-4.2.10.1-all-languages.zip\">phpMyAdmin-4.2.10.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.10.1/phpMyAdmin-4.2.10.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.10/\">4.2.10</a></th>\n
+        \   <td>2014-10-11</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.10/phpMyAdmin-4.2.10-all-languages.zip\">phpMyAdmin-4.2.10-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.10/phpMyAdmin-4.2.10-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.9.1/\">4.2.9.1</a></th>\n
+        \   <td>2014-10-01</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.9.1/phpMyAdmin-4.2.9.1-all-languages.zip\">phpMyAdmin-4.2.9.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.9.1/phpMyAdmin-4.2.9.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.9/\">4.2.9</a></th>\n
+        \   <td>2014-09-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.9/phpMyAdmin-4.2.9-all-languages.zip\">phpMyAdmin-4.2.9-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.9/phpMyAdmin-4.2.9-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.8.1/\">4.2.8.1</a></th>\n
+        \   <td>2014-09-13</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.8.1/phpMyAdmin-4.2.8.1-all-languages.zip\">phpMyAdmin-4.2.8.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.8.1/phpMyAdmin-4.2.8.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.8/\">4.2.8</a></th>\n
+        \   <td>2014-08-31</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.8/phpMyAdmin-4.2.8-all-languages.zip\">phpMyAdmin-4.2.8-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.8/phpMyAdmin-4.2.8-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.7.1/\">4.2.7.1</a></th>\n
+        \   <td>2014-08-17</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.7.1/phpMyAdmin-4.2.7.1-all-languages.zip\">phpMyAdmin-4.2.7.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.7.1/phpMyAdmin-4.2.7.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.7/\">4.2.7</a></th>\n
+        \   <td>2014-07-31</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.7/phpMyAdmin-4.2.7-all-languages.zip\">phpMyAdmin-4.2.7-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.7/phpMyAdmin-4.2.7-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.6/\">4.2.6</a></th>\n
+        \   <td>2014-07-17</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.6/phpMyAdmin-4.2.6-all-languages.zip\">phpMyAdmin-4.2.6-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.6/phpMyAdmin-4.2.6-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.5/\">4.2.5</a></th>\n
+        \   <td>2014-06-26</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.5/phpMyAdmin-4.2.5-all-languages.zip\">phpMyAdmin-4.2.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.5/phpMyAdmin-4.2.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.4/\">4.2.4</a></th>\n
+        \   <td>2014-06-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.4/phpMyAdmin-4.2.4-all-languages.zip\">phpMyAdmin-4.2.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.4/phpMyAdmin-4.2.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.3/\">4.2.3</a></th>\n
+        \   <td>2014-06-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.3/phpMyAdmin-4.2.3-all-languages.zip\">phpMyAdmin-4.2.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.3/phpMyAdmin-4.2.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.2/\">4.2.2</a></th>\n
+        \   <td>2014-05-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.2/phpMyAdmin-4.2.2-all-languages.zip\">phpMyAdmin-4.2.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.2/phpMyAdmin-4.2.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.1/\">4.2.1</a></th>\n
+        \   <td>2014-05-13</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.1/phpMyAdmin-4.2.1-all-languages.zip\">phpMyAdmin-4.2.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.1/phpMyAdmin-4.2.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.2.0/\">4.2.0</a></th>\n
+        \   <td>2014-05-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.0/phpMyAdmin-4.2.0-all-languages.zip\">phpMyAdmin-4.2.0-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.2.0/phpMyAdmin-4.2.0-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.14.8/\">4.1.14.8</a></th>\n
+        \   <td>2014-12-03</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.8/phpMyAdmin-4.1.14.8-all-languages.zip\">phpMyAdmin-4.1.14.8-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.8/phpMyAdmin-4.1.14.8-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.14.7/\">4.1.14.7</a></th>\n
+        \   <td>2014-11-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.7/phpMyAdmin-4.1.14.7-all-languages.zip\">phpMyAdmin-4.1.14.7-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.7/phpMyAdmin-4.1.14.7-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.14.6/\">4.1.14.6</a></th>\n
+        \   <td>2014-10-21</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.6/phpMyAdmin-4.1.14.6-all-languages.zip\">phpMyAdmin-4.1.14.6-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.6/phpMyAdmin-4.1.14.6-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.14.5/\">4.1.14.5</a></th>\n
+        \   <td>2014-10-01</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.5/phpMyAdmin-4.1.14.5-all-languages.zip\">phpMyAdmin-4.1.14.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.5/phpMyAdmin-4.1.14.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.14.4/\">4.1.14.4</a></th>\n
+        \   <td>2014-09-13</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.4/phpMyAdmin-4.1.14.4-all-languages.zip\">phpMyAdmin-4.1.14.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.4/phpMyAdmin-4.1.14.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.14.3/\">4.1.14.3</a></th>\n
+        \   <td>2014-08-17</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.3/phpMyAdmin-4.1.14.3-all-languages.zip\">phpMyAdmin-4.1.14.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.3/phpMyAdmin-4.1.14.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.14.2/\">4.1.14.2</a></th>\n
+        \   <td>2014-07-17</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.2/phpMyAdmin-4.1.14.2-all-languages.zip\">phpMyAdmin-4.1.14.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.2/phpMyAdmin-4.1.14.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.14.1/\">4.1.14.1</a></th>\n
+        \   <td>2014-06-21</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.1/phpMyAdmin-4.1.14.1-all-languages.zip\">phpMyAdmin-4.1.14.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14.1/phpMyAdmin-4.1.14.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.14/\">4.1.14</a></th>\n
+        \   <td>2014-04-26</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14/phpMyAdmin-4.1.14-all-languages.zip\">phpMyAdmin-4.1.14-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.14/phpMyAdmin-4.1.14-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.13/\">4.1.13</a></th>\n
+        \   <td>2014-04-13</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.13/phpMyAdmin-4.1.13-all-languages.zip\">phpMyAdmin-4.1.13-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.13/phpMyAdmin-4.1.13-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.12/\">4.1.12</a></th>\n
+        \   <td>2014-03-27</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.12/phpMyAdmin-4.1.12-all-languages.zip\">phpMyAdmin-4.1.12-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.12/phpMyAdmin-4.1.12-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.11/\">4.1.11</a></th>\n
+        \   <td>2014-03-22</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.11/phpMyAdmin-4.1.11-all-languages.zip\">phpMyAdmin-4.1.11-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.11/phpMyAdmin-4.1.11-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.10/\">4.1.10</a></th>\n
+        \   <td>2014-03-22</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.10/phpMyAdmin-4.1.10-all-languages.zip\">phpMyAdmin-4.1.10-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.10/phpMyAdmin-4.1.10-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.9/\">4.1.9</a></th>\n
+        \   <td>2014-03-06</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.9/phpMyAdmin-4.1.9-all-languages.zip\">phpMyAdmin-4.1.9-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.9/phpMyAdmin-4.1.9-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.8/\">4.1.8</a></th>\n
+        \   <td>2014-02-22</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.8/phpMyAdmin-4.1.8-all-languages.zip\">phpMyAdmin-4.1.8-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.8/phpMyAdmin-4.1.8-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.7/\">4.1.7</a></th>\n
+        \   <td>2014-02-09</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.7/phpMyAdmin-4.1.7-all-languages.zip\">phpMyAdmin-4.1.7-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.7/phpMyAdmin-4.1.7-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.6/\">4.1.6</a></th>\n
+        \   <td>2014-01-26</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.6/phpMyAdmin-4.1.6-all-languages.zip\">phpMyAdmin-4.1.6-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.6/phpMyAdmin-4.1.6-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.5/\">4.1.5</a></th>\n
+        \   <td>2014-01-17</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.5/phpMyAdmin-4.1.5-all-languages.zip\">phpMyAdmin-4.1.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.5/phpMyAdmin-4.1.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.4/\">4.1.4</a></th>\n
+        \   <td>2014-01-07</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.4/phpMyAdmin-4.1.4-all-languages.zip\">phpMyAdmin-4.1.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.4/phpMyAdmin-4.1.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.3/\">4.1.3</a></th>\n
+        \   <td>2013-12-31</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.3/phpMyAdmin-4.1.3-all-languages.zip\">phpMyAdmin-4.1.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.3/phpMyAdmin-4.1.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.2/\">4.1.2</a></th>\n
+        \   <td>2013-12-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.2/phpMyAdmin-4.1.2-all-languages.zip\">phpMyAdmin-4.1.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.2/phpMyAdmin-4.1.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.1/\">4.1.1</a></th>\n
+        \   <td>2013-12-17</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.1/phpMyAdmin-4.1.1-all-languages.zip\">phpMyAdmin-4.1.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.1/phpMyAdmin-4.1.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.1.0/\">4.1.0</a></th>\n
+        \   <td>2013-12-12</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.0/phpMyAdmin-4.1.0-all-languages.zip\">phpMyAdmin-4.1.0-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.1.0/phpMyAdmin-4.1.0-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.20/\">4.0.10.20</a></th>\n
+        \   <td>2017-03-29</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.20/phpMyAdmin-4.0.10.20-all-languages.zip\">phpMyAdmin-4.0.10.20-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.20/phpMyAdmin-4.0.10.20-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.20/phpMyAdmin-4.0.10.20-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.19/\">4.0.10.19</a></th>\n
+        \   <td>2017-01-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.19/phpMyAdmin-4.0.10.19-all-languages.zip\">phpMyAdmin-4.0.10.19-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.19/phpMyAdmin-4.0.10.19-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.19/phpMyAdmin-4.0.10.19-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.18/\">4.0.10.18</a></th>\n
+        \   <td>2016-11-25</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.18/phpMyAdmin-4.0.10.18-all-languages.zip\">phpMyAdmin-4.0.10.18-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.18/phpMyAdmin-4.0.10.18-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.18/phpMyAdmin-4.0.10.18-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.17/\">4.0.10.17</a></th>\n
+        \   <td>2016-08-16</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.17/phpMyAdmin-4.0.10.17-all-languages.zip\">phpMyAdmin-4.0.10.17-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.17/phpMyAdmin-4.0.10.17-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.17/phpMyAdmin-4.0.10.17-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.16/\">4.0.10.16</a></th>\n
+        \   <td>2016-06-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.16/phpMyAdmin-4.0.10.16-all-languages.zip\">phpMyAdmin-4.0.10.16-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.16/phpMyAdmin-4.0.10.16-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.16/phpMyAdmin-4.0.10.16-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.15/\">4.0.10.15</a></th>\n
+        \   <td>2016-02-29</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.15/phpMyAdmin-4.0.10.15-all-languages.zip\">phpMyAdmin-4.0.10.15-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.15/phpMyAdmin-4.0.10.15-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.15/phpMyAdmin-4.0.10.15-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.14/\">4.0.10.14</a></th>\n
+        \   <td>2016-01-29</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.14/phpMyAdmin-4.0.10.14-all-languages.zip\">phpMyAdmin-4.0.10.14-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.14/phpMyAdmin-4.0.10.14-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.14/phpMyAdmin-4.0.10.14-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.13/\">4.0.10.13</a></th>\n
+        \   <td>2016-01-28</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.13/phpMyAdmin-4.0.10.13-all-languages.zip\">phpMyAdmin-4.0.10.13-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.13/phpMyAdmin-4.0.10.13-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.13/phpMyAdmin-4.0.10.13-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.12/\">4.0.10.12</a></th>\n
+        \   <td>2015-12-25</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.12/phpMyAdmin-4.0.10.12-all-languages.zip\">phpMyAdmin-4.0.10.12-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.12/phpMyAdmin-4.0.10.12-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.12/phpMyAdmin-4.0.10.12-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.11/\">4.0.10.11</a></th>\n
+        \   <td>2015-09-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.11/phpMyAdmin-4.0.10.11-all-languages.zip\">phpMyAdmin-4.0.10.11-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.11/phpMyAdmin-4.0.10.11-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.11/phpMyAdmin-4.0.10.11-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.10/\">4.0.10.10</a></th>\n
+        \   <td>2015-05-13</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.10/phpMyAdmin-4.0.10.10-all-languages.zip\">phpMyAdmin-4.0.10.10-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.10/phpMyAdmin-4.0.10.10-all-languages.zip.asc\">PGP</a>]\n
+        \       \n        [<a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.10/phpMyAdmin-4.0.10.10-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.9/\">4.0.10.9</a></th>\n
+        \   <td>2015-03-04</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.9/phpMyAdmin-4.0.10.9-all-languages.zip\">phpMyAdmin-4.0.10.9-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.9/phpMyAdmin-4.0.10.9-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.8/\">4.0.10.8</a></th>\n
+        \   <td>2015-01-07</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.8/phpMyAdmin-4.0.10.8-all-languages.zip\">phpMyAdmin-4.0.10.8-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.8/phpMyAdmin-4.0.10.8-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.7/\">4.0.10.7</a></th>\n
+        \   <td>2014-12-03</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.7/phpMyAdmin-4.0.10.7-all-languages.zip\">phpMyAdmin-4.0.10.7-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.7/phpMyAdmin-4.0.10.7-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.6/\">4.0.10.6</a></th>\n
+        \   <td>2014-11-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.6/phpMyAdmin-4.0.10.6-all-languages.zip\">phpMyAdmin-4.0.10.6-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.6/phpMyAdmin-4.0.10.6-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.5/\">4.0.10.5</a></th>\n
+        \   <td>2014-10-21</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.5/phpMyAdmin-4.0.10.5-all-languages.zip\">phpMyAdmin-4.0.10.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.5/phpMyAdmin-4.0.10.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.4/\">4.0.10.4</a></th>\n
+        \   <td>2014-10-01</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.4/phpMyAdmin-4.0.10.4-all-languages.zip\">phpMyAdmin-4.0.10.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.4/phpMyAdmin-4.0.10.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.3/\">4.0.10.3</a></th>\n
+        \   <td>2014-09-13</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.3/phpMyAdmin-4.0.10.3-all-languages.zip\">phpMyAdmin-4.0.10.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.3/phpMyAdmin-4.0.10.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.2/\">4.0.10.2</a></th>\n
+        \   <td>2014-08-17</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.2/phpMyAdmin-4.0.10.2-all-languages.zip\">phpMyAdmin-4.0.10.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.2/phpMyAdmin-4.0.10.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10.1/\">4.0.10.1</a></th>\n
+        \   <td>2014-07-17</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.1/phpMyAdmin-4.0.10.1-all-languages.zip\">phpMyAdmin-4.0.10.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10.1/phpMyAdmin-4.0.10.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.10/\">4.0.10</a></th>\n
+        \   <td>2013-12-04</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10/phpMyAdmin-4.0.10-all-languages.zip\">phpMyAdmin-4.0.10-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.10/phpMyAdmin-4.0.10-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.9/\">4.0.9</a></th>\n
+        \   <td>2013-11-04</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.9/phpMyAdmin-4.0.9-all-languages.zip\">phpMyAdmin-4.0.9-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.9/phpMyAdmin-4.0.9-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.8/\">4.0.8</a></th>\n
+        \   <td>2013-10-06</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.8/phpMyAdmin-4.0.8-all-languages.zip\">phpMyAdmin-4.0.8-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.8/phpMyAdmin-4.0.8-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.7/\">4.0.7</a></th>\n
+        \   <td>2013-09-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.7/phpMyAdmin-4.0.7-all-languages.zip\">phpMyAdmin-4.0.7-all-languages.zip</a></td>\n
+        \       <td class=\"size\">8.0\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.7/phpMyAdmin-4.0.7-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.6/\">4.0.6</a></th>\n
+        \   <td>2013-09-05</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.6/phpMyAdmin-4.0.6-all-languages.zip\">phpMyAdmin-4.0.6-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.6/phpMyAdmin-4.0.6-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.5/\">4.0.5</a></th>\n
+        \   <td>2013-08-04</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.5/phpMyAdmin-4.0.5-all-languages.zip\">phpMyAdmin-4.0.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.5/phpMyAdmin-4.0.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.4.2/\">4.0.4.2</a></th>\n
+        \   <td>2013-07-28</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.4.2/phpMyAdmin-4.0.4.2-all-languages.zip\">phpMyAdmin-4.0.4.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.3\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.4.2/phpMyAdmin-4.0.4.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.4.1/\">4.0.4.1</a></th>\n
+        \   <td>2013-06-30</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.4.1/phpMyAdmin-4.0.4.1-all-languages.zip\">phpMyAdmin-4.0.4.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.4\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.4.1/phpMyAdmin-4.0.4.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.4/\">4.0.4</a></th>\n
+        \   <td>2013-06-17</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.4/phpMyAdmin-4.0.4-all-languages.zip\">phpMyAdmin-4.0.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.4\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.4/phpMyAdmin-4.0.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.3/\">4.0.3</a></th>\n
+        \   <td>2013-06-05</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.3/phpMyAdmin-4.0.3-all-languages.zip\">phpMyAdmin-4.0.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.4\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.3/phpMyAdmin-4.0.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.2/\">4.0.2</a></th>\n
+        \   <td>2013-05-24</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.2/phpMyAdmin-4.0.2-all-languages.zip\">phpMyAdmin-4.0.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.3\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.2/phpMyAdmin-4.0.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.1/\">4.0.1</a></th>\n
+        \   <td>2013-05-14</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.1/phpMyAdmin-4.0.1-all-languages.zip\">phpMyAdmin-4.0.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.3\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.1/phpMyAdmin-4.0.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/4.0.0/\">4.0.0</a></th>\n
+        \   <td>2013-05-03</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.0/phpMyAdmin-4.0.0-all-languages.zip\">phpMyAdmin-4.0.0-all-languages.zip</a></td>\n
+        \       <td class=\"size\">7.3\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/4.0.0/phpMyAdmin-4.0.0-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.5.8.2/\">3.5.8.2</a></th>\n
+        \   <td>2013-07-28</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.8.2/phpMyAdmin-3.5.8.2-all-languages.zip\">phpMyAdmin-3.5.8.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">6.3\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.8.2/phpMyAdmin-3.5.8.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.5.8.1/\">3.5.8.1</a></th>\n
+        \   <td>2013-04-24</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.8.1/phpMyAdmin-3.5.8.1-all-languages.zip\">phpMyAdmin-3.5.8.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">6.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.8.1/phpMyAdmin-3.5.8.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.5.8/\">3.5.8</a></th>\n
+        \   <td>2013-04-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.8/phpMyAdmin-3.5.8-all-languages.zip\">phpMyAdmin-3.5.8-all-languages.zip</a></td>\n
+        \       <td class=\"size\">6.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.8/phpMyAdmin-3.5.8-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.5.7/\">3.5.7</a></th>\n
+        \   <td>2013-02-15</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.7/phpMyAdmin-3.5.7-all-languages.zip\">phpMyAdmin-3.5.7-all-languages.zip</a></td>\n
+        \       <td class=\"size\">6.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.7/phpMyAdmin-3.5.7-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.5.6/\">3.5.6</a></th>\n
+        \   <td>2013-01-28</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.6/phpMyAdmin-3.5.6-all-languages.zip\">phpMyAdmin-3.5.6-all-languages.zip</a></td>\n
+        \       <td class=\"size\">6.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.6/phpMyAdmin-3.5.6-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.5.5/\">3.5.5</a></th>\n
+        \   <td>2012-12-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.5/phpMyAdmin-3.5.5-all-languages.zip\">phpMyAdmin-3.5.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">6.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.5/phpMyAdmin-3.5.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.5.4/\">3.5.4</a></th>\n
+        \   <td>2012-11-16</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.4/phpMyAdmin-3.5.4-all-languages.zip\">phpMyAdmin-3.5.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">6.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.4/phpMyAdmin-3.5.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.5.3/\">3.5.3</a></th>\n
+        \   <td>2012-10-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.3/phpMyAdmin-3.5.3-all-languages.zip\">phpMyAdmin-3.5.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">6.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.3/phpMyAdmin-3.5.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.5.2.2/\">3.5.2.2</a></th>\n
+        \   <td>2012-08-12</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.2.2/phpMyAdmin-3.5.2.2-all-languages.zip\">phpMyAdmin-3.5.2.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.2.2/phpMyAdmin-3.5.2.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.5.2.1/\">3.5.2.1</a></th>\n
+        \   <td>2012-08-03</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.2.1/phpMyAdmin-3.5.2.1-all-languages.zip\">phpMyAdmin-3.5.2.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.2.1/phpMyAdmin-3.5.2.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.5.2/\">3.5.2</a></th>\n
+        \   <td>2012-07-07</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.2/phpMyAdmin-3.5.2-all-languages.zip\">phpMyAdmin-3.5.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.2/phpMyAdmin-3.5.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.5.1/\">3.5.1</a></th>\n
+        \   <td>2012-05-03</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.1/phpMyAdmin-3.5.1-all-languages.zip\">phpMyAdmin-3.5.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.9\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.1/phpMyAdmin-3.5.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.5.0/\">3.5.0</a></th>\n
+        \   <td>2012-04-07</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.0/phpMyAdmin-3.5.0-all-languages.zip\">phpMyAdmin-3.5.0-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.5.0/phpMyAdmin-3.5.0-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.11.1/\">3.4.11.1</a></th>\n
+        \   <td>2012-08-12</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.11.1/phpMyAdmin-3.4.11.1-all-languages.zip\">phpMyAdmin-3.4.11.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.11.1/phpMyAdmin-3.4.11.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.11/\">3.4.11</a></th>\n
+        \   <td>2012-04-14</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.11/phpMyAdmin-3.4.11-all-languages.zip\">phpMyAdmin-3.4.11-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.11/phpMyAdmin-3.4.11-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.10.2/\">3.4.10.2</a></th>\n
+        \   <td>2012-03-28</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.10.2/phpMyAdmin-3.4.10.2-all-languages.zip\">phpMyAdmin-3.4.10.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.10.2/phpMyAdmin-3.4.10.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.10.1/\">3.4.10.1</a></th>\n
+        \   <td>2012-02-18</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.10.1/phpMyAdmin-3.4.10.1-all-languages.zip\">phpMyAdmin-3.4.10.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.10.1/phpMyAdmin-3.4.10.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.10/\">3.4.10</a></th>\n
+        \   <td>2012-02-14</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.10/phpMyAdmin-3.4.10-all-languages.zip\">phpMyAdmin-3.4.10-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.10/phpMyAdmin-3.4.10-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.9/\">3.4.9</a></th>\n
+        \   <td>2011-12-21</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.9/phpMyAdmin-3.4.9-all-languages.zip\">phpMyAdmin-3.4.9-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.9/phpMyAdmin-3.4.9-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.8/\">3.4.8</a></th>\n
+        \   <td>2011-12-01</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.8/phpMyAdmin-3.4.8-all-languages.zip\">phpMyAdmin-3.4.8-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.8/phpMyAdmin-3.4.8-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.7.1/\">3.4.7.1</a></th>\n
+        \   <td>2011-11-10</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.7.1/phpMyAdmin-3.4.7.1-all-languages.zip\">phpMyAdmin-3.4.7.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.7.1/phpMyAdmin-3.4.7.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.7/\">3.4.7</a></th>\n
+        \   <td>2011-10-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.7/phpMyAdmin-3.4.7-all-languages.zip\">phpMyAdmin-3.4.7-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.7/phpMyAdmin-3.4.7-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.6/\">3.4.6</a></th>\n
+        \   <td>2011-10-16</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.6/phpMyAdmin-3.4.6-all-languages.zip\">phpMyAdmin-3.4.6-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.6/phpMyAdmin-3.4.6-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.5/\">3.4.5</a></th>\n
+        \   <td>2011-09-14</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.5/phpMyAdmin-3.4.5-all-languages.zip\">phpMyAdmin-3.4.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.5/phpMyAdmin-3.4.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.4/\">3.4.4</a></th>\n
+        \   <td>2011-08-24</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.4/phpMyAdmin-3.4.4-all-languages.zip\">phpMyAdmin-3.4.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">6.2\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.4/phpMyAdmin-3.4.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.3.2/\">3.4.3.2</a></th>\n
+        \   <td>2011-07-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.3.2/phpMyAdmin-3.4.3.2-all-languages.zip\">phpMyAdmin-3.4.3.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">6.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.3.2/phpMyAdmin-3.4.3.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.3.1/\">3.4.3.1</a></th>\n
+        \   <td>2011-07-03</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.3.1/phpMyAdmin-3.4.3.1-all-languages.zip\">phpMyAdmin-3.4.3.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">6.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.3.1/phpMyAdmin-3.4.3.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.3/\">3.4.3</a></th>\n
+        \   <td>2011-06-27</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.3/phpMyAdmin-3.4.3-all-languages.zip\">phpMyAdmin-3.4.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">6.1\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.3/phpMyAdmin-3.4.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.2/\">3.4.2</a></th>\n
+        \   <td>2011-06-07</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.2/phpMyAdmin-3.4.2-all-languages.zip\">phpMyAdmin-3.4.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.2/phpMyAdmin-3.4.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.1/\">3.4.1</a></th>\n
+        \   <td>2011-05-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.1/phpMyAdmin-3.4.1-all-languages.zip\">phpMyAdmin-3.4.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.7\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.1/phpMyAdmin-3.4.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.4.0/\">3.4.0</a></th>\n
+        \   <td>2011-05-11</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.0/phpMyAdmin-3.4.0-all-languages.zip\">phpMyAdmin-3.4.0-all-languages.zip</a></td>\n
+        \       <td class=\"size\">5.6\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.4.0/phpMyAdmin-3.4.0-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.10.5/\">3.3.10.5</a></th>\n
+        \   <td>2011-11-10</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.10.5/phpMyAdmin-3.3.10.5-all-languages.zip\">phpMyAdmin-3.3.10.5-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.10.5/phpMyAdmin-3.3.10.5-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.10.4/\">3.3.10.4</a></th>\n
+        \   <td>2011-08-24</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.10.4/phpMyAdmin-3.3.10.4-all-languages.zip\">phpMyAdmin-3.3.10.4-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.10.4/phpMyAdmin-3.3.10.4-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.10.3/\">3.3.10.3</a></th>\n
+        \   <td>2011-07-23</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.10.3/phpMyAdmin-3.3.10.3-all-languages.zip\">phpMyAdmin-3.3.10.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.10.3/phpMyAdmin-3.3.10.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.10.2/\">3.3.10.2</a></th>\n
+        \   <td>2011-07-03</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.10.2/phpMyAdmin-3.3.10.2-all-languages.zip\">phpMyAdmin-3.3.10.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.10.2/phpMyAdmin-3.3.10.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.10.1/\">3.3.10.1</a></th>\n
+        \   <td>2011-05-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.10.1/phpMyAdmin-3.3.10.1-all-languages.zip\">phpMyAdmin-3.3.10.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.10.1/phpMyAdmin-3.3.10.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.10/\">3.3.10</a></th>\n
+        \   <td>2011-03-19</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.10/phpMyAdmin-3.3.10-all-languages.zip\">phpMyAdmin-3.3.10-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.10/phpMyAdmin-3.3.10-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.9.2/\">3.3.9.2</a></th>\n
+        \   <td>2011-02-11</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.9.2/phpMyAdmin-3.3.9.2-all-languages.zip\">phpMyAdmin-3.3.9.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.9.2/phpMyAdmin-3.3.9.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.9.1/\">3.3.9.1</a></th>\n
+        \   <td>2011-02-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.9.1/phpMyAdmin-3.3.9.1-all-languages.zip\">phpMyAdmin-3.3.9.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.9.1/phpMyAdmin-3.3.9.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.9/\">3.3.9</a></th>\n
+        \   <td>2011-01-03</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.9/phpMyAdmin-3.3.9-all-languages.zip\">phpMyAdmin-3.3.9-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.9/phpMyAdmin-3.3.9-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.8.1/\">3.3.8.1</a></th>\n
+        \   <td>2010-11-29</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.8.1/phpMyAdmin-3.3.8.1-all-languages.zip\">phpMyAdmin-3.3.8.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.8.1/phpMyAdmin-3.3.8.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.8/\">3.3.8</a></th>\n
+        \   <td>2010-10-25</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.8/phpMyAdmin-3.3.8-all-languages.zip\">phpMyAdmin-3.3.8-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.8/phpMyAdmin-3.3.8-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.7/\">3.3.7</a></th>\n
+        \   <td>2010-09-07</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.7/phpMyAdmin-3.3.7-all-languages.zip\">phpMyAdmin-3.3.7-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.7/phpMyAdmin-3.3.7-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.6/\">3.3.6</a></th>\n
+        \   <td>2010-08-28</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.6/phpMyAdmin-3.3.6-all-languages.zip\">phpMyAdmin-3.3.6-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.6/phpMyAdmin-3.3.6-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.5.1/\">3.3.5.1</a></th>\n
+        \   <td>2010-08-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.5.1/phpMyAdmin-3.3.5.1-all-languages.zip\">phpMyAdmin-3.3.5.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.8\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/3.3.5.1/phpMyAdmin-3.3.5.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.3.0/\">3.3.0</a></th>\n
+        \   <td>2010-03-07</td>\n\n\n     <td colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n
+        \   <th><a href=\"/files/3.2.0/\">3.2.0</a></th>\n    <td>2009-06-15</td>\n\n\n
+        \    <td colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n    <th><a
+        href=\"/files/3.1.0/\">3.1.0</a></th>\n    <td>2008-11-28</td>\n\n\n     <td
+        colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/3.0.0/\">3.0.0</a></th>\n
+        \   <td>2008-09-27</td>\n\n\n     <td colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n
+        \   <th><a href=\"/files/2.11.11.3/\">2.11.11.3</a></th>\n    <td>2011-02-11</td>\n\n\n
+        \   <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/2.11.11.3/phpMyAdmin-2.11.11.3-all-languages.zip\">phpMyAdmin-2.11.11.3-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.3\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/2.11.11.3/phpMyAdmin-2.11.11.3-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/2.11.11.2/\">2.11.11.2</a></th>\n
+        \   <td>2011-02-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/2.11.11.2/phpMyAdmin-2.11.11.2-all-languages.zip\">phpMyAdmin-2.11.11.2-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.3\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/2.11.11.2/phpMyAdmin-2.11.11.2-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/2.11.11.1/\">2.11.11.1</a></th>\n
+        \   <td>2010-11-29</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/2.11.11.1/phpMyAdmin-2.11.11.1-all-languages.zip\">phpMyAdmin-2.11.11.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.3\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/2.11.11.1/phpMyAdmin-2.11.11.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/2.11.11/\">2.11.11</a></th>\n
+        \   <td>2010-09-07</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/2.11.11/phpMyAdmin-2.11.11-all-languages.zip\">phpMyAdmin-2.11.11-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.3\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/2.11.11/phpMyAdmin-2.11.11-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/2.11.10.1/\">2.11.10.1</a></th>\n
+        \   <td>2010-08-20</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/2.11.10.1/phpMyAdmin-2.11.10.1-all-languages.zip\">phpMyAdmin-2.11.10.1-all-languages.zip</a></td>\n
+        \       <td class=\"size\">4.3\_MB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/2.11.10.1/phpMyAdmin-2.11.10.1-all-languages.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/2.10.3/\">2.10.3</a></th>\n
+        \   <td>2007-07-20</td>\n\n\n     <td colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n
+        \   <th><a href=\"/files/2.10.2/\">2.10.2</a></th>\n    <td>2007-06-15</td>\n\n\n
+        \    <td colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n    <th><a
+        href=\"/files/2.9.0/\">2.9.0</a></th>\n    <td>2006-09-20</td>\n\n\n     <td
+        colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/2.8.0/\">2.8.0</a></th>\n
+        \   <td>2006-03-06</td>\n\n\n     <td colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n
+        \   <th><a href=\"/files/2.7.0/\">2.7.0</a></th>\n    <td>2005-12-04</td>\n\n\n
+        \    <td colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n    <th><a
+        href=\"/files/2.6.0/\">2.6.0</a></th>\n    <td>2004-09-27</td>\n\n\n     <td
+        colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/2.5.0/\">2.5.0</a></th>\n
+        \   <td>2003-11-05</td>\n\n\n     <td colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n
+        \   <th><a href=\"/files/2.4.0/\">2.4.0</a></th>\n    <td>2003-02-23</td>\n\n\n
+        \    <td colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n    <th><a
+        href=\"/files/2.3.0/\">2.3.0</a></th>\n    <td>2001-11-08</td>\n\n\n     <td
+        colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/2.2.0/\">2.2.0</a></th>\n
+        \   <td>2001-08-31</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/2.2.0/phpMyAdmin-2.2.0-php.zip\">phpMyAdmin-2.2.0-php.zip</a></td>\n
+        \       <td class=\"size\">277.7\_KB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/2.2.0/phpMyAdmin-2.2.0-php.zip.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/2.1.0/\">2.1.0</a></th>\n
+        \   <td>2000-06-08</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/2.1.0/phpMyAdmin-2.1.0-php3.tar.gz\">phpMyAdmin-2.1.0-php3.tar.gz</a></td>\n
+        \       <td class=\"size\">71.4\_KB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/2.1.0/phpMyAdmin-2.1.0-php3.tar.gz.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/2.0.5/\">2.0.5</a></th>\n
+        \   <td>1999-05-12</td>\n\n\n    <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/2.0.5/phpMyAdmin-2.0.5-php3.tar.gz\">phpMyAdmin-2.0.5-php3.tar.gz</a></td>\n
+        \       <td class=\"size\">57.0\_KB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/2.0.5/phpMyAdmin-2.0.5-php3.tar.gz.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/1.3.1/\">1.3.1</a></th>\n
+        \   <td>1998-12-27</td>\n\n\n     <td colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n
+        \   <th><a href=\"/files/1.3.0/\">1.3.0</a></th>\n    <td>1998-12-16</td>\n\n\n
+        \   <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/1.3.0/phpmyadmin_1.3.0.tar.gz\">phpmyadmin_1.3.0.tar.gz</a></td>\n
+        \       <td class=\"size\">13.8\_KB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/1.3.0/phpmyadmin_1.3.0.tar.gz.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/1.2.0/\">1.2.0</a></th>\n
+        \   <td>1998-11-29</td>\n\n\n     <td colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n<tr>\n
+        \   <th><a href=\"/files/1.1.0/\">1.1.0</a></th>\n    <td>1998-11-03</td>\n\n\n
+        \   <td><a href=\"https://files.phpmyadmin.net/phpMyAdmin/1.1.0/phpMyAdmin_1.1.0.tar.gz\">phpMyAdmin_1.1.0.tar.gz</a></td>\n
+        \       <td class=\"size\">8.2\_KB</td>\n        <td>\n        \n        [<a
+        href=\"https://files.phpmyadmin.net/phpMyAdmin/1.1.0/phpMyAdmin_1.1.0.tar.gz.sha256\">SHA256</a>]\n
+        \       </td>\n\n\n</tr>\n\n<tr>\n    <th><a href=\"/files/0.9.0/\">0.9.0</a></th>\n
+        \   <td>1998-09-09</td>\n\n\n     <td colspan=\"3\">Download not available</td>\n\n\n</tr>\n\n</tbody>\n</table>\n\n\n</div>\n
+        \ </content>\n\n<!-- Modal -->\n<div class=\"modal fade\" id=\"downloadModal\"
+        tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"downloadModalLabel\">\n
+        \ <div class=\"modal-dialog\" role=\"document\">\n    <div class=\"modal-content\">\n
+        \     <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\"
+        data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n
+        \       <h3 class=\"modal-title\" id=\"downloadModalLabel\">Thank you for
+        downloading phpMyAdmin</h3>\n      </div>\n      <div class=\"modal-body\">\n
+        \       <p>\n        Your download should start soon, if not please <a id=\"dl-link\"
+        href=\"\">click here</a>.\n        </p>\n\n        <h4>Please verify the downloaded
+        file</h4>\n        <p>\n        Please take additional steps to verify that
+        the file you have downloaded is not corrupted,\n        you can verify it
+        using the following methods:\n        </p>\n        <ul>\n        <li id=\"dl-li-pgp\">Verify
+        its <a id=\"dl-pgp\" href=\"\">PGP signature</a>, see the <a href=\"https://docs.phpmyadmin.net/en/latest/setup.html#verifying-phpmyadmin-releases\">Verifying
+        phpMyAdmin releases</a> chapter for more information.</li>\n        <li>Check
+        that the file's SHA256 hash matches <code id=\"dl-sha256\"></code></li>\n
+        \       </ul>\n\n        <h4>phpMyAdmin needs your continued support to grow
+        and thrive</h4>\n\n        <p>\n        phpMyAdmin would not exist without
+        the work of many volunteers and contractors.\n        You can support us to
+        make phpMyAdmin even better by <a href=\"/donate/\">donating\n        to our
+        project</a>. Every donation counts!\n        <p>\n\n        <p>\n        We
+        have also a <a href=\"/sponsors/#conditions\">sponsorship program</a> for\n
+        \       corporates who are willing to spent more money and get some benefits
+        such as\n        a logo placement in return.\n        </p>\n\n      </div>\n
+        \     <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn
+        btn-default\" data-dismiss=\"modal\">Close</button>\n        <a href=\"/donate/\"
+        class=\"btn btn-primary\">Donate to phpMyAdmin</a>\n      </div>\n    </div>\n
+        \ </div>\n</div>\n\n  <footer>\n<ul class=\"footer\">\n    <li>Copyright &copy;
+        2003 - 2021 <span class=\"vcard\"><a class=\"url org fn\" href=\"/team/\">phpMyAdmin
+        contributors</a><a href=\"mailto:developers@phpmyadmin.net\" class=\"email\"></a></span></li>\n
+        \   <li><a href=\"/license/\" rel=\"license\">License</a></li>\n    <li><a
+        href=\"/donate/\" rel=\"payment\" title=\"Support phpMyAdmin by donating money!\">Donate</a></li>\n
+        \   <li><a href=\"/about-website/\" title=\"Information about website\">About</a></li>\n
+        \   <li class=\"logo\"><a href=\"https://twitter.com/phpmya\"><i class=\"fa
+        fa-twitter-square\"></i></a></li>\n    <li class=\"logo\"><a href=\"https://www.facebook.com/pages/PhpMyAdmin/157021164334486\"><i
+        class=\"fa fa-facebook-official\"></i></a></li>\n  </ul>\n  </footer>\n<script>\n
+        \ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n
+        \ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n
+        \ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n
+        \ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');\n\n
+        \ ga('create', 'UA-2718724-14', 'auto');\n  ga('send', 'pageview');\n\n</script>\n
+        </body>\n</html>\n\n"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Security-Policy:
+      - default-src 'self'; script-src 'self' 'unsafe-inline' https://www.google-analytics.com/;
+        img-src 'self' https://www.google-analytics.com/ https://www.paypalobjects.com/
+        https://stats.g.doubleclick.net/; style-src 'self' 'unsafe-inline'; child-src
+        'none'; object-src 'none'
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Mon, 15 Mar 2021 13:53:11 GMT
+      Expires:
+      - Tue, 16 Mar 2021 01:36:03 GMT
+      Server:
+      - CDN77-Turbo
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-77-Cache:
+      - HIT
+      X-77-NZT:
+      - AbmYQRYHT4TvBAQAAA==
+      X-77-NZT-Ray:
+      - 87KBw1ezLmk=
+      X-77-POP:
+      - pragueCZ
+      X-Age:
+      - '1028'
+      X-Cache:
+      - HIT
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+      content-length:
+      - '127691'
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -1,0 +1,26 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.11.0 at release-monitoring.org]
+    method: GET
+    uri: https://crandb.r-pkg.org/non-existent-name-that-cannot-exist
+  response:
+    body: {string: !!python/unicode '{"error":"not_found","reason":"document not found"}
+
+        '}
+    headers:
+      cache-control: [must-revalidate]
+      connection: [keep-alive]
+      content-length: ['52']
+      content-type: [application/json]
+      date: ['Wed, 14 Mar 2018 03:43:47 GMT']
+      server: [nginx/1.4.6 (Ubuntu)]
+      x-couch-request-id: [7e923005d7]
+      x-couchdb-body-time: ['0']
+    status: {code: 404, message: Object Not Found}
+version: 1

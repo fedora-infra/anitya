@@ -1,0 +1,1709 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
+    method: GET
+    uri: https://download.gnome.org/sources/evolution-data-server/cache.json
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>302 Found</title>
+
+        </head><body>
+
+        <h1>Found</h1>
+
+        <p>The document has moved <a href="https://mirror.umd.edu/gnome/sources/evolution-data-server/cache.json">here</a>.</p>
+
+        <hr>
+
+        <address>Apache/2.2.15 (Red Hat) Server at download.gnome.org Port 80</address>
+
+        </body></html>
+
+'}
+    headers:
+      connection: [close]
+      content-length: ['338']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Thu, 28 May 2015 20:10:19 GMT']
+      digest: [MD5=EcLyq2JnpjZ+B53efXbwbw==, SHA=KCPPs15coccpU6djtFODseVTKNg=, SHA-256=RbkpWOLSww7qnnidJnGFmR87MiuOTVIi+Gq24DFlQf4=]
+      link: ['<http://download.gnome.org/sources/evolution-data-server/cache.json.meta4>;
+          rel=describedby; type="application/metalink4+xml"', '<https://mirror.umd.edu/gnome/sources/evolution-data-server/cache.json>;
+          rel=duplicate; pri=1; geo=us', '<https://muug.ca/mirror/gnome/sources/evolution-data-server/cache.json>;
+          rel=duplicate; pri=2; geo=ca', '<http://ftp.sunet.se/pub/X11/GNOME/sources/evolution-data-server/cache.json>;
+          rel=duplicate; pri=3; geo=se', '<http://ftp.is.co.za/mirror/ftp.gnome.org/sources/evolution-data-server/cache.json>;
+          rel=duplicate; pri=4; geo=za', '<http://mirror.nbtelecom.com.br/gnome/sources/evolution-data-server/cache.json>;
+          rel=duplicate; pri=5; geo=br']
+      location: ['https://mirror.umd.edu/gnome/sources/evolution-data-server/cache.json']
+      server: [Apache/2.2.15 (Red Hat)]
+      x-mirrorbrain-mirror: [mirror.umd.edu]
+      x-mirrorbrain-realm: [country]
+    status: {code: 302, message: Found}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
+    method: GET
+    uri: https://mirror.umd.edu/gnome/sources/evolution-data-server/cache.json
+  response:
+    body: {string: !!python/unicode '[4, {"evolution-data-server": {"1.0.4": {"md5sum":
+        "1.0/evolution-data-server-1.0.4.md5sum", "sha256sum": "1.0/evolution-data-server-1.0.4.sha256sum",
+        "tar.gz": "1.0/evolution-data-server-1.0.4.tar.gz", "diff.gz": "1.0/evolution-data-server-1.0.3-1.0.4.diff.gz",
+        "news": "1.0/evolution-data-server-1.0.4.news", "changes": "1.0/evolution-data-server-1.0.4.changes",
+        "tar.bz2": "1.0/evolution-data-server-1.0.4.tar.bz2"}, "3.1.2": {"news": "3.1/evolution-data-server-3.1.2.news",
+        "changes": "3.1/evolution-data-server-3.1.2.changes", "tar.xz": "3.1/evolution-data-server-3.1.2.tar.xz",
+        "tar.bz2": "3.1/evolution-data-server-3.1.2.tar.bz2", "sha256sum": "3.1/evolution-data-server-3.1.2.sha256sum"},
+        "3.1.1": {"tar.gz": "3.1/evolution-data-server-3.1.1.tar.gz", "changes": "3.1/evolution-data-server-3.1.1.changes",
+        "tar.bz2": "3.1/evolution-data-server-3.1.1.tar.bz2", "sha256sum": "3.1/evolution-data-server-3.1.1.sha256sum"},
+        "1.0.0": {"tar.gz": "1.0/evolution-data-server-1.0.0.tar.gz", "md5sum": "1.0/evolution-data-server-1.0.0.md5sum",
+        "tar.bz2": "1.0/evolution-data-server-1.0.0.tar.bz2", "sha256sum": "1.0/evolution-data-server-1.0.0.sha256sum"},
+        "1.0.1": {"md5sum": "1.0/evolution-data-server-1.0.1.md5sum", "sha256sum":
+        "1.0/evolution-data-server-1.0.1.sha256sum", "tar.gz": "1.0/evolution-data-server-1.0.1.tar.gz",
+        "news": "1.0/evolution-data-server-1.0.1.news", "diff.gz": "1.0/evolution-data-server-1.0.0-1.0.1.diff.gz",
+        "changes": "1.0/evolution-data-server-1.0.1.changes", "tar.bz2": "1.0/evolution-data-server-1.0.1.tar.bz2"},
+        "1.0.2": {"md5sum": "1.0/evolution-data-server-1.0.2.md5sum", "sha256sum":
+        "1.0/evolution-data-server-1.0.2.sha256sum", "tar.gz": "1.0/evolution-data-server-1.0.2.tar.gz",
+        "diff.gz": "1.0/evolution-data-server-1.0.1-1.0.2.diff.gz", "changes": "1.0/evolution-data-server-1.0.2.changes",
+        "tar.bz2": "1.0/evolution-data-server-1.0.2.tar.bz2"}, "1.0.3": {"md5sum":
+        "1.0/evolution-data-server-1.0.3.md5sum", "sha256sum": "1.0/evolution-data-server-1.0.3.sha256sum",
+        "tar.gz": "1.0/evolution-data-server-1.0.3.tar.gz", "news": "1.0/evolution-data-server-1.0.3.news",
+        "diff.gz": "1.0/evolution-data-server-1.0.2-1.0.3.diff.gz", "changes": "1.0/evolution-data-server-1.0.3.changes",
+        "tar.bz2": "1.0/evolution-data-server-1.0.3.tar.bz2"}, "1.11.6.1": {"md5sum":
+        "1.11/evolution-data-server-1.11.6.1.md5sum", "sha256sum": "1.11/evolution-data-server-1.11.6.1.sha256sum",
+        "tar.gz": "1.11/evolution-data-server-1.11.6.1.tar.gz", "news": "1.11/evolution-data-server-1.11.6.1.news",
+        "diff.gz": "1.11/evolution-data-server-1.11.6-1.11.6.1.diff.gz", "changes":
+        "1.11/evolution-data-server-1.11.6.1.changes", "tar.bz2": "1.11/evolution-data-server-1.11.6.1.tar.bz2"},
+        "1.3.4": {"md5sum": "1.3/evolution-data-server-1.3.4.md5sum", "sha256sum":
+        "1.3/evolution-data-server-1.3.4.sha256sum", "tar.gz": "1.3/evolution-data-server-1.3.4.tar.gz",
+        "news": "1.3/evolution-data-server-1.3.4.news", "diff.gz": "1.3/evolution-data-server-1.3.3.1-1.3.4.diff.gz",
+        "changes": "1.3/evolution-data-server-1.3.4.changes", "tar.bz2": "1.3/evolution-data-server-1.3.4.tar.bz2"},
+        "2.29.2": {"tar.gz": "2.29/evolution-data-server-2.29.2.tar.gz", "diff.gz":
+        "2.29/evolution-data-server-2.29.1-2.29.2.diff.gz", "sha256sum": "2.29/evolution-data-server-2.29.2.sha256sum",
+        "tar.bz2": "2.29/evolution-data-server-2.29.2.tar.bz2", "news": "2.29/evolution-data-server-2.29.2.news"},
+        "2.31.92.1": {"tar.gz": "2.31/evolution-data-server-2.31.92.1.tar.gz", "diff.gz":
+        "2.31/evolution-data-server-2.31.92-2.31.92.1.diff.gz", "changes": "2.31/evolution-data-server-2.31.92.1.changes",
+        "tar.bz2": "2.31/evolution-data-server-2.31.92.1.tar.bz2", "sha256sum": "2.31/evolution-data-server-2.31.92.1.sha256sum"},
+        "3.9.2": {"news": "3.9/evolution-data-server-3.9.2.news", "tar.xz": "3.9/evolution-data-server-3.9.2.tar.xz",
+        "sha256sum": "3.9/evolution-data-server-3.9.2.sha256sum"}, "3.9.1": {"tar.xz":
+        "3.9/evolution-data-server-3.9.1.tar.xz", "sha256sum": "3.9/evolution-data-server-3.9.1.sha256sum"},
+        "3.13.10": {"news": "3.13/evolution-data-server-3.13.10.news", "tar.xz": "3.13/evolution-data-server-3.13.10.tar.xz",
+        "sha256sum": "3.13/evolution-data-server-3.13.10.sha256sum"}, "1.3.8": {"md5sum":
+        "1.3/evolution-data-server-1.3.8.md5sum", "sha256sum": "1.3/evolution-data-server-1.3.8.sha256sum",
+        "tar.gz": "1.3/evolution-data-server-1.3.8.tar.gz", "news": "1.3/evolution-data-server-1.3.8.news",
+        "changes": "1.3/evolution-data-server-1.3.8.changes", "tar.bz2": "1.3/evolution-data-server-1.3.8.tar.bz2"},
+        "3.1.5": {"news": "3.1/evolution-data-server-3.1.5.news", "changes": "3.1/evolution-data-server-3.1.5.changes",
+        "tar.xz": "3.1/evolution-data-server-3.1.5.tar.xz", "tar.bz2": "3.1/evolution-data-server-3.1.5.tar.bz2",
+        "sha256sum": "3.1/evolution-data-server-3.1.5.sha256sum"}, "2.91.1.1": {"sha256sum":
+        "2.91/evolution-data-server-2.91.1.1.sha256sum", "tar.gz": "2.91/evolution-data-server-2.91.1.1.tar.gz",
+        "diff.gz": "2.91/evolution-data-server-2.91.1-2.91.1.1.diff.gz", "news": "2.91/evolution-data-server-2.91.1.1.news",
+        "changes": "2.91/evolution-data-server-2.91.1.1.changes", "tar.bz2": "2.91/evolution-data-server-2.91.1.1.tar.bz2"},
+        "3.13.90": {"news": "3.13/evolution-data-server-3.13.90.news", "tar.xz": "3.13/evolution-data-server-3.13.90.tar.xz",
+        "sha256sum": "3.13/evolution-data-server-3.13.90.sha256sum"}, "3.10.0": {"news":
+        "3.10/evolution-data-server-3.10.0.news", "tar.xz": "3.10/evolution-data-server-3.10.0.tar.xz",
+        "sha256sum": "3.10/evolution-data-server-3.10.0.sha256sum"}, "3.10.1": {"news":
+        "3.10/evolution-data-server-3.10.1.news", "tar.xz": "3.10/evolution-data-server-3.10.1.tar.xz",
+        "sha256sum": "3.10/evolution-data-server-3.10.1.sha256sum"}, "3.10.2": {"news":
+        "3.10/evolution-data-server-3.10.2.news", "tar.xz": "3.10/evolution-data-server-3.10.2.tar.xz",
+        "sha256sum": "3.10/evolution-data-server-3.10.2.sha256sum"}, "3.10.3": {"news":
+        "3.10/evolution-data-server-3.10.3.news", "tar.xz": "3.10/evolution-data-server-3.10.3.tar.xz",
+        "sha256sum": "3.10/evolution-data-server-3.10.3.sha256sum"}, "3.10.4": {"news":
+        "3.10/evolution-data-server-3.10.4.news", "tar.xz": "3.10/evolution-data-server-3.10.4.tar.xz",
+        "sha256sum": "3.10/evolution-data-server-3.10.4.sha256sum"}, "2.25.5": {"md5sum":
+        "2.25/evolution-data-server-2.25.5.md5sum", "sha256sum": "2.25/evolution-data-server-2.25.5.sha256sum",
+        "tar.gz": "2.25/evolution-data-server-2.25.5.tar.gz", "news": "2.25/evolution-data-server-2.25.5.news",
+        "diff.gz": "2.25/evolution-data-server-2.25.4-2.25.5.diff.gz", "changes":
+        "2.25/evolution-data-server-2.25.5.changes", "tar.bz2": "2.25/evolution-data-server-2.25.5.tar.bz2"},
+        "2.25.4": {"md5sum": "2.25/evolution-data-server-2.25.4.md5sum", "sha256sum":
+        "2.25/evolution-data-server-2.25.4.sha256sum", "tar.gz": "2.25/evolution-data-server-2.25.4.tar.gz",
+        "news": "2.25/evolution-data-server-2.25.4.news", "diff.gz": "2.25/evolution-data-server-2.25.3-2.25.4.diff.gz",
+        "changes": "2.25/evolution-data-server-2.25.4.changes", "tar.bz2": "2.25/evolution-data-server-2.25.4.tar.bz2"},
+        "1.6.2": {"md5sum": "1.6/evolution-data-server-1.6.2.md5sum", "sha256sum":
+        "1.6/evolution-data-server-1.6.2.sha256sum", "tar.gz": "1.6/evolution-data-server-1.6.2.tar.gz",
+        "diff.gz": "1.6/evolution-data-server-1.6.1-1.6.2.diff.gz", "news": "1.6/evolution-data-server-1.6.2.news",
+        "changes": "1.6/evolution-data-server-1.6.2.changes", "tar.bz2": "1.6/evolution-data-server-1.6.2.tar.bz2"},
+        "1.6.3": {"md5sum": "1.6/evolution-data-server-1.6.3.md5sum", "sha256sum":
+        "1.6/evolution-data-server-1.6.3.sha256sum", "tar.gz": "1.6/evolution-data-server-1.6.3.tar.gz",
+        "diff.gz": "1.6/evolution-data-server-1.6.2-1.6.3.diff.gz", "news": "1.6/evolution-data-server-1.6.3.news",
+        "changes": "1.6/evolution-data-server-1.6.3.changes", "tar.bz2": "1.6/evolution-data-server-1.6.3.tar.bz2"},
+        "3.12.8": {"news": "3.12/evolution-data-server-3.12.8.news", "tar.xz": "3.12/evolution-data-server-3.12.8.tar.xz",
+        "sha256sum": "3.12/evolution-data-server-3.12.8.sha256sum"}, "3.12.9": {"news":
+        "3.12/evolution-data-server-3.12.9.news", "tar.xz": "3.12/evolution-data-server-3.12.9.tar.xz",
+        "sha256sum": "3.12/evolution-data-server-3.12.9.sha256sum"}, "1.5.91": {"md5sum":
+        "1.5/evolution-data-server-1.5.91.md5sum", "sha256sum": "1.5/evolution-data-server-1.5.91.sha256sum",
+        "tar.gz": "1.5/evolution-data-server-1.5.91.tar.gz", "diff.gz": "1.5/evolution-data-server-1.5.90-1.5.91.diff.gz",
+        "news": "1.5/evolution-data-server-1.5.91.news", "changes": "1.5/evolution-data-server-1.5.91.changes",
+        "tar.bz2": "1.5/evolution-data-server-1.5.91.tar.bz2"}, "1.5.90": {"md5sum":
+        "1.5/evolution-data-server-1.5.90.md5sum", "sha256sum": "1.5/evolution-data-server-1.5.90.sha256sum",
+        "tar.gz": "1.5/evolution-data-server-1.5.90.tar.gz", "news": "1.5/evolution-data-server-1.5.90.news",
+        "diff.gz": "1.5/evolution-data-server-1.5.5-1.5.90.diff.gz", "changes": "1.5/evolution-data-server-1.5.90.changes",
+        "tar.bz2": "1.5/evolution-data-server-1.5.90.tar.bz2"}, "1.9.6.1": {"tar.gz":
+        "1.9/evolution-data-server-1.9.6.1.tar.gz", "diff.gz": "1.9/evolution-data-server-1.9.6-1.9.6.1.diff.gz",
+        "md5sum": "1.9/evolution-data-server-1.9.6.1.md5sum", "tar.bz2": "1.9/evolution-data-server-1.9.6.1.tar.bz2",
+        "sha256sum": "1.9/evolution-data-server-1.9.6.1.sha256sum"}, "1.5.92": {"md5sum":
+        "1.5/evolution-data-server-1.5.92.md5sum", "sha256sum": "1.5/evolution-data-server-1.5.92.sha256sum",
+        "tar.gz": "1.5/evolution-data-server-1.5.92.tar.gz", "news": "1.5/evolution-data-server-1.5.92.news",
+        "diff.gz": "1.5/evolution-data-server-1.5.91-1.5.92.diff.gz", "changes": "1.5/evolution-data-server-1.5.92.changes",
+        "tar.bz2": "1.5/evolution-data-server-1.5.92.tar.bz2"}, "2.23.5": {"md5sum":
+        "2.23/evolution-data-server-2.23.5.md5sum", "sha256sum": "2.23/evolution-data-server-2.23.5.sha256sum",
+        "tar.gz": "2.23/evolution-data-server-2.23.5.tar.gz", "diff.gz": "2.23/evolution-data-server-2.23.4-2.23.5.diff.gz",
+        "news": "2.23/evolution-data-server-2.23.5.news", "changes": "2.23/evolution-data-server-2.23.5.changes",
+        "tar.bz2": "2.23/evolution-data-server-2.23.5.tar.bz2"}, "2.23.4": {"md5sum":
+        "2.23/evolution-data-server-2.23.4.md5sum", "sha256sum": "2.23/evolution-data-server-2.23.4.sha256sum",
+        "tar.gz": "2.23/evolution-data-server-2.23.4.tar.gz", "news": "2.23/evolution-data-server-2.23.4.news",
+        "diff.gz": "2.23/evolution-data-server-2.23.3-2.23.4.diff.gz", "changes":
+        "2.23/evolution-data-server-2.23.4.changes", "tar.bz2": "2.23/evolution-data-server-2.23.4.tar.bz2"},
+        "3.12.0": {"news": "3.12/evolution-data-server-3.12.0.news", "tar.xz": "3.12/evolution-data-server-3.12.0.tar.xz",
+        "sha256sum": "3.12/evolution-data-server-3.12.0.sha256sum"}, "2.23.6": {"md5sum":
+        "2.23/evolution-data-server-2.23.6.md5sum", "sha256sum": "2.23/evolution-data-server-2.23.6.sha256sum",
+        "tar.gz": "2.23/evolution-data-server-2.23.6.tar.gz", "diff.gz": "2.23/evolution-data-server-2.23.5-2.23.6.diff.gz",
+        "news": "2.23/evolution-data-server-2.23.6.news", "changes": "2.23/evolution-data-server-2.23.6.changes",
+        "tar.bz2": "2.23/evolution-data-server-2.23.6.tar.bz2"}, "2.23.1": {"tar.gz":
+        "2.23/evolution-data-server-2.23.1.tar.gz", "md5sum": "2.23/evolution-data-server-2.23.1.md5sum",
+        "tar.bz2": "2.23/evolution-data-server-2.23.1.tar.bz2", "sha256sum": "2.23/evolution-data-server-2.23.1.sha256sum"},
+        "3.12.7": {"news": "3.12/evolution-data-server-3.12.7.news", "tar.xz": "3.12/evolution-data-server-3.12.7.tar.xz",
+        "sha256sum": "3.12/evolution-data-server-3.12.7.sha256sum"}, "2.23.3": {"md5sum":
+        "2.23/evolution-data-server-2.23.3.md5sum", "sha256sum": "2.23/evolution-data-server-2.23.3.sha256sum",
+        "tar.gz": "2.23/evolution-data-server-2.23.3.tar.gz", "news": "2.23/evolution-data-server-2.23.3.news",
+        "diff.gz": "2.23/evolution-data-server-2.23.2-2.23.3.diff.gz", "changes":
+        "2.23/evolution-data-server-2.23.3.changes", "tar.bz2": "2.23/evolution-data-server-2.23.3.tar.bz2"},
+        "2.23.2": {"md5sum": "2.23/evolution-data-server-2.23.2.md5sum", "sha256sum":
+        "2.23/evolution-data-server-2.23.2.sha256sum", "tar.gz": "2.23/evolution-data-server-2.23.2.tar.gz",
+        "news": "2.23/evolution-data-server-2.23.2.news", "changes": "2.23/evolution-data-server-2.23.2.changes",
+        "tar.bz2": "2.23/evolution-data-server-2.23.2.tar.bz2"}, "1.7.1": {"tar.gz":
+        "1.7/evolution-data-server-1.7.1.tar.gz", "md5sum": "1.7/evolution-data-server-1.7.1.md5sum",
+        "tar.bz2": "1.7/evolution-data-server-1.7.1.tar.bz2", "sha256sum": "1.7/evolution-data-server-1.7.1.sha256sum"},
+        "3.12.2": {"news": "3.12/evolution-data-server-3.12.2.news", "tar.xz": "3.12/evolution-data-server-3.12.2.tar.xz",
+        "sha256sum": "3.12/evolution-data-server-3.12.2.sha256sum"}, "2.24.1.1": {"md5sum":
+        "2.24/evolution-data-server-2.24.1.1.md5sum", "sha256sum": "2.24/evolution-data-server-2.24.1.1.sha256sum",
+        "tar.gz": "2.24/evolution-data-server-2.24.1.1.tar.gz", "diff.gz": "2.24/evolution-data-server-2.24.1-2.24.1.1.diff.gz",
+        "news": "2.24/evolution-data-server-2.24.1.1.news", "changes": "2.24/evolution-data-server-2.24.1.1.changes",
+        "tar.bz2": "2.24/evolution-data-server-2.24.1.1.tar.bz2"}, "2.28.0": {"tar.gz":
+        "2.28/evolution-data-server-2.28.0.tar.gz", "tar.bz2": "2.28/evolution-data-server-2.28.0.tar.bz2",
+        "sha256sum": "2.28/evolution-data-server-2.28.0.sha256sum"}, "1.4.2.1": {"md5sum":
+        "1.4/evolution-data-server-1.4.2.1.md5sum", "sha256sum": "1.4/evolution-data-server-1.4.2.1.sha256sum",
+        "tar.gz": "1.4/evolution-data-server-1.4.2.1.tar.gz", "diff.gz": "1.4/evolution-data-server-1.4.2-1.4.2.1.diff.gz",
+        "news": "1.4/evolution-data-server-1.4.2.1.news", "changes": "1.4/evolution-data-server-1.4.2.1.changes",
+        "tar.bz2": "1.4/evolution-data-server-1.4.2.1.tar.bz2"}, "2.31.6": {"sha256sum":
+        "2.31/evolution-data-server-2.31.6.sha256sum", "tar.gz": "2.31/evolution-data-server-2.31.6.tar.gz",
+        "news": "2.31/evolution-data-server-2.31.6.news", "diff.gz": "2.31/evolution-data-server-2.31.5-2.31.6.diff.gz",
+        "changes": "2.31/evolution-data-server-2.31.6.changes", "tar.bz2": "2.31/evolution-data-server-2.31.6.tar.bz2"},
+        "2.31.92": {"sha256sum": "2.31/evolution-data-server-2.31.92.sha256sum", "tar.gz":
+        "2.31/evolution-data-server-2.31.92.tar.gz", "diff.gz": "2.31/evolution-data-server-2.31.91-2.31.92.diff.gz",
+        "news": "2.31/evolution-data-server-2.31.92.news", "changes": "2.31/evolution-data-server-2.31.92.changes",
+        "tar.bz2": "2.31/evolution-data-server-2.31.92.tar.bz2"}, "3.11.91": {"news":
+        "3.11/evolution-data-server-3.11.91.news", "tar.xz": "3.11/evolution-data-server-3.11.91.tar.xz",
+        "sha256sum": "3.11/evolution-data-server-3.11.91.sha256sum"}, "3.11.90": {"news":
+        "3.11/evolution-data-server-3.11.90.news", "tar.xz": "3.11/evolution-data-server-3.11.90.tar.xz",
+        "sha256sum": "3.11/evolution-data-server-3.11.90.sha256sum"}, "3.11.92": {"news":
+        "3.11/evolution-data-server-3.11.92.news", "tar.xz": "3.11/evolution-data-server-3.11.92.tar.xz",
+        "sha256sum": "3.11/evolution-data-server-3.11.92.sha256sum"}, "2.31.90": {"sha256sum":
+        "2.31/evolution-data-server-2.31.90.sha256sum", "tar.gz": "2.31/evolution-data-server-2.31.90.tar.gz",
+        "diff.gz": "2.31/evolution-data-server-2.31.6-2.31.90.diff.gz", "news": "2.31/evolution-data-server-2.31.90.news",
+        "changes": "2.31/evolution-data-server-2.31.90.changes", "tar.bz2": "2.31/evolution-data-server-2.31.90.tar.bz2"},
+        "3.0.1": {"tar.gz": "3.0/evolution-data-server-3.0.1.tar.gz", "news": "3.0/evolution-data-server-3.0.1.news",
+        "changes": "3.0/evolution-data-server-3.0.1.changes", "tar.bz2": "3.0/evolution-data-server-3.0.1.tar.bz2",
+        "sha256sum": "3.0/evolution-data-server-3.0.1.sha256sum"}, "1.7.92": {"md5sum":
+        "1.7/evolution-data-server-1.7.92.md5sum", "sha256sum": "1.7/evolution-data-server-1.7.92.sha256sum",
+        "tar.gz": "1.7/evolution-data-server-1.7.92.tar.gz", "news": "1.7/evolution-data-server-1.7.92.news",
+        "diff.gz": "1.7/evolution-data-server-1.7.91-1.7.92.diff.gz", "changes": "1.7/evolution-data-server-1.7.92.changes",
+        "tar.bz2": "1.7/evolution-data-server-1.7.92.tar.bz2"}, "1.12.0": {"tar.gz":
+        "1.12/evolution-data-server-1.12.0.tar.gz", "md5sum": "1.12/evolution-data-server-1.12.0.md5sum",
+        "tar.bz2": "1.12/evolution-data-server-1.12.0.tar.bz2", "sha256sum": "1.12/evolution-data-server-1.12.0.sha256sum"},
+        "1.12.1": {"md5sum": "1.12/evolution-data-server-1.12.1.md5sum", "sha256sum":
+        "1.12/evolution-data-server-1.12.1.sha256sum", "tar.gz": "1.12/evolution-data-server-1.12.1.tar.gz",
+        "diff.gz": "1.12/evolution-data-server-1.12.0-1.12.1.diff.gz", "news": "1.12/evolution-data-server-1.12.1.news",
+        "changes": "1.12/evolution-data-server-1.12.1.changes", "tar.bz2": "1.12/evolution-data-server-1.12.1.tar.bz2"},
+        "1.12.2": {"md5sum": "1.12/evolution-data-server-1.12.2.md5sum", "sha256sum":
+        "1.12/evolution-data-server-1.12.2.sha256sum", "tar.gz": "1.12/evolution-data-server-1.12.2.tar.gz",
+        "diff.gz": "1.12/evolution-data-server-1.12.1-1.12.2.diff.gz", "news": "1.12/evolution-data-server-1.12.2.news",
+        "changes": "1.12/evolution-data-server-1.12.2.changes", "tar.bz2": "1.12/evolution-data-server-1.12.2.tar.bz2"},
+        "2.26.1": {"md5sum": "2.26/evolution-data-server-2.26.1.md5sum", "sha256sum":
+        "2.26/evolution-data-server-2.26.1.sha256sum", "tar.gz": "2.26/evolution-data-server-2.26.1.tar.gz",
+        "news": "2.26/evolution-data-server-2.26.1.news", "diff.gz": "2.26/evolution-data-server-2.26.0-2.26.1.diff.gz",
+        "changes": "2.26/evolution-data-server-2.26.1.changes", "tar.bz2": "2.26/evolution-data-server-2.26.1.tar.bz2"},
+        "2.29.92": {"tar.gz": "2.29/evolution-data-server-2.29.92.tar.gz", "news":
+        "2.29/evolution-data-server-2.29.92.news", "tar.bz2": "2.29/evolution-data-server-2.29.92.tar.bz2",
+        "diff.gz": "2.29/evolution-data-server-2.29.91-2.29.92.diff.gz", "sha256sum":
+        "2.29/evolution-data-server-2.29.92.sha256sum"}, "1.7.4": {"md5sum": "1.7/evolution-data-server-1.7.4.md5sum",
+        "sha256sum": "1.7/evolution-data-server-1.7.4.sha256sum", "tar.gz": "1.7/evolution-data-server-1.7.4.tar.gz",
+        "news": "1.7/evolution-data-server-1.7.4.news", "diff.gz": "1.7/evolution-data-server-1.7.3-1.7.4.diff.gz",
+        "changes": "1.7/evolution-data-server-1.7.4.changes", "tar.bz2": "1.7/evolution-data-server-1.7.4.tar.bz2"},
+        "1.8.0": {"tar.gz": "1.8/evolution-data-server-1.8.0.tar.gz", "md5sum": "1.8/evolution-data-server-1.8.0.md5sum",
+        "tar.bz2": "1.8/evolution-data-server-1.8.0.tar.bz2", "sha256sum": "1.8/evolution-data-server-1.8.0.sha256sum"},
+        "3.5.5": {"news": "3.5/evolution-data-server-3.5.5.news", "changes": "3.5/evolution-data-server-3.5.5.changes",
+        "tar.xz": "3.5/evolution-data-server-3.5.5.tar.xz", "sha256sum": "3.5/evolution-data-server-3.5.5.sha256sum"},
+        "2.26.3": {"md5sum": "2.26/evolution-data-server-2.26.3.md5sum", "sha256sum":
+        "2.26/evolution-data-server-2.26.3.sha256sum", "tar.gz": "2.26/evolution-data-server-2.26.3.tar.gz",
+        "diff.gz": "2.26/evolution-data-server-2.26.2-2.26.3.diff.gz", "news": "2.26/evolution-data-server-2.26.3.news",
+        "tar.bz2": "2.26/evolution-data-server-2.26.3.tar.bz2"}, "1.10.2": {"md5sum":
+        "1.10/evolution-data-server-1.10.2.md5sum", "sha256sum": "1.10/evolution-data-server-1.10.2.sha256sum",
+        "tar.gz": "1.10/evolution-data-server-1.10.2.tar.gz", "diff.gz": "1.10/evolution-data-server-1.10.1-1.10.2.diff.gz",
+        "news": "1.10/evolution-data-server-1.10.2.news", "changes": "1.10/evolution-data-server-1.10.2.changes",
+        "tar.bz2": "1.10/evolution-data-server-1.10.2.tar.bz2"}, "1.10.3": {"md5sum":
+        "1.10/evolution-data-server-1.10.3.md5sum", "sha256sum": "1.10/evolution-data-server-1.10.3.sha256sum",
+        "tar.gz": "1.10/evolution-data-server-1.10.3.tar.gz", "diff.gz": "1.10/evolution-data-server-1.10.2-1.10.3.diff.gz",
+        "news": "1.10/evolution-data-server-1.10.3.news", "changes": "1.10/evolution-data-server-1.10.3.changes",
+        "tar.bz2": "1.10/evolution-data-server-1.10.3.tar.bz2"}, "1.10.0": {"tar.gz":
+        "1.10/evolution-data-server-1.10.0.tar.gz", "md5sum": "1.10/evolution-data-server-1.10.0.md5sum",
+        "tar.bz2": "1.10/evolution-data-server-1.10.0.tar.bz2", "sha256sum": "1.10/evolution-data-server-1.10.0.sha256sum"},
+        "1.10.1": {"md5sum": "1.10/evolution-data-server-1.10.1.md5sum", "sha256sum":
+        "1.10/evolution-data-server-1.10.1.sha256sum", "tar.gz": "1.10/evolution-data-server-1.10.1.tar.gz",
+        "news": "1.10/evolution-data-server-1.10.1.news", "diff.gz": "1.10/evolution-data-server-1.10.0-1.10.1.diff.gz",
+        "changes": "1.10/evolution-data-server-1.10.1.changes", "tar.bz2": "1.10/evolution-data-server-1.10.1.tar.bz2"},
+        "2.24.0": {"tar.gz": "2.24/evolution-data-server-2.24.0.tar.gz", "md5sum":
+        "2.24/evolution-data-server-2.24.0.md5sum", "tar.bz2": "2.24/evolution-data-server-2.24.0.tar.bz2",
+        "sha256sum": "2.24/evolution-data-server-2.24.0.sha256sum"}, "1.10.3.1": {"tar.gz":
+        "1.10/evolution-data-server-1.10.3.1.tar.gz", "diff.gz": "1.10/evolution-data-server-1.10.3-1.10.3.1.diff.gz",
+        "md5sum": "1.10/evolution-data-server-1.10.3.1.md5sum", "tar.bz2": "1.10/evolution-data-server-1.10.3.1.tar.bz2",
+        "sha256sum": "1.10/evolution-data-server-1.10.3.1.sha256sum"}, "2.29.91":
+        {"tar.gz": "2.29/evolution-data-server-2.29.91.tar.gz", "news": "2.29/evolution-data-server-2.29.91.news",
+        "sha256sum": "2.29/evolution-data-server-2.29.91.sha256sum", "tar.bz2": "2.29/evolution-data-server-2.29.91.tar.bz2",
+        "diff.gz": "2.29/evolution-data-server-2.29.90-2.29.91.diff.gz"}, "3.3.1.1":
+        {"news": "3.3/evolution-data-server-3.3.1.1.news", "changes": "3.3/evolution-data-server-3.3.1.1.changes",
+        "tar.xz": "3.3/evolution-data-server-3.3.1.1.tar.xz", "tar.bz2": "3.3/evolution-data-server-3.3.1.1.tar.bz2",
+        "sha256sum": "3.3/evolution-data-server-3.3.1.1.sha256sum"}, "3.7.5": {"news":
+        "3.7/evolution-data-server-3.7.5.news", "tar.xz": "3.7/evolution-data-server-3.7.5.tar.xz",
+        "sha256sum": "3.7/evolution-data-server-3.7.5.sha256sum"}, "3.7.4": {"news":
+        "3.7/evolution-data-server-3.7.4.news", "tar.xz": "3.7/evolution-data-server-3.7.4.tar.xz",
+        "sha256sum": "3.7/evolution-data-server-3.7.4.sha256sum"}, "1.1.4.2": {"tar.gz":
+        "1.1/evolution-data-server-1.1.4.2.tar.gz", "diff.gz": "1.1/evolution-data-server-1.1.4.1-1.1.4.2.diff.gz",
+        "md5sum": "1.1/evolution-data-server-1.1.4.2.md5sum", "tar.bz2": "1.1/evolution-data-server-1.1.4.2.tar.bz2",
+        "sha256sum": "1.1/evolution-data-server-1.1.4.2.sha256sum"}, "3.7.1": {"changes":
+        "3.7/evolution-data-server-3.7.1.changes", "tar.xz": "3.7/evolution-data-server-3.7.1.tar.xz",
+        "sha256sum": "3.7/evolution-data-server-3.7.1.sha256sum"}, "3.7.3": {"news":
+        "3.7/evolution-data-server-3.7.3.news", "tar.xz": "3.7/evolution-data-server-3.7.3.tar.xz",
+        "sha256sum": "3.7/evolution-data-server-3.7.3.sha256sum"}, "3.7.2": {"news":
+        "3.7/evolution-data-server-3.7.2.news", "changes": "3.7/evolution-data-server-3.7.2.changes",
+        "tar.xz": "3.7/evolution-data-server-3.7.2.tar.xz", "sha256sum": "3.7/evolution-data-server-3.7.2.sha256sum"},
+        "2.28.2": {"tar.gz": "2.28/evolution-data-server-2.28.2.tar.gz", "diff.gz":
+        "2.28/evolution-data-server-2.28.1-2.28.2.diff.gz", "news": "2.28/evolution-data-server-2.28.2.news",
+        "tar.bz2": "2.28/evolution-data-server-2.28.2.tar.bz2", "sha256sum": "2.28/evolution-data-server-2.28.2.sha256sum"},
+        "1.4.0": {"tar.gz": "1.4/evolution-data-server-1.4.0.tar.gz", "md5sum": "1.4/evolution-data-server-1.4.0.md5sum",
+        "tar.bz2": "1.4/evolution-data-server-1.4.0.tar.bz2", "sha256sum": "1.4/evolution-data-server-1.4.0.sha256sum"},
+        "3.5.4": {"news": "3.5/evolution-data-server-3.5.4.news", "changes": "3.5/evolution-data-server-3.5.4.changes",
+        "tar.xz": "3.5/evolution-data-server-3.5.4.tar.xz", "sha256sum": "3.5/evolution-data-server-3.5.4.sha256sum"},
+        "3.0.2": {"tar.gz": "3.0/evolution-data-server-3.0.2.tar.gz", "news": "3.0/evolution-data-server-3.0.2.news",
+        "changes": "3.0/evolution-data-server-3.0.2.changes", "tar.bz2": "3.0/evolution-data-server-3.0.2.tar.bz2",
+        "sha256sum": "3.0/evolution-data-server-3.0.2.sha256sum"}, "3.0.3": {"news":
+        "3.0/evolution-data-server-3.0.3.news", "changes": "3.0/evolution-data-server-3.0.3.changes",
+        "tar.xz": "3.0/evolution-data-server-3.0.3.tar.xz", "tar.bz2": "3.0/evolution-data-server-3.0.3.tar.bz2",
+        "sha256sum": "3.0/evolution-data-server-3.0.3.sha256sum"}, "1.7.90.1": {"md5sum":
+        "1.7/evolution-data-server-1.7.90.1.md5sum", "sha256sum": "1.7/evolution-data-server-1.7.90.1.sha256sum",
+        "tar.gz": "1.7/evolution-data-server-1.7.90.1.tar.gz", "news": "1.7/evolution-data-server-1.7.90.1.news",
+        "diff.gz": "1.7/evolution-data-server-1.7.90-1.7.90.1.diff.gz", "changes":
+        "1.7/evolution-data-server-1.7.90.1.changes", "tar.bz2": "1.7/evolution-data-server-1.7.90.1.tar.bz2"},
+        "1.4.1": {"md5sum": "1.4/evolution-data-server-1.4.1.md5sum", "sha256sum":
+        "1.4/evolution-data-server-1.4.1.sha256sum", "tar.gz": "1.4/evolution-data-server-1.4.1.tar.gz",
+        "news": "1.4/evolution-data-server-1.4.1.news", "diff.gz": "1.4/evolution-data-server-1.4.0-1.4.1.diff.gz",
+        "changes": "1.4/evolution-data-server-1.4.1.changes", "tar.bz2": "1.4/evolution-data-server-1.4.1.tar.bz2"},
+        "3.5.3": {"news": "3.5/evolution-data-server-3.5.3.news", "changes": "3.5/evolution-data-server-3.5.3.changes",
+        "tar.xz": "3.5/evolution-data-server-3.5.3.tar.xz", "sha256sum": "3.5/evolution-data-server-3.5.3.sha256sum"},
+        "3.5.2": {"news": "3.5/evolution-data-server-3.5.2.news", "changes": "3.5/evolution-data-server-3.5.2.changes",
+        "tar.xz": "3.5/evolution-data-server-3.5.2.tar.xz", "sha256sum": "3.5/evolution-data-server-3.5.2.sha256sum"},
+        "3.12.3": {"news": "3.12/evolution-data-server-3.12.3.news", "tar.xz": "3.12/evolution-data-server-3.12.3.tar.xz",
+        "sha256sum": "3.12/evolution-data-server-3.12.3.sha256sum"}, "3.5.1": {"changes":
+        "3.5/evolution-data-server-3.5.1.changes", "tar.xz": "3.5/evolution-data-server-3.5.1.tar.xz",
+        "sha256sum": "3.5/evolution-data-server-3.5.1.sha256sum"}, "3.17.2": {"news":
+        "3.17/evolution-data-server-3.17.2.news", "tar.xz": "3.17/evolution-data-server-3.17.2.tar.xz",
+        "sha256sum": "3.17/evolution-data-server-3.17.2.sha256sum"}, "3.17.1": {"news":
+        "3.17/evolution-data-server-3.17.1.news", "tar.xz": "3.17/evolution-data-server-3.17.1.tar.xz",
+        "sha256sum": "3.17/evolution-data-server-3.17.1.sha256sum"}, "3.5.3.1": {"news":
+        "3.5/evolution-data-server-3.5.3.1.news", "changes": "3.5/evolution-data-server-3.5.3.1.changes",
+        "tar.xz": "3.5/evolution-data-server-3.5.3.1.tar.xz", "sha256sum": "3.5/evolution-data-server-3.5.3.1.sha256sum"},
+        "2.28.3": {"tar.gz": "2.28/evolution-data-server-2.28.3.tar.gz", "diff.gz":
+        "2.28/evolution-data-server-2.28.2-2.28.3.diff.gz", "news": "2.28/evolution-data-server-2.28.3.news",
+        "tar.bz2": "2.28/evolution-data-server-2.28.3.tar.bz2", "sha256sum": "2.28/evolution-data-server-2.28.3.sha256sum"},
+        "3.16.2": {"news": "3.16/evolution-data-server-3.16.2.news", "tar.xz": "3.16/evolution-data-server-3.16.2.tar.xz",
+        "sha256sum": "3.16/evolution-data-server-3.16.2.sha256sum"}, "3.16.0": {"news":
+        "3.16/evolution-data-server-3.16.0.news", "tar.xz": "3.16/evolution-data-server-3.16.0.tar.xz",
+        "sha256sum": "3.16/evolution-data-server-3.16.0.sha256sum"}, "3.16.1": {"news":
+        "3.16/evolution-data-server-3.16.1.news", "tar.xz": "3.16/evolution-data-server-3.16.1.tar.xz",
+        "sha256sum": "3.16/evolution-data-server-3.16.1.sha256sum"}, "3.11.5": {"news":
+        "3.11/evolution-data-server-3.11.5.news", "tar.xz": "3.11/evolution-data-server-3.11.5.tar.xz",
+        "sha256sum": "3.11/evolution-data-server-3.11.5.sha256sum"}, "3.11.4": {"news":
+        "3.11/evolution-data-server-3.11.4.news", "tar.xz": "3.11/evolution-data-server-3.11.4.tar.xz",
+        "sha256sum": "3.11/evolution-data-server-3.11.4.sha256sum"}, "3.11.1": {"tar.xz":
+        "3.11/evolution-data-server-3.11.1.tar.xz", "sha256sum": "3.11/evolution-data-server-3.11.1.sha256sum"},
+        "2.24.4": {"md5sum": "2.24/evolution-data-server-2.24.4.md5sum", "sha256sum":
+        "2.24/evolution-data-server-2.24.4.sha256sum", "tar.gz": "2.24/evolution-data-server-2.24.4.tar.gz",
+        "news": "2.24/evolution-data-server-2.24.4.news", "diff.gz": "2.24/evolution-data-server-2.24.3-2.24.4.diff.gz",
+        "changes": "2.24/evolution-data-server-2.24.4.changes", "tar.bz2": "2.24/evolution-data-server-2.24.4.tar.bz2"},
+        "3.11.3": {"news": "3.11/evolution-data-server-3.11.3.news", "tar.xz": "3.11/evolution-data-server-3.11.3.tar.xz",
+        "sha256sum": "3.11/evolution-data-server-3.11.3.sha256sum"}, "3.11.2": {"news":
+        "3.11/evolution-data-server-3.11.2.news", "tar.xz": "3.11/evolution-data-server-3.11.2.tar.xz",
+        "sha256sum": "3.11/evolution-data-server-3.11.2.sha256sum"}, "1.12.3": {"md5sum":
+        "1.12/evolution-data-server-1.12.3.md5sum", "sha256sum": "1.12/evolution-data-server-1.12.3.sha256sum",
+        "tar.gz": "1.12/evolution-data-server-1.12.3.tar.gz", "news": "1.12/evolution-data-server-1.12.3.news",
+        "diff.gz": "1.12/evolution-data-server-1.12.2-1.12.3.diff.gz", "changes":
+        "1.12/evolution-data-server-1.12.3.changes", "tar.bz2": "1.12/evolution-data-server-1.12.3.tar.bz2"},
+        "2.24.5": {"md5sum": "2.24/evolution-data-server-2.24.5.md5sum", "sha256sum":
+        "2.24/evolution-data-server-2.24.5.sha256sum", "tar.gz": "2.24/evolution-data-server-2.24.5.tar.gz",
+        "news": "2.24/evolution-data-server-2.24.5.news", "diff.gz": "2.24/evolution-data-server-2.24.4.1-2.24.5.diff.gz",
+        "changes": "2.24/evolution-data-server-2.24.5.changes", "tar.bz2": "2.24/evolution-data-server-2.24.5.tar.bz2"},
+        "3.13.9": {"news": "3.13/evolution-data-server-3.13.9.news", "tar.xz": "3.13/evolution-data-server-3.13.9.tar.xz",
+        "sha256sum": "3.13/evolution-data-server-3.13.9.sha256sum"}, "3.13.8": {"news":
+        "3.13/evolution-data-server-3.13.8.news", "tar.xz": "3.13/evolution-data-server-3.13.8.tar.xz",
+        "sha256sum": "3.13/evolution-data-server-3.13.8.sha256sum"}, "3.13.7": {"news":
+        "3.13/evolution-data-server-3.13.7.news", "tar.xz": "3.13/evolution-data-server-3.13.7.tar.xz",
+        "sha256sum": "3.13/evolution-data-server-3.13.7.sha256sum"}, "3.13.6": {"news":
+        "3.13/evolution-data-server-3.13.6.news", "tar.xz": "3.13/evolution-data-server-3.13.6.tar.xz",
+        "sha256sum": "3.13/evolution-data-server-3.13.6.sha256sum"}, "3.13.5": {"news":
+        "3.13/evolution-data-server-3.13.5.news", "tar.xz": "3.13/evolution-data-server-3.13.5.tar.xz",
+        "sha256sum": "3.13/evolution-data-server-3.13.5.sha256sum"}, "3.13.4": {"news":
+        "3.13/evolution-data-server-3.13.4.news", "tar.xz": "3.13/evolution-data-server-3.13.4.tar.xz",
+        "sha256sum": "3.13/evolution-data-server-3.13.4.sha256sum"}, "3.13.3": {"news":
+        "3.13/evolution-data-server-3.13.3.news", "tar.xz": "3.13/evolution-data-server-3.13.3.tar.xz",
+        "sha256sum": "3.13/evolution-data-server-3.13.3.sha256sum"}, "3.13.2": {"news":
+        "3.13/evolution-data-server-3.13.2.news", "tar.xz": "3.13/evolution-data-server-3.13.2.tar.xz",
+        "sha256sum": "3.13/evolution-data-server-3.13.2.sha256sum"}, "3.13.1": {"tar.xz":
+        "3.13/evolution-data-server-3.13.1.tar.xz", "sha256sum": "3.13/evolution-data-server-3.13.1.sha256sum"},
+        "3.3.4": {"news": "3.3/evolution-data-server-3.3.4.news", "changes": "3.3/evolution-data-server-3.3.4.changes",
+        "tar.xz": "3.3/evolution-data-server-3.3.4.tar.xz", "sha256sum": "3.3/evolution-data-server-3.3.4.sha256sum"},
+        "2.31.91": {"sha256sum": "2.31/evolution-data-server-2.31.91.sha256sum", "tar.gz":
+        "2.31/evolution-data-server-2.31.91.tar.gz", "diff.gz": "2.31/evolution-data-server-2.31.90-2.31.91.diff.gz",
+        "news": "2.31/evolution-data-server-2.31.91.news", "changes": "2.31/evolution-data-server-2.31.91.changes",
+        "tar.bz2": "2.31/evolution-data-server-2.31.91.tar.bz2"}, "3.15.91": {"news":
+        "3.15/evolution-data-server-3.15.91.news", "tar.xz": "3.15/evolution-data-server-3.15.91.tar.xz",
+        "sha256sum": "3.15/evolution-data-server-3.15.91.sha256sum"}, "2.21.91": {"md5sum":
+        "2.21/evolution-data-server-2.21.91.md5sum", "sha256sum": "2.21/evolution-data-server-2.21.91.sha256sum",
+        "tar.gz": "2.21/evolution-data-server-2.21.91.tar.gz", "diff.gz": "2.21/evolution-data-server-2.21.90-2.21.91.diff.gz",
+        "news": "2.21/evolution-data-server-2.21.91.news", "changes": "2.21/evolution-data-server-2.21.91.changes",
+        "tar.bz2": "2.21/evolution-data-server-2.21.91.tar.bz2"}, "3.15.92": {"news":
+        "3.15/evolution-data-server-3.15.92.news", "tar.xz": "3.15/evolution-data-server-3.15.92.tar.xz",
+        "sha256sum": "3.15/evolution-data-server-3.15.92.sha256sum"}, "2.24.1": {"md5sum":
+        "2.24/evolution-data-server-2.24.1.md5sum", "sha256sum": "2.24/evolution-data-server-2.24.1.sha256sum",
+        "tar.gz": "2.24/evolution-data-server-2.24.1.tar.gz", "diff.gz": "2.24/evolution-data-server-2.24.0-2.24.1.diff.gz",
+        "news": "2.24/evolution-data-server-2.24.1.news", "changes": "2.24/evolution-data-server-2.24.1.changes",
+        "tar.bz2": "2.24/evolution-data-server-2.24.1.tar.bz2"}, "2.28.3.1": {"tar.gz":
+        "2.28/evolution-data-server-2.28.3.1.tar.gz", "diff.gz": "2.28/evolution-data-server-2.28.3-2.28.3.1.diff.gz",
+        "tar.bz2": "2.28/evolution-data-server-2.28.3.1.tar.bz2", "sha256sum": "2.28/evolution-data-server-2.28.3.1.sha256sum"},
+        "3.12.1": {"news": "3.12/evolution-data-server-3.12.1.news", "tar.xz": "3.12/evolution-data-server-3.12.1.tar.xz",
+        "sha256sum": "3.12/evolution-data-server-3.12.1.sha256sum"}, "2.29.90": {"tar.gz":
+        "2.29/evolution-data-server-2.29.90.tar.gz", "news": "2.29/evolution-data-server-2.29.90.news",
+        "diff.gz": "2.29/evolution-data-server-2.29.6-2.29.90.diff.gz", "tar.bz2":
+        "2.29/evolution-data-server-2.29.90.tar.bz2", "sha256sum": "2.29/evolution-data-server-2.29.90.sha256sum"},
+        "3.1.3": {"news": "3.1/evolution-data-server-3.1.3.news", "changes": "3.1/evolution-data-server-3.1.3.changes",
+        "tar.xz": "3.1/evolution-data-server-3.1.3.tar.xz", "tar.bz2": "3.1/evolution-data-server-3.1.3.tar.bz2",
+        "sha256sum": "3.1/evolution-data-server-3.1.3.sha256sum"}, "2.24.3": {"md5sum":
+        "2.24/evolution-data-server-2.24.3.md5sum", "sha256sum": "2.24/evolution-data-server-2.24.3.sha256sum",
+        "tar.gz": "2.24/evolution-data-server-2.24.3.tar.gz", "diff.gz": "2.24/evolution-data-server-2.24.2-2.24.3.diff.gz",
+        "news": "2.24/evolution-data-server-2.24.3.news", "changes": "2.24/evolution-data-server-2.24.3.changes",
+        "tar.bz2": "2.24/evolution-data-server-2.24.3.tar.bz2"}, "2.29.1": {"tar.gz":
+        "2.29/evolution-data-server-2.29.1.tar.gz", "tar.bz2": "2.29/evolution-data-server-2.29.1.tar.bz2",
+        "sha256sum": "2.29/evolution-data-server-2.29.1.sha256sum"}, "2.31.5": {"sha256sum":
+        "2.31/evolution-data-server-2.31.5.sha256sum", "tar.gz": "2.31/evolution-data-server-2.31.5.tar.gz",
+        "news": "2.31/evolution-data-server-2.31.5.news", "diff.gz": "2.31/evolution-data-server-2.31.4-2.31.5.diff.gz",
+        "changes": "2.31/evolution-data-server-2.31.5.changes", "tar.bz2": "2.31/evolution-data-server-2.31.5.tar.bz2"},
+        "2.28.1": {"tar.gz": "2.28/evolution-data-server-2.28.1.tar.gz", "diff.gz":
+        "2.28/evolution-data-server-2.28.0-2.28.1.diff.gz", "news": "2.28/evolution-data-server-2.28.1.news",
+        "tar.bz2": "2.28/evolution-data-server-2.28.1.tar.bz2", "sha256sum": "2.28/evolution-data-server-2.28.1.sha256sum"},
+        "2.31.1": {"tar.gz": "2.31/evolution-data-server-2.31.1.tar.gz", "tar.bz2":
+        "2.31/evolution-data-server-2.31.1.tar.bz2", "sha256sum": "2.31/evolution-data-server-2.31.1.sha256sum"},
+        "2.31.2": {"sha256sum": "2.31/evolution-data-server-2.31.2.sha256sum", "tar.gz":
+        "2.31/evolution-data-server-2.31.2.tar.gz", "diff.gz": "2.31/evolution-data-server-2.31.1-2.31.2.diff.gz",
+        "news": "2.31/evolution-data-server-2.31.2.news", "changes": "2.31/evolution-data-server-2.31.2.changes",
+        "tar.bz2": "2.31/evolution-data-server-2.31.2.tar.bz2"}, "2.31.3": {"sha256sum":
+        "2.31/evolution-data-server-2.31.3.sha256sum", "tar.gz": "2.31/evolution-data-server-2.31.3.tar.gz",
+        "news": "2.31/evolution-data-server-2.31.3.news", "diff.gz": "2.31/evolution-data-server-2.31.2-2.31.3.diff.gz",
+        "changes": "2.31/evolution-data-server-2.31.3.changes", "tar.bz2": "2.31/evolution-data-server-2.31.3.tar.bz2"},
+        "3.4.2": {"news": "3.4/evolution-data-server-3.4.2.news", "changes": "3.4/evolution-data-server-3.4.2.changes",
+        "tar.xz": "3.4/evolution-data-server-3.4.2.tar.xz", "sha256sum": "3.4/evolution-data-server-3.4.2.sha256sum"},
+        "3.4.3": {"news": "3.4/evolution-data-server-3.4.3.news", "changes": "3.4/evolution-data-server-3.4.3.changes",
+        "tar.xz": "3.4/evolution-data-server-3.4.3.tar.xz", "sha256sum": "3.4/evolution-data-server-3.4.3.sha256sum"},
+        "3.4.0": {"news": "3.4/evolution-data-server-3.4.0.news", "changes": "3.4/evolution-data-server-3.4.0.changes",
+        "tar.xz": "3.4/evolution-data-server-3.4.0.tar.xz", "sha256sum": "3.4/evolution-data-server-3.4.0.sha256sum"},
+        "3.4.1": {"news": "3.4/evolution-data-server-3.4.1.news", "changes": "3.4/evolution-data-server-3.4.1.changes",
+        "tar.xz": "3.4/evolution-data-server-3.4.1.tar.xz", "sha256sum": "3.4/evolution-data-server-3.4.1.sha256sum"},
+        "1.11.6": {"md5sum": "1.11/evolution-data-server-1.11.6.md5sum", "sha256sum":
+        "1.11/evolution-data-server-1.11.6.sha256sum", "tar.gz": "1.11/evolution-data-server-1.11.6.tar.gz",
+        "news": "1.11/evolution-data-server-1.11.6.news", "diff.gz": "1.11/evolution-data-server-1.11.5-1.11.6.diff.gz",
+        "changes": "1.11/evolution-data-server-1.11.6.changes", "tar.bz2": "1.11/evolution-data-server-1.11.6.tar.bz2"},
+        "3.4.4": {"news": "3.4/evolution-data-server-3.4.4.news", "changes": "3.4/evolution-data-server-3.4.4.changes",
+        "tar.xz": "3.4/evolution-data-server-3.4.4.tar.xz", "sha256sum": "3.4/evolution-data-server-3.4.4.sha256sum"},
+        "1.11.4": {"md5sum": "1.11/evolution-data-server-1.11.4.md5sum", "sha256sum":
+        "1.11/evolution-data-server-1.11.4.sha256sum", "tar.gz": "1.11/evolution-data-server-1.11.4.tar.gz",
+        "news": "1.11/evolution-data-server-1.11.4.news", "diff.gz": "1.11/evolution-data-server-1.11.3-1.11.4.diff.gz",
+        "changes": "1.11/evolution-data-server-1.11.4.changes", "tar.bz2": "1.11/evolution-data-server-1.11.4.tar.bz2"},
+        "1.9.91": {"md5sum": "1.9/evolution-data-server-1.9.91.md5sum", "sha256sum":
+        "1.9/evolution-data-server-1.9.91.sha256sum", "tar.gz": "1.9/evolution-data-server-1.9.91.tar.gz",
+        "news": "1.9/evolution-data-server-1.9.91.news", "diff.gz": "1.9/evolution-data-server-1.9.6.1-1.9.91.diff.gz",
+        "changes": "1.9/evolution-data-server-1.9.91.changes", "tar.bz2": "1.9/evolution-data-server-1.9.91.tar.bz2"},
+        "1.9.92": {"md5sum": "1.9/evolution-data-server-1.9.92.md5sum", "sha256sum":
+        "1.9/evolution-data-server-1.9.92.sha256sum", "tar.gz": "1.9/evolution-data-server-1.9.92.tar.gz",
+        "diff.gz": "1.9/evolution-data-server-1.9.91-1.9.92.diff.gz", "news": "1.9/evolution-data-server-1.9.92.news",
+        "changes": "1.9/evolution-data-server-1.9.92.changes", "tar.bz2": "1.9/evolution-data-server-1.9.92.tar.bz2"},
+        "3.9.92": {"news": "3.9/evolution-data-server-3.9.92.news", "tar.xz": "3.9/evolution-data-server-3.9.92.tar.xz",
+        "sha256sum": "3.9/evolution-data-server-3.9.92.sha256sum"}, "2.24.4.1": {"md5sum":
+        "2.24/evolution-data-server-2.24.4.1.md5sum", "sha256sum": "2.24/evolution-data-server-2.24.4.1.sha256sum",
+        "tar.gz": "2.24/evolution-data-server-2.24.4.1.tar.gz", "diff.gz": "2.24/evolution-data-server-2.24.4-2.24.4.1.diff.gz",
+        "changes": "2.24/evolution-data-server-2.24.4.1.changes", "tar.bz2": "2.24/evolution-data-server-2.24.4.1.tar.bz2"},
+        "3.6.0": {"news": "3.6/evolution-data-server-3.6.0.news", "changes": "3.6/evolution-data-server-3.6.0.changes",
+        "tar.xz": "3.6/evolution-data-server-3.6.0.tar.xz", "sha256sum": "3.6/evolution-data-server-3.6.0.sha256sum"},
+        "2.25.3": {"md5sum": "2.25/evolution-data-server-2.25.3.md5sum", "sha256sum":
+        "2.25/evolution-data-server-2.25.3.sha256sum", "tar.gz": "2.25/evolution-data-server-2.25.3.tar.gz",
+        "news": "2.25/evolution-data-server-2.25.3.news", "diff.gz": "2.25/evolution-data-server-2.25.2-2.25.3.diff.gz",
+        "changes": "2.25/evolution-data-server-2.25.3.changes", "tar.bz2": "2.25/evolution-data-server-2.25.3.tar.bz2"},
+        "3.6.2": {"news": "3.6/evolution-data-server-3.6.2.news", "changes": "3.6/evolution-data-server-3.6.2.changes",
+        "tar.xz": "3.6/evolution-data-server-3.6.2.tar.xz", "sha256sum": "3.6/evolution-data-server-3.6.2.sha256sum"},
+        "3.6.3": {"news": "3.6/evolution-data-server-3.6.3.news", "changes": "3.6/evolution-data-server-3.6.3.changes",
+        "tar.xz": "3.6/evolution-data-server-3.6.3.tar.xz", "sha256sum": "3.6/evolution-data-server-3.6.3.sha256sum"},
+        "2.91.90": {"sha256sum": "2.91/evolution-data-server-2.91.90.sha256sum", "tar.gz":
+        "2.91/evolution-data-server-2.91.90.tar.gz", "diff.gz": "2.91/evolution-data-server-2.91.6-2.91.90.diff.gz",
+        "news": "2.91/evolution-data-server-2.91.90.news", "changes": "2.91/evolution-data-server-2.91.90.changes",
+        "tar.bz2": "2.91/evolution-data-server-2.91.90.tar.bz2"}, "2.91.91": {"tar.gz":
+        "2.91/evolution-data-server-2.91.91.tar.gz", "news": "2.91/evolution-data-server-2.91.91.news",
+        "changes": "2.91/evolution-data-server-2.91.91.changes", "tar.bz2": "2.91/evolution-data-server-2.91.91.tar.bz2",
+        "sha256sum": "2.91/evolution-data-server-2.91.91.sha256sum"}, "2.91.92": {"tar.gz":
+        "2.91/evolution-data-server-2.91.92.tar.gz", "news": "2.91/evolution-data-server-2.91.92.news",
+        "changes": "2.91/evolution-data-server-2.91.92.changes", "tar.bz2": "2.91/evolution-data-server-2.91.92.tar.bz2",
+        "sha256sum": "2.91/evolution-data-server-2.91.92.sha256sum"}, "2.25.2": {"md5sum":
+        "2.25/evolution-data-server-2.25.2.md5sum", "sha256sum": "2.25/evolution-data-server-2.25.2.sha256sum",
+        "tar.gz": "2.25/evolution-data-server-2.25.2.tar.gz", "diff.gz": "2.25/evolution-data-server-2.25.1-2.25.2.diff.gz",
+        "news": "2.25/evolution-data-server-2.25.2.news", "changes": "2.25/evolution-data-server-2.25.2.changes",
+        "tar.bz2": "2.25/evolution-data-server-2.25.2.tar.bz2"}, "2.29.3": {"tar.gz":
+        "2.29/evolution-data-server-2.29.3.tar.gz", "diff.gz": "2.29/evolution-data-server-2.29.2-2.29.3.diff.gz",
+        "sha256sum": "2.29/evolution-data-server-2.29.3.sha256sum", "tar.bz2": "2.29/evolution-data-server-2.29.3.tar.bz2",
+        "news": "2.29/evolution-data-server-2.29.3.news"}, "3.6.1": {"news": "3.6/evolution-data-server-3.6.1.news",
+        "changes": "3.6/evolution-data-server-3.6.1.changes", "tar.xz": "3.6/evolution-data-server-3.6.1.tar.xz",
+        "sha256sum": "3.6/evolution-data-server-3.6.1.sha256sum"}, "2.25.1": {"tar.gz":
+        "2.25/evolution-data-server-2.25.1.tar.gz", "md5sum": "2.25/evolution-data-server-2.25.1.md5sum",
+        "tar.bz2": "2.25/evolution-data-server-2.25.1.tar.bz2", "sha256sum": "2.25/evolution-data-server-2.25.1.sha256sum"},
+        "2.26.1.1": {"md5sum": "2.26/evolution-data-server-2.26.1.1.md5sum", "sha256sum":
+        "2.26/evolution-data-server-2.26.1.1.sha256sum", "tar.gz": "2.26/evolution-data-server-2.26.1.1.tar.gz",
+        "diff.gz": "2.26/evolution-data-server-2.26.1-2.26.1.1.diff.gz", "news": "2.26/evolution-data-server-2.26.1.1.news",
+        "changes": "2.26/evolution-data-server-2.26.1.1.changes", "tar.bz2": "2.26/evolution-data-server-2.26.1.1.tar.bz2"},
+        "2.22.1.1": {"md5sum": "2.22/evolution-data-server-2.22.1.1.md5sum", "sha256sum":
+        "2.22/evolution-data-server-2.22.1.1.sha256sum", "tar.gz": "2.22/evolution-data-server-2.22.1.1.tar.gz",
+        "news": "2.22/evolution-data-server-2.22.1.1.news", "diff.gz": "2.22/evolution-data-server-2.22.1-2.22.1.1.diff.gz",
+        "changes": "2.22/evolution-data-server-2.22.1.1.changes", "tar.bz2": "2.22/evolution-data-server-2.22.1.1.tar.bz2"},
+        "3.3.91": {"news": "3.3/evolution-data-server-3.3.91.news", "changes": "3.3/evolution-data-server-3.3.91.changes",
+        "tar.xz": "3.3/evolution-data-server-3.3.91.tar.xz", "sha256sum": "3.3/evolution-data-server-3.3.91.sha256sum"},
+        "0.0.99": {"md5sum": "0.0/evolution-data-server-0.0.99.md5sum", "sha256sum":
+        "0.0/evolution-data-server-0.0.99.sha256sum", "tar.gz": "0.0/evolution-data-server-0.0.99.tar.gz",
+        "news": "0.0/evolution-data-server-0.0.99.news", "diff.gz": "0.0/evolution-data-server-0.0.98-0.0.99.diff.gz",
+        "changes": "0.0/evolution-data-server-0.0.99.changes", "tar.bz2": "0.0/evolution-data-server-0.0.99.tar.bz2"},
+        "0.0.98": {"md5sum": "0.0/evolution-data-server-0.0.98.md5sum", "sha256sum":
+        "0.0/evolution-data-server-0.0.98.sha256sum", "tar.gz": "0.0/evolution-data-server-0.0.98.tar.gz",
+        "diff.gz": "0.0/evolution-data-server-0.0.97-0.0.98.diff.gz", "changes": "0.0/evolution-data-server-0.0.98.changes",
+        "tar.bz2": "0.0/evolution-data-server-0.0.98.tar.bz2"}, "3.3.90": {"news":
+        "3.3/evolution-data-server-3.3.90.news", "changes": "3.3/evolution-data-server-3.3.90.changes",
+        "tar.xz": "3.3/evolution-data-server-3.3.90.tar.xz", "sha256sum": "3.3/evolution-data-server-3.3.90.sha256sum"},
+        "0.0.95": {"md5sum": "0.0/evolution-data-server-0.0.95.md5sum", "sha256sum":
+        "0.0/evolution-data-server-0.0.95.sha256sum", "tar.gz": "0.0/evolution-data-server-0.0.95.tar.gz",
+        "diff.gz": "0.0/evolution-data-server-0.0.94.1-0.0.95.diff.gz", "changes":
+        "0.0/evolution-data-server-0.0.95.changes", "tar.bz2": "0.0/evolution-data-server-0.0.95.tar.bz2"},
+        "0.0.94": {"md5sum": "0.0/evolution-data-server-0.0.94.md5sum", "sha256sum":
+        "0.0/evolution-data-server-0.0.94.sha256sum", "tar.gz": "0.0/evolution-data-server-0.0.94.tar.gz",
+        "diff.gz": "0.0/evolution-data-server-0.0.93-0.0.94.diff.gz", "changes": "0.0/evolution-data-server-0.0.94.changes",
+        "tar.bz2": "0.0/evolution-data-server-0.0.94.tar.bz2"}, "0.0.97": {"md5sum":
+        "0.0/evolution-data-server-0.0.97.md5sum", "sha256sum": "0.0/evolution-data-server-0.0.97.sha256sum",
+        "tar.gz": "0.0/evolution-data-server-0.0.97.tar.gz", "diff.gz": "0.0/evolution-data-server-0.0.96-0.0.97.diff.gz",
+        "changes": "0.0/evolution-data-server-0.0.97.changes", "tar.bz2": "0.0/evolution-data-server-0.0.97.tar.bz2"},
+        "0.0.96": {"md5sum": "0.0/evolution-data-server-0.0.96.md5sum", "sha256sum":
+        "0.0/evolution-data-server-0.0.96.sha256sum", "tar.gz": "0.0/evolution-data-server-0.0.96.tar.gz",
+        "diff.gz": "0.0/evolution-data-server-0.0.95-0.0.96.diff.gz", "changes": "0.0/evolution-data-server-0.0.96.changes",
+        "tar.bz2": "0.0/evolution-data-server-0.0.96.tar.bz2"}, "0.0.91": {"tar.gz":
+        "0.0/evolution-data-server-0.0.91.tar.gz", "md5sum": "0.0/evolution-data-server-0.0.91.md5sum",
+        "tar.bz2": "0.0/evolution-data-server-0.0.91.tar.bz2", "sha256sum": "0.0/evolution-data-server-0.0.91.sha256sum"},
+        "0.0.90": {"tar.gz": "0.0/evolution-data-server-0.0.90.tar.gz", "diff.gz":
+        "0.0/evolution-data-server-0.0.7-0.0.90.diff.gz", "tar.bz2": "0.0/evolution-data-server-0.0.90.tar.bz2"},
+        "0.0.93": {"tar.gz": "0.0/evolution-data-server-0.0.93.tar.gz", "diff.gz":
+        "0.0/evolution-data-server-0.0.92-0.0.93.diff.gz", "md5sum": "0.0/evolution-data-server-0.0.93.md5sum",
+        "tar.bz2": "0.0/evolution-data-server-0.0.93.tar.bz2", "sha256sum": "0.0/evolution-data-server-0.0.93.sha256sum"},
+        "0.0.92": {"md5sum": "0.0/evolution-data-server-0.0.92.md5sum", "sha256sum":
+        "0.0/evolution-data-server-0.0.92.sha256sum", "tar.gz": "0.0/evolution-data-server-0.0.92.tar.gz",
+        "diff.gz": "0.0/evolution-data-server-0.0.91-0.0.92.diff.gz", "changes": "0.0/evolution-data-server-0.0.92.changes",
+        "tar.bz2": "0.0/evolution-data-server-0.0.92.tar.bz2"}, "2.31.4": {"sha256sum":
+        "2.31/evolution-data-server-2.31.4.sha256sum", "tar.gz": "2.31/evolution-data-server-2.31.4.tar.gz",
+        "diff.gz": "2.31/evolution-data-server-2.31.3.1-2.31.4.diff.gz", "news": "2.31/evolution-data-server-2.31.4.news",
+        "changes": "2.31/evolution-data-server-2.31.4.changes", "tar.bz2": "2.31/evolution-data-server-2.31.4.tar.bz2"},
+        "3.0.3.1": {"news": "3.0/evolution-data-server-3.0.3.1.news", "changes": "3.0/evolution-data-server-3.0.3.1.changes",
+        "tar.xz": "3.0/evolution-data-server-3.0.3.1.tar.xz", "tar.bz2": "3.0/evolution-data-server-3.0.3.1.tar.bz2",
+        "sha256sum": "3.0/evolution-data-server-3.0.3.1.sha256sum"}, "3.3.92": {"news":
+        "3.3/evolution-data-server-3.3.92.news", "changes": "3.3/evolution-data-server-3.3.92.changes",
+        "tar.xz": "3.3/evolution-data-server-3.3.92.tar.xz", "sha256sum": "3.3/evolution-data-server-3.3.92.sha256sum"},
+        "3.6.4": {"news": "3.6/evolution-data-server-3.6.4.news", "changes": "3.6/evolution-data-server-3.6.4.changes",
+        "tar.xz": "3.6/evolution-data-server-3.6.4.tar.xz", "sha256sum": "3.6/evolution-data-server-3.6.4.sha256sum"},
+        "3.1.91": {"news": "3.1/evolution-data-server-3.1.91.news", "changes": "3.1/evolution-data-server-3.1.91.changes",
+        "tar.xz": "3.1/evolution-data-server-3.1.91.tar.xz", "tar.bz2": "3.1/evolution-data-server-3.1.91.tar.bz2",
+        "sha256sum": "3.1/evolution-data-server-3.1.91.sha256sum"}, "2.23.91": {"md5sum":
+        "2.23/evolution-data-server-2.23.91.md5sum", "sha256sum": "2.23/evolution-data-server-2.23.91.sha256sum",
+        "tar.gz": "2.23/evolution-data-server-2.23.91.tar.gz", "diff.gz": "2.23/evolution-data-server-2.23.90.1-2.23.91.diff.gz",
+        "changes": "2.23/evolution-data-server-2.23.91.changes", "tar.bz2": "2.23/evolution-data-server-2.23.91.tar.bz2"},
+        "2.23.90": {"md5sum": "2.23/evolution-data-server-2.23.90.md5sum", "sha256sum":
+        "2.23/evolution-data-server-2.23.90.sha256sum", "tar.gz": "2.23/evolution-data-server-2.23.90.tar.gz",
+        "news": "2.23/evolution-data-server-2.23.90.news", "diff.gz": "2.23/evolution-data-server-2.23.6-2.23.90.diff.gz",
+        "changes": "2.23/evolution-data-server-2.23.90.changes", "tar.bz2": "2.23/evolution-data-server-2.23.90.tar.bz2"},
+        "2.23.92": {"md5sum": "2.23/evolution-data-server-2.23.92.md5sum", "sha256sum":
+        "2.23/evolution-data-server-2.23.92.sha256sum", "tar.gz": "2.23/evolution-data-server-2.23.92.tar.gz",
+        "diff.gz": "2.23/evolution-data-server-2.23.91-2.23.92.diff.gz", "news": "2.23/evolution-data-server-2.23.92.news",
+        "changes": "2.23/evolution-data-server-2.23.92.changes", "tar.bz2": "2.23/evolution-data-server-2.23.92.tar.bz2"},
+        "3.0.0": {"tar.gz": "3.0/evolution-data-server-3.0.0.tar.gz", "news": "3.0/evolution-data-server-3.0.0.news",
+        "changes": "3.0/evolution-data-server-3.0.0.changes", "tar.bz2": "3.0/evolution-data-server-3.0.0.tar.bz2",
+        "sha256sum": "3.0/evolution-data-server-3.0.0.sha256sum"}, "2.91.4.1": {"sha256sum":
+        "2.91/evolution-data-server-2.91.4.1.sha256sum", "tar.gz": "2.91/evolution-data-server-2.91.4.1.tar.gz",
+        "news": "2.91/evolution-data-server-2.91.4.1.news", "diff.gz": "2.91/evolution-data-server-2.91.4-2.91.4.1.diff.gz",
+        "changes": "2.91/evolution-data-server-2.91.4.1.changes", "tar.bz2": "2.91/evolution-data-server-2.91.4.1.tar.bz2"},
+        "3.12.4": {"news": "3.12/evolution-data-server-3.12.4.news", "tar.xz": "3.12/evolution-data-server-3.12.4.tar.xz",
+        "sha256sum": "3.12/evolution-data-server-3.12.4.sha256sum"}, "1.3.6.1": {"md5sum":
+        "1.3/evolution-data-server-1.3.6.1.md5sum", "sha256sum": "1.3/evolution-data-server-1.3.6.1.sha256sum",
+        "tar.gz": "1.3/evolution-data-server-1.3.6.1.tar.gz", "diff.gz": "1.3/evolution-data-server-1.3.6-1.3.6.1.diff.gz",
+        "changes": "1.3/evolution-data-server-1.3.6.1.changes", "tar.bz2": "1.3/evolution-data-server-1.3.6.1.tar.bz2"},
+        "1.6.0": {"tar.gz": "1.6/evolution-data-server-1.6.0.tar.gz", "md5sum": "1.6/evolution-data-server-1.6.0.md5sum",
+        "tar.bz2": "1.6/evolution-data-server-1.6.0.tar.bz2", "sha256sum": "1.6/evolution-data-server-1.6.0.sha256sum"},
+        "3.1.90": {"news": "3.1/evolution-data-server-3.1.90.news", "changes": "3.1/evolution-data-server-3.1.90.changes",
+        "tar.xz": "3.1/evolution-data-server-3.1.90.tar.xz", "tar.bz2": "3.1/evolution-data-server-3.1.90.tar.bz2",
+        "sha256sum": "3.1/evolution-data-server-3.1.90.sha256sum"}, "3.5.92": {"news":
+        "3.5/evolution-data-server-3.5.92.news", "changes": "3.5/evolution-data-server-3.5.92.changes",
+        "tar.xz": "3.5/evolution-data-server-3.5.92.tar.xz", "sha256sum": "3.5/evolution-data-server-3.5.92.sha256sum"},
+        "0.0.94.1": {"tar.gz": "0.0/evolution-data-server-0.0.94.1.tar.gz", "diff.gz":
+        "0.0/evolution-data-server-0.0.94-0.0.94.1.diff.gz", "md5sum": "0.0/evolution-data-server-0.0.94.1.md5sum",
+        "tar.bz2": "0.0/evolution-data-server-0.0.94.1.tar.bz2", "sha256sum": "0.0/evolution-data-server-0.0.94.1.sha256sum"},
+        "3.0.2.1": {"tar.gz": "3.0/evolution-data-server-3.0.2.1.tar.gz", "news":
+        "3.0/evolution-data-server-3.0.2.1.news", "changes": "3.0/evolution-data-server-3.0.2.1.changes",
+        "tar.bz2": "3.0/evolution-data-server-3.0.2.1.tar.bz2", "sha256sum": "3.0/evolution-data-server-3.0.2.1.sha256sum"},
+        "1.6.1": {"md5sum": "1.6/evolution-data-server-1.6.1.md5sum", "sha256sum":
+        "1.6/evolution-data-server-1.6.1.sha256sum", "tar.gz": "1.6/evolution-data-server-1.6.1.tar.gz",
+        "diff.gz": "1.6/evolution-data-server-1.6.0-1.6.1.diff.gz", "news": "1.6/evolution-data-server-1.6.1.news",
+        "changes": "1.6/evolution-data-server-1.6.1.changes", "tar.bz2": "1.6/evolution-data-server-1.6.1.tar.bz2"},
+        "3.5.91": {"news": "3.5/evolution-data-server-3.5.91.news", "changes": "3.5/evolution-data-server-3.5.91.changes",
+        "tar.xz": "3.5/evolution-data-server-3.5.91.tar.xz", "sha256sum": "3.5/evolution-data-server-3.5.91.sha256sum"},
+        "1.9.1": {"tar.gz": "1.9/evolution-data-server-1.9.1.tar.gz", "md5sum": "1.9/evolution-data-server-1.9.1.md5sum",
+        "tar.bz2": "1.9/evolution-data-server-1.9.1.tar.bz2", "sha256sum": "1.9/evolution-data-server-1.9.1.sha256sum"},
+        "1.9.3": {"md5sum": "1.9/evolution-data-server-1.9.3.md5sum", "sha256sum":
+        "1.9/evolution-data-server-1.9.3.sha256sum", "tar.gz": "1.9/evolution-data-server-1.9.3.tar.gz",
+        "news": "1.9/evolution-data-server-1.9.3.news", "diff.gz": "1.9/evolution-data-server-1.9.2-1.9.3.diff.gz",
+        "changes": "1.9/evolution-data-server-1.9.3.changes", "tar.bz2": "1.9/evolution-data-server-1.9.3.tar.bz2"},
+        "1.9.2": {"md5sum": "1.9/evolution-data-server-1.9.2.md5sum", "sha256sum":
+        "1.9/evolution-data-server-1.9.2.sha256sum", "tar.gz": "1.9/evolution-data-server-1.9.2.tar.gz",
+        "news": "1.9/evolution-data-server-1.9.2.news", "diff.gz": "1.9/evolution-data-server-1.9.1-1.9.2.diff.gz",
+        "changes": "1.9/evolution-data-server-1.9.2.changes", "tar.bz2": "1.9/evolution-data-server-1.9.2.tar.bz2"},
+        "1.9.5": {"md5sum": "1.9/evolution-data-server-1.9.5.md5sum", "sha256sum":
+        "1.9/evolution-data-server-1.9.5.sha256sum", "tar.gz": "1.9/evolution-data-server-1.9.5.tar.gz",
+        "news": "1.9/evolution-data-server-1.9.5.news", "diff.gz": "1.9/evolution-data-server-1.9.4-1.9.5.diff.gz",
+        "changes": "1.9/evolution-data-server-1.9.5.changes", "tar.bz2": "1.9/evolution-data-server-1.9.5.tar.bz2"},
+        "1.9.4": {"md5sum": "1.9/evolution-data-server-1.9.4.md5sum", "sha256sum":
+        "1.9/evolution-data-server-1.9.4.sha256sum", "tar.gz": "1.9/evolution-data-server-1.9.4.tar.gz",
+        "news": "1.9/evolution-data-server-1.9.4.news", "diff.gz": "1.9/evolution-data-server-1.9.3-1.9.4.diff.gz",
+        "changes": "1.9/evolution-data-server-1.9.4.changes", "tar.bz2": "1.9/evolution-data-server-1.9.4.tar.bz2"},
+        "1.9.6": {"tar.gz": "1.9/evolution-data-server-1.9.6.tar.gz", "md5sum": "1.9/evolution-data-server-1.9.6.md5sum",
+        "tar.bz2": "1.9/evolution-data-server-1.9.6.tar.bz2"}, "1.11.3": {"md5sum":
+        "1.11/evolution-data-server-1.11.3.md5sum", "sha256sum": "1.11/evolution-data-server-1.11.3.sha256sum",
+        "tar.gz": "1.11/evolution-data-server-1.11.3.tar.gz", "news": "1.11/evolution-data-server-1.11.3.news",
+        "diff.gz": "1.11/evolution-data-server-1.11.2-1.11.3.diff.gz", "changes":
+        "1.11/evolution-data-server-1.11.3.changes", "tar.bz2": "1.11/evolution-data-server-1.11.3.tar.bz2"},
+        "1.3.3.1": {"md5sum": "1.3/evolution-data-server-1.3.3.1.md5sum", "sha256sum":
+        "1.3/evolution-data-server-1.3.3.1.sha256sum", "tar.gz": "1.3/evolution-data-server-1.3.3.1.tar.gz",
+        "diff.gz": "1.3/evolution-data-server-1.3.3-1.3.3.1.diff.gz", "changes": "1.3/evolution-data-server-1.3.3.1.changes",
+        "tar.bz2": "1.3/evolution-data-server-1.3.3.1.tar.bz2"}, "2.24.2": {"md5sum":
+        "2.24/evolution-data-server-2.24.2.md5sum", "sha256sum": "2.24/evolution-data-server-2.24.2.sha256sum",
+        "tar.gz": "2.24/evolution-data-server-2.24.2.tar.gz", "news": "2.24/evolution-data-server-2.24.2.news",
+        "diff.gz": "2.24/evolution-data-server-2.24.1.1-2.24.2.diff.gz", "changes":
+        "2.24/evolution-data-server-2.24.2.changes", "tar.bz2": "2.24/evolution-data-server-2.24.2.tar.bz2"},
+        "1.11.2": {"md5sum": "1.11/evolution-data-server-1.11.2.md5sum", "sha256sum":
+        "1.11/evolution-data-server-1.11.2.sha256sum", "tar.gz": "1.11/evolution-data-server-1.11.2.tar.gz",
+        "news": "1.11/evolution-data-server-1.11.2.news", "changes": "1.11/evolution-data-server-1.11.2.changes",
+        "tar.bz2": "1.11/evolution-data-server-1.11.2.tar.bz2"}, "1.5.5": {"md5sum":
+        "1.5/evolution-data-server-1.5.5.md5sum", "sha256sum": "1.5/evolution-data-server-1.5.5.sha256sum",
+        "tar.gz": "1.5/evolution-data-server-1.5.5.tar.gz", "diff.gz": "1.5/evolution-data-server-1.5.4-1.5.5.diff.gz",
+        "news": "1.5/evolution-data-server-1.5.5.news", "changes": "1.5/evolution-data-server-1.5.5.changes",
+        "tar.bz2": "1.5/evolution-data-server-1.5.5.tar.bz2"}, "1.5.4": {"md5sum":
+        "1.5/evolution-data-server-1.5.4.md5sum", "sha256sum": "1.5/evolution-data-server-1.5.4.sha256sum",
+        "tar.gz": "1.5/evolution-data-server-1.5.4.tar.gz", "diff.gz": "1.5/evolution-data-server-1.5.3-1.5.4.diff.gz",
+        "news": "1.5/evolution-data-server-1.5.4.news", "changes": "1.5/evolution-data-server-1.5.4.changes",
+        "tar.bz2": "1.5/evolution-data-server-1.5.4.tar.bz2"}, "2.30.2.1": {"tar.gz":
+        "2.30/evolution-data-server-2.30.2.1.tar.gz", "diff.gz": "2.30/evolution-data-server-2.30.2-2.30.2.1.diff.gz",
+        "news": "2.30/evolution-data-server-2.30.2.1.news", "tar.bz2": "2.30/evolution-data-server-2.30.2.1.tar.bz2",
+        "sha256sum": "2.30/evolution-data-server-2.30.2.1.sha256sum"}, "1.5.1": {"tar.gz":
+        "1.5/evolution-data-server-1.5.1.tar.gz", "md5sum": "1.5/evolution-data-server-1.5.1.md5sum",
+        "tar.bz2": "1.5/evolution-data-server-1.5.1.tar.bz2", "sha256sum": "1.5/evolution-data-server-1.5.1.sha256sum"},
+        "1.11.1": {"tar.gz": "1.11/evolution-data-server-1.11.1.tar.gz", "md5sum":
+        "1.11/evolution-data-server-1.11.1.md5sum", "tar.bz2": "1.11/evolution-data-server-1.11.1.tar.bz2",
+        "sha256sum": "1.11/evolution-data-server-1.11.1.sha256sum"}, "1.5.3": {"md5sum":
+        "1.5/evolution-data-server-1.5.3.md5sum", "sha256sum": "1.5/evolution-data-server-1.5.3.sha256sum",
+        "tar.gz": "1.5/evolution-data-server-1.5.3.tar.gz", "news": "1.5/evolution-data-server-1.5.3.news",
+        "diff.gz": "1.5/evolution-data-server-1.5.2-1.5.3.diff.gz", "changes": "1.5/evolution-data-server-1.5.3.changes",
+        "tar.bz2": "1.5/evolution-data-server-1.5.3.tar.bz2"}, "1.5.2": {"md5sum":
+        "1.5/evolution-data-server-1.5.2.md5sum", "sha256sum": "1.5/evolution-data-server-1.5.2.sha256sum",
+        "tar.gz": "1.5/evolution-data-server-1.5.2.tar.gz", "diff.gz": "1.5/evolution-data-server-1.5.1-1.5.2.diff.gz",
+        "news": "1.5/evolution-data-server-1.5.2.news", "changes": "1.5/evolution-data-server-1.5.2.changes",
+        "tar.bz2": "1.5/evolution-data-server-1.5.2.tar.bz2"}, "1.3.3": {"md5sum":
+        "1.3/evolution-data-server-1.3.3.md5sum", "sha256sum": "1.3/evolution-data-server-1.3.3.sha256sum",
+        "tar.gz": "1.3/evolution-data-server-1.3.3.tar.gz", "news": "1.3/evolution-data-server-1.3.3.news",
+        "changes": "1.3/evolution-data-server-1.3.3.changes", "tar.bz2": "1.3/evolution-data-server-1.3.3.tar.bz2"},
+        "1.3.2": {"tar.gz": "1.3/evolution-data-server-1.3.2.tar.gz", "news": "1.3/evolution-data-server-1.3.2.news",
+        "md5sum": "1.3/evolution-data-server-1.3.2.md5sum", "tar.bz2": "1.3/evolution-data-server-1.3.2.tar.bz2",
+        "sha256sum": "1.3/evolution-data-server-1.3.2.sha256sum"}, "1.3.1": {"tar.gz":
+        "1.3/evolution-data-server-1.3.1.tar.gz", "md5sum": "1.3/evolution-data-server-1.3.1.md5sum",
+        "tar.bz2": "1.3/evolution-data-server-1.3.1.tar.bz2", "sha256sum": "1.3/evolution-data-server-1.3.1.sha256sum"},
+        "2.30.2": {"tar.gz": "2.30/evolution-data-server-2.30.2.tar.gz", "diff.gz":
+        "2.30/evolution-data-server-2.30.1-2.30.2.diff.gz", "news": "2.30/evolution-data-server-2.30.2.news",
+        "tar.bz2": "2.30/evolution-data-server-2.30.2.tar.bz2", "sha256sum": "2.30/evolution-data-server-2.30.2.sha256sum"},
+        "2.27.91": {"tar.gz": "2.27/evolution-data-server-2.27.91.tar.gz", "diff.gz":
+        "2.27/evolution-data-server-2.27.90-2.27.91.diff.gz", "news": "2.27/evolution-data-server-2.27.91.news",
+        "tar.bz2": "2.27/evolution-data-server-2.27.91.tar.bz2", "sha256sum": "2.27/evolution-data-server-2.27.91.sha256sum"},
+        "2.27.90": {"tar.gz": "2.27/evolution-data-server-2.27.90.tar.gz", "news":
+        "2.27/evolution-data-server-2.27.90.news", "sha256sum": "2.27/evolution-data-server-2.27.90.sha256sum",
+        "tar.bz2": "2.27/evolution-data-server-2.27.90.tar.bz2", "diff.gz": "2.27/evolution-data-server-2.27.5-2.27.90.diff.gz"},
+        "1.3.5": {"md5sum": "1.3/evolution-data-server-1.3.5.md5sum", "sha256sum":
+        "1.3/evolution-data-server-1.3.5.sha256sum", "tar.gz": "1.3/evolution-data-server-1.3.5.tar.gz",
+        "diff.gz": "1.3/evolution-data-server-1.3.4-1.3.5.diff.gz", "news": "1.3/evolution-data-server-1.3.5.news",
+        "changes": "1.3/evolution-data-server-1.3.5.changes", "tar.bz2": "1.3/evolution-data-server-1.3.5.tar.bz2"},
+        "2.27.92": {"tar.gz": "2.27/evolution-data-server-2.27.92.tar.gz", "diff.gz":
+        "2.27/evolution-data-server-2.27.91-2.27.92.diff.gz", "sha256sum": "2.27/evolution-data-server-2.27.92.sha256sum",
+        "tar.bz2": "2.27/evolution-data-server-2.27.92.tar.bz2", "news": "2.27/evolution-data-server-2.27.92.news"},
+        "3.9.3": {"news": "3.9/evolution-data-server-3.9.3.news", "tar.xz": "3.9/evolution-data-server-3.9.3.tar.xz",
+        "sha256sum": "3.9/evolution-data-server-3.9.3.sha256sum"}, "2.25.92": {"tar.gz":
+        "2.25/evolution-data-server-2.25.92.tar.gz", "diff.gz": "2.25/evolution-data-server-2.25.91-2.25.92.diff.gz",
+        "md5sum": "2.25/evolution-data-server-2.25.92.md5sum", "tar.bz2": "2.25/evolution-data-server-2.25.92.tar.bz2",
+        "sha256sum": "2.25/evolution-data-server-2.25.92.sha256sum"}, "2.25.91": {"md5sum":
+        "2.25/evolution-data-server-2.25.91.md5sum", "sha256sum": "2.25/evolution-data-server-2.25.91.sha256sum",
+        "tar.gz": "2.25/evolution-data-server-2.25.91.tar.gz", "news": "2.25/evolution-data-server-2.25.91.news",
+        "diff.gz": "2.25/evolution-data-server-2.25.90-2.25.91.diff.gz", "changes":
+        "2.25/evolution-data-server-2.25.91.changes", "tar.bz2": "2.25/evolution-data-server-2.25.91.tar.bz2"},
+        "2.25.90": {"md5sum": "2.25/evolution-data-server-2.25.90.md5sum", "sha256sum":
+        "2.25/evolution-data-server-2.25.90.sha256sum", "tar.gz": "2.25/evolution-data-server-2.25.90.tar.gz",
+        "news": "2.25/evolution-data-server-2.25.90.news", "diff.gz": "2.25/evolution-data-server-2.25.5-2.25.90.diff.gz",
+        "changes": "2.25/evolution-data-server-2.25.90.changes", "tar.bz2": "2.25/evolution-data-server-2.25.90.tar.bz2"},
+        "3.9.5": {"news": "3.9/evolution-data-server-3.9.5.news", "tar.xz": "3.9/evolution-data-server-3.9.5.tar.xz",
+        "sha256sum": "3.9/evolution-data-server-3.9.5.sha256sum"}, "3.9.4": {"news":
+        "3.9/evolution-data-server-3.9.4.news", "tar.xz": "3.9/evolution-data-server-3.9.4.tar.xz",
+        "sha256sum": "3.9/evolution-data-server-3.9.4.sha256sum"}, "2.32.3": {"tar.gz":
+        "2.32/evolution-data-server-2.32.3.tar.gz", "news": "2.32/evolution-data-server-2.32.3.news",
+        "changes": "2.32/evolution-data-server-2.32.3.changes", "tar.bz2": "2.32/evolution-data-server-2.32.3.tar.bz2",
+        "sha256sum": "2.32/evolution-data-server-2.32.3.sha256sum"}, "2.32.2": {"sha256sum":
+        "2.32/evolution-data-server-2.32.2.sha256sum", "tar.gz": "2.32/evolution-data-server-2.32.2.tar.gz",
+        "news": "2.32/evolution-data-server-2.32.2.news", "diff.gz": "2.32/evolution-data-server-2.32.1-2.32.2.diff.gz",
+        "changes": "2.32/evolution-data-server-2.32.2.changes", "tar.bz2": "2.32/evolution-data-server-2.32.2.tar.bz2"},
+        "2.32.1": {"sha256sum": "2.32/evolution-data-server-2.32.1.sha256sum", "tar.gz":
+        "2.32/evolution-data-server-2.32.1.tar.gz", "news": "2.32/evolution-data-server-2.32.1.news",
+        "diff.gz": "2.32/evolution-data-server-2.32.0-2.32.1.diff.gz", "changes":
+        "2.32/evolution-data-server-2.32.1.changes", "tar.bz2": "2.32/evolution-data-server-2.32.1.tar.bz2"},
+        "2.32.0": {"tar.gz": "2.32/evolution-data-server-2.32.0.tar.gz", "tar.bz2":
+        "2.32/evolution-data-server-2.32.0.tar.bz2", "sha256sum": "2.32/evolution-data-server-2.32.0.sha256sum"},
+        "2.26.0": {"tar.gz": "2.26/evolution-data-server-2.26.0.tar.gz", "md5sum":
+        "2.26/evolution-data-server-2.26.0.md5sum", "tar.bz2": "2.26/evolution-data-server-2.26.0.tar.bz2",
+        "sha256sum": "2.26/evolution-data-server-2.26.0.sha256sum"}, "1.11.5": {"md5sum":
+        "1.11/evolution-data-server-1.11.5.md5sum", "sha256sum": "1.11/evolution-data-server-1.11.5.sha256sum",
+        "tar.gz": "1.11/evolution-data-server-1.11.5.tar.gz", "news": "1.11/evolution-data-server-1.11.5.news",
+        "diff.gz": "1.11/evolution-data-server-1.11.4-1.11.5.diff.gz", "changes":
+        "1.11/evolution-data-server-1.11.5.changes", "tar.bz2": "1.11/evolution-data-server-1.11.5.tar.bz2"},
+        "2.26.2": {"tar.gz": "2.26/evolution-data-server-2.26.2.tar.gz", "diff.gz":
+        "2.26/evolution-data-server-2.26.1.1-2.26.2.diff.gz", "md5sum": "2.26/evolution-data-server-2.26.2.md5sum",
+        "tar.bz2": "2.26/evolution-data-server-2.26.2.tar.bz2", "sha256sum": "2.26/evolution-data-server-2.26.2.sha256sum"},
+        "2.21.5.1": {"md5sum": "2.21/evolution-data-server-2.21.5.1.md5sum", "sha256sum":
+        "2.21/evolution-data-server-2.21.5.1.sha256sum", "tar.gz": "2.21/evolution-data-server-2.21.5.1.tar.gz",
+        "news": "2.21/evolution-data-server-2.21.5.1.news", "diff.gz": "2.21/evolution-data-server-2.21.5-2.21.5.1.diff.gz",
+        "changes": "2.21/evolution-data-server-2.21.5.1.changes", "tar.bz2": "2.21/evolution-data-server-2.21.5.1.tar.bz2"},
+        "2.31.3.1": {"tar.gz": "2.31/evolution-data-server-2.31.3.1.tar.gz", "diff.gz":
+        "2.31/evolution-data-server-2.31.3-2.31.3.1.diff.gz", "changes": "2.31/evolution-data-server-2.31.3.1.changes",
+        "tar.bz2": "2.31/evolution-data-server-2.31.3.1.tar.bz2", "sha256sum": "2.31/evolution-data-server-2.31.3.1.sha256sum"},
+        "3.12.6": {"news": "3.12/evolution-data-server-3.12.6.news", "tar.xz": "3.12/evolution-data-server-3.12.6.tar.xz",
+        "sha256sum": "3.12/evolution-data-server-3.12.6.sha256sum"}, "3.3.1": {"changes":
+        "3.3/evolution-data-server-3.3.1.changes", "tar.xz": "3.3/evolution-data-server-3.3.1.tar.xz",
+        "tar.bz2": "3.3/evolution-data-server-3.3.1.tar.bz2", "sha256sum": "3.3/evolution-data-server-3.3.1.sha256sum"},
+        "3.3.3": {"news": "3.3/evolution-data-server-3.3.3.news", "changes": "3.3/evolution-data-server-3.3.3.changes",
+        "tar.xz": "3.3/evolution-data-server-3.3.3.tar.xz", "sha256sum": "3.3/evolution-data-server-3.3.3.sha256sum"},
+        "3.3.2": {"news": "3.3/evolution-data-server-3.3.2.news", "changes": "3.3/evolution-data-server-3.3.2.changes",
+        "tar.xz": "3.3/evolution-data-server-3.3.2.tar.xz", "tar.bz2": "3.3/evolution-data-server-3.3.2.tar.bz2",
+        "sha256sum": "3.3/evolution-data-server-3.3.2.sha256sum"}, "3.3.5": {"news":
+        "3.3/evolution-data-server-3.3.5.news", "changes": "3.3/evolution-data-server-3.3.5.changes",
+        "tar.xz": "3.3/evolution-data-server-3.3.5.tar.xz", "sha256sum": "3.3/evolution-data-server-3.3.5.sha256sum"},
+        "2.21.92": {"md5sum": "2.21/evolution-data-server-2.21.92.md5sum", "sha256sum":
+        "2.21/evolution-data-server-2.21.92.sha256sum", "tar.gz": "2.21/evolution-data-server-2.21.92.tar.gz",
+        "diff.gz": "2.21/evolution-data-server-2.21.91-2.21.92.diff.gz", "news": "2.21/evolution-data-server-2.21.92.news",
+        "changes": "2.21/evolution-data-server-2.21.92.changes", "tar.bz2": "2.21/evolution-data-server-2.21.92.tar.bz2"},
+        "3.7.2.1": {"news": "3.7/evolution-data-server-3.7.2.1.news", "changes": "3.7/evolution-data-server-3.7.2.1.changes",
+        "tar.xz": "3.7/evolution-data-server-3.7.2.1.tar.xz", "sha256sum": "3.7/evolution-data-server-3.7.2.1.sha256sum"},
+        "2.21.90": {"md5sum": "2.21/evolution-data-server-2.21.90.md5sum", "sha256sum":
+        "2.21/evolution-data-server-2.21.90.sha256sum", "tar.gz": "2.21/evolution-data-server-2.21.90.tar.gz",
+        "news": "2.21/evolution-data-server-2.21.90.news", "diff.gz": "2.21/evolution-data-server-2.21.5.1-2.21.90.diff.gz",
+        "tar.bz2": "2.21/evolution-data-server-2.21.90.tar.bz2"}, "3.12.5": {"news":
+        "3.12/evolution-data-server-3.12.5.news", "tar.xz": "3.12/evolution-data-server-3.12.5.tar.xz",
+        "sha256sum": "3.12/evolution-data-server-3.12.5.sha256sum"}, "1.1.1": {"md5sum":
+        "1.1/evolution-data-server-1.1.1.md5sum", "sha256sum": "1.1/evolution-data-server-1.1.1.sha256sum",
+        "tar.gz": "1.1/evolution-data-server-1.1.1.tar.gz", "diff.gz": "1.1/evolution-data-server-1.1.0-1.1.1.diff.gz",
+        "news": "1.1/evolution-data-server-1.1.1.news", "changes": "1.1/evolution-data-server-1.1.1.changes",
+        "tar.bz2": "1.1/evolution-data-server-1.1.1.tar.bz2"}, "1.1.0": {"tar.gz":
+        "1.1/evolution-data-server-1.1.0.tar.gz", "md5sum": "1.1/evolution-data-server-1.1.0.md5sum",
+        "tar.bz2": "1.1/evolution-data-server-1.1.0.tar.bz2", "sha256sum": "1.1/evolution-data-server-1.1.0.sha256sum"},
+        "1.1.3": {"md5sum": "1.1/evolution-data-server-1.1.3.md5sum", "sha256sum":
+        "1.1/evolution-data-server-1.1.3.sha256sum", "tar.gz": "1.1/evolution-data-server-1.1.3.tar.gz",
+        "news": "1.1/evolution-data-server-1.1.3.news", "changes": "1.1/evolution-data-server-1.1.3.changes",
+        "tar.bz2": "1.1/evolution-data-server-1.1.3.tar.bz2"}, "1.1.2": {"md5sum":
+        "1.1/evolution-data-server-1.1.2.md5sum", "sha256sum": "1.1/evolution-data-server-1.1.2.sha256sum",
+        "tar.gz": "1.1/evolution-data-server-1.1.2.tar.gz", "news": "1.1/evolution-data-server-1.1.2.news",
+        "diff.gz": "1.1/evolution-data-server-1.1.1-1.1.2.diff.gz", "changes": "1.1/evolution-data-server-1.1.2.changes",
+        "tar.bz2": "1.1/evolution-data-server-1.1.2.tar.bz2"}, "1.1.5": {"md5sum":
+        "1.1/evolution-data-server-1.1.5.md5sum", "sha256sum": "1.1/evolution-data-server-1.1.5.sha256sum",
+        "tar.gz": "1.1/evolution-data-server-1.1.5.tar.gz", "news": "1.1/evolution-data-server-1.1.5.news",
+        "diff.gz": "1.1/evolution-data-server-1.1.4.2-1.1.5.diff.gz", "changes": "1.1/evolution-data-server-1.1.5.changes",
+        "tar.bz2": "1.1/evolution-data-server-1.1.5.tar.bz2"}, "1.1.4": {"md5sum":
+        "1.1/evolution-data-server-1.1.4.md5sum", "sha256sum": "1.1/evolution-data-server-1.1.4.sha256sum",
+        "tar.gz": "1.1/evolution-data-server-1.1.4.tar.gz", "news": "1.1/evolution-data-server-1.1.4.news",
+        "diff.gz": "1.1/evolution-data-server-1.1.3-1.1.4.diff.gz", "changes": "1.1/evolution-data-server-1.1.4.changes",
+        "tar.bz2": "1.1/evolution-data-server-1.1.4.tar.bz2"}, "1.1.6": {"md5sum":
+        "1.1/evolution-data-server-1.1.6.md5sum", "sha256sum": "1.1/evolution-data-server-1.1.6.sha256sum",
+        "tar.gz": "1.1/evolution-data-server-1.1.6.tar.gz", "news": "1.1/evolution-data-server-1.1.6.news",
+        "diff.gz": "1.1/evolution-data-server-1.1.5-1.1.6.diff.gz", "changes": "1.1/evolution-data-server-1.1.6.changes",
+        "tar.bz2": "1.1/evolution-data-server-1.1.6.tar.bz2"}, "2.91.6": {"sha256sum":
+        "2.91/evolution-data-server-2.91.6.sha256sum", "tar.gz": "2.91/evolution-data-server-2.91.6.tar.gz",
+        "news": "2.91/evolution-data-server-2.91.6.news", "diff.gz": "2.91/evolution-data-server-2.91.5-2.91.6.diff.gz",
+        "changes": "2.91/evolution-data-server-2.91.6.changes", "tar.bz2": "2.91/evolution-data-server-2.91.6.tar.bz2"},
+        "2.91.4": {"sha256sum": "2.91/evolution-data-server-2.91.4.sha256sum", "tar.gz":
+        "2.91/evolution-data-server-2.91.4.tar.gz", "diff.gz": "2.91/evolution-data-server-2.91.3-2.91.4.diff.gz",
+        "news": "2.91/evolution-data-server-2.91.4.news", "changes": "2.91/evolution-data-server-2.91.4.changes",
+        "tar.bz2": "2.91/evolution-data-server-2.91.4.tar.bz2"}, "2.91.5": {"tar.gz":
+        "2.91/evolution-data-server-2.91.5.tar.gz", "news": "2.91/evolution-data-server-2.91.5.news",
+        "sha256sum": "2.91/evolution-data-server-2.91.5.sha256sum", "tar.bz2": "2.91/evolution-data-server-2.91.5.tar.bz2",
+        "diff.gz": "2.91/evolution-data-server-2.91.4.1-2.91.5.diff.gz"}, "2.91.2":
+        {"tar.gz": "2.91/evolution-data-server-2.91.2.tar.gz", "diff.gz": "2.91/evolution-data-server-2.91.1.1-2.91.2.diff.gz",
+        "news": "2.91/evolution-data-server-2.91.2.news", "tar.bz2": "2.91/evolution-data-server-2.91.2.tar.bz2",
+        "sha256sum": "2.91/evolution-data-server-2.91.2.sha256sum"}, "2.91.3": {"sha256sum":
+        "2.91/evolution-data-server-2.91.3.sha256sum", "tar.gz": "2.91/evolution-data-server-2.91.3.tar.gz",
+        "diff.gz": "2.91/evolution-data-server-2.91.2-2.91.3.diff.gz", "news": "2.91/evolution-data-server-2.91.3.news",
+        "changes": "2.91/evolution-data-server-2.91.3.changes", "tar.bz2": "2.91/evolution-data-server-2.91.3.tar.bz2"},
+        "2.91.0": {"tar.gz": "2.91/evolution-data-server-2.91.0.tar.gz", "tar.bz2":
+        "2.91/evolution-data-server-2.91.0.tar.bz2", "sha256sum": "2.91/evolution-data-server-2.91.0.sha256sum"},
+        "2.91.1": {"sha256sum": "2.91/evolution-data-server-2.91.1.sha256sum", "tar.gz":
+        "2.91/evolution-data-server-2.91.1.tar.gz", "diff.gz": "2.91/evolution-data-server-2.91.0-2.91.1.diff.gz",
+        "news": "2.91/evolution-data-server-2.91.1.news", "changes": "2.91/evolution-data-server-2.91.1.changes",
+        "tar.bz2": "2.91/evolution-data-server-2.91.1.tar.bz2"}, "1.4.1.1": {"md5sum":
+        "1.4/evolution-data-server-1.4.1.1.md5sum", "sha256sum": "1.4/evolution-data-server-1.4.1.1.sha256sum",
+        "tar.gz": "1.4/evolution-data-server-1.4.1.1.tar.gz", "news": "1.4/evolution-data-server-1.4.1.1.news",
+        "diff.gz": "1.4/evolution-data-server-1.4.1-1.4.1.1.diff.gz", "changes": "1.4/evolution-data-server-1.4.1.1.changes",
+        "tar.bz2": "1.4/evolution-data-server-1.4.1.1.tar.bz2"}, "3.5.90": {"news":
+        "3.5/evolution-data-server-3.5.90.news", "changes": "3.5/evolution-data-server-3.5.90.changes",
+        "tar.xz": "3.5/evolution-data-server-3.5.90.tar.xz", "sha256sum": "3.5/evolution-data-server-3.5.90.sha256sum"},
+        "1.7.3": {"md5sum": "1.7/evolution-data-server-1.7.3.md5sum", "sha256sum":
+        "1.7/evolution-data-server-1.7.3.sha256sum", "tar.gz": "1.7/evolution-data-server-1.7.3.tar.gz",
+        "news": "1.7/evolution-data-server-1.7.3.news", "diff.gz": "1.7/evolution-data-server-1.7.2-1.7.3.diff.gz",
+        "changes": "1.7/evolution-data-server-1.7.3.changes", "tar.bz2": "1.7/evolution-data-server-1.7.3.tar.bz2"},
+        "1.7.2": {"md5sum": "1.7/evolution-data-server-1.7.2.md5sum", "sha256sum":
+        "1.7/evolution-data-server-1.7.2.sha256sum", "tar.gz": "1.7/evolution-data-server-1.7.2.tar.gz",
+        "diff.gz": "1.7/evolution-data-server-1.7.1-1.7.2.diff.gz", "changes": "1.7/evolution-data-server-1.7.2.changes",
+        "tar.bz2": "1.7/evolution-data-server-1.7.2.tar.bz2"}, "0.0.5": {"tar.gz":
+        "0.0/evolution-data-server-0.0.5.tar.gz", "diff.gz": "0.0/evolution-data-server-0.0.4-0.0.5.diff.gz",
+        "tar.bz2": "0.0/evolution-data-server-0.0.5.tar.bz2"}, "0.0.4": {"tar.gz":
+        "0.0/evolution-data-server-0.0.4.tar.gz", "diff.gz": "0.0/evolution-data-server-0.0.3-0.0.4.diff.gz",
+        "tar.bz2": "0.0/evolution-data-server-0.0.4.tar.bz2"}, "0.0.7": {"tar.gz":
+        "0.0/evolution-data-server-0.0.7.tar.gz", "diff.gz": "0.0/evolution-data-server-0.0.6-0.0.7.diff.gz",
+        "tar.bz2": "0.0/evolution-data-server-0.0.7.tar.bz2"}, "0.0.6": {"tar.gz":
+        "0.0/evolution-data-server-0.0.6.tar.gz", "diff.gz": "0.0/evolution-data-server-0.0.5-0.0.6.diff.gz",
+        "tar.bz2": "0.0/evolution-data-server-0.0.6.tar.bz2"}, "3.7.91": {"news":
+        "3.7/evolution-data-server-3.7.91.news", "tar.xz": "3.7/evolution-data-server-3.7.91.tar.xz",
+        "sha256sum": "3.7/evolution-data-server-3.7.91.sha256sum"}, "3.7.90": {"news":
+        "3.7/evolution-data-server-3.7.90.news", "tar.xz": "3.7/evolution-data-server-3.7.90.tar.xz",
+        "sha256sum": "3.7/evolution-data-server-3.7.90.sha256sum"}, "0.0.3": {"tar.gz":
+        "0.0/evolution-data-server-0.0.3.tar.gz", "tar.bz2": "0.0/evolution-data-server-0.0.3.tar.bz2"},
+        "3.7.92": {"news": "3.7/evolution-data-server-3.7.92.news", "tar.xz": "3.7/evolution-data-server-3.7.92.tar.xz",
+        "sha256sum": "3.7/evolution-data-server-3.7.92.sha256sum"}, "3.1.4": {"news":
+        "3.1/evolution-data-server-3.1.4.news", "changes": "3.1/evolution-data-server-3.1.4.changes",
+        "tar.xz": "3.1/evolution-data-server-3.1.4.tar.xz", "tar.bz2": "3.1/evolution-data-server-3.1.4.tar.bz2",
+        "sha256sum": "3.1/evolution-data-server-3.1.4.sha256sum"}, "2.23.90.1": {"md5sum":
+        "2.23/evolution-data-server-2.23.90.1.md5sum", "sha256sum": "2.23/evolution-data-server-2.23.90.1.sha256sum",
+        "tar.gz": "2.23/evolution-data-server-2.23.90.1.tar.gz", "news": "2.23/evolution-data-server-2.23.90.1.news",
+        "diff.gz": "2.23/evolution-data-server-2.23.90-2.23.90.1.diff.gz", "changes":
+        "2.23/evolution-data-server-2.23.90.1.changes", "tar.bz2": "2.23/evolution-data-server-2.23.90.1.tar.bz2"},
+        "3.9.91": {"news": "3.9/evolution-data-server-3.9.91.news", "tar.xz": "3.9/evolution-data-server-3.9.91.tar.xz",
+        "sha256sum": "3.9/evolution-data-server-3.9.91.sha256sum"}, "3.9.90": {"news":
+        "3.9/evolution-data-server-3.9.90.news", "tar.xz": "3.9/evolution-data-server-3.9.90.tar.xz",
+        "sha256sum": "3.9/evolution-data-server-3.9.90.sha256sum"}, "2.22.0": {"tar.gz":
+        "2.22/evolution-data-server-2.22.0.tar.gz", "md5sum": "2.22/evolution-data-server-2.22.0.md5sum",
+        "tar.bz2": "2.22/evolution-data-server-2.22.0.tar.bz2", "sha256sum": "2.22/evolution-data-server-2.22.0.sha256sum"},
+        "2.22.1": {"md5sum": "2.22/evolution-data-server-2.22.1.md5sum", "sha256sum":
+        "2.22/evolution-data-server-2.22.1.sha256sum", "tar.gz": "2.22/evolution-data-server-2.22.1.tar.gz",
+        "diff.gz": "2.22/evolution-data-server-2.22.0-2.22.1.diff.gz", "news": "2.22/evolution-data-server-2.22.1.news",
+        "changes": "2.22/evolution-data-server-2.22.1.changes", "tar.bz2": "2.22/evolution-data-server-2.22.1.tar.bz2"},
+        "2.22.2": {"md5sum": "2.22/evolution-data-server-2.22.2.md5sum", "sha256sum":
+        "2.22/evolution-data-server-2.22.2.sha256sum", "tar.gz": "2.22/evolution-data-server-2.22.2.tar.gz",
+        "news": "2.22/evolution-data-server-2.22.2.news", "diff.gz": "2.22/evolution-data-server-2.22.1.1-2.22.2.diff.gz",
+        "changes": "2.22/evolution-data-server-2.22.2.changes", "tar.bz2": "2.22/evolution-data-server-2.22.2.tar.bz2"},
+        "2.22.3": {"md5sum": "2.22/evolution-data-server-2.22.3.md5sum", "sha256sum":
+        "2.22/evolution-data-server-2.22.3.sha256sum", "tar.gz": "2.22/evolution-data-server-2.22.3.tar.gz",
+        "diff.gz": "2.22/evolution-data-server-2.22.2-2.22.3.diff.gz", "news": "2.22/evolution-data-server-2.22.3.news",
+        "changes": "2.22/evolution-data-server-2.22.3.changes", "tar.bz2": "2.22/evolution-data-server-2.22.3.tar.bz2"},
+        "1.1.4.1": {"tar.gz": "1.1/evolution-data-server-1.1.4.1.tar.gz", "diff.gz":
+        "1.1/evolution-data-server-1.1.4-1.1.4.1.diff.gz", "md5sum": "1.1/evolution-data-server-1.1.4.1.md5sum",
+        "tar.bz2": "1.1/evolution-data-server-1.1.4.1.tar.bz2", "sha256sum": "1.1/evolution-data-server-1.1.4.1.sha256sum"},
+        "1.8.1": {"md5sum": "1.8/evolution-data-server-1.8.1.md5sum", "sha256sum":
+        "1.8/evolution-data-server-1.8.1.sha256sum", "tar.gz": "1.8/evolution-data-server-1.8.1.tar.gz",
+        "news": "1.8/evolution-data-server-1.8.1.news", "diff.gz": "1.8/evolution-data-server-1.8.0-1.8.1.diff.gz",
+        "changes": "1.8/evolution-data-server-1.8.1.changes", "tar.bz2": "1.8/evolution-data-server-1.8.1.tar.bz2"},
+        "1.8.2": {"md5sum": "1.8/evolution-data-server-1.8.2.md5sum", "sha256sum":
+        "1.8/evolution-data-server-1.8.2.sha256sum", "tar.gz": "1.8/evolution-data-server-1.8.2.tar.gz",
+        "news": "1.8/evolution-data-server-1.8.2.news", "diff.gz": "1.8/evolution-data-server-1.8.1-1.8.2.diff.gz",
+        "changes": "1.8/evolution-data-server-1.8.2.changes", "tar.bz2": "1.8/evolution-data-server-1.8.2.tar.bz2"},
+        "1.8.3": {"md5sum": "1.8/evolution-data-server-1.8.3.md5sum", "sha256sum":
+        "1.8/evolution-data-server-1.8.3.sha256sum", "tar.gz": "1.8/evolution-data-server-1.8.3.tar.gz",
+        "news": "1.8/evolution-data-server-1.8.3.news", "diff.gz": "1.8/evolution-data-server-1.8.2-1.8.3.diff.gz",
+        "changes": "1.8/evolution-data-server-1.8.3.changes", "tar.bz2": "1.8/evolution-data-server-1.8.3.tar.bz2"},
+        "3.12.10": {"news": "3.12/evolution-data-server-3.12.10.news", "tar.xz": "3.12/evolution-data-server-3.12.10.tar.xz",
+        "sha256sum": "3.12/evolution-data-server-3.12.10.sha256sum"}, "3.12.11": {"news":
+        "3.12/evolution-data-server-3.12.11.news", "tar.xz": "3.12/evolution-data-server-3.12.11.tar.xz",
+        "sha256sum": "3.12/evolution-data-server-3.12.11.sha256sum"}, "1.4.2": {"md5sum":
+        "1.4/evolution-data-server-1.4.2.md5sum", "sha256sum": "1.4/evolution-data-server-1.4.2.sha256sum",
+        "tar.gz": "1.4/evolution-data-server-1.4.2.tar.gz", "diff.gz": "1.4/evolution-data-server-1.4.1.1-1.4.2.diff.gz",
+        "news": "1.4/evolution-data-server-1.4.2.news", "changes": "1.4/evolution-data-server-1.4.2.changes",
+        "tar.bz2": "1.4/evolution-data-server-1.4.2.tar.bz2"}, "2.21.5": {"md5sum":
+        "2.21/evolution-data-server-2.21.5.md5sum", "sha256sum": "2.21/evolution-data-server-2.21.5.sha256sum",
+        "tar.gz": "2.21/evolution-data-server-2.21.5.tar.gz", "news": "2.21/evolution-data-server-2.21.5.news",
+        "diff.gz": "2.21/evolution-data-server-2.21.4-2.21.5.diff.gz", "changes":
+        "2.21/evolution-data-server-2.21.5.changes", "tar.bz2": "2.21/evolution-data-server-2.21.5.tar.bz2"},
+        "2.21.4": {"md5sum": "2.21/evolution-data-server-2.21.4.md5sum", "sha256sum":
+        "2.21/evolution-data-server-2.21.4.sha256sum", "tar.gz": "2.21/evolution-data-server-2.21.4.tar.gz",
+        "diff.gz": "2.21/evolution-data-server-2.21.3-2.21.4.diff.gz", "news": "2.21/evolution-data-server-2.21.4.news",
+        "changes": "2.21/evolution-data-server-2.21.4.changes", "tar.bz2": "2.21/evolution-data-server-2.21.4.tar.bz2"},
+        "2.21.3": {"md5sum": "2.21/evolution-data-server-2.21.3.md5sum", "sha256sum":
+        "2.21/evolution-data-server-2.21.3.sha256sum", "tar.gz": "2.21/evolution-data-server-2.21.3.tar.gz",
+        "diff.gz": "2.21/evolution-data-server-2.21.2-2.21.3.diff.gz", "news": "2.21/evolution-data-server-2.21.3.news",
+        "changes": "2.21/evolution-data-server-2.21.3.changes", "tar.bz2": "2.21/evolution-data-server-2.21.3.tar.bz2"},
+        "2.21.2": {"md5sum": "2.21/evolution-data-server-2.21.2.md5sum", "sha256sum":
+        "2.21/evolution-data-server-2.21.2.sha256sum", "tar.gz": "2.21/evolution-data-server-2.21.2.tar.gz",
+        "diff.gz": "2.21/evolution-data-server-2.21.1-2.21.2.diff.gz", "news": "2.21/evolution-data-server-2.21.2.news",
+        "changes": "2.21/evolution-data-server-2.21.2.changes", "tar.bz2": "2.21/evolution-data-server-2.21.2.tar.bz2"},
+        "2.21.1": {"tar.gz": "2.21/evolution-data-server-2.21.1.tar.gz", "md5sum":
+        "2.21/evolution-data-server-2.21.1.md5sum", "tar.bz2": "2.21/evolution-data-server-2.21.1.tar.bz2",
+        "sha256sum": "2.21/evolution-data-server-2.21.1.sha256sum"}, "2.29.6": {"tar.gz":
+        "2.29/evolution-data-server-2.29.6.tar.gz", "diff.gz": "2.29/evolution-data-server-2.29.5-2.29.6.diff.gz",
+        "news": "2.29/evolution-data-server-2.29.6.news", "tar.bz2": "2.29/evolution-data-server-2.29.6.tar.bz2",
+        "sha256sum": "2.29/evolution-data-server-2.29.6.sha256sum"}, "2.29.5": {"tar.gz":
+        "2.29/evolution-data-server-2.29.5.tar.gz", "news": "2.29/evolution-data-server-2.29.5.news",
+        "diff.gz": "2.29/evolution-data-server-2.29.4-2.29.5.diff.gz", "tar.bz2":
+        "2.29/evolution-data-server-2.29.5.tar.bz2", "sha256sum": "2.29/evolution-data-server-2.29.5.sha256sum"},
+        "2.29.4": {"tar.gz": "2.29/evolution-data-server-2.29.4.tar.gz", "news": "2.29/evolution-data-server-2.29.4.news",
+        "diff.gz": "2.29/evolution-data-server-2.29.3-2.29.4.diff.gz", "tar.bz2":
+        "2.29/evolution-data-server-2.29.4.tar.bz2", "sha256sum": "2.29/evolution-data-server-2.29.4.sha256sum"},
+        "1.2.2": {"md5sum": "1.2/evolution-data-server-1.2.2.md5sum", "sha256sum":
+        "1.2/evolution-data-server-1.2.2.sha256sum", "tar.gz": "1.2/evolution-data-server-1.2.2.tar.gz",
+        "news": "1.2/evolution-data-server-1.2.2.news", "changes": "1.2/evolution-data-server-1.2.2.changes",
+        "tar.bz2": "1.2/evolution-data-server-1.2.2.tar.bz2"}, "1.2.3": {"md5sum":
+        "1.2/evolution-data-server-1.2.3.md5sum", "sha256sum": "1.2/evolution-data-server-1.2.3.sha256sum",
+        "tar.gz": "1.2/evolution-data-server-1.2.3.tar.gz", "diff.gz": "1.2/evolution-data-server-1.2.2-1.2.3.diff.gz",
+        "news": "1.2/evolution-data-server-1.2.3.news", "changes": "1.2/evolution-data-server-1.2.3.changes",
+        "tar.bz2": "1.2/evolution-data-server-1.2.3.tar.bz2"}, "1.2.0": {"tar.gz":
+        "1.2/evolution-data-server-1.2.0.tar.gz", "md5sum": "1.2/evolution-data-server-1.2.0.md5sum",
+        "tar.bz2": "1.2/evolution-data-server-1.2.0.tar.bz2", "sha256sum": "1.2/evolution-data-server-1.2.0.sha256sum"},
+        "1.2.1": {"md5sum": "1.2/evolution-data-server-1.2.1.md5sum", "sha256sum":
+        "1.2/evolution-data-server-1.2.1.sha256sum", "tar.gz": "1.2/evolution-data-server-1.2.1.tar.gz",
+        "diff.gz": "1.2/evolution-data-server-1.2.0-1.2.1.diff.gz", "news": "1.2/evolution-data-server-1.2.1.news",
+        "tar.bz2": "1.2/evolution-data-server-1.2.1.tar.bz2"}, "3.1.92": {"news":
+        "3.1/evolution-data-server-3.1.92.news", "changes": "3.1/evolution-data-server-3.1.92.changes",
+        "tar.xz": "3.1/evolution-data-server-3.1.92.tar.xz", "tar.bz2": "3.1/evolution-data-server-3.1.92.tar.bz2",
+        "sha256sum": "3.1/evolution-data-server-3.1.92.sha256sum"}, "3.8.4": {"news":
+        "3.8/evolution-data-server-3.8.4.news", "tar.xz": "3.8/evolution-data-server-3.8.4.tar.xz",
+        "sha256sum": "3.8/evolution-data-server-3.8.4.sha256sum"}, "3.8.5": {"news":
+        "3.8/evolution-data-server-3.8.5.news", "tar.xz": "3.8/evolution-data-server-3.8.5.tar.xz",
+        "sha256sum": "3.8/evolution-data-server-3.8.5.sha256sum"}, "3.8.2": {"news":
+        "3.8/evolution-data-server-3.8.2.news", "tar.xz": "3.8/evolution-data-server-3.8.2.tar.xz",
+        "sha256sum": "3.8/evolution-data-server-3.8.2.sha256sum"}, "3.8.3": {"news":
+        "3.8/evolution-data-server-3.8.3.news", "tar.xz": "3.8/evolution-data-server-3.8.3.tar.xz",
+        "sha256sum": "3.8/evolution-data-server-3.8.3.sha256sum"}, "3.8.0": {"news":
+        "3.8/evolution-data-server-3.8.0.news", "tar.xz": "3.8/evolution-data-server-3.8.0.tar.xz",
+        "sha256sum": "3.8/evolution-data-server-3.8.0.sha256sum"}, "3.8.1": {"news":
+        "3.8/evolution-data-server-3.8.1.news", "tar.xz": "3.8/evolution-data-server-3.8.1.tar.xz",
+        "sha256sum": "3.8/evolution-data-server-3.8.1.sha256sum"}, "2.30.1": {"tar.gz":
+        "2.30/evolution-data-server-2.30.1.tar.gz", "news": "2.30/evolution-data-server-2.30.1.news",
+        "diff.gz": "2.30/evolution-data-server-2.30.0-2.30.1.diff.gz", "tar.bz2":
+        "2.30/evolution-data-server-2.30.1.tar.bz2", "sha256sum": "2.30/evolution-data-server-2.30.1.sha256sum"},
+        "3.12.7.1": {"news": "3.12/evolution-data-server-3.12.7.1.news", "tar.xz":
+        "3.12/evolution-data-server-3.12.7.1.tar.xz", "sha256sum": "3.12/evolution-data-server-3.12.7.1.sha256sum"},
+        "2.30.0": {"tar.gz": "2.30/evolution-data-server-2.30.0.tar.gz", "tar.bz2":
+        "2.30/evolution-data-server-2.30.0.tar.bz2", "sha256sum": "2.30/evolution-data-server-2.30.0.sha256sum"},
+        "2.30.3": {"tar.gz": "2.30/evolution-data-server-2.30.3.tar.gz", "diff.gz":
+        "2.30/evolution-data-server-2.30.2.1-2.30.3.diff.gz", "sha256sum": "2.30/evolution-data-server-2.30.3.sha256sum",
+        "tar.bz2": "2.30/evolution-data-server-2.30.3.tar.bz2", "news": "2.30/evolution-data-server-2.30.3.news"},
+        "1.7.91": {"md5sum": "1.7/evolution-data-server-1.7.91.md5sum", "sha256sum":
+        "1.7/evolution-data-server-1.7.91.sha256sum", "tar.gz": "1.7/evolution-data-server-1.7.91.tar.gz",
+        "diff.gz": "1.7/evolution-data-server-1.7.90.1-1.7.91.diff.gz", "news": "1.7/evolution-data-server-1.7.91.news",
+        "changes": "1.7/evolution-data-server-1.7.91.changes", "tar.bz2": "1.7/evolution-data-server-1.7.91.tar.bz2"},
+        "1.7.90": {"md5sum": "1.7/evolution-data-server-1.7.90.md5sum", "sha256sum":
+        "1.7/evolution-data-server-1.7.90.sha256sum", "tar.gz": "1.7/evolution-data-server-1.7.90.tar.gz",
+        "diff.gz": "1.7/evolution-data-server-1.7.4-1.7.90.diff.gz", "news": "1.7/evolution-data-server-1.7.90.news",
+        "changes": "1.7/evolution-data-server-1.7.90.changes", "tar.bz2": "1.7/evolution-data-server-1.7.90.tar.bz2"},
+        "1.11.92": {"md5sum": "1.11/evolution-data-server-1.11.92.md5sum", "sha256sum":
+        "1.11/evolution-data-server-1.11.92.sha256sum", "tar.gz": "1.11/evolution-data-server-1.11.92.tar.gz",
+        "news": "1.11/evolution-data-server-1.11.92.news", "diff.gz": "1.11/evolution-data-server-1.11.91-1.11.92.diff.gz",
+        "changes": "1.11/evolution-data-server-1.11.92.changes", "tar.bz2": "1.11/evolution-data-server-1.11.92.tar.bz2"},
+        "1.11.91": {"md5sum": "1.11/evolution-data-server-1.11.91.md5sum", "sha256sum":
+        "1.11/evolution-data-server-1.11.91.sha256sum", "tar.gz": "1.11/evolution-data-server-1.11.91.tar.gz",
+        "diff.gz": "1.11/evolution-data-server-1.11.90-1.11.91.diff.gz", "news": "1.11/evolution-data-server-1.11.91.news",
+        "changes": "1.11/evolution-data-server-1.11.91.changes", "tar.bz2": "1.11/evolution-data-server-1.11.91.tar.bz2"},
+        "1.11.90": {"md5sum": "1.11/evolution-data-server-1.11.90.md5sum", "sha256sum":
+        "1.11/evolution-data-server-1.11.90.sha256sum", "tar.gz": "1.11/evolution-data-server-1.11.90.tar.gz",
+        "diff.gz": "1.11/evolution-data-server-1.11.6.1-1.11.90.diff.gz", "news":
+        "1.11/evolution-data-server-1.11.90.news", "changes": "1.11/evolution-data-server-1.11.90.changes",
+        "tar.bz2": "1.11/evolution-data-server-1.11.90.tar.bz2"}, "3.2.0": {"news":
+        "3.2/evolution-data-server-3.2.0.news", "changes": "3.2/evolution-data-server-3.2.0.changes",
+        "tar.xz": "3.2/evolution-data-server-3.2.0.tar.xz", "tar.bz2": "3.2/evolution-data-server-3.2.0.tar.bz2",
+        "sha256sum": "3.2/evolution-data-server-3.2.0.sha256sum"}, "3.2.1": {"news":
+        "3.2/evolution-data-server-3.2.1.news", "changes": "3.2/evolution-data-server-3.2.1.changes",
+        "tar.xz": "3.2/evolution-data-server-3.2.1.tar.xz", "tar.bz2": "3.2/evolution-data-server-3.2.1.tar.bz2",
+        "sha256sum": "3.2/evolution-data-server-3.2.1.sha256sum"}, "3.2.2": {"news":
+        "3.2/evolution-data-server-3.2.2.news", "changes": "3.2/evolution-data-server-3.2.2.changes",
+        "tar.xz": "3.2/evolution-data-server-3.2.2.tar.xz", "tar.bz2": "3.2/evolution-data-server-3.2.2.tar.bz2",
+        "sha256sum": "3.2/evolution-data-server-3.2.2.sha256sum"}, "3.2.3": {"news":
+        "3.2/evolution-data-server-3.2.3.news", "changes": "3.2/evolution-data-server-3.2.3.changes",
+        "tar.xz": "3.2/evolution-data-server-3.2.3.tar.xz", "sha256sum": "3.2/evolution-data-server-3.2.3.sha256sum"},
+        "2.27.1": {"tar.gz": "2.27/evolution-data-server-2.27.1.tar.gz", "md5sum":
+        "2.27/evolution-data-server-2.27.1.md5sum", "tar.bz2": "2.27/evolution-data-server-2.27.1.tar.bz2",
+        "sha256sum": "2.27/evolution-data-server-2.27.1.sha256sum"}, "1.3.7": {"md5sum":
+        "1.3/evolution-data-server-1.3.7.md5sum", "sha256sum": "1.3/evolution-data-server-1.3.7.sha256sum",
+        "tar.gz": "1.3/evolution-data-server-1.3.7.tar.gz", "news": "1.3/evolution-data-server-1.3.7.news",
+        "diff.gz": "1.3/evolution-data-server-1.3.6.1-1.3.7.diff.gz", "changes": "1.3/evolution-data-server-1.3.7.changes",
+        "tar.bz2": "1.3/evolution-data-server-1.3.7.tar.bz2"}, "2.27.3": {"md5sum":
+        "2.27/evolution-data-server-2.27.3.md5sum", "sha256sum": "2.27/evolution-data-server-2.27.3.sha256sum",
+        "tar.gz": "2.27/evolution-data-server-2.27.3.tar.gz", "diff.gz": "2.27/evolution-data-server-2.27.2-2.27.3.diff.gz",
+        "news": "2.27/evolution-data-server-2.27.3.news", "tar.bz2": "2.27/evolution-data-server-2.27.3.tar.bz2"},
+        "2.27.2": {"md5sum": "2.27/evolution-data-server-2.27.2.md5sum", "sha256sum":
+        "2.27/evolution-data-server-2.27.2.sha256sum", "tar.gz": "2.27/evolution-data-server-2.27.2.tar.gz",
+        "news": "2.27/evolution-data-server-2.27.2.news", "diff.gz": "2.27/evolution-data-server-2.27.1-2.27.2.diff.gz",
+        "tar.bz2": "2.27/evolution-data-server-2.27.2.tar.bz2"}, "2.27.5": {"tar.gz":
+        "2.27/evolution-data-server-2.27.5.tar.gz", "diff.gz": "2.27/evolution-data-server-2.27.4-2.27.5.diff.gz",
+        "sha256sum": "2.27/evolution-data-server-2.27.5.sha256sum", "tar.bz2": "2.27/evolution-data-server-2.27.5.tar.bz2",
+        "news": "2.27/evolution-data-server-2.27.5.news"}, "2.27.4": {"md5sum": "2.27/evolution-data-server-2.27.4.md5sum",
+        "sha256sum": "2.27/evolution-data-server-2.27.4.sha256sum", "tar.gz": "2.27/evolution-data-server-2.27.4.tar.gz",
+        "news": "2.27/evolution-data-server-2.27.4.news", "diff.gz": "2.27/evolution-data-server-2.27.3-2.27.4.diff.gz",
+        "tar.bz2": "2.27/evolution-data-server-2.27.4.tar.bz2"}, "1.3.6": {"md5sum":
+        "1.3/evolution-data-server-1.3.6.md5sum", "sha256sum": "1.3/evolution-data-server-1.3.6.sha256sum",
+        "tar.gz": "1.3/evolution-data-server-1.3.6.tar.gz", "news": "1.3/evolution-data-server-1.3.6.news",
+        "diff.gz": "1.3/evolution-data-server-1.3.5-1.3.6.diff.gz", "changes": "1.3/evolution-data-server-1.3.6.changes",
+        "tar.bz2": "1.3/evolution-data-server-1.3.6.tar.bz2"}}}, {"evolution-data-server":
+        ["0.0.3", "0.0.4", "0.0.5", "0.0.6", "0.0.7", "0.0.90", "0.0.91", "0.0.92",
+        "0.0.93", "0.0.94", "0.0.94.1", "0.0.95", "0.0.96", "0.0.97", "0.0.98", "0.0.99",
+        "1.0.0", "1.0.1", "1.0.2", "1.0.3", "1.0.4", "1.1.0", "1.1.1", "1.1.2", "1.1.3",
+        "1.1.4", "1.1.4.1", "1.1.4.2", "1.1.5", "1.1.6", "1.2.0", "1.2.1", "1.2.2",
+        "1.2.3", "1.3.1", "1.3.2", "1.3.3", "1.3.3.1", "1.3.4", "1.3.5", "1.3.6",
+        "1.3.6.1", "1.3.7", "1.3.8", "1.4.0", "1.4.1", "1.4.1.1", "1.4.2", "1.4.2.1",
+        "1.5.1", "1.5.2", "1.5.3", "1.5.4", "1.5.5", "1.5.90", "1.5.91", "1.5.92",
+        "1.6.0", "1.6.1", "1.6.2", "1.6.3", "1.7.1", "1.7.2", "1.7.3", "1.7.4", "1.7.90",
+        "1.7.90.1", "1.7.91", "1.7.92", "1.8.0", "1.8.1", "1.8.2", "1.8.3", "1.9.1",
+        "1.9.2", "1.9.3", "1.9.4", "1.9.5", "1.9.6", "1.9.6.1", "1.9.91", "1.9.92",
+        "1.10.0", "1.10.1", "1.10.2", "1.10.3", "1.10.3.1", "1.11.1", "1.11.2", "1.11.3",
+        "1.11.4", "1.11.5", "1.11.6", "1.11.6.1", "1.11.90", "1.11.91", "1.11.92",
+        "1.12.0", "1.12.1", "1.12.2", "1.12.3", "2.21.1", "2.21.2", "2.21.3", "2.21.4",
+        "2.21.5", "2.21.5.1", "2.21.90", "2.21.91", "2.21.92", "2.22.0", "2.22.1",
+        "2.22.1.1", "2.22.2", "2.22.3", "2.23.1", "2.23.2", "2.23.3", "2.23.4", "2.23.5",
+        "2.23.6", "2.23.90", "2.23.90.1", "2.23.91", "2.23.92", "2.24.0", "2.24.1",
+        "2.24.1.1", "2.24.2", "2.24.3", "2.24.4", "2.24.4.1", "2.24.5", "2.25.1",
+        "2.25.2", "2.25.3", "2.25.4", "2.25.5", "2.25.90", "2.25.91", "2.25.92", "2.26.0",
+        "2.26.1", "2.26.1.1", "2.26.2", "2.26.3", "2.27.1", "2.27.2", "2.27.3", "2.27.4",
+        "2.27.5", "2.27.90", "2.27.91", "2.27.92", "2.28.0", "2.28.1", "2.28.2", "2.28.3",
+        "2.28.3.1", "2.29.1", "2.29.2", "2.29.3", "2.29.4", "2.29.5", "2.29.6", "2.29.90",
+        "2.29.91", "2.29.92", "2.30.0", "2.30.1", "2.30.2", "2.30.2.1", "2.30.3",
+        "2.31.1", "2.31.2", "2.31.3", "2.31.3.1", "2.31.4", "2.31.5", "2.31.6", "2.31.90",
+        "2.31.91", "2.31.92", "2.31.92.1", "2.32.0", "2.32.1", "2.32.2", "2.32.3",
+        "2.91.0", "2.91.1", "2.91.1.1", "2.91.2", "2.91.3", "2.91.4", "2.91.4.1",
+        "2.91.5", "2.91.6", "2.91.90", "2.91.91", "2.91.92", "3.0.0", "3.0.1", "3.0.2",
+        "3.0.2.1", "3.0.3", "3.0.3.1", "3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5",
+        "3.1.90", "3.1.91", "3.1.92", "3.2.0", "3.2.1", "3.2.2", "3.2.3", "3.3.1",
+        "3.3.1.1", "3.3.2", "3.3.3", "3.3.4", "3.3.5", "3.3.90", "3.3.91", "3.3.92",
+        "3.4.0", "3.4.1", "3.4.2", "3.4.3", "3.4.4", "3.5.1", "3.5.2", "3.5.3", "3.5.3.1",
+        "3.5.4", "3.5.5", "3.5.90", "3.5.91", "3.5.92", "3.6.0", "3.6.1", "3.6.2",
+        "3.6.3", "3.6.4", "3.7.1", "3.7.2", "3.7.2.1", "3.7.3", "3.7.4", "3.7.5",
+        "3.7.90", "3.7.91", "3.7.92", "3.8.0", "3.8.1", "3.8.2", "3.8.3", "3.8.4",
+        "3.8.5", "3.9.1", "3.9.2", "3.9.3", "3.9.4", "3.9.5", "3.9.90", "3.9.91",
+        "3.9.92", "3.10.0", "3.10.1", "3.10.2", "3.10.3", "3.10.4", "3.11.1", "3.11.2",
+        "3.11.3", "3.11.4", "3.11.5", "3.11.90", "3.11.91", "3.11.92", "3.12.0", "3.12.1",
+        "3.12.2", "3.12.3", "3.12.4", "3.12.5", "3.12.6", "3.12.7", "3.12.7.1", "3.12.8",
+        "3.12.9", "3.12.10", "3.12.11", "3.13.1", "3.13.2", "3.13.3", "3.13.4", "3.13.5",
+        "3.13.6", "3.13.7", "3.13.8", "3.13.9", "3.13.10", "3.13.90", "3.15.91", "3.15.92",
+        "3.16.0", "3.16.1", "3.16.2", "3.17.1", "3.17.2"]}, {"1.4": ["LATEST-IS-1.4.2.1"],
+        "1.5": ["LATEST-IS-1.5.92"], "1.6": ["LATEST-IS-1.6.3"], "1.7": ["LATEST-IS-1.7.92"],
+        "1.0": ["LATEST-IS-1.0.4"], "1.1": ["LATEST-IS-1.1.6"], "1.2": ["LATEST-IS-1.2.3"],
+        "1.3": ["LATEST-IS-1.3.8"], "3.10": ["LATEST-IS-3.10.4"], "0.0": ["evolution-data-server-0.0.7.tar.bz2.md5",
+        "evolution-data-server-0.0.4.tar.bz2.md5", "evolution-data-server-0.0.3.tar.bz2.md5",
+        "evolution-data-server-0.0.6-0.0.7.diff.gz.sha256sum", "evolution-data-server-0.0.5.tar.gz.sha256sum",
+        "evolution-data-server-0.0.7-0.0.90.diff.gz.md5", "evolution-data-server-0.0.5.tar.gz.md5",
+        "evolution-data-server-0.0.3-0.0.4.diff.gz.sha256sum", "evolution-data-server-0.0.7-0.0.90.diff.gz.sha256sum",
+        "evolution-data-server-0.0.5.tar.bz2.md5", "evolution-data-server-0.0.5.tar.bz2.sha256sum",
+        "LATEST-IS-0.0.99", "evolution-data-server-0.0.4-0.0.5.diff.gz.md5", "evolution-data-server-0.0.6.tar.gz.md5",
+        "evolution-data-server-0.0.6.tar.bz2.sha256sum", "evolution-data-server-0.0.90.tar.bz2.sha256sum",
+        "evolution-data-server-0.0.7.tar.bz2.sha256sum", "evolution-data-server-0.0.5-0.0.6.diff.gz.sha256sum",
+        "evolution-data-server-0.0.4-0.0.5.diff.gz.sha256sum", "evolution-data-server-0.0.4.tar.gz.sha256sum",
+        "evolution-data-server-0.0.7.tar.gz.sha256sum", "evolution-data-server-0.0.3-0.0.4.diff.gz.md5",
+        "evolution-data-server-0.0.7.tar.gz.md5", "evolution-data-server-0.0.3.tar.gz.md5",
+        "evolution-data-server-0.0.90.tar.gz.sha256sum", "evolution-data-server-0.0.3.tar.bz2.sha256sum",
+        "evolution-data-server-0.0.6-0.0.7.diff.gz.md5", "evolution-data-server-0.0.3.tar.gz.sha256sum",
+        "evolution-data-server-0.0.6.tar.gz.sha256sum", "evolution-data-server-0.0.90.tar.gz.md5",
+        "evolution-data-server-0.0.4.tar.gz.md5", "evolution-data-server-0.0.5-0.0.6.diff.gz.md5",
+        "evolution-data-server-0.0.90.tar.bz2.md5", "evolution-data-server-0.0.4.tar.bz2.sha256sum",
+        "evolution-data-server-0.0.6.tar.bz2.md5"], "3.12": ["LATEST-IS-3.12.11"],
+        "3.13": ["LATEST-IS-3.13.90"], "1.8": ["LATEST-IS-1.8.3"], "1.9": ["LATEST-IS-1.9.92"],
+        "3.16": ["LATEST-IS-3.16.2"], "3.17": ["LATEST-IS-3.17.2"], "3.6": ["LATEST-IS-3.6.4"],
+        "3.7": ["LATEST-IS-3.7.92"], "3.4": ["LATEST-IS-3.4.4"], "3.5": ["LATEST-IS-3.5.92"],
+        "3.2": ["LATEST-IS-3.2.3"], "3.3": ["LATEST-IS-3.3.92"], "3.0": ["LATEST-IS-3.0.3.1"],
+        "3.1": ["LATEST-IS-3.1.92"], "3.8": ["LATEST-IS-3.8.5"], "3.9": ["LATEST-IS-3.9.92"],
+        "1.12": ["LATEST-IS-1.12.3"], "2.30": ["LATEST-IS-2.30.3"], "1.10": ["LATEST-IS-1.10.3.1"],
+        "2.32": ["LATEST-IS-2.32.3"], ".": ["cache.json"], "3.11": ["LATEST-IS-3.11.92"],
+        "2.91": ["LATEST-IS-2.91.92"], "3.15": ["LATEST-IS-3.15.92"], "2.31": ["LATEST-IS-2.31.92.1"],
+        "1.11": ["LATEST-IS-1.11.92"], "2.28": ["LATEST-IS-2.28.3.1"], "2.29": ["LATEST-IS-2.29.92"],
+        "2.22": ["LATEST-IS-2.22.3"], "2.23": ["LATEST-IS-2.23.92"], "2.21": ["LATEST-IS-2.21.92"],
+        "2.26": ["LATEST-IS-2.26.3"], "2.27": ["LATEST-IS-2.27.92"], "2.24": ["LATEST-IS-2.24.5"],
+        "2.25": ["LATEST-IS-2.25.92"]}]'}
+    headers:
+      accept-ranges: [bytes]
+      connection: [keep-alive]
+      content-length: ['96952']
+      content-type: [application/octet-stream]
+      date: ['Thu, 28 May 2015 20:10:19 GMT']
+      etag: ['"5562c37a-17ab8"']
+      last-modified: ['Mon, 25 May 2015 06:38:50 GMT']
+      server: [nginx/1.4.6 (Ubuntu)]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
+    method: GET
+    uri: https://download.gnome.org/sources/fake/cache.json
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /sources/fake/cache.json was not found on this server.</p>
+
+        <hr>
+
+        <address>Apache/2.2.15 (Red Hat) Server at download.gnome.org Port 80</address>
+
+        </body></html>
+
+'}
+    headers:
+      connection: [close]
+      content-length: ['306']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Thu, 28 May 2015 20:10:19 GMT']
+      server: [Apache/2.2.15 (Red Hat)]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
+    method: GET
+    uri: https://download.gnome.org/sources/fake/
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /sources/fake/ was not found on this server.</p>
+
+        <hr>
+
+        <address>Apache/2.2.15 (Red Hat) Server at download.gnome.org Port 80</address>
+
+        </body></html>
+
+'}
+    headers:
+      connection: [close]
+      content-length: ['296']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Thu, 28 May 2015 20:10:20 GMT']
+      server: [Apache/2.2.15 (Red Hat)]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
+    method: GET
+    uri: https://download.gnome.org/sources/gnome-control-center/cache.json
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>302 Found</title>
+
+        </head><body>
+
+        <h1>Found</h1>
+
+        <p>The document has moved <a href="https://mirror.umd.edu/gnome/sources/gnome-control-center/cache.json">here</a>.</p>
+
+        <hr>
+
+        <address>Apache/2.2.15 (Red Hat) Server at download.gnome.org Port 80</address>
+
+        </body></html>
+
+'}
+    headers:
+      connection: [close]
+      content-length: ['337']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Thu, 28 May 2015 20:10:20 GMT']
+      digest: [MD5=qIJhhmUfCNAB/DIH6+TmbA==, SHA=EhevyyfdjcwOuDw864cVA8jYq2I=, SHA-256=C31yJoifqDyWzHon2Nenr3wQogJgf9BKLYoEVu2fAO4=]
+      link: ['<http://download.gnome.org/sources/gnome-control-center/cache.json.meta4>;
+          rel=describedby; type="application/metalink4+xml"', '<https://mirror.umd.edu/gnome/sources/gnome-control-center/cache.json>;
+          rel=duplicate; pri=1; geo=us', '<https://muug.ca/mirror/gnome/sources/gnome-control-center/cache.json>;
+          rel=duplicate; pri=2; geo=ca', '<http://ftp.heanet.ie/mirrors/ftp.gnome.org/sources/gnome-control-center/cache.json>;
+          rel=duplicate; pri=3; geo=ie', '<http://ftp.sunet.se/pub/X11/GNOME/sources/gnome-control-center/cache.json>;
+          rel=duplicate; pri=4; geo=se', '<http://ftp1.nluug.nl/windowing/gnome/sources/gnome-control-center/cache.json>;
+          rel=duplicate; pri=5; geo=nl']
+      location: ['https://mirror.umd.edu/gnome/sources/gnome-control-center/cache.json']
+      server: [Apache/2.2.15 (Red Hat)]
+      x-mirrorbrain-mirror: [mirror.umd.edu]
+      x-mirrorbrain-realm: [country]
+    status: {code: 302, message: Found}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
+    method: GET
+    uri: https://mirror.umd.edu/gnome/sources/gnome-control-center/cache.json
+  response:
+    body: {string: !!python/unicode '[4, {"gnome-control-center": {"3.1.3": {"news":
+        "3.1/gnome-control-center-3.1.3.news", "tar.xz": "3.1/gnome-control-center-3.1.3.tar.xz",
+        "tar.bz2": "3.1/gnome-control-center-3.1.3.tar.bz2", "sha256sum": "3.1/gnome-control-center-3.1.3.sha256sum"},
+        "2.90.1": {"tar.gz": "2.90/gnome-control-center-2.90.1.tar.gz", "tar.bz2":
+        "2.90/gnome-control-center-2.90.1.tar.bz2", "sha256sum": "2.90/gnome-control-center-2.90.1.sha256sum"},
+        "3.1.5": {"news": "3.1/gnome-control-center-3.1.5.news", "changes": "3.1/gnome-control-center-3.1.5.changes",
+        "tar.xz": "3.1/gnome-control-center-3.1.5.tar.xz", "tar.bz2": "3.1/gnome-control-center-3.1.5.tar.bz2",
+        "sha256sum": "3.1/gnome-control-center-3.1.5.sha256sum"}, "3.1.4": {"news":
+        "3.1/gnome-control-center-3.1.4.news", "changes": "3.1/gnome-control-center-3.1.4.changes",
+        "tar.xz": "3.1/gnome-control-center-3.1.4.tar.xz", "tar.bz2": "3.1/gnome-control-center-3.1.4.tar.bz2",
+        "sha256sum": "3.1/gnome-control-center-3.1.4.sha256sum"}, "3.9.2": {"tar.xz":
+        "3.9/gnome-control-center-3.9.2.tar.xz", "sha256sum": "3.9/gnome-control-center-3.9.2.sha256sum"},
+        "3.9.2.1": {"news": "3.9/gnome-control-center-3.9.2.1.news", "changes": "3.9/gnome-control-center-3.9.2.1.changes",
+        "tar.xz": "3.9/gnome-control-center-3.9.2.1.tar.xz", "sha256sum": "3.9/gnome-control-center-3.9.2.1.sha256sum"},
+        "3.13.92": {"news": "3.13/gnome-control-center-3.13.92.news", "changes": "3.13/gnome-control-center-3.13.92.changes",
+        "tar.xz": "3.13/gnome-control-center-3.13.92.tar.xz", "sha256sum": "3.13/gnome-control-center-3.13.92.sha256sum"},
+        "3.13.91": {"news": "3.13/gnome-control-center-3.13.91.news", "changes": "3.13/gnome-control-center-3.13.91.changes",
+        "tar.xz": "3.13/gnome-control-center-3.13.91.tar.xz", "sha256sum": "3.13/gnome-control-center-3.13.91.sha256sum"},
+        "3.13.90": {"news": "3.13/gnome-control-center-3.13.90.news", "changes": "3.13/gnome-control-center-3.13.90.changes",
+        "tar.xz": "3.13/gnome-control-center-3.13.90.tar.xz", "sha256sum": "3.13/gnome-control-center-3.13.90.sha256sum"},
+        "3.10.0": {"news": "3.10/gnome-control-center-3.10.0.news", "changes": "3.10/gnome-control-center-3.10.0.changes",
+        "tar.xz": "3.10/gnome-control-center-3.10.0.tar.xz", "sha256sum": "3.10/gnome-control-center-3.10.0.sha256sum"},
+        "3.10.1": {"news": "3.10/gnome-control-center-3.10.1.news", "changes": "3.10/gnome-control-center-3.10.1.changes",
+        "tar.xz": "3.10/gnome-control-center-3.10.1.tar.xz", "sha256sum": "3.10/gnome-control-center-3.10.1.sha256sum"},
+        "3.10.2": {"news": "3.10/gnome-control-center-3.10.2.news", "changes": "3.10/gnome-control-center-3.10.2.changes",
+        "tar.xz": "3.10/gnome-control-center-3.10.2.tar.xz", "sha256sum": "3.10/gnome-control-center-3.10.2.sha256sum"},
+        "3.10.3": {"news": "3.10/gnome-control-center-3.10.3.news", "changes": "3.10/gnome-control-center-3.10.3.changes",
+        "tar.xz": "3.10/gnome-control-center-3.10.3.tar.xz", "sha256sum": "3.10/gnome-control-center-3.10.3.sha256sum"},
+        "3.10.4": {"news": "3.10/gnome-control-center-3.10.4.news", "changes": "3.10/gnome-control-center-3.10.4.changes",
+        "tar.xz": "3.10/gnome-control-center-3.10.4.tar.xz", "sha256sum": "3.10/gnome-control-center-3.10.4.sha256sum"},
+        "2.23.5": {"md5sum": "2.23/gnome-control-center-2.23.5.md5sum", "sha256sum":
+        "2.23/gnome-control-center-2.23.5.sha256sum", "tar.gz": "2.23/gnome-control-center-2.23.5.tar.gz",
+        "diff.gz": "2.23/gnome-control-center-2.23.4-2.23.5.diff.gz", "news": "2.23/gnome-control-center-2.23.5.news",
+        "changes": "2.23/gnome-control-center-2.23.5.changes", "tar.bz2": "2.23/gnome-control-center-2.23.5.tar.bz2"},
+        "2.23.4": {"md5sum": "2.23/gnome-control-center-2.23.4.md5sum", "sha256sum":
+        "2.23/gnome-control-center-2.23.4.sha256sum", "tar.gz": "2.23/gnome-control-center-2.23.4.tar.gz",
+        "news": "2.23/gnome-control-center-2.23.4.news", "changes": "2.23/gnome-control-center-2.23.4.changes",
+        "tar.bz2": "2.23/gnome-control-center-2.23.4.tar.bz2"}, "3.12.0": {"news":
+        "3.12/gnome-control-center-3.12.0.news", "changes": "3.12/gnome-control-center-3.12.0.changes",
+        "tar.xz": "3.12/gnome-control-center-3.12.0.tar.xz", "sha256sum": "3.12/gnome-control-center-3.12.0.sha256sum"},
+        "2.23.6": {"md5sum": "2.23/gnome-control-center-2.23.6.md5sum", "sha256sum":
+        "2.23/gnome-control-center-2.23.6.sha256sum", "tar.gz": "2.23/gnome-control-center-2.23.6.tar.gz",
+        "news": "2.23/gnome-control-center-2.23.6.news", "changes": "2.23/gnome-control-center-2.23.6.changes",
+        "tar.bz2": "2.23/gnome-control-center-2.23.6.tar.bz2"}, "2.23.1": {"tar.gz":
+        "2.23/gnome-control-center-2.23.1.tar.gz", "md5sum": "2.23/gnome-control-center-2.23.1.md5sum",
+        "tar.bz2": "2.23/gnome-control-center-2.23.1.tar.bz2", "sha256sum": "2.23/gnome-control-center-2.23.1.sha256sum"},
+        "3.7.5.1": {"news": "3.7/gnome-control-center-3.7.5.1.news", "changes": "3.7/gnome-control-center-3.7.5.1.changes",
+        "tar.xz": "3.7/gnome-control-center-3.7.5.1.tar.xz", "sha256sum": "3.7/gnome-control-center-3.7.5.1.sha256sum"},
+        "2.23.3": {"md5sum": "2.23/gnome-control-center-2.23.3.md5sum", "sha256sum":
+        "2.23/gnome-control-center-2.23.3.sha256sum", "tar.gz": "2.23/gnome-control-center-2.23.3.tar.gz",
+        "diff.gz": "2.23/gnome-control-center-2.23.2-2.23.3.diff.gz", "news": "2.23/gnome-control-center-2.23.3.news",
+        "changes": "2.23/gnome-control-center-2.23.3.changes", "tar.bz2": "2.23/gnome-control-center-2.23.3.tar.bz2"},
+        "2.23.2": {"md5sum": "2.23/gnome-control-center-2.23.2.md5sum", "sha256sum":
+        "2.23/gnome-control-center-2.23.2.sha256sum", "tar.gz": "2.23/gnome-control-center-2.23.2.tar.gz",
+        "diff.gz": "2.23/gnome-control-center-2.23.1-2.23.2.diff.gz", "news": "2.23/gnome-control-center-2.23.2.news",
+        "changes": "2.23/gnome-control-center-2.23.2.changes", "tar.bz2": "2.23/gnome-control-center-2.23.2.tar.bz2"},
+        "2.31.4.1": {"sha256sum": "2.31/gnome-control-center-2.31.4.1.sha256sum",
+        "tar.gz": "2.31/gnome-control-center-2.31.4.1.tar.gz", "news": "2.31/gnome-control-center-2.31.4.1.news",
+        "diff.gz": "2.31/gnome-control-center-2.31.4-2.31.4.1.diff.gz", "changes":
+        "2.31/gnome-control-center-2.31.4.1.changes", "tar.bz2": "2.31/gnome-control-center-2.31.4.1.tar.bz2"},
+        "3.0.1.1": {"tar.gz": "3.0/gnome-control-center-3.0.1.1.tar.gz", "news": "3.0/gnome-control-center-3.0.1.1.news",
+        "changes": "3.0/gnome-control-center-3.0.1.1.changes", "tar.bz2": "3.0/gnome-control-center-3.0.1.1.tar.bz2",
+        "sha256sum": "3.0/gnome-control-center-3.0.1.1.sha256sum"}, "3.11.91": {"news":
+        "3.11/gnome-control-center-3.11.91.news", "changes": "3.11/gnome-control-center-3.11.91.changes",
+        "tar.xz": "3.11/gnome-control-center-3.11.91.tar.xz", "sha256sum": "3.11/gnome-control-center-3.11.91.sha256sum"},
+        "3.11.90": {"news": "3.11/gnome-control-center-3.11.90.news", "changes": "3.11/gnome-control-center-3.11.90.changes",
+        "tar.xz": "3.11/gnome-control-center-3.11.90.tar.xz", "sha256sum": "3.11/gnome-control-center-3.11.90.sha256sum"},
+        "3.8.1.5": {"news": "3.8/gnome-control-center-3.8.1.5.news", "changes": "3.8/gnome-control-center-3.8.1.5.changes",
+        "tar.xz": "3.8/gnome-control-center-3.8.1.5.tar.xz", "sha256sum": "3.8/gnome-control-center-3.8.1.5.sha256sum"},
+        "3.11.92": {"news": "3.11/gnome-control-center-3.11.92.news", "changes": "3.11/gnome-control-center-3.11.92.changes",
+        "tar.xz": "3.11/gnome-control-center-3.11.92.tar.xz", "sha256sum": "3.11/gnome-control-center-3.11.92.sha256sum"},
+        "3.5.6": {"news": "3.5/gnome-control-center-3.5.6.news", "changes": "3.5/gnome-control-center-3.5.6.changes",
+        "tar.xz": "3.5/gnome-control-center-3.5.6.tar.xz", "sha256sum": "3.5/gnome-control-center-3.5.6.sha256sum"},
+        "3.5.5": {"news": "3.5/gnome-control-center-3.5.5.news", "changes": "3.5/gnome-control-center-3.5.5.changes",
+        "tar.xz": "3.5/gnome-control-center-3.5.5.tar.xz", "sha256sum": "3.5/gnome-control-center-3.5.5.sha256sum"},
+        "3.5.4": {"news": "3.5/gnome-control-center-3.5.4.news", "changes": "3.5/gnome-control-center-3.5.4.changes",
+        "tar.xz": "3.5/gnome-control-center-3.5.4.tar.xz", "sha256sum": "3.5/gnome-control-center-3.5.4.sha256sum"},
+        "3.5.3": {"news": "3.5/gnome-control-center-3.5.3.news", "changes": "3.5/gnome-control-center-3.5.3.changes",
+        "tar.xz": "3.5/gnome-control-center-3.5.3.tar.xz", "sha256sum": "3.5/gnome-control-center-3.5.3.sha256sum"},
+        "3.5.2": {"changes": "3.5/gnome-control-center-3.5.2.changes", "tar.xz": "3.5/gnome-control-center-3.5.2.tar.xz",
+        "sha256sum": "3.5/gnome-control-center-3.5.2.sha256sum"}, "3.7.5": {"news":
+        "3.7/gnome-control-center-3.7.5.news", "changes": "3.7/gnome-control-center-3.7.5.changes",
+        "tar.xz": "3.7/gnome-control-center-3.7.5.tar.xz", "sha256sum": "3.7/gnome-control-center-3.7.5.sha256sum"},
+        "3.7.4": {"news": "3.7/gnome-control-center-3.7.4.news", "changes": "3.7/gnome-control-center-3.7.4.changes",
+        "tar.xz": "3.7/gnome-control-center-3.7.4.tar.xz", "sha256sum": "3.7/gnome-control-center-3.7.4.sha256sum"},
+        "3.7.1": {"news": "3.7/gnome-control-center-3.7.1.news", "changes": "3.7/gnome-control-center-3.7.1.changes",
+        "tar.xz": "3.7/gnome-control-center-3.7.1.tar.xz", "sha256sum": "3.7/gnome-control-center-3.7.1.sha256sum"},
+        "3.7.3": {"news": "3.7/gnome-control-center-3.7.3.news", "changes": "3.7/gnome-control-center-3.7.3.changes",
+        "tar.xz": "3.7/gnome-control-center-3.7.3.tar.xz", "sha256sum": "3.7/gnome-control-center-3.7.3.sha256sum"},
+        "3.0.2": {"tar.gz": "3.0/gnome-control-center-3.0.2.tar.gz", "news": "3.0/gnome-control-center-3.0.2.news",
+        "changes": "3.0/gnome-control-center-3.0.2.changes", "tar.bz2": "3.0/gnome-control-center-3.0.2.tar.bz2",
+        "sha256sum": "3.0/gnome-control-center-3.0.2.sha256sum"}, "3.0.0": {"tar.gz":
+        "3.0/gnome-control-center-3.0.0.tar.gz", "news": "3.0/gnome-control-center-3.0.0.news",
+        "changes": "3.0/gnome-control-center-3.0.0.changes", "tar.bz2": "3.0/gnome-control-center-3.0.0.tar.bz2",
+        "sha256sum": "3.0/gnome-control-center-3.0.0.sha256sum"}, "3.0.1": {"tar.gz":
+        "3.0/gnome-control-center-3.0.1.tar.gz", "news": "3.0/gnome-control-center-3.0.1.news",
+        "changes": "3.0/gnome-control-center-3.0.1.changes", "tar.bz2": "3.0/gnome-control-center-3.0.1.tar.bz2",
+        "sha256sum": "3.0/gnome-control-center-3.0.1.sha256sum"}, "3.14.4": {"news":
+        "3.14/gnome-control-center-3.14.4.news", "changes": "3.14/gnome-control-center-3.14.4.changes",
+        "tar.xz": "3.14/gnome-control-center-3.14.4.tar.xz", "sha256sum": "3.14/gnome-control-center-3.14.4.sha256sum"},
+        "3.14.5": {"news": "3.14/gnome-control-center-3.14.5.news", "changes": "3.14/gnome-control-center-3.14.5.changes",
+        "tar.xz": "3.14/gnome-control-center-3.14.5.tar.xz", "sha256sum": "3.14/gnome-control-center-3.14.5.sha256sum"},
+        "3.0.0.1": {"tar.gz": "3.0/gnome-control-center-3.0.0.1.tar.gz", "news": "3.0/gnome-control-center-3.0.0.1.news",
+        "changes": "3.0/gnome-control-center-3.0.0.1.changes", "tar.bz2": "3.0/gnome-control-center-3.0.0.1.tar.bz2",
+        "sha256sum": "3.0/gnome-control-center-3.0.0.1.sha256sum"}, "3.14.0": {"news":
+        "3.14/gnome-control-center-3.14.0.news", "changes": "3.14/gnome-control-center-3.14.0.changes",
+        "tar.xz": "3.14/gnome-control-center-3.14.0.tar.xz", "sha256sum": "3.14/gnome-control-center-3.14.0.sha256sum"},
+        "3.14.1": {"news": "3.14/gnome-control-center-3.14.1.news", "changes": "3.14/gnome-control-center-3.14.1.changes",
+        "tar.xz": "3.14/gnome-control-center-3.14.1.tar.xz", "sha256sum": "3.14/gnome-control-center-3.14.1.sha256sum"},
+        "3.14.2": {"news": "3.14/gnome-control-center-3.14.2.news", "changes": "3.14/gnome-control-center-3.14.2.changes",
+        "tar.xz": "3.14/gnome-control-center-3.14.2.tar.xz", "sha256sum": "3.14/gnome-control-center-3.14.2.sha256sum"},
+        "3.14.3": {"news": "3.14/gnome-control-center-3.14.3.news", "changes": "3.14/gnome-control-center-3.14.3.changes",
+        "tar.xz": "3.14/gnome-control-center-3.14.3.tar.xz", "sha256sum": "3.14/gnome-control-center-3.14.3.sha256sum"},
+        "2.19.90": {"md5sum": "2.19/gnome-control-center-2.19.90.md5sum", "sha256sum":
+        "2.19/gnome-control-center-2.19.90.sha256sum", "tar.gz": "2.19/gnome-control-center-2.19.90.tar.gz",
+        "news": "2.19/gnome-control-center-2.19.90.news", "changes": "2.19/gnome-control-center-2.19.90.changes",
+        "tar.bz2": "2.19/gnome-control-center-2.19.90.tar.bz2"}, "2.19.91": {"md5sum":
+        "2.19/gnome-control-center-2.19.91.md5sum", "sha256sum": "2.19/gnome-control-center-2.19.91.sha256sum",
+        "tar.gz": "2.19/gnome-control-center-2.19.91.tar.gz", "diff.gz": "2.19/gnome-control-center-2.19.90-2.19.91.diff.gz",
+        "news": "2.19/gnome-control-center-2.19.91.news", "tar.bz2": "2.19/gnome-control-center-2.19.91.tar.bz2"},
+        "3.16.2": {"news": "3.16/gnome-control-center-3.16.2.news", "changes": "3.16/gnome-control-center-3.16.2.changes",
+        "tar.xz": "3.16/gnome-control-center-3.16.2.tar.xz", "sha256sum": "3.16/gnome-control-center-3.16.2.sha256sum"},
+        "3.16.0": {"news": "3.16/gnome-control-center-3.16.0.news", "changes": "3.16/gnome-control-center-3.16.0.changes",
+        "tar.xz": "3.16/gnome-control-center-3.16.0.tar.xz", "sha256sum": "3.16/gnome-control-center-3.16.0.sha256sum"},
+        "3.16.1": {"news": "3.16/gnome-control-center-3.16.1.news", "changes": "3.16/gnome-control-center-3.16.1.changes",
+        "tar.xz": "3.16/gnome-control-center-3.16.1.tar.xz", "sha256sum": "3.16/gnome-control-center-3.16.1.sha256sum"},
+        "3.11.5": {"news": "3.11/gnome-control-center-3.11.5.news", "changes": "3.11/gnome-control-center-3.11.5.changes",
+        "tar.xz": "3.11/gnome-control-center-3.11.5.tar.xz", "sha256sum": "3.11/gnome-control-center-3.11.5.sha256sum"},
+        "3.11.1": {"news": "3.11/gnome-control-center-3.11.1.news", "changes": "3.11/gnome-control-center-3.11.1.changes",
+        "tar.xz": "3.11/gnome-control-center-3.11.1.tar.xz", "sha256sum": "3.11/gnome-control-center-3.11.1.sha256sum"},
+        "3.11.3": {"news": "3.11/gnome-control-center-3.11.3.news", "changes": "3.11/gnome-control-center-3.11.3.changes",
+        "tar.xz": "3.11/gnome-control-center-3.11.3.tar.xz", "sha256sum": "3.11/gnome-control-center-3.11.3.sha256sum"},
+        "3.11.2": {"news": "3.11/gnome-control-center-3.11.2.news", "changes": "3.11/gnome-control-center-3.11.2.changes",
+        "tar.xz": "3.11/gnome-control-center-3.11.2.tar.xz", "sha256sum": "3.11/gnome-control-center-3.11.2.sha256sum"},
+        "3.13.4": {"news": "3.13/gnome-control-center-3.13.4.news", "changes": "3.13/gnome-control-center-3.13.4.changes",
+        "tar.xz": "3.13/gnome-control-center-3.13.4.tar.xz", "sha256sum": "3.13/gnome-control-center-3.13.4.sha256sum"},
+        "3.13.3": {"news": "3.13/gnome-control-center-3.13.3.news", "changes": "3.13/gnome-control-center-3.13.3.changes",
+        "tar.xz": "3.13/gnome-control-center-3.13.3.tar.xz", "sha256sum": "3.13/gnome-control-center-3.13.3.sha256sum"},
+        "3.13.2": {"news": "3.13/gnome-control-center-3.13.2.news", "changes": "3.13/gnome-control-center-3.13.2.changes",
+        "tar.xz": "3.13/gnome-control-center-3.13.2.tar.xz", "sha256sum": "3.13/gnome-control-center-3.13.2.sha256sum"},
+        "3.13.1": {"news": "3.13/gnome-control-center-3.13.1.news", "changes": "3.13/gnome-control-center-3.13.1.changes",
+        "tar.xz": "3.13/gnome-control-center-3.13.1.tar.xz", "sha256sum": "3.13/gnome-control-center-3.13.1.sha256sum"},
+        "3.3.4": {"news": "3.3/gnome-control-center-3.3.4.news", "changes": "3.3/gnome-control-center-3.3.4.changes",
+        "tar.xz": "3.3/gnome-control-center-3.3.4.tar.xz", "sha256sum": "3.3/gnome-control-center-3.3.4.sha256sum"},
+        "2.21.4": {"md5sum": "2.21/gnome-control-center-2.21.4.md5sum", "sha256sum":
+        "2.21/gnome-control-center-2.21.4.sha256sum", "tar.gz": "2.21/gnome-control-center-2.21.4.tar.gz",
+        "news": "2.21/gnome-control-center-2.21.4.news", "changes": "2.21/gnome-control-center-2.21.4.changes",
+        "tar.bz2": "2.21/gnome-control-center-2.21.4.tar.bz2"}, "3.15.91": {"news":
+        "3.15/gnome-control-center-3.15.91.news", "changes": "3.15/gnome-control-center-3.15.91.changes",
+        "tar.xz": "3.15/gnome-control-center-3.15.91.tar.xz", "sha256sum": "3.15/gnome-control-center-3.15.91.sha256sum"},
+        "3.15.90": {"news": "3.15/gnome-control-center-3.15.90.news", "changes": "3.15/gnome-control-center-3.15.90.changes",
+        "tar.xz": "3.15/gnome-control-center-3.15.90.tar.xz", "sha256sum": "3.15/gnome-control-center-3.15.90.sha256sum"},
+        "2.19.92": {"md5sum": "2.19/gnome-control-center-2.19.92.md5sum", "sha256sum":
+        "2.19/gnome-control-center-2.19.92.sha256sum", "tar.gz": "2.19/gnome-control-center-2.19.92.tar.gz",
+        "news": "2.19/gnome-control-center-2.19.92.news", "diff.gz": "2.19/gnome-control-center-2.19.91-2.19.92.diff.gz",
+        "changes": "2.19/gnome-control-center-2.19.92.changes", "tar.bz2": "2.19/gnome-control-center-2.19.92.tar.bz2"},
+        "3.15.92": {"news": "3.15/gnome-control-center-3.15.92.news", "changes": "3.15/gnome-control-center-3.15.92.changes",
+        "tar.xz": "3.15/gnome-control-center-3.15.92.tar.xz", "sha256sum": "3.15/gnome-control-center-3.15.92.sha256sum"},
+        "3.3.4.1": {"news": "3.3/gnome-control-center-3.3.4.1.news", "changes": "3.3/gnome-control-center-3.3.4.1.changes",
+        "tar.xz": "3.3/gnome-control-center-3.3.4.1.tar.xz", "sha256sum": "3.3/gnome-control-center-3.3.4.1.sha256sum"},
+        "3.12.1": {"news": "3.12/gnome-control-center-3.12.1.news", "changes": "3.12/gnome-control-center-3.12.1.changes",
+        "tar.xz": "3.12/gnome-control-center-3.12.1.tar.xz", "sha256sum": "3.12/gnome-control-center-3.12.1.sha256sum"},
+        "2.31.4": {"tar.gz": "2.31/gnome-control-center-2.31.4.tar.gz", "news": "2.31/gnome-control-center-2.31.4.news",
+        "changes": "2.31/gnome-control-center-2.31.4.changes", "tar.bz2": "2.31/gnome-control-center-2.31.4.tar.bz2",
+        "sha256sum": "2.31/gnome-control-center-2.31.4.sha256sum"}, "2.31.5": {"tar.gz":
+        "2.31/gnome-control-center-2.31.5.tar.gz", "news": "2.31/gnome-control-center-2.31.5.news",
+        "changes": "2.31/gnome-control-center-2.31.5.changes", "tar.bz2": "2.31/gnome-control-center-2.31.5.tar.bz2",
+        "sha256sum": "2.31/gnome-control-center-2.31.5.sha256sum"}, "2.31.6": {"tar.gz":
+        "2.31/gnome-control-center-2.31.6.tar.gz", "changes": "2.31/gnome-control-center-2.31.6.changes",
+        "tar.bz2": "2.31/gnome-control-center-2.31.6.tar.bz2", "sha256sum": "2.31/gnome-control-center-2.31.6.sha256sum"},
+        "2.31.1": {"tar.gz": "2.31/gnome-control-center-2.31.1.tar.gz", "tar.bz2":
+        "2.31/gnome-control-center-2.31.1.tar.bz2", "sha256sum": "2.31/gnome-control-center-2.31.1.sha256sum"},
+        "2.31.2": {"tar.gz": "2.31/gnome-control-center-2.31.2.tar.gz", "news": "2.31/gnome-control-center-2.31.2.news",
+        "changes": "2.31/gnome-control-center-2.31.2.changes", "tar.bz2": "2.31/gnome-control-center-2.31.2.tar.bz2",
+        "sha256sum": "2.31/gnome-control-center-2.31.2.sha256sum"}, "2.31.3": {"tar.gz":
+        "2.31/gnome-control-center-2.31.3.tar.gz", "news": "2.31/gnome-control-center-2.31.3.news",
+        "changes": "2.31/gnome-control-center-2.31.3.changes", "tar.bz2": "2.31/gnome-control-center-2.31.3.tar.bz2",
+        "sha256sum": "2.31/gnome-control-center-2.31.3.sha256sum"}, "3.4.2": {"news":
+        "3.4/gnome-control-center-3.4.2.news", "changes": "3.4/gnome-control-center-3.4.2.changes",
+        "tar.xz": "3.4/gnome-control-center-3.4.2.tar.xz", "sha256sum": "3.4/gnome-control-center-3.4.2.sha256sum"},
+        "3.4.3": {"news": "3.4/gnome-control-center-3.4.3.news", "changes": "3.4/gnome-control-center-3.4.3.changes",
+        "tar.xz": "3.4/gnome-control-center-3.4.3.tar.xz", "sha256sum": "3.4/gnome-control-center-3.4.3.sha256sum"},
+        "3.4.0": {"news": "3.4/gnome-control-center-3.4.0.news", "changes": "3.4/gnome-control-center-3.4.0.changes",
+        "tar.xz": "3.4/gnome-control-center-3.4.0.tar.xz", "sha256sum": "3.4/gnome-control-center-3.4.0.sha256sum"},
+        "3.4.1": {"news": "3.4/gnome-control-center-3.4.1.news", "changes": "3.4/gnome-control-center-3.4.1.changes",
+        "tar.xz": "3.4/gnome-control-center-3.4.1.tar.xz", "sha256sum": "3.4/gnome-control-center-3.4.1.sha256sum"},
+        "2.20.0.1": {"md5sum": "2.20/gnome-control-center-2.20.0.1.md5sum", "sha256sum":
+        "2.20/gnome-control-center-2.20.0.1.sha256sum", "tar.gz": "2.20/gnome-control-center-2.20.0.1.tar.gz",
+        "news": "2.20/gnome-control-center-2.20.0.1.news", "diff.gz": "2.20/gnome-control-center-2.20.0-2.20.0.1.diff.gz",
+        "changes": "2.20/gnome-control-center-2.20.0.1.changes", "tar.bz2": "2.20/gnome-control-center-2.20.0.1.tar.bz2"},
+        "3.6.0": {"news": "3.6/gnome-control-center-3.6.0.news", "changes": "3.6/gnome-control-center-3.6.0.changes",
+        "tar.xz": "3.6/gnome-control-center-3.6.0.tar.xz", "sha256sum": "3.6/gnome-control-center-3.6.0.sha256sum"},
+        "2.25.3": {"md5sum": "2.25/gnome-control-center-2.25.3.md5sum", "sha256sum":
+        "2.25/gnome-control-center-2.25.3.sha256sum", "tar.gz": "2.25/gnome-control-center-2.25.3.tar.gz",
+        "news": "2.25/gnome-control-center-2.25.3.news", "changes": "2.25/gnome-control-center-2.25.3.changes",
+        "tar.bz2": "2.25/gnome-control-center-2.25.3.tar.bz2"}, "3.6.2": {"news":
+        "3.6/gnome-control-center-3.6.2.news", "changes": "3.6/gnome-control-center-3.6.2.changes",
+        "tar.xz": "3.6/gnome-control-center-3.6.2.tar.xz", "sha256sum": "3.6/gnome-control-center-3.6.2.sha256sum"},
+        "3.6.3": {"news": "3.6/gnome-control-center-3.6.3.news", "changes": "3.6/gnome-control-center-3.6.3.changes",
+        "tar.xz": "3.6/gnome-control-center-3.6.3.tar.xz", "sha256sum": "3.6/gnome-control-center-3.6.3.sha256sum"},
+        "2.91.90": {"sha256sum": "2.91/gnome-control-center-2.91.90.sha256sum", "tar.gz":
+        "2.91/gnome-control-center-2.91.90.tar.gz", "news": "2.91/gnome-control-center-2.91.90.news",
+        "diff.gz": "2.91/gnome-control-center-2.91.6-2.91.90.diff.gz", "changes":
+        "2.91/gnome-control-center-2.91.90.changes", "tar.bz2": "2.91/gnome-control-center-2.91.90.tar.bz2"},
+        "2.91.91": {"tar.gz": "2.91/gnome-control-center-2.91.91.tar.gz", "news":
+        "2.91/gnome-control-center-2.91.91.news", "changes": "2.91/gnome-control-center-2.91.91.changes",
+        "tar.bz2": "2.91/gnome-control-center-2.91.91.tar.bz2", "sha256sum": "2.91/gnome-control-center-2.91.91.sha256sum"},
+        "2.91.92": {"tar.gz": "2.91/gnome-control-center-2.91.92.tar.gz", "news":
+        "2.91/gnome-control-center-2.91.92.news", "changes": "2.91/gnome-control-center-2.91.92.changes",
+        "tar.bz2": "2.91/gnome-control-center-2.91.92.tar.bz2", "sha256sum": "2.91/gnome-control-center-2.91.92.sha256sum"},
+        "2.25.2": {"md5sum": "2.25/gnome-control-center-2.25.2.md5sum", "sha256sum":
+        "2.25/gnome-control-center-2.25.2.sha256sum", "tar.gz": "2.25/gnome-control-center-2.25.2.tar.gz",
+        "news": "2.25/gnome-control-center-2.25.2.news", "diff.gz": "2.25/gnome-control-center-2.25.1-2.25.2.diff.gz",
+        "changes": "2.25/gnome-control-center-2.25.2.changes", "tar.bz2": "2.25/gnome-control-center-2.25.2.tar.bz2"},
+        "3.6.1": {"news": "3.6/gnome-control-center-3.6.1.news", "changes": "3.6/gnome-control-center-3.6.1.changes",
+        "tar.xz": "3.6/gnome-control-center-3.6.1.tar.xz", "sha256sum": "3.6/gnome-control-center-3.6.1.sha256sum"},
+        "2.25.1": {"tar.gz": "2.25/gnome-control-center-2.25.1.tar.gz", "md5sum":
+        "2.25/gnome-control-center-2.25.1.md5sum", "tar.bz2": "2.25/gnome-control-center-2.25.1.tar.bz2",
+        "sha256sum": "2.25/gnome-control-center-2.25.1.sha256sum"}, "2.31.92": {"sha256sum":
+        "2.31/gnome-control-center-2.31.92.sha256sum", "tar.gz": "2.31/gnome-control-center-2.31.92.tar.gz",
+        "news": "2.31/gnome-control-center-2.31.92.news", "diff.gz": "2.31/gnome-control-center-2.31.91-2.31.92.diff.gz",
+        "changes": "2.31/gnome-control-center-2.31.92.changes", "tar.bz2": "2.31/gnome-control-center-2.31.92.tar.bz2"},
+        "2.31.90": {"sha256sum": "2.31/gnome-control-center-2.31.90.sha256sum", "tar.gz":
+        "2.31/gnome-control-center-2.31.90.tar.gz", "news": "2.31/gnome-control-center-2.31.90.news",
+        "diff.gz": "2.31/gnome-control-center-2.31.6-2.31.90.diff.gz", "changes":
+        "2.31/gnome-control-center-2.31.90.changes", "tar.bz2": "2.31/gnome-control-center-2.31.90.tar.bz2"},
+        "2.31.91": {"sha256sum": "2.31/gnome-control-center-2.31.91.sha256sum", "tar.gz":
+        "2.31/gnome-control-center-2.31.91.tar.gz", "diff.gz": "2.31/gnome-control-center-2.31.90-2.31.91.diff.gz",
+        "news": "2.31/gnome-control-center-2.31.91.news", "changes": "2.31/gnome-control-center-2.31.91.changes",
+        "tar.bz2": "2.31/gnome-control-center-2.31.91.tar.bz2"}, "2.31.92.1": {"sha256sum":
+        "2.31/gnome-control-center-2.31.92.1.sha256sum", "tar.gz": "2.31/gnome-control-center-2.31.92.1.tar.gz",
+        "diff.gz": "2.31/gnome-control-center-2.31.92-2.31.92.1.diff.gz", "news":
+        "2.31/gnome-control-center-2.31.92.1.news", "changes": "2.31/gnome-control-center-2.31.92.1.changes",
+        "tar.bz2": "2.31/gnome-control-center-2.31.92.1.tar.bz2"}, "3.1.92": {"news":
+        "3.1/gnome-control-center-3.1.92.news", "changes": "3.1/gnome-control-center-3.1.92.changes",
+        "tar.xz": "3.1/gnome-control-center-3.1.92.tar.xz", "tar.bz2": "3.1/gnome-control-center-3.1.92.tar.bz2",
+        "sha256sum": "3.1/gnome-control-center-3.1.92.sha256sum"}, "3.1.91": {"news":
+        "3.1/gnome-control-center-3.1.91.news", "changes": "3.1/gnome-control-center-3.1.91.changes",
+        "tar.xz": "3.1/gnome-control-center-3.1.91.tar.xz", "tar.bz2": "3.1/gnome-control-center-3.1.91.tar.bz2",
+        "sha256sum": "3.1/gnome-control-center-3.1.91.sha256sum"}, "2.23.90": {"md5sum":
+        "2.23/gnome-control-center-2.23.90.md5sum", "sha256sum": "2.23/gnome-control-center-2.23.90.sha256sum",
+        "tar.gz": "2.23/gnome-control-center-2.23.90.tar.gz", "news": "2.23/gnome-control-center-2.23.90.news",
+        "diff.gz": "2.23/gnome-control-center-2.23.6-2.23.90.diff.gz", "changes":
+        "2.23/gnome-control-center-2.23.90.changes", "tar.bz2": "2.23/gnome-control-center-2.23.90.tar.bz2"},
+        "3.1.90": {"news": "3.1/gnome-control-center-3.1.90.news", "changes": "3.1/gnome-control-center-3.1.90.changes",
+        "tar.xz": "3.1/gnome-control-center-3.1.90.tar.xz", "tar.bz2": "3.1/gnome-control-center-3.1.90.tar.bz2",
+        "sha256sum": "3.1/gnome-control-center-3.1.90.sha256sum"}, "3.15.4": {"tar.xz":
+        "3.15/gnome-control-center-3.15.4.tar.xz", "sha256sum": "3.15/gnome-control-center-3.15.4.sha256sum"},
+        "3.8.4.1": {"news": "3.8/gnome-control-center-3.8.4.1.news", "changes": "3.8/gnome-control-center-3.8.4.1.changes",
+        "tar.xz": "3.8/gnome-control-center-3.8.4.1.tar.xz", "sha256sum": "3.8/gnome-control-center-3.8.4.1.sha256sum"},
+        "3.4.3.1": {"news": "3.4/gnome-control-center-3.4.3.1.news", "changes": "3.4/gnome-control-center-3.4.3.1.changes",
+        "tar.xz": "3.4/gnome-control-center-3.4.3.1.tar.xz", "sha256sum": "3.4/gnome-control-center-3.4.3.1.sha256sum"},
+        "3.5.91": {"news": "3.5/gnome-control-center-3.5.91.news", "changes": "3.5/gnome-control-center-3.5.91.changes",
+        "tar.xz": "3.5/gnome-control-center-3.5.91.tar.xz", "sha256sum": "3.5/gnome-control-center-3.5.91.sha256sum"},
+        "3.5.90": {"news": "3.5/gnome-control-center-3.5.90.news", "changes": "3.5/gnome-control-center-3.5.90.changes",
+        "tar.xz": "3.5/gnome-control-center-3.5.90.tar.xz", "sha256sum": "3.5/gnome-control-center-3.5.90.sha256sum"},
+        "2.20.3": {"md5sum": "2.20/gnome-control-center-2.20.3.md5sum", "sha256sum":
+        "2.20/gnome-control-center-2.20.3.sha256sum", "tar.gz": "2.20/gnome-control-center-2.20.3.tar.gz",
+        "diff.gz": "2.20/gnome-control-center-2.20.1-2.20.3.diff.gz", "news": "2.20/gnome-control-center-2.20.3.news",
+        "changes": "2.20/gnome-control-center-2.20.3.changes", "tar.bz2": "2.20/gnome-control-center-2.20.3.tar.bz2"},
+        "2.20.0": {"tar.gz": "2.20/gnome-control-center-2.20.0.tar.gz", "md5sum":
+        "2.20/gnome-control-center-2.20.0.md5sum", "tar.bz2": "2.20/gnome-control-center-2.20.0.tar.bz2",
+        "sha256sum": "2.20/gnome-control-center-2.20.0.sha256sum"}, "2.20.1": {"md5sum":
+        "2.20/gnome-control-center-2.20.1.md5sum", "sha256sum": "2.20/gnome-control-center-2.20.1.sha256sum",
+        "tar.gz": "2.20/gnome-control-center-2.20.1.tar.gz", "diff.gz": "2.20/gnome-control-center-2.20.0.1-2.20.1.diff.gz",
+        "news": "2.20/gnome-control-center-2.20.1.news", "changes": "2.20/gnome-control-center-2.20.1.changes",
+        "tar.bz2": "2.20/gnome-control-center-2.20.1.tar.bz2"}, "2.30.1": {"sha256sum":
+        "2.30/gnome-control-center-2.30.1.sha256sum", "tar.gz": "2.30/gnome-control-center-2.30.1.tar.gz",
+        "news": "2.30/gnome-control-center-2.30.1.news", "diff.gz": "2.30/gnome-control-center-2.30.0-2.30.1.diff.gz",
+        "changes": "2.30/gnome-control-center-2.30.1.changes", "tar.bz2": "2.30/gnome-control-center-2.30.1.tar.bz2"},
+        "2.30.0": {"tar.gz": "2.30/gnome-control-center-2.30.0.tar.gz", "tar.bz2":
+        "2.30/gnome-control-center-2.30.0.tar.bz2", "sha256sum": "2.30/gnome-control-center-2.30.0.sha256sum"},
+        "2.28.0": {"tar.gz": "2.28/gnome-control-center-2.28.0.tar.gz", "tar.bz2":
+        "2.28/gnome-control-center-2.28.0.tar.bz2", "sha256sum": "2.28/gnome-control-center-2.28.0.sha256sum"},
+        "2.28.1": {"tar.gz": "2.28/gnome-control-center-2.28.1.tar.gz", "news": "2.28/gnome-control-center-2.28.1.news",
+        "diff.gz": "2.28/gnome-control-center-2.28.0-2.28.1.diff.gz", "tar.bz2": "2.28/gnome-control-center-2.28.1.tar.bz2",
+        "sha256sum": "2.28/gnome-control-center-2.28.1.sha256sum"}, "2.27.91": {"tar.gz":
+        "2.27/gnome-control-center-2.27.91.tar.gz", "news": "2.27/gnome-control-center-2.27.91.news",
+        "sha256sum": "2.27/gnome-control-center-2.27.91.sha256sum", "tar.bz2": "2.27/gnome-control-center-2.27.91.tar.bz2",
+        "diff.gz": "2.27/gnome-control-center-2.27.90-2.27.91.diff.gz"}, "2.27.90":
+        {"tar.gz": "2.27/gnome-control-center-2.27.90.tar.gz", "diff.gz": "2.27/gnome-control-center-2.27.5-2.27.90.diff.gz",
+        "sha256sum": "2.27/gnome-control-center-2.27.90.sha256sum", "tar.bz2": "2.27/gnome-control-center-2.27.90.tar.bz2",
+        "news": "2.27/gnome-control-center-2.27.90.news"}, "2.24.0.1": {"md5sum":
+        "2.24/gnome-control-center-2.24.0.1.md5sum", "sha256sum": "2.24/gnome-control-center-2.24.0.1.sha256sum",
+        "tar.gz": "2.24/gnome-control-center-2.24.0.1.tar.gz", "diff.gz": "2.24/gnome-control-center-2.24.0-2.24.0.1.diff.gz",
+        "news": "2.24/gnome-control-center-2.24.0.1.news", "changes": "2.24/gnome-control-center-2.24.0.1.changes",
+        "tar.bz2": "2.24/gnome-control-center-2.24.0.1.tar.bz2"}, "3.9.3": {"news":
+        "3.9/gnome-control-center-3.9.3.news", "changes": "3.9/gnome-control-center-3.9.3.changes",
+        "tar.xz": "3.9/gnome-control-center-3.9.3.tar.xz", "sha256sum": "3.9/gnome-control-center-3.9.3.sha256sum"},
+        "2.25.92": {"md5sum": "2.25/gnome-control-center-2.25.92.md5sum", "sha256sum":
+        "2.25/gnome-control-center-2.25.92.sha256sum", "tar.gz": "2.25/gnome-control-center-2.25.92.tar.gz",
+        "news": "2.25/gnome-control-center-2.25.92.news", "diff.gz": "2.25/gnome-control-center-2.25.90-2.25.92.diff.gz",
+        "changes": "2.25/gnome-control-center-2.25.92.changes", "tar.bz2": "2.25/gnome-control-center-2.25.92.tar.bz2"},
+        "3.5.92": {"news": "3.5/gnome-control-center-3.5.92.news", "changes": "3.5/gnome-control-center-3.5.92.changes",
+        "tar.xz": "3.5/gnome-control-center-3.5.92.tar.xz", "sha256sum": "3.5/gnome-control-center-3.5.92.sha256sum"},
+        "2.25.90": {"md5sum": "2.25/gnome-control-center-2.25.90.md5sum", "sha256sum":
+        "2.25/gnome-control-center-2.25.90.sha256sum", "tar.gz": "2.25/gnome-control-center-2.25.90.tar.gz",
+        "news": "2.25/gnome-control-center-2.25.90.news", "changes": "2.25/gnome-control-center-2.25.90.changes",
+        "tar.bz2": "2.25/gnome-control-center-2.25.90.tar.bz2"}, "3.9.5": {"news":
+        "3.9/gnome-control-center-3.9.5.news", "changes": "3.9/gnome-control-center-3.9.5.changes",
+        "tar.xz": "3.9/gnome-control-center-3.9.5.tar.xz", "sha256sum": "3.9/gnome-control-center-3.9.5.sha256sum"},
+        "2.32.1": {"sha256sum": "2.32/gnome-control-center-2.32.1.sha256sum", "tar.gz":
+        "2.32/gnome-control-center-2.32.1.tar.gz", "news": "2.32/gnome-control-center-2.32.1.news",
+        "diff.gz": "2.32/gnome-control-center-2.32.0-2.32.1.diff.gz", "changes": "2.32/gnome-control-center-2.32.1.changes",
+        "tar.bz2": "2.32/gnome-control-center-2.32.1.tar.bz2"}, "2.32.0": {"tar.gz":
+        "2.32/gnome-control-center-2.32.0.tar.gz", "tar.bz2": "2.32/gnome-control-center-2.32.0.tar.bz2",
+        "sha256sum": "2.32/gnome-control-center-2.32.0.sha256sum"}, "2.26.0": {"tar.gz":
+        "2.26/gnome-control-center-2.26.0.tar.gz", "md5sum": "2.26/gnome-control-center-2.26.0.md5sum",
+        "tar.bz2": "2.26/gnome-control-center-2.26.0.tar.bz2", "sha256sum": "2.26/gnome-control-center-2.26.0.sha256sum"},
+        "3.3.3": {"news": "3.3/gnome-control-center-3.3.3.news", "changes": "3.3/gnome-control-center-3.3.3.changes",
+        "tar.xz": "3.3/gnome-control-center-3.3.3.tar.xz", "sha256sum": "3.3/gnome-control-center-3.3.3.sha256sum"},
+        "3.3.2": {"changes": "3.3/gnome-control-center-3.3.2.changes", "tar.xz": "3.3/gnome-control-center-3.3.2.tar.xz",
+        "tar.bz2": "3.3/gnome-control-center-3.3.2.tar.bz2", "sha256sum": "3.3/gnome-control-center-3.3.2.sha256sum"},
+        "3.3.5": {"news": "3.3/gnome-control-center-3.3.5.news", "changes": "3.3/gnome-control-center-3.3.5.changes",
+        "tar.xz": "3.3/gnome-control-center-3.3.5.tar.xz", "sha256sum": "3.3/gnome-control-center-3.3.5.sha256sum"},
+        "2.21.92": {"md5sum": "2.21/gnome-control-center-2.21.92.md5sum", "tar.gz":
+        "2.21/gnome-control-center-2.21.92.tar.gz", "diff.gz": "2.21/gnome-control-center-2.21.90-2.21.92.diff.gz",
+        "news": "2.21/gnome-control-center-2.21.92.news", "changes": "2.21/gnome-control-center-2.21.92.changes",
+        "tar.bz2": "2.21/gnome-control-center-2.21.92.tar.bz2"}, "2.24.0": {"tar.gz":
+        "2.24/gnome-control-center-2.24.0.tar.gz", "md5sum": "2.24/gnome-control-center-2.24.0.md5sum",
+        "tar.bz2": "2.24/gnome-control-center-2.24.0.tar.bz2", "sha256sum": "2.24/gnome-control-center-2.24.0.sha256sum"},
+        "2.21.90": {"md5sum": "2.21/gnome-control-center-2.21.90.md5sum", "sha256sum":
+        "2.21/gnome-control-center-2.21.90.sha256sum", "tar.gz": "2.21/gnome-control-center-2.21.90.tar.gz",
+        "news": "2.21/gnome-control-center-2.21.90.news", "changes": "2.21/gnome-control-center-2.21.90.changes",
+        "tar.bz2": "2.21/gnome-control-center-2.21.90.tar.bz2"}, "3.3.91": {"news":
+        "3.3/gnome-control-center-3.3.91.news", "changes": "3.3/gnome-control-center-3.3.91.changes",
+        "tar.xz": "3.3/gnome-control-center-3.3.91.tar.xz", "sha256sum": "3.3/gnome-control-center-3.3.91.sha256sum"},
+        "3.3.90": {"news": "3.3/gnome-control-center-3.3.90.news", "changes": "3.3/gnome-control-center-3.3.90.changes",
+        "tar.xz": "3.3/gnome-control-center-3.3.90.tar.xz", "sha256sum": "3.3/gnome-control-center-3.3.90.sha256sum"},
+        "3.3.92": {"news": "3.3/gnome-control-center-3.3.92.news", "changes": "3.3/gnome-control-center-3.3.92.changes",
+        "tar.xz": "3.3/gnome-control-center-3.3.92.tar.xz", "sha256sum": "3.3/gnome-control-center-3.3.92.sha256sum"},
+        "2.91.6": {"tar.gz": "2.91/gnome-control-center-2.91.6.tar.gz", "news": "2.91/gnome-control-center-2.91.6.news",
+        "changes": "2.91/gnome-control-center-2.91.6.changes", "tar.bz2": "2.91/gnome-control-center-2.91.6.tar.bz2",
+        "sha256sum": "2.91/gnome-control-center-2.91.6.sha256sum"}, "2.91.4": {"tar.gz":
+        "2.91/gnome-control-center-2.91.4.tar.gz", "news": "2.91/gnome-control-center-2.91.4.news",
+        "changes": "2.91/gnome-control-center-2.91.4.changes", "tar.bz2": "2.91/gnome-control-center-2.91.4.tar.bz2",
+        "sha256sum": "2.91/gnome-control-center-2.91.4.sha256sum"}, "2.91.5": {"sha256sum":
+        "2.91/gnome-control-center-2.91.5.sha256sum", "tar.gz": "2.91/gnome-control-center-2.91.5.tar.gz",
+        "news": "2.91/gnome-control-center-2.91.5.news", "diff.gz": "2.91/gnome-control-center-2.91.4-2.91.5.diff.gz",
+        "changes": "2.91/gnome-control-center-2.91.5.changes", "tar.bz2": "2.91/gnome-control-center-2.91.5.tar.bz2"},
+        "2.91.2": {"tar.gz": "2.91/gnome-control-center-2.91.2.tar.gz", "news": "2.91/gnome-control-center-2.91.2.news",
+        "changes": "2.91/gnome-control-center-2.91.2.changes", "tar.bz2": "2.91/gnome-control-center-2.91.2.tar.bz2",
+        "sha256sum": "2.91/gnome-control-center-2.91.2.sha256sum"}, "2.91.3": {"sha256sum":
+        "2.91/gnome-control-center-2.91.3.sha256sum", "tar.gz": "2.91/gnome-control-center-2.91.3.tar.gz",
+        "news": "2.91/gnome-control-center-2.91.3.news", "diff.gz": "2.91/gnome-control-center-2.91.2-2.91.3.diff.gz",
+        "changes": "2.91/gnome-control-center-2.91.3.changes", "tar.bz2": "2.91/gnome-control-center-2.91.3.tar.bz2"},
+        "2.91.0": {"tar.gz": "2.91/gnome-control-center-2.91.0.tar.gz", "tar.bz2":
+        "2.91/gnome-control-center-2.91.0.tar.bz2", "sha256sum": "2.91/gnome-control-center-2.91.0.sha256sum"},
+        "2.91.3.1": {"sha256sum": "2.91/gnome-control-center-2.91.3.1.sha256sum",
+        "tar.gz": "2.91/gnome-control-center-2.91.3.1.tar.gz", "news": "2.91/gnome-control-center-2.91.3.1.news",
+        "diff.gz": "2.91/gnome-control-center-2.91.3-2.91.3.1.diff.gz", "changes":
+        "2.91/gnome-control-center-2.91.3.1.changes", "tar.bz2": "2.91/gnome-control-center-2.91.3.1.tar.bz2"},
+        "2.19.6": {"md5sum": "2.19/gnome-control-center-2.19.6.md5sum", "sha256sum":
+        "2.19/gnome-control-center-2.19.6.sha256sum", "tar.gz": "2.19/gnome-control-center-2.19.6.tar.gz",
+        "news": "2.19/gnome-control-center-2.19.6.news", "changes": "2.19/gnome-control-center-2.19.6.changes",
+        "tar.bz2": "2.19/gnome-control-center-2.19.6.tar.bz2"}, "2.19.4": {"md5sum":
+        "2.19/gnome-control-center-2.19.4.md5sum", "sha256sum": "2.19/gnome-control-center-2.19.4.sha256sum",
+        "tar.gz": "2.19/gnome-control-center-2.19.4.tar.gz", "news": "2.19/gnome-control-center-2.19.4.news",
+        "diff.gz": "2.19/gnome-control-center-2.19.3-2.19.4.diff.gz", "changes": "2.19/gnome-control-center-2.19.4.changes",
+        "tar.bz2": "2.19/gnome-control-center-2.19.4.tar.bz2"}, "2.19.5": {"md5sum":
+        "2.19/gnome-control-center-2.19.5.md5sum", "sha256sum": "2.19/gnome-control-center-2.19.5.sha256sum",
+        "tar.gz": "2.19/gnome-control-center-2.19.5.tar.gz", "news": "2.19/gnome-control-center-2.19.5.news",
+        "changes": "2.19/gnome-control-center-2.19.5.changes", "tar.bz2": "2.19/gnome-control-center-2.19.5.tar.bz2"},
+        "2.19.3": {"md5sum": "2.19/gnome-control-center-2.19.3.md5sum", "sha256sum":
+        "2.19/gnome-control-center-2.19.3.sha256sum", "tar.gz": "2.19/gnome-control-center-2.19.3.tar.gz",
+        "news": "2.19/gnome-control-center-2.19.3.news", "changes": "2.19/gnome-control-center-2.19.3.changes",
+        "tar.bz2": "2.19/gnome-control-center-2.19.3.tar.bz2"}, "2.19.1": {"tar.gz":
+        "2.19/gnome-control-center-2.19.1.tar.gz", "md5sum": "2.19/gnome-control-center-2.19.1.md5sum",
+        "tar.bz2": "2.19/gnome-control-center-2.19.1.tar.bz2", "sha256sum": "2.19/gnome-control-center-2.19.1.sha256sum"},
+        "2.27.4.1": {"tar.gz": "2.27/gnome-control-center-2.27.4.1.tar.gz", "news":
+        "2.27/gnome-control-center-2.27.4.1.news", "sha256sum": "2.27/gnome-control-center-2.27.4.1.sha256sum",
+        "tar.bz2": "2.27/gnome-control-center-2.27.4.1.tar.bz2", "diff.gz": "2.27/gnome-control-center-2.27.4-2.27.4.1.diff.gz"},
+        "3.7.90": {"news": "3.7/gnome-control-center-3.7.90.news", "changes": "3.7/gnome-control-center-3.7.90.changes",
+        "tar.xz": "3.7/gnome-control-center-3.7.90.tar.xz", "sha256sum": "3.7/gnome-control-center-3.7.90.sha256sum"},
+        "2.31.4.2": {"tar.gz": "2.31/gnome-control-center-2.31.4.2.tar.gz", "news":
+        "2.31/gnome-control-center-2.31.4.2.news", "changes": "2.31/gnome-control-center-2.31.4.2.changes",
+        "tar.bz2": "2.31/gnome-control-center-2.31.4.2.tar.bz2", "sha256sum": "2.31/gnome-control-center-2.31.4.2.sha256sum"},
+        "3.7.92": {"news": "3.7/gnome-control-center-3.7.92.news", "changes": "3.7/gnome-control-center-3.7.92.changes",
+        "tar.xz": "3.7/gnome-control-center-3.7.92.tar.xz", "sha256sum": "3.7/gnome-control-center-3.7.92.sha256sum"},
+        "2.22.0": {"tar.gz": "2.22/gnome-control-center-2.22.0.tar.gz", "md5sum":
+        "2.22/gnome-control-center-2.22.0.md5sum", "tar.bz2": "2.22/gnome-control-center-2.22.0.tar.bz2",
+        "sha256sum": "2.22/gnome-control-center-2.22.0.sha256sum"}, "2.22.1": {"md5sum":
+        "2.22/gnome-control-center-2.22.1.md5sum", "sha256sum": "2.22/gnome-control-center-2.22.1.sha256sum",
+        "tar.gz": "2.22/gnome-control-center-2.22.1.tar.gz", "news": "2.22/gnome-control-center-2.22.1.news",
+        "changes": "2.22/gnome-control-center-2.22.1.changes", "tar.bz2": "2.22/gnome-control-center-2.22.1.tar.bz2"},
+        "2.22.2": {"md5sum": "2.22/gnome-control-center-2.22.2.md5sum", "sha256sum":
+        "2.22/gnome-control-center-2.22.2.sha256sum", "tar.gz": "2.22/gnome-control-center-2.22.2.tar.gz",
+        "diff.gz": "2.22/gnome-control-center-2.22.1-2.22.2.diff.gz", "news": "2.22/gnome-control-center-2.22.2.news",
+        "changes": "2.22/gnome-control-center-2.22.2.changes", "tar.bz2": "2.22/gnome-control-center-2.22.2.tar.bz2"},
+        "2.29.92": {"sha256sum": "2.29/gnome-control-center-2.29.92.sha256sum", "tar.gz":
+        "2.29/gnome-control-center-2.29.92.tar.gz", "news": "2.29/gnome-control-center-2.29.92.news",
+        "diff.gz": "2.29/gnome-control-center-2.29.91-2.29.92.diff.gz", "changes":
+        "2.29/gnome-control-center-2.29.92.changes", "tar.bz2": "2.29/gnome-control-center-2.29.92.tar.bz2"},
+        "2.29.91": {"sha256sum": "2.29/gnome-control-center-2.29.91.sha256sum", "tar.gz":
+        "2.29/gnome-control-center-2.29.91.tar.gz", "news": "2.29/gnome-control-center-2.29.91.news",
+        "diff.gz": "2.29/gnome-control-center-2.29.90-2.29.91.diff.gz", "changes":
+        "2.29/gnome-control-center-2.29.91.changes", "tar.bz2": "2.29/gnome-control-center-2.29.91.tar.bz2"},
+        "2.29.90": {"sha256sum": "2.29/gnome-control-center-2.29.90.sha256sum", "tar.gz":
+        "2.29/gnome-control-center-2.29.90.tar.gz", "diff.gz": "2.29/gnome-control-center-2.29.6-2.29.90.diff.gz",
+        "news": "2.29/gnome-control-center-2.29.90.news", "changes": "2.29/gnome-control-center-2.29.90.changes",
+        "tar.bz2": "2.29/gnome-control-center-2.29.90.tar.bz2"}, "2.21.5": {"md5sum":
+        "2.21/gnome-control-center-2.21.5.md5sum", "sha256sum": "2.21/gnome-control-center-2.21.5.sha256sum",
+        "tar.gz": "2.21/gnome-control-center-2.21.5.tar.gz", "news": "2.21/gnome-control-center-2.21.5.news",
+        "changes": "2.21/gnome-control-center-2.21.5.changes", "tar.bz2": "2.21/gnome-control-center-2.21.5.tar.bz2"},
+        "2.22.2.1": {"tar.gz": "2.22/gnome-control-center-2.22.2.1.tar.gz", "diff.gz":
+        "2.22/gnome-control-center-2.22.2-2.22.2.1.diff.gz", "md5sum": "2.22/gnome-control-center-2.22.2.1.md5sum",
+        "tar.bz2": "2.22/gnome-control-center-2.22.2.1.tar.bz2", "sha256sum": "2.22/gnome-control-center-2.22.2.1.sha256sum"},
+        "2.21.2": {"md5sum": "2.21/gnome-control-center-2.21.2.md5sum", "sha256sum":
+        "2.21/gnome-control-center-2.21.2.sha256sum", "tar.gz": "2.21/gnome-control-center-2.21.2.tar.gz",
+        "diff.gz": "2.21/gnome-control-center-2.21.1-2.21.2.diff.gz", "news": "2.21/gnome-control-center-2.21.2.news",
+        "changes": "2.21/gnome-control-center-2.21.2.changes", "tar.bz2": "2.21/gnome-control-center-2.21.2.tar.bz2"},
+        "2.21.1": {"tar.gz": "2.21/gnome-control-center-2.21.1.tar.gz", "md5sum":
+        "2.21/gnome-control-center-2.21.1.md5sum", "tar.bz2": "2.21/gnome-control-center-2.21.1.tar.bz2",
+        "sha256sum": "2.21/gnome-control-center-2.21.1.sha256sum"}, "2.29.6": {"tar.gz":
+        "2.29/gnome-control-center-2.29.6.tar.gz", "diff.gz": "2.29/gnome-control-center-2.29.4-2.29.6.diff.gz",
+        "changes": "2.29/gnome-control-center-2.29.6.changes", "tar.bz2": "2.29/gnome-control-center-2.29.6.tar.bz2",
+        "sha256sum": "2.29/gnome-control-center-2.29.6.sha256sum"}, "2.29.4": {"tar.gz":
+        "2.29/gnome-control-center-2.29.4.tar.gz", "tar.bz2": "2.29/gnome-control-center-2.29.4.tar.bz2",
+        "sha256sum": "2.29/gnome-control-center-2.29.4.sha256sum"}, "3.8.6": {"news":
+        "3.8/gnome-control-center-3.8.6.news", "changes": "3.8/gnome-control-center-3.8.6.changes",
+        "tar.xz": "3.8/gnome-control-center-3.8.6.tar.xz", "sha256sum": "3.8/gnome-control-center-3.8.6.sha256sum"},
+        "3.7.91": {"news": "3.7/gnome-control-center-3.7.91.news", "changes": "3.7/gnome-control-center-3.7.91.changes",
+        "tar.xz": "3.7/gnome-control-center-3.7.91.tar.xz", "sha256sum": "3.7/gnome-control-center-3.7.91.sha256sum"},
+        "3.8.4": {"news": "3.8/gnome-control-center-3.8.4.news", "changes": "3.8/gnome-control-center-3.8.4.changes",
+        "tar.xz": "3.8/gnome-control-center-3.8.4.tar.xz", "sha256sum": "3.8/gnome-control-center-3.8.4.sha256sum"},
+        "3.8.5": {"news": "3.8/gnome-control-center-3.8.5.news", "changes": "3.8/gnome-control-center-3.8.5.changes",
+        "tar.xz": "3.8/gnome-control-center-3.8.5.tar.xz", "sha256sum": "3.8/gnome-control-center-3.8.5.sha256sum"},
+        "3.8.2": {"news": "3.8/gnome-control-center-3.8.2.news", "changes": "3.8/gnome-control-center-3.8.2.changes",
+        "tar.xz": "3.8/gnome-control-center-3.8.2.tar.xz", "sha256sum": "3.8/gnome-control-center-3.8.2.sha256sum"},
+        "3.8.3": {"news": "3.8/gnome-control-center-3.8.3.news", "changes": "3.8/gnome-control-center-3.8.3.changes",
+        "tar.xz": "3.8/gnome-control-center-3.8.3.tar.xz", "sha256sum": "3.8/gnome-control-center-3.8.3.sha256sum"},
+        "3.8.0": {"news": "3.8/gnome-control-center-3.8.0.news", "changes": "3.8/gnome-control-center-3.8.0.changes",
+        "tar.xz": "3.8/gnome-control-center-3.8.0.tar.xz", "sha256sum": "3.8/gnome-control-center-3.8.0.sha256sum"},
+        "3.8.1": {"news": "3.8/gnome-control-center-3.8.1.news", "changes": "3.8/gnome-control-center-3.8.1.changes",
+        "tar.xz": "3.8/gnome-control-center-3.8.1.tar.xz", "sha256sum": "3.8/gnome-control-center-3.8.1.sha256sum"},
+        "3.9.90.1": {"news": "3.9/gnome-control-center-3.9.90.1.news", "changes":
+        "3.9/gnome-control-center-3.9.90.1.changes", "tar.xz": "3.9/gnome-control-center-3.9.90.1.tar.xz",
+        "sha256sum": "3.9/gnome-control-center-3.9.90.1.sha256sum"}, "2.91.93": {"tar.gz":
+        "2.91/gnome-control-center-2.91.93.tar.gz", "news": "2.91/gnome-control-center-2.91.93.news",
+        "changes": "2.91/gnome-control-center-2.91.93.changes", "tar.bz2": "2.91/gnome-control-center-2.91.93.tar.bz2",
+        "sha256sum": "2.91/gnome-control-center-2.91.93.sha256sum"}, "3.9.92": {"news":
+        "3.9/gnome-control-center-3.9.92.news", "changes": "3.9/gnome-control-center-3.9.92.changes",
+        "tar.xz": "3.9/gnome-control-center-3.9.92.tar.xz", "sha256sum": "3.9/gnome-control-center-3.9.92.sha256sum"},
+        "3.9.91": {"news": "3.9/gnome-control-center-3.9.91.news", "changes": "3.9/gnome-control-center-3.9.91.changes",
+        "tar.xz": "3.9/gnome-control-center-3.9.91.tar.xz", "sha256sum": "3.9/gnome-control-center-3.9.91.sha256sum"},
+        "3.9.90": {"news": "3.9/gnome-control-center-3.9.90.news", "changes": "3.9/gnome-control-center-3.9.90.changes",
+        "tar.xz": "3.9/gnome-control-center-3.9.90.tar.xz", "sha256sum": "3.9/gnome-control-center-3.9.90.sha256sum"},
+        "3.2.0": {"news": "3.2/gnome-control-center-3.2.0.news", "changes": "3.2/gnome-control-center-3.2.0.changes",
+        "tar.xz": "3.2/gnome-control-center-3.2.0.tar.xz", "tar.bz2": "3.2/gnome-control-center-3.2.0.tar.bz2",
+        "sha256sum": "3.2/gnome-control-center-3.2.0.sha256sum"}, "3.2.1": {"news":
+        "3.2/gnome-control-center-3.2.1.news", "changes": "3.2/gnome-control-center-3.2.1.changes",
+        "tar.xz": "3.2/gnome-control-center-3.2.1.tar.xz", "tar.bz2": "3.2/gnome-control-center-3.2.1.tar.bz2",
+        "sha256sum": "3.2/gnome-control-center-3.2.1.sha256sum"}, "3.2.2": {"news":
+        "3.2/gnome-control-center-3.2.2.news", "changes": "3.2/gnome-control-center-3.2.2.changes",
+        "tar.xz": "3.2/gnome-control-center-3.2.2.tar.xz", "tar.bz2": "3.2/gnome-control-center-3.2.2.tar.bz2",
+        "sha256sum": "3.2/gnome-control-center-3.2.2.sha256sum"}, "3.2.3": {"news":
+        "3.2/gnome-control-center-3.2.3.news", "changes": "3.2/gnome-control-center-3.2.3.changes",
+        "tar.xz": "3.2/gnome-control-center-3.2.3.tar.xz", "sha256sum": "3.2/gnome-control-center-3.2.3.sha256sum"},
+        "2.27.3": {"tar.gz": "2.27/gnome-control-center-2.27.3.tar.gz", "md5sum":
+        "2.27/gnome-control-center-2.27.3.md5sum", "tar.bz2": "2.27/gnome-control-center-2.27.3.tar.bz2",
+        "sha256sum": "2.27/gnome-control-center-2.27.3.sha256sum"}, "2.27.5": {"tar.gz":
+        "2.27/gnome-control-center-2.27.5.tar.gz", "news": "2.27/gnome-control-center-2.27.5.news",
+        "tar.bz2": "2.27/gnome-control-center-2.27.5.tar.bz2", "sha256sum": "2.27/gnome-control-center-2.27.5.sha256sum"},
+        "2.27.4": {"tar.gz": "2.27/gnome-control-center-2.27.4.tar.gz", "news": "2.27/gnome-control-center-2.27.4.news",
+        "tar.bz2": "2.27/gnome-control-center-2.27.4.tar.bz2", "sha256sum": "2.27/gnome-control-center-2.27.4.sha256sum"}}},
+        {"gnome-control-center": ["2.19.1", "2.19.3", "2.19.4", "2.19.5", "2.19.6",
+        "2.19.90", "2.19.91", "2.19.92", "2.20.0", "2.20.0.1", "2.20.1", "2.20.3",
+        "2.21.1", "2.21.2", "2.21.4", "2.21.5", "2.21.90", "2.21.92", "2.22.0", "2.22.1",
+        "2.22.2", "2.22.2.1", "2.23.1", "2.23.2", "2.23.3", "2.23.4", "2.23.5", "2.23.6",
+        "2.23.90", "2.24.0", "2.24.0.1", "2.25.1", "2.25.2", "2.25.3", "2.25.90",
+        "2.25.92", "2.26.0", "2.27.3", "2.27.4", "2.27.4.1", "2.27.5", "2.27.90",
+        "2.27.91", "2.28.0", "2.28.1", "2.29.4", "2.29.6", "2.29.90", "2.29.91", "2.29.92",
+        "2.30.0", "2.30.1", "2.31.1", "2.31.2", "2.31.3", "2.31.4", "2.31.4.1", "2.31.4.2",
+        "2.31.5", "2.31.6", "2.31.90", "2.31.91", "2.31.92", "2.31.92.1", "2.32.0",
+        "2.32.1", "2.90.1", "2.91.0", "2.91.2", "2.91.3", "2.91.3.1", "2.91.4", "2.91.5",
+        "2.91.6", "2.91.90", "2.91.91", "2.91.92", "2.91.93", "3.0.0", "3.0.0.1",
+        "3.0.1", "3.0.1.1", "3.0.2", "3.1.3", "3.1.4", "3.1.5", "3.1.90", "3.1.91",
+        "3.1.92", "3.2.0", "3.2.1", "3.2.2", "3.2.3", "3.3.2", "3.3.3", "3.3.4", "3.3.4.1",
+        "3.3.5", "3.3.90", "3.3.91", "3.3.92", "3.4.0", "3.4.1", "3.4.2", "3.4.3",
+        "3.4.3.1", "3.5.2", "3.5.3", "3.5.4", "3.5.5", "3.5.6", "3.5.90", "3.5.91",
+        "3.5.92", "3.6.0", "3.6.1", "3.6.2", "3.6.3", "3.7.1", "3.7.3", "3.7.4", "3.7.5",
+        "3.7.5.1", "3.7.90", "3.7.91", "3.7.92", "3.8.0", "3.8.1", "3.8.1.5", "3.8.2",
+        "3.8.3", "3.8.4", "3.8.4.1", "3.8.5", "3.8.6", "3.9.2", "3.9.2.1", "3.9.3",
+        "3.9.5", "3.9.90", "3.9.90.1", "3.9.91", "3.9.92", "3.10.0", "3.10.1", "3.10.2",
+        "3.10.3", "3.10.4", "3.11.1", "3.11.2", "3.11.3", "3.11.5", "3.11.90", "3.11.91",
+        "3.11.92", "3.12.0", "3.12.1", "3.13.1", "3.13.2", "3.13.3", "3.13.4", "3.13.90",
+        "3.13.91", "3.13.92", "3.14.0", "3.14.1", "3.14.2", "3.14.3", "3.14.4", "3.14.5",
+        "3.15.4", "3.15.90", "3.15.91", "3.15.92", "3.16.0", "3.16.1", "3.16.2"]},
+        {"3.10": ["LATEST-IS-3.10.4"], "3.11": ["LATEST-IS-3.11.92"], "3.12": ["LATEST-IS-3.12.1"],
+        "3.13": ["LATEST-IS-3.13.92"], "3.14": ["LATEST-IS-3.14.5"], "3.15": ["LATEST-IS-3.15.92"],
+        "3.16": ["LATEST-IS-3.16.2"], "3.6": ["LATEST-IS-3.6.3"], "3.7": ["LATEST-IS-3.7.92"],
+        "3.4": ["LATEST-IS-3.4.3.1"], "3.5": ["LATEST-IS-3.5.92"], "3.2": ["LATEST-IS-3.2.3"],
+        "3.3": ["LATEST-IS-3.3.92"], "3.0": ["LATEST-IS-3.0.2"], "3.1": ["LATEST-IS-3.1.92"],
+        "3.8": ["LATEST-IS-3.8.6"], "3.9": ["LATEST-IS-3.9.92"], "2.31": ["LATEST-IS-2.31.92.1"],
+        "2.30": ["LATEST-IS-2.30.1"], "2.32": ["LATEST-IS-2.32.1"], ".": ["cache.json"],
+        "2.19": ["LATEST-IS-2.19.92"], "2.91": ["LATEST-IS-2.91.93"], "2.90": ["LATEST-IS-2.90.1"],
+        "2.28": ["LATEST-IS-2.28.1"], "2.29": ["LATEST-IS-2.29.92"], "2.22": ["LATEST-IS-2.22.2.1"],
+        "2.23": ["LATEST-IS-2.23.90"], "2.20": ["LATEST-IS-2.20.3"], "2.21": ["LATEST-IS-2.21.92"],
+        "2.26": ["LATEST-IS-2.26.0"], "2.27": ["LATEST-IS-2.27.91"], "2.24": ["LATEST-IS-2.24.0.1"],
+        "2.25": ["LATEST-IS-2.25.92"]}]'}
+    headers:
+      accept-ranges: [bytes]
+      connection: [keep-alive]
+      content-length: ['49791']
+      content-type: [application/octet-stream]
+      date: ['Thu, 28 May 2015 20:10:20 GMT']
+      etag: ['"555b2962-c27f"']
+      last-modified: ['Tue, 19 May 2015 12:15:30 GMT']
+      server: [nginx/1.4.6 (Ubuntu)]
+    status: {code: 200, message: OK}
+version: 1

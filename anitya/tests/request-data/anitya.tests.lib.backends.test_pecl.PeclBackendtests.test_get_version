@@ -1,0 +1,93 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
+    method: GET
+    uri: https://pecl.php.net/rest/r/inotify/allreleases.xml
+  response:
+    body: {string: !!python/unicode "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<a
+        xmlns=\"http://pear.php.net/dtd/rest.allreleases\"\n    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+        xmlns:xlink=\"http://www.w3.org/1999/xlink\"     xsi:schemaLocation=\"http://pear.php.net/dtd/rest.allreleases\n
+        \   http://pear.php.net/dtd/rest.allreleases.xsd\">\n <p>inotify</p>\n <c>pecl.php.net</c>\n
+        <r><v>0.1.6</v><s>stable</s></r>\n <r><v>0.1.5</v><s>beta</s></r>\n <r><v>0.1.4</v><s>beta</s></r>\n
+        <r><v>0.1.3</v><s>beta</s></r>\n <r><v>0.1.2</v><s>beta</s></r>\n</a>"}
+    headers:
+      accept-ranges: [bytes]
+      connection: [Keep-Alive]
+      content-length: ['512']
+      content-type: [application/xml]
+      date: ['Thu, 28 May 2015 19:29:08 GMT']
+      etag: ['"240e33-200-51330e134b12e"']
+      keep-alive: ['timeout=5, max=100']
+      last-modified: ['Wed, 08 Apr 2015 06:45:41 GMT']
+      server: [Apache]
+      strict-transport-security: [max-age=31536000]
+      x-content-type-options: [nosniff]
+      x-frame-options: [sameorigin]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
+    method: GET
+    uri: https://pecl.php.net/rest/r/foo/allreleases.xml
+  response:
+    body:
+      string: !!binary |
+        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
+        Kv+V+TeZ26L1Ew8AAA==
+    headers:
+      cache-control: ['no-store, no-cache, must-revalidate, post-check=0, pre-check=0']
+      connection: [Keep-Alive]
+      content-encoding: [gzip]
+      content-length: ['1552']
+      content-type: [text/html; charset=ISO-8859-1]
+      date: ['Thu, 28 May 2015 19:29:08 GMT']
+      expires: ['Thu, 19 Nov 1981 08:52:00 GMT']
+      keep-alive: ['timeout=5, max=100']
+      pragma: [no-cache]
+      server: [Apache]
+      set-cookie: [PHPSESSID=f93a932ki9nsugobgnst97djr6; path=/]
+      strict-transport-security: [max-age=31536000]
+      vary: [Accept-Encoding]
+      x-content-type-options: [nosniff]
+      x-frame-options: [sameorigin]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
+version: 1

@@ -1,0 +1,26 @@
+/* Sticky footer styles */
+
+html,
+body {
+  height: 100%;
+}
+
+.max-width {
+  min-width: 100%;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto;
+  margin: 0 auto -20px;
+  padding: 0 0 20px;
+}
+
+#footer {
+  height: 40px;
+  background-color: #f5f5f5;
+}
+
+.credit {
+    margin-top: 10px;
+}

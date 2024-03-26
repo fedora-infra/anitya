@@ -1,0 +1,94 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.8.1 at release-monitoring.org
+    method: GET
+    uri: https://codeberg.org/api/v1/repos/freedroid/freedroid-src/tags
+  response:
+    body:
+      string: '[{"name":"1.0","message":"This is FreedroidRPG 1.0","id":"aa17466841b67d1730304b308b874b8a3eb22a99","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/aa17466841b67d1730304b308b874b8a3eb22a99","sha":"e6147bb9fd996f9d3a614209c8d5f39bedc1c6a4","created":"2023-01-22T19:13:24+01:00"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/1.0.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/1.0.tar.gz"},{"name":"1.0rc3","message":"This
+        is FreedroidRPG 1.0rc3","id":"21e8a2dc829cc43d75e2fbda113ae4471430ece6","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/21e8a2dc829cc43d75e2fbda113ae4471430ece6","sha":"0df5e4701c731a1721b4d64c3a65ebe914113f2d","created":"2022-11-08T08:38:23+01:00"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/1.0rc3.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/1.0rc3.tar.gz"},{"name":"1.0rc2","message":"This
+        is FreedroidRPG 1.0rc2","id":"e263895120ed2859e115d3a0d006de5ba61a95b6","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/e263895120ed2859e115d3a0d006de5ba61a95b6","sha":"d05610aedeaae5e7119319bfc0de11dc8a5fd61f","created":"2019-05-12T16:54:57+02:00"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/1.0rc2.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/1.0rc2.tar.gz"},{"name":"1.0rc1","message":"This
+        is FreedroidRPG 1.0rc1","id":"a7f97c336bc0ae32fde8406e4fd931ee80840e1e","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/a7f97c336bc0ae32fde8406e4fd931ee80840e1e","sha":"c38b7ff820c6e33fd09fa77ca07f3e5be0959532","created":"2019-03-30T22:52:47+01:00"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/1.0rc1.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/1.0rc1.tar.gz"},{"name":"0.16.1","message":"This
+        is FreedroidRPG 0.16.1","id":"35fc2e33f27e9aa2e4ca2f4523c4a0917168cdd7","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/35fc2e33f27e9aa2e4ca2f4523c4a0917168cdd7","sha":"31414e5c26742c913ca5f42682c6f0876d009bf8","created":"2016-04-02T18:05:20+02:00"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.16.1.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.16.1.tar.gz"},{"name":"0.16","message":"This
+        is FreedroidRPG 0.16","id":"a9975b3752644371f3f89bba354166b1e8772ff7","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/a9975b3752644371f3f89bba354166b1e8772ff7","sha":"1e1be3dd02dba23bea2f88f3354a3615b451cd97","created":"2015-12-24T11:23:52+01:00"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.16.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.16.tar.gz"},{"name":"0.16rc3","message":"This
+        is FreedroidRPG 0.16rc3","id":"83e0732957dfcd7ee5e4989bd75c32731e38ddb3","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/83e0732957dfcd7ee5e4989bd75c32731e38ddb3","sha":"9ee7f57d9c2f5d17ae1fd7f8275ccdbbb47d0279","created":"2015-12-06T16:38:26+01:00"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.16rc3.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.16rc3.tar.gz"},{"name":"0.16rc2","message":"This
+        is FreedroidRPG 0.16rc2","id":"dd508e3542606a4fc11fdc70e0c13a2c9b30bed6","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/dd508e3542606a4fc11fdc70e0c13a2c9b30bed6","sha":"3f012f63748d8fde50f35b14e65fb545a64f851b","created":"2015-09-07T16:31:35+02:00"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.16rc2.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.16rc2.tar.gz"},{"name":"0.16rc1","message":"This
+        is FreedroidRPG 0.16rc1","id":"c1663fd61379fb7c6b4fdb99398460ae9f771c05","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/c1663fd61379fb7c6b4fdb99398460ae9f771c05","sha":"5c9672633115911bb641fb3250db860544d3ab86","created":"2015-08-16T17:13:09+02:00"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.16rc1.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.16rc1.tar.gz"},{"name":"0.15.1","message":"This
+        is FreedroidRPG 0.15.1, a bug fix of 0.15","id":"3eda182ba5aa01e471a74417f4dda76c7648b91b","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/3eda182ba5aa01e471a74417f4dda76c7648b91b","sha":"3eda182ba5aa01e471a74417f4dda76c7648b91b","created":"2012-03-17T17:21:50+01:00"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.15.1.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.15.1.tar.gz"},{"name":"0.15","message":"This
+        is FreedroidRPG 0.15, released with no noticeable changes from rc2. Merry
+        Christmas!\n\n\n\ngit-svn-id: https://freedroid.svn.sourceforge.net/svnroot/freedroid@5245
+        524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"bcb649b19485fe1eba164fd4b8b1439df36910d7","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/bcb649b19485fe1eba164fd4b8b1439df36910d7","sha":"bcb649b19485fe1eba164fd4b8b1439df36910d7","created":"2011-12-23T07:43:00Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.15.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.15.tar.gz"},{"name":"0.15rc2","message":"This
+        is FreedroidRPG 0.15rc2.\n\ngit-svn-id: https://freedroid.svn.sourceforge.net/svnroot/freedroid@5242
+        524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"281629a22dc033a6ddcb313015d4e2f4fbcefff3","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/281629a22dc033a6ddcb313015d4e2f4fbcefff3","sha":"281629a22dc033a6ddcb313015d4e2f4fbcefff3","created":"2011-12-10T09:12:27Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.15rc2.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.15rc2.tar.gz"},{"name":"0.15rc1","message":"This
+        is FreedroidRPG 0.15rc1.\n\ngit-svn-id: https://freedroid.svn.sourceforge.net/svnroot/freedroid@5202
+        524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"4f33a6bc20c765d06a6865c95c605a31bdf21813","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/4f33a6bc20c765d06a6865c95c605a31bdf21813","sha":"4f33a6bc20c765d06a6865c95c605a31bdf21813","created":"2011-11-23T19:23:47Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.15rc1.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.15rc1.tar.gz"},{"name":"0.14.1","message":"Update
+        ChangeLog for 0.14.1.\n\n\n\ngit-svn-id: https://freedroid.svn.sourceforge.net/svnroot/freedroid@3463
+        524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"edadc6e5118bc3cb902924abf64c559279984772","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/edadc6e5118bc3cb902924abf64c559279984772","sha":"edadc6e5118bc3cb902924abf64c559279984772","created":"2010-11-26T22:14:10Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.14.1.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.14.1.tar.gz"},{"name":"0.14","message":"This
+        is FreedroidRPG 0.14.\n\n\n\ngit-svn-id: https://freedroid.svn.sourceforge.net/svnroot/freedroid@3457
+        524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"671ec4ec34c1db1d0c15ca91b87354f53a2fc20e","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/671ec4ec34c1db1d0c15ca91b87354f53a2fc20e","sha":"671ec4ec34c1db1d0c15ca91b87354f53a2fc20e","created":"2010-11-25T18:29:33Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.14.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.14.tar.gz"},{"name":"0.14rc3","message":"Update
+        version string: this is FreedroidRPG 0.14rc3.\n\ngit-svn-id: https://freedroid.svn.sourceforge.net/svnroot/freedroid@3451
+        524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"496ff07e04b58c09e1ae9086e7104ff87ca5e8e5","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/496ff07e04b58c09e1ae9086e7104ff87ca5e8e5","sha":"496ff07e04b58c09e1ae9086e7104ff87ca5e8e5","created":"2010-11-16T06:29:57Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.14rc3.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.14rc3.tar.gz"},{"name":"0.14rc1","message":"Update
+        version number to 0.14rc1. This is FreedroidRPG 0.14rc1 - not yet officially
+        released, giving room for emergency fixes to the build setup.\n\ngit-svn-id:
+        https://freedroid.svn.sourceforge.net/svnroot/freedroid@3409 524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"40a418d8f43fa11b54c83ef9e8e6b991aa8fc900","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/40a418d8f43fa11b54c83ef9e8e6b991aa8fc900","sha":"40a418d8f43fa11b54c83ef9e8e6b991aa8fc900","created":"2010-11-07T20:28:56Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.14rc1.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.14rc1.tar.gz"},{"name":"0.13","message":"Updated
+        changelog for .13 final.\n\ngit-svn-id: https://freedroid.svn.sourceforge.net/svnroot/freedroid@2327
+        524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"ab38d3b9451327540e9dce32498818a4624e9882","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/ab38d3b9451327540e9dce32498818a4624e9882","sha":"ab38d3b9451327540e9dce32498818a4624e9882","created":"2010-01-21T17:29:10Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.13.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.13.tar.gz"},{"name":"0.13rc2","message":"rc2
+        is out. change version string to rc2+\n\ngit-svn-id: https://freedroid.svn.sourceforge.net/svnroot/freedroid@2274
+        524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"02b40783f1cabd6607d7e92cc444f5c90820b757","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/02b40783f1cabd6607d7e92cc444f5c90820b757","sha":"02b40783f1cabd6607d7e92cc444f5c90820b757","created":"2010-01-11T10:24:55Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.13rc2.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.13rc2.tar.gz"},{"name":"0.13rc1","message":"Bumping
+        version string in preparation for 0.13rc\n\ngit-svn-id: https://freedroid.svn.sourceforge.net/svnroot/freedroid@2228
+        524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"64295281754564c2e114ff2963a48ef974a6e35a","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/64295281754564c2e114ff2963a48ef974a6e35a","sha":"64295281754564c2e114ff2963a48ef974a6e35a","created":"2009-12-26T02:33:09Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.13rc1.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.13rc1.tar.gz"},{"name":"0.12","message":"replace
+        RECT by FD_RECT since RECT is defined by Win32 API (those guys are stupid)\n\ngit-svn-id:
+        https://freedroid.svn.sourceforge.net/svnroot/freedroid@1789 524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"0b76b671ad3a587dda6f24c2ed98d30a2ccf1c43","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/0b76b671ad3a587dda6f24c2ed98d30a2ccf1c43","sha":"0b76b671ad3a587dda6f24c2ed98d30a2ccf1c43","created":"2009-02-16T16:48:31Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.12.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.12.tar.gz"},{"name":"0.12rc1","message":"Correct
+        to 0.12rc1 without an extra .\n\ngit-svn-id: https://freedroid.svn.sourceforge.net/svnroot/freedroid@1788
+        524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"2b86c6d90847528e06e344b5730a5c5ff9c68621","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/2b86c6d90847528e06e344b5730a5c5ff9c68621","sha":"2b86c6d90847528e06e344b5730a5c5ff9c68621","created":"2009-02-16T14:46:21Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.12rc1.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.12rc1.tar.gz"},{"name":"0.11","message":"changelog
+        for .11 final\n\ngit-svn-id: https://freedroid.svn.sourceforge.net/svnroot/freedroid@1084
+        524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"4778a1a5f025ba8dd46e3eaf5821b6c3ace5b275","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/4778a1a5f025ba8dd46e3eaf5821b6c3ace5b275","sha":"4778a1a5f025ba8dd46e3eaf5821b6c3ace5b275","created":"2008-09-14T13:00:41Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.11.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.11.tar.gz"},{"name":"0.11rc1","message":"setting
+        version to rc1\n\ngit-svn-id: https://freedroid.svn.sourceforge.net/svnroot/freedroid@966
+        524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"6286717aacbe1f2bc2870657b202e169149d07df","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/6286717aacbe1f2bc2870657b202e169149d07df","sha":"6286717aacbe1f2bc2870657b202e169149d07df","created":"2008-07-18T14:41:46Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.11rc1.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.11rc1.tar.gz"},{"name":"0.10.4+","message":"this
+        is freedroidRPG 0.10.4SVN now. CVS is dead\n\ngit-svn-id: https://freedroid.svn.sourceforge.net/svnroot/freedroid@360
+        524c2bfb-fa3f-0410-b5a2-92f4e1dc5b61","id":"da84be34c72af3aa86d213046ff351f2135c7a10","commit":{"url":"https://codeberg.org/api/v1/repos/freedroid/freedroid-src/git/commits/da84be34c72af3aa86d213046ff351f2135c7a10","sha":"da84be34c72af3aa86d213046ff351f2135c7a10","created":"2008-03-30T17:11:19Z"},"zipball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.10.4+.zip","tarball_url":"https://codeberg.org/freedroid/freedroid-src/archive/0.10.4+.tar.gz"}]
+
+        '
+    headers:
+      access-control-expose-headers:
+      - X-Total-Count
+      cache-control:
+      - max-age=0, private, must-revalidate, no-transform
+      content-security-policy-report-only:
+      - 'default-src data: ''self'' https://*.codeberg.org https://codeberg.org; script-src
+        ''self'' https://*.codeberg.org https://codeberg.org; style-src data: ''self''
+        ''unsafe-inline'' https://*.codeberg.org https://codeberg.org; img-src *;
+        media-src *; object-src ''none'''
+      content-type:
+      - application/json;charset=utf-8
+      date:
+      - Sun, 10 Sep 2023 21:59:01 GMT
+      permissions-policy:
+      - interest-cohort=()
+      strict-transport-security:
+      - max-age=63072000; includeSubDomains; preload
+      transfer-encoding:
+      - chunked
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - sameorigin
+      x-total-count:
+      - '25'
+    status:
+      code: 200
+      message: OK
+version: 1

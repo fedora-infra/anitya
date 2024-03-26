@@ -1,0 +1,160 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
+    method: GET
+    uri: https://packagist.org/packages/phpunit/php-code-coverage.json
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      cache-control: ['public, s-maxage=3600']
+      connection: [keep-alive]
+      content-encoding: [gzip]
+      content-type: [application/json]
+      date: ['Thu, 28 May 2015 19:30:11 GMT']
+      server: [nginx]
+      strict-transport-security: [max-age=31104000]
+      vary: [Accept-Encoding]
+      x-frame-options: [DENY]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
+    method: GET
+    uri: https://packagist.org/packages/fake/fake.json
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6tWKi5JLCktVrJSSi0qyi9S0lHKTS0uTkxPBYoEJCZnA1kKefklCmn5pXkpSrUA
+        6q44XDAAAAA=
+    headers:
+      cache-control: [no-cache]
+      connection: [keep-alive]
+      content-encoding: [gzip]
+      content-type: [application/json]
+      date: ['Thu, 28 May 2015 19:46:49 GMT']
+      server: [nginx]
+      strict-transport-security: [max-age=31104000]
+      vary: [Accept-Encoding]
+      x-frame-options: [DENY]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.5.0 at release-monitoring.org]
+    method: GET
+    uri: https://packagist.org/packages/phpunit/php-timer.json
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA91XW0/bMBT+KyivI6mvuUmbNraHPSLRPVE0ObZDLXKb41AV1P++41Aqihik04Y2
+        okRN6uNzPp/jz/58G3RCXolLHeS3QSNq+A26ZTc0xi1m8BI6U2sbHAdK99Kazpm2AZNvzlTGrY9k
+        Jfr+qGztEdiZ5hIMfQewIAiTEGUhTucoznmak/gdQjlCYFIL0zh4tO2D/HwXt9eF6J0RTbC5OA6u
+        oRWCgcUtBL8Oa2gDJH8K5pVer1qrPIARsg0g5rKtdTcmI1g61/X5YraYXRq3HIpItvVitoNYaHtZ
+        i6Z5kKTFDIa2RQ0OHmDe/f29aW0tKnOjFVhkd1cIltCzMlI3PYQ+D07OvoQ0/FyJAb4Blhjcst3P
+        1dl9ro5OtkjAhYbEVuC4Lz7ugIb3SCOlwcS2lR9dpYUas9y3g5Vj8d268y0wWjAbrPdzeA6iu+5W
+        l9rqxjsOEsakiBOUFkrwAmksFcVYUZQKyjDSLEVKkpQGG5hkpncPsNyY7gksojM+zK4mVndt/1Jp
+        wFUhqmoxmwznN0cBKV2Kfqhh5H5E26xWprDCrvfowUOE4Z6jLCcs53RHDyh3W7VQIKjKSLBadH5a
+        nH49hTl2AV6t/jEYO5YNOAqhPrznEY0gh9CIIxTx/4cnd3B/QZGxMfJrxlulB87iNFOMclaQjGtN
+        VSrhnZWMSKrLIs5kIXEiX4kek+Hs0+OAblPpQUOUhojMUZIzknN2AD1MI6tB6bATbumJ49fQFynD
+        XpUy486yWq2i7WYLq/Oj/cNPffYcL9gb50UpEFUJV0Wii4QSVXDC41InJewccYxxLKTO0KvxYiKc
+        x7yY3G0qL0iIUYjxHOOccRBWf5sX9B/kBX2OF/RN84LjhOusKCgvZSYloyhLqFYpFVTFhFMsqUzj
+        LH0lXkyGs8+LA7pN5wWcNgidj4cMuJ/kRWkqPUr+UUvNve5fzD5t9ZZfi0d5NXn/IFECkuspmTeK
+        UuNa0Hyjpj7oJLFV0apdNV4Hjkcg1zoBmjxmWQZVhjNU27hlBd5jkmVJAtoZtD98EkYTBIhK4Y8i
+        Qc42m5/V/DtD5A0AAA==
+    headers:
+      cache-control: ['public, s-maxage=3600']
+      connection: [keep-alive]
+      content-encoding: [gzip]
+      content-type: [application/json]
+      date: ['Thu, 28 May 2015 19:46:50 GMT']
+      server: [nginx]
+      strict-transport-security: [max-age=31104000]
+      vary: [Accept-Encoding]
+      x-frame-options: [DENY]
+    status: {code: 200, message: OK}
+version: 1

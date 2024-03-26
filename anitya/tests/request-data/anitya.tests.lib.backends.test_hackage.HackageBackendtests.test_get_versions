@@ -1,0 +1,279 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.11.0 at release-monitoring.org]
+    method: GET
+    uri: https://hackage.haskell.org/package/Biobase
+  response:
+    body: {string: !!python/unicode "<!DOCTYPE html>\n<html>\n<head>\n  \n  <meta\
+        \ name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<link\
+        \ rel=\"stylesheet\" href=\"/static/hackage.css\" type=\"text/css\" />\n<link\
+        \ rel=\"search\" type=\"application/opensearchdescription+xml\" title=\"Hackage\"\
+        \ href=\"/packages/opensearch.xml\" />\n  <title>\n    Biobase: Base library\
+        \ for bioinformatics\n  </title>\n  <meta name=\"twitter:card\" content=\"\
+        summary\" />\n  <meta property=\"og:url\" content=\"//hackage.haskell.org/package/Biobase\"\
+        \ />\n  <meta property=\"og:title\" content=\"Biobase: Base library for bioinformatics\"\
+        \ />\n  <meta property=\"og:description\" content=\"Install via `cabal&nbsp;install&nbsp;Biobase`.\
+        \ \" />\n  <meta property=\"og:site_name\" content=\"Hackage\" />\n  <link\
+        \ rel=\"canonical\" href=\"//hackage.haskell.org/package/Biobase\" />\n  <script\
+        \ src=\"/static/jquery.min.js\"></script>\n  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"\
+        \ type=\"text/javascript\"></script>\n  <base href=\"//hackage.haskell.org/package/Biobase-0.3.1.1/\"\
+        \ />\n</head>\n\n<body>\n  <div id=\"page-header\">\n\n<ul class=\"links\"\
+        \ id=\"page-menu\">\n\n    <li><a href=\"/\">Home</a></li>\n\n    <li>\n \
+        \     <form action=\"/packages/search\" method=\"get\" class=\"search\">\n\
+        \        <button type=\"submit\">Search&nbsp;</button>\n        <input type=\"\
+        text\" name=\"terms\" />\n      </form>\n    </li>\n\n    <li><a href=\"/packages/browse\"\
+        >Browse</a></li>\n\n    <li><a href=\"/packages/recent\">What's new</a></li>\n\
+        \n    <li><a href=\"/upload\">Upload</a></li>\n\n    <li><a href=\"/accounts\"\
+        >User accounts</a></li>\n\n</ul>\n\n\n    <a class=\"caption\" href=\"//hackage.haskell.org/package/Biobase\"\
+        >\n    Biobase: Base library for bioinformatics\n    </a>\n\n\n</div>\n\n\
+        \  <div id=\"content\">\n\n    <h1>The Biobase package</h1>\n    <div style=\"\
+        font-size: small\">\n      [ <a href=\"/packages/tags\">Tags: </a><a href=\"\
+        /packages/tag/bioinformatics\">bioinformatics</a>, <a href=\"/packages/tag/gpl\"\
+        >gpl</a>, <a href=\"/packages/tag/library\">library</a> ]\n      [ <a href=\"\
+        /package/Biobase/tags/edit\">Propose Tags </a> ]\n    </div>\n\n    \n\n \
+        \   <div id=\"description\">\n        <p>Base library for bioinformatics providing\
+        \ the following features:</p><p>RNA sequences and energy files:</p><ul><li><p>efficient\
+        \ format for RNA sequences, based on the vector package</p></li><li><p>internal\
+        \ conversion from strings and bytestrings</p></li><li><p>secondary structure\
+        \ manipulation functions, im- and export of Vienna-dotbracket notation</p></li></ul><p>Utility\
+        \ classes:</p><ul><li><p>algebraic ring class</p></li><li><p>instances for\
+        \ Gibbs free energy, partition function probabilities, and scores</p></li><li><p>conversion\
+        \ between different entities</p></li></ul><p>Bioinformatics data sources:</p><ul><li><p>mostly\
+        \ just imports, some export functions are provided</p></li><li><p>Fasta (please\
+        \ use the &quot;bio&quot; library by Ketil Malde)</p></li><li><p>Mafft</p></li><li><p>RNA\
+        \ secondary structure: Dot-Bracket, CT</p></li><li><p>ViennaRNA energy files\
+        \ (with default parameters)</p></li><li><p>Turner energy files: cf. <a href=\"\
+        http://rna.urmc.rochester.edu/NNDB/index.html\">http://rna.urmc.rochester.edu/NNDB/index.html</a></p></li><li><p>RNAstrand\
+        \ database: dot-parenthesis (one file, many entries)</p></li><li><p>FR3D:\
+        \ basepairs</p></li><li><p>Infernal: covariance models (text-based)</p></li><li><p>MC-Fold:\
+        \ NCM database</p></li></ul><p>Important notes:</p><ul><li><p>In general,\
+        \ this library is not unicode safe (and could somebody tell me the reason\
+        \ for encoding DNA/RNA sequences in unicode?)</p></li></ul>\n    \n    </div>\n\
+        \n    \n\n    <div id=\"properties\">\n    <h2>Properties</h2>\n    <table\
+        \ class=\"properties\">\n      <tbody>\n\n        <tr>\n          <th>Versions</th>\n\
+        \          <td><a href=\"/package/Biobase-0.0.2.0\">0.0.2.0</a>, <a href=\"\
+        /package/Biobase-0.0.2.1\">0.0.2.1</a>, <a href=\"/package/Biobase-0.1.0.0\"\
+        >0.1.0.0</a>, <a href=\"/package/Biobase-0.1.0.1\">0.1.0.1</a>, <a href=\"\
+        /package/Biobase-0.3.1.0\">0.3.1.0</a>, <strong>0.3.1.1</strong></td>\n  \
+        \      </tr>\n\n        \n\n        <tr>\n          <th>Dependencies</th>\n\
+        \          <td><a href=\"/package/array\">array</a>, <a href=\"/package/base\"\
+        >base</a> (==4.*), <a href=\"/package/bytestring\">bytestring</a>, <a href=\"\
+        /package/containers\">containers</a>, <a href=\"/package/deepseq\">deepseq</a>,\
+        \ <a href=\"/package/directory\">directory</a> (&gt;=1), <a href=\"/package/either-unwrap\"\
+        >either-unwrap</a>, <a href=\"/package/file-embed\">file-embed</a> (&gt;=0.0.3),\
+        \ <a href=\"/package/filemanip\">filemanip</a> (&gt;=0.3.3 &amp;&amp; &lt;0.4),\
+        \ <a href=\"/package/filepath\">filepath</a>, <a href=\"/package/ghc-prim\"\
+        >ghc-prim</a>, <a href=\"/package/HsTools\">HsTools</a> (&gt;=0.0.1.1 &amp;&amp;\
+        \ &lt;0.0.2), <a href=\"/package/mtl\">mtl</a>, <a href=\"/package/parsec\"\
+        >parsec</a> (==3.*), <a href=\"/package/ParsecTools\">ParsecTools</a> (==0.0.2.*),\
+        \ <a href=\"/package/primitive\">primitive</a> (==0.3.*), <a href=\"/package/PrimitiveArray\"\
+        >PrimitiveArray</a> (&gt;=0.0.3.1 &amp;&amp; &lt;0.0.4), <a href=\"/package/split\"\
+        >split</a> (&gt;=0.1.2.3), <a href=\"/package/tuple\">tuple</a> (&gt;=0.2.0.1),\
+        \ <a href=\"/package/utility-ht\">utility-ht</a>, <a href=\"/package/vector\"\
+        >vector</a> (==0.7.*), <a href=\"/package/vector-read-instances\">vector-read-instances</a>,\
+        \ <a href=\"/package/zlib\">zlib</a><span style=\"font-size: small\"> [<a\
+        \ href=\"/package/Biobase-0.3.1.1/dependencies\">details</a>]</span></td>\n\
+        \        </tr>\n\n        <tr>\n          <th>License</th>\n          <td><a\
+        \ href=\"/package/Biobase-0.3.1.1/src/LICENSE\">GPL-3</a></td>\n        </tr>\n\
+        \n                <tr>\n          <th>Copyright</th>\n          <td>Christian\
+        \ Hoener zu Siederdissen, 2010,2011</td>\n        </tr>\n        \n\n    \
+        \    <tr>\n          <th>Author</th>\n          <td>Christian Hoener zu Siederdissen</td>\n\
+        \        </tr>\n        <tr>\n          <th>Maintainer</th>\n          <td>choener@tbi.univie.ac.at</td>\n\
+        \        </tr>\n\n        <!-- Obsolete/deprecated 'Stability' field hidden\n\
+        \             c.f. http://stackoverflow.com/questions/3841218/conventions-for-stability-field-of-cabal-packages\n\
+        \        <tr>\n          <th>Stability</th>\n          <td>experimental</td>\n\
+        \        </tr>\n        -->\n\n                <tr>\n          <th>Category</th>\n\
+        \          <td><a href=\"/packages/#cat:Bioinformatics\">Bioinformatics</a></td>\n\
+        \        </tr>\n        \n\n                <tr>\n          <th>Home page</th>\n\
+        \          <td>\n            <a href=http://www.tbi.univie.ac.at/~choener/>\n\
+        \              http://www.tbi.univie.ac.at/~choener/\n            </a>\n \
+        \         </td>\n        </tr>\n        \n\n        \n\n        \n\n     \
+        \   <tr>\n          <th>Uploaded</th>\n          <td>Fri Apr  8 12:46:37 UTC\
+        \ 2011 by <a href=\"/user/ChristianHoener\">ChristianHoener</a></td>\n   \
+        \     </tr>\n\n        \n\n                <tr>\n          <th>Distributions</th>\n\
+        \          <td>NixOS:<a href=\"http://hydra.nixos.org/job/nixpkgs/trunk/haskellPackages.Biobase.x86_64-linux\"\
+        >0.3.1.1</a></td>\n        </tr>\n        \n\n        \n\n        <tr>\n \
+        \         <th>Downloads</th>\n          <td>3049 total (24 in the last 30\
+        \ days)</td>\n        </tr>\n\n        <tr>\n          <th> Rating</th>\n\t\
+        \  <td>(no votes yet)\n\t  <span style=\"font-size: small\">[estimated by\
+        \ <a href=\"https://en.wikipedia.org/wiki/Rule_of_succession\">rule of succession</a>]</span></td>\n\
+        \t</tr>\n\n\t<tr>\n\t  <th>Your&nbsp;Rating</th>\n\t  <td>\n            <ul\
+        \ class=\"star-rating\">\n              <li class=\"star uncool\" id=\"1\"\
+        >&lambda;</li>\n              <li class=\"star uncool\" id=\"2\">&lambda;</li>\n\
+        \              <li class=\"star uncool\" id=\"3\">&lambda;</li>\n\t    </ul>\n\
+        \          \n          </td>\n        </tr>\n        <tr>\n          <th>Status</th>\n\
+        \t  <td>Docs not available <span style=\"font-size: small\">[<a href=\"/package/Biobase-0.3.1.1/reports/15\"\
+        >build log</a>]</span><br />All reported builds failed as of 2016-10-24 <span\
+        \ style=\"font-size: small\">[<a href=\"/package/Biobase-0.3.1.1/reports/\"\
+        >all 15 reports</a>]</span><br/><a href=\"https://matrix.hackage.haskell.org/package/Biobase\"\
+        >Hackage Matrix CI</a></td>\n        </tr>\n      </tbody>\n    </table>\n\
+        \    </div> <!-- /properties -->\n\n    <div id=\"modules\">\n      <h2>Modules</h2><div\
+        \ id=\"module-list\"><ul class=\"modules\"><li><i>Biobase</i><ul class=\"\
+        modules\"><li><span class=\"module\">Biobase.Constants</span></li><li><i>DataSource</i><ul\
+        \ class=\"modules\"><li><span class=\"module\">Biobase.DataSource.CT</span><ul\
+        \ class=\"modules\"><li><span class=\"module\">Biobase.DataSource.CT.Import</span></li></ul></li><li><span\
+        \ class=\"module\">Biobase.DataSource.DotParen</span><ul class=\"modules\"\
+        ><li><span class=\"module\">Biobase.DataSource.DotParen.Import</span></li></ul></li><li><span\
+        \ class=\"module\">Biobase.DataSource.FR3D</span><ul class=\"modules\"><li><span\
+        \ class=\"module\">Biobase.DataSource.FR3D.Import</span></li></ul></li><li><span\
+        \ class=\"module\">Biobase.DataSource.InfernalCM</span><ul class=\"modules\"\
+        ><li><span class=\"module\">Biobase.DataSource.InfernalCM.Export</span></li><li><span\
+        \ class=\"module\">Biobase.DataSource.InfernalCM.Import</span></li></ul></li><li><span\
+        \ class=\"module\">Biobase.DataSource.MCFold</span><ul class=\"modules\"><li><span\
+        \ class=\"module\">Biobase.DataSource.MCFold.Conversions</span></li><li><span\
+        \ class=\"module\">Biobase.DataSource.MCFold.Import</span></li></ul></li><li><span\
+        \ class=\"module\">Biobase.DataSource.Mafft</span><ul class=\"modules\"><li><span\
+        \ class=\"module\">Biobase.DataSource.Mafft.Import</span></li></ul></li><li><span\
+        \ class=\"module\">Biobase.DataSource.Turner</span><ul class=\"modules\"><li><span\
+        \ class=\"module\">Biobase.DataSource.Turner.Import</span></li><li><span class=\"\
+        module\">Biobase.DataSource.Turner.Tables</span></li></ul></li><li><span class=\"\
+        module\">Biobase.DataSource.Vienna</span><ul class=\"modules\"><li><span class=\"\
+        module\">Biobase.DataSource.Vienna.Default</span></li><li><i>Export</i><ul\
+        \ class=\"modules\"><li><span class=\"module\">Biobase.DataSource.Vienna.Export.ViennaC</span></li><li><span\
+        \ class=\"module\">Biobase.DataSource.Vienna.Export.ViennaPar</span></li></ul></li><li><i>Import</i><ul\
+        \ class=\"modules\"><li><span class=\"module\">Biobase.DataSource.Vienna.Import.Turner</span></li><li><span\
+        \ class=\"module\">Biobase.DataSource.Vienna.Import.ViennaPar</span></li></ul></li><li><i>Modification</i><ul\
+        \ class=\"modules\"><li><span class=\"module\">Biobase.DataSource.Vienna.Modification.NonStandard</span></li><li><span\
+        \ class=\"module\">Biobase.DataSource.Vienna.Modification.Partition</span></li><li><span\
+        \ class=\"module\">Biobase.DataSource.Vienna.Modification.Temperature</span></li></ul></li></ul></li></ul></li><li><span\
+        \ class=\"module\">Biobase.RNA</span><ul class=\"modules\"><li><span class=\"\
+        module\">Biobase.RNA.Complex</span></li><li><span class=\"module\">Biobase.RNA.Hashes</span></li><li><span\
+        \ class=\"module\">Biobase.RNA.NucBounds</span></li><li><span class=\"module\"\
+        >Biobase.RNA.Pairs</span></li><li><span class=\"module\">Biobase.RNA.ViennaPair</span></li></ul></li><li><span\
+        \ class=\"module\">Biobase.ScoreTypes</span></li><li><span class=\"module\"\
+        >Biobase.Structure</span><ul class=\"modules\"><li><span class=\"module\"\
+        >Biobase.Structure.Constraint</span></li><li><span class=\"module\">Biobase.Structure.Shapes</span></li></ul></li><li><i>Types</i><ul\
+        \ class=\"modules\"><li><span class=\"module\">Biobase.Types.Convert</span></li><li><span\
+        \ class=\"module\">Biobase.Types.Energy</span></li><li><span class=\"module\"\
+        >Biobase.Types.Partition</span></li><li><span class=\"module\">Biobase.Types.Ring</span></li><li><span\
+        \ class=\"module\">Biobase.Types.Score</span></li></ul></li></ul></li></ul></div>\n\
+        \    </div>\n\n    \n\n    <div id=\"downloads\">\n      <h2>Downloads</h2><ul><li><a\
+        \ href=\"/package/Biobase-0.3.1.1/Biobase-0.3.1.1.tar.gz\">Biobase-0.3.1.1.tar.gz</a>\
+        \ [<a href=\"/package/Biobase-0.3.1.1/src/\">browse</a>] (Cabal source package)</li><li><a\
+        \ href=\"/package/Biobase-0.3.1.1/Biobase.cabal\">Package description</a>\
+        \ (as included in the package)</li></ul>\n    </div>\n\n    <div id=\"maintainer-corner\"\
+        >\n      <h4>Maintainer's Corner</h4>\n      <p>For package maintainers and\
+        \ hackage trustees</p>\n      <ul>\n        <li>\n          <a href=\"//hackage.haskell.org/package/Biobase/maintain\"\
+        >\n            edit package information\n          </a>\n        </li>\n \
+        \     </ul>\n    </div>\n\n    \n\n  </div> <!-- /content -->\n\n  <style>\n\
+        \  div#overlay {\n    position: fixed;\n    top: 0;\n    left: 0;\n    width:\
+        \ 100%;\n    height: 100%;\n    background: #000;\n    opacity: 0.5;\n   \
+        \ filter: alpha(opacity=50);\n  }\n\n  div#modal {\n    position: absolute;\n\
+        \    width: 200px;\n    background: rgba(0, 0, 0, 0.2);\n    border-radius:\
+        \ 14px;\n    padding: 8px;\n  }\n\n  div#modal #content {\n    border-radius:\
+        \ 8px;\n    background: #fff;\n    padding: 20px;\n  }\n\n  div#modal #close\
+        \ {\n    position: absolute;\n    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAbCAYAAABm409WAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABCdJREFUeNqcVl1IbFUUnjNzr47enLFkvKUoDNk1S0kxDPHBH4gCTfHJH4jgYgrpg1APmqjQS2gggiLViyBdkEAxjARFSPBBfPCv/LcRS5tSlLzXMcdxZvWt3d6HmTkzXW8LPs45a6/1rbX3XmvvYzL9hxBRC/AjRZcD4BGQE41Di0JciMfnQDF/n5+fm2ZmZkxnZ2e6TWFhoSknJ4T3a03TmkxPE5C/q9JbX1+nmpoaslgsxEPhSE9Pp6GhIbq5uVEuU8DztyLv7e2NShwOzIRcLpdy/S4auQNws0VHR8etiIORmppKh4eHKshXkQLwZtH4+Pgzkyvk5+cHL1dOMLmTNV6vV6xrsFNxcTHV1tZSSkpKiL6srIyam5spLS0tRM97IuWRHsDv97ezZmRkxJDV3t4enZ6e0sDAADkcDqGrqqqizc1NwdLe3m7YeFXCeoBAIPADa8rLyw0BZmdnhfX19TX19fVRY2OjTg4/amhoMPisra2J8YuLizeY3wzDfVY4nU6DcW5uLq2srAiHy8tLQi+I96urK1EM8fHxBp/h4WGV1EMOYOF3VsTExETdPO4JJZx5T08Pmc3miPZc4iwej+dTMweAwxOOZLfbja2uaSabzcaFoOtQKSYkY0pISIhY8jzGgqLx8zMO0xXp8XKEZ1NZWUk7Ozv6smxvb6vsaHBwkJKTkw0+XOossP2AAzx3dHQkeqClpcVgPDY2pm9yW1sblZSU0OLiotD5fD6qqKgIsefu56pj6ezsfJ0DJMzNzX3MCt798ADd3d20sbFBXV1dhOXSj4apqSmanp6mvLy8EPvq6mpBfnJysoLvFBEAyHK73aL26uvrQxx4CYqKigzVkp2dTRkZGSHnFb9vbW2JAPPz84MqwD3glYmJiS954Pj4WDj+n6Oiv7//3w47ONjhEx24zwGsQDrw9tLS0s/qmH7WINwTSpqamrqgywXE0X0XSAYKkpKSPgL572zEGxW+XNHuhNHRUZ28tbX1G+jLgQwuINHJgA14ALyXmJj4GY6H35TD8vKyqB5utri4OEHKs+Py5Y7l7mbBrefDMfI9xj8E3gJeBGLVtRkr1+tN4H3gC1TPT1gyD91CJicnT7Kysr6F3yfAOzJ7Lh6LupMt3HDAC3I/MoFXgZfr6upeKy0tvV9QUHAvMzPzjtVq1fb39/27u7vehYWFx2gq1+rq6hZseWP5+QvwB/AY8GlBl/8dIF4GSQWcEmmAg08SOVO2vQE8AP8FuAE+ml3Ar8CfktzLB7UW9odxV87ELjee1/ElGSBRjvGeXQMXwKkkdMusOeATOe6P9NuiZhIr+8MuiW2yImJkAJ7BpSQ7B/6S73/zsnDmssoi/hdpkkQFskrEyhlqMjvO8ioIPqkPPPXHK2hMkwWgYFbXuCRThIFwYiX/CDAA8quvgv5A6LkAAAAASUVORK5CYII=)\
+        \ 0 0 no-repeat;\n    width: 24px;\n    height: 27px;\n    display: block;\n\
+        \    text-indent: -9999px;\n    top: -7px;\n    right: -7px;\n  }\n\n  .cool\
+        \ {\n    color: gold;\n    text-shadow:\n    -1px -1px 0 #000,\n    1px -1px\
+        \ 0 #000,\n    -1px 1px 0 #000,\n    1px 1px 0 #000;\n  }\n\n  .uncool {\n\
+        \    color: white;\n    text-shadow:\n    -1px -1px 0 #000,\n    1px -1px\
+        \ 0 #000,\n    -1px 1px 0 #000,\n    1px 1px 0 #000;\n  }\n\n  .star-rating\
+        \ {\n    margin: 0;\n    list-style-type: none;\n    font-size: 150%;\n  \
+        \  color: black;\n  }\n\n  .star-rating li {\n    float: left;\n    margin:\
+        \ 0 1% 0 1%;\n    cursor: pointer;\n  }\n\n  .clear-rating {\n    font-size:\
+        \ small;\n  }\n\n</style>\n\n<script>\n  var modal = (function() {\n    var\n\
+        \      method = {},\n      overlay,\n      modal,\n      content,\n      close;\n\
+        \n    // Center the modal in the viewport\n    method.center = function()\
+        \ {\n      var top, left;\n\n      top = Math.max($(window).height() - modal.outerHeight(),\
+        \ 0) / 2;\n      left = Math.max($(window).width() - modal.outerWidth(), 0)\
+        \ / 2;\n\n      modal.css({\n        top: top + $(window).scrollTop(),\n \
+        \       left: left + $(window).scrollLeft()\n      });\n    };\n\n    // Open\
+        \ the modal\n    method.open = function(settings) {\n      content.empty().append(settings.content);\n\
+        \n      modal.css({\n        width: settings.width || 'auto',\n        height:\
+        \ settings.height || 'auto'\n      });\n\n      method.center();\n      $(window).bind('resize.modal',\
+        \ method.center);\n      modal.show();\n      overlay.show();\n    };\n\n\
+        \    // Close the modal\n    method.close = function() {\n      modal.hide();\n\
+        \      overlay.hide();\n      content.empty();\n      $(window).unbind('resize.modal');\n\
+        \    };\n\n    // Generate the HTML and add it to the document\n    overlay\
+        \ = $('<div id=\"overlay\"></div>');\n    modal = $('<div id=\"modal\"></div>');\n\
+        \    content = $('<div id=\"content\"></div>');\n    close = $('<a id=\"close\"\
+        \ href=\"#\">close</a>');\n\n    modal.hide();\n    overlay.hide();\n    modal.append(content,\
+        \ close);\n\n    $(document).ready(function() {\n      $('body').append(overlay,\
+        \ modal);\n    });\n\n    close.click(function(e) {\n      e.preventDefault();\n\
+        \      method.close();\n    });\n\n    return method;\n  }());\n</script>\n\
+        \n<script>\n  var votesUrl = '/package/Biobase/votes';\n  var star = {\n \
+        \   \"id\"       : undefined,\n    \"selected\" : false\n  };\n  $('.star').mouseenter(function()\
+        \ {\n    if (star.selected === false) {\n      fill_stars(this.id, \"in\"\
+        );\n    }\n  });\n  $('.star').mouseleave(function() {\n    if (star.selected\
+        \ === false) {\n      fill_stars(this.id, \"out\");\n    }\n  });\n  $('.star').click(function()\
+        \ {\n    fill_stars(3, \"out\");\n    fill_stars(this.id, \"in\");\n    star.selected\
+        \ = true;\n    star.id = this.id;\n    var formData = {\n      score: this.id\n\
+        \    }\n    $.post(votesUrl, formData).done(function(data) {\n        if(data\
+        \ != \"Package voted for successfully\") {\n            modal.open({ content:\
+        \ data});\n\t}\n    });\n  });\n  $('.clear-rating').click(function(e) {\n\
+        \    e.preventDefault()\n    fill_stars(3, \"out\");\n    star.selected =\
+        \ false;\n    $.ajax({\n      url: votesUrl,\n      type: 'DELETE',\n    \
+        \  success: function(result) {\n        if(result != \"Package vote removed\
+        \ successfully\") {\n          modal.open({ content: result });\n\t}\n   \
+        \   }\n    });\n  });\n  $(function() {\n       var userRating = parseInt($(\"\
+        #userRating\").val(),10);\n       if(userRating > 0) {\n         fill_stars(userRating,\"\
+        in\")\n         star.selected = true;\n         star.id       = userRating;\n\
+        \       }\n  });\n  var fill_stars = function(num, direction) {\n    if (direction\
+        \ === \"in\")\n      for (i = 0; i <= parseInt(num); i++)\n        $(\"#\"\
+        \ + i).removeClass('uncool').addClass('cool');\n    else\n      for (i = 0;\
+        \ i <= parseInt(num); i++)\n        $(\"#\" + i).removeClass('cool').addClass('uncool');\n\
+        \  }\n\n</script>\n  <div id=\"footer\">\n  <p>\n    Produced by <a href=\"\
+        /\">hackage</a> and <a href=\"http://haskell.org/cabal/\">Cabal</a> 2.0.1.99.\n\
+        \  </p>\n</div>\n\n  \n</body>\n</html>"}
+    headers:
+      accept-ranges: [bytes]
+      cache-control: ['public, max-age=300']
+      connection: [keep-alive]
+      content-type: [text/html; charset=utf-8]
+      date: ['Mon, 12 Mar 2018 02:04:41 GMT']
+      server: [nginx/1.10.3 (Ubuntu)]
+      vary: [Accept-Encoding]
+      via: [1.1 varnish]
+      x-cache: [MISS]
+      x-cache-hits: ['0']
+      x-served-by: [cache-mdw17349-MDW]
+      x-timer: ['S1520820281.772959,VS0,VE728']
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.11.0 at release-monitoring.org]
+    method: GET
+    uri: https://hackage.haskell.org/package/non-existent-package-that-does-not-exist
+  response:
+    body: {string: !!python/unicode "<!DOCTYPE html>\n<html>\n<head>\n<meta name=\"\
+        viewport\" content=\"width=device-width, initial-scale=1\">\n<link rel=\"\
+        stylesheet\" href=\"/static/hackage.css\" type=\"text/css\" />\n<link rel=\"\
+        search\" type=\"application/opensearchdescription+xml\" title=\"Hackage\"\
+        \ href=\"/packages/opensearch.xml\" />\n<title>Package not found | Hackage</title>\n\
+        </head>\n\n<body>\n<div id=\"page-header\">\n\n<ul class=\"links\" id=\"page-menu\"\
+        >\n\n    <li><a href=\"/\">Home</a></li>\n\n    <li>\n      <form action=\"\
+        /packages/search\" method=\"get\" class=\"search\">\n        <button type=\"\
+        submit\">Search&nbsp;</button>\n        <input type=\"text\" name=\"terms\"\
+        \ />\n      </form>\n    </li>\n\n    <li><a href=\"/packages/browse\">Browse</a></li>\n\
+        \n    <li><a href=\"/packages/recent\">What's new</a></li>\n\n    <li><a href=\"\
+        /upload\">Upload</a></li>\n\n    <li><a href=\"/accounts\">User accounts</a></li>\n\
+        \n</ul>\n\n<a class=\"caption\" href=\"/\">Hackage :: [Package]</a>\n\n\n\
+        </div>\n\n<div id=\"content\">\n<h1>Package not found</h1>\n\n<p>No such package\
+        \ in package index. <a href=\"/packages/search?terms=non-existent-package-that-does-not-exist\"\
+        >Search for related terms instead?</a></p>\n\n</div>\n</body>\n</html>"}
+    headers:
+      accept-ranges: [bytes]
+      connection: [keep-alive]
+      content-type: [text/html; charset=utf-8]
+      date: ['Mon, 12 Mar 2018 02:04:41 GMT']
+      server: [nginx/1.10.3 (Ubuntu)]
+      vary: ['Accept, Accept-Encoding']
+      via: [1.1 varnish]
+      x-cache: [MISS]
+      x-cache-hits: ['0']
+      x-served-by: [cache-mdw17349-MDW]
+      x-timer: ['S1520820282.688538,VS0,VE87']
+    status: {code: 404, message: Not Found}
+version: 1

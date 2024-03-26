@@ -1,0 +1,72 @@
+{% extends "master.html" %}
+
+{% block title %}Settings · Anitya{% endblock %}
+
+
+{% block body %}
+  <div class="intro">
+      <h3>
+        User ID
+      </h3>
+      <p>
+        Your user ID is {{ user.id }}
+      </p>
+  </div>
+
+  <div class="intro">
+      <h3>
+        API Tokens
+      </h3>
+      <p>
+        API keys are tokens used to authenticate you when using the REST API.
+        These keys are like passwords; make sure to store them safely.
+      </p>
+  </div>
+
+  {% if user.api_tokens %}
+  <div class="list-group mt-2">
+  {% for api_token in user.api_tokens %}
+    <div class="list-group-item">
+      <div class="row me-2">
+        <form role="form" class="d-flex gap-2" method="POST"
+        action="{{ url_for('.delete_token', token=api_token.token) }}">
+          <div class="col-3">
+            <label for="{{ api_token.token }}" class="col-form-label">
+                {{ api_token.description or '' }}
+            </label>
+          </div>
+          <div class="col-7">
+            <input id="{{ api_token.token }}" class="form-control input-sm disabled"
+                type="text" value="{{ api_token.token }}" readonly>
+          </div>
+          <div class="col-2">
+            <button class="btn btn-danger w-100" type="submit"
+                onclick="return confirm('Are you sure to delete this token?');"
+                title="Remove API Token">
+                Remove API Token
+            </button>
+          </div>
+          {{ form.csrf_token }}
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="row mt-2">
+    <form role="form" class="d-flex gap-2" action="{{ url_for('.new_token') }}" method="POST">
+      <div class="col-3">
+        {{ form.description.label(class="col-form-label") }}
+      </div>
+      <div class="col-7">
+        {{ form.description(class="form-control input-sm") }}
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary w-100" type="submit" title="Create API Token">
+          Create API Token
+        </button>
+      </div>
+      {{ form.csrf_token }}
+    </form>
+{% endblock %}

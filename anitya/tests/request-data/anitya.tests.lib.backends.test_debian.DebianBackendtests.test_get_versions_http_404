@@ -1,0 +1,40 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.10.1 at release-monitoring.org]
+    method: GET
+    uri: http://ftp.debian.org/debian/pool/main/f/foo/
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /debian/pool/main/f/foo/ was not found on this server.</p>
+
+        <hr>
+
+        <address>Apache Server at ftp.debian.org Port 80</address>
+
+        </body></html>
+
+        '}
+    headers:
+      connection: [Keep-Alive]
+      content-length: ['285']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Wed, 11 Jan 2017 21:14:13 GMT']
+      keep-alive: ['timeout=5, max=100']
+      server: [Apache]
+    status: {code: 404, message: Not Found}
+version: 1

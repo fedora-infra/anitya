@@ -1,0 +1,84 @@
+{% extends "master.html" %}
+
+{% block title %}Distributions Participating · Anitya{% endblock %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Distributions participating</h1>
+</div>
+
+<div class="row show-grid">
+  <div class="col-sm-6">
+    {% if total_page > 1 %}
+    <ul class="pagination pagination-sm">
+        {% if page > 1%}
+        <li class="page-item">
+            <a class="page-link" href="{{ page_url }}?page={{page - 1}}">
+                «
+            </a>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link"> « </a>
+            {% endif %}
+        </li>
+        <li class="page-item disabled">
+            <a class="page-link"> {{ page }} / {{ total_page }} </a>
+        </li>
+        {% if page < total_page %}
+        <li class="page-item">
+            <a class="page-link" href="{{ page_url }}?page={{page + 1}}">
+                »
+            </a>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link"> » </a>
+            {% endif %}
+        </li>
+    </ul>
+    {% endif %}
+  </div>
+</div>
+
+<div class="row">
+  <p>
+    Here is the list of all the distributions that anitya knows about.
+  </p>
+  <p>
+    <a href="{{ url_for('anitya_ui.add_distro') }}">
+      <button type="submit" class="btn btn-outline-success">
+        Add a new distribution
+      </button>
+    </a>
+  </p>
+  <div class="list-group">
+  {% for distro in distros %}
+    <div class="list-group-item">
+      <a href="{{ url_for('anitya_ui.distro', distroname=distro.name) }}">
+          {{distro.name}}
+      </a>
+      {% if is_admin %}
+      <div class="d-flex float-end">
+        <a href="{{ url_for('anitya_ui.edit_distro', distro_name=distro.name) }}">
+            <button type="submit" class="btn btn-info btn-sm me-2">
+            Edit
+            </button>
+        </a>
+        <a href="{{ url_for('anitya_ui.delete_distro', distro_name=distro.name) }}">
+            <button type="submit" class="btn btn-warning btn-sm">
+                Delete
+            </button>
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  {% else %}
+  <blockquote>
+      Oops, this is embarrassing. It seems that no distributions are participating
+      currently.
+  </blockquote>
+  {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

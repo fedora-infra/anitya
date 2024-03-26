@@ -1,0 +1,85 @@
+.pagination{
+    margin: 0;
+}
+
+.errors {
+    color:red;
+}
+
+.intro {
+    background-color: rgba(0,0,0,0.8);
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    padding: 10px 30px 10px 30px;
+    margin: auto;
+    margin-top: 20px;
+    max-width: 600px;
+    color: #fff;
+}
+
+#edit_btn, #flag_btn {
+  margin-top: -6px;
+}
+
+#flag_btn {
+  margin-right: 6px;
+}
+
+#submit_btn {
+  margin-right: 6px; /* Gives space between Cancel button */
+}
+
+textarea#reason {
+  width: 600px;
+  height: 120px;
+}
+
+#logs_form div, #flags_form div {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+#flag_list td, #flag_list th {
+    padding: 6px;
+}
+
+table input[type="text"] {
+    width: 300px;
+}
+
+#default_regex_txt {
+  background-color: #eee;
+}
+
+label {
+  white-space: nowrap;
+}
+
+.ui-front {
+    z-index: 10000!important;
+}
+
+.nav form {
+  padding-top: 0.2em;
+}
+
+.logs-table-seperator {
+  margin-top: 15px;
+}
+
+.sort-arrow {
+  display: inline-block;
+  margin-left: 5px;
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+
+.arrow-up {
+  border-bottom: 5px solid #000;
+}
+
+.arrow-down {
+  border-top: 5px solid #000;
+}

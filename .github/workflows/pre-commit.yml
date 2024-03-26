@@ -1,0 +1,19 @@
+name: pre-commit
+
+on:
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+    - uses: actions/setup-python@v5.0.0
+    - uses: snok/install-poetry@v1
+    - name: Install tox
+      run: |
+        pip install tox
+    - name: Run pre-commit
+      run: |
+        tox -e pre-commit

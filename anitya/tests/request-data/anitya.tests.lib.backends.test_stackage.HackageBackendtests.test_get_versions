@@ -1,0 +1,181 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.1.1 at release-monitoring.org
+    method: GET
+    uri: https://www.stackage.org/package/cpphs
+  response:
+    body:
+      string: "<!doctype html><!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en\">
+        <![endif]--><!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en\">
+        <![endif]--><!--[if IE 8]>    <html class=\"no-js ie8 oldie\" lang=\"en\">
+        <![endif]--><!--[if gt IE 8]><!--><html class=\"no-js\" lang=\"en\"> <!--<![endif]--><head><meta
+        charset=\"UTF-8\"><link href=\"//fonts.googleapis.com/css?family=Lato:400,700\"
+        rel=\"stylesheet\" type=\"text/css\"><link rel=\"search\" type=\"application/opensearchdescription+xml\"
+        title=\"Stackage.org hoogle\" href=\"/static/opensearchhoogle.xml\"><link
+        rel=\"search\" type=\"application/opensearchdescription+xml\" title=\"Stackage.org
+        package page\" href=\"/static/opensearchpackage.xml\"><title>cpphs :: Stackage
+        Server</title><meta name=\"og:site_name\" content=\"Stackage\"><meta name=\"twitter:card\"
+        content=\"summary\"><meta name=\"og:title\" content=\"cpphs\"><meta name=\"viewport\"
+        content=\"width=device-width,initial-scale=1\"><link href=\"https://www.stackage.org/feed\"
+        type=\"application/atom+xml\" rel=\"alternate\" title=\"Recent Stackage snapshots\">\n<link
+        rel=\"stylesheet\" href=\"https://www.stackage.org/static/combined/d9jEluDQ.css\"><link
+        rel=\"stylesheet\" href=\"https://www.stackage.org/static/combined/kYdVr3eT.css\"><style>form.hoogle{margin-bottom:20px}form.hoogle
+        .search{width:25em}form.hoogle input{margin-bottom:0}.exact-lookup{display:inline-block;margin-left:1em}.wrap{padding-left:0
+        !important;padding-right:0 !important;margin-right:0 !important;margin-left:0
+        !important}h3{color:#777}.table.snapshots{width:auto;margin-left:auto}.version{font-weight:bold}#disqus_thread{margin-top:2em}#upvote{margin-left:-1em}.fa-google-plus-square{color:#dd4b39\n}.fa-facebook-square{color:#3b5998\n}.fa-twittersquare{color:#0088cc\n}.social{border-top:1px
+        solid #ddd;padding-top:0.5em;margin-bottom:0.5em;margin-top:0.5em;border-bottom:1px
+        solid #ddd;padding-bottom:0.5em}.social .fa-thumbs-o-up{color:rgba(0, 39,
+        59, 0.34902);cursor:pointer}.social .fa-thumbs-o-up:hover{color:#3f4549\n
+        \ }.social .fa-thumbs-up{cursor:pointer}.dependencies{margin-top:0.5em;padding-top:0.5em}.docs{margin-top:0.5em;border-top:1px
+        solid #ddd;padding-top:0.5em}.docs ul{list-style-type:none}.docs ul li{line-height:1.5em
+        }.docs,.docs ul,.docs li{position:relative}.docs ul{list-style:none;padding-left:10px}.docs
+        li::before,.docs li::after{content:\"\";position:absolute;left:-12px}.docs
+        li::before{border-top:1px solid #DDD;top:9px;width:8px;height:0}.docs li::after{border-left:1px
+        solid #DDD;height:100%;width:0px;top:0}.docs ul > li:last-child::after{height:9px}.docs
+        > ul > li::after{border-left:none}.docs > ul > li::before{border-top:none}.downloads{margin-left:1em}.fa-plus-square{color:rgba(0,
+        39, 59, 0.34902);cursor:pointer}.fa-plus-square:hover{color:#3f4549\n}@media
+        (max-width: 767px) {.table.snapshots{margin-top:1em;margin-left:-8px}.container{padding-left:15px
+        !important;padding-right:15px !important;margin-right:0 !important;margin-left:0
+        !important}}.markdown-container{margin-top:1em;border-top:1px solid #ddd;padding-top:1em;margin-bottom:0em;border-bottom:1px
+        solid #ddd;padding-bottom:1em;background:#f4f4f4}.markdown-container h1,.markdown-container
+        h2,.markdown-container h3,.markdown-container h4,.markdown-container h5{color:#333;margin-top:0.5em;margin-bottom:0.5em;font-weight:normal}.markdown-container
+        h2,.markdown-container h3,.markdown-container h4,.markdown-container h5{margin-top:1em}.markdown-container
+        h1{font-size:3em}.markdown-container h2{font-size:2em}.markdown-container
+        h3{font-size:1.5em}.markdown-container h4,.markdown-container h5{font-size:1.2em}.markdown-container
+        ul,.markdown-container ol,.markdown-container p{margin-top:0.5em}.markdown-container
+        ul,.markdown-container ol{padding-left:1em}.markdown-container pre,.markdown-container
+        pre code,.markdown-container code{font-family:ubuntu mono, dejavu sans mono,
+        monospace;background:#f8f8f8}.markdown-container pre{padding:1em}.changelog-container{margin-top:0.5em}.changelog-container
+        h1{font-size:1.2em}.changelog-container h2,.changelog-container h3,.changelog-container
+        h4,.changelog-container h5{font-size:1.2em}h2.changes-title{margin-top:1em;font-size:1.5em;color:#555}.readme-container{margin-top:1em}.hidden{display:none}.expanding{position:relative}.expanding
+        .bottom-gradient{display:none;bottom:0;position:absolute;width:100%;cursor:pointer;height:150px;line-height:150px;text-align:center;background:-moz-linear-gradient(top,
+        rgba(244,244,244,0) 0%, rgba(244,244,244,1) 100%);background:-webkit-gradient(linear,
+        left top, left bottom, color-stop(0%,rgba(244,244,244,0)), color-stop(100%,rgba(244,244,244,1)));background:-webkit-linear-gradient(top,
+        rgba(244,244,244,0) 0%,rgba(244,244,244,1) 100%);background:-o-linear-gradient(top,
+        rgba(244,244,244,0) 0%,rgba(244,244,244,1) 100%);background:-ms-linear-gradient(top,
+        rgba(244,244,244,0) 0%,rgba(244,244,244,1) 100%);background:linear-gradient(to
+        bottom, rgba(244,244,244,0) 0%,rgba(244,244,244,1) 100%);filter:progid:DXImageTransform.Microsoft.gradient(
+        startColorstr='#00f4f4f4', endColorstr='#f4f4f4',GradientType=0 )}.expanding
+        .bottom-gradient:hover .fa{color:#000}.expanding .fa{font-size:5em;color:#666;line-height:150px;margin-top:25px}.expanding.collapsed{height:300px;overflow:hidden}.expanding.collapsed
+        .bottom-gradient{display:block}.likes{margin-right:1em}.no-tags{color:#888}.tag-count{border:0.1em
+        solid #d8d8d8;padding:0 0.25em;border-radius:0.25em;color:#999;font-size:0.8em}.tag-count:hover{border:0.1em
+        solid #333;color:#333;cursor:pointer;text-decoration:none}.tag-count.tagged{background:#06537d;border:none;color:#fff}div.plain-text{white-space:pre-wrap}.deprecated{color:#aaa}.deprecated
+        h1,.deprecated h2,.deprecated h3,.deprecated h4,.deprecated h5,.deprecated
+        a{color:#aaa}.deprecated .package-deprecation-warning{color:red}.deprecated
+        .in-favour-of{color:#333}.deprecated .in-favour-of .in-favour-of-list a{color:#08c}.add-to-nightly{border:1px
+        solid black;padding:0.5em;background:#eef}html{position:relative;min-height:100%}body{background:#f0f0f0;font-family:'Lato',
+        sans-serif;font-size:16px;margin-bottom:4em;padding-bottom:2em}code,pre{color:#555;font-family:\"ubuntu
+        mono\", monospace}.brand > img{height:20px}.navbar-inverse{margin-bottom:1em}.navbar-inverse
+        .navbar-inner{background:#0981c3}.navbar-inverse .navbar-inner .btn-navbar{background:#0981c3}.navbar-inverse
+        .navbar-inner *{color:#fff !important\n}.navbar-inverse .nav .active>a,.navbar-inverse
+        .nav .active>a:hover,.navbar-inverse .nav .active>a:focus{background:#0981c3
+        !important}.navbar-inner{border-color:#06537d !important}.footer{background:#0981c3;border-top:1px
+        solid #ddd;color:#fff;position:absolute;bottom:0;left:0;width:100%;height:4em;line-height:2em;text-align:center}.footer
+        a{color:#fff;font-weight:bold}.footer .span12{padding:0px 15px 0 0;line-height:4em}.alert{margin-top:1em}h1,h2,h3,h4,h5{color:#06537d\n}.content{line-height:30px}</style><!--[if
+        lt IE 9]><script src=\"//html5shiv.googlecode.com/svn/trunk/html5.js\"></script><![endif]--><script>document.documentElement.className
+        = document.documentElement.className.replace(/\\bno-js\\b/,'js');</script></head><body><div
+        id=\"main\" role=\"main\"><div class=\"navbar navbar-inverse navbar-static-top\"><div
+        class=\"navbar-inner\"><div class=\"container\"><button class=\"btn btn-navbar\"
+        type=\"button\" data-toggle=\"collapse\" data-target=\".nav-collapse\"><span
+        class=\"icon-bar\"></span>\n<span class=\"icon-bar\"></span>\n<span class=\"icon-bar\"></span>\n</button>\n<a
+        class=\"brand\" href=\"/\"><img src=\"/static/img/stackage.png\" title=\"Stackage\">\n</a>\n<div
+        class=\"nav-collapse collapse\"><ul class=\"nav\"><li> <a href=\"/#about\">About</a></li>\n<li>
+        <a href=\"/snapshots\">Snapshots</a></li>\n<li> <a href=\"/lts\">LTS</a></li>\n<li>
+        <a href=\"/nightly\">Nightly</a></li>\n<li> <a href=\"https://github.com/fpco/stackage#frequently-asked-questions\">FAQ</a></li>\n<li>
+        <a href=\"/blog\">Blog</a></li>\n</ul>\n</div>\n</div>\n</div>\n</div>\n<div
+        class=\"container\"><div class=\"container content \" id=\"snapshot-home\"><div
+        class=\"row\"><div class=\"span12\"><h1>cpphs</h1><p class=\"synopsis\">A
+        liberalised re-implementation of cpp, the C pre-processor.</p><p><a href=\"http://projects.haskell.org/cpphs/\">http://projects.haskell.org/cpphs/</a></p><table><tr><td
+        align=\"right\"><a href=\"https://www.stackage.org/lts-17.5\">LTS Haskell
+        17.5</a>:</td><td><span class=\"version\"><a href=\"https://www.stackage.org/lts-17.5/package/cpphs\">1.20.9.1</a></span></td></tr><tr><td
+        align=\"right\"><a href=\"https://www.stackage.org/nightly-2021-03-01\">Stackage
+        Nightly 2021-03-01</a>:</td><td><span class=\"version\"><a href=\"https://www.stackage.org/nightly-2021-03-01/package/cpphs\">1.20.9.1</a></span></td></tr><tr><td
+        align=\"right\">Latest on Hackage:</td><td><a href=\"https://hackage.haskell.org/package/cpphs\"><span
+        class=\"version\">1.20.9.1</span></a></td></tr></table><p><a href=\"https://www.stackage.org/package/cpphs/snapshots\">See
+        all snapshots <code>cpphs</code> appears in</a></p></div></div><div class=\"row\"><div
+        class=\"span12\"><div class=\"authorship\"><span class=\"license\">LicenseRef-LGPL
+        licensed and maintained </span>by <strong class=\"author\"><a href=\"mailto:Malcolm.Wallace@me.com\">Malcolm
+        Wallace</a></strong></div><div class=\"maintainer\"></div><div class=\"pantry-version\">This
+        version can be pinned in stack with:<code>cpphs-1.20.9.1@sha256:a02113e8dc76a21e99592b46bf17fc89f237e4f6dc58b641172294985d3c4f29,3183</code></div><div
+        class=\"docs\"><h4>Module documentation for 1.20.9.1</h4><form class=\"hoogle\"
+        action=\"https://www.stackage.org/lts-17.5/hoogle\"><input class=\"search\"
+        type=\"search\" autofocus name=\"q\" value=\"\" placeholder=\"Hoogle Search
+        Phrase\">\n<input class=\"btn\" type=\"submit\" value=\"Search\">\n<input
+        type=\"hidden\" name=\"package\" value=\"cpphs\">\n<label class=\"checkbox
+        exact-lookup\" for=\"exact\" title=\"Only find identifiers matching your search
+        term precisely\"><input type=\"checkbox\" name=\"exact\" id=\"exact\">\nExact
+        lookup</label>\n</form>\n<ul class=\"docs-list\"><li>Language<ul class=\"docs-list\"><li>Language.Preprocessor<ul
+        class=\"docs-list\"><li><a href=\"https://www.stackage.org/haddock/lts-17.5/cpphs-1.20.9.1/Language-Preprocessor-Cpphs.html\">Language.Preprocessor.Cpphs</a>\n</li>\n<li><a
+        href=\"https://www.stackage.org/haddock/lts-17.5/cpphs-1.20.9.1/Language-Preprocessor-Unlit.html\">Language.Preprocessor.Unlit</a>\n</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n</div></div></div></div><div
+        class=\"container content\" id=\"snapshot-home\"><div class=\"row\"><div class=\"span12\"><div
+        class=\"dependencies\" id=\"dependencies\">Depends on 4 packages<em>(<a href=https://www.stackage.org/lts-17.5/package/cpphs-1.20.9.1/deps>full
+        list with versions</a>)</em>:</em><div class=\"dep-list\"><a href=\"https://www.stackage.org/package/base\"
+        title=\"&gt;=4.3 &amp;&amp; &lt;5\">base</a>, <a href=\"https://www.stackage.org/package/directory\"
+        title=\"&lt;1.4\">directory</a>, <a href=\"https://www.stackage.org/package/polyparse\"
+        title=\"==1.13.*\">polyparse</a>, <a href=\"https://www.stackage.org/package/time\"
+        title=\"&gt;=1.5 &amp;&amp; &lt;1.11\">time</a></div></div><div class=\"reverse-dependencies\"
+        id=\"reverse-dependencies\">Used by 2 packages in <b>lts-17.5</b><em>(<a href=https://www.stackage.org/lts-17.5/package/cpphs-1.20.9.1/revdeps>full
+        list with versions</a>)</em>:</em><div class=\"dep-list\"><a href=\"https://www.stackage.org/package/hlint\"
+        title=\"&gt;=1.20.1\">hlint</a>, <a href=\"https://www.stackage.org/package/HTF\"
+        title=\"&gt;=1.19\">HTF</a></div></div></div></div></div><div class=\"markdown-container
+        readme-container\"><div class=\"container content\"><div class=\"row\"><div
+        class=\"span12 expanding\"><p>Cpphs is a re-implementation of the C pre-processor
+        that is both\nmore compatible with Haskell, and itself written in Haskell
+        so\nthat it can be distributed with compilers.</p><p>This version of the C
+        pre-processor is pretty-much\nfeature-complete and compatible with traditional
+        (K&amp;R)\npre-processors.  Additional features include: a plain-text mode;\nan
+        option to unlit literate code files; and an option to turn\noff macro-expansion.</p><div
+        class=\"bottom-gradient\"><i class=\"fa fa-angle-down\"></i></div></div></div></div></div></div>\n<div
+        class=\"footer\"><div class=\"container\"><div class=\"row\"><div class=\"span12\">A
+        service provided by\n<a href=\"http://www.fpcomplete.com/\">FP Complete</a>\n</div>\n</div>\n</div>\n</div>\n<script
+        src=\"https://www.stackage.org/static/combined/KkkNZOBL.js\"></script><script
+        src=\"https://www.stackage.org/static/combined/bPfKWATx.js\"></script><script>$(function(){\n
+        \ hljs.initHighlightingOnLoad();\n\n  $('.expanding').each(function(){\n    var
+        $this = $(this);\n    if ($this.height() > 300) {\n      $this.addClass('collapsed');\n
+        \     $this.find('.bottom-gradient').click(function(){\n        $this.removeClass('collapsed');\n
+        \     });\n    }\n  });\n});\n</script></div><!-- Prompt IE 6 users to install
+        Chrome Frame. Remove this if you want to support IE 6.  chromium.org/developers/how-tos/chrome-frame-getting-started
+        --><!--[if lt IE 7 ]><script src=\"//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js\"></script><script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script><![endif]--><script
+        async src=\"https://www.googletagmanager.com/gtag/js?id=UA-36928035-2\"></script><script>window.dataLayer
+        = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js',
+        new Date());gtag('config', 'UA-36928035-2');</script></body></html>"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Thu, 04 Mar 2021 14:18:20 GMT
+      Server:
+      - nginx/1.17.8
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      content-length:
+      - '13339'
+      vary:
+      - Accept, Accept-Language
+      x-envoy-decorator-operation:
+      - stackage-server-prod.stackage.svc.cluster.local:3000/*
+      x-envoy-upstream-service-time:
+      - '96'
+      x-xss-protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

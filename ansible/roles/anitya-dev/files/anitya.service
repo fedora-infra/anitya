@@ -1,0 +1,14 @@
+[Unit]
+Description=Anitya: a release monitoring project
+After=network.target
+Documentation=https://github.com/fedora-infra/anitya/
+
+[Service]
+Environment="FLASK_APP=/home/vagrant/devel/runserver.py"
+Environment="FLASK_DEBUG=1"
+Environment="ANITYA_WEB_CONFIG=/home/vagrant/anitya.toml"
+ExecStart=flask run --host 0.0.0.0 --port 5000
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

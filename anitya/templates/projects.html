@@ -1,0 +1,130 @@
+{% extends "master.html" %}
+
+{% block title %}Projects Monitored · Anitya{% endblock %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Projects {% if distroname %}of {{ distroname }} {% endif %}monitored</h1>
+</div>
+
+{% if distroname %}
+{% set page_url = url_for('anitya_ui.distro', distroname=distroname) %}
+{% else %}
+{% set page_url = url_for('anitya_ui.projects') %}
+{% endif %}
+
+<div class="row show-grid">
+  <div class="col-sm-6">
+    {% if total_page > 1 %}
+    <ul class="pagination pagination-sm">
+      {% if page > 1%}
+      <li class="page-item">
+        <a class="page-link" href="{{ page_url }}?page={{page - 1}}">
+          «
+        </a>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"> « </a>
+      {% endif %}
+      </li>
+      <li class="page-item disabled">
+        <a class="page-link"> {{ page }} / {{ total_page }} </a>
+      </li>
+      {% if page < total_page %}
+      <li class="page-item">
+        <a class="page-link" href="{{ page_url }}?page={{page + 1}}">
+            »
+        </a>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"> » </a>
+      {% endif %}
+      </li>
+    </ul>
+    {% endif %}
+  </div>
+
+  <div class="col-sm-6">
+    {% if distroname %}
+    <form action="{{ url_for('anitya_ui.distro_projects_search', distroname=distroname)}}" role="form" class="d-flex gap-2">
+    {% else %}
+    <form action="{{ url_for('anitya_ui.projects_search') }}" role="form" class="d-flex gap-2">
+    {% endif %}
+        <input type="text" name="pattern" placeholder="Project name" class="form-control input-sm"/>
+        <button type="submit" class="btn btn-sm btn-outline-success w-100">
+          Search {% if distroname %} {{ distroname }} {% endif %}
+        </button>
+    </form>
+  </div>
+</div>
+
+<div class="row">
+  <p>{{ projects_count }} projects found</p>
+  <div class="list-group">
+    {% if projects %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th scope="col">Name <a href="?page={{ page }}&sort=name_asc"><span class="sort-arrow arrow-up"></span></a> <a href="?page={{ page }}&sort=name_desc"><span class="sort-arrow arrow-down"></span></a></th>
+                  <th scope="col">Homepage <a href="?page={{ page }}&sort=homepage_asc"><span class="sort-arrow arrow-up"></span></a> <a href="?page={{ page }}&sort=homepage_desc"><span class="sort-arrow arrow-down"></span></a></th>
+                  <th scope="col">Backend <a href="?page={{ page }}&sort=backend_asc"><span class="sort-arrow arrow-up"></span></a> <a href="?page={{ page }}&sort=backend_desc"><span class="sort-arrow arrow-down"></span></a></th>
+                </tr>
+            </thead>
+        {% for project in projects %}
+            <tr>
+              <td>
+                <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
+                {{project.name}}
+                </a>
+              </td>
+              <td>
+                <a href="{{ project.homepage }}" target="_blank" rel="noopener noreferrer">
+                  {{ project.homepage }}
+                </a>
+              </td>
+              <td>{{ project.backend }}</td>
+            </tr>
+          {% endfor %}
+          </table>
+  {% else %}
+  <blockquote>
+      Oops, this is embarrassing. It seems that no projects are being
+      monitored currently.
+  </blockquote>
+  {% endif %}
+  </div>
+</div>
+
+<div class="row show-grid">
+  <div class="col-sm-6">
+    {% if total_page > 1 %}
+    <ul class="pagination pagination-sm">
+      {% if page > 1%}
+      <li class="page-item">
+        <a class="page-link" href="{{ page_url }}?page={{page - 1}}">
+            «
+        </a>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"> « </a>
+        {% endif %}
+      </li>
+      <li class="page-item disabled">
+        <a class="page-link"> {{ page }} / {{ total_page }} </a>
+      </li>
+      {% if page < total_page %}
+      <li class="page-item">
+        <a class="page-link" href="{{ page_url }}?page={{page + 1}}">
+            »
+        </a>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"> » </a>
+        {% endif %}
+      </li>
+    </ul>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

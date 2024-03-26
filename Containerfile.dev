@@ -1,0 +1,44 @@
+ARG FEDORA_VERSION
+FROM registry.fedoraproject.org/fedora:${FEDORA_VERSION}
+
+WORKDIR /app
+
+# Package installation steps are separated so they
+# can be cached individually on Dockerfile changes
+
+RUN dnf upgrade --refresh -y
+
+# Python3 and packages
+RUN dnf install -y python3 python3-devel python3-psycopg2 poetry
+
+# Dependencies for tox
+RUN dnf install -y git python3-tox libpq libpq-devel gcc graphviz
+
+# Install npm to manage javascript dependencies
+RUN dnf install -y npm
+
+RUN dnf autoremove -y && dnf clean all -y
+
+COPY anitya ./anitya
+COPY ansible ./ansible
+COPY .container ./.container
+COPY mypy.cfg alembic.ini anitya.wsgi createdb.py pyproject.toml tox.ini README.rst poetry.lock .
+
+# Copy over configuration files
+RUN mkdir -p /etc/anitya
+RUN cp /app/ansible/roles/anitya-dev/files/anitya.toml /etc/anitya
+RUN mkdir -p /etc/fedora-messaging
+RUN cp /app/.container/web/config.toml /etc/fedora-messaging
+
+# Download javascript dependencies
+RUN pushd anitya/static && npm install && popd
+
+# Poetry installation
+RUN poetry build
+RUN pip install dist/*.whl
+
+# Hotfix for social_auth-sqlalchemy
+# Should be removed when we switch to something else
+RUN sed -i 's/base64.encodestring/base64.encodebytes/g' /usr/local/lib/python3.11/site-packages/social_sqlalchemy/storage.py
+
+CMD ["sh","-c", "poetry build && pip install dist/*.whl && eval '$START_COMMAND'"]

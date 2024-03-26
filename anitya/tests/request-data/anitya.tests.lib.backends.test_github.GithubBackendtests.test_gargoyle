@@ -1,0 +1,55 @@
+interactions:
+- request:
+    body: !!python/unicode '{"query": "\n{\n    repository(owner: \"garglk\", name:
+      \"garglk\") {\n        refs (refPrefix: \"refs/tags/\", last:50,\n                orderBy:{field:TAG_COMMIT_DATE,
+      direction:ASC}) {\n            totalCount\n            edges {\n                cursor\n                node
+      {\n                    name\n                    target {\n                        commitUrl\n                    }\n                }\n            }\n        }\n    }\n    rateLimit
+      {\n        limit\n        remaining\n        resetAt\n    }\n}"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [bearer foobar]
+      Connection: [keep-alive]
+      Content-Length: ['526']
+      Content-Type: [application/json]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.13.2 at release-monitoring.org]
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA62TTWsbQQyG/8uc7VjzoflYyCH02gQK7aWlh/nQbJasvWF3TCnG/71aTKHU4Itz
+        0oz0SjyIVydRYouiO4mZ3qdlaNP8+/Kryxrb1OL4aToemujsRlDpifM/TiIf52WaRSeevzw+io04
+        TIXWhkPccxRLi2mkrQKwEKRjQYtzTzyFW6f9fmjf5pF1r629L91u1w/t9ZgeuLTrWTi+/Q0X8c57
+        byvakKSx3lMkKEUigquOwKHSKZrqpBTn83nzL11/m85LpfBuOk3Byoi+moq5Mk+lmgrabGPVtlgH
+        QWUFeEX36zZdAP8BdClm3pALiaz2OScrgRwZUjqiK4nAJqOTz//TvTzdpJPwIO/enKeiChksLhhp
+        kq/RR5WMKz4iplCcskb7Gq7YbruO2dTdbDWgttKjSWDYZxWUDklbdNWCwZRTAMO+9Fdstz0n5Qfs
+        jUwGysGR4oVBrOSYpbqEOiiDaBH4JqJXK9tPPgkxx0afB7679QLHywMBgCu0j8NhOPSiMyGENbFQ
+        e2KhUCD9VsJWhq/gO2M7o7+vE/8ACBNMojYEAAA=
+    headers:
+      access-control-allow-origin: ['*']
+      access-control-expose-headers: ['ETag, Link, Retry-After, X-GitHub-OTP, X-RateLimit-Limit,
+          X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes,
+          X-Poll-Interval']
+      cache-control: [no-cache]
+      content-encoding: [gzip]
+      content-security-policy: [default-src 'none']
+      content-type: [application/json; charset=utf-8]
+      date: ['Fri, 19 Oct 2018 08:07:04 GMT']
+      referrer-policy: ['origin-when-cross-origin, strict-origin-when-cross-origin']
+      server: [GitHub.com]
+      status: [200 OK]
+      strict-transport-security: [max-age=31536000; includeSubdomains; preload]
+      x-accepted-oauth-scopes: [repo]
+      x-content-type-options: [nosniff]
+      x-frame-options: [deny]
+      x-github-media-type: [github.v4; format=json]
+      x-github-request-id: ['52D0:1EF5:307D4FD:707BA77:5BC990A7']
+      x-oauth-scopes: ['repo:status']
+      x-ratelimit-limit: ['5000']
+      x-ratelimit-remaining: ['5000']
+      x-ratelimit-reset: ['1539938803']
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1

@@ -1,0 +1,105 @@
+{% extends "master.html" %}
+
+{% block title %}Delete Project · Anitya{% endblock %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Delete project {{ project.name }}?</h1>
+</div>
+
+<div class="row mt-2">
+  <div class="col-md-5">
+    <div class="list-group">
+      <div class="list-group-item list-group-item-secondary">
+        <h3>{{ project.name }}</h3>
+      </div>
+      <div class="list-group-item">
+        <form method="POST" action="{{ url_for('anitya_ui.delete_project',
+                                             project_id=project.id) }}" >
+            <table class="table">
+            <tr>
+                <th>Distribution</th>
+                <th>Package name </th>
+                <th>Version URL</th>
+                <th>Regex</th>
+            </tr>
+
+            {% for package in project.packages %}
+            <tr>
+                <td>{{ package.distro_name }}</td>
+                <td>{{ package.package_name }}</td>
+                {% if package.regex %}
+                <td>
+                <a href="{{ package.full_version_url }}">
+                    {{ package.version_url }}
+                </a>
+                </td>
+                <td>
+                {{ package.regex }}
+                </td>
+                {% else %}
+                <td></td>
+                <td></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+
+            </table>
+          {% if user and user.is_authenticated %}
+          {{ form.csrf_token }}
+            <div class="d-flex justify-content-end">
+              <a href="{{ url_for('anitya_ui.delete_project', project_id=project.id) }}">
+                  <button type="submit" name="confirm" value="Yes" class="btn btn-warning me-2">
+                  Delete project
+                  </button>
+              </a>
+              <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
+                  <button type="submit" class="btn btn-danger">
+                  Cancel
+                  </button>
+              </a>
+            </div>
+          {% endif %}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt-2">
+    {% if project.version %}
+    Latest version: {{ project.version }}
+    {% else %}
+    No version available for this package
+    {% endif %}
+</div>
+
+<div class="row mt-2">
+  <div class="col-md-5">
+    <div class="list-group">
+      <div class="list-group-item list-group-item-secondary">
+        <h3>Status</h3>
+      </div>
+      <div class="list-group-item">
+        <table class="table">
+          <tr>
+            <th>Status</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            {% if project.check_successful is none %}
+            <td>Not updated</td>
+            {% elif not project.check_successful %}
+            <td style="color:red;">Fail</td>
+            {% else %}
+            <td style="color:green;">OK</td>
+            {% endif %}
+            <td>{{ project.logs }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

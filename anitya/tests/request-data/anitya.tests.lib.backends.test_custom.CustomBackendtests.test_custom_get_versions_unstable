@@ -1,0 +1,202 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.2.0 at release-monitoring.org
+    method: GET
+    uri: https://git.savannah.gnu.org/cgit/grub.git
+  response:
+    body:
+      string: "<!DOCTYPE html>\n<html lang='en'>\n<head>\n<title>grub.git - GNU GRUB</title>\n<meta
+        name='generator' content='cgit v1.2.1'/>\n<meta name='robots' content='index,
+        nofollow'/>\n<link rel='stylesheet' type='text/css' href='/cgit/cgit.css'/>\n<link
+        rel='shortcut icon' href='/gitweb/git-favicon.png'/>\n<link rel='alternate'
+        title='Atom feed' href='https://git.savannah.gnu.org/cgit/grub.git/atom/?h=master'
+        type='application/atom+xml'/>\n<link rel='vcs-git' href='git://git.savannah.gnu.org/grub.git'
+        title='grub.git Git repository'/>\n<link rel='vcs-git' href='https://git.savannah.gnu.org/git/grub.git'
+        title='grub.git Git repository'/>\n<link rel='vcs-git' href='ssh://git.savannah.gnu.org/srv/git/grub.git'
+        title='grub.git Git repository'/>\n</head>\n<body>\n<div id='cgit'><table
+        id='header'>\n<tr>\n<td class='logo' rowspan='2'><a href='/cgit/'><img src='/cgit/cgit.png'
+        alt='cgit logo'/></a></td>\n<td class='main'><a href='/cgit/'>index</a> :
+        <a title='grub.git' href='/cgit/grub.git/'>grub.git</a></td><td class='form'><form
+        method='get'>\n<select name='h' onchange='this.form.submit();'>\n<option value='andrey/ext4_inline_data'>andrey/ext4_inline_data</option>\n<option
+        value='arm_coreboot'>arm_coreboot</option>\n<option value='grub-legacy'>grub-legacy</option>\n<option
+        value='leiflindholm/arm64'>leiflindholm/arm64</option>\n<option value='master'
+        selected='selected'>master</option>\n<option value='master-bad-anon-commit'>master-bad-anon-commit</option>\n<option
+        value='multiboot'>multiboot</option>\n<option value='multiboot2'>multiboot2</option>\n<option
+        value='next'>next</option>\n<option value='peter/devmapper'>peter/devmapper</option>\n<option
+        value='pfsmorigo/no-libgcc'>pfsmorigo/no-libgcc</option>\n<option value='pfsmorigo/vlantag'>pfsmorigo/vlantag</option>\n<option
+        value='phcoder/arm'>phcoder/arm</option>\n<option value='phcoder/arrows'>phcoder/arrows</option>\n<option
+        value='phcoder/brltty'>phcoder/brltty</option>\n<option value='phcoder/c3'>phcoder/c3</option>\n<option
+        value='phcoder/efi_compression'>phcoder/efi_compression</option>\n<option
+        value='phcoder/file_types'>phcoder/file_types</option>\n<option value='phcoder/filesize'>phcoder/filesize</option>\n<option
+        value='phcoder/gnuroot'>phcoder/gnuroot</option>\n<option value='phcoder/greffs'>phcoder/greffs</option>\n<option
+        value='phcoder/newports/s390'>phcoder/newports/s390</option>\n<option value='phcoder/ports/alpha'>phcoder/ports/alpha</option>\n<option
+        value='phcoder/rotate'>phcoder/rotate</option>\n<option value='phcoder/scratch'>phcoder/scratch</option>\n<option
+        value='phcoder/termux'>phcoder/termux</option>\n<option value='phcoder/verifiers'>phcoder/verifiers</option>\n<option
+        value='phcoder/xenfixes'>phcoder/xenfixes</option>\n</select> <input type='submit'
+        value='switch'/></form></td></tr>\n<tr><td class='sub'>GNU GRUB</td><td class='sub
+        right'></td></tr></table>\n<table class='tabs'><tr><td>\n<a class='active'
+        href='/cgit/grub.git/'>summary</a><a href='/cgit/grub.git/refs/'>refs</a><a
+        href='/cgit/grub.git/log/'>log</a><a href='/cgit/grub.git/tree/'>tree</a><a
+        href='/cgit/grub.git/commit/'>commit</a><a href='/cgit/grub.git/diff/'>diff</a></td><td
+        class='form'><form class='right' method='get' action='/cgit/grub.git/log/'>\n<select
+        name='qt'>\n<option value='grep'>log msg</option>\n<option value='author'>author</option>\n<option
+        value='committer'>committer</option>\n<option value='range'>range</option>\n</select>\n<input
+        class='txt' type='search' size='10' name='q' value=''/>\n<input type='submit'
+        value='search'/>\n</form>\n</td></tr></table>\n<div class='content'><table
+        summary='repository info' class='list nowrap'><tr class='nohover'><th class='left'>Branch</th><th
+        class='left'>Commit message</th><th class='left'>Author</th><th class='left'
+        colspan='2'>Age</th></tr>\n<tr><td><a href='/cgit/grub.git/log/?h=andrey/ext4_inline_data'>andrey/ext4_inline_data</a></td><td><a
+        href='/cgit/grub.git/commit/?h=andrey/ext4_inline_data'>Merge branch 'master'
+        into andrey/ext4_inline_data</a></td><td>Andrei Borzenkov</td><td colspan='2'><span
+        class='age-years' title='2016-07-11 07:23:13 +0300'>5 years</span></td></tr>\n<tr><td><a
+        href='/cgit/grub.git/log/?h=arm_coreboot'>arm_coreboot</a></td><td><a href='/cgit/grub.git/commit/?h=arm_coreboot'>indent
+        code coming from depthcharge and add missing acknowledgements</a></td><td>Vladimir
+        Serbinenko</td><td colspan='2'><span class='age-years' title='2017-05-08 22:21:31
+        +0200'>4 years</span></td></tr>\n<tr><td><a href='/cgit/grub.git/log/'>master</a></td><td><a
+        href='/cgit/grub.git/commit/'>Release 2.06~rc1</a></td><td>Daniel Kiper</td><td
+        colspan='2'><span class='age-days' title='2021-03-12 16:09:51 +0100'>5 days</span></td></tr>\n<tr><td><a
+        href='/cgit/grub.git/log/?h=multiboot2'>multiboot2</a></td><td><a href='/cgit/grub.git/commit/?h=multiboot2'>multiboot2:
+        Clarify usage of the address tag</a></td><td>Roger Pau Monn\xE9</td><td colspan='2'><span
+        class='age-years' title='2018-06-23 21:32:03 +0200'>3 years</span></td></tr>\n<tr><td><a
+        href='/cgit/grub.git/log/?h=next'>next</a></td><td><a href='/cgit/grub.git/commit/?h=next'>Merge
+        branch 'master' into next</a></td><td>Vladimir Serbinenko</td><td colspan='2'><span
+        class='age-years' title='2017-05-03 12:00:26 +0200'>4 years</span></td></tr>\n<tr><td><a
+        href='/cgit/grub.git/log/?h=phcoder/gnuroot'>phcoder/gnuroot</a></td><td><a
+        href='/cgit/grub.git/commit/?h=phcoder/gnuroot'>wip fs-tester</a></td><td>Vladimir
+        Serbinenko</td><td colspan='2'><span class='age-years' title='2017-01-27 18:48:27
+        +0000'>4 years</span></td></tr>\n<tr><td><a href='/cgit/grub.git/log/?h=phcoder/rotate'>phcoder/rotate</a></td><td><a
+        href='/cgit/grub.git/commit/?h=phcoder/rotate'>WIP: rotate.</a></td><td>Vladimir
+        Serbinenko</td><td colspan='2'><span class='age-years' title='2017-02-09 02:25:12
+        +0100'>4 years</span></td></tr>\n<tr><td><a href='/cgit/grub.git/log/?h=phcoder/termux'>phcoder/termux</a></td><td><a
+        href='/cgit/grub.git/commit/?h=phcoder/termux'>WIP: Disable hardlink test.</a></td><td>Vladimir
+        Serbinenko</td><td colspan='2'><span class='age-years' title='2017-05-03 12:50:09
+        +0200'>4 years</span></td></tr>\n<tr><td><a href='/cgit/grub.git/log/?h=phcoder/verifiers'>phcoder/verifiers</a></td><td><a
+        href='/cgit/grub.git/commit/?h=phcoder/verifiers'>Add verifiers documentation</a></td><td>Vladimir
+        Serbinenko</td><td colspan='2'><span class='age-years' title='2017-05-09 16:39:38
+        +0200'>4 years</span></td></tr>\n<tr><td><a href='/cgit/grub.git/log/?h=phcoder/xenfixes'>phcoder/xenfixes</a></td><td><a
+        href='/cgit/grub.git/commit/?h=phcoder/xenfixes'>xen: Fix parsing of XZ kernel.</a></td><td>Vladimir
+        Serbinenko</td><td colspan='2'><span class='age-years' title='2017-02-07 00:47:23
+        +0100'>4 years</span></td></tr>\n<tr class='nohover'><td colspan='5'><a href='/cgit/grub.git/refs/heads'>[...]</a></td></tr><tr
+        class='nohover'><td colspan='5'>&nbsp;</td></tr><tr class='nohover'><th class='left'>Tag</th><th
+        class='left'>Download</th><th class='left'>Author</th><th class='left' colspan='2'>Age</th></tr>\n<tr><td><a
+        href='/cgit/grub.git/tag/?h=grub-2.06-rc1'>grub-2.06-rc1</a></td><td><a href='/cgit/grub.git/snapshot/grub-2.06-rc1.tar.gz'>grub-2.06-rc1.tar.gz</a>&nbsp;&nbsp;</td><td>Daniel
+        Kiper</td><td colspan='2'><span class='age-days' title='2021-03-12 16:22:52
+        +0100'>5 days</span></td></tr>\n<tr><td><a href='/cgit/grub.git/tag/?h=grub-2.04'>grub-2.04</a></td><td><a
+        href='/cgit/grub.git/snapshot/grub-2.04.tar.gz'>grub-2.04.tar.gz</a>&nbsp;&nbsp;</td><td>Daniel
+        Kiper</td><td colspan='2'><span class='age-months' title='2019-07-04 16:01:59
+        +0200'>20 months</span></td></tr>\n<tr><td><a href='/cgit/grub.git/tag/?h=grub-2.04-rc1'>grub-2.04-rc1</a></td><td><a
+        href='/cgit/grub.git/snapshot/grub-2.04-rc1.tar.gz'>grub-2.04-rc1.tar.gz</a>&nbsp;&nbsp;</td><td>Vladimir
+        Serbinenko</td><td colspan='2'><span class='age-months' title='2019-04-09
+        11:30:29 +1000'>23 months</span></td></tr>\n<tr><td><a href='/cgit/grub.git/tag/?h=grub-2.02'>grub-2.02</a></td><td><a
+        href='/cgit/grub.git/snapshot/grub-2.02.tar.gz'>grub-2.02.tar.gz</a>&nbsp;&nbsp;</td><td>Vladimir
+        Serbinenko</td><td colspan='2'><span class='age-years' title='2017-04-25 16:24:22
+        +0200'>4 years</span></td></tr>\n<tr><td><a href='/cgit/grub.git/tag/?h=2.02'>2.02</a></td><td><a
+        href='/cgit/grub.git/snapshot/grub-2.02.tar.gz'>grub-2.02.tar.gz</a>&nbsp;&nbsp;</td><td>Vladimir
+        Serbinenko</td><td colspan='2'><span class='age-years' title='2017-04-25 16:24:03
+        +0200'>4 years</span></td></tr>\n<tr><td><a href='/cgit/grub.git/tag/?h=grub-2.02-rc2'>grub-2.02-rc2</a></td><td><a
+        href='/cgit/grub.git/snapshot/grub-2.02-rc2.tar.gz'>grub-2.02-rc2.tar.gz</a>&nbsp;&nbsp;</td><td>Vladimir
+        Serbinenko</td><td colspan='2'><span class='age-years' title='2017-03-15 09:35:10
+        +0100'>4 years</span></td></tr>\n<tr><td><a href='/cgit/grub.git/tag/?h=2.02-rc2'>2.02-rc2</a></td><td><a
+        href='/cgit/grub.git/snapshot/grub-2.02-rc2.tar.gz'>grub-2.02-rc2.tar.gz</a>&nbsp;&nbsp;</td><td>Vladimir
+        Serbinenko</td><td colspan='2'><span class='age-years' title='2017-03-15 09:34:42
+        +0100'>4 years</span></td></tr>\n<tr><td><a href='/cgit/grub.git/tag/?h=grub-2.02-rc1'>grub-2.02-rc1</a></td><td><a
+        href='/cgit/grub.git/snapshot/grub-2.02-rc1.tar.gz'>grub-2.02-rc1.tar.gz</a>&nbsp;&nbsp;</td><td>Vladimir
+        Serbinenko</td><td colspan='2'><span class='age-years' title='2017-02-04 00:14:07
+        +0100'>4 years</span></td></tr>\n<tr><td><a href='/cgit/grub.git/tag/?h=2.02-rc1'>2.02-rc1</a></td><td><a
+        href='/cgit/grub.git/snapshot/grub-2.02-rc1.tar.gz'>grub-2.02-rc1.tar.gz</a>&nbsp;&nbsp;</td><td>Vladimir
+        Serbinenko</td><td colspan='2'><span class='age-years' title='2017-02-03 20:18:10
+        +0100'>4 years</span></td></tr>\n<tr><td><a href='/cgit/grub.git/tag/?h=grub-2.02-beta3'>grub-2.02-beta3</a></td><td><a
+        href='/cgit/grub.git/snapshot/grub-2.02-beta3.tar.gz'>grub-2.02-beta3.tar.gz</a>&nbsp;&nbsp;</td><td>Vladimir
+        Serbinenko</td><td colspan='2'><span class='age-years' title='2016-03-02 10:36:59
+        +0100'>5 years</span></td></tr>\n<tr class='nohover'><td colspan='5'><a href='/cgit/grub.git/refs/tags'>[...]</a></td></tr><tr
+        class='nohover'><td colspan='5'>&nbsp;</td></tr><tr class='nohover'><th class='left'>Age</th><th
+        class='left'>Commit message</th><th class='left'>Author</th><th class='left'>Files</th><th
+        class='left'>Lines</th></tr>\n<tr><td><span class='age-days' title='2021-03-12
+        16:09:51 +0100'>5 days</span></td><td><a href='/cgit/grub.git/commit/?id=a53e530f8ad3770c3b03c208c08ae4162f68e3b1'>Release
+        2.06~rc1</a><span class='decoration'><a class='deco' href='/cgit/grub.git/commit/?id=a53e530f8ad3770c3b03c208c08ae4162f68e3b1'>HEAD</a><a
+        class='tag-annotated-deco' href='/cgit/grub.git/tag/?h=grub-2.06-rc1'>grub-2.06-rc1</a><a
+        class='branch-deco' href='/cgit/grub.git/log/'>master</a></span></td><td>Daniel
+        Kiper</td><td>1</td><td><span class='deletions'>-1</span>/<span class='insertions'>+1</span></td></tr>\n<tr><td><span
+        class='age-days' title='2021-03-11 20:57:42 +0100'>6 days</span></td><td><a
+        href='/cgit/grub.git/commit/?id=a166484483a94f6a414c09a1e449d51fb1beaf05'>arm/linux:
+        Fix ARM Linux header layout</a></td><td>Ard Biesheuvel</td><td>1</td><td><span
+        class='deletions'>-1</span>/<span class='insertions'>+1</span></td></tr>\n<tr><td><span
+        class='age-days' title='2021-03-10 15:23:34 +0100'>7 days</span></td><td><a
+        href='/cgit/grub.git/commit/?id=39cfb3eb5caa71967f4e9e741d859e15d645c32f'>style:
+        Format string macro should have a space between quotes</a></td><td>Glenn Washburn</td><td>2</td><td><span
+        class='deletions'>-21</span>/<span class='insertions'>+21</span></td></tr>\n<tr><td><span
+        class='age-days' title='2021-03-10 15:23:34 +0100'>7 days</span></td><td><a
+        href='/cgit/grub.git/commit/?id=57236f2dd93c0451e68aa9231eb4514c45218804'>grub/err:
+        Do compile-time format string checking on grub_error()</a></td><td>Glenn Washburn</td><td>1</td><td><span
+        class='deletions'>-1</span>/<span class='insertions'>+2</span></td></tr>\n<tr><td><span
+        class='age-days' title='2021-03-10 15:23:33 +0100'>7 days</span></td><td><a
+        href='/cgit/grub.git/commit/?id=e458caffb82a4cf84908be760d3959fcf5ca634a'>fs/zfs/zfs:
+        Use format code \"%llu\" for 64-bit uint bp-&gt;blk_prop in grub_error()</a></td><td>Glenn
+        Washburn</td><td>1</td><td><span class='deletions'>-2</span>/<span class='insertions'>+2</span></td></tr>\n<tr><td><span
+        class='age-days' title='2021-03-10 15:23:33 +0100'>7 days</span></td><td><a
+        href='/cgit/grub.git/commit/?id=e72139a76ed43b96a260eb7f7d149912788aa7db'>fs/hfsplus:
+        Use format code PRIuGRUB_UINT64_T for 64-bit typed fileblock in g...</a></td><td>Glenn
+        Washburn</td><td>1</td><td><span class='deletions'>-1</span>/<span class='insertions'>+2</span></td></tr>\n<tr><td><span
+        class='age-days' title='2021-03-10 15:22:18 +0100'>7 days</span></td><td><a
+        href='/cgit/grub.git/commit/?id=d028b1a35eb631a13ac7c77c081d66e6c9d86151'>dl/elf:
+        Use format code PRIxGRUB_UINT64_T for 64-bit arg in grub_error()</a></td><td>Glenn
+        Washburn</td><td>6</td><td><span class='deletions'>-7</span>/<span class='insertions'>+13</span></td></tr>\n<tr><td><span
+        class='age-days' title='2021-03-10 15:01:08 +0100'>7 days</span></td><td><a
+        href='/cgit/grub.git/commit/?id=c95ec30d48ccb765b8e3c2b783ca70bdb8ae19d6'>disk/ata:
+        Use format code PRIxGRUB_UINT64_T for 64-bit uint argument in grub_...</a></td><td>Glenn
+        Washburn</td><td>1</td><td><span class='deletions'>-4</span>/<span class='insertions'>+6</span></td></tr>\n<tr><td><span
+        class='age-days' title='2021-03-10 14:59:26 +0100'>7 days</span></td><td><a
+        href='/cgit/grub.git/commit/?id=562582543403b5e3868290e64635f49cf4007ed5'>loader/i386/pc/linux:
+        Use PRI* macros to get correct format string code acros...</a></td><td>Glenn
+        Washburn</td><td>1</td><td><span class='deletions'>-3</span>/<span class='insertions'>+4</span></td></tr>\n<tr><td><span
+        class='age-days' title='2021-03-10 14:56:06 +0100'>7 days</span></td><td><a
+        href='/cgit/grub.git/commit/?id=e2ac93f09ae755027e82c1b161cdebe5faa24602'>kern/efi/mm:
+        Format string error in grub_error()</a></td><td>Glenn Washburn</td><td>1</td><td><span
+        class='deletions'>-2</span>/<span class='insertions'>+3</span></td></tr>\n<tr
+        class='nohover'><td colspan='5'><a href='/cgit/grub.git/log/'>[...]</a></td></tr>\n<tr
+        class='nohover'><td colspan='5'>&nbsp;</td></tr><tr class='nohover'><th class='left'
+        colspan='5'>Clone</th></tr>\n<tr><td colspan='5'><a rel='vcs-git' href='git://git.savannah.gnu.org/grub.git'
+        title='grub.git Git repository'>git://git.savannah.gnu.org/grub.git</a></td></tr>\n<tr><td
+        colspan='5'><a rel='vcs-git' href='https://git.savannah.gnu.org/git/grub.git'
+        title='grub.git Git repository'>https://git.savannah.gnu.org/git/grub.git</a></td></tr>\n<tr><td
+        colspan='5'><a rel='vcs-git' href='ssh://git.savannah.gnu.org/srv/git/grub.git'
+        title='grub.git Git repository'>ssh://git.savannah.gnu.org/srv/git/grub.git</a></td></tr>\n</table></div>
+        <!-- class=content -->\n<div class='footer'>generated by <a href='https://git.zx2c4.com/cgit/about/'>cgit
+        v1.2.1</a> (<a href='https://git-scm.com/'>git 2.18.0</a>) at 2021-03-17 13:29:15
+        +0000</div>\n</div> <!-- id=cgit -->\n</body>\n</html>\n"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Wed, 17 Mar 2021 13:29:15 GMT
+      Expires:
+      - Wed, 17 Mar 2021 13:34:15 GMT
+      Last-Modified:
+      - Wed, 17 Mar 2021 13:29:15 GMT
+      Server:
+      - nginx/1.4.6 (Trisquel GNU/Linux)
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+    status:
+      code: 200
+      message: OK
+version: 1

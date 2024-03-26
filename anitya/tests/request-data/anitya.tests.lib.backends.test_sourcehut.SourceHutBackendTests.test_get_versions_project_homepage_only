@@ -1,0 +1,145 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.5.1 at release-monitoring.org
+    method: GET
+    uri: https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/rss.xml
+  response:
+    body:
+      string: "<rss version=\"2.0\"><channel><title>~sircmpwn/builds.sr.ht refs</title><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs</link><description>Git
+        refs for ~sircmpwn/builds.sr.ht</description><language>en</language><item><title>0.82.7</title><description>builds.sr.ht
+        0.82.7&lt;br /&gt;&lt;br /&gt;Adnan Maolood (1):&lt;br /&gt;      worker:
+        Run go fmt and go mod tidy&lt;br /&gt;&lt;br /&gt;Drew DeVault (2):&lt;br
+        /&gt;      Add schema.sql&lt;br /&gt;      schema.sql: add ON DELETE CASCADE
+        to gql_user_wh_delivery&lt;br /&gt;&lt;br /&gt;Haowen Liu (2):&lt;br /&gt;
+        \     Fix F35 build failure&lt;br /&gt;      Add rockylinux/9&lt;br /&gt;&lt;br
+        /&gt;Jason Lenz (4):&lt;br /&gt;      openbsd: during genimg, continue if
+        syspatch exit status is 0 or 2&lt;br /&gt;      openbsd: add symlink for old
+        version&lt;br /&gt;      openbsd: update latest snapshot weekly and old snapshot
+        monthly&lt;br /&gt;      openbsd: build.yml: use latest rather than numerical
+        release number</description><author>lhw@lunacd.com (Haowen Liu)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.7</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.7</guid><pubDate>Fri,
+        19 Aug 2022 12:21:30 -0700</pubDate></item><item><title>0.82.6</title><description>builds.sr.ht
+        0.82.6&lt;br /&gt;&lt;br /&gt;Drew DeVault (1):&lt;br /&gt;      openbsd/6.9:
+        drop</description><author>sir@cmpwn.com (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.6</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.6</guid><pubDate>Wed,
+        10 Aug 2022 10:48:56 +0200</pubDate></item><item><title>0.82.8</title><description>builds.sr.ht
+        0.82.8&lt;br /&gt;&lt;br /&gt;Francesco Gazzetta (1):&lt;br /&gt;      nixos:
+        remove 21.11, it reached EOL&lt;br /&gt;&lt;br /&gt;Haowen Liu (1):&lt;br
+        /&gt;      ubuntu/impish EOL</description><author>fgaz@fgaz.me (Francesco
+        Gazzetta)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.8</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.8</guid><pubDate>Sat,
+        06 Aug 2022 18:47:07 +0200</pubDate></item><item><title>0.82.3</title><description>builds.sr.ht
+        0.82.3&lt;br /&gt;&lt;br /&gt;Drew DeVault (3):&lt;br /&gt;      contrib/crontab:
+        update fedora&lt;br /&gt;      alpine/genimg: drop urandom service&lt;br /&gt;
+        \     alpine: update latest alias</description><author>sir@cmpwn.com (Drew
+        DeVault)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.3</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.3</guid><pubDate>Fri,
+        22 Jul 2022 10:44:00 +0200</pubDate></item><item><title>0.82.4</title><description>builds.sr.ht
+        0.82.4&lt;br /&gt;&lt;br /&gt;Simon Ser (2):&lt;br /&gt;      worker: stop
+        using a special exit status for complete-build&lt;br /&gt;      worker: add
+        -config flag</description><author>contact@emersion.fr (Simon Ser)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.4</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.4</guid><pubDate>Fri,
+        08 Jul 2022 19:38:56 +0000</pubDate></item><item><title>0.82.2</title><description>builds.sr.ht
+        0.82.2&lt;br /&gt;&lt;br /&gt;Drew DeVault (1):&lt;br /&gt;      alpine: add
+        3.16</description><author>sir@cmpwn.com (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.2</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.2</guid><pubDate>Sat,
+        02 Jul 2022 11:41:24 +0200</pubDate></item><item><title>0.82.1</title><description>builds.sr.ht
+        0.82.1&lt;br /&gt;&lt;br /&gt;Drew DeVault (1):&lt;br /&gt;      Update core-go</description><author>sir@cmpwn.com
+        (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.1</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.1</guid><pubDate>Thu,
+        30 Jun 2022 12:33:21 +0200</pubDate></item><item><title>0.81.2</title><description>builds.sr.ht
+        0.81.2&lt;br /&gt;&lt;br /&gt;Drew DeVault (1):&lt;br /&gt;      Drop Fedora
+        34 and NixOS 21.05</description><author>sir@cmpwn.com (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.81.2</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.81.2</guid><pubDate>Tue,
+        28 Jun 2022 09:49:53 +0200</pubDate></item><item><title>0.82.5</title><description>builds.sr.ht
+        0.82.5&lt;br /&gt;&lt;br /&gt;Jason Lenz (1):&lt;br /&gt;      openbsd: add
+        7.1</description><author>Jason@Lenzplace.org (Jason Lenz)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.5</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.5</guid><pubDate>Mon,
+        20 Jun 2022 17:56:56 -0500</pubDate></item><item><title>0.82.0</title><description>builds.sr.ht
+        0.82.0&lt;br /&gt;&lt;br /&gt;Adnan Maolood (2):&lt;br /&gt;      api/graph:
+        Implement GraphQL-native user webhooks&lt;br /&gt;      buildsrht: Use GraphQL
+        to submit builds</description><author>me@adnano.co (Adnan Maolood)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.0</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.82.0</guid><pubDate>Mon,
+        13 Jun 2022 16:52:23 -0400</pubDate></item><item><title>0.81.1</title><description>builds.sr.ht
+        0.81.1&lt;br /&gt;&lt;br /&gt;Dhruvin Gandhi (1):&lt;br /&gt;      alpine:
+        run setup-timezone conditionally&lt;br /&gt;&lt;br /&gt;Francesco Gazzetta
+        (1):&lt;br /&gt;      nixos: add 22.05&lt;br /&gt;&lt;br /&gt;Hanna (1):&lt;br
+        /&gt;      recursively initialize submodules&lt;br /&gt;&lt;br /&gt;Simon
+        Ser (1):&lt;br /&gt;      images/freebsd: upgrade to 13.1-RELEASE</description><author>fgaz@fgaz.me
+        (Francesco Gazzetta)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.81.1</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.81.1</guid><pubDate>Sat,
+        04 Jun 2022 20:13:19 +0200</pubDate></item><item><title>0.81.0</title><description>builds.sr.ht
+        0.81.0&lt;br /&gt;&lt;br /&gt;Drew DeVault (1):&lt;br /&gt;      qemu: upgrade
+        to 7.0.0</description><author>sir@cmpwn.com (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.81.0</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.81.0</guid><pubDate>Fri,
+        13 May 2022 10:14:30 +0200</pubDate></item><item><title>0.80.0</title><description>builds.sr.ht
+        0.80.0&lt;br /&gt;&lt;br /&gt;Conrad Hoffmann (1):&lt;br /&gt;      Add api-origin
+        to example config&lt;br /&gt;&lt;br /&gt;Drew DeVault (1):&lt;br /&gt;      contrib/submit_image_build:
+        add additional tag&lt;br /&gt;&lt;br /&gt;Haowen Liu (1):&lt;br /&gt;      ubuntu:
+        kinetic starts development</description><author>sir@cmpwn.com (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.80.0</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.80.0</guid><pubDate>Wed,
+        11 May 2022 12:37:33 +0200</pubDate></item><item><title>0.79.2</title><description>builds.sr.ht
+        0.79.2&lt;br /&gt;&lt;br /&gt;Haowen Liu (2):&lt;br /&gt;      ubuntu: apt
+        quiet install&lt;br /&gt;      ubuntu: fix multiple repositories&lt;br /&gt;&lt;br
+        /&gt;Konrad Borowski (1):&lt;br /&gt;      crontab: remove NixOS/21.05</description><author>lhw@lunacd.com
+        (Haowen Liu)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.79.2</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.79.2</guid><pubDate>Mon,
+        02 May 2022 21:39:52 -0700</pubDate></item><item><title>0.79.1</title><description>builds.sr.ht
+        0.79.1&lt;br /&gt;&lt;br /&gt;Drew DeVault (2):&lt;br /&gt;      jobs.py:
+        fix markupsafe import&lt;br /&gt;      loaders: fix jobs by ID</description><author>sir@cmpwn.com
+        (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.79.1</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.79.1</guid><pubDate>Thu,
+        28 Apr 2022 13:37:54 +0200</pubDate></item><item><title>0.79.0</title><description>builds.sr.ht
+        0.79.0&lt;br /&gt;&lt;br /&gt;Haowen Liu (2):&lt;br /&gt;      fedora: 36
+        released&lt;br /&gt;      Add fdisk to required packages&lt;br /&gt;&lt;br
+        /&gt;Thorben G\xFCnther (1):&lt;br /&gt;      api: Bump core-go</description><author>lhw@lunacd.com
+        (Haowen Liu)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.79.0</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.79.0</guid><pubDate>Fri,
+        22 Apr 2022 12:35:12 -0700</pubDate></item><item><title>0.78.0</title><description>builds.sr.ht
+        0.78.0&lt;br /&gt;&lt;br /&gt;xdavidwu (1):&lt;br /&gt;      master-shell:
+        implement -t option for tags</description><author>xdavidwuph@gmail.com (xdavidwu)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.78.0</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.78.0</guid><pubDate>Fri,
+        15 Apr 2022 14:39:19 +0800</pubDate></item><item><title>0.77.0</title><description>builds.sr.ht
+        0.77.0&lt;br /&gt;&lt;br /&gt;Benjamin Riefenstahl (3):&lt;br /&gt;      contrib/crontab
+        (debian/oldstable): Fix the title&lt;br /&gt;      images/control (_wait_boot):
+        Use \"echo\" instead of \"true\".&lt;br /&gt;      images/control: Distinguish
+        error messages&lt;br /&gt;&lt;br /&gt;Dhruvin Gandhi (1):&lt;br /&gt;      worker:
+        add fallback for instanceName of hutConfig&lt;br /&gt;&lt;br /&gt;Drew DeVault
+        (3):&lt;br /&gt;      api: refactor loader generation&lt;br /&gt;      api:
+        refactor build&lt;br /&gt;      Remove models_gen.go&lt;br /&gt;&lt;br /&gt;Haowen
+        Liu (1):&lt;br /&gt;      ubuntu: jammy jellyfish released&lt;br /&gt;&lt;br
+        /&gt;Simon Ser (1):&lt;br /&gt;      images/freebsd: upgrade to 12.3&lt;br
+        /&gt;&lt;br /&gt;xdavidwu (4):&lt;br /&gt;      master-shell: submit: fix
+        -n (note) option&lt;br /&gt;      images/archlinux: do not use keyring from
+        bootstrap host&lt;br /&gt;      images/archlinux: set gitconfig owner with
+        chroot&lt;br /&gt;      images/archlinux: use sudo inside chroot for run_normal</description><author>lhw@lunacd.com
+        (Haowen Liu)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.77.0</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.77.0</guid><pubDate>Sun,
+        10 Apr 2022 11:51:49 -0700</pubDate></item><item><title>0.76.0</title><description>builds.sr.ht
+        0.76.0&lt;br /&gt;&lt;br /&gt;Drew DeVault (1):&lt;br /&gt;      .builds/alpine.yml:
+        upgrade to 3.15&lt;br /&gt;&lt;br /&gt;Simon Ser (1):&lt;br /&gt;      worker:
+        create config file for hut</description><author>contact@emersion.fr (Simon
+        Ser)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.76.0</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.76.0</guid><pubDate>Thu,
+        24 Mar 2022 11:50:01 +0530</pubDate></item><item><title>0.75.3</title><description>builds.sr.ht
+        0.75.3&lt;br /&gt;&lt;br /&gt;Drew DeVault (1):&lt;br /&gt;      alpine: drop
+        3.11</description><author>sir@cmpwn.com (Drew DeVault)</author><link>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.75.3</link><guid>https://git.sr.ht/~sircmpwn/builds.sr.ht/refs/0.75.3</guid><pubDate>Mon,
+        21 Feb 2022 11:14:33 +0100</pubDate></item></channel></rss>"
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '10776'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'self' 'unsafe-inline'; img-src * data:; script-src
+        'self' 'unsafe-inline'
+      Content-Type:
+      - application/rss+xml; charset=utf-8
+      Date:
+      - Sun, 25 Sep 2022 19:11:53 GMT
+      Permissions-Policy:
+      - interest-cohort=()
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Clacks-Overhead:
+      - GNU Terry Pratchett
+    status:
+      code: 200
+      message: OK
+version: 1

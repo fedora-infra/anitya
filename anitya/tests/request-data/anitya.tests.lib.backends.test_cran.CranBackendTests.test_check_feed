@@ -1,0 +1,1117 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.11.0 at release-monitoring.org]
+    method: GET
+    uri: https://crandb.r-pkg.org/-/pkgreleases?descending=true&limit=50
+  response:
+    body: {string: "[ {\"date\":\"2018-03-12T20:18:48+00:00\",\"name\":\"xtractomatic\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"xtractomatic\",\"Version\"\
+        :\"3.4.2\",\"Title\":\"Accessing Environmental Data from ERD's ERDDAP Server\"\
+        ,\"Authors@R\":\"c(\\u000aperson(\\\"Roy\\\", \\\"Mendelssohn\\\", email =\
+        \ \\\"roy.mendelssohn@noaa.gov\\\", role = c(\\\"aut\\\",\\\"cre\\\")),\\\
+        u000aperson(\\\"Cindy\\\", \\\"Bessey\\\",  role = \\\"ctb\\\"),\\u000aperson(\\\
+        \"Dave\\\", \\\"Foley\\\", role = \\\"ctb\\\"))\",\"Description\":\"Contains\
+        \ three functions that access\\u000aenvironmental data from ERD's ERDDAP service\
+        \ <http://coastwatch.pfeg.noaa.gov/erddap>. The xtracto() function extracts\\\
+        u000adata along a trajectory for a given \\\"radius\\\" around the point.\
+        \ The\\u000axtracto_3D() function extracts data in a box. The xtractogon()\
+        \ function\\u000aextracts data in a polygon. There are also two helper functions\
+        \ to obtain\\u000ainformation about available data, and plotting functions\
+        \ to plot the results.\",\"Depends\":{\"R\":\">= 3.3.0\"},\"License\":\"CC0\"\
+        ,\"LazyData\":\"true\",\"URL\":\"https://github.com/rmendels/xtractomatic\"\
+        ,\"BugReports\":\"http://www.github.com/rmendels/xtractomatic/issues\",\"\
+        Imports\":{\"dplyr\":\"*\",\"httr\":\"*\",\"ncdf4\":\"*\",\"readr\":\"*\"\
+        ,\"sp\":\"*\",\"stats\":\"*\",\"utils\":\"*\"},\"Suggests\":{\"DT\":\"*\"\
+        ,\"ggplot2\":\"*\",\"knitr\":\"*\",\"lubridate\":\"*\",\"mapdata\":\"*\",\"\
+        reshape2\":\"*\",\"rmarkdown\":\"*\",\"webshot\":\"*\"},\"VignetteBuilder\"\
+        :\"knitr\",\"RoxygenNote\":\"6.0.1\",\"NeedsCompilation\":\"no\",\"Packaged\"\
+        :\"2018-03-12 21:01:09 UTC; rmendels\",\"Author\":\"Roy Mendelssohn [aut,\
+        \ cre],\\u000aCindy Bessey [ctb],\\u000aDave Foley [ctb]\",\"Maintainer\"\
+        :\"Roy Mendelssohn <roy.mendelssohn@noaa.gov>\",\"Repository\":\"CRAN\",\"\
+        Date/Publication\":\"2018-03-12 21:18:48 UTC\",\"crandb_file_date\":\"2018-03-12\
+        \ 21:20:22\",\"MD5sum\":\"500ed3ce513a104bba491b96527988b8\",\"date\":\"2018-03-12T20:18:48+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-12T19:21:35+00:00\",\"name\":\"FedData\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"FedData\",\"Type\":\"Package\"\
+        ,\"Title\":\"Functions to Automate Downloading Geospatial Data Available from\\\
+        u000aSeveral Federated Data Sources\",\"Description\":\"Functions to automate\
+        \ downloading geospatial data available from\\u000aseveral federated data\
+        \ sources (mainly sources maintained by the US Federal\\u000agovernment).\
+        \ Currently, the package enables extraction from seven datasets:\\u000aThe\
+        \ National Elevation Dataset digital elevation models (1 and 1/3 arc-second;\\\
+        u000aUSGS); The National Hydrography Dataset (USGS); The Soil Survey Geographic\\\
+        u000a(SSURGO) database from the National Cooperative Soil Survey (NCSS), which\
+        \ is\\u000aled by the Natural Resources Conservation Service (NRCS) under\
+        \ the USDA; the\\u000aGlobal Historical Climatology Network (GHCN), coordinated\
+        \ by National Climatic\\u000aData Center at NOAA; the Daymet gridded estimates\
+        \ of daily weather parameters\\u000afor North America, version 3, available\
+        \ from the Oak Ridge National Laboratory's\\u000aDistributed Active Archive\
+        \ Center (DAAC); the International Tree Ring Data Bank;\\u000aand the National\
+        \ Land Cover Database (NLCD).\",\"Version\":\"2.5.2\",\"Date\":\"2018-3-12\"\
+        ,\"Author\":\"R. Kyle Bocinsky [aut, cre],\\u000aDylan Beaudette [ctb],\\\
+        u000aScott Chamberlain [ctb]\",\"Authors@R\":\"c(person(given = c(\\\"R.\\\
+        \", \\\"Kyle\\\"), family = \\\"Bocinsky\\\",\\u000arole = c(\\\"aut\\\",\
+        \ \\\"cre\\\"), email = \\\"bocinsky@gmail.com\\\"),\\u000aperson(given =\
+        \ c(\\\"Dylan\\\"), family = \\\"Beaudette\\\", role = \\\"ctb\\\"),\\u000aperson(given\
+        \ = c(\\\"Scott\\\"), family = \\\"Chamberlain\\\", role = \\\"ctb\\\"))\"\
+        ,\"Maintainer\":\"R. Kyle Bocinsky <bocinsky@gmail.com>\",\"URL\":\"https://github.com/ropensci/FedData\"\
+        ,\"BugReports\":\"https://github.com/ropensci/FedData/issues\",\"License\"\
+        :\"MIT + file LICENSE\",\"Depends\":{\"R\":\">= 3.2.0\",\"sp\":\"*\"},\"Imports\"\
+        :{\"data.table\":\"*\",\"devtools\":\"*\",\"soilDB\":\"*\",\"igraph\":\"*\"\
+        ,\"curl\":\"*\",\"methods\":\"*\",\"rgdal\":\"*\",\"raster\":\"*\",\"Hmisc\"\
+        :\"*\",\"rgeos\":\"*\",\"readr\":\"*\",\"lubridate\":\"*\",\"dplyr\":\"*\"\
+        ,\"magrittr\":\"*\",\"foreach\":\"*\",\"ncdf4\":\"*\",\"stringr\":\"*\",\"\
+        sf\":\"*\"},\"Repository\":\"CRAN\",\"NeedsCompilation\":\"no\",\"RoxygenNote\"\
+        :\"6.0.1\",\"Suggests\":{\"testthat\":\"*\",\"covr\":\"*\",\"roxygen2\":\"\
+        *\"},\"LazyData\":\"true\",\"Packaged\":\"2018-03-12 20:13:20 UTC; bocinsky\"\
+        ,\"Date/Publication\":\"2018-03-12 20:21:35 UTC\",\"crandb_file_date\":\"\
+        2018-03-12 20:26:25\",\"MD5sum\":\"b578e6038166de077a504381e135f72c\",\"date\"\
+        :\"2018-03-12T19:21:35+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T19:00:04+00:00\"\
+        ,\"name\":\"MetaLandSim\",\"event\":\"released\",\"package\":{\"Package\"\
+        :\"MetaLandSim\",\"Type\":\"Package\",\"Title\":\"Landscape and Range Expansion\
+        \ Simulation\",\"Version\":\"1.0.2\",\"Date\":\"2018-03-12\",\"Depends\":{\"\
+        R\":\">= 2.10\",\"tcltk\":\"*\",\"igraph\":\"*\"},\"Imports\":{\"e1071\":\"\
+        *\",\"fgui\":\"*\",\"grDevices\":\"*\",\"graphics\":\"*\",\"googleVis\":\"\
+        *\",\"maptools\":\"*\",\"rgeos\":\"*\",\"rgrass7\":\"*\",\"raster\":\"*\"\
+        ,\"spatstat\":\"*\",\"stats\":\"*\",\"sp\":\"*\",\"minpack.lm\":\"*\",\"zipfR\"\
+        :\"*\",\"coda\":\"*\",\"knitr\":\"*\"},\"Suggests\":{\"rasterVis\":\"*\"},\"\
+        Author\":\"Frederico Mestre, Fernando Canovas, Benjamin Risk, Ricardo Pita,\\\
+        u000aAntonio Mira, Pedro Beja.\",\"Maintainer\":\"Frederico Mestre <mestre.frederico@gmail.com>\"\
+        ,\"Description\":\"Tools to generate random landscape graphs, evaluate species\\\
+        u000aoccurrence in dynamic landscapes, simulate future landscape occupation\
+        \ and\\u000aevaluate range expansion when new empty patches are available\
+        \ (e.g. as a\\u000aresult of climate change).\",\"License\":\"GPL (>= 2)\"\
+        ,\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-12 16:50:25 UTC; FMest\"\
+        ,\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12 20:00:04 UTC\"\
+        ,\"crandb_file_date\":\"2018-03-12 20:02:22\",\"MD5sum\":\"c2972148f7458947e7351766d35ff924\"\
+        ,\"date\":\"2018-03-12T19:00:04+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T18:51:22+00:00\"\
+        ,\"name\":\"stranger\",\"event\":\"released\",\"package\":{\"Package\":\"\
+        stranger\",\"Type\":\"Package\",\"Title\":\"Simple Toolkit in R for ANomalies\
+        \ Get, Explain and Report\",\"Version\":\"0.3.3\",\"Authors@R\":\"c(\\u000aperson(\\\
+        \"Eric\\\", \\\"Lecoutre\\\", email = \\\"eric.lecoutre@welovedatascience.com\\\
+        \", role = c(\\\"aut\\\",\\\"cre\\\")),\\u000aperson(\\\"Sven\\\", \\\"Wauters\\\
+        \", email = \\\"sven.wauters@welovedatascience.com\\\", role = \\\"aut\\\"\
+        ))\",\"Maintainer\":\"Eric Lecoutre <eric.lecoutre@welovedatascience.com>\"\
+        ,\"Description\":\"Framework for unsupervised anomalies detection that simplifies\
+        \ the user experience because the one does not need to be concerned with the\
+        \ many packages and functions that are required. Package 'stranger' acts as\
+        \ a wrapper around existing packages (\\\"a la 'caret' for modeling\\\") and\
+        \ provides a clean and uniform toolkit for evaluation/explain/reporting purposes.\"\
+        ,\"License\":\"GPL-2\",\"Encoding\":\"UTF-8\",\"LazyData\":\"true\",\"RoxygenNote\"\
+        :\"6.0.1\",\"URL\":\"https://welovedatascience.github.io/stranger,\\u000ahttps://github.com/welovedatascience/stranger\"\
+        ,\"Suggests\":{\"knitr\":\"*\",\"rmarkdown\":\"*\",\"prettydoc\":\"*\",\"\
+        dtplyr\":\"*\",\"testthat\":\"*\",\"FNN\":\"*\",\"dbscan\":\"*\",\"autoencoder\"\
+        :\"*\",\"rpart\":\"*\",\"ranger\":\"*\",\"abodOutlier\":\"*\",\"mvoutlier\"\
+        :\"*\",\"randomForest\":\"*\"},\"VignetteBuilder\":\"knitr\",\"Imports\":{\"\
+        assertthat\":\">= 0.2\",\"ggplot2\":\"*\",\"tidyr\":\"*\",\"grid\":\"*\",\"\
+        methods\":\"*\"},\"Depends\":{\"R\":\">= 2.10\",\"data.table\":\"*\",\"dplyr\"\
+        :\">= 0.7.3\"},\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-12 13:45:26\
+        \ UTC; ericl\",\"Author\":\"Eric Lecoutre [aut, cre],\\u000aSven Wauters [aut]\"\
+        ,\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12 19:51:22 UTC\"\
+        ,\"crandb_file_date\":\"2018-03-12 19:56:25\",\"MD5sum\":\"8ad7a98ef0092759177f07e30659fd46\"\
+        ,\"date\":\"2018-03-12T18:51:22+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T18:38:49+00:00\"\
+        ,\"name\":\"stringi\",\"event\":\"released\",\"package\":{\"Package\":\"stringi\"\
+        ,\"Version\":\"1.1.7\",\"Date\":\"2018-03-06\",\"Title\":\"Character String\
+        \ Processing Facilities\",\"Description\":\"Allows for fast, correct, consistent,\
+        \ portable,\\u000aas well as convenient character string/text processing in\
+        \ every locale\\u000aand any native encoding. Owing to the use of the ICU\
+        \ library,\\u000athe package provides R users with platform-independent functions\\\
+        u000aknown to Java, Perl, Python, PHP, and Ruby programmers. Available\\u000afeatures\
+        \ include: pattern searching (e.g., with ICU Java-like regular\\u000aexpressions\
+        \ or the Unicode Collation Algorithm), random string generation,\\u000acase\
+        \ mapping, string transliteration, concatenation,\\u000aUnicode normalization,\
+        \ date-time formatting and parsing, etc.\",\"URL\":\"http://www.gagolewski.com/software/stringi/\\\
+        u000ahttp://site.icu-project.org/ http://www.unicode.org/\",\"BugReports\"\
+        :\"http://github.com/gagolews/stringi/issues\",\"SystemRequirements\":\"ICU4C\
+        \ (>= 52, optional)\",\"Type\":\"Package\",\"Depends\":{\"R\":\">= 2.14\"\
+        },\"Imports\":{\"tools\":\"*\",\"utils\":\"*\",\"stats\":\"*\"},\"Biarch\"\
+        :\"TRUE\",\"License\":\"file LICENSE\",\"Author\":\"Marek Gagolewski [aut,\
+        \ cre], Bartek Tartanus [ctb],\\u000aand other contributors (stringi source\
+        \ code);\\u000aIBM and other contributors (ICU4C 55.1 source code);\\u000aUnicode,\
+        \ Inc. (Unicode Character Database)\",\"Maintainer\":\"Marek Gagolewski <gagolews@rexamine.com>\"\
+        ,\"RoxygenNote\":\"6.0.1\",\"NeedsCompilation\":\"yes\",\"Packaged\":\"2018-03-06\
+        \ 11:21:46 UTC; gagolews\",\"License_is_FOSS\":\"yes\",\"Repository\":\"CRAN\"\
+        ,\"Date/Publication\":\"2018-03-12 19:38:49 UTC\",\"crandb_file_date\":\"\
+        2018-03-12 19:44:24\",\"MD5sum\":\"c60e34512f15529f3b173759d9320bb2\",\"date\"\
+        :\"2018-03-12T18:38:49+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T18:27:01+00:00\"\
+        ,\"name\":\"wrapr\",\"event\":\"released\",\"package\":{\"Package\":\"wrapr\"\
+        ,\"Type\":\"Package\",\"Title\":\"Wrap R Tools for Debugging and Parametric\
+        \ Programming\",\"Version\":\"1.3.0\",\"Date\":\"2018-03-12\",\"Authors@R\"\
+        :\"c(\\u000aperson(\\\"John\\\", \\\"Mount\\\", email = \\\"jmount@win-vector.com\\\
+        \", role = c(\\\"aut\\\", \\\"cre\\\")),\\u000aperson(\\\"Nina\\\", \\\"Zumel\\\
+        \", email = \\\"nzumel@win-vector.com\\\", role = c(\\\"aut\\\")),\\u000aperson(family\
+        \ = \\\"Win-Vector LLC\\\", role = c(\\\"cph\\\"))\\u000a)\",\"URL\":\"https://github.com/WinVector/wrapr,\\\
+        u000ahttp://winvector.github.io/wrapr/\",\"Maintainer\":\"John Mount <jmount@win-vector.com>\"\
+        ,\"BugReports\":\"https://github.com/WinVector/wrapr/issues\",\"Description\"\
+        :\"Tools for writing and debugging R code. Provides: 'let()' which\\u000aconverts\
+        \ non-standard evaluation interfaces to parametric standard\\u000aevaluation\
+        \ interface, 'qc()' quoting concatenate, 'DebugFnW()' to\\u000acapture function\
+        \ context on error for debugging, dot-pipe, ':='\\u000anamed map builder,\
+        \ and lambda-abstraction.\",\"License\":\"GPL-3\",\"Encoding\":\"UTF-8\",\"\
+        LazyData\":\"true\",\"RoxygenNote\":\"6.0.1\",\"Suggests\":{\"testthat\":\"\
+        *\",\"knitr\":\"*\",\"rmarkdown\":\"*\"},\"VignetteBuilder\":\"knitr\",\"\
+        ByteCompile\":\"true\",\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-12\
+        \ 17:32:06 UTC; johnmount\",\"Author\":\"John Mount [aut, cre],\\u000aNina\
+        \ Zumel [aut],\\u000aWin-Vector LLC [cph]\",\"Repository\":\"CRAN\",\"Date/Publication\"\
+        :\"2018-03-12 19:27:01 UTC\",\"crandb_file_date\":\"2018-03-12 19:32:37\"\
+        ,\"MD5sum\":\"c30ff498233e76a9077f43ed7ece4907\",\"date\":\"2018-03-12T18:27:01+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-12T18:19:20+00:00\",\"name\":\"pacotest\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"pacotest\",\"Type\":\"\
+        Package\",\"Title\":\"Testing for Partial Copulas and the Simplifying Assumption\
+        \ in\\u000aVine Copulas\",\"Version\":\"0.3\",\"Date\":\"2018-03-12\",\"Authors@R\"\
+        :\"person(\\\"Malte S.\\\", \\\"Kurz\\\", email = \\\"malte.kurz@stat.uni-muenchen.de\\\
+        \",\\u000arole = c(\\\"aut\\\", \\\"cre\\\"))\",\"Maintainer\":\"Malte S.\
+        \ Kurz <malte.kurz@stat.uni-muenchen.de>\",\"Description\":\"Routines for\
+        \ two different test types, the Constant Conditional Correlation (CCC) test\
+        \ and the Vectorial Independence (VI) test are provided (Kurz and Spanhel\
+        \ (2017) <arXiv:1706.02338>). The tests can be applied to check whether a\
+        \ conditional copula coincides with its partial copula. Functions to test\
+        \ whether a regular vine copula satisfies the so-called simplifying assumption\
+        \ or to test a single copula within a regular vine copula to be a (j-1)-th\
+        \ order partial copula are available. The CCC test comes with a decision tree\
+        \ approach to allow testing in high-dimensional settings.\",\"License\":\"\
+        MIT + file LICENSE\",\"Imports\":{\"Rcpp\":\">= 0.11.4\",\"VineCopula\":\"\
+        >= 2.0.5\",\"numDeriv\":\"*\",\"ggplot2\":\">=\\u000a2.0.0\",\"gridExtra\"\
+        :\"*\",\"methods\":\"*\"},\"LinkingTo\":{\"Rcpp\":\"*\",\"RcppArmadillo\"\
+        :\"*\"},\"Suggests\":{\"testthat\":\"*\",\"covr\":\"*\"},\"BugReports\":\"\
+        https://github.com/MalteKurz/pacotest/issues\",\"NeedsCompilation\":\"yes\"\
+        ,\"Packaged\":\"2018-03-12 17:33:01 UTC; malte\",\"Author\":\"Malte S. Kurz\
+        \ [aut, cre]\",\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12 19:19:20\
+        \ UTC\",\"crandb_file_date\":\"2018-03-12 19:32:31\",\"MD5sum\":\"0063f35772a0eb38c280ce5e1bde94fa\"\
+        ,\"date\":\"2018-03-12T18:19:20+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T18:19:17+00:00\"\
+        ,\"name\":\"ruv\",\"event\":\"released\",\"package\":{\"Package\":\"ruv\"\
+        ,\"Title\":\"Detect and Remove Unwanted Variation using Negative Controls\"\
+        ,\"Description\":\"Implements the 'RUV' (Remove Unwanted Variation) algorithms.\
+        \  These algorithms attempt to adjust for systematic errors of unknown origin\
+        \ in high-dimensional data.  The algorithms were originally developed for\
+        \ use with genomic data, especially microarray data, but may be useful with\
+        \ other types of high-dimensional data as well.  These algorithms were proposed\
+        \ by Gagnon-Bartsch and Speed (2012), and by Gagnon-Bartsch, Jacob and Speed\
+        \ (2013).  The algorithms require the user to specify a set of negative control\
+        \ variables, as described in the references.  The algorithms included in this\
+        \ package are 'RUV-2', 'RUV-4', 'RUV-inv', 'RUV-rinv', 'RUV-I', and RUV-III',\
+        \ along with various supporting algorithms.\",\"Version\":\"0.9.7\",\"Date\"\
+        :\"2018-03-12\",\"Imports\":{\"stats\":\"*\",\"ggplot2\":\"*\",\"scales\"\
+        :\"*\",\"gridExtra\":\"*\"},\"Suggests\":{\"shiny\":\"*\",\"colourpicker\"\
+        :\"*\"},\"Author\":\"Johann Gagnon-Bartsch <johanngb@umich.edu>\",\"Maintainer\"\
+        :\"Johann Gagnon-Bartsch <johanngb@umich.edu>\",\"License\":\"GPL\",\"URL\"\
+        :\"http://www-personal.umich.edu/~johanngb/ruv/\",\"LazyLoad\":\"yes\",\"\
+        NeedsCompilation\":\"yes\",\"Packaged\":\"2018-03-12 16:46:57 UTC; johann\"\
+        ,\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12 19:19:17 UTC\"\
+        ,\"crandb_file_date\":\"2018-03-12 19:32:33\",\"MD5sum\":\"1ebea1c2fda22f2862dfff5382f91b9d\"\
+        ,\"date\":\"2018-03-12T18:19:17+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T18:18:08+00:00\"\
+        ,\"name\":\"SuperLearner\",\"event\":\"released\",\"package\":{\"Package\"\
+        :\"SuperLearner\",\"Type\":\"Package\",\"Title\":\"Super Learner Prediction\"\
+        ,\"Version\":\"2.0-23\",\"Date\":\"2018-03-09\",\"Authors@R\":\"c(person(\\\
+        \"Eric\\\", \\\"Polley\\\", email = \\\"polley.eric@mayo.edu\\\", role = c(\\\
+        \"aut\\\", \\\"cre\\\")), person(\\\"Erin\\\", \\\"LeDell\\\", role = c(\\\
+        \"aut\\\")), person(\\\"Chris\\\", \\\"Kennedy\\\", role = c(\\\"aut\\\")),\
+        \ person(\\\"Sam\\\", \\\"Lendle\\\", role = c(\\\"ctb\\\")), person(\\\"\
+        Mark\\\", \\\"van der Laan\\\", role = c(\\\"aut\\\", \\\"ths\\\")))\",\"\
+        Maintainer\":\"Eric Polley <polley.eric@mayo.edu>\",\"Description\":\"Implements\
+        \ the super learner prediction method and contains a\\u000alibrary of prediction\
+        \ algorithms to be used in the super learner.\",\"License\":\"GPL-3\",\"URL\"\
+        :\"https://github.com/ecpolley/SuperLearner\",\"Depends\":{\"R\":\">= 2.14.0\"\
+        ,\"nnls\":\"*\"},\"Imports\":{\"cvAUC\":\"*\"},\"Suggests\":{\"arm\":\"*\"\
+        ,\"bartMachine\":\"*\",\"biglasso\":\"*\",\"bigmemory\":\"*\",\"caret\":\"\
+        *\",\"class\":\"*\",\"dbarts\":\"*\",\"devtools\":\"*\",\"e1071\":\"*\",\"\
+        earth\":\"*\",\"extraTrees\":\"*\",\"gam\":\">= 1.15\",\"gbm\":\"*\",\"genefilter\"\
+        :\"*\",\"ggplot2\":\"*\",\"glmnet\":\"*\",\"ipred\":\"*\",\"KernelKnn\":\"\
+        *\",\"kernlab\":\"*\",\"knitr\":\"*\",\"lattice\":\"*\",\"LogicReg\":\"*\"\
+        ,\"MASS\":\"*\",\"mlbench\":\"*\",\"nloptr\":\"*\",\"nnet\":\"*\",\"party\"\
+        :\"*\",\"polspline\":\"*\",\"prettydoc\":\"*\",\"quadprog\":\"*\",\"randomForest\"\
+        :\"*\",\"ranger\":\"*\",\"RhpcBLASctl\":\"*\",\"ROCR\":\"*\",\"rmarkdown\"\
+        :\"*\",\"rpart\":\"*\",\"SIS\":\"*\",\"speedglm\":\"*\",\"spls\":\"*\",\"\
+        sva\":\"*\",\"testthat\":\"*\",\"xgboost\":\">= 0.6\"},\"LazyLoad\":\"yes\"\
+        ,\"VignetteBuilder\":\"knitr\",\"RoxygenNote\":\"6.0.1\",\"NeedsCompilation\"\
+        :\"no\",\"Packaged\":\"2018-03-12 01:52:22 UTC; mri5365\",\"Author\":\"Eric\
+        \ Polley [aut, cre],\\u000aErin LeDell [aut],\\u000aChris Kennedy [aut],\\\
+        u000aSam Lendle [ctb],\\u000aMark van der Laan [aut, ths]\",\"Repository\"\
+        :\"CRAN\",\"Date/Publication\":\"2018-03-12 19:18:08 UTC\",\"crandb_file_date\"\
+        :\"2018-03-12 19:32:35\",\"MD5sum\":\"f2fa7825107ac33a0541d44108493492\",\"\
+        date\":\"2018-03-12T18:18:08+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T18:18:02+00:00\"\
+        ,\"name\":\"packrat\",\"event\":\"released\",\"package\":{\"Package\":\"packrat\"\
+        ,\"Type\":\"Package\",\"Title\":\"A Dependency Management System for Projects\
+        \ and their R Package\\u000aDependencies\",\"Version\":\"0.4.9-1\",\"Author\"\
+        :\"Kevin Ushey, Jonathan McPherson, Joe Cheng, Aron Atkins, JJ Allaire\",\"\
+        Maintainer\":\"Kevin Ushey <kevin@rstudio.com>\",\"Description\":\"Manage\
+        \ the R packages your project depends\\u000aon in an isolated, portable, and\
+        \ reproducible way.\",\"License\":\"GPL-2\",\"Depends\":{\"R\":\">= 3.0.0\"\
+        },\"Imports\":{\"tools\":\"*\",\"utils\":\"*\"},\"Suggests\":{\"testthat\"\
+        :\">= 0.7\",\"devtools\":\"*\",\"httr\":\"*\",\"knitr\":\"*\",\"rmarkdown\"\
+        :\"*\"},\"Enhances\":{\"BiocInstaller\":\"*\"},\"URL\":\"https://github.com/rstudio/packrat/\"\
+        ,\"BugReports\":\"https://github.com/rstudio/packrat/issues\",\"RoxygenNote\"\
+        :\"6.0.1\",\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-12 17:09:26\
+        \ UTC; kevin\",\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12 19:18:02\
+        \ UTC\",\"crandb_file_date\":\"2018-03-12 19:32:30\",\"MD5sum\":\"0959a05377c082de0932368f844846cc\"\
+        ,\"date\":\"2018-03-12T18:18:02+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T18:16:28+00:00\"\
+        ,\"name\":\"spp\",\"event\":\"released\",\"package\":{\"Package\":\"spp\"\
+        ,\"Type\":\"Package\",\"Title\":\"ChIP-Seq Processing Pipeline\",\"Version\"\
+        :\"1.15.4\",\"Date\":\"2018-02-01\",\"Author\":\"Peter K\",\"Depends\":{\"\
+        R\":\">= 3.3.0\",\"Rcpp\":\"*\"},\"Imports\":{\"Rsamtools\":\"*\",\"caTools\"\
+        :\"*\",\"parallel\":\"*\",\"graphics\":\"*\",\"stats\":\"*\"},\"Suggests\"\
+        :{\"methods\":\"*\"},\"LinkingTo\":{\"Rcpp\":\"*\",\"BH\":\">= 1.66\"},\"\
+        OS_type\":\"unix\",\"Maintainer\":\"Peter Kharchenko <Peter_Kharchenko@hms.harvard.edu>\"\
+        ,\"Description\":\"R package for analysis of ChIP-seq and other functional\
+        \ sequencing data [Kharchenko PV (2008) <DOI:10.1038/nbt.1508>].\",\"License\"\
+        :\"GPL-2\",\"LazyLoad\":\"yes\",\"Note\":\"revised for compliance with CRAN\
+        \ by K.Pal and C.M.Livi\",\"NeedsCompilation\":\"yes\",\"Packaged\":\"2018-03-12\
+        \ 09:24:12 UTC; clivi\",\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12\
+        \ 19:16:28 UTC\",\"crandb_file_date\":\"2018-03-12 19:32:34\",\"MD5sum\":\"\
+        0dc0b74c3f45622925385013fa423366\",\"date\":\"2018-03-12T18:16:28+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-12T18:13:24+00:00\",\"name\":\"LDheatmap\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"LDheatmap\",\"Version\"\
+        :\"0.99-4\",\"Date\":\"2018-03-11\",\"Title\":\"Graphical Display of Pairwise\
+        \ Linkage Disequilibria Between SNPs\",\"Author\":\"Ji-Hyung Shin <shin@sfu.ca>,\
+        \ Sigal Blay <sblay@sfu.ca>,\\u000aNicholas Lewin-Koh <nikko@hailmail.net>,\
+        \ Brad McNeney\\u000a<mcneney@sfu.ca>, Jinko Graham <jgraham@sfu.ca>\",\"\
+        Maintainer\":\"Brad McNeney <mcneney@sfu.ca>\",\"Depends\":{\"R\":\">= 2.14.0\"\
+        },\"Imports\":{\"grid\":\"*\",\"genetics\":\"*\",\"snpStats\":\"*\"},\"Suggests\"\
+        :{\"rtracklayer\":\"*\",\"GenomicRanges\":\"*\",\"GenomeInfoDb\":\"*\",\"\
+        IRanges\":\"*\",\"lattice\":\"*\",\"ggplot2\":\"*\"},\"Description\":\"Produces\
+        \ a graphical display, as a heat map, of measures\\u000aof pairwise linkage\
+        \ disequilibria between SNPs. Users may\\u000aoptionally include the physical\
+        \ locations or genetic map\\u000adistances of each SNP on the plot.\",\"License\"\
+        :\"GPL-3\",\"URL\":\"http://stat.sfu.ca/statgen/research/ldheatmap.html\"\
+        ,\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12 19:13:24 UTC\"\
+        ,\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-12 18:53:25 UTC; mcneney\"\
+        ,\"crandb_file_date\":\"2018-03-12 19:32:28\",\"MD5sum\":\"02dc3a5c029e4f654e86bc84985d9bfb\"\
+        ,\"date\":\"2018-03-12T18:13:24+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T18:12:35+00:00\"\
+        ,\"name\":\"NlinTS\",\"event\":\"released\",\"package\":{\"Package\":\"NlinTS\"\
+        ,\"Type\":\"Package\",\"Title\":\"Non Linear Time Series Analysis\",\"Version\"\
+        :\"1.2\",\"Date\":\"2018-02-22\",\"Authors@R\":\"c(person(\\\"Youssef\\\"\
+        , \\\"Hmamouche\\\", role = c(\\\"aut\\\", \\\"cre\\\"), email = \\\"hmamoucheyussef@gmail.com\\\
+        \"), person(\\\"Sylvain\\\", \\\"Barthelemy\\\", role = c(\\\"cph\\\"), email\
+        \ = \\\"sylbarth@gmail.com\\\"))\",\"Maintainer\":\"Youssef Hmamouche <hmamoucheyussef@gmail.com>\"\
+        ,\"Description\":\"Models for time series forecasting and causality detection.\
+        \  The main functionalities of this package consist of a neural network Vector\
+        \ Auto-Regressive model, the classical Granger causality test C.W.J.Granger\
+        \ (1980) <doi:10.1016/0165-1889(80)90069-X>,  and  a non-linear version of\
+        \ it based on feedforward neural networks.\",\"License\":\"GNU General Public\
+        \ License\",\"Depends\":{\"Rcpp\":\"*\"},\"Imports\":{\"methods\":\"*\",\"\
+        timeSeries\":\"*\",\"Rdpack\":\"*\"},\"RdMacros\":\"Rdpack\",\"LinkingTo\"\
+        :{\"Rcpp\":\"*\"},\"SystemRequirements\":\"C++11\",\"NeedsCompilation\":\"\
+        yes\",\"RoxygenNote\":\"6.0.1\",\"Packaged\":\"2018-03-11 03:25:42 UTC; youssef\"\
+        ,\"Author\":\"Youssef Hmamouche [aut, cre],\\u000aSylvain Barthelemy [cph]\"\
+        ,\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12 19:12:35 UTC\"\
+        ,\"crandb_file_date\":\"2018-03-12 19:32:26\",\"MD5sum\":\"62260d9d0934e5335d9646aa9e9518a1\"\
+        ,\"date\":\"2018-03-12T18:12:35+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T17:01:06+00:00\"\
+        ,\"name\":\"TimeVTree\",\"event\":\"released\",\"package\":{\"Package\":\"\
+        TimeVTree\",\"Type\":\"Package\",\"Title\":\"Survival Analysis of Time Varying\
+        \ Coefficients Using a\\u000aTree-Based Approach\",\"Version\":\"0.3.1\",\"\
+        Date\":\"2018-03-12\",\"Authors@R\":\"c(\\u000aperson(\\\"Sudeshna\\\", \\\
+        \"Adak\\\", role = \\\"aut\\\"),\\u000aperson(\\\"Ronghui\\\", \\\"Xu\\\"\
+        , role = \\\"aut\\\"),\\u000aperson(\\\"Euyhyun\\\", \\\"Lee\\\", role = c(\\\
+        \"trl\\\", \\\"cre\\\"),email = \\\"e4lee@ucsd.edu\\\"),\\u000aperson(\\\"\
+        Steven\\\", \\\"Edland\\\", role = \\\"ctb\\\"),\\u000aperson(\\\"Lon\\\"\
+        , \\\"White\\\", role = \\\"ctb\\\"))\",\"Imports\":{\"survival\":\"*\",\"\
+        grDevices\":\"*\",\"graphics\":\"*\",\"stats\":\"*\"},\"Description\":\"Estimates\
+        \ time varying regression effects under Cox type models in\\u000asurvival\
+        \ data using classification and regression tree. The codes in this package\
+        \ were\\u000aoriginally written in S-Plus for the paper \\\"Survival Analysis\
+        \ with Time-Varying Regression\\u000aEffects Using a Tree-Based Approach,\\\
+        \" by Xu, R. and Adak, S. (2002) <doi:10.1111/j.0006-341X.2002.00305.x>, Biometrics,\
+        \ 58: 305-315.\\u000aDevelopment of this package was supported by NIH grants\
+        \ AG053983 and AG057707,\\u000aand by the UCSD Altman Translational Research\
+        \ Institute, NIH grant UL1TR001442.\\u000aThe content is solely the responsibility\
+        \ of the authors and does not necessarily\\u000arepresent the official views\
+        \ of the NIH.\\u000aThe example data are from the Honolulu Heart Program/Honolulu\
+        \ Asia Aging Study (HHP/HAAS).\",\"License\":\"GPL-2\",\"RoxygenNote\":\"\
+        6.0.1\",\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-12 17:41:37 UTC;\
+        \ e4lee\",\"Author\":\"Sudeshna Adak [aut],\\u000aRonghui Xu [aut],\\u000aEuyhyun\
+        \ Lee [trl, cre],\\u000aSteven Edland [ctb],\\u000aLon White [ctb]\",\"Maintainer\"\
+        :\"Euyhyun Lee <e4lee@ucsd.edu>\",\"Repository\":\"CRAN\",\"Date/Publication\"\
+        :\"2018-03-12 18:01:06 UTC\",\"crandb_file_date\":\"2018-03-12 18:02:22\"\
+        ,\"MD5sum\":\"55d2720ea72ed45bdd532299e1def68b\",\"date\":\"2018-03-12T17:01:06+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-12T15:51:52+00:00\",\"name\":\"randomizr\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"randomizr\",\"Title\":\"\
+        Easy-to-Use Tools for Common Forms of Random Assignment and\\u000aSampling\"\
+        ,\"Version\":\"0.12.0\",\"Authors@R\":\"c(person(\\\"Alexander\\\", \\\"Coppock\\\
+        \", email = \\\"acoppock@gmail.com\\\", role = c(\\\"aut\\\", \\\"cre\\\"\
+        )),\\u000aperson(\\\"Jasper\\\", \\\"Cooper\\\", email = \\\"jaspercooper@gmail.com\\\
+        \", role = c(\\\"ctb\\\")),\\u000aperson(\\\"Neal\\\", \\\"Fultz\\\", email\
+        \ = \\\"nfultz@gmail.com\\\", role = c(\\\"ctb\\\"), comment = \\\"C version\
+        \ of restricted partitions\\\"))\",\"Description\":\"Generates random assignments\
+        \ for common experimental designs and\\u000arandom samples for common sampling\
+        \ designs.\",\"URL\":\"http://randomizr.declaredesign.org,\\u000ahttps://github.com/DeclareDesign/randomizr\"\
+        ,\"BugReports\":\"https://github.com/DeclareDesign/randomizr/issues\",\"Depends\"\
+        :{\"R\":\">= 3.3.0\"},\"License\":\"MIT + file LICENSE\",\"LazyData\":\"true\"\
+        ,\"Suggests\":{\"knitr\":\"*\",\"dplyr\":\"*\",\"blockTools\":\"*\",\"testthat\"\
+        :\"*\",\"rmarkdown\":\"*\",\"ri\":\"*\"},\"VignetteBuilder\":\"knitr\",\"\
+        RoxygenNote\":\"6.0.1\",\"NeedsCompilation\":\"yes\",\"Packaged\":\"2018-03-07\
+        \ 23:03:31 UTC; Alex\",\"Author\":\"Alexander Coppock [aut, cre],\\u000aJasper\
+        \ Cooper [ctb],\\u000aNeal Fultz [ctb] (C version of restricted partitions)\"\
+        ,\"Maintainer\":\"Alexander Coppock <acoppock@gmail.com>\",\"Repository\"\
+        :\"CRAN\",\"Date/Publication\":\"2018-03-12 16:51:52 UTC\",\"crandb_file_date\"\
+        :\"2018-03-12 16:56:21\",\"MD5sum\":\"38d6deab712633dfcd08b69a94ccf8ff\",\"\
+        date\":\"2018-03-12T15:51:52+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T15:38:11+00:00\"\
+        ,\"name\":\"KnowBR\",\"event\":\"released\",\"package\":{\"Package\":\"KnowBR\"\
+        ,\"Version\":\"1.6\",\"Title\":\"Discriminating Well Surveyed Spatial Units\
+        \ from Exhaustive\\u000aBiodiversity Databases\",\"Author\":\"C\xE1stor Guisande\
+        \ Gonz\xE1lez and Jorge M. Lobo\",\"Maintainer\":\"C\xE1stor Guisande Gonz\xE1\
+        lez <castor@uvigo.es>\",\"Description\":\"It uses species accumulation curves\
+        \ and diverse estimators to assess, at the same time, the levels of survey\
+        \ coverage in multiple geographic cells of a size defined by the user or polygons.\
+        \ It also enables the geographical depiction of observed species richness,\
+        \ survey effort and completeness values including a background with administrative\
+        \ areas.\",\"License\":\"GPL (>= 2)\",\"Encoding\":\"latin1\",\"Depends\"\
+        :{\"R\":\">= 3.0\",\"fossil\":\"*\",\"mgcv\":\"*\",\"plotrix\":\"*\",\"sp\"\
+        :\"*\",\"vegan\":\"*\"},\"Suggests\":{\"raster\":\"*\",\"rgbif\":\"*\"},\"\
+        NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-12 15:59:28 UTC; castor\"\
+        ,\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12 16:38:11 UTC\"\
+        ,\"crandb_file_date\":\"2018-03-12 16:44:22\",\"MD5sum\":\"05c9ac7fa0f484fc955b2997e2ee82dd\"\
+        ,\"date\":\"2018-03-12T15:38:11+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T15:24:03+00:00\"\
+        ,\"name\":\"rcarbon\",\"event\":\"released\",\"package\":{\"Package\":\"rcarbon\"\
+        ,\"Title\":\"Calibration and Analysis of Radiocarbon Dates\",\"Version\":\"\
+        1.1.0\",\"Author\":\"Andrew Bevan, Enrico Crema\",\"Maintainer\":\"Enrico\
+        \ Crema <enrico.crema@gmail.com>\",\"Description\":\"Enables the calibration\
+        \ and analysis of radiocarbon dates, often but not exclusively for the purposes\
+        \ of archaeological research. It includes functions not only for basic calibration,\
+        \ uncalibration, and plotting of one or more dates, but also a statistical\
+        \ framework for building demographic and related longitudinal inferences from\
+        \ aggregate radiocarbon date lists, including: Monte-Carlo simulation test\
+        \ (Timpson et al 2014 <doi:10.1016/j.jas.2014.08.011>), random mark permutation\
+        \ test (Crema et al 2016 <doi:10.1371/journal.pone.0154809>) and spatial permutation\
+        \ tests (Crema, Bevan, and Shennan 2017 <doi:10.1016/j.jas.2017.09.007>).\"\
+        ,\"Depends\":{\"R\":\">= 3.3\"},\"Imports\":{\"sp\":\"*\",\"stats\":\"*\"\
+        ,\"graphics\":\"*\",\"grDevices\":\"*\",\"utils\":\"*\",\"doParallel\":\"\
+        *\",\"foreach\":\"*\",\"parallel\":\"*\"},\"Suggests\":{},\"License\":\"GPL\
+        \ (>= 2)\",\"Encoding\":\"UTF-8\",\"LazyData\":\"true\",\"RoxygenNote\":\"\
+        6.0.1\",\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-11 22:16:57 UTC;\
+        \ enryu\",\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12 16:24:03\
+        \ UTC\",\"crandb_file_date\":\"2018-03-12 16:26:26\",\"MD5sum\":\"3537ac868816f2a5eb32b0eb1c6d3677\"\
+        ,\"date\":\"2018-03-12T15:24:03+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T15:16:29+00:00\"\
+        ,\"name\":\"randomizr\",\"event\":\"released\",\"package\":{\"Package\":\"\
+        randomizr\",\"Title\":\"Easy-to-Use Tools for Common Forms of Random Assignment\
+        \ and\\u000aSampling\",\"Version\":\"0.9.0\",\"Authors@R\":\"c(person(\\\"\
+        Alexander\\\", \\\"Coppock\\\", email = \\\"acoppock@gmail.com\\\", role =\
+        \ c(\\\"aut\\\", \\\"cre\\\")),\\u000aperson(\\\"Jasper\\\", \\\"Cooper\\\"\
+        , email = \\\"jaspercooper@gmail.com\\\", role = c(\\\"ctb\\\")),\\u000aperson(\\\
+        \"Neal\\\", \\\"Fultz\\\", email = \\\"nfultz@gmail.com\\\", role = c(\\\"\
+        ctb\\\"), comment = \\\"C version of restricted partitions\\\"))\",\"Description\"\
+        :\"Generates random assignments for common experimental designs and\\u000arandom\
+        \ samples for common sampling designs.\",\"URL\":\"http://randomizr.declaredesign.org,\\\
+        u000ahttps://github.com/DeclareDesign/randomizr\",\"BugReports\":\"https://github.com/DeclareDesign/randomizr/issues\"\
+        ,\"Depends\":{\"R\":\">= 3.3.0\"},\"License\":\"MIT + file LICENSE\",\"LazyData\"\
+        :\"true\",\"Suggests\":{\"knitr\":\"*\",\"dplyr\":\"*\",\"blockTools\":\"\
+        *\",\"testthat\":\"*\",\"rmarkdown\":\"*\",\"ri\":\"*\"},\"VignetteBuilder\"\
+        :\"knitr\",\"RoxygenNote\":\"6.0.1\",\"NeedsCompilation\":\"yes\",\"Packaged\"\
+        :\"2018-03-06 20:41:44 UTC; ac2595\",\"Author\":\"Alexander Coppock [aut,\
+        \ cre],\\u000aJasper Cooper [ctb],\\u000aNeal Fultz [ctb] (C version of restricted\
+        \ partitions)\",\"Maintainer\":\"Alexander Coppock <acoppock@gmail.com>\"\
+        ,\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12 16:16:29 UTC\"\
+        ,\"crandb_file_date\":\"2018-03-12 16:26:23\",\"MD5sum\":\"c9ddfee4eb504d3e063c1bd15902d3d5\"\
+        ,\"date\":\"2018-03-12T15:16:29+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T14:58:41+00:00\"\
+        ,\"name\":\"rcqp\",\"event\":\"released\",\"package\":{\"Package\":\"rcqp\"\
+        ,\"Type\":\"Package\",\"Title\":\"Interface to the Corpus Query Protocol\"\
+        ,\"Version\":\"0.5\",\"Date\":\"2018-02-23\",\"Author\":\"Bernard Desgraupes\
+        \ <bernard.desgraupes@u-paris10.fr>, Sylvain\\u000aLoiseau <sylvain.loiseau@univ-paris13.fr>\"\
+        ,\"Maintainer\":\"Bernard Desgraupes <bernard.desgraupes@u-paris10.fr>\",\"\
+        Depends\":{\"R\":\">= 1.8.0\",\"plyr\":\"*\"},\"Suggests\":{\"reshape\":\"\
+        *\"},\"Description\":\"Implements Corpus Query Protocol functions based on\
+        \ the\\u000aCWB software. Rely on CWB (GPL v2), PCRE (BSD licence), glib2\\\
+        u000a(LGPL).\",\"License\":\"GPL-2 | file LICENCE\",\"LazyLoad\":\"yes\",\"\
+        URL\":\"https://www.r-project.org\",\"Collate\":\"main.R zzz.R s3.R\",\"Encoding\"\
+        :\"latin1\",\"SystemRequirements\":\"GNU make, pcre (>= 7), glib2 (>= 2)\"\
+        ,\"OS_type\":\"unix\",\"NeedsCompilation\":\"yes\",\"Packaged\":\"2018-03-07\
+        \ 16:02:47 UTC; bernardo\",\"Repository\":\"CRAN\",\"Date/Publication\":\"\
+        2018-03-12 15:58:41 UTC\",\"crandb_file_date\":\"2018-03-12 16:08:22\",\"\
+        MD5sum\":\"10a8de9ccb8b1cd8f19d1b110bf91763\",\"date\":\"2018-03-12T14:58:41+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-12T14:40:56+00:00\",\"name\":\"rtrim\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"rtrim\",\"Version\":\"\
+        2.0.3\",\"Date\":\"2018-03-11\",\"Title\":\"Trends and Indices for Monitoring\
+        \ Data\",\"Authors@R\":\"c(\\u000aperson(\\\"Patrick\\\",\\\"Bogaart\\\",\
+        \ email=\\\"rtrim@cbs.nl\\\", role=c(\\\"aut\\\",\\\"cre\\\")),\\u000aperson(\\\
+        \"Mark\\\", \\\"van der Loo\\\", role=\\\"aut\\\"),\\u000aperson(\\\"Jeroen\\\
+        \",\\\"Pannekoek\\\", role=\\\"aut\\\"))\",\"Description\":\"The TRIM model\
+        \ is widely used for estimating growth and decline of\\u000aanimal populations\
+        \ based on (possibly sparsely available) count data. The\\u000acurrent package\
+        \ is a reimplementation of the original TRIM software developed\\u000aat Statistics\
+        \ Netherlands by Jeroen Pannekoek. See\\u000a<https://www.cbs.nl/en-gb/society/nature-and-environment/indices-and-trends--trim-->\\\
+        u000afor more information about TRIM.\",\"URL\":\"https://github.com/markvanderloo/rtrim\"\
+        ,\"BugReports\":\"https://github.com/markvanderloo/rtrim/issues\",\"LazyLoad\"\
+        :\"yes\",\"LazyData\":\"no\",\"License\":\"EUPL\",\"Type\":\"Package\",\"\
+        Imports\":{\"methods\":\"*\",\"utils\":\"*\",\"stats\":\"*\",\"graphics\"\
+        :\"*\",\"grDevices\":\"*\"},\"Suggests\":{\"testthat\":\"*\",\"knitr\":\"\
+        *\",\"rmarkdown\":\"*\",\"R.rsp\":\"*\"},\"RoxygenNote\":\"6.0.1\",\"VignetteBuilder\"\
+        :\"knitr, R.rsp\",\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-12 15:17:08\
+        \ UTC; patrick\",\"Author\":\"Patrick Bogaart [aut, cre],\\u000aMark van der\
+        \ Loo [aut],\\u000aJeroen Pannekoek [aut]\",\"Maintainer\":\"Patrick Bogaart\
+        \ <rtrim@cbs.nl>\",\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12\
+        \ 15:40:56 UTC\",\"crandb_file_date\":\"2018-03-12 16:08:25\",\"MD5sum\":\"\
+        e681a4704c7a058c053c4801055c82ba\",\"date\":\"2018-03-12T14:40:56+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-12T14:18:07+00:00\",\"name\":\"replyr\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"replyr\",\"Type\":\"Package\"\
+        ,\"Title\":\"Reliable Plying of Remote or Big Data with R\",\"Version\":\"\
+        0.9.2\",\"Date\":\"2018-03-11\",\"Authors@R\":\"c(\\u000aperson(\\\"John\\\
+        \", \\\"Mount\\\", email = \\\"jmount@win-vector.com\\\", role = c(\\\"aut\\\
+        \", \\\"cre\\\")),\\u000aperson(\\\"Nina\\\", \\\"Zumel\\\", email = \\\"\
+        nzumel@win-vector.com\\\", role = c(\\\"aut\\\")),\\u000aperson(family = \\\
+        \"Win-Vector LLC\\\", role = c(\\\"cph\\\"))\\u000a)\",\"Maintainer\":\"John\
+        \ Mount <jmount@win-vector.com>\",\"URL\":\"https://github.com/WinVector/replyr/,\\\
+        u000ahttps://winvector.github.io/replyr/\",\"BugReports\":\"https://github.com/WinVector/replyr/issues\"\
+        ,\"Description\":\"Methods to use 'dplyr' remote data sources ('SQL' databases,\\\
+        u000a'Spark' 2.0.0 and above) in a reliable \\\"generic\\\" fashion (generic\
+        \ meaning\\u000auser code works similarly on all such sources, without needing\
+        \ per-source\\u000aadaption).\\u000aAdds convenience functions to make such\
+        \ tasks more like\\u000aworking with an in-memory R 'data.frame'.\",\"License\"\
+        :\"GPL-3\",\"LazyData\":\"TRUE\",\"Depends\":{\"wrapr\":\">= 1.2.0\"},\"Imports\"\
+        :{\"dplyr\":\">= 0.7.4\",\"DBI\":\"*\",\"RSQLite\":\"*\"},\"RoxygenNote\"\
+        :\"6.0.1\",\"Suggests\":{\"testthat\":\"*\",\"knitr\":\"*\",\"rmarkdown\"\
+        :\"*\",\"sparklyr\":\"*\",\"ggplot2\":\"*\",\"igraph\":\"*\",\"DiagrammeR\"\
+        :\"*\",\"htmlwidgets\":\"*\",\"webshot\":\"*\",\"magick\":\"*\",\"grid\":\"\
+        *\"},\"VignetteBuilder\":\"knitr\",\"ByteCompile\":\"true\",\"NeedsCompilation\"\
+        :\"no\",\"Packaged\":\"2018-03-12 15:05:41 UTC; johnmount\",\"Author\":\"\
+        John Mount [aut, cre],\\u000aNina Zumel [aut],\\u000aWin-Vector LLC [cph]\"\
+        ,\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12 15:18:07 UTC\"\
+        ,\"crandb_file_date\":\"2018-03-12 15:20:26\",\"MD5sum\":\"24e0c9f0328e278f0fa6ca9aca3b0124\"\
+        ,\"date\":\"2018-03-12T14:18:07+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T14:14:49+00:00\"\
+        ,\"name\":\"daymetr\",\"event\":\"released\",\"package\":{\"Package\":\"daymetr\"\
+        ,\"Title\":\"Interface to the 'Daymet' Web Services\",\"Version\":\"1.3.1\"\
+        ,\"Authors@R\":\"person(\\\"Hufkens\\\",\\\"Koen\\\",\\u000aemail=\\\"koen.hufkens@gmail.com\\\
+        \",\\u000arole=c(\\\"aut\\\", \\\"cre\\\"))\",\"Description\":\"Programmatic\
+        \ interface to the 'Daymet' web services\\u000a(<http://daymet.ornl.gov>).\
+        \ Allows for easy downloads of\\u000aDaymet climate data directly to your\
+        \ R workspace or your computer.\\u000aRoutines for both single pixel data\
+        \ downloads and\\u000agridded (netCDF) data are provided.\",\"Depends\":{\"\
+        R\":\">= 3.4.0\"},\"Imports\":{\"sp\":\"*\",\"rgeos\":\"*\",\"raster\":\"\
+        *\",\"rgdal\":\"*\",\"ncdf4\":\"*\",\"httr\":\"*\",\"tools\":\"*\",\"utils\"\
+        :\"*\"},\"License\":\"AGPL-3\",\"LazyData\":\"true\",\"ByteCompile\":\"true\"\
+        ,\"RoxygenNote\":\"6.0.1\",\"Suggests\":{\"knitr\":\"*\",\"rmarkdown\":\"\
+        *\",\"covr\":\"*\",\"testthat\":\"*\"},\"VignetteBuilder\":\"knitr\",\"NeedsCompilation\"\
+        :\"no\",\"Packaged\":\"2018-03-11 14:05:09 UTC; khufkens\",\"Author\":\"Hufkens\
+        \ Koen [aut, cre]\",\"Maintainer\":\"Hufkens Koen <koen.hufkens@gmail.com>\"\
+        ,\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12 15:14:49 UTC\"\
+        ,\"crandb_file_date\":\"2018-03-12 15:20:22\",\"MD5sum\":\"04fcc7dfbd87fffa95d365c719672dbc\"\
+        ,\"date\":\"2018-03-12T14:14:49+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T14:04:30+00:00\"\
+        ,\"name\":\"BAS\",\"event\":\"released\",\"package\":{\"Package\":\"BAS\"\
+        ,\"Version\":\"1.4.8\",\"Title\":\"Bayesian Variable Selection and Model Averaging\
+        \ using Bayesian\\u000aAdaptive Sampling\",\"Authors@R\":\"c(person(\\\"Merlise\\\
+        \", \\\"Clyde\\\", email=\\\"clyde@duke.edu\\\",\\u000arole=c(\\\"aut\\\"\
+        ,\\\"cre\\\", \\\"cph\\\"),\\u000acomment=c(ORCID=0000-0002-3595-1872)\\u000a),\\\
+        u000aperson(\\\"Michael\\\", \\\"Littman\\\", role=\\\"ctb\\\"),\\u000aperson(\\\
+        \"Quanli\\\", \\\"Wang\\\", role=\\\"ctb\\\"),\\u000aperson(\\\"Joyee\\\"\
+        , \\\"Ghosh\\\", role=\\\"ctb\\\"),\\u000aperson(\\\"Yingbo\\\", \\\"Li\\\"\
+        , role=\\\"ctb\\\"))\",\"Depends\":{\"R\":\">= 3.0\"},\"Imports\":{\"stats\"\
+        :\"*\",\"graphics\":\"*\",\"utils\":\"*\",\"grDevices\":\"*\"},\"Suggests\"\
+        :{\"MASS\":\"*\",\"knitr\":\"*\",\"GGally\":\"*\",\"rmarkdown\":\"*\",\"roxygen2\"\
+        :\"*\"},\"Description\":\"Package for Bayesian Variable Selection and  Model\
+        \ Averaging in linear models and\\u000ageneralized linear models using stochastic\
+        \ or\\u000adeterministic sampling without replacement from posterior\\u000adistributions.\
+        \  Prior distributions on coefficients are\\u000afrom Zellner's g-prior or\
+        \ mixtures of g-priors\\u000acorresponding to the Zellner-Siow Cauchy Priors\
+        \ or the\\u000amixture of g-priors from Liang et al (2008)\\u000a<DOI:10.1198/016214507000001337>\\\
+        u000afor linear models or mixtures of g-priors in GLMs of Li and Clyde (2015)\\\
+        u000a<arXiv:1503.06913>. Other model\\u000aselection criteria include AIC,\
+        \ BIC and Empirical Bayes estimates of g.\\u000aSampling probabilities may\
+        \ be updated based on the sampled models\\u000ausing Sampling w/out Replacement\
+        \ or an efficient MCMC algorithm\\u000asamples models using the BAS tree structure\
+        \ as an efficient hash table.\\u000aUniform priors over all models or beta-binomial\
+        \ prior distributions on\\u000amodel size are allowed, and for large p truncated\
+        \ priors on the model\\u000aspace may be used.  The user may force variables\
+        \ to always be included.\\u000aDetails behind the sampling algorithm are provided\
+        \ in\\u000aClyde, Ghosh and Littman (2010)   <DOI:10.1198/jcgs.2010.09049>.\\\
+        u000aThis material is based upon work supported by the National Science\\\
+        u000aFoundation under Grant DMS-1106891.  Any opinions, findings, and\\u000aconclusions\
+        \ or recommendations expressed in this material are those of\\u000athe author(s)\
+        \ and do not necessarily reflect the views of the\\u000aNational Science Foundation.\"\
+        ,\"License\":\"GPL (>= 2)\",\"URL\":\"https://www.r-project.org, https://github.com/merliseclyde/BAS\"\
+        ,\"Repository\":\"CRAN\",\"NeedsCompilation\":\"yes\",\"ByteCompile\":\"yes\"\
+        ,\"VignetteBuilder\":\"knitr\",\"RoxygenNote\":\"6.0.1\",\"Packaged\":\"2018-03-12\
+        \ 01:36:35 UTC; mclyde\",\"Author\":\"Merlise Clyde [aut, cre, cph] (<https://orcid.org/-5469>),\\\
+        u000aMichael Littman [ctb],\\u000aQuanli Wang [ctb],\\u000aJoyee Ghosh [ctb],\\\
+        u000aYingbo Li [ctb]\",\"Maintainer\":\"Merlise Clyde <clyde@duke.edu>\",\"\
+        Date/Publication\":\"2018-03-12 15:04:30 UTC\",\"crandb_file_date\":\"2018-03-12\
+        \ 15:20:24\",\"MD5sum\":\"13bcab40b703524c707aa6addf85855e\",\"date\":\"2018-03-12T14:04:30+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-12T13:56:20+00:00\",\"name\":\"pgirmess\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"pgirmess\",\"Version\"\
+        :\"1.6.9\",\"Date\":\"2018-03-11\",\"Title\":\"Spatial Analysis and Data Mining\
+        \ for Field Ecologists\",\"Authors@R\":\"c(person(\\\"Patrick\\\", \\\"Giraudoux\\\
+        \", role = c(\\\"aut\\\", \\\"cre\\\"), email = \\\"patrick.giraudoux@univ-fcomte.fr\\\
+        \"), person(\\\"Jean-Philippe\\\", \\\"Antonietti\\\", role = c(\\\"ctb\\\"\
+        ), email = \\\"Jean-Philippe.Antonietti@unil.ch\\\"), person(\\\"Colin\\\"\
+        , \\\"Beale\\\", role = c(\\\"ctb\\\"), email = \\\"c.beale@macaulay.ac.uk\\\
+        \"),person(\\\"David\\\", \\\"Pleydell\\\", role = c(\\\"ctb\\\"), email =\
+        \ \\\"david.pleydell@inra.fr\\\"), person(\\\"Mike\\\", \\\"Treglia\\\", role\
+        \ = c(\\\"ctb\\\"), email = \\\"mike-treglia@utulsa.edu\\\"))\",\"Author\"\
+        :\"Patrick Giraudoux [aut, cre],\\u000aJean-Philippe Antonietti [ctb],\\u000aColin\
+        \ Beale [ctb],\\u000aDavid Pleydell [ctb],\\u000aMike Treglia [ctb]\",\"Maintainer\"\
+        :\"Patrick Giraudoux <patrick.giraudoux@univ-fcomte.fr>\",\"Description\"\
+        :\"Set of tools for reading, writing and transforming spatial and seasonal\
+        \ data in ecology, model selection and specific statistical tests. It includes\
+        \ functions to discretize polylines into regular point intervals, link observations\
+        \ to those points, compute geographical coordinates at regular intervals between\
+        \ waypoints, read subsets of big rasters, compute zonal statistics or table\
+        \ of categories within polygons or circular buffers from raster. The package\
+        \ also provides miscellaneous functions for model selection, spatial statistics,\
+        \ geometries, writing data.frame with Chinese characters, and some other functions\
+        \ for field ecologists.\",\"Imports\":{\"boot\":\">= 1.3-4\",\"maptools\"\
+        :\">= 0.8-36\",\"rgdal\":\">= 0.7-8\",\"rgeos\":\">= 0.3-8\",\"sp\":\">= 0.9-97\"\
+        ,\"spdep\":\">= 0.5-43\",\"splancs\":\">=\\u000a2.01-31\"},\"Suggests\":{\"\
+        MASS\":\">= 7.3-1\",\"nlme\":\">= 3.1-120\"},\"License\":\"GPL (>= 2)\",\"\
+        URL\":\"http://perso.orange.fr/giraudoux\",\"NeedsCompilation\":\"no\",\"\
+        Packaged\":\"2018-03-12 02:59:59 UTC; pgiraudo2\",\"Repository\":\"CRAN\"\
+        ,\"Date/Publication\":\"2018-03-12 14:56:20 UTC\",\"crandb_file_date\":\"\
+        2018-03-12 15:08:24\",\"MD5sum\":\"cb36def344d82eff4ff3ab604e944ce9\",\"date\"\
+        :\"2018-03-12T13:56:20+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T13:48:07+00:00\"\
+        ,\"name\":\"udpipe\",\"event\":\"released\",\"package\":{\"Package\":\"udpipe\"\
+        ,\"Type\":\"Package\",\"Title\":\"Tokenization, Parts of Speech Tagging, Lemmatization\
+        \ and\\u000aDependency Parsing with the 'UDPipe' 'NLP' Toolkit\",\"Version\"\
+        :\"0.5\",\"Maintainer\":\"Jan Wijffels <jwijffels@bnosac.be>\",\"Authors@R\"\
+        :\"c(person('Jan', 'Wijffels', role = c('aut', 'cre', 'cph'), email = 'jwijffels@bnosac.be'),\\\
+        u000aperson('BNOSAC', role = 'cph'),\\u000aperson(\\\"Institute of Formal\
+        \ and Applied Linguistics, Faculty of Mathematics and Physics, Charles University\
+        \ in Prague, Czech Republic\\\", role = 'cph'),\\u000aperson('Milan Straka',\
+        \ role = 'cph', email = 'straka@ufal.mff.cuni.cz'),\\u000aperson('Jana Strakov\xE1\
+        ', role = 'cph', email = 'strakova@ufal.mff.cuni.cz'))\",\"Description\":\"\
+        This natural language processing toolkit provides language-agnostic\\u000a'tokenization',\
+        \ 'parts of speech tagging', 'lemmatization' and 'dependency\\u000aparsing'\
+        \ of raw text. Next to text parsing, the package also allows you to train\\\
+        u000aannotation models based on data of 'treebanks' in 'CoNLL-U' format as\
+        \ provided\\u000aat <http://universaldependencies.org/format.html>. The techniques\
+        \ are explained\\u000ain detail in the paper: 'Tokenizing, POS Tagging, Lemmatizing\
+        \ and Parsing UD 2.0\\u000awith UDPipe', available at <doi:10.18653/v1/K17-3009>.\"\
+        ,\"License\":\"MPL-2.0\",\"URL\":\"https://bnosac.github.io/udpipe/en/index.html,\\\
+        u000ahttps://github.com/bnosac/udpipe\",\"Encoding\":\"UTF-8\",\"Depends\"\
+        :{\"R\":\">= 2.10\"},\"Imports\":{\"Rcpp\":\">= 0.11.5\",\"data.table\":\"\
+        >= 1.9.6\",\"Matrix\":\"*\",\"methods\":\"*\"},\"LinkingTo\":{\"Rcpp\":\"\
+        *\"},\"Suggests\":{\"knitr\":\"*\",\"topicmodels\":\"*\",\"lattice\":\"*\"\
+        },\"SystemRequirements\":\"C++11\",\"RoxygenNote\":\"6.0.1\",\"VignetteBuilder\"\
+        :\"knitr\",\"NeedsCompilation\":\"yes\",\"Packaged\":\"2018-03-12 11:18:51\
+        \ UTC; Jan\",\"Author\":\"Jan Wijffels [aut, cre, cph],\\u000aBNOSAC [cph],\\\
+        u000aInstitute of Formal and Applied Linguistics, Faculty of Mathematics and\\\
+        u000aPhysics, Charles University in Prague, Czech Republic [cph],\\u000aMilan\
+        \ Straka [cph],\\u000aJana Strakov\xE1 [cph]\",\"Repository\":\"CRAN\",\"\
+        Date/Publication\":\"2018-03-12 14:48:07 UTC\",\"crandb_file_date\":\"2018-03-12\
+        \ 15:08:28\",\"MD5sum\":\"5a516b2532c6c84369cf228d5930ec51\",\"date\":\"2018-03-12T13:48:07+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-12T11:00:49+00:00\",\"name\":\"mapsapi\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"mapsapi\",\"Type\":\"Package\"\
+        ,\"Title\":\"'sf'-Compatible Interface to 'Google Maps' APIs\",\"Version\"\
+        :\"0.3.5\",\"Authors@R\":\"c(\\u000aperson(\\\"Michael\\\", \\\"Dorman\\\"\
+        , email = \\\"dorman@post.bgu.ac.il\\\", role = c(\\\"aut\\\", \\\"cre\\\"\
+        )),\\u000aperson(\\\"Tom\\\", \\\"Buckley\\\", role = c(\\\"ctb\\\")))\",\"\
+        Description\":\"Interface to the 'Google Maps' APIs: (1) routing directions\
+        \ based on the 'Directions' API, returned as 'sf' objects, either as single\
+        \ feature per alternative route, or a single feature per segment per alternative\
+        \ route; (2) travel distance or time matrices based on the 'Distance Matrix'\
+        \ API; (3) geocoded locations based on the 'Geocode' API, returned as 'sf'\
+        \ objects, either points or bounds.\",\"License\":\"MIT + file LICENSE\",\"\
+        Encoding\":\"UTF-8\",\"LazyData\":\"true\",\"Imports\":{\"magrittr\":\">=\
+        \ 1.5\",\"xml2\":\">= 1.1.1\",\"sf\":\">= 0.5-3\",\"bitops\":\">=\\u000a1.0-6\"\
+        ,\"plyr\":\">= 1.8.4\"},\"RoxygenNote\":\"6.0.1\",\"Suggests\":{\"knitr\"\
+        :\"*\",\"rmarkdown\":\"*\",\"leaflet\":\"*\"},\"VignetteBuilder\":\"knitr\"\
+        ,\"BugReports\":\"https://github.com/michaeldorman/mapsapi/issues\",\"NeedsCompilation\"\
+        :\"no\",\"Packaged\":\"2018-03-12 11:51:58 UTC; michael\",\"Author\":\"Michael\
+        \ Dorman [aut, cre],\\u000aTom Buckley [ctb]\",\"Maintainer\":\"Michael Dorman\
+        \ <dorman@post.bgu.ac.il>\",\"Repository\":\"CRAN\",\"Date/Publication\":\"\
+        2018-03-12 12:00:49 UTC\",\"crandb_file_date\":\"2018-03-12 12:02:23\",\"\
+        MD5sum\":\"4239f4203c7727fd0cb72aaaa522d891\",\"date\":\"2018-03-12T11:00:49+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-12T10:35:02+00:00\",\"name\":\"memapp\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"memapp\",\"Type\":\"Package\"\
+        ,\"Title\":\"The Moving Epidemic Method Web Application\",\"Version\":\"2.9\"\
+        ,\"Date\":\"2018-03-12\",\"Authors@R\":\"person(given = \\\"Jose E.\\\", family\
+        \ = \\\"Lozano\\\", email = \\\"lozalojo@gmail.com\\\", role = c(\\\"aut\\\
+        \", \\\"cre\\\"))\",\"Depends\":{\"R\":\">= 3.4.0\"},\"Imports\":{\"shiny\"\
+        :\"*\",\"shinythemes\":\"*\",\"shinydashboard\":\"*\",\"shinyBS\":\"*\",\"\
+        shinyjs\":\"*\",\"RColorBrewer\":\"*\",\"ggthemes\":\"*\",\"magrittr\":\"\
+        *\",\"tidyr\":\"*\",\"dplyr\":\"*\",\"openxlsx\":\"*\",\"readxl\":\"*\",\"\
+        stringr\":\"*\",\"stringi\":\"*\",\"DT\":\"*\",\"RODBC\":\"*\",\"formattable\"\
+        :\"*\",\"ggplot2\":\"*\",\"plotly\":\"*\",\"mem\":\">= 2.10\"},\"Suggests\"\
+        :{\"magick\":\"*\",\"animation\":\"*\"},\"Description\":\"Web application\
+        \ created in the Shiny framework for the 'mem' R package.\",\"License\":\"\
+        GPL (>= 2)\",\"URL\":\"https://github.com/lozalojo/memapp\",\"BugReports\"\
+        :\"https://github.com/lozalojo/memapp/issues\",\"RoxygenNote\":\"6.0.1\",\"\
+        NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-12 11:15:20 UTC; lozalojo\"\
+        ,\"Author\":\"Jose E. Lozano [aut, cre]\",\"Maintainer\":\"Jose E. Lozano\
+        \ <lozalojo@gmail.com>\",\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12\
+        \ 11:35:02 UTC\",\"crandb_file_date\":\"2018-03-12 11:38:21\",\"MD5sum\":\"\
+        48e288e1cc9a0d862c1288406aca7016\",\"date\":\"2018-03-12T10:35:02+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-12T09:34:32+00:00\",\"name\":\"osrm\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"osrm\",\"Type\":\"Package\"\
+        ,\"Title\":\"Interface Between R and the OpenStreetMap-Based Routing Service\\\
+        u000aOSRM\",\"Version\":\"3.1.1\",\"Date\":\"2018-03-12\",\"Authors@R\":\"\
+        c(person(\\\"Timoth\xE9e\\\", \\\"Giraud\\\", email = \\\"timothee.giraud@cnrs.fr\\\
+        \", role = c(\\\"cre\\\",\\\"aut\\\")),\\u000aperson(\\\"Robin\\\", \\\"Cura\\\
+        \", role = c(\\\"ctb\\\")), person(\\\"Matthieu\\\", \\\"Viry\\\", role =\
+        \ c(\\\"ctb\\\")))\",\"Description\":\"An interface between R and the OSRM\
+        \ API. OSRM is a routing\\u000aservice based on OpenStreetMap data. See <http://project-osrm.org/>\
+        \ for more\\u000ainformation. This package allows to compute distances (travel\
+        \ time and\\u000akilometric distance) between points and travel time matrices.\"\
+        ,\"License\":\"GPL-3\",\"LazyData\":\"TRUE\",\"Imports\":{\"jsonlite\":\"\
+        *\",\"RCurl\":\"*\",\"utils\":\"*\",\"stats\":\"*\",\"rgeos\":\"*\",\"methods\"\
+        :\"*\",\"gepaf\":\"*\",\"raster\":\"*\",\"sp\":\"*\"},\"Depends\":{\"R\":\"\
+        >= 2.10\"},\"Suggests\":{\"cartography\":\">= 2.0.1\"},\"URL\":\"https://github.com/rCarto/osrm\"\
+        ,\"BugReports\":\"https://github.com/rCarto/osrm/issues\",\"Encoding\":\"\
+        UTF-8\",\"RoxygenNote\":\"6.0.1\",\"NeedsCompilation\":\"no\",\"Packaged\"\
+        :\"2018-03-12 09:40:29 UTC; tim\",\"Author\":\"Timoth\xE9e Giraud [cre, aut],\\\
+        u000aRobin Cura [ctb],\\u000aMatthieu Viry [ctb]\",\"Maintainer\":\"Timoth\xE9\
+        e Giraud <timothee.giraud@cnrs.fr>\",\"Repository\":\"CRAN\",\"Date/Publication\"\
+        :\"2018-03-12 10:34:32 UTC\",\"crandb_file_date\":\"2018-03-12 10:38:20\"\
+        ,\"MD5sum\":\"9477938568841eb4fadcf3dbb3e7f8c2\",\"date\":\"2018-03-12T09:34:32+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-12T08:34:30+00:00\",\"name\":\"RNAsmc\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"RNAsmc\",\"Type\":\"Package\"\
+        ,\"Title\":\"RNA Secondary Structure Module Mining, Comparison and Plotting\"\
+        ,\"Version\":\"0.2.0\",\"Author\":\"Zheng HeWei\",\"Depends\":{\"RRNA\":\"\
+        *\",\"stats\":\"*\",\"graphics\":\"*\"},\"Maintainer\":\"Zheng HeWei<zhenghw@hrbmu.edu.cn>\"\
+        ,\"Description\":\"Provides function for RNA secondary structure plotting,\
+        \ comparison and module mining. Given a RNA secondary structure, you can obtain\
+        \ stem regions, hairpin loops, internal loops, bulge loops and multibranch\
+        \ loops of this RNA structure using this program. They are the basic modules\
+        \ of RNA secondary structure. For each module you get, you can use this program\
+        \ to label the RNA structure with a specific color. You can also use this\
+        \ program to compare two RNA secondary structures to get a score that represents\
+        \ similarity. Reference: Reuter JS, Mathews DH (2010) <doi:10.1186/1471-2105-11-129>.\"\
+        ,\"License\":\"GPL-2\",\"LazyData\":\"TRUE\",\"NeedsCompilation\":\"no\",\"\
+        Packaged\":\"2018-03-12 09:26:40 UTC; Administrator\",\"Repository\":\"CRAN\"\
+        ,\"Date/Publication\":\"2018-03-12 09:34:30 UTC\",\"crandb_file_date\":\"\
+        2018-03-12 09:38:22\",\"MD5sum\":\"cd9247cd05df7f48f6673c88021254ca\",\"date\"\
+        :\"2018-03-12T08:34:30+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T04:35:13+00:00\"\
+        ,\"name\":\"inTrees\",\"event\":\"released\",\"package\":{\"Package\":\"inTrees\"\
+        ,\"Title\":\"Interpret Tree Ensembles\",\"Version\":\"1.2\",\"Date\":\"2018-03-10\"\
+        ,\"Imports\":{\"RRF\":\"*\",\"arules\":\"*\",\"gbm\":\"*\",\"xtable\":\"*\"\
+        ,\"xgboost\":\"*\",\"data.table\":\"*\",\"methods\":\"*\"},\"Author\":\"Houtao\
+        \ Deng, Xin Guan, Vadim Khotilovich\",\"Maintainer\":\"Houtao Deng <softwaredeng@gmail.com>\"\
+        ,\"Description\":\"For tree ensembles such as random forests, regularized\
+        \ random forests and gradient boosted trees, this package provides functions\
+        \ for: extracting, measuring and pruning rules; selecting a compact rule set;\
+        \ summarizing rules into a learner; calculating frequent variable interactions;\
+        \ formatting rules in latex code.\",\"BugReports\":\"https://github.com/softwaredeng/inTrees/issues\"\
+        ,\"License\":\"GPL (>= 3)\",\"Packaged\":\"2018-03-12 04:55:28 UTC; houtaodeng\"\
+        ,\"NeedsCompilation\":\"no\",\"Repository\":\"CRAN\",\"Date/Publication\"\
+        :\"2018-03-12 05:35:13 UTC\",\"crandb_file_date\":\"2018-03-12 05:38:22\"\
+        ,\"MD5sum\":\"06b1758f4ec6734b0c67454cdc94b0f3\",\"date\":\"2018-03-12T04:35:13+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-12T03:26:49+00:00\",\"name\":\"sunburstR\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"sunburstR\",\"Type\":\"\
+        Package\",\"Title\":\"'Htmlwidget' for 'Kerry Rodden' 'd3.js' Sequence Sunburst\"\
+        ,\"Version\":\"2.0.0\",\"Date\":\"2018-03-11\",\"Authors@R\":\"c(\\u000aperson(\\\
+        u000a\\\"Mike\\\", \\\"Bostock\\\"\\u000a, role = c(\\\"aut\\\", \\\"cph\\\
+        \")\\u000a, comment = \\\"d3.js library, http://d3js.org\\\"\\u000a),\\u000aperson(\\\
+        u000a\\\"Kerry\\\", \\\"Rodden\\\"\\u000a, role = c(\\\"aut\\\", \\\"cph\\\
+        \")\\u000a, comment = \\\"sequences library in htmlwidgets/lib, https://gist.github.com/kerryrodden/7090426\\\
+        \"\\u000a),\\u000aperson(\\u000a\\\"Kevin\\\", \\\"Warne\\\"\\u000a, role\
+        \ = c(\\\"aut\\\", \\\"cph\\\")\\u000a, comment = \\\"d2b sunburst library\
+        \ in htmlwidgets/lib, https://github.com/d2bjs/d2b\\\"\\u000a),\\u000aperson(\\\
+        u000a\\\"Kent\\\", \\\"Russell\\\"\\u000a, role = c(\\\"aut\\\", \\\"cre\\\
+        \")\\u000a, comment = \\\"R interface\\\"\\u000a, email = \\\"kent.russell@timelyportfolio.com\\\
+        \"\\u000a),\\u000aperson(\\u000a\\\"Florian\\\", \\\"Breitwieser\\\"\\u000a,\
+        \ role = c(\\\"ctb\\\")\\u000a, comment = \\\"R interface\\\"\\u000a),\\u000aperson(\\\
+        u000a\\\"CJ\\\", \\\"Yetman\\\"\\u000a, role = c(\\\"ctb\\\")\\u000a, comment\
+        \ = \\\"R interface\\\"\\u000a, email = \\\"cj@cjyetman.com\\\"\\u000a)\\\
+        u000a)\",\"Maintainer\":\"Kent Russell <kent.russell@timelyportfolio.com>\"\
+        ,\"URL\":\"https://github.com/timelyportfolio/sunburstR\",\"BugReports\":\"\
+        https://github.com/timelyportfolio/sunburstR/issues\",\"Description\":\"Make\
+        \ interactive 'd3.js' sequence sunburst diagrams in R with the\\u000aconvenience\
+        \ and infrastructure of an 'htmlwidget'.\",\"License\":\"MIT + file LICENSE\"\
+        ,\"LazyData\":\"TRUE\",\"Imports\":{\"d3r\":\">= 0.6.9\",\"dplyr\":\"*\",\"\
+        htmlwidgets\":\"*\",\"htmltools\":\"*\"},\"Suggests\":{\"jsonlite\":\"*\"\
+        ,\"knitr\":\"*\",\"markdown\":\"*\",\"pipeR\":\"*\",\"testthat\":\"*\",\"\
+        tidyr\":\">= 0.7.0\"},\"Enhances\":{\"treemap\":\"*\"},\"RoxygenNote\":\"\
+        6.0.1\",\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-12 03:11:36 UTC;\
+        \ kentr\",\"Author\":\"Mike Bostock [aut, cph] (d3.js library, http://d3js.org),\\\
+        u000aKerry Rodden [aut, cph] (sequences library in htmlwidgets/lib,\\u000ahttps://gist.github.com/kerryrodden/7090426),\\\
+        u000aKevin Warne [aut, cph] (d2b sunburst library in htmlwidgets/lib,\\u000ahttps://github.com/d2bjs/d2b),\\\
+        u000aKent Russell [aut, cre] (R interface),\\u000aFlorian Breitwieser [ctb]\
+        \ (R interface),\\u000aCJ Yetman [ctb] (R interface)\",\"Repository\":\"CRAN\"\
+        ,\"Date/Publication\":\"2018-03-12 04:26:49 UTC\",\"crandb_file_date\":\"\
+        2018-03-12 04:32:22\",\"MD5sum\":\"6684bf0ffba499a867dd141813144a59\",\"date\"\
+        :\"2018-03-12T03:26:49+00:00\",\"releases\":[]}},{\"date\":\"2018-03-12T03:23:29+00:00\"\
+        ,\"name\":\"bdots\",\"event\":\"released\",\"package\":{\"Package\":\"bdots\"\
+        ,\"Type\":\"Package\",\"Title\":\"Bootstrapped Differences of Time Series\"\
+        ,\"Version\":\"0.1.19\",\"Date\":\"2018-03-05\",\"Author\":\"Michael Seedorff,\
+        \ Jacob Oleson, Grant Brown, Joseph Cavanaugh, and Bob McMurray\",\"Maintainer\"\
+        :\"Michael Seedorff <michael-seedorff@uiowa.edu>\",\"Depends\":{\"nlme\":\"\
+        *\",\"mvtnorm\":\"*\",\"Matrix\":\"*\"},\"Imports\":{\"doParallel\":\"*\"\
+        ,\"doRNG\":\"*\",\"foreach\":\"*\"},\"LazyData\":\"FALSE\",\"Description\"\
+        :\"Analyze differences among time series curves with p-value adjustment for\
+        \ multiple comparisons introduced in Oleson et al (2015) <DOI:10.1177/0962280215607411>.\"\
+        ,\"License\":\"GPL (>= 3)\",\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-12\
+        \ 02:46:12 UTC; Michael\",\"Repository\":\"CRAN\",\"Date/Publication\":\"\
+        2018-03-12 04:23:29 UTC\",\"crandb_file_date\":\"2018-03-12 04:26:25\",\"\
+        MD5sum\":\"1205e2efb3bab5a7bc82cbc0da574ff2\",\"date\":\"2018-03-12T03:23:29+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-12T03:09:16+00:00\",\"name\":\"mrMLM\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"mrMLM\",\"Type\":\"Package\"\
+        ,\"Title\":\"Multi-Locus Random-SNP-Effect Mixed Linear Model Tools for\\\
+        u000aGenome-Wide Association Study\",\"Version\":\"3.0\",\"Date\":\"2018-3-10\"\
+        ,\"Author\":\"Zhang Ya-Wen, Li Pei, Ren Wen-Long, Ni Yuan-Li, and Zhang Yuan-Ming\"\
+        ,\"Maintainer\":\"Yuanming Zhang<soyzhang@mail.hzau.edu.cn>\",\"Description\"\
+        :\"Conduct multi-locus genome-wide association study under the framework of\
+        \ random-SNP-effect mixed linear model (mrMLM). First, each marker on the\
+        \ genome is scanned. Bonferroni correction is replaced by a less stringent\
+        \ selection criterion for significant test. Then, all the markers that are\
+        \ potentially associated with the trait are included in a multi-locus model,\
+        \ their effects are estimated by empirical Bayes and true QTN are identified\
+        \ by likelihood ratio test.\",\"Depends\":{\"MASS\":\"*\",\"data.table\":\"\
+        *\",\"doParallel\":\"*\",\"foreach\":\"*\"},\"Imports\":{\"methods\":\"*\"\
+        ,\"openxlsx\":\"*\",\"stringr\":\"*\",\"qqman\":\"*\",\"ggplot2\":\"*\",\"\
+        lars\":\"*\",\"ncvreg\":\"*\",\"coin\":\"*\",\"sampling\":\"*\"},\"License\"\
+        :\"GPL (>= 2)\",\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-11 16:08:32\
+        \ UTC; abc\",\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-12 04:09:16\
+        \ UTC\",\"crandb_file_date\":\"2018-03-12 04:14:21\",\"MD5sum\":\"90b87000354a75892d6106ea03a2fe4a\"\
+        ,\"date\":\"2018-03-12T03:09:16+00:00\",\"releases\":[]}},{\"date\":\"2018-03-11T21:28:49+00:00\"\
+        ,\"name\":\"knor\",\"event\":\"released\",\"package\":{\"Package\":\"knor\"\
+        ,\"Version\":\"0.0-5\",\"Date\":\"2018-03-08\",\"Title\":\"Non-Uniform Memory\
+        \ Access ('NUMA') Optimized, Parallel K-Means\",\"Authors@R\":\"c(person(\\\
+        \"Disa\\\", \\\"Mhembere\\\", role = c(\\\"aut\\\", \\\"cre\\\"), email =\
+        \ \\\"disa@jhu.edu\\\"), person(\\\"Neurodata (https://neurodata.io)\\\",\
+        \ role=\\\"cph\\\"))\",\"Description\":\"The k-means 'NUMA' Optimized Routine\
+        \ library or 'knor' is a highly optimized and fast library for computing k-means\
+        \ in parallel with accelerations for Non-Uniform Memory Access ('NUMA') architectures.\"\
+        ,\"LinkingTo\":{\"Rcpp\":\"*\"},\"Depends\":{\"R\":\">= 3.0\",\"Rcpp\":\"\
+        >= 0.12.8\"},\"License\":\"Apache License 2.0\",\"URL\":\"https://github.com/neurodata/knorR\"\
+        ,\"SystemRequirements\":\"GNU make C++11, pthreads\",\"BugReports\":\"https://github.com/flashxio/knor/issues\"\
+        ,\"RoxygenNote\":\"6.0.1\",\"Encoding\":\"UTF-8\",\"LazyData\":\"true\",\"\
+        NeedsCompilation\":\"yes\",\"Suggests\":{\"testthat\":\"*\"},\"Packaged\"\
+        :\"2018-03-08 20:56:24 UTC; disa\",\"Author\":\"Disa Mhembere [aut, cre],\\\
+        u000aNeurodata (https://neurodata.io) [cph]\",\"Maintainer\":\"Disa Mhembere\
+        \ <disa@jhu.edu>\",\"X-CRAN-Comment\":\"Archived on 2018-01-25 as the undeclared\
+        \ requirement of\\u000aOpenMP was not corrected despite reminders. Unarchived\
+        \ on\\u000a2018-01-31, but archived again for the same reason.\",\"Repository\"\
+        :\"CRAN\",\"Date/Publication\":\"2018-03-11 22:28:49 UTC\",\"crandb_file_date\"\
+        :\"2018-03-11 22:32:22\",\"MD5sum\":\"4bf31ac3fd3528f533c9dc948070ca9a\",\"\
+        date\":\"2018-03-11T21:28:49+00:00\",\"releases\":[]}},{\"date\":\"2018-03-11T21:27:22+00:00\"\
+        ,\"name\":\"DHS.rates\",\"event\":\"released\",\"package\":{\"Package\":\"\
+        DHS.rates\",\"Type\":\"Package\",\"Title\":\"Calculate Key DHS Indicators\"\
+        ,\"Version\":\"0.2.0\",\"Date\":\"2018-03-11\",\"Author\":\"Mahmoud Elkasabi\"\
+        ,\"Maintainer\":\"Mahmoud Elkasabi <mahmoud.elkasabi@icf.com>\",\"Description\"\
+        :\"Calculates key indicators such as fertility rates (Total Fertility Rate\
+        \ (TFR), General Fertility Rate (GFR), and Age Specific Fertility Rate (ASFR))\
+        \ using Demographic and Health Survey (DHS) women/individual data.\\u000aIn\
+        \ addition to the indicators, the 'DHS.rates' package estimates precision\
+        \ indicators such as Standard Error (SE), Design Effect (DEFT), Relative Standard\
+        \ Error (RSE) and Confidence Interval (CI).\\u000aThe package is developed\
+        \ according to the DHS methodology of calculating the fertility indicators\
+        \  outlined in the \\\"DHS Guide to Statistics\\\" (Rutstein and Rojas 2006,\\\
+        u000a<http://dhsprogram.com/pubs/pdf/DHSG1/Guide_to_DHS_Statistics_29Oct2012_DHSG1.pdf>)\\\
+        u000aand the DHS methodology of estimating the precision indicators outlined\
+        \ in the \\\"DHS Sampling and Household Listing Manual\\\" (ICF International\
+        \ 2012,\\u000a<https://dhsprogram.com/pubs/pdf/DHSM4/DHS6_Sampling_Manual_Sept2012_DHSM4.pdf>).\"\
+        ,\"License\":\"GPL-2\",\"Encoding\":\"UTF-8\",\"LazyData\":\"true\",\"Depends\"\
+        :{\"R\":\">= 3.4.0\"},\"Imports\":{\"reshape\":\"*\",\"survey\":\"*\",\"stats\"\
+        :\"*\"},\"RoxygenNote\":\"6.0.1\",\"VignetteBuilder\":\"knitr\",\"Suggests\"\
+        :{\"knitr\":\"*\",\"rmarkdown\":\"*\"},\"NeedsCompilation\":\"no\",\"Packaged\"\
+        :\"2018-03-11 14:01:02 UTC; 31672\",\"Repository\":\"CRAN\",\"Date/Publication\"\
+        :\"2018-03-11 22:27:22 UTC\",\"crandb_file_date\":\"2018-03-11 22:32:25\"\
+        ,\"MD5sum\":\"3df6f644757e074aebeed2f3ac7aca95\",\"date\":\"2018-03-11T21:27:22+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-11T21:24:33+00:00\",\"name\":\"dbplot\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"dbplot\",\"Version\":\"\
+        0.2.1\",\"Title\":\"Simplifies Plotting Data Inside Databases\",\"Description\"\
+        :\"Leverages 'dplyr' to process the calculations of a plot inside a database.\\\
+        u000aThis package provides helper functions that abstract the work at three\
+        \ levels:\\u000aoutputs a 'ggplot', outputs the calculations, outputs the\
+        \ formula\\u000aneeded to calculate bins.\",\"Authors@R\":\"\\u000aperson(\\\
+        \"Edgar\\\", \\\"Ruiz\\\", email = \\\"edgar@rstudio.com\\\", role = c(\\\"\
+        aut\\\", \\\"cre\\\"))\",\"Depends\":{\"R\":\">= 3.1\"},\"Imports\":{\"dplyr\"\
+        :\">= 0.7\",\"rlang\":\">= 0.2.0\",\"ggplot2\":\"*\"},\"Suggests\":{\"dbplyr\"\
+        :\">= 1.2.0\",\"testthat\":\"*\",\"tidyr\":\"*\"},\"License\":\"GPL-3\",\"\
+        URL\":\"https://github.com/edgararuiz/dbplot\",\"BugReports\":\"https://github.com/edgararuiz/dbplot/issues\"\
+        ,\"RoxygenNote\":\"6.0.1\",\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-11\
+        \ 22:19:52 UTC; edgar\",\"Author\":\"Edgar Ruiz [aut, cre]\",\"Maintainer\"\
+        :\"Edgar Ruiz <edgar@rstudio.com>\",\"Repository\":\"CRAN\",\"Date/Publication\"\
+        :\"2018-03-11 22:24:33 UTC\",\"crandb_file_date\":\"2018-03-11 22:32:24\"\
+        ,\"MD5sum\":\"389cb7e791b4ac46d81274b2ee55c17d\",\"date\":\"2018-03-11T21:24:33+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-11T21:24:12+00:00\",\"name\":\"Epi\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"Epi\",\"Version\":\"2.26\"\
+        ,\"Date\":\"2018-03-10\",\"Title\":\"A Package for Statistical Analysis in\
+        \ Epidemiology\",\"Authors@R\":\"c(person(\\\"Bendix\\\", \\\"Carstensen\\\
+        \", role = c(\\\"aut\\\", \\\"cre\\\"),\\u000aemail = \\\"b@bxc.dk\\\"),\\\
+        u000aperson(\\\"Martyn\\\", \\\"Plummer\\\", role = \\\"aut\\\",\\u000aemail\
+        \ = \\\"plummerm@iarc.fr\\\"),\\u000aperson(\\\"Esa\\\", \\\"Laara\\\", role\
+        \ = \\\"ctb\\\"),\\u000aperson(\\\"Michael\\\", \\\"Hills\\\", role = \\\"\
+        ctb\\\"))\",\"Depends\":{\"R\":\">= 3.0.0\",\"utils\":\"*\"},\"Imports\":{\"\
+        cmprsk\":\"*\",\"etm\":\"*\",\"splines\":\"*\",\"MASS\":\"*\",\"survival\"\
+        :\"*\",\"plyr\":\"*\",\"Matrix\":\"*\",\"numDeriv\":\"*\",\"data.table\":\"\
+        *\",\"zoo\":\"*\"},\"Suggests\":{\"mstate\":\"*\",\"nlme\":\"*\",\"lme4\"\
+        :\"*\",\"popEpi\":\"*\"},\"Description\":\"Functions for demographic and epidemiological\
+        \ analysis in\\u000athe Lexis diagram, i.e. register and cohort follow-up\
+        \ data, in\\u000aparticular representation, manipulation and simulation of\
+        \ multistate\\u000adata - the Lexis suite of functions, which includes interfaces\
+        \ to\\u000a'mstate', 'etm' and 'cmprsk' packages.\\u000aAlso contains functions\
+        \ for Age-Period-Cohort and Lee-Carter\\u000amodeling and a function for interval\
+        \ censored data and some useful\\u000afunctions for tabulation and plotting,\
+        \ as well as a number of\\u000aepidemiological data sets.\",\"License\":\"\
+        GPL-2\",\"URL\":\"http://BendixCarstensen.com/Epi/\",\"NeedsCompilation\"\
+        :\"yes\",\"Packaged\":\"2018-03-11 15:59:28 UTC; bendix\",\"Author\":\"Bendix\
+        \ Carstensen [aut, cre],\\u000aMartyn Plummer [aut],\\u000aEsa Laara [ctb],\\\
+        u000aMichael Hills [ctb]\",\"Maintainer\":\"Bendix Carstensen <b@bxc.dk>\"\
+        ,\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-11 22:24:12 UTC\"\
+        ,\"crandb_file_date\":\"2018-03-11 22:32:28\",\"MD5sum\":\"193e9d9e8d616c78dfee79df3575730f\"\
+        ,\"date\":\"2018-03-11T21:24:12+00:00\",\"releases\":[]}},{\"date\":\"2018-03-11T21:24:07+00:00\"\
+        ,\"name\":\"cmm\",\"event\":\"released\",\"package\":{\"Package\":\"cmm\"\
+        ,\"Type\":\"Package\",\"Title\":\"Categorical Marginal Models\",\"Version\"\
+        :\"0.12\",\"Date\":\"2018-03-08\",\"Authors@R\":\"c(\\u000aperson(\\\"W. P.\\\
+        \", \\\"Bergsma\\\", email = \\\"W.P.Bergsma@lse.ac.uk\\\", role = \\\"aut\\\
+        \"),\\u000aperson(\\\"L. A.\\\", \\\"van der Ark\\\", email = \\\"L.A.vanderArk@uva.nl\\\
+        \", role = c(\\\"aut\\\", \\\"cre\\\")))\",\"Description\":\"Quite extensive\
+        \ package for maximum likelihood estimation and\\u000aweighted least squares\
+        \ estimation of categorical marginal models (CMMs;\\u000ae.g., Bergsma and\
+        \ Rudas, 2002, <http://www.jstor.org/stable/2700006?;\\u000aBergsma, Croon\
+        \ and Hagenaars, 2009, <DOI:10.1007/b12532>.\",\"License\":\"GPL (>= 2)\"\
+        ,\"LazyLoad\":\"yes\",\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-11\
+        \ 20:38:42 UTC; lvdark1\",\"Author\":\"W. P. Bergsma [aut],\\u000aL. A. van\
+        \ der Ark [aut, cre]\",\"Maintainer\":\"L. A. van der Ark <L.A.vanderArk@uva.nl>\"\
+        ,\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-11 22:24:07 UTC\"\
+        ,\"crandb_file_date\":\"2018-03-11 22:32:23\",\"MD5sum\":\"d82e5b34a3392b38795c588d4289fa2e\"\
+        ,\"date\":\"2018-03-11T21:24:07+00:00\",\"releases\":[]}},{\"date\":\"2018-03-11T17:19:06+00:00\"\
+        ,\"name\":\"aniDom\",\"event\":\"released\",\"package\":{\"Package\":\"aniDom\"\
+        ,\"Type\":\"Package\",\"Title\":\"Inferring Dominance Hierarchies and Estimating\
+        \ Uncertainty\",\"Version\":\"0.1.3\",\"Date\":\"2018-03-10\",\"Author\":\"\
+        Damien R. Farine and Alfredo Sanchez-Tojar\",\"Maintainer\":\"Damien R. Farine\
+        \ <dfarine@orn.mpg.de>\",\"Description\":\"Provides: (1) Tools to infer dominance\
+        \ hierarchies based on calculating Elo scores, but with custom functions to\
+        \ improve estimates in animals with relatively stable dominance ranks. (2)\
+        \ Tools to plot the shape of the dominance hierarchy and estimate the uncertainty\
+        \ of a given data set.\",\"License\":\"GPL-2\",\"Imports\":{\"rptR\":\"*\"\
+        },\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-10 04:33:13 UTC; damienfarine\"\
+        ,\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-11 18:19:06 UTC\"\
+        ,\"crandb_file_date\":\"2018-03-11 18:20:21\",\"MD5sum\":\"889e772e5c8a3a2d52bb4a8e92683d6c\"\
+        ,\"date\":\"2018-03-11T17:19:06+00:00\",\"releases\":[]}},{\"date\":\"2018-03-11T16:32:27+00:00\"\
+        ,\"name\":\"windfarmGA\",\"event\":\"released\",\"package\":{\"Package\":\"\
+        windfarmGA\",\"Title\":\"Genetic Algorithm for Wind Farm Layout Optimization\"\
+        ,\"Version\":\"1.2\",\"Date\":\"2018-03-07\",\"Author\":\"Sebastian Gatscha\"\
+        ,\"Maintainer\":\"Sebastian Gatscha <sebastian_gatscha@gmx.at>\",\"Description\"\
+        :\"The genetic algorithm is designed to optimize small wind farms with\\u000airregular\
+        \ shapes. The algorithm works with a fixed amount of turbines, a fixed\\u000arotor\
+        \ radius and a mean wind speed value for every incoming wind direction.\\\
+        u000aIf required, it can include a terrain effect model which downloads an\\\
+        u000a'SRTM' elevation model automatically and loads a Corine Land Cover raster,\\\
+        u000awhich has to be downloaded previously. Further information can be found\
+        \ in the\\u000adescription of the function 'windfarmGA'. To start an optimization\
+        \ run, either the\\u000afunction 'windfarmGA' or 'genAlgo' can be used. The\
+        \ function 'windfarmGA' checks\\u000athe user inputs interactively and then\
+        \ runs the function 'genAlgo'. If the input\\u000aparameters are already known,\
+        \ an optimization can be run directly via the function\\u000a'genAlgo'. Their\
+        \ output is identical.\",\"Depends\":{\"R\":\">= 3.2.3\"},\"Imports\":{\"\
+        rgdal\":\">= 1.0-4\",\"raster\":\">= 2.5-2\",\"sp\":\">= 1.2-2\",\"dplyr\"\
+        :\">=\\u000a0.5.0\",\"data.table\":\">= 1.9.6\",\"gtools\":\">= 3.5.0\",\"\
+        maptools\":\">=\\u000a0.8-36\",\"calibrate\":\">= 1.7.2\",\"geoR\":\">= 1.7-5.1\"\
+        ,\"gstat\":\">=\\u000a1.0-26\",\"ggplot2\":\">= 2.2.0\",\"RColorBrewer\":\"\
+        >= 1.1-2\",\"rgeos\":\">=\\u000a0.3-11\",\"RgoogleMaps\":\">= 1.2.0.7\",\"\
+        googleVis\":\">= 0.5.9\",\"foreach\":\">= 1.4.3\",\"parallel\":\">= 3.4.3\"\
+        ,\"doParallel\":\">=\\u000a1.0.11\",\"rgl\":\">= 0.96.0\",\"leaflet\":\">=\
+        \ 1.1.0\",\"methods\":\">=\\u000a3.2.5\",\"spatstat\":\">= 1.42-2\",\"RandomFields\"\
+        :\">= 3.1.50\",\"magrittr\":\">= 1.5\",\"grDevices\":\"*\",\"graphics\":\"\
+        *\",\"stats\":\"*\",\"utils\":\"*\"},\"LazyData\":\"TRUE\",\"License\":\"\
+        MIT + file LICENSE\",\"URL\":\"https://github.com/YsoSirius/windfarmGA\",\"\
+        BugReports\":\"https://github.com/YsoSirius/windfarmGA/issues\",\"RoxygenNote\"\
+        :\"6.0.1\",\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-11 16:57:50\
+        \ UTC; Bobo\",\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-11 17:32:27\
+        \ UTC\",\"crandb_file_date\":\"2018-03-11 17:38:23\",\"MD5sum\":\"ddf581745e0ca48aa4ce249682704d82\"\
+        ,\"date\":\"2018-03-11T16:32:27+00:00\",\"releases\":[]}},{\"date\":\"2018-03-11T15:25:23+00:00\"\
+        ,\"name\":\"Rraven\",\"event\":\"released\",\"package\":{\"Type\":\"Package\"\
+        ,\"Package\":\"Rraven\",\"Title\":\"Connecting R and 'Raven' Sound Analysis\
+        \ Software\",\"Version\":\"1.0.2\",\"Date\":\"2018-03-10\",\"Author\":\"Marcelo\
+        \ Araya-Salas\",\"Maintainer\":\"Marcelo Araya-Salas <araya-salas@cornell.edu>\"\
+        ,\"Description\":\"A tool to exchange data between R and 'Raven' sound analysis\
+        \ software <http://www.birds.cornell.edu/brp/raven/RavenOverview.html> (Cornell\
+        \ Lab of Ornithology). Functions work on data formats compatible with the\
+        \ R package 'warbleR'.\",\"License\":\"GPL (>= 2)\",\"Imports\":{\"pbapply\"\
+        :\"*\",\"warbleR\":\"*\",\"utils\":\"*\",\"stats\":\"*\",\"vegan\":\"*\",\"\
+        dplyr\":\"*\",\"kableExtra\":\"*\",\"doParallel\":\"*\",\"foreach\":\"*\"\
+        ,\"pbmcapply\":\"*\"},\"Depends\":{\"R\":\">= 3.2.1\"},\"LazyData\":\"TRUE\"\
+        ,\"URL\":\"https://github.com/maRce10/Rraven\",\"BugReports\":\"https://github.com/maRce10/Rraven/issues\"\
+        ,\"NeedsCompilation\":\"no\",\"Suggests\":{\"knitr\":\"*\"},\"VignetteBuilder\"\
+        :\"knitr\",\"RoxygenNote\":\"6.0.1\",\"Packaged\":\"2018-03-11 16:09:13 UTC;\
+        \ m\",\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-11 16:25:23 UTC\"\
+        ,\"crandb_file_date\":\"2018-03-11 16:26:24\",\"MD5sum\":\"d0b57a90bda5f5123f1e0495fc946194\\\
+        u000a\",\"date\":\"2018-03-11T15:25:23+00:00\",\"releases\":[]}},{\"date\"\
+        :\"2018-03-11T14:40:03+00:00\",\"name\":\"fitur\",\"event\":\"released\",\"\
+        package\":{\"Package\":\"fitur\",\"Title\":\"Fit Univariate Distributions\"\
+        ,\"Version\":\"0.5.25\",\"Authors@R\":\"person(\\\"Thomas\\\", \\\"Roh\\\"\
+        , email = \\\"thomas@roh.engineering\\\", role = c(\\\"aut\\\", \\\"cre\\\"\
+        ))\",\"Description\":\"Wrapper for computing parameters for univariate distributions\
+        \ using MLE. It creates an object that stores d, p, q, r functions as well\
+        \ as parameters and statistics for diagnostics. Currently supports automated\
+        \ fitting from base and actuar packages. A manually fitting distribution fitting\
+        \ function is included to support directly specifying parameters for any distribution\
+        \ from ancillary packages.\",\"URL\":\"https://github.com/tomroh/fitur\",\"\
+        BugReports\":\"https://github.com/tomroh/fitur/issues\",\"Depends\":{\"R\"\
+        :\">= 3.3.0\"},\"Imports\":{\"stats\":\"*\",\"fitdistrplus\":\"*\",\"actuar\"\
+        :\"*\",\"e1071\":\"*\",\"ggplot2\":\"*\"},\"Suggests\":{\"knitr\":\"*\",\"\
+        rmarkdown\":\"*\"},\"License\":\"MIT + file LICENSE\",\"Encoding\":\"UTF-8\"\
+        ,\"LazyData\":\"true\",\"VignetteBuilder\":\"knitr\",\"RoxygenNote\":\"6.0.1\"\
+        ,\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-11 00:02:47 UTC; troh\"\
+        ,\"Author\":\"Thomas Roh [aut, cre]\",\"Maintainer\":\"Thomas Roh <thomas@roh.engineering>\"\
+        ,\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-11 15:40:03 UTC\"\
+        ,\"crandb_file_date\":\"2018-03-11 15:44:21\",\"MD5sum\":\"5c7eee88bbbe96c2a59f699aff537540\"\
+        ,\"date\":\"2018-03-11T14:40:03+00:00\",\"releases\":[]}},{\"date\":\"2018-03-11T07:55:21+00:00\"\
+        ,\"name\":\"LMest\",\"event\":\"released\",\"package\":{\"Package\":\"LMest\"\
+        ,\"Type\":\"Package\",\"Title\":\"Latent Markov Models with and without Covariates\"\
+        ,\"Version\":\"2.4.2\",\"Date\":\"2018-03-09\",\"Author\":\"Francesco Bartolucci,\
+        \ Silvia Pandolfi - University of Perugia (IT)\",\"Maintainer\":\"Francesco\
+        \ Bartolucci <bart@stat.unipg.it>\",\"Description\":\"Fit certain versions\
+        \ of the Latent Markov model for longitudinal categorical data.\",\"License\"\
+        :\"GPL (>= 2)\",\"Depends\":{\"R\":\">= 2.0.0\",\"MASS\":\"*\",\"MultiLCIRT\"\
+        :\"*\",\"stats\":\"*\"},\"NeedsCompilation\":\"yes\",\"Repository\":\"CRAN\"\
+        ,\"Packaged\":\"2018-03-09 11:05:35 UTC; francescobartolucci\",\"Date/Publication\"\
+        :\"2018-03-11 08:55:21 UTC\",\"crandb_file_date\":\"2018-03-11 08:56:22\"\
+        ,\"MD5sum\":\"053a0dec92856664353df77125e128d0\",\"date\":\"2018-03-11T07:55:21+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-11T07:16:03+00:00\",\"name\":\"eRm\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"eRm\",\"Type\":\"Package\"\
+        ,\"Title\":\"Extended Rasch Modeling\",\"Version\":\"0.16-0\",\"Date\":\"\
+        2018-03-08\",\"Authors@R\":\"c(person(given=\\\"Patrick\\\", family=\\\"Mair\\\
+        \", email=\\\"mair@fas.harvard.edu\\\", role=c(\\\"cre\\\",\\\"aut\\\")),\\\
+        u000aperson(given=\\\"Reinhold\\\", family=\\\"Hatzinger\\\", role=\\\"aut\\\
+        \"),\\u000aperson(given=c(\\\"Marco\\\", \\\"J.\\\"), family=\\\"Maier\\\"\
+        , email=\\\"marco.maier@wu.ac.at\\\", role=\\\"aut\\\"),\\u000aperson(given=\\\
+        \"Thomas\\\", family=\\\"Rusch\\\", email=\\\"thomas.rusch@wu.ac.at\\\", role=\\\
+        \"ctb\\\"))\",\"Description\":\"Fits Rasch models (RM), linear logistic test\
+        \ models (LLTM), rating scale model (RSM), linear rating scale models (LRSM),\
+        \ partial credit models (PCM), and linear partial credit models (LPCM).  Missing\
+        \ values are allowed in the data matrix.  Additional features are the ML estimation\
+        \ of the person parameters, Andersen's LR-test, item-specific Wald test, Martin-Loef-Test,\
+        \ nonparametric Monte-Carlo Tests, itemfit and personfit statistics including\
+        \ infit and outfit measures, various ICC and related plots, automated stepwise\
+        \ item elimination, simulation module for various binary data matrices.\"\
+        ,\"License\":\"GPL-2\",\"URL\":\"http://r-forge.r-project.org/projects/erm/\"\
+        ,\"Imports\":{\"graphics\":\"*\",\"grDevices\":\"*\",\"stats\":\"*\",\"methods\"\
+        :\"*\",\"MASS\":\"*\",\"splines\":\"*\",\"Matrix\":\"*\",\"lattice\":\"*\"\
+        },\"Depends\":{\"R\":\">= 3.0.0\"},\"Encoding\":\"UTF-8\",\"LazyData\":\"\
+        yes\",\"LazyLoad\":\"yes\",\"ByteCompile\":\"yes\",\"NeedsCompilation\":\"\
+        yes\",\"Packaged\":\"2018-03-09 20:18:46 UTC; root\",\"Author\":\"Patrick\
+        \ Mair [cre, aut],\\u000aReinhold Hatzinger [aut],\\u000aMarco J. Maier [aut],\\\
+        u000aThomas Rusch [ctb]\",\"Maintainer\":\"Patrick Mair <mair@fas.harvard.edu>\"\
+        ,\"Repository\":\"CRAN\",\"Date/Publication\":\"2018-03-11 08:16:03 UTC\"\
+        ,\"crandb_file_date\":\"2018-03-11 08:20:26\",\"MD5sum\":\"f7c38407ad2a423029423982efab992e\"\
+        ,\"date\":\"2018-03-11T07:16:03+00:00\",\"releases\":[]}},{\"date\":\"2018-03-11T07:16:00+00:00\"\
+        ,\"name\":\"MPsychoR\",\"event\":\"released\",\"package\":{\"Package\":\"\
+        MPsychoR\",\"Type\":\"Package\",\"Title\":\"Modern Psychometrics with R\"\
+        ,\"Version\":\"0.10-6\",\"Date\":\"2018-03-08\",\"Authors@R\":\"c(person(\\\
+        \"Patrick\\\", \\\"Mair\\\", role = c(\\\"aut\\\", \\\"cre\\\"), email = \\\
+        \"mair@fas.harvard.edu\\\"))\",\"Maintainer\":\"Patrick Mair <mair@fas.harvard.edu>\"\
+        ,\"Description\":\"Supplementary materials and datasets for the book \\\"\
+        Modern Psychometrics With R\\\" (Mair, 2018, Springer useR! series).\",\"\
+        Imports\":{\"graphics\":\"*\",\"stats\":\"*\"},\"Depends\":{\"R\":\">= 3.0.2\"\
+        },\"License\":\"GPL-2\",\"Author\":\"Patrick Mair [aut, cre]\",\"Repository\"\
+        :\"CRAN\",\"Repository/R-Forge/Project\":\"psychor\",\"Repository/R-Forge/Revision\"\
+        :\"296\",\"Repository/R-Forge/DateTimeStamp\":\"2018-03-08 19:03:49\",\"Date/Publication\"\
+        :\"2018-03-11 08:16:00 UTC\",\"NeedsCompilation\":\"no\",\"Packaged\":\"2018-03-08\
+        \ 19:26:41 UTC; rforge\",\"crandb_file_date\":\"2018-03-11 08:20:23\",\"MD5sum\"\
+        :\"653548a6b401503fb06c11726edf9ac5\",\"date\":\"2018-03-11T07:16:00+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-11T06:23:48+00:00\",\"name\":\"mirtCAT\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"mirtCAT\",\"Version\":\"\
+        1.7\",\"Type\":\"Package\",\"Title\":\"Computerized Adaptive Testing with\
+        \ Multidimensional Item\\u000aResponse Theory\",\"Authors@R\":\"c( person(\\\
+        \"Phil\\\", family=\\\"Chalmers\\\", email =\\u000a\\\"rphilip.chalmers@gmail.com\\\
+        \", role = c(\\\"aut\\\", \\\"cre\\\")))\",\"Description\":\"Provides tools\
+        \ to generate an HTML interface for creating adaptive\\u000aand non-adaptive\
+        \ educational and psychological tests using the shiny\\u000apackage (Chalmers\
+        \ (2016) <doi:10.18637/jss.v071.i05>).\\u000aSuitable for applying unidimensional\
+        \ and multidimensional\\u000acomputerized adaptive tests (CAT) using item\
+        \ response theory methodology and for\\u000acreating simple questionnaires\
+        \ forms to collect response data directly in R.\\u000aAdditionally, optimal\
+        \ test designs (e.g., \\\"shadow testing\\\") are supported\\u000afor tests\
+        \ which contain a large number of item selection constraints.\\u000aFinally,\
+        \ package contains tools useful for performing Monte Carlo simulations\\u000afor\
+        \ studying the behavior of computerized adaptive test banks.\",\"Depends\"\
+        :{\"mirt\":\">= 1.25\",\"shiny\":\">= 1.0.1\"},\"Imports\":{\"lattice\":\"\
+        *\",\"stats\":\"*\",\"Rcpp\":\"*\",\"methods\":\"*\",\"markdown\":\"*\",\"\
+        pbapply\":\"*\",\"lpSolve\":\"*\"},\"Suggests\":{\"shinythemes\":\"*\",\"\
+        parallel\":\"*\",\"SimDesign\":\"*\",\"knitr\":\"*\"},\"ByteCompile\":\"yes\"\
+        ,\"LazyLoad\":\"yes\",\"LazyData\":\"yes\",\"VignetteBuilder\":\"knitr\",\"\
+        LinkingTo\":{\"Rcpp\":\"*\",\"RcppArmadillo\":\"*\"},\"License\":\"GPL (>=\
+        \ 3)\",\"Repository\":\"CRAN\",\"Maintainer\":\"Phil Chalmers <rphilip.chalmers@gmail.com>\"\
+        ,\"URL\":\"https://github.com/philchalmers/mirtCAT,\\u000ahttps://github.com/philchalmers/mirtCAT/wiki,\\\
+        u000ahttps://groups.google.com/forum/#!forum/mirt-package\",\"BugReports\"\
+        :\"https://github.com/philchalmers/mirtCAT/issues?state=open\",\"RoxygenNote\"\
+        :\"6.0.1\",\"NeedsCompilation\":\"yes\",\"Packaged\":\"2018-03-11 05:17:23\
+        \ UTC; phil\",\"Author\":\"Phil Chalmers [aut, cre]\",\"Date/Publication\"\
+        :\"2018-03-11 07:23:48 UTC\",\"crandb_file_date\":\"2018-03-11 07:26:22\"\
+        ,\"MD5sum\":\"aa2db6cc40e85ea0c7141108f3f79546\",\"date\":\"2018-03-11T06:23:48+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-11T04:06:39+00:00\",\"name\":\"gfer\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"gfer\",\"Type\":\"Package\"\
+        ,\"Title\":\"Green Finance and Environmental Risk\",\"Version\":\"0.1.10\"\
+        ,\"Date\":\"2018-3-10\",\"Authors@R\":\"person(\\\"Yuanchao\\\", \\\"Xu\\\"\
+        , email = \\\"xuyuanchao37@gmail.com\\\",\\u000arole = c(\\\"aut\\\", \\\"\
+        cre\\\"))\",\"Description\":\"Focuses on data collecting, analyzing and visualization\
+        \ in green finance and environmental\\u000arisk research and analysis. Main\
+        \ function includes environmental data collecting from\\u000aofficial websites\
+        \ such as MEP (Ministry of Environmental Protection of China, <http://www.mep.gov.cn>),\
+        \ water\\u000arelated projects identification and environmental data visualization.\"\
+        ,\"Encoding\":\"UTF-8\",\"License\":\"GPL-2\",\"LazyData\":\"true\",\"Imports\"\
+        :{\"rvest\":\"*\",\"xml2\":\"*\",\"jsonlite\":\"*\",\"httr\":\"*\",\"stringi\"\
+        :\"*\",\"V8\":\"*\",\"data.table\":\"*\",\"tidyr\":\"*\",\"scatterpie\":\"\
+        *\",\"ggplot2\":\"*\",\"ggrepel\":\"*\",\"circlize\":\"*\",\"googlesheets\"\
+        :\"*\",\"gsheet\":\"*\"},\"Depends\":{\"R\":\">= 2.10\"},\"RoxygenNote\":\"\
+        6.0.1\",\"URL\":\"https://yuanchao-xu.github.io/gfer/\",\"BugReports\":\"\
+        https://github.com/Yuanchao-Xu/gfer/issues\",\"Repository\":\"CRAN\",\"Suggests\"\
+        :{\"knitr\":\"*\",\"rmarkdown\":\"*\"},\"VignetteBuilder\":\"knitr\",\"NeedsCompilation\"\
+        :\"no\",\"Packaged\":\"2018-03-10 15:44:12 UTC; Yuanchao\",\"Author\":\"Yuanchao\
+        \ Xu [aut, cre]\",\"Maintainer\":\"Yuanchao Xu <xuyuanchao37@gmail.com>\"\
+        ,\"Date/Publication\":\"2018-03-11 05:06:39 UTC\",\"crandb_file_date\":\"\
+        2018-03-11 05:08:21\",\"MD5sum\":\"dc7037997b57a019f9152765747e64b1\",\"date\"\
+        :\"2018-03-11T04:06:39+00:00\",\"releases\":[]}},{\"date\":\"2018-03-11T03:51:37+00:00\"\
+        ,\"name\":\"widyr\",\"event\":\"released\",\"package\":{\"Package\":\"widyr\"\
+        ,\"Type\":\"Package\",\"Title\":\"Widen, Process, then Re-Tidy Data\",\"Version\"\
+        :\"0.1.1\",\"Date\":\"2018-03-10\",\"Authors@R\":\"c(person(\\\"David\\\"\
+        , \\\"Robinson\\\", email = \\\"admiral.david@gmail.com\\\", role = c(\\\"\
+        aut\\\", \\\"cre\\\")),\\u000aperson(\\\"Kanishka\\\", \\\"Misra\\\", role\
+        \ = \\\"ctb\\\"))\",\"Description\":\"Encapsulates the pattern of untidying\
+        \ data into a wide matrix,\\u000aperforming some processing, then turning\
+        \ it back into a tidy form. This\\u000ais useful for several operations such\
+        \ as co-occurrence counts,\\u000acorrelations, or clustering that are mathematically\
+        \ convenient on wide matrices.\",\"License\":\"MIT + file LICENSE\",\"LazyData\"\
+        :\"TRUE\",\"Maintainer\":\"David Robinson <admiral.david@gmail.com>\",\"URL\"\
+        :\"http://github.com/dgrtwo/widyr\",\"BugReports\":\"http://github.com/dgrtwo/widyr/issues\"\
+        ,\"VignetteBuilder\":\"knitr\",\"Imports\":{\"dplyr\":\"*\",\"tidyr\":\"*\"\
+        ,\"reshape2\":\"*\",\"tidytext\":\"*\",\"purrr\":\"*\",\"Matrix\":\"*\",\"\
+        broom\":\"*\"},\"Suggests\":{\"ggraph\":\"*\",\"igraph\":\"*\",\"gapminder\"\
+        :\"*\",\"testthat\":\"*\",\"covr\":\"*\",\"knitr\":\"*\",\"topicmodels\":\"\
+        *\",\"janeaustenr\":\"*\",\"rmarkdown\":\"*\",\"unvotes\":\">= 0.2.0\",\"\
+        countrycode\":\"*\",\"fuzzyjoin\":\"*\",\"ggplot2\":\"*\",\"maps\":\"*\",\"\
+        irlba\":\"*\"},\"RoxygenNote\":\"6.0.1\",\"NeedsCompilation\":\"no\",\"Packaged\"\
+        :\"2018-03-11 04:26:15 UTC; drobinson\",\"Author\":\"David Robinson [aut,\
+        \ cre],\\u000aKanishka Misra [ctb]\",\"Repository\":\"CRAN\",\"Date/Publication\"\
+        :\"2018-03-11 04:51:37 UTC\",\"crandb_file_date\":\"2018-03-11 04:56:26\"\
+        ,\"MD5sum\":\"79a3c7cb277e7e25cc02a6d56cadc4d9\",\"date\":\"2018-03-11T03:51:37+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-11T03:18:38+00:00\",\"name\":\"pense\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"pense\",\"Type\":\"Package\"\
+        ,\"Title\":\"Penalized Elastic Net S/MM-Estimator of Regression\",\"Version\"\
+        :\"1.2.0\",\"Date\":\"2018-03-08\",\"Authors@R\":\"c(\\u000aperson(\\\"David\\\
+        \", \\\"Kepplinger\\\", , \\\"david.kepplinger@gmail.com\\\",\\u000arole =\
+        \ c(\\\"aut\\\", \\\"cre\\\")),\\u000aperson(\\\"Matias\\\", \\\"Salibian-Barrera\\\
+        \", role = c(\\\"aut\\\")),\\u000aperson(\\\"Gabriela\\\", \\\"Cohen Freue\\\
+        \", role = \\\"aut\\\"),\\u000aperson(\\\"Derek\\\", \\\"Cho\\\", role = \\\
+        \"ctb\\\")\\u000a)\",\"Copyright\":\"See the file COPYRIGHTS for copyright\
+        \ details on some of the\\u000afunctions and algorithms used.\",\"Encoding\"\
+        :\"UTF-8\",\"Biarch\":\"true\",\"URL\":\"https://github.com/dakep/pense-rpkg\"\
+        ,\"BugReports\":\"https://github.com/dakep/pense-rpkg/issues\",\"Description\"\
+        :\"Robust penalized elastic net S and MM estimator for linear\\u000aregression.\
+        \ The method is described in detail in\\u000aCohen Freue, G. V., Kepplinger,\
+        \ D., Salibian-Barrera, M., and Smucler, E.\\u000a(2017) <https://gcohenfr.github.io/pdfs/PENSE_manuscript.pdf>.\"\
+        ,\"Depends\":{\"R\":\">= 3.1.0\",\"Matrix\":\"*\"},\"Imports\":{\"Rcpp\":\"\
+        *\",\"robustbase\":\"*\",\"parallel\":\"*\",\"methods\":\"*\"},\"LinkingTo\"\
+        :{\"Rcpp\":\"*\",\"RcppArmadillo\":\"*\"},\"Suggests\":{\"testthat\":\"*\"\
+        ,\"lars\":\"*\"},\"License\":\"GPL (>= 2)\",\"NeedsCompilation\":\"yes\",\"\
+        RoxygenNote\":\"6.0.1\",\"Packaged\":\"2018-03-10 23:57:05 UTC; david\",\"\
+        Author\":\"David Kepplinger [aut, cre],\\u000aMatias Salibian-Barrera [aut],\\\
+        u000aGabriela Cohen Freue [aut],\\u000aDerek Cho [ctb]\",\"Maintainer\":\"\
+        David Kepplinger <david.kepplinger@gmail.com>\",\"Repository\":\"CRAN\",\"\
+        Date/Publication\":\"2018-03-11 04:18:38 UTC\",\"crandb_file_date\":\"2018-03-11\
+        \ 04:20:22\",\"MD5sum\":\"42566b1f84ff9cc4c3351752f1a2c8a8\",\"date\":\"2018-03-11T03:18:38+00:00\"\
+        ,\"releases\":[]}},{\"date\":\"2018-03-11T03:09:19+00:00\",\"name\":\"ziphsmm\"\
+        ,\"event\":\"released\",\"package\":{\"Package\":\"ziphsmm\",\"Type\":\"Package\"\
+        ,\"Title\":\"Zero-Inflated Poisson Hidden (Semi-)Markov Models\",\"Version\"\
+        :\"2.0.2\",\"Date\":\"2018-03-10\",\"Author\":\"Zekun (Jack) Xu, Ye Liu\"\
+        ,\"Maintainer\":\"Zekun (Jack) Xu <zekunxu@gmail.com>\",\"Description\":\"\
+        Fit zero-inflated Poisson hidden (semi-)Markov models with or without covariates\
+        \ by directly minimizing the negative log likelihood function using the gradient\
+        \ descent algorithm. Multiple starting values should be used to avoid local\
+        \ minima.\",\"Depends\":{\"R\":\">= 3.0.0\"},\"License\":\"GPL\",\"Imports\"\
+        :{\"Rcpp\":\"*\"},\"LinkingTo\":{\"Rcpp\":\"*\",\"RcppArmadillo\":\"*\"},\"\
+        RoxygenNote\":\"6.0.1\",\"NeedsCompilation\":\"yes\",\"Packaged\":\"2018-03-11\
+        \ 00:04:02 UTC; xuzekun\",\"Repository\":\"CRAN\",\"Date/Publication\":\"\
+        2018-03-11 04:09:19 UTC\",\"crandb_file_date\":\"2018-03-11 04:14:25\",\"\
+        MD5sum\":\"17532536c52d15b7fae31823ff2a1d0b\",\"date\":\"2018-03-11T03:09:19+00:00\"\
+        ,\"releases\":[]}} ]"}
+    headers:
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Mon, 12 Mar 2018 23:27:00 GMT']
+      server: [nginx/1.4.6 (Ubuntu)]
+    status: {code: 200, message: OK}
+version: 1

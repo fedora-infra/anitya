@@ -1,0 +1,46 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 1.5.1 at release-monitoring.org
+    method: GET
+    uri: https://git.sr.ht/~sircmpwn/hare/refs/rss.xml
+  response:
+    body:
+      string: <rss version="2.0"><channel><title>~sircmpwn/hare refs</title><link>https://git.sr.ht/~sircmpwn/hare/refs</link><description>Git
+        refs for ~sircmpwn/hare</description><language>en</language></channel></rss>
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '205'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'self' 'unsafe-inline'; img-src * data:; script-src
+        'self' 'unsafe-inline'
+      Content-Type:
+      - application/rss+xml; charset=utf-8
+      Date:
+      - Sun, 25 Sep 2022 19:11:55 GMT
+      Permissions-Policy:
+      - interest-cohort=()
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Clacks-Overhead:
+      - GNU Terry Pratchett
+    status:
+      code: 200
+      message: OK
+version: 1

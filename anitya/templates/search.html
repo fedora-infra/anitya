@@ -1,0 +1,127 @@
+{% extends "master.html" %}
+
+{% block title %}Search Projects · Anitya{% endblock %}
+
+{% block body %}
+
+<div class="page-header">
+<h1>Search projects{% if distroname %} in {{ distroname }}{% endif %}</h1>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">
+    {% if total_page > 1 %}
+    <ul class="pagination pagination-sm">
+      {% if page > 1%}
+      <li class="page-item">
+        {% if distroname %}
+        <a class="page-link" href="{{ url_for('anitya_ui.distro_projects_search',
+                    distroname=distroname, pattern=pattern, page=page-1 ) }}">
+        {% else %}
+        <a class="page-link" href="{{ url_for('anitya_ui.projects_search',
+                  pattern=pattern, page=page-1 ) }}">
+        {% endif %}
+            «
+        </a>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"> « </a>
+        {% endif %}
+      </li>
+      <li class="page-item disabled">
+          <a class="page-link"> {{ page }} / {{ total_page }} </a>
+      </li>
+      {% if page < total_page %}
+      <li class="page-item">
+        {% if distroname %}
+        <a class="page-link" href="{{ url_for('anitya_ui.distro_projects_search',
+              distroname=distroname, pattern=pattern, page=page+1 ) }}">
+        {% else %}
+        <a class="page-link" href="{{ url_for('anitya_ui.projects_search',
+                  pattern=pattern, page=page+1 ) }}">
+        {% endif %}
+          »
+        </a>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"> » </a>
+        {% endif %}
+      </li>
+    </ul>
+    {% endif %}
+  </div>
+
+  <div class="col-sm-6">
+    {% if distroname %}
+    <form action="{{ url_for('anitya_ui.distro_projects_search', distroname=distroname) }}"
+        role="form" class="d-flex gap-2">
+      <input type="text" name="pattern" placeholder="Project name"
+          class="form-control input-sm" value="{{ pattern }}"/>
+      <button type="submit" class="btn btn-sm btn-outline-success w-100">
+          Search {{ distroname }}
+      </button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <p>{{ projects_count }} projects found</p>
+    <div class="list-group">
+    {% if projects %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name
+              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='name_asc') }}"><span class="sort-arrow arrow-up"></span></a>
+              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='name_desc') }}"><span class="sort-arrow arrow-down"></span></a>
+            </th>
+            <th scope="col">Homepage
+              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='homepage_asc') }}"><span class="sort-arrow arrow-up"></span></a>
+              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='homepage_desc') }}"><span class="sort-arrow arrow-down"></span></a>
+            </th>
+            <th scope="col">Backend
+              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='backend_asc') }}"><span class="sort-arrow arrow-up"></span></a>
+              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='backend_desc') }}"><span class="sort-arrow arrow-down"></span></a>
+            </th>
+            <th scope="col">Latest version</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for project in projects %}
+          <tr>
+            <td>
+              <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
+                  {{project.name}}
+              </a>
+            </td>
+            <td>
+              <a href="{{ project.homepage }}" target="_blank" rel="noopener noreferrer">
+                  {{ project.homepage }}
+              </a>
+            </td>
+            <td>
+              {{project.backend}}
+            </td>
+            <td>
+              {% if project.latest_version %}
+                {{ project.latest_version }}
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <blockquote>
+      Oops, this is embarrassing. It seems that no projects are being
+      monitored currently.
+      <p><a href="{{ url_for('anitya_ui.new_project', name=pattern) }}">Click Here</a> to add this project instead. </p>
+    </blockquote>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

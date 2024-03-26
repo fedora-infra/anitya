@@ -1,0 +1,44 @@
+{% extends "master.html" %}
+
+{% block title %}Anitya{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+  <div class="col">
+    <div class="intro">
+        <h3>
+          Watch for releases of your favorite projects
+        </h3>
+        <p>We all have our favorite projects and we all like to use their
+        latest versions with their latest features. However, it is hard
+        to keep in touch with all of them and be informed when they
+        release a new version.  Anitya can help!</p>
+    </div>
+  </div>
+
+  <!-- Three columns of text below the carousel -->
+  <div class="row p-2 justify-content-center">
+    <div class="col-4">
+      <h2>Announce</h2>
+      <p>We monitor upstream releases and broadcast them on
+      <a href="https://fedora-messaging.readthedocs.io/en/latest">Fedora messaging</a> bus. </p>
+    </div>
+    <div class="col-4">
+      <h2>Search</h2>
+      <p>Currently {{ total }} projects are being monitored by Anitya.
+      Your project of interest might be there, or not. To check it
+      <a href="{{ url_for('anitya_ui.projects') }}">browse the list of all projects</a>
+      or simply search for them!</p>
+      <form action="{{ url_for('anitya_ui.projects_search') }}" role="form" class="d-flex">
+          <input id="searchbox" type="text" name="pattern" placeholder="Project name" class="form-control me-2"/>
+          <button type="submit" class="btn btn-outline-success">Search</button>
+      </form>
+      <p><small>You may use * to search for pattern (ie: py*).</small></p>
+    </div>
+  </div><!-- /.row -->
+
+{% endblock %}
+
+{% block jscript %}
+
+{% endblock %}

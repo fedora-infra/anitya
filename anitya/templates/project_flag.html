@@ -1,0 +1,38 @@
+{% extends "master.html" %}
+{% from "functions.html" import render_field_in_row %}
+
+{% block title %}Flag Project · Anitya{% endblock %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Flag project</h1>
+</div>
+<form method="POST" action="{{ url_for('anitya_ui.flag_project', project_id=project.id) }}" >
+  <div class="row">
+    <div class="col-md-12">
+      <p> Flag a project for admin review. Use this form to request that the project
+          be deleted or otherwise changed in a way that can't be done by a regular
+          user.</p>
+      <div class="list-group">
+        <div class="list-group-item">
+          <table class="table">
+            <tr>
+              {{ render_field_in_row(form.reason, tabindex=1) }}
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-success mt-2" id="submit_btn" tabindex=2>
+    Submit
+  </button>
+  <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
+    <button type="button" class="btn btn-danger mt-2" tabindex=3>
+      Cancel
+    </button>
+  </a>
+  {{ form.csrf_token }}
+</form>
+{% endblock %}

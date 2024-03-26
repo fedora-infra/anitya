@@ -1,0 +1,176 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.8.0 at release-monitoring.org]
+    method: GET
+    uri: https://updates.drupal.org/release-history/wysiwyg/6.x
+  response:
+    body:
+      string: !!binary |
+        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
+        vwFCf38PcSIAAA==
+    headers:
+      accept-ranges: [bytes]
+      age: ['4268']
+      cache-control: ['store, no-cache, must-revalidate, post-check=0, pre-check=0']
+      connection: [keep-alive]
+      content-encoding: [gzip]
+      content-length: ['1549']
+      content-type: [text/xml; charset=utf-8]
+      date: ['Wed, 13 Apr 2016 07:26:26 GMT']
+      expires: ['Sun, 19 Nov 1978 05:00:00 GMT']
+      fastly-debug-digest: [a9ddca831e9e94419e5c8fa38230dfd77c0a96c5cd2792169236e5debccb0225]
+      front-end-https: ['on']
+      last-modified: ['Wed, 13 Apr 2016 01:17:21 GMT']
+      server: [nginx/1.8.1]
+      vary: [Accept-Encoding]
+      via: [1.1 varnish, 1.1 varnish]
+      x-cache: ['HIT, HIT']
+      x-cache-hits: ['1, 1']
+      x-served-by: ['cache-sea1927-SEA, cache-ams4144-AMS']
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.8.0 at release-monitoring.org]
+    method: GET
+    uri: https://updates.drupal.org/release-history/foo/6.x
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAAyXMOw6DMBBF0Z5VjFxBEUK6FAZ2wB4Qfg5GxJPMjPPZfZDS3Oro+vFz3+kF0cS5
+        d5e2c4S8cEj51rti8XR141B5iLAME5Ngx6ygNamxfOk9K0UuORwVshWHeBaoIdBDeMNiVEfmpvXn
+        /6T6AdQU8a90AAAA
+    headers:
+      accept-ranges: [bytes]
+      age: ['456']
+      connection: [keep-alive]
+      content-encoding: [gzip]
+      content-length: ['126']
+      content-type: [text/xml; charset=utf-8]
+      date: ['Wed, 13 Apr 2016 07:26:26 GMT']
+      fastly-debug-digest: [41398c2e37c34ada532511ecd2cd07a5c97a87106a6141e22c90654d8cca4525]
+      front-end-https: ['on']
+      server: [nginx/1.8.1]
+      vary: [Accept-Encoding]
+      via: [1.1 varnish, 1.1 varnish]
+      x-cache: ['MISS, HIT']
+      x-cache-hits: ['0, 1']
+      x-served-by: ['cache-sea1927-SEA, cache-ams4144-AMS']
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.8.0 at release-monitoring.org]
+    method: GET
+    uri: https://updates.drupal.org/release-history/admin_menu/6.x
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      accept-ranges: [bytes]
+      age: ['23169']
+      cache-control: ['store, no-cache, must-revalidate, post-check=0, pre-check=0']
+      connection: [keep-alive]
+      content-encoding: [gzip]
+      content-length: ['2674']
+      content-type: [text/xml; charset=utf-8]
+      date: ['Wed, 13 Apr 2016 07:26:26 GMT']
+      expires: ['Sun, 19 Nov 1978 05:00:00 GMT']
+      fastly-debug-digest: [82edba364c6555d8ec4d8d99a80069235f23b8a695f284b7b6417155a3098171]
+      front-end-https: ['on']
+      last-modified: ['Wed, 13 Apr 2016 01:00:13 GMT']
+      server: [nginx/1.8.1]
+      vary: [Accept-Encoding]
+      via: [1.1 varnish, 1.1 varnish]
+      x-cache: ['HIT, HIT']
+      x-cache-hits: ['1, 1']
+      x-served-by: ['cache-sea1923-SEA, cache-ams4133-AMS']
+    status: {code: 200, message: OK}
+version: 1

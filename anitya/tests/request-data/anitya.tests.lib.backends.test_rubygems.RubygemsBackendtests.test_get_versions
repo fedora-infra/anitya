@@ -1,0 +1,46 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.11.0 at release-monitoring.org]
+    method: GET
+    uri: https://rubygems.org/api/v1/versions/bio/latest.json
+  response:
+    body:
+      string: !!binary |
+        H4sIAKHRpFoAA6pWKkstKs7Mz1OyUjLUM9UzVKoFAAAA//8DAKl3OMQTAAAA
+    headers:
+      accept-ranges: [bytes]
+      age: ['0']
+      cache-control: ['max-age=0, private, must-revalidate']
+      connection: [keep-alive]
+      content-encoding: [gzip]
+      content-security-policy: ['default-src ''self''; script-src ''self'' https://secure.gaug.es;
+          style-src ''self'' https://fonts.googleapis.com; img-src ''self'' https://secure.gaug.es
+          https://gravatar.com https://secure.gravatar.com; font-src ''self'' https://fonts.gstatic.com;
+          connect-src https://s3-us-west-2.amazonaws.com/rubygems-dumps/; frame-src
+          https://ghbtns.com']
+      content-type: [application/json; charset=utf-8]
+      date: ['Sun, 11 Mar 2018 06:50:09 GMT']
+      etag: ['"4167a607ffbfac075095edd36e6ae6fc"']
+      server: [RubyGems.org]
+      strict-transport-security: [max-age=0]
+      vary: ['Accept-Encoding,Fastly-SSL']
+      via: [1.1 varnish]
+      x-backend: ['F_Rails 54.186.104.15:443']
+      x-cache: [MISS]
+      x-cache-hits: ['0']
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-request-id: [5aec312c-388d-4943-9455-4c9647c92344]
+      x-runtime: ['0.006702']
+      x-served-by: [cache-mdw17328-MDW]
+      x-timer: ['S1520751009.094779,VS0,VE58']
+      x-ua-compatible: ['IE=Edge,chrome=1']
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1

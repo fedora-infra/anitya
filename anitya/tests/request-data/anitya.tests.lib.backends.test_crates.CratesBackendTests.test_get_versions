@@ -1,0 +1,34 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Cookie: [cargo_session=--3Mz45cH3itfVkmY41+nVjWRm9+0=]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.10.1 at release-monitoring.org]
+    method: GET
+    uri: https://crates.io/api/v1/crates/itoa/versions
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WU226DMAyG3yXXQJxwGnkOrjpNKGpSFZUFxKHThHj3GbR2MEFHurs4cWz/X36l
+        J1ddN3lpGiJee3KsZauJIHlbSuJgqDFWmWxxjwOLXWAuj1IIBXDBkwPmqCKrZHvGBCqrnF4ZnYo0
+        dKxBweMeo6r8MEUp1Zj+vcR+HF4ccsIOXa0x7AeH5IqIwPfDwCFFbi7jLpFdey5rXD5ocMvB+rrS
+        RmlzzMeaD64sEp0bhmw236PLdxU4tOnesdOkFAV2lfqT2ac0F41ST7Jo9ODs5B6kACKIRAj7uMMW
+        dwbr3Flkxx2oNXecaf5Adtx/BDVkwR02uS+Z2XKPXIhcHqacC8ZEuMvvbNvvSRzzZA09T1jMLSw/
+        9rBEP431LPq5pgV6PFhBv4btafTIHYTv77E887Ys77Mt7Hiw+6cZ61tj/4fj53p+YV9z/B37DNkS
+        +9vwBZMkJG7wBQAA
+    headers:
+      connection: [keep-alive]
+      content-encoding: [gzip]
+      content-type: [application/json; charset=utf-8]
+      date: ['Thu, 26 Jan 2017 22:04:31 GMT']
+      server: [nginx]
+      set-cookie: [cargo_session=--3Mz45cH3itfVkmY41+nVjWRm9+0=; HttpOnly; Secure;
+          Path=/]
+      strict-transport-security: [max-age=31536000]
+      via: [1.1 vegur]
+    status: {code: 200, message: OK}
+version: 1

@@ -1,0 +1,44 @@
+interactions:
+- request:
+    body: !!python/unicode '{"query": "\n{\n    repository(owner: \"fedora-infra\",
+      name: \"fedocal\") {\n        refs (refPrefix: \"refs/tags/\", last:50,\n                orderBy:{field:TAG_COMMIT_DATE,
+      direction:ASC}) {\n            totalCount\n            edges {\n                cursor\n                node
+      {\n                    name\n                    target {\n                        commitUrl\n                    }\n                }\n            }\n        }\n    }\n    rateLimit
+      {\n        limit\n        remaining\n        resetAt\n    }\n}"}'
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [bearer Not_found]
+      Connection: [keep-alive]
+      Content-Length: ['533']
+      Content-Type: [application/json]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
+    method: POST
+    uri: https://api.github.com/graphql
+  response:
+    body: {string: !!python/unicode '{"message":"Bad credentials","documentation_url":"https://developer.github.com/v4"}'}
+    headers:
+      access-control-allow-origin: ['*']
+      access-control-expose-headers: ['ETag, Link, Retry-After, X-GitHub-OTP, X-RateLimit-Limit,
+          X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes,
+          X-Poll-Interval']
+      content-length: ['83']
+      content-security-policy: [default-src 'none']
+      content-type: [application/json; charset=utf-8]
+      date: ['Fri, 24 Aug 2018 11:44:17 GMT']
+      referrer-policy: ['origin-when-cross-origin, strict-origin-when-cross-origin']
+      server: [GitHub.com]
+      status: [401 Unauthorized]
+      strict-transport-security: [max-age=31536000; includeSubdomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [deny]
+      x-github-media-type: [github.v4; format=json]
+      x-github-request-id: ['C4A8:23A5:15B7BE2:314B0A8:5B7FEF90']
+      x-ratelimit-limit: ['0']
+      x-ratelimit-remaining: ['0']
+      x-ratelimit-reset: ['1535114656']
+      x-runtime-rack: ['0.011671']
+      x-xss-protection: [1; mode=block]
+    status: {code: 401, message: Unauthorized}
+version: 1

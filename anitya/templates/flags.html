@@ -1,0 +1,140 @@
+{% extends "master.html" %}
+
+{% block title %}Flags · Anitya{% endblock %}
+
+{%block header %}
+{% if refresh %}
+<meta http-equiv="refresh" content="5" >
+{% endif %}
+{% endblock %}
+
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Flags</h1>
+  {% if refresh %}
+  <p>This page should refresh automatically every 5 seconds</p>
+  <a href="{{ url_for('anitya_ui.browse_flags', page=page) }}">
+    <button type="submit" class="btn btn-danger" id="checknow">
+      Remove auto-refresh
+    </button>
+  </a>
+  {% else %}
+  <a href="{{ url_for('anitya_ui.browse_flags', page=page, refresh=True) }}">
+    <button type="submit" class="btn btn-success" id="checknow">
+      Activate auto-refresh
+    </button>
+  </a>
+  {% endif %}
+</div>
+
+<div class="row show-grid mt-2">
+  <div class="col-sm-4">
+    {% if total_page > 1 %}
+    <ul class="pagination pagination-sm">
+      {% if page > 1%}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_for('anitya_ui.browse_flags',
+                 page=page-1, state=state, project=project,
+                 user=flags_for_user, from_date=from_date) }}">
+           «
+        </a>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"> « </a>
+      {% endif %}
+      </li>
+      <li class="page-item disabled">
+        <a class="page-link"> {{ page }} / {{ total_page }} </a>
+      </li>
+      {% if page < total_page %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_for('anitya_ui.browse_flags',
+                  page=page+1, state=state, project=project,
+                  user=flags_for_user, from_date=from_date) }}">
+          »
+        </a>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link"> » </a>
+      {% endif %}
+      </li>
+    </ul>
+    {% endif %}
+  </div>
+
+  <div class="col-sm-8">
+    <form action="{{url_for('anitya_ui.browse_flags') }}" class="d-flex float-end gap-2 mt-2"
+          role="form" action="GET" id="flags_form">
+        <select name="state" class="form-select">
+            <option value="open" {% if state== 'open' %}selected="selected"{% endif %}>open</option>
+            <option value="closed" {% if state== 'closed' %}selected="selected"{% endif %}>closed</option>
+            <option value="" {% if state== '' %}selected="selected"{% endif %}>all</option>
+        </select>
+
+        <input type="text" name="project" placeholder="Project name"
+            class="form-control" value="{{ project }}"/>
+
+        <input type="text" name="user" placeholder="User identifier"
+            class="form-control" value="{{ flags_for_user }}"/>
+
+        <input type='date' class="form-control" name="from_date"
+                id="from_date"
+                value="{{ from_date }}"/>
+
+        <button type="submit" class="btn btn-outline-success">
+          Filter
+        </button>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+
+<table class="table table-striped mt-2 w-100" id="flag_list">
+  <tr>
+    <th></th>
+    <th>State</th>
+    <th>Created</th>
+    <th>Project</th>
+    <th>User</th>
+    <th>Reason</th>
+  </tr>
+{% for flag in flags %}
+  <tr>
+    <td>
+      {% if flag.state == 'open' %}
+      <form method="POST" action="{{ url_for('anitya_ui.set_flag_state', flag_id=flag.id, state='closed') }}">
+        <button type="submit" class="btn btn-warning btn-sm pull-right inline"
+              id="flag_btn">
+          Close
+        </button>
+      {% else %}
+      <form method="POST" action="{{ url_for('anitya_ui.set_flag_state', flag_id=flag.id, state='open') }}">
+        <button type="submit" class="btn btn-success btn-sm pull-right inline"
+              id="flag_btn">
+          Open
+        </button>
+      {% endif %}
+      {{ form.csrf_token }}
+      </form>
+
+    </td>
+    <td> {{ flag.state }} </td>
+    <td>
+        {{ flag.created_on.strftime('%Y-%m-%d %H:%M:%S') }}
+    </td>
+    <td>
+      {% if flag.project -%}
+      <a href="{{ url_for('anitya_ui.project', project_id=flag.project.id) }}">{{ flag.project.name }}</a>
+      {%- endif %}
+    </td>
+    <td> {{ flag.user }} </td>
+    <td> {{ flag.reason }} </td>
+  </tr>
+{% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,191 @@
+[tool.towncrier]
+package = "anitya"
+filename = "docs/release-notes.rst"
+directory = "news/"
+title_format = "{version} ({project_date})"
+issue_format = "{issue}"
+template = "news/_template.rst"
+
+  [[tool.towncrier.type]]
+  directory = "api"
+  name = "API Changes"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "feature"
+  name = "Features"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "bug"
+  name = "Bug Fixes"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "dev"
+  name = "Development Changes"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "other"
+  name = "Other Changes"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "author"
+  name = "Contributors"
+  showcontent = true
+
+[tool.black]
+line-length = 88
+target-version = ['py36']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+)
+'''
+
+[tool.isort]
+profile = "black"
+
+[tool.poetry]
+name = "anitya"
+version = "1.9.0"
+description = "A cross-distribution upstream release monitoring project"
+authors = ["Pierre-Yves Chibon <pingou@pingoured.fr>"]
+maintainers = ["Michal Konecny <mkonecny@redhat.com>"]
+readme = "README.rst"
+homepage = "https://release-monitoring.org"
+documentation = "https://anitya.readthedocs.io"
+repository = "https://github.com/fedora-infra/anitya"
+license = "GPL-2.0-or-later"
+classifiers = [
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11"
+]
+exclude = [
+  "anitya/tests"
+]
+include = [
+  "LICENSE", "README.rst",
+  "createdb.py", "alembic.ini",
+  "files/anitya.toml.sample", "files/config.toml.sample",
+  "anitya/static/docs/**/*", "anitya/static/node_modules/**/*"
+]
+
+[tool.poetry.scripts]
+check_service = "anitya.check_service:main"
+sar = "anitya.sar:main"
+
+[tool.poetry.dependencies]
+python = "^3.8.10"
+alembic = "^1.8.1"
+anitya-schema = "^2.0.1"
+arrow = "^1.2.3"
+beautifulsoup4 = "^4.11.1"
+defusedxml = "^0.7.1"
+fedora-messaging = "^3.1.0"
+Flask = "^3.0.0"
+Flask-Login = "^0.6.3"
+Flask-WTF = "^1.2.1"
+# https://github.com/sphinx-doc/sphinx/issues/10306
+Jinja2 = "<3.1.4"
+ordered-set = "^4.1.0"
+packaging = "^24.0"
+python-dateutil = "^2.8.2"
+semver = "^3.0.0"
+social-auth-app-flask = "^1.0.0"
+social-auth-app-flask-sqlalchemy = "^1.0.1"
+SQLAlchemy = "^2.0.0"
+sseclient = "^0.0.27"
+# Limit the package till https://github.com/maxcountryman/flask-login/issues/686 is fixed
+Werkzeug = "3.0.1"
+"straight.plugin" = "^1.5.0"
+toml = "^0.10.2"
+webargs = "^8.2.0"
+WTForms = "^3.0.1"
+
+[tool.poetry.dev-dependencies]
+bandit = "^1.7.4"
+black = "^24.3.0"
+coverage = "^7.0.0"
+diff-cover = "^8.0.0"
+flake8 = "^7.0.0"
+mock = "^5.0.0"
+pytest = "^8.0.0"
+pytest-cov = "^5.0.0"
+vcrpy = "^6.0.0"
+psycopg2-binary = "^2.9.3"
+
+# Authentication integration testing
+requests = "^2.31.0"
+requests-oauthlib = "^2.0.0"
+
+# Required to test building the docs
+Sphinx = "^7.0.0"
+sphinxcontrib-httpdomain = "^1.8.0"
+sqlalchemy_schemadisplay = "^2.0"
+
+# Mypy test requirements
+mypy = "^1.0"
+types-mock = "^4.0.15"
+types-python-dateutil = "^2.8.19"
+types-requests = "^2.28.11"
+types-setuptools = "^65.3.0"
+types-six = "^1.16.19"
+types-toml = "^0.10.8"
+
+[tool.poetry.group.dev.dependencies]
+tox = "^4.5.1"
+towncrier = "^23.0.0"
+pre-commit = "^3.3.3"
+pylint = "^3.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pylint]
+disable = [
+  "abstract-method",
+  "attribute-defined-outside-init",
+  "broad-exception-caught",
+  "cyclic-import",
+  "duplicate-code",
+  "inconsistent-return-statements",
+  "invalid-name",
+  "no-else-return",
+  "no-name-in-module",
+  "no-member",
+  "redefined-outer-name",
+  "too-few-public-methods",
+  "too-many-ancestors",
+  "too-many-arguments",
+  "too-many-branches",
+  "too-many-instance-attributes",
+  "too-many-lines",
+  "too-many-locals",
+  "too-many-public-methods",
+  "too-many-return-statements",
+  "too-many-statements",
+  "unnecessary-dunder-call",
+  "unnecessary-pass",
+  "unused-argument",
+  "use-dict-literal",
+  "useless-object-inheritance"
+]

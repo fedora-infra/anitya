@@ -1,0 +1,51 @@
+---
+- name: Install RabbitMQ packages
+  package:
+      name: "{{ item }}"
+      state: present
+  with_items:
+      - rabbitmq-server
+
+- name: Update /etc/hosts
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1 rabbitmq"
+
+- name: Create RabbitMQ systemd override directory
+  file:
+    path: /etc/systemd/system/rabbitmq-server.service.d/
+    state: directory
+
+#- name: start rabbitmq
+#  service: name=rabbitmq-server state=started enabled=yes
+
+# Because of the issue in rabbitmq systemd unit start rabbitmq as following
+# See https://bugzilla.redhat.com/show_bug.cgi?id=2091001
+- name: Start rabbitmq node
+  command: rabbitmq-server start -detached
+
+- name: Wait for rabbitmq node to start
+  pause:
+    seconds: 10
+
+- name: Start rabbitmq app
+  command: rabbitmqctl start_app
+
+- name: Override file limit on rabbitmq
+  copy:
+    content: "[Service]\nLimitNOFILE={{rabbitmq_cluster_file_limit}}\n"
+    dest: /etc/systemd/system/rabbitmq-server.service.d/override.conf
+#  notify:
+#    - reload rabbitmq
+
+- name: Ensure that .erlang.cookie has correct owner
+  file:
+    path: /var/lib/rabbitmq/.erlang.cookie
+    owner: rabbitmq
+    group: rabbitmq
+
+- name: Enables the rabbitmq management and SSL authentication plugins
+  rabbitmq_plugin:
+    names: rabbitmq_management,rabbitmq_auth_mechanism_ssl
+#  notify:
+#    - reload rabbitmq

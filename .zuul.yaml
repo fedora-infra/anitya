@@ -1,0 +1,19 @@
+---
+- project:
+    check:
+      jobs:
+        - fi-tox-mypy
+        - fi-tox-lint
+        - fi-tox-format
+        - fi-tox-python38
+        - fi-tox-python39
+        - fi-tox-python310
+        - fi-tox-python311
+        - fi-tox-docs:
+            vars:
+              dependencies:
+                - graphviz
+                - python3-sphinxcontrib-httpdomain
+                - python3-sqlalchemy_schemadisplay
+        - fi-tox-bandit
+        - fi-tox-diff-cover

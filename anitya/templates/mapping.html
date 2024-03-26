@@ -1,0 +1,71 @@
+{% extends "master.html" %}
+{% from "functions.html" import render_field_in_row %}
+
+{% block title %}Distribution Mapping · Anitya{% endblock %}
+
+{% block body %}
+
+<div class="page-header">
+  <h1>Project: {{ project.name }}</h1>
+</div>
+
+
+{% if package %}
+<form method="POST" action="{{ url_for('anitya_ui.edit_project_mapping',
+    project_id=project.id, pkg_id=package.id) }}" >
+{% else %}
+<form method="POST" action="{{ url_for('anitya_ui.map_project', project_id=project.id) }}" >
+{% endif %}
+  {{ form.csrf_token }}
+  <div class="row">
+    <div class="col-md-6">
+      <div class="list-group">
+        <div class="list-group-item">
+          <table class="table">
+            <tr>
+              {{ render_field_in_row(form.distro) }}
+              <td></td>
+            </tr>
+
+            <tr>
+              {{ render_field_in_row(form.package_name) }}
+              <td></td>
+            </tr>
+         </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-success me-2 mt-2">
+    {% if package %}
+    Edit mapping
+    {% else %}
+    Add mapping to project
+    {% endif %}
+  </button>
+
+  <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
+    <button type="button" class="btn btn-danger mt-2">
+      Cancel
+    </button>
+  </a>
+</form>
+<br/>
+<div class="row">
+  <div class="col-md-6">
+    <p>
+      Missing your favorite distribution?<br\>
+      You can add it through <a href="{{ url_for('anitya_ui.distros') }}">distros</a>
+    </p>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block jscript %}
+<script type="text/javascript">
+  // Tooltips
+  $("#distro").prop('title', "Official distribution name");
+  $("#package_name").prop('title', "Package name used in the distribution");
+</script>
+{% endblock %}

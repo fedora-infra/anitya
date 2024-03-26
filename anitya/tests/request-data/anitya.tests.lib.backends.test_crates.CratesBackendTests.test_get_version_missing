@@ -1,0 +1,25 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Cookie: [cargo_session=--3Mz45cH3itfVkmY41+nVjWRm9+0=]
+      From: [admin@fedoraproject.org]
+      User-Agent: [Anitya 0.10.1 at release-monitoring.org]
+    method: GET
+    uri: https://crates.io/api/v1/crates/pleasedontmakethisprojectitllbreakmytests/versions
+  response:
+    body: {string: !!python/unicode '{"errors":[{"detail":"Not Found"}]}'}
+    headers:
+      connection: [keep-alive]
+      content-length: ['35']
+      content-type: [application/json; charset=utf-8]
+      date: ['Thu, 26 Jan 2017 22:04:30 GMT']
+      server: [nginx]
+      set-cookie: [cargo_session=--3Mz45cH3itfVkmY41+nVjWRm9+0=; HttpOnly; Secure;
+          Path=/]
+      via: [1.1 vegur]
+    status: {code: 404, message: Not Found}
+version: 1

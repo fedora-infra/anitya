@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Monitoring project releases" />
+    <meta name="author" content="Pierre-Yves Chibon" />
+
+    <link rel="shortcut icon" href="{{ url_for('anitya_ui.static', filename='ico/favicon.ico') }}">
+
+    <!-- Page Title -->
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{{ url_for('anitya_ui.static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='css/text.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='css/navbar.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='css/footer.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='css/cnucnu.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='node_modules/jquery-ui/dist/themes/base/jquery-ui.min.css') }}" rel="stylesheet" />
+
+    {% block header %}{% endblock %}
+
+  </head>
+
+  <body
+    prefix="doap: http://usefulinc.com/ns/doap#"
+    class="d-flex flex-column min-vh-100 pb-0"
+  >
+    <header>
+      <!-- Static navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div id="wrap" class="container-fluid ms-2">
+            <a class="navbar-brand" href="{{url_for('anitya_ui.index')}}">
+                release-monitoring.org
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('anitya_ui.static', filename='docs/index.html') }}">docs</a>
+                </li>
+                {%- if current == 'projects' -%}
+                <li class="nav-item dropdown active">
+                {%- else -%}
+                <li class="nav-item dropdown">
+                {%- endif -%}
+                <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    projects
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{url_for('anitya_ui.projects')}}">All</a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" href="{{url_for('anitya_ui.projects_updated')}}">Updated</a>
+                    <a class="dropdown-item" href="{{url_for('anitya_ui.projects_updated', status='failed')}}">
+                        Failed to update
+                    </a>
+                    <a class="dropdown-item" href="{{url_for('anitya_ui.projects_updated', status='never_updated')}}">
+                        Never updated
+                    </a>
+                    <a class="dropdown-item" href="{{url_for('anitya_ui.projects_updated', status='archived')}}">
+                            Archived
+                    </a>
+                </div>
+                </li>
+
+                {%- if current == 'distros' -%}
+                <li class="nav-item active">
+                {%- else -%}
+                <li class="nav-item">
+                {%- endif -%}
+                <a class="nav-link" href="{{url_for('anitya_ui.distros')}}">
+                    distros
+                </a>
+                </li>
+
+                {%- if user and user.is_authenticated -%}
+                {%- if current == 'Add projects' -%}
+                <li class="nav-item active">
+                {%- else -%}
+                <li class="nav-item">
+                {%- endif -%}
+                <a class="nav-link" href="{{url_for('anitya_ui.new_project')}}">
+                    add project
+                </a>
+                </li>
+
+                {%- if current == 'logs' -%}
+                <li class="nav-item active">
+                {%- else -%}
+                <li class="nav-item">
+                {%- endif -%}
+                <a class="nav-link" href="{{url_for('anitya_ui.browse_logs')}}">
+                    logs
+                </a>
+                </li>
+                {%- if is_admin -%}
+                {%- if current == 'flags' -%}
+                <li class="nav-item active">
+                {%- else -%}
+                <li class="nav-item">
+                {%- endif -%}
+                    <a class="nav-link" href="{{url_for('anitya_ui.browse_flags')}}">
+                        flags
+                    </a>
+                </li>
+                {%- if current == 'users' -%}
+                <li class="nav-item active">
+                {%- else -%}
+                <li class="nav-item">
+                {%- endif -%}
+                    <a class="nav-link" href="{{url_for('anitya_ui.browse_users')}}">
+                    users
+                    </a>
+                </li>
+                {%- endif -%}
+
+                {%- if current == 'settings' -%}
+                <li class="nav-item active">
+                {%- else -%}
+                <li class="nav-item">
+                {%- endif -%}
+                <a class="nav-link" href="{{url_for('anitya_ui.settings')}}">settings</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{url_for('anitya_ui.logout')}}">
+                    <span class="glyphicon glyphicon-log-out"></span>
+                    logout
+                </a>
+                </li>
+                {%- else -%}
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{url_for('anitya_ui.login')}}">
+                        login
+                    </a>
+                </li>
+                {%- endif -%}
+            </ul>
+            <form action="{{ url_for('anitya_ui.projects_search') }}" role="form" class="d-flex me-2">
+                <input id="searchbox" class="form-control me-2" type="search" placeholder="Project name" name="pattern" />
+                <button type="submit" class="btn btn-outline-success">Search</button>
+            </form>
+
+            </div> <!--/.nav-collapse -->
+
+        </div> <!-- /container -->
+      </nav>
+
+      {%- with messages = get_flashed_messages(with_categories=true) -%}
+        {%- if category, messages -%}
+        <div class="container-fluid mt-2">
+          <div class="row justify-content-center">
+            <div class="col-md-6 col-md-offset-3">
+              <ul id="flashes" class="list-group">
+                    {%- for category, message in messages -%}
+                    {%- autoescape false -%}
+                    <li class="list-group-item list-group-item-{{ category | context_class }}">{{ message }}</li>
+                    {%- endautoescape -%}
+                    {%- endfor -%}
+        {%- endif -%}
+              </ul>
+            </div>
+          </div>
+        </div>
+      {%- endwith -%}
+    </header>
+
+    <main class="container pt-3 pb-3">
+      {% block body %}{% endblock %}
+    </main>
+
+    <footer class="footer mt-auto bg-light">
+        <div class="d-flex justify-content-center flex-nowrap">
+            <p class="text-muted credit">
+                Anitya ({{ version }}):
+                <a href="{{ url_for('anitya_apiv1.api') }}">API</a>
+                --
+                <a href="https://github.com/fedora-infra/anitya">sources</a>
+                --
+                <a href="https://github.com/fedora-infra/anitya/issues">issue tracker</a>
+                .
+                ©2013-2024 Red Hat, Inc., <a href="http://pingoured.fr">pingou</a>.
+                {% if cron_status %}
+                Last check ended at (UTC) {{
+                    cron_status.created_on.strftime('%Y-%m-%d %H:%M:%S') }}
+                Total ({{ cron_status.total_count }}):
+                OK ({{ cron_status.success_count }})
+                Err ({{ cron_status.error_count }})
+                Rate ({{ cron_status.ratelimit_count }})
+                {% endif %}
+            </p>
+        </div>
+    </footer>
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript"
+        src="{{ url_for('anitya_ui.static', filename='node_modules/jquery/dist/jquery.min.js')}}"></script>
+    <script type="text/javascript"
+        src="{{ url_for('anitya_ui.static', filename='node_modules/jquery-ui/dist/jquery-ui.min.js')}}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('anitya_ui.static', filename='node_modules/@popperjs/core/dist/umd/popper.min.js') }}">
+    </script>
+    <script type="text/javascript"
+        src="{{ url_for('anitya_ui.static', filename='node_modules/bootstrap/dist/js/bootstrap.min.js') }}">
+    </script>
+    <script type="text/javascript"
+        src="{{ url_for('anitya_ui.static', filename='node_modules/moment/moment.js') }}">
+    </script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('body').tooltip({ selector: '[data-toggle="tooltip"]' });
+        $('#searchbox').autocomplete({
+          source: function( request, response ) {
+            $.getJSON(
+              "{{ url_for('anitya_apiv1.api_projects_names') }}", {
+                pattern: request.term + '*'
+              },
+              function( data ) {
+                response( data.projects.slice(0, 10) );
+              }
+            );
+          },
+          minLength: 3,
+          delay: 600,
+        });
+      });
+    </script>
+    {% block jscript %}{% endblock %}
+  </body>
+</html>
+

@@ -1,0 +1,2 @@
+APP_MODULE=anitya.wsgi:application
+UPGRADE_PIP_TO_LATEST=true

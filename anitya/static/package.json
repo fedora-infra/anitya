@@ -1,0 +1,31 @@
+{
+  "name": "anitya",
+  "version": "1.0.0",
+  "description": ".. image:: https://img.shields.io/pypi/v/anitya.svg   :target: https://pypi.org/project/anitya/",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zlopez/anitya.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zlopez/anitya/issues"
+  },
+  "homepage": "https://github.com/Zlopez/anitya#readme",
+  "dependencies": {
+    "@popperjs/core": "^2.11.6",
+    "bootstrap": "^5.2.2",
+    "jquery": "^3.6.1",
+    "jquery-ui": "^1.13.2",
+    "moment": "^2.29.4"
+  }
+}

@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: true
+  become_method: sudo
+  vars:
+  roles:
+    - role: anitya-dev
+      vars:
+        anitya_src: "file:///home/{{ ansible_env.SUDO_USER }}/devel"
