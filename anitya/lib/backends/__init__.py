@@ -31,9 +31,9 @@ from typing import List
 from urllib.error import URLError
 
 import arrow
-import pkg_resources
 import requests
 import six
+from anitya import __version__ as anitya_version
 
 from anitya.config import config as anitya_config
 from anitya.lib.exceptions import AnityaPluginException
@@ -43,7 +43,7 @@ REGEX = anitya_config["DEFAULT_REGEX"]
 
 # Default headers for requests
 REQUEST_HEADERS = {
-    "User-Agent": f"Anitya {pkg_resources.get_distribution('anitya').version} "
+    "User-Agent": f"Anitya {anitya_version.get_distribution('anitya').version} "
     "at release-monitoring.org",
     "From": anitya_config.get("ADMIN_EMAIL"),
     "If-modified-since": arrow.Arrow(1970, 1, 1).format("ddd, DD MMM YYYY HH:mm:ss")
