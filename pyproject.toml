@@ -119,6 +119,8 @@ Werkzeug = "3.0.1"
 toml = "^0.10.2"
 webargs = "^8.2.0"
 WTForms = "^3.0.1"
+rapidfuzz = "*"
+
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.4"

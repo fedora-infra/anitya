@@ -10,6 +10,7 @@ dist/
 pip-wheel-metadata/
 venv/
 .venv/
+myenv/
 
 # Docs
 anitya/static/docs/
