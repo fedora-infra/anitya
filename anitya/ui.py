@@ -11,12 +11,9 @@ from sqlalchemy.exc import SQLAlchemyError
 import anitya
 from anitya.config import config as anitya_config
 from anitya.db import Session, models
-from anitya.forms import ProjectForm
 from anitya.lib import exceptions
 from anitya.lib import plugins as anitya_plugins
 from anitya.lib import utilities
-
-from .lib.plugins import load_plugins
 
 ui_blueprint = flask.Blueprint(
     "anitya_ui", __name__, static_folder="static", template_folder="templates"
@@ -477,11 +474,14 @@ def new_project(
     packages=None,
 ):
     """
-    function to create a project
+    View for creating a new project.
+    This function accepts GET and POST requests. POST requests can result in
+    a HTTP 400 for invalid forms, a HTTP 409 if the request conflicts with an
+    existing project, or a HTTP 302 redirect to the new project.
     """
-    backend_plugins = load_plugins(Session)
+    backend_plugins = anitya_plugins.load_plugins(Session)
     plg_names = [plugin.name for plugin in backend_plugins]
-    version_plugins = load_plugins(Session, family="versions")
+    version_plugins = anitya_plugins.load_plugins(Session, family="versions")
     version_plg_names = [plugin.name for plugin in version_plugins]
     # Get all available distros name
     distros = models.Distro.all(Session)
@@ -489,7 +489,7 @@ def new_project(
     for distro in distros:
         distro_names.append(distro.name)
 
-    form = ProjectForm(
+    form = anitya.forms.ProjectForm(
         backends=plg_names, version_schemes=version_plg_names, distros=distro_names
     )
 
