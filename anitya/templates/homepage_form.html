@@ -1,0 +1,12 @@
+{% extends "master.html" %}
+
+{% block title %}Search Projects · Anitya{% endblock %}
+
+{% block body %}
+    <h1>Enter Homepage URL</h1>
+    <form method="post" action="{{ url_for('anitya_ui.find_project_by_homepage') }}">
+        <label for="homepage_url">Homepage URL:</label><br>
+        <input type="text" id="homepage_url" name="homepage_url"><br><br>
+        <input class="btn btn-success" type="submit" value="Submit">
+    </form>
+{% endblock %}

@@ -3,15 +3,20 @@
 from math import ceil
 
 import flask
+from flask import redirect, render_template, request, url_for
 from flask_login import current_user, login_required, logout_user
+from rapidfuzz import process
 from sqlalchemy.exc import SQLAlchemyError
 
 import anitya
 from anitya.config import config as anitya_config
 from anitya.db import Session, models
+from anitya.forms import ProjectForm
 from anitya.lib import exceptions
 from anitya.lib import plugins as anitya_plugins
 from anitya.lib import utilities
+
+from .lib.plugins import load_plugins
 
 ui_blueprint = flask.Blueprint(
     "anitya_ui", __name__, static_folder="static", template_folder="templates"
@@ -461,17 +466,22 @@ def distro_projects_search(distroname, pattern=None):
 
 @ui_blueprint.route("/project/new", methods=["GET", "POST"])
 @login_required
-def new_project():
+def new_project(
+    name=None,
+    homepage=None,
+    backend=None,
+    version_scheme=None,
+    version_prefix=None,
+    pre_release_filter=None,
+    version_filter=None,
+    packages=None,
+):
     """
-    View for creating a new project.
-
-    This function accepts GET and POST requests. POST requests can result in
-    a HTTP 400 for invalid forms, a HTTP 409 if the request conflicts with an
-    existing project, or a HTTP 302 redirect to the new project.
+    function to create a project
     """
-    backend_plugins = anitya_plugins.load_plugins(Session)
+    backend_plugins = load_plugins(Session)
     plg_names = [plugin.name for plugin in backend_plugins]
-    version_plugins = anitya_plugins.load_plugins(Session, family="versions")
+    version_plugins = load_plugins(Session, family="versions")
     version_plg_names = [plugin.name for plugin in version_plugins]
     # Get all available distros name
     distros = models.Distro.all(Session)
@@ -479,24 +489,50 @@ def new_project():
     for distro in distros:
         distro_names.append(distro.name)
 
-    form = anitya.forms.ProjectForm(
+    form = ProjectForm(
         backends=plg_names, version_schemes=version_plg_names, distros=distro_names
     )
 
-    if flask.request.method == "GET":
-        form.name.data = flask.request.args.get("name", "")
-        form.homepage.data = flask.request.args.get("homepage", "")
-        form.backend.data = flask.request.args.get("backend", "")
-        form.version_scheme.data = flask.request.args.get("version_scheme", "")
-        form.distro.data = flask.request.args.get("distro", "")
-        form.package_name.data = flask.request.args.get("package_name", "")
-        return flask.render_template(
+    if request.method == "GET":
+        # Auto-fill form fields with provided data
+        form.name.data = (
+            name if name is not None else flask.request.args.get("name", "")
+        )
+        form.homepage.data = (
+            homepage if homepage is not None else flask.request.args.get("homepage", "")
+        )
+        form.backend.data = (
+            backend if backend is not None else flask.request.args.get("backend", "")
+        )
+        form.version_scheme.data = (
+            version_scheme
+            if version_scheme is not None
+            else flask.request.args.get("version_scheme", "")
+        )
+        form.version_prefix.data = (
+            version_prefix
+            if version_prefix is not None
+            else flask.request.args.get("version_prefix", "")
+        )
+        form.pre_release_filter.data = (
+            pre_release_filter
+            if pre_release_filter is not None
+            else flask.request.args.get("pre_release_filter", "")
+        )
+        form.version_filter.data = (
+            version_filter
+            if version_filter is not None
+            else flask.request.args.get("version_filter", "")
+        )
+
+        return render_template(
             "project_new.html",
             context="Add",
             current="Add projects",
             form=form,
             plugins=backend_plugins,
         )
+
     elif form.validate_on_submit():
         project = None
         try:
@@ -785,6 +821,53 @@ def edit_project_mapping(project_id, pkg_id):
     return flask.render_template(
         "mapping.html", current="projects", project=project, package=package, form=form
     )
+
+
+@ui_blueprint.route("/enter_homepage")
+@login_required
+def enter_homepage():
+    """Display form to collect homepage from user"""
+    return render_template("homepage_form.html")
+
+
+@ui_blueprint.route("/find_project", methods=["POST"])
+@login_required
+def find_project_by_homepage():
+    """API to get and auto-fill form fields in project creation"""
+    if "homepage_url" in flask.request.form:
+        homepage_url = flask.request.form["homepage_url"]
+        # Query all projects from the database
+        all_projects = models.Project.all(Session)
+        best_match_project = None
+        best_match_ratio = -1
+
+        # Iterate over all projects and compare their homepage URLs with the provided URL
+        for project in all_projects:
+            ratio = process.extractOne(homepage_url, [project.homepage])[1]
+            if ratio > best_match_ratio and ratio >= 80:
+                best_match_ratio = ratio
+                best_match_project = project
+
+        if best_match_project:
+            # Redirect to the new_project view with the data from the best match project
+            return redirect(
+                url_for(
+                    "anitya_ui.new_project",
+                    name=best_match_project.name,
+                    homepage=best_match_project.homepage,
+                    backend=best_match_project.backend,
+                    version_scheme=best_match_project.version_scheme,
+                    version_prefix=best_match_project.version_prefix,
+                    pre_release_filter=best_match_project.pre_release_filter,
+                    version_filter=best_match_project.version_filter,
+                )
+            )
+        else:
+            flask.flash("Project not found for the provided URL.", "error")
+            return redirect(url_for("anitya_ui.index"))
+    else:
+        flask.flash("Invalid request.", "error")
+        return redirect(url_for("anitya_ui.index"))
 
 
 def format_examples(examples):
