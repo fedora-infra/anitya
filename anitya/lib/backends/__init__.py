@@ -43,7 +43,7 @@ REGEX = anitya_config["DEFAULT_REGEX"]
 
 # Default headers for requests
 REQUEST_HEADERS = {
-    "User-Agent": f"Anitya {anitya_version.get_distribution('anitya').version} "
+    "User-Agent": f"Anitya {anitya_version} "
     "at release-monitoring.org",
     "From": anitya_config.get("ADMIN_EMAIL"),
     "If-modified-since": arrow.Arrow(1970, 1, 1).format("ddd, DD MMM YYYY HH:mm:ss")
