@@ -19,7 +19,7 @@
 """Module handling the load/call of the plugins of anitya."""
 
 import logging
-
+import importlib
 from straight.plugin import load
 
 from anitya.lib.backends import BaseBackend
