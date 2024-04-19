@@ -33,7 +33,7 @@ from urllib.error import URLError
 import arrow
 import requests
 import six
-from anitya import  __version__ as anitya_version
+from anitya import __version__ as anitya_version
 from anitya.config import config as anitya_config
 from anitya.lib.exceptions import AnityaPluginException
 from anitya.lib.versions import GLOBAL_DEFAULT, RpmVersion
