@@ -18,13 +18,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """Module handling the load/call of the plugins of anitya."""
 
+import inspect
 import logging
+import os
+import pkgutil
+from importlib import import_module
 
-from straight.plugin import load
-
-from anitya.lib.backends import BaseBackend
-from anitya.lib.ecosystems import BaseEcosystem
-from anitya.lib.versions import Version
+import anitya.lib.backends as anitya_backends
+import anitya.lib.ecosystems as anitya_ecosystems
+import anitya.lib.versions as anitya_versions
 
 _log = logging.getLogger(__name__)
 
@@ -38,7 +40,18 @@ class _PluginManager(object):
 
     def get_plugins(self):
         """Return the list of plugins."""
-        return load(self._namespace, subclasses=self._base_class)
+        module_path = os.path.dirname(self._namespace.__file__)
+        module_names = [name for _, name, _ in pkgutil.iter_modules([module_path])]
+        plugins = []
+        for module_name in module_names:
+            module = import_module(f"{self._namespace.__name__}.{module_name}")
+            classes = [obj for _, obj in inspect.getmembers(module, inspect.isclass)]
+            for cls in classes:
+                if cls == self._base_class:
+                    continue
+                if issubclass(cls, self._base_class):
+                    plugins.append(cls)
+        return plugins
 
     def get_plugin_names(self):
         """Return the list of plugin names."""
@@ -54,9 +67,9 @@ class _PluginManager(object):
                 return plugin
 
 
-BACKEND_PLUGINS = _PluginManager("anitya.lib.backends", BaseBackend)
-ECOSYSTEM_PLUGINS = _PluginManager("anitya.lib.ecosystems", BaseEcosystem)
-VERSION_PLUGINS = _PluginManager("anitya.lib.versions", Version)
+BACKEND_PLUGINS = _PluginManager(anitya_backends, anitya_backends.BaseBackend)
+ECOSYSTEM_PLUGINS = _PluginManager(anitya_ecosystems, anitya_ecosystems.BaseEcosystem)
+VERSION_PLUGINS = _PluginManager(anitya_versions, anitya_versions.Version)
 
 
 def _load_backend_plugins(session):
