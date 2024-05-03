@@ -487,6 +487,11 @@ class DeleteProjectMappingTests(DatabaseTestCase):
             project=self.project,
             package_name="test-project",
         )
+        self.complicated_package = models.Packages(
+            distro_name=self.distro.name,
+            project=self.project,
+            package_name="complicated/package",
+        )
 
         # Add a regular user and an admin user
         session = Session()
@@ -503,7 +508,14 @@ class DeleteProjectMappingTests(DatabaseTestCase):
         )
 
         session.add_all(
-            [admin_social_auth, self.admin, self.distro, self.project, self.package]
+            [
+                admin_social_auth,
+                self.admin,
+                self.distro,
+                self.project,
+                self.package,
+                self.complicated_package,
+            ]
         )
         session.commit()
 
@@ -568,7 +580,26 @@ class DeleteProjectMappingTests(DatabaseTestCase):
                 )
 
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, len(models.Packages.query.all()))
+            self.assertEqual(1, len(models.Packages.query.all()))
+
+    def test_admin_post_with_slash(self):
+        """Assert admin users can delete project mappings."""
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get("/project/1/delete/Fedora/complicated/package")
+            csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
+                1
+            ].split(b'">')[0]
+            data = {"confirm": True, "csrf_token": csrf_token}
+
+            with fml_testing.mock_sends(anitya_schema.ProjectMapDeleted):
+                output = self.client.post(
+                    "/project/1/delete/Fedora/complicated/package",
+                    data=data,
+                    follow_redirects=True,
+                )
+
+            self.assertEqual(200, output.status_code)
+            self.assertEqual(1, len(models.Packages.query.all()))
 
     def test_admin_post_unconfirmed(self):
         """Assert failing to confirm the action results in no change."""
@@ -586,7 +617,7 @@ class DeleteProjectMappingTests(DatabaseTestCase):
             )
 
             self.assertEqual(200, output.status_code)
-            self.assertEqual(1, len(models.Packages.query.all()))
+            self.assertEqual(2, len(models.Packages.query.all()))
 
 
 class DeleteProjectVersionTests(DatabaseTestCase):

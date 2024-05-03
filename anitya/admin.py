@@ -203,7 +203,8 @@ def set_project_archive_state(project_id, state):
 
 
 @ui_blueprint.route(
-    "/project/<project_id>/delete/<distro_name>/<pkg_name>", methods=["GET", "POST"]
+    "/project/<project_id>/delete/<distro_name>/<path:pkg_name>",
+    methods=["GET", "POST"],
 )
 @login_required
 def delete_project_mapping(project_id, distro_name, pkg_name):
