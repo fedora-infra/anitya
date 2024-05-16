@@ -5,9 +5,8 @@
     name: [
            git,
            vim-enhanced,
+           poetry,
            python-devel,
-           python36,
-           python37,
            python3-black,
            python3-tox,
            tmux
@@ -33,21 +32,16 @@
   dnf:
     name: [
            #python3-sphinxcontrib-httpdomain,
-           # The version 2.0 will be available in F40
-           #python3-sqlalchemy_schemadisplay
+           python3-sqlalchemy_schemadisplay
           ]
     state: present
 
-# Anitya needs 2.0 version of sqlalchemy_schemadisplay,
-# but it's not available in <F40, let's install it from pip till
-# F40 vagrant box will be available
 # Anitya needs 1.8.0 version of sphinxcontrib-httpdomain,
 # but it's not available in Fedora yet, let's install it from pip now
 - name: Install pip dev dependencies
   pip:
     name:
       [
-        sqlalchemy_schemadisplay,
         sphinxcontrib-httpdomain
       ]
     state: present
@@ -68,6 +62,7 @@
            python3-toml,
            python3-semver,
            python3-sqlalchemy,
+           python3-sqlalchemy_schemadisplay,
            python3-sseclient,
            python3-straight-plugin,
            python3-wtforms
@@ -92,12 +87,24 @@
   args:
     chdir: /home/{{ ansible_env.SUDO_USER }}/devel/anitya/static
 
+- name: Use system-side-packages in poetry virtualenv
+  ansible.builtin.command:
+    cmd: poetry config virtualenvs.options.system-site-packages true
+
 - name: Install Anitya into the virtualenv
-  pip:
-    name:
-      - "{{ anitya_src }}"
-    extra_args: "-e"
-  tags: install
+  ansible.builtin.command:
+    cmd: poetry install
+  args:
+    chdir: /home/{{ ansible_env.SUDO_USER }}/devel
+  become_user: "{{ ansible_env.SUDO_USER }}"
+
+- name: Install Anitya into the virtualenv
+  ansible.builtin.command:
+    cmd: poetry env info -p
+  register: poetry_location
+  args:
+    chdir: /home/{{ ansible_env.SUDO_USER }}/devel
+  become_user: "{{ ansible_env.SUDO_USER }}"
 
 - name: Create user systemd directory
   become_user: "{{ ansible_env.SUDO_USER }}"
@@ -125,7 +132,7 @@
 # Could be removed when we move away from social_auth
 - name: Hotfix for social_auth
   replace:
-    path: /usr/local/lib/python3.11/site-packages/social_sqlalchemy/storage.py
+    path: "{{ poetry_location.stdout }}/lib/python3.12/site-packages/social_sqlalchemy/storage.py"
     regexp: 'base64\.encodestring'
     replace: 'base64.encodebytes'
 

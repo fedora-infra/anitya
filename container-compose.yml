@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Containerfile.dev
       args:
-        FEDORA_VERSION: 38
+        FEDORA_VERSION: 40
     container_name: "anitya-web"
     ports:
       - "127.0.0.1:5000:5000"
@@ -17,6 +17,7 @@ services:
     restart: unless-stopped
     environment:
       - FLASK_APP=anitya.wsgi
+      - FLASK_DEBUG=1
       - START_COMMAND=flask run -h 0.0.0.0
     depends_on:
       postgres:

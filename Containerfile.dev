@@ -39,6 +39,6 @@ RUN pip install dist/*.whl
 
 # Hotfix for social_auth-sqlalchemy
 # Should be removed when we switch to something else
-RUN sed -i 's/base64.encodestring/base64.encodebytes/g' /usr/local/lib/python3.11/site-packages/social_sqlalchemy/storage.py
+RUN sed -i 's/base64.encodestring/base64.encodebytes/g' /usr/local/lib/python3.12/site-packages/social_sqlalchemy/storage.py
 
 CMD ["sh","-c", "poetry build && pip install dist/*.whl && eval '$START_COMMAND'"]
