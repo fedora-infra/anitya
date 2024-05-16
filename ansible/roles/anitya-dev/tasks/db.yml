@@ -57,7 +57,7 @@
   replace:
     dest: /home/vagrant/alembic.ini
     regexp: "^script_location = anitya.*$"
-    replace: "script_location = devel/anitya/db/migrations"
+    replace: "script_location = /home/vagrant/devel/anitya/db/migrations"
 
 - name: Switch the database connection to postgres
   replace:
@@ -67,15 +67,15 @@
 
 - name: Apply database migrations
   become_user: "{{ ansible_env.SUDO_USER }}"
-  command: python3 -m alembic.config upgrade head
+  command: poetry run alembic -c /home/vagrant/alembic.ini upgrade head
   args:
-      chdir: /home/vagrant/
+      chdir: /home/vagrant/devel
   when: import_production_database
 
 - name: Create database schema
   become_user: "{{ ansible_env.SUDO_USER }}"
   shell: >
-      python createdb.py && touch ~/.schema-created
+      poetry run python createdb.py && touch ~/.schema-created
   args:
     creates: /home/vagrant/.schema-created
     chdir: /home/vagrant/devel
