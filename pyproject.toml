@@ -132,7 +132,7 @@ vcrpy = "^6.0.0"
 psycopg2-binary = "^2.9.3"
 
 # Authentication integration testing
-requests = "^2.31.0"
+requests = "^2.32.0"
 requests-oauthlib = "^2.0.0"
 
 # Required to test building the docs
