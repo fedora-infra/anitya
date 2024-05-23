@@ -12,6 +12,8 @@ from anitya.db import Session, models
 from anitya.lib import exceptions
 from anitya.lib import plugins as anitya_plugins
 from anitya.lib import utilities
+from flask import request, jsonify
+import requests
 
 ui_blueprint = flask.Blueprint(
     "anitya_ui", __name__, static_folder="static", template_folder="templates"
@@ -458,6 +460,7 @@ def distro_projects_search(distroname, pattern=None):
         page=page,
     )
 
+from flask import request
 
 @ui_blueprint.route("/project/new", methods=["GET", "POST"])
 @login_required
@@ -475,21 +478,13 @@ def new_project():
     version_plg_names = [plugin.name for plugin in version_plugins]
     # Get all available distros name
     distros = models.Distro.all(Session)
-    distro_names = []
-    for distro in distros:
-        distro_names.append(distro.name)
+    distro_names = [distro.name for distro in distros]
 
     form = anitya.forms.ProjectForm(
         backends=plg_names, version_schemes=version_plg_names, distros=distro_names
     )
 
-    if flask.request.method == "GET":
-        form.name.data = flask.request.args.get("name", "")
-        form.homepage.data = flask.request.args.get("homepage", "")
-        form.backend.data = flask.request.args.get("backend", "")
-        form.version_scheme.data = flask.request.args.get("version_scheme", "")
-        form.distro.data = flask.request.args.get("distro", "")
-        form.package_name.data = flask.request.args.get("package_name", "")
+    if request.method == "GET":
         return flask.render_template(
             "project_new.html",
             context="Add",
@@ -573,6 +568,29 @@ def new_project():
         ),
         400,
     )
+
+
+
+RELEASE_MONITORING_API_BASE_URL = "https://release-monitoring.org/api/v2/projects/"
+
+@ui_blueprint.route('/get_project_info', methods=['GET'])
+def get_project_info():
+    homepage_url = request.args.get('homepage')
+
+    print("Received homepage URL:", homepage_url)
+
+    response = requests.get(RELEASE_MONITORING_API_BASE_URL, params={'homepage': homepage_url})
+
+    print("Response status code:", response.status_code)
+
+    if response.status_code == 200:
+        project_info = response.json()['items'][-1]
+        return jsonify(project_info), 200
+    else:
+        error_message = response.json().get('message', 'Unknown error')
+        print("Error message:", error_message)
+        return jsonify({'error': error_message}), response.status_code
+
 
 
 @ui_blueprint.route("/project/<project_id>/edit", methods=["GET", "POST"])
