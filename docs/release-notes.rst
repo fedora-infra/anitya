@@ -4,6 +4,51 @@ Release Notes
 
 .. towncrier release notes start
 
+1.10.0 (2024-05-29)
+===================
+
+Features
+--------
+
+* Add option to delete user to users management page
+  (`#931 <https://github.com/fedora-infra/anitya/issues/931>`_)
+
+* Sort search by a "clickable" 'name' 'homepage' 'backend' 'latest version'
+  (`#1627 <https://github.com/fedora-infra/anitya/issues/1627>`_)
+
+
+Bug Fixes
+---------
+
+* Error when uuid object is returned from Fedora Account System
+  (`#1727 <https://github.com/fedora-infra/anitya/issues/1727>`_)
+
+
+Development Changes
+-------------------
+
+* Remove `straight.plugin` dependency
+  (`#1769 <https://github.com/fedora-infra/anitya/issues/1769>`_)
+
+
+Other Changes
+-------------
+
+* Added instructions for configuring `social_sqlalchemy` in Anitya to the contributing guidelines.
+  (`#1723 <https://github.com/fedora-infra/anitya/issues/1723>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Vidit Maheshwari
+* Arthur Zamarin
+* NyuydineBill
+* freedisch
+* Michal Konecny
+
 1.9.0 (2024-01-30)
 ==================
 

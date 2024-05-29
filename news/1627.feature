@@ -1,1 +1,0 @@
-Sort search by a "clickable" 'name' 'homepage' 'backend' 'latest version'?
