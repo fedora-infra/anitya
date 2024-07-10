@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-    - uses: actions/setup-python@v5.1.0
+    - uses: actions/setup-python@v5.1.1
     - uses: snok/install-poetry@v1
     - name: Install tox
       run: |
