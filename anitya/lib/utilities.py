@@ -84,6 +84,7 @@ def check_project_release(project, session, test=False):
         project.next_check = project.last_check + backend.check_interval
 
     try:
+        _log.debug("Retrieving versions for %s", project.name)
         versions_prefix = backend.get_versions(project)
         _log.debug("Versions retrieved: '%s'", versions_prefix)
     except exceptions.RateLimitException as err:
@@ -151,6 +152,7 @@ def check_project_release(project, session, test=False):
         return upstream_versions[::-1]
 
     if upstream_versions:
+        _log.debug("Sending message for %s", project.name)
         publish_message(
             project=project.__json__(),
             topic="project.version.update",
@@ -182,6 +184,7 @@ def check_project_release(project, session, test=False):
             ),
         )
 
+    _log.debug("Commit changes to database for %s", project.name)
     session.add(project)
     session.commit()
 
