@@ -104,6 +104,7 @@ class Checker:
         try:
             _log.debug("Checking project %s", project.name)
             utilities.check_project_release(project, session)
+            _log.debug("Project check complete %s", project.name)
         except RateLimitException as err:
             self.blacklist_project(project, err.reset_time)
             return
