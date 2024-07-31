@@ -2704,24 +2704,24 @@ files = [
 
 [[package]]
 name = "towncrier"
-version = "23.11.0"
+version = "24.7.0"
 description = "Building newsfiles for your project."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "towncrier-23.11.0-py3-none-any.whl", hash = "sha256:2e519ca619426d189e3c98c99558fe8be50c9ced13ea1fc20a4a353a95d2ded7"},
-    {file = "towncrier-23.11.0.tar.gz", hash = "sha256:13937c247e3f8ae20ac44d895cf5f96a60ad46cfdcc1671759530d7837d9ee5d"},
+    {file = "towncrier-24.7.0-py3-none-any.whl", hash = "sha256:344ccdbd4a2af0e54e8fdad96b0082c4b5b988b9b021c8a65ccf54c25818ffbf"},
+    {file = "towncrier-24.7.0.tar.gz", hash = "sha256:4de1a52102bd62e15499889a795803594467f79bf23cfef2b308e644cf435cee"},
 ]
 
 [package.dependencies]
 click = "*"
+importlib-metadata = {version = ">=4.6", markers = "python_version < \"3.10\""}
 importlib-resources = {version = ">=5", markers = "python_version < \"3.10\""}
-incremental = "*"
 jinja2 = "*"
 tomli = {version = "*", markers = "python_version < \"3.11\""}
 
 [package.extras]
-dev = ["furo", "packaging", "sphinx (>=5)", "twisted"]
+dev = ["furo (>=2024.05.06)", "nox", "packaging", "sphinx (>=5)", "twisted"]
 
 [[package]]
 name = "tox"
@@ -2942,6 +2942,7 @@ description = "Automatically mock your HTTP interactions to simplify and speed u
 optional = false
 python-versions = ">=3.8"
 files = [
+    {file = "vcrpy-6.0.1-py2.py3-none-any.whl", hash = "sha256:621c3fb2d6bd8aa9f87532c688e4575bcbbde0c0afeb5ebdb7e14cac409edfdd"},
     {file = "vcrpy-6.0.1.tar.gz", hash = "sha256:9e023fee7f892baa0bbda2f7da7c8ac51165c1c6e38ff8688683a12a4bde9278"},
 ]
 
@@ -3283,4 +3284,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.10"
-content-hash = "f2663060c27dda82341012e3074f9162397943e256b1dfa8f6047c2028120a82"
+content-hash = "611cd8de2596a6b31dab98fda397694a3dfd8c2ebe174f2eb71261716feba5e6"
