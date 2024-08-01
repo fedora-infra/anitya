@@ -5,10 +5,9 @@
         - fi-tox-mypy
         - fi-tox-lint
         - fi-tox-format
-        - fi-tox-python38
-        - fi-tox-python39
         - fi-tox-python310
         - fi-tox-python311
+        - fi-tox-python312
         - fi-tox-docs:
             vars:
               dependencies:
@@ -16,4 +15,7 @@
                 - python3-sphinxcontrib-httpdomain
                 - python3-sqlalchemy_schemadisplay
         - fi-tox-bandit
-        - fi-tox-diff-cover
+        - fi-tox-diff-cover:
+            vars:
+              tox_envlist: "py312,diff-cover"
+              job_dependencies: "python312"
