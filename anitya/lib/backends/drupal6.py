@@ -50,7 +50,7 @@ class Drupal6Backend(BaseBackend):
         if "-" in project.name:
             name = project.name.replace("-", "_")
 
-        url = f"https://updates.drupal.org/release-history/{name}/6.x"
+        url = f"https://updates.drupal.org/release-history/{name}/6.x"  # noqa: E231
 
         return url
 

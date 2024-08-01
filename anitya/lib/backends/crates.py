@@ -191,7 +191,7 @@ class CratesBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = f"https://crates.io/api/v1/crates/{project.name}/versions"
+        url = f"https://crates.io/api/v1/crates/{project.name}/versions"  # noqa: E231
 
         return url
 

@@ -38,7 +38,7 @@ class GnuBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = f"https://ftp.gnu.org/gnu/{project.name}/"
+        url = f"https://ftp.gnu.org/gnu/{project.name}/"  # noqa: E231
 
         return url
 

@@ -405,12 +405,12 @@ def get_versions_by_regex_for_text(text, url, regex, project):
 
         if " " in version:
             raise AnityaPluginException(
-                f"{project.name}: invalid upstream version:>{version}< - {url} "
+                f"{project.name}: invalid upstream version: >{version}< - {url} "
                 f"- {regex} "
             )
     if len(upstream_versions) == 0:
         raise AnityaPluginException(
-            f"{project.name}: no upstream version found. - {url} -  {regex}"
+            f"{project.name}: no upstream version found. - {url} - {regex}"
         )
     # Filter retrieved versions
     filtered_versions = BaseBackend.filter_versions(

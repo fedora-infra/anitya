@@ -73,7 +73,7 @@ class GnomeBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = f"https://download.gnome.org/sources/{project.name}/"
+        url = f"https://download.gnome.org/sources/{project.name}/"  # noqa: E231
 
         return url
 

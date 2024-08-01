@@ -326,7 +326,7 @@ class AnityaWebAPItests(DatabaseTestCase):
         exp = {
             "error": [
                 "geany: no upstream version found. "
-                "- https://www.geany.org/Down - "
+                "- https://www.geany.org/Down -"
                 " " + REGEX % ({"name": "geany"})
             ],
             "output": "notok",

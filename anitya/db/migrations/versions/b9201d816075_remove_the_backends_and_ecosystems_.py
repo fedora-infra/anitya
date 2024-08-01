@@ -40,7 +40,9 @@ def downgrade():
     # We have to populate the backends table before we can add the ecosystems
     # table with its foreign key constraint.
     for backend in plugins.BACKEND_PLUGINS.get_plugins():
-        op.execute(f"INSERT INTO backends (name) VALUES ('{backend.name}');")
+        op.execute(
+            f"INSERT INTO backends (name) VALUES ('{backend.name}');"  # noqa: E702,E231
+        )
 
     op.create_table(
         "ecosystems",
@@ -67,7 +69,7 @@ def downgrade():
         op.execute(
             f"""
             INSERT INTO ecosystems (name, default_backend_name)
-            VALUES ('{ecosystem.name}', '{ecosystem.default_backend}');"""
+            VALUES ('{ecosystem.name}', '{ecosystem.default_backend}');"""  # noqa: E702,E231
         )
 
     op.create_foreign_key(
