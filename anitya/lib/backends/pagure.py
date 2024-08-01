@@ -52,7 +52,7 @@ class PagureBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = f"https://pagure.io/api/0/{project.name}/git/tags"
+        url = f"https://pagure.io/api/0/{project.name}/git/tags"  # noqa: E231
 
         return url
 

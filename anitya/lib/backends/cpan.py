@@ -44,7 +44,7 @@ class CpanBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = f"https://metacpan.org/release/{project.name}/"
+        url = f"https://metacpan.org/release/{project.name}/"  # noqa: E231
 
         return url
 
@@ -94,5 +94,5 @@ class CpanBackend(BaseBackend):
                 name, version = title.text.rsplit("-", 1)
             except ValueError:
                 _log.info("Unable to parse CPAN package %s into a name and version")
-            homepage = f"https://metacpan.org/release/{name}/"
+            homepage = f"https://metacpan.org/release/{name}/"  # noqa: E231
             yield name, homepage, cls.name, version

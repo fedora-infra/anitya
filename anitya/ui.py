@@ -203,7 +203,7 @@ def projects_updated(status="updated"):
     if status not in statuses:
         flask.flash(
             f"{status} is invalid, you should use one of: "
-            f"{', '.join(statuses)}; using default: `updated`",
+            f"{', '.join(statuses)}; using default: `updated`",  # noqa: E702
             "errors",
         )
         flask.flash(

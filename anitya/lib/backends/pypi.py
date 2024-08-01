@@ -68,7 +68,7 @@ class PypiBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = f"https://pypi.org/pypi/{project.name}/json"
+        url = f"https://pypi.org/pypi/{project.name}/json"  # noqa: E231
 
         return url
 
@@ -149,5 +149,5 @@ class PypiBackend(BaseBackend):
         for entry in items:
             title = entry["title"]["value"]
             name, version = title.rsplit(None, 1)
-            homepage = f"https://pypi.org/project/{name}/"
+            homepage = f"https://pypi.org/project/{name}/"  # noqa: E231
             yield name, homepage, cls.name, version

@@ -34,7 +34,7 @@ class StackageBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = f"https://www.stackage.org/package/{project.name}"
+        url = f"https://www.stackage.org/package/{project.name}"  # noqa: E231
 
         return url
 
@@ -54,7 +54,7 @@ class StackageBackend(BaseBackend):
         url = cls.get_version_url(project)
 
         regex = (
-            rf"<a href=\"https://hackage.haskell.org/package/{project.name}\">"
+            rf"<a href=\"https://hackage.haskell.org/package/{project.name}\">"  # noqa: E231
             r"<span class=\"version\">([\d.]*).*</span></a>"
         )
 

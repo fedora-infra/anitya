@@ -50,7 +50,7 @@ class DebianBackend(BaseBackend):
         else:
             short = project.name[0]
 
-        return f"http://ftp.debian.org/debian/pool/main/{short}/{project.name}/"
+        return f"http://ftp.debian.org/debian/pool/main/{short}/{project.name}/"  # noqa: E231
 
     @classmethod
     def get_versions(cls, project):

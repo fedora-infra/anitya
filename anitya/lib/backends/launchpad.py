@@ -34,7 +34,7 @@ class LaunchpadBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = f"https://launchpad.net/{project.name}/+download"
+        url = f"https://launchpad.net/{project.name}/+download"  # noqa: E231
 
         return url
 

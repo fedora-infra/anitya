@@ -285,7 +285,7 @@ def prepare_query(owner, repo, releases_only):
     if releases_only:
         fetch_obj = "releases"
         # get release name and follow release -> tag
-        rel_tag_fragment = f"name tag {{ {tag_fragment} }}"
+        rel_tag_fragment = f"name tag {{ {tag_fragment} }}"  # noqa: E202,E201
         order_by_field = "CREATED_AT"
     else:
         fetch_obj = "refs"
@@ -317,6 +317,6 @@ def prepare_query(owner, repo, releases_only):
         remaining
         resetAt
     }}
-}}"""
+}}"""  # noqa: E202
 
     return query

@@ -49,7 +49,7 @@ class BitBucketBackend(BaseBackend):
             url = url[:-1]
 
         if url:
-            url = f"https://bitbucket.org/{url}/downloads?tab=tags"
+            url = f"https://bitbucket.org/{url}/downloads?tab=tags"  # noqa: E231
 
         return url
 

@@ -133,5 +133,5 @@ class PeclBackend(BaseBackend):
         for entry in items:
             title = entry["title"]["value"]
             name, version = title.rsplit(None, 1)
-            homepage = f"https://pecl.php.net/package/{name}"
+            homepage = f"https://pecl.php.net/package/{name}"  # noqa: E231
             yield name, homepage, cls.name, version

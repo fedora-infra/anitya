@@ -49,7 +49,7 @@ class SourceforgeGitBackend(BaseBackend):
 
         else:
             namespace, repo = cls.get_namespace_repo(project)
-            url = f"https://sourceforge.net/p/{namespace}/{repo}/ref/master/tags/"
+            url = f"https://sourceforge.net/p/{namespace}/{repo}/ref/master/tags/"  # noqa: E231
 
         return url
 

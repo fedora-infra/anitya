@@ -91,7 +91,7 @@ class SourceHutBackend(BaseBackend):
 
         if len(versions) == 0:
             raise AnityaPluginException(
-                f"{project.name}: no upstream version found. - {url} -  "
+                f"{project.name}: no upstream version found. '{url}'"
             )
 
         return cls.filter_versions(versions, project.version_filter)

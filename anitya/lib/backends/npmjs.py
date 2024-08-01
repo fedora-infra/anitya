@@ -152,6 +152,8 @@ class NpmjsBackend(BaseBackend):
                 continue
             doc = item["doc"]
             name = doc["name"]
-            homepage = doc.get("homepage", f"https://npmjs.org/package/{name}")
+            homepage = doc.get(
+                "homepage", f"https://npmjs.org/package/{name}"  # noqa: E231
+            )  # noqa: E231
             for version in doc.get("versions", []):
                 yield name, homepage, cls.name, version

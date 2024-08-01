@@ -70,7 +70,7 @@ class CranBackend(BaseBackend):
                 format.
 
         """
-        url = f"https://crandb.r-pkg.org/{project.name}"
+        url = f"https://crandb.r-pkg.org/{project.name}"  # noqa: E231
 
         last_change = project.get_time_last_created_version()
         try:
@@ -109,7 +109,7 @@ class CranBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = f"https://crandb.r-pkg.org/{project.name}/all"
+        url = f"https://crandb.r-pkg.org/{project.name}/all"  # noqa: E231
 
         return url
 
