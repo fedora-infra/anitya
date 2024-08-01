@@ -73,9 +73,8 @@ documentation = "https://anitya.readthedocs.io"
 repository = "https://github.com/fedora-infra/anitya"
 license = "GPL-2.0-or-later"
 classifiers = [
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.11"
 ]
 exclude = [
@@ -93,7 +92,7 @@ check_service = "anitya.check_service:main"
 sar = "anitya.sar:main"
 
 [tool.poetry.dependencies]
-python = "^3.8.10"
+python = "^3.10.0"
 alembic = "^1.8.1"
 anitya-schema = "^2.0.1"
 arrow = "^1.2.3"
