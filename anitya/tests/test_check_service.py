@@ -24,6 +24,7 @@ Anitya tests for check service.
 """
 
 import unittest
+from concurrent.futures import Future
 from datetime import timedelta
 from unittest import mock
 
@@ -382,8 +383,8 @@ class CheckerTests(DatabaseTestCase):
         self.assertEqual(len(run_objects), 1)
         self.assertEqual(run_objects[0].total_count, 2)
 
-    @mock.patch("anitya.check_service.as_completed", side_effect=TimeoutError())
-    def test_run_timeout(self, mock_as_completed):
+    @mock.patch("anitya.check_service.wait", return_value=([], [Future(), Future()]))
+    def test_run_timeout(self, mock_wait):
         """
         Assert that TimeoutError is thrown when TIMEOUT is reached.
         """
