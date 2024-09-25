@@ -22,7 +22,7 @@ This is a service that is checking for new releases in projects added to Anitya.
 """
 
 import logging
-from concurrent.futures import ThreadPoolExecutor, wait
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from threading import Lock
 from time import sleep
@@ -189,6 +189,8 @@ class Checker:
         self.clear_counters()
         queue = self.construct_queue(time)
         total_count = len(queue)
+        projects_left = len(queue)
+        projects_iter = iter(queue)
 
         if not queue:
             return
@@ -199,26 +201,32 @@ class Checker:
         futures = {}
         pool_size = config.get("CRON_POOL")
         timeout = config.get("CHECK_TIMEOUT")
-        for i in range(0, len(queue), pool_size):
-            with ThreadPoolExecutor(pool_size) as pool:
-                # Wait till every project in chunk is checked
-                for project in queue[i : i + pool_size]:
+        with ThreadPoolExecutor(pool_size) as pool:
+            # Wait till every project in queue is checked
+            while projects_left:
+                for project in projects_iter:
                     future = pool.submit(self.update_project, project)
                     futures[future] = project
+                    if len(futures) > pool_size:
+                        break  # limit job submissions
 
                 # Wait for jobs that aren't completed yet
-                (done, not_done) = wait(futures, timeout=timeout)
-                for future in done:
-                    # log any exception
-                    if future.exception():
-                        try:
-                            future.result()
-                        except Exception as e:
-                            _log.exception(e)
-                for future in not_done:
-                    future.cancel()
-                    # Don't actually kill the threads, they will be killed by finishing
-                    # the with statement
+                try:
+                    for future in as_completed(futures, timeout=timeout):
+                        projects_left -= 1  # one project down
+
+                        # log any exception
+                        if future.exception():
+                            try:
+                                future.result()
+                            except Exception as e:
+                                _log.exception(e)
+
+                        del futures[future]
+
+                        break  # give a chance to add more jobs
+                except TimeoutError:
+                    projects_left -= 1
                     _log.info("Thread was killed because the execution took too long.")
                     with self.error_counter_lock:
                         self.error_counter += 1
