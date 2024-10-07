@@ -151,7 +151,7 @@ types-toml = "^0.10.8"
 [tool.poetry.group.dev.dependencies]
 tox = "^4.5.1"
 towncrier = "^24.0.0"
-pre-commit = "^3.3.3"
+pre-commit = "^4.0.0"
 pylint = "^3.0.0"
 
 [build-system]
