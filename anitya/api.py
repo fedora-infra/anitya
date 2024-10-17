@@ -580,7 +580,7 @@ def api_get_project_ecosystem(ecosystem, project_name):
 
 @api_blueprint.route("/api/cpe:2.3/<cpe2.3>/", methods=["GET"])
 @api_blueprint.route("/api/cpe:2.3/<cpe2.3>", methods=["GET"])
-def api_get_project_by_cpe_2_3(ecosystem, project_name):
+def api_get_project_by_cpe_2_3(cpe2_3):
     """
     Retrieves a project by its cpe 2.3.
 
@@ -624,12 +624,12 @@ def api_get_project_by_cpe_2_3(ecosystem, project_name):
         }
     """
 
-    project = models.Project.by_cpe_2_3(Session, cpe2.3)
+    project = models.Project.by_cpe_2_3(Session, cpe2_3)
 
     if not project:
         output = {
             "output": "notok",
-            "error": f'No project "{project_name}" found with cpe:2.3: "{cpe2.3}"',
+            "error": f'No project "{project_name}" found with cpe:2.3: "{cpe2_3}"',
         }
         httpcode = 404
 
@@ -643,7 +643,7 @@ def api_get_project_by_cpe_2_3(ecosystem, project_name):
 
 @api_blueprint.route("/api/purl/<purl>/", methods=["GET"])
 @api_blueprint.route("/api/purl/<purl>", methods=["GET"])
-def api_get_project_by_purl(ecosystem, project_name):
+def api_get_project_by_purl(purl):
     """
     Retrieves a project by its purl.
 
