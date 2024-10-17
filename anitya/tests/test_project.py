@@ -95,6 +95,30 @@ class Projecttests(DatabaseTestCase):
         project = models.Project.by_homepage(self.session, "terminal")
         self.assertEqual(project, [])
 
+    def test_project_by_cpe_2_3(self):
+        """Test the by_cpe_2_3 function of Project."""
+        create_project(self.session)
+
+        projects = models.Project.by_cpe_2_3(self.session, "cpe:2.3:a:geany:geany:-:*:*:*:*:*:*:*")
+        self.assertEqual(len(projects), 1)
+        self.assertEqual(projects[0].name, "geany")
+        self.assertEqual(projects[0].homepage, "https://www.geany.org/")
+
+        project = models.Project.by_cpe_2_3(self.session, "banana")
+        self.assertEqual(project, [])
+
+    def test_project_by_purl(self):
+        """Test the by_purl function of Project."""
+        create_project(self.session)
+
+        projects = models.Project.by_purl(self.session, "pkg:generic/geany")
+        self.assertEqual(len(projects), 1)
+        self.assertEqual(projects[0].name, "geany")
+        self.assertEqual(projects[0].homepage, "https://www.geany.org/")
+
+        project = models.Project.by_purl(self.session, "banana")
+        self.assertEqual(project, [])
+
     def test_project_all(self):
         """Test the all function of Project."""
         create_project(self.session)

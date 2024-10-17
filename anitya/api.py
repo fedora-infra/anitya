@@ -577,3 +577,128 @@ def api_get_project_ecosystem(ecosystem, project_name):
     jsonout = flask.jsonify(output)
     jsonout.status_code = httpcode
     return jsonout
+
+@api_blueprint.route("/api/cpe:2.3/<cpe2.3>/", methods=["GET"])
+@api_blueprint.route("/api/cpe:2.3/<cpe2.3>", methods=["GET"])
+def api_get_project_by_cpe_2_3(ecosystem, project_name):
+    """
+    Retrieves a project by its cpe 2.3.
+
+    :arg str cpe2.3: the CPE 2.3 of the project
+    :statuscode 200: Returns the JSON representation of the project.
+    :statuscode 404: When there is no project with that CPE 2.3
+
+    **Example request**:
+
+    .. sourcecode:: http
+
+        GET /api/by_cpe:2.3/cpe:2.3:a:gnupg:gnupg:-:*:*:*:*:*:*:* HTTP/1.1
+        Accept: application/json
+        Accept-Encoding: gzip, deflate
+        Connection: keep-alive
+        Host: release-monitoring.org
+        User-Agent: HTTPie/0.9.4
+
+
+    **Example response**:
+
+    .. sourcecode:: http
+
+        HTTP/1.1 200 OK
+        Content-Length: 516
+        Content-Type: application/json
+
+        {
+          "backend": "custom",
+          "created_on": 1409917222.0,
+          "homepage": "https://gnupg.org/download/ ",
+          "id": 1215,
+          "name": "gnupg2",
+          "regex": null,
+          "updated_on": 1414400794.0,
+          "version": "2.5.1",
+          "version_url": null,
+          "versions": [
+            ...
+          ]
+        }
+    """
+
+    project = models.Project.by_cpe_2_3(Session, cpe2.3)
+
+    if not project:
+        output = {
+            "output": "notok",
+            "error": f'No project "{project_name}" found with cpe:2.3: "{cpe2.3}"',
+        }
+        httpcode = 404
+
+    else:
+        output = project.__json__(detailed=True)
+        httpcode = 200
+
+    jsonout = flask.jsonify(output)
+    jsonout.status_code = httpcode
+    return jsonout
+
+@api_blueprint.route("/api/purl/<purl>/", methods=["GET"])
+@api_blueprint.route("/api/purl/<purl>", methods=["GET"])
+def api_get_project_by_purl(ecosystem, project_name):
+    """
+    Retrieves a project by its purl.
+
+    :arg str cpe2.3: the PURL of the project
+    :statuscode 200: Returns the JSON representation of the project.
+    :statuscode 404: When there is no project with that PURL.
+    **Example request**:
+
+    .. sourcecode:: http
+
+        GET /api/purl/pkg:generic/gnupg2 HTTP/1.1
+        Accept: application/json
+        Accept-Encoding: gzip, deflate
+        Connection: keep-alive
+        Host: release-monitoring.org
+        User-Agent: HTTPie/0.9.4
+
+
+    **Example response**:
+
+    .. sourcecode:: http
+
+        HTTP/1.1 200 OK
+        Content-Length: 516
+        Content-Type: application/json
+
+        {
+          "backend": "custom",
+          "created_on": 1409917222.0,
+          "homepage": "https://gnupg.org/download/ ",
+          "id": 1215,
+          "name": "gnupg2",
+          "regex": null,
+          "updated_on": 1414400794.0,
+          "version": "2.5.1",
+          "version_url": null,
+          "versions": [
+            ...
+          ]
+        }
+    """
+
+    project = models.Project.by_purl(Session, purl)
+
+    if not project:
+        output = {
+            "output": "notok",
+            "error": f'No project "{project_name}" found with purl: "{purl}"',
+        }
+        httpcode = 404
+
+    else:
+        output = project.__json__(detailed=True)
+        httpcode = 200
+
+    jsonout = flask.jsonify(output)
+    jsonout.status_code = httpcode
+    return jsonout
