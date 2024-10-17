@@ -629,7 +629,7 @@ def api_get_project_by_cpe_2_3(cpe2_3):
     if not project:
         output = {
             "output": "notok",
-            "error": f'No project "{project_name}" found with cpe:2.3: "{cpe2_3}"',
+            "error": f'No project found with cpe:2.3: "{cpe2_3}"',
         }
         httpcode = 404
 
@@ -691,7 +691,7 @@ def api_get_project_by_purl(purl):
     if not project:
         output = {
             "output": "notok",
-            "error": f'No project "{project_name}" found with purl: "{purl}"',
+            "error": f'No project found with purl: "{purl}"',
         }
         httpcode = 404
 
