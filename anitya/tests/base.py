@@ -188,6 +188,8 @@ def create_project(session):
         backend="custom",
         version_url="https://www.geany.org/Download/Releases",
         regex="DEFAULT",
+        cpe="cpe:2.3:a:geany:geany:-:*:*:*:*:*:*:*",
+        purl="pkg:generic/geany",
     )
     session.add(project)
 
