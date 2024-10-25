@@ -2913,13 +2913,13 @@ tests = ["Django (>=2.2.0)", "Flask (>=0.12.5)", "aiohttp (>=3.0.8)", "bottle (>
 
 [[package]]
 name = "werkzeug"
-version = "3.0.4"
+version = "3.0.5"
 description = "The comprehensive WSGI web application library."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "werkzeug-3.0.4-py3-none-any.whl", hash = "sha256:02c9eb92b7d6c06f31a782811505d2157837cea66aaede3e217c7c27c039476c"},
-    {file = "werkzeug-3.0.4.tar.gz", hash = "sha256:34f2371506b250df4d4f84bfe7b0921e4762525762bbd936614909fe25cd7306"},
+    {file = "werkzeug-3.0.5-py3-none-any.whl", hash = "sha256:6e589e0b303561b8b1a61d363ee05b1d7de6ca12f27a3a25269ae6ee93e363fd"},
+    {file = "werkzeug-3.0.5.tar.gz", hash = "sha256:033bc3783777078517f32ae3ba9e86e9bc38bdbf139b1a5a3af9679a64ed1293"},
 ]
 
 [package.dependencies]
@@ -3183,4 +3183,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10.0"
-content-hash = "403756145956cb0747359c3c5e75488e3765f7959d0cc9f650cd9d6de4ad03a8"
+content-hash = "41db518d930949b74fecd158120e44babd11aa427f7e14b19f4fe6302658a08c"
