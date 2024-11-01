@@ -113,7 +113,7 @@ social-auth-app-flask-sqlalchemy = "^1.0.1"
 SQLAlchemy = "^2.0.0"
 sseclient = "^0.0.27"
 # Limit the package till https://github.com/maxcountryman/flask-login/issues/686 is fixed
-Werkzeug = "3.1.0"
+Werkzeug = "3.1.1"
 toml = "^0.10.2"
 webargs = "^8.2.0"
 WTForms = "^3.0.1"
