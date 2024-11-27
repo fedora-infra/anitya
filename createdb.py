@@ -7,7 +7,6 @@ from pathlib import Path
 
 from alembic import command
 from alembic.config import Config
-from social_flask_sqlalchemy import models as social_models
 
 from anitya.app import create
 from anitya.config import load
@@ -40,10 +39,6 @@ anitya_app = create(config=anitya_config)
 engine = Session.get_bind()
 
 Base.metadata.create_all(engine)
-
-# This call depends on app.create calling init_social which defines
-# necessary column information in the social_auth_usersocialauth table
-social_models.PSABase.metadata.create_all(engine)
 
 # Set the alembic_version based on the current migrations available.
 # This presupposes the models haven't changed outside of a migration.
