@@ -23,7 +23,6 @@ import anitya_schema
 import mock
 import six
 from fedora_messaging import testing as fml_testing
-from social_flask_sqlalchemy import models as social_models
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm.query import Query
 
@@ -41,17 +40,10 @@ class IsAdminTests(DatabaseTestCase):
         # Add a regular user and an admin user
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
 
         session.add(self.user)
-        session.add(user_social_auth)
         self.admin = models.User(email="admin@example.com", username="admin")
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
-        session.add_all([admin_social_auth, self.admin])
+        session.add(self.admin)
         session.commit()
 
         mock_config = mock.patch.dict(
@@ -78,22 +70,14 @@ class EditDistroTests(DatabaseTestCase):
         # Add a regular user and an admin user
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
         self.admin = models.User(email="admin@example.com", username="admin")
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
 
         # Add distributions to edit
         self.fedora = models.Distro(name="Fedora")
         self.centos = models.Distro(name="CentOS")
 
-        session.add_all([admin_social_auth, self.admin, self.fedora, self.centos])
+        session.add_all([self.admin, self.fedora, self.centos])
         session.commit()
 
         mock_config = mock.patch.dict(
@@ -170,22 +154,15 @@ class DeleteDistroTests(DatabaseTestCase):
         # Add a regular user and an admin user
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
+
         self.admin = models.User(email="admin@example.com", username="admin")
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
 
         # Add distributions to delete
         self.fedora = models.Distro(name="Fedora")
         self.centos = models.Distro(name="CentOS")
 
-        session.add_all([admin_social_auth, self.admin, self.fedora, self.centos])
+        session.add_all([self.admin, self.fedora, self.centos])
         session.commit()
 
         mock_config = mock.patch.dict(
@@ -265,18 +242,11 @@ class DeleteProjectTests(DatabaseTestCase):
         # Add a regular user and an admin user
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
-        self.admin = models.User(email="admin@example.com", username="admin")
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
 
-        session.add_all([admin_social_auth, self.admin, self.project])
+        self.admin = models.User(email="admin@example.com", username="admin")
+
+        session.add_all([self.admin, self.project])
         session.commit()
 
         mock_config = mock.patch.dict(
@@ -359,18 +329,10 @@ class SetProjectArchiveState(DatabaseTestCase):
         # Add a regular user and an admin user
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
-        self.admin = models.User(email="admin@example.com", username="admin")
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
 
-        session.add_all([admin_social_auth, self.admin, self.project])
+        self.admin = models.User(email="admin@example.com", username="admin")
+        session.add_all([self.admin, self.project])
         session.commit()
 
         mock_config = mock.patch.dict(
@@ -496,20 +458,12 @@ class DeleteProjectMappingTests(DatabaseTestCase):
         # Add a regular user and an admin user
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
+
         self.admin = models.User(email="admin@example.com", username="admin")
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
 
         session.add_all(
             [
-                admin_social_auth,
                 self.admin,
                 self.distro,
                 self.project,
@@ -639,19 +593,11 @@ class DeleteProjectVersionTests(DatabaseTestCase):
 
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         self.session.add(self.user)
-        self.session.add(user_social_auth)
-        self.admin = models.User(email="admin@example.com", username="admin")
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
 
+        self.admin = models.User(email="admin@example.com", username="admin")
         self.session.add_all(
-            [admin_social_auth, self.admin, self.project, self.project_version]
+            [self.admin, self.project, self.project_version]
         )
         self.session.commit()
 
@@ -813,19 +759,11 @@ class DeleteProjectVersionsTests(DatabaseTestCase):
 
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         self.session.add(self.user)
-        self.session.add(user_social_auth)
-        self.admin = models.User(email="admin@example.com", username="admin")
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
 
+        self.admin = models.User(email="admin@example.com", username="admin")
         self.session.add_all(
-            [admin_social_auth, self.admin, self.project, self.project_version]
+            [self.admin, self.project, self.project_version]
         )
         self.session.commit()
 
@@ -929,17 +867,9 @@ class BrowseFlagsTests(DatabaseTestCase):
 
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
-        self.admin = models.User(email="admin@example.com", username="admin")
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
 
+        self.admin = models.User(email="admin@example.com", username="admin")
         self.project1 = models.Project(
             name="test_project",
             homepage="https://example.com/test_project",
@@ -957,7 +887,6 @@ class BrowseFlagsTests(DatabaseTestCase):
 
         session.add_all(
             [
-                admin_social_auth,
                 self.admin,
                 self.project1,
                 self.project2,
@@ -1033,17 +962,9 @@ class SetFlagStateTests(DatabaseTestCase):
 
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
-        self.admin = models.User(email="admin@example.com", username="admin")
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
 
+        self.admin = models.User(email="admin@example.com", username="admin")
         self.project1 = models.Project(
             name="test_project",
             homepage="https://example.com/test_project",
@@ -1061,7 +982,6 @@ class SetFlagStateTests(DatabaseTestCase):
 
         session.add_all(
             [
-                admin_social_auth,
                 self.admin,
                 self.project1,
                 self.project2,
@@ -1125,20 +1045,12 @@ class BrowseUsersTests(DatabaseTestCase):
 
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
+
         self.admin = models.User(
             email="admin@example.com", username="admin", admin=True
         )
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
-
-        session.add_all([admin_social_auth, self.admin])
+        session.add_all([self.admin])
         session.commit()
 
         self.client = self.flask_app.test_client()
@@ -1299,10 +1211,7 @@ class BrowseUsersTests(DatabaseTestCase):
         user = models.User(
             email="inactive@fedoraproject.org", username="inactive", active=False
         )
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
-
         self.session.add(user)
-        self.session.add(user_social_auth)
         self.session.commit()
 
         with login_user(self.flask_app, self.admin):
@@ -1319,10 +1228,7 @@ class BrowseUsersTests(DatabaseTestCase):
         user = models.User(
             email="inactive@fedoraproject.org", username="inactive", active=False
         )
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
-
         self.session.add(user)
-        self.session.add(user_social_auth)
         self.session.commit()
 
         with login_user(self.flask_app, self.admin):
@@ -1339,10 +1245,7 @@ class BrowseUsersTests(DatabaseTestCase):
         user = models.User(
             email="inactive@fedoraproject.org", username="inactive", active=False
         )
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
-
         self.session.add(user)
-        self.session.add(user_social_auth)
         self.session.commit()
 
         with login_user(self.flask_app, self.admin):
@@ -1378,19 +1281,11 @@ class SetUserAdminStateTests(DatabaseTestCase):
 
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
         self.admin = models.User(
             email="admin@example.com", username="admin", admin=True
         )
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
-        session.add_all([admin_social_auth, self.admin])
+        session.add_all([self.admin])
         session.commit()
 
         self.client = self.flask_app.test_client()
@@ -1532,30 +1427,18 @@ class SetUserActiveStateTests(DatabaseTestCase):
 
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
 
         # Add inactive user
         self.inactive_user = models.User(
             email="inactive@fedoraproject.org", username="inactive_user", active=False
         )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.inactive_user.id, user=self.inactive_user
-        )
-
         session.add(self.inactive_user)
-        session.add(user_social_auth)
+
         self.admin = models.User(
             email="admin@example.com", username="admin", admin=True
         )
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
-        session.add_all([admin_social_auth, self.admin])
+        session.add_all([self.admin])
         session.commit()
 
         self.client = self.flask_app.test_client()
@@ -1677,19 +1560,10 @@ class BrowseLogsTests(DatabaseTestCase):
         session = Session()
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
 
         self.admin = models.User(email="admin@example.com", username="admin")
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
-
-        session.add_all([admin_social_auth, self.admin])
+        session.add_all([self.admin])
         session.commit()
 
         self.client = self.flask_app.test_client()
@@ -1740,20 +1614,11 @@ class DeleteUserTests(DatabaseTestCase):
         self.user = models.User(
             email="user@fedoraproject.org", username="user", admin=False
         )
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
         self.admin = models.User(
             email="admin@example.com", username="admin", admin=True
         )
-        admin_social_auth = social_models.UserSocialAuth(
-            user_id=self.admin.id, user=self.admin
-        )
-
-        session.add_all([admin_social_auth, self.admin, self.user])
+        session.add_all([self.admin, self.user])
         session.commit()
 
         mock_config = mock.patch.dict(

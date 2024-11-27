@@ -22,7 +22,6 @@ import uuid
 
 import mock
 import six
-from social_flask_sqlalchemy import models as social_models
 
 from anitya import authentication
 from anitya.db import ApiToken, Session, models
@@ -37,12 +36,7 @@ class LoadUserFromRequestTests(DatabaseTestCase):
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
 
         self.api_token = ApiToken(user=self.user)
         session.add(self.api_token)
@@ -82,12 +76,7 @@ class LoadUserFromSessionTests(DatabaseTestCase):
 
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
         session.commit()
 
     def test_success(self):
@@ -114,12 +103,7 @@ class RequireTokenTests(DatabaseTestCase):
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
-
         session.add(self.user)
-        session.add(user_social_auth)
         self.api_token = ApiToken(user=self.user)
         session.add(self.api_token)
         session.commit()
