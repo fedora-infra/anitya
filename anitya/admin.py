@@ -6,7 +6,6 @@ from math import ceil
 
 import flask
 from dateutil import parser
-from social_flask_sqlalchemy import models as social_models
 from sqlalchemy.orm.exc import NoResultFound
 
 import anitya
@@ -678,13 +677,6 @@ def delete_user(user_id):
 
     if form.validate_on_submit():
         if confirm:
-            social_auth_records = (
-                Session.query(social_models.UserSocialAuth)
-                .filter_by(user_id=user_id)
-                .all()
-            )
-            for record in social_auth_records:
-                Session.delete(record)
             Session.delete(user)
             Session.commit()
             flask.flash(f"User {user_name} has been removed", "success")

@@ -15,29 +15,19 @@ import logging.config
 import logging.handlers
 
 import flask
-from flask_login import LoginManager, current_user, user_logged_in
-from flask import url_for, render_template
 from authlib.integrations.flask_client import OAuth
+from flask_login import LoginManager, current_user, user_logged_in
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 
-<<<<<<< HEAD
-=======
-from anitya.config import config as anitya_config
-from anitya.db import Session, initialize as initialize_db, models
-from anitya.lib import utilities
-from . import ui, admin, api, api_v2, authentication, auth
->>>>>>> ffbba79 (Migrate social_auth to authlib)
 import anitya.lib
 import anitya.mail_logging
-from anitya import __version__
+from anitya import __version__, admin, api, api_v2, auth, authentication, ui
 from anitya.config import config as anitya_config
 from anitya.db import Session
 from anitya.db import initialize as initialize_db
 from anitya.db import models
 from anitya.lib import utilities
-
-from . import admin, api, api_v2, authentication, ui
 
 
 def create(config=None):
@@ -93,12 +83,9 @@ def create(config=None):
     app.teardown_request(shutdown_session)
     app.register_error_handler(IntegrityError, integrity_error_handler)
     # TODO: Need to change for authlib
-    #app.register_error_handler(AuthException, auth_error_handler)
+    # app.register_error_handler(AuthException, auth_error_handler)
 
     app.context_processor(inject_variable)
-
-    # subscribe to signals
-    user_logged_in.connect(when_user_log_in, app)
 
     if app.config.get("EMAIL_ERRORS"):
         # If email logging is configured, set up the anitya logger with an email
@@ -154,72 +141,4 @@ def integrity_error_handler(error):
     Returns:
         tuple: A tuple of (message, HTTP error code).
     """
-    # Because social auth provides the route and raises the exception, this is
-    # the simplest way to turn the error into a nicely formatted error message
-    # for the user.
-    if "email" in error.params:
-        Session.rollback()
-        other_user = models.User.query.filter_by(email=error.params["email"]).one()
-        try:
-            social_auth_user = other_user.oauth.filter_by(
-                user_id=other_user.id
-            ).one()
-            msg = (
-                "Error: There's already an account associated with your email, "
-                f"authenticate with {social_auth_user.provider}."
-            )
-            return msg, 400
-        # This error happens only if there is account without provider info
-        except NoResultFound:
-            Session.delete(other_user)
-            Session.commit()
-            msg = (
-                "Error: There was already an existing account with missing provider. "
-                "So we removed it. "
-                "Please try to log in again."
-            )
-            return msg, 500
-
     return "The server encountered an unexpected error", 500
-
-
-def auth_error_handler(error):
-    """
-    Flask error handler for unhandled AuthException errors.
-
-    Args:
-        error (AuthException): The exception to be handled.
-
-    Returns:
-        tuple: A tuple of (message, HTTP error code).
-    """
-    # Because social auth openId backend provides route and raises the exceptions,
-    # this is the simplest way to turn error into nicely formatted error message.
-    msg = (
-        f"Error: There was an error during authentication '{error}', "
-        "please check the provided url."
-    )
-    return msg, 400
-
-
-def when_user_log_in(sender, user):
-    """
-    This catches the signal when user is logged in.
-    It checks if the user has associated entry in user_social_auth.
-
-    Args:
-        sender (flask.Flask): Current app object that emitted signal.
-            Not used by this method.
-        user (models.User): User that is logging in.
-
-    Raises:
-        sqlalchemy.exc.IntegrityError: When user_social_auth table entry is
-        missing.
-    """
-    # TODO: new social table need to be added
-    #if user.oauth.count() == 0:
-    #    raise IntegrityError(
-    #        "Missing authlib table",
-    #        {"authlib": None, "email": user.email},
-    #        None,
-    #    )

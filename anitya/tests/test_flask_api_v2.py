@@ -29,7 +29,6 @@ from unittest import mock
 
 import anitya_schema
 from fedora_messaging import testing as fml_testing
-from social_flask_sqlalchemy import models as social_models
 
 from anitya.db import Session, models
 from anitya.lib import exceptions
@@ -50,12 +49,8 @@ class PackagesResourceGetTests(DatabaseTestCase):
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
 
         session.add(self.user)
-        session.add(user_social_auth)
         self.api_token = models.ApiToken(user=self.user)
         fedora = models.Distro("Fedora")
         debian = models.Distro("Debian")
@@ -463,12 +458,8 @@ class PackagesResourcePostTests(DatabaseTestCase):
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
 
         session.add(self.user)
-        session.add(user_social_auth)
         self.api_token = models.ApiToken(user=self.user)
         self.project = models.Project(
             name="requests", homepage="https://pypi.io/project/requests", backend="PyPI"
@@ -713,12 +704,8 @@ class ProjectsResourceGetTests(DatabaseTestCase):
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
 
         session.add(self.user)
-        session.add(user_social_auth)
         self.api_token = models.ApiToken(user=self.user)
         session.add(self.api_token)
         session.commit()
@@ -1128,12 +1115,8 @@ class ProjectsResourcePostTests(DatabaseTestCase):
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
 
         session.add(self.user)
-        session.add(user_social_auth)
         self.api_token = models.ApiToken(user=self.user)
         session.add(self.api_token)
         session.commit()
@@ -1329,12 +1312,8 @@ class VersionsResourceGetTests(DatabaseTestCase):
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
 
         session.add(self.user)
-        session.add(user_social_auth)
         self.api_token = models.ApiToken(user=self.user)
         session.add(self.api_token)
         session.commit()
@@ -1438,12 +1417,8 @@ class VersionsResourcePostTests(DatabaseTestCase):
         self.app = self.flask_app.test_client()
         session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(
-            user_id=self.user.id, user=self.user
-        )
 
         session.add(self.user)
-        session.add(user_social_auth)
         self.api_token = models.ApiToken(user=self.user)
         session.add(self.api_token)
         session.commit()

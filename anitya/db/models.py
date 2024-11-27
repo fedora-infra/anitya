@@ -977,8 +977,6 @@ class User(Base):
             able to log in.
         admin (bool): Determine if this user is an administrator. If True the user is
             administrator.
-        social_auth (sqlalchemy.orm.dynamic.AppenderQuery): The list of
-            :class:`social_flask_sqlalchemy.models.UserSocialAuth` entries for this user.
     """
 
     __tablename__ = "users"

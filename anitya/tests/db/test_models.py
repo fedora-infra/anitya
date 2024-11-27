@@ -33,7 +33,6 @@ import arrow
 import mock
 import six
 from fedora_messaging import testing as fml_testing
-from social_flask_sqlalchemy import models as social_models
 from sqlalchemy.dialects import postgresql, sqlite
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.types import CHAR
@@ -1058,10 +1057,8 @@ class UserTests(DatabaseTestCase):
     def test_user_id(self):
         """Assert Users have a UUID id assigned to them."""
         user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
-        self.session.add(user_social_auth)
         self.session.commit()
 
         self.assertTrue(isinstance(user.id, UUID))
@@ -1069,10 +1066,8 @@ class UserTests(DatabaseTestCase):
     def test_user_get_id(self):
         """Assert Users implements the Flask-Login API for getting user IDs."""
         user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
-        self.session.add(user_social_auth)
         self.session.commit()
 
         self.assertEqual(six.text_type(user.id), user.get_id())
@@ -1080,40 +1075,30 @@ class UserTests(DatabaseTestCase):
     def test_user_email_unique(self):
         """Assert User emails have a uniqueness constraint on them."""
         user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
-        self.session.add(user_social_auth)
         self.session.commit()
 
         user = models.User(email="user@fedoraproject.org", username="user2")
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
         self.session.add(user)
-        self.session.add(user_social_auth)
         self.assertRaises(IntegrityError, self.session.commit)
 
     def test_username_unique(self):
         """Assert User usernames have a uniqueness constraint on them."""
         user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
-        self.session.add(user_social_auth)
         self.session.commit()
 
         user = models.User(email="user2@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
         self.session.add(user)
-        self.session.add(user_social_auth)
         self.assertRaises(IntegrityError, self.session.commit)
 
     def test_default_active(self):
         """Assert User usernames have a uniqueness constraint on them."""
         user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
-        self.session.add(user_social_auth)
         self.session.commit()
 
         self.assertTrue(user.active)
@@ -1122,10 +1107,8 @@ class UserTests(DatabaseTestCase):
     def test_not_anonymous(self):
         """Assert User implements the Flask-Login API for authenticated users."""
         user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
-        self.session.add(user_social_auth)
         self.session.commit()
 
         self.assertFalse(user.is_anonymous)
@@ -1134,10 +1117,8 @@ class UserTests(DatabaseTestCase):
     def test_default_admin(self):
         """Assert default value for admin flag."""
         user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
-        self.session.add(user_social_auth)
         self.session.commit()
 
         self.assertFalse(user.admin)
@@ -1146,9 +1127,7 @@ class UserTests(DatabaseTestCase):
     def test_is_admin_configured(self):
         """Assert default value for admin flag."""
         user = models.User(email="user@fedoraproject.org", username="user", admin=False)
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
         self.session.add(user)
-        self.session.add(user_social_auth)
         self.session.commit()
 
         mock_dict = mock.patch.dict(
@@ -1183,10 +1162,8 @@ class ApiTokenTests(DatabaseTestCase):
     def test_token_default(self):
         """Assert creating an ApiToken generates a random token."""
         user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
-        self.session.add(user_social_auth)
 
         token = models.ApiToken(user=user)
         self.session.add(token)
@@ -1197,10 +1174,8 @@ class ApiTokenTests(DatabaseTestCase):
     def test_user_relationship(self):
         """Assert users have a reference to their tokens."""
         user = models.User(email="user@fedoraproject.org", username="user")
-        user_social_auth = social_models.UserSocialAuth(user_id=user.id, user=user)
 
         self.session.add(user)
-        self.session.add(user_social_auth)
 
         token = models.ApiToken(user=user)
         self.session.add(token)

@@ -29,7 +29,6 @@ from contextlib import contextmanager
 import flask_login
 import vcr
 from flask import request_started
-from social_flask_sqlalchemy.models import PSABase
 from sqlalchemy import create_engine, event
 
 from anitya import app, config
@@ -146,7 +145,6 @@ class DatabaseTestCase(AnityaTestCase):
 
         self.connection = engine.connect()
         Base.metadata.create_all(bind=self.connection)
-        PSABase.metadata.create_all(bind=self.connection)
         self.transaction = self.connection.begin_nested()
 
         Session.remove()

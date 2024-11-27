@@ -65,20 +65,6 @@ DEFAULTS = dict(
     EMAIL_ERRORS=False,
     BLACKLISTED_USERS=[],
     SESSION_PROTECTION="strong",
-    SOCIAL_AUTH_AUTHENTICATION_BACKENDS=(
-        "social_core.backends.fedora.FedoraOpenId",
-        "social_core.backends.gitlab.GitLabOAuth2",
-        "social_core.backends.github.GithubOAuth2",
-        "social_core.backends.google.GoogleOAuth2",
-        "social_core.backends.open_id.OpenIdAuth",
-    ),
-    SOCIAL_AUTH_STORAGE="social_flask_sqlalchemy.models.FlaskStorage",
-    SOCIAL_AUTH_USER_MODEL="anitya.db.models.User",
-    # Force the application to require HTTPS on authentication redirects.
-    SOCIAL_AUTH_REDIRECT_IS_HTTPS=True,
-    SOCIAL_AUTH_LOGIN_URL="/login/",
-    SOCIAL_AUTH_LOGIN_REDIRECT_URL="/",
-    SOCIAL_AUTH_LOGIN_ERROR_URL="/login-error/",
     DEFAULT_REGEX=r"(?i)%(name)s(?:[-_]?(?:minsrc|src|source))?[-_]([^-/_\s]+?(?:[-_]"
     r"(?:rc|devel|dev|alpha|beta)\d+)?)(?:[-_](?:minsrc|src|source|asc|release))?"
     r"\.(?:tar|t[bglx]z|tbz2|zip)",
@@ -91,16 +77,16 @@ DEFAULTS = dict(
     CHECK_ERROR_THRESHOLD=100,
     DISTRO_MAPPING_LINKS={},
     # Enabled authentication backends
-    AUTHLIB_ENABLED_BACKENDS=['Fedora', 'GitHub', 'Google'],
+    AUTHLIB_ENABLED_BACKENDS=["Fedora", "GitHub", "Google"],
     # Token for GitHub API
-    GITHUB_ACCESS_TOKEN_URL='https://github.com/login/oauth/access_token',
-    GITHUB_AUTHORIZE_URL='https://github.com/login/oauth/authorize',
-    GITHUB_API_BASE_URL='https://api.github.com/',
-    GITHUB_CLIENT_KWARGS={'scope': 'user:email'},
-    FEDORA_CLIENT_KWARGS={'scope': 'openid email profile'},
-    FEDORA_SERVER_METADATA_URL='https://id.fedoraproject.org/.well-known/openid-configuration',
-    GOOGLE_CLIENT_KWARGS={'scope': 'openid email profile'},
-    GOOGLE_SERVER_METADATA_URL='https://accounts.google.com/.well-known/openid-configuration',
+    GITHUB_ACCESS_TOKEN_URL="https://github.com/login/oauth/access_token",
+    GITHUB_AUTHORIZE_URL="https://github.com/login/oauth/authorize",
+    GITHUB_API_BASE_URL="https://api.github.com/",
+    GITHUB_CLIENT_KWARGS={"scope": "user:email"},
+    FEDORA_CLIENT_KWARGS={"scope": "openid email profile"},
+    FEDORA_SERVER_METADATA_URL="https://id.fedoraproject.org/.well-known/openid-configuration",
+    GOOGLE_CLIENT_KWARGS={"scope": "openid email profile"},
+    GOOGLE_SERVER_METADATA_URL="https://accounts.google.com/.well-known/openid-configuration",
 )
 
 # Start with a basic logging configuration, which will be replaced by any user-

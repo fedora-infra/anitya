@@ -37,20 +37,6 @@ smtp_server = "smtp.example.com"
 email_errors = false
 blacklisted_users = ["http://sometroublemaker.id.fedoraproject.org"]
 
-social_auth_authentication_backends = [
-    "social_core.backends.fedora.FedoraOpenId",
-    "social_core.backends.yahoo.YahooOpenId",
-    "social_core.backends.open_id.OpenIdAuth",
-    "social_core.backends.google_openidconnect.GoogleOpenIdConnect",
-    "social_core.backends.github.GithubOAuth2",
-]
-# Force the application to require HTTPS on authentication redirects.
-social_auth_redirect_is_https = true
-social_auth_login_url = "/login/"
-social_auth_login_redirect_url = "/"
-social_auth_login_error_url = "/login-error/"
-
-
 default_regex = "a*b*"
 github_access_token = "foobar"
 
@@ -159,20 +145,6 @@ class LoadTests(unittest.TestCase):
             "EMAIL_ERRORS": False,
             "BLACKLISTED_USERS": ["http://sometroublemaker.id.fedoraproject.org"],
             "SESSION_PROTECTION": "strong",
-            "SOCIAL_AUTH_AUTHENTICATION_BACKENDS": [
-                "social_core.backends.fedora.FedoraOpenId",
-                "social_core.backends.yahoo.YahooOpenId",
-                "social_core.backends.open_id.OpenIdAuth",
-                "social_core.backends.google_openidconnect.GoogleOpenIdConnect",
-                "social_core.backends.github.GithubOAuth2",
-            ],
-            "SOCIAL_AUTH_STORAGE": "social_flask_sqlalchemy.models.FlaskStorage",
-            "SOCIAL_AUTH_USER_MODEL": "anitya.db.models.User",
-            # Force the application to require HTTPS on authentication redirects.
-            "SOCIAL_AUTH_REDIRECT_IS_HTTPS": True,
-            "SOCIAL_AUTH_LOGIN_URL": "/login/",
-            "SOCIAL_AUTH_LOGIN_REDIRECT_URL": "/",
-            "SOCIAL_AUTH_LOGIN_ERROR_URL": "/login-error/",
             "DEFAULT_REGEX": "a*b*",
             "GITHUB_ACCESS_TOKEN": "foobar",
             "CRON_POOL": 10,
@@ -184,6 +156,15 @@ class LoadTests(unittest.TestCase):
                 "PLD-Linux": "https://github.com/pld-linux/%s",
                 "Ubuntu": "https://launchpad.net/ubuntu/+source/%s",
             },
+            "AUTHLIB_ENABLED_BACKENDS": ["Fedora", "GitHub", "Google"],
+            "GITHUB_ACCESS_TOKEN_URL": "https://github.com/login/oauth/access_token",
+            "GITHUB_AUTHORIZE_URL": "https://github.com/login/oauth/authorize",
+            "GITHUB_API_BASE_URL": "https://api.github.com/",
+            "GITHUB_CLIENT_KWARGS": {"scope": "user:email"},
+            "FEDORA_CLIENT_KWARGS": {"scope": "openid email profile"},
+            "FEDORA_SERVER_METADATA_URL": "https://id.fedoraproject.org/.well-known/openid-configuration",
+            "GOOGLE_CLIENT_KWARGS": {"scope": "openid email profile"},
+            "GOOGLE_SERVER_METADATA_URL": "https://accounts.google.com/.well-known/openid-configuration",
         }
         config = anitya_config.load()
         self.assertEqual(sorted(expected_config.keys()), sorted(config.keys()))
