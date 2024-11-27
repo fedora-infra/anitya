@@ -129,14 +129,6 @@
   become_user: "{{ ansible_env.SUDO_USER }}"
   command: systemctl --user daemon-reload
 
-# Hotfix for social_auth issue
-# Could be removed when we move away from social_auth
-- name: Hotfix for social_auth
-  replace:
-    path: "{{ poetry_location.stdout }}/lib/python3.12/site-packages/social_sqlalchemy/storage.py"
-    regexp: 'base64\.encodestring'
-    replace: 'base64.encodebytes'
-
 - import_tasks: db.yml
 - import_tasks: rabbitmq.yml
 

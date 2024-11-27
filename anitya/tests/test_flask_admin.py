@@ -596,9 +596,7 @@ class DeleteProjectVersionTests(DatabaseTestCase):
         self.session.add(self.user)
 
         self.admin = models.User(email="admin@example.com", username="admin")
-        self.session.add_all(
-            [self.admin, self.project, self.project_version]
-        )
+        self.session.add_all([self.admin, self.project, self.project_version])
         self.session.commit()
 
         mock_config = mock.patch.dict(
@@ -762,9 +760,7 @@ class DeleteProjectVersionsTests(DatabaseTestCase):
         self.session.add(self.user)
 
         self.admin = models.User(email="admin@example.com", username="admin")
-        self.session.add_all(
-            [self.admin, self.project, self.project_version]
-        )
+        self.session.add_all([self.admin, self.project, self.project_version])
         self.session.commit()
 
         mock_config = mock.patch.dict(
