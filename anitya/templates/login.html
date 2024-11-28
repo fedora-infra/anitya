@@ -3,10 +3,12 @@
 {% block title %}Login · Anitya{% endblock %}
 
 {% block body %}
-<div class="socialaccount_ballot">
-  <ul class="socialaccount_providers list-inline">
+<div class="d-flex align-itmes-start gap-3">
     {% for backend in available_backends %}
-    <li><a title="{{ backend }}" class="socialaccount_provider openid btn btn-default" href="{{ url_for('oauth.oauthlogin', name=backend.lower()) }}">{{ backend }}</a></li>
+    <a title="{{ backend }}" class="btn btn-outline-primary" role="button" href="{{ url_for('anitya_auth.login', name=backend.lower()) }}">
+      <img src="{{url_for('anitya_ui.static', filename=backend.lower() + '_logo.png')}}">
+      <span>{{ backend }}</span>
+    </a>
     {% endfor %}
 </div>
 {% endblock %}

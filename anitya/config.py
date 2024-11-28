@@ -79,12 +79,21 @@ DEFAULTS = dict(
     # Enabled authentication backends
     AUTHLIB_ENABLED_BACKENDS=["Fedora", "GitHub", "Google"],
     # Token for GitHub API
+    GITHUB_CLIENT_ID="",
+    GITHUB_CLIENT_SECRET="",
     GITHUB_ACCESS_TOKEN_URL="https://github.com/login/oauth/access_token",
     GITHUB_AUTHORIZE_URL="https://github.com/login/oauth/authorize",
     GITHUB_API_BASE_URL="https://api.github.com/",
     GITHUB_CLIENT_KWARGS={"scope": "user:email"},
-    FEDORA_CLIENT_KWARGS={"scope": "openid email profile"},
+    FEDORA_CLIENT_ID="",
+    FEDORA_CLIENT_SECRET="",
+    FEDORA_CLIENT_KWARGS={
+        "scope": "email",
+        "token_endpoint_auth_method": "client_secret_post",
+    },
     FEDORA_SERVER_METADATA_URL="https://id.fedoraproject.org/.well-known/openid-configuration",
+    GOOGLE_CLIENT_ID="",
+    GOOGLE_CLIENT_SECRET="",
     GOOGLE_CLIENT_KWARGS={"scope": "openid email profile"},
     GOOGLE_SERVER_METADATA_URL="https://accounts.google.com/.well-known/openid-configuration",
 )
