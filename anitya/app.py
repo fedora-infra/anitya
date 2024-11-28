@@ -16,9 +16,8 @@ import logging.handlers
 
 import flask
 from authlib.integrations.flask_client import OAuth
-from flask_login import LoginManager, current_user, user_logged_in
+from flask_login import LoginManager, current_user
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm.exc import NoResultFound
 
 import anitya.lib
 import anitya.mail_logging
@@ -26,7 +25,6 @@ from anitya import __version__, admin, api, api_v2, auth, authentication, ui
 from anitya.config import config as anitya_config
 from anitya.db import Session
 from anitya.db import initialize as initialize_db
-from anitya.db import models
 from anitya.lib import utilities
 
 
@@ -77,13 +75,11 @@ def create(config=None):
     for auth_backend in app.config.get("AUTHLIB_ENABLED_BACKENDS", []):
         oauth.register(auth_backend.lower())
 
-    app.register_blueprint(auth.create_oauth_blueprint(oauth))
+    app.register_blueprint(auth.create_auth_blueprint(oauth))
 
     app.before_request(global_user)
     app.teardown_request(shutdown_session)
     app.register_error_handler(IntegrityError, integrity_error_handler)
-    # TODO: Need to change for authlib
-    # app.register_error_handler(AuthException, auth_error_handler)
 
     app.context_processor(inject_variable)
 
