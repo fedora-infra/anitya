@@ -35,8 +35,6 @@ import logging
 import os
 import sys
 
-from sqlalchemy import select, text
-
 from anitya import db
 from anitya.config import config
 
