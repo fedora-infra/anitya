@@ -21,12 +21,11 @@
 import logging
 import unittest
 
-from sqlalchemy.exc import IntegrityError, UnboundExecutionError
+from sqlalchemy.exc import UnboundExecutionError
 
 from anitya import app
 from anitya.config import config as anitya_config
-from anitya.db import Session, models
-from anitya.tests import base
+from anitya.db import Session
 
 
 class CreateTests(unittest.TestCase):

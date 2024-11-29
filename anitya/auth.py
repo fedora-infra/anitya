@@ -11,6 +11,9 @@ from anitya.db import Session, User
 
 
 def create_auth_blueprint(oauth):
+    """
+    Create authentication blueprint.
+    """
     auth_blueprint = flask.Blueprint(
         "anitya_auth", __name__, static_folder="static", template_folder="templates"
     )
