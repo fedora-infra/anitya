@@ -32,19 +32,52 @@ blacklisted_users = []
 # The type of session protection used by social-auth.
 session_protection = "strong"
 
-# The authentication backends to use. For valid values, see social-auth's
-# documentation.
-social_auth_authentication_backends = [
-    "social_core.backends.fedora.FedoraOpenId",
-    "social_core.backends.gitlab.GitLabOAuth2",
-    "social_core.backends.github.GithubOAuth2",
-    "social_core.backends.google.GoogleOAuth2",
-    "social_core.backends.yahoo.YahooOAuth2",
-    "social_core.backends.open_id.OpenIdAuth"
-]
+# Enabled authentication backends
+authlib_enabled_backends = ["Fedora", "GitHub", "Google"]
 
-# Force the application to require HTTPS on authentication redirects.
-social_auth_redirect_is_https = true
+# Github OAuth backend variables
+# Github OAuth app client id
+# See https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app
+github_client_id = ""
+# Github OAuth app client secret
+# See https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app
+github_client_secret = ""
+# Github access token URL
+github_access_token_url = "https://github.com/login/oauth/access_token"
+# Github URL used for authorization
+github_authorize_url = "https://github.com/login/oauth/authorize"
+# Github URL for API
+github_api_base_url = "https://api.github.com/"
+# Additional arguments for Github authentication
+[github_client_kwargs]
+scope = "user:email"
+
+# Fedora OAuth backend variables
+# Fedora OAuth client id
+# Have to be requested in a ticket on https://pagure.io/fedora-infrastructure
+fedora_client_id = ""
+# Fedora OAuth secret
+# Have to be requested in a ticket on https://pagure.io/fedora-infrastructure
+fedora_client_secret = ""
+# Fedora OAuth authentication endpoint
+fedora_server_metadata_url = "https://id.fedoraproject.org/.well-known/openid-configuration"
+# Additional arguments for Fedora authentication
+[fedora_client_kwargs]
+scope = "email"
+token_endpoint_auth_method = "client_secret_post"
+
+# Google OAuth backend variables
+# Google OAuth client id
+# See https://support.google.com/cloud/answer/6158849
+google_client_id = ""
+# Google OAuth client secret
+# See https://support.google.com/cloud/answer/6158849
+google_client_secret = ""
+# Google OAuth authentication endpoint
+google_server_metadata_url = "https://accounts.google.com/.well-known/openid-configuration"
+# Additional arguments for Google authentication
+[google_client_kwargs]
+scope = "email"
 
 # Default regular expression used for custom backend
 default_regex = """\
