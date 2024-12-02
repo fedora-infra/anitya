@@ -28,12 +28,12 @@ def create_auth_blueprint(oauth):
         """
         client = oauth.create_client(name)
         if client is None:
-            flask.abort(400)
+            flask.abort(404)
         redirect_uri = flask.url_for(".auth", name=name, _external=True)
         return client.authorize_redirect(redirect_uri)
 
     @auth_blueprint.route("/auth/<name>")
-    def auth(name):
+    def auth(name):  # pragma: no cover
         """
         Callback function for OAuth backends.
 

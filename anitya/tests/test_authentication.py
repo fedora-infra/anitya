@@ -22,8 +22,9 @@ import uuid
 
 import mock
 import six
+from six.moves.urllib import parse
 
-from anitya import authentication
+from anitya import authentication, config
 from anitya.db import ApiToken, Session, models
 from anitya.tests.base import DatabaseTestCase
 
@@ -134,3 +135,35 @@ class RequireTokenTests(DatabaseTestCase):
             return "Carry on!"
 
         self.assertEqual("Carry on!", test_func())
+
+
+class AuthTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.auth.login`."""
+
+    def setUp(self):
+        """Set up the Flask testing environnment"""
+        super().setUp()
+        self.app = self.flask_app.test_client()
+        self.config = config.load()
+        self.user = models.User(email="user@fedoraproject.org", username="user")
+        self.session.add(self.user)
+        self.session.commit()
+
+    def test_login(self):
+        """
+        Test login function
+        """
+        output = self.app.get("/login/github")
+        self.assertEqual(output.status_code, 302)
+        parsed_url = parse.urlparse(output.location)
+        self.assertEqual(
+            self.config.get("GITHUB_AUTHORIZE_URL"),
+            "https://" + parsed_url.netloc + parsed_url.path,
+        )
+
+    def test_login_unknown_backend(self):
+        """
+        Return 404 when trying to login with unknown backend.
+        """
+        output = self.app.get("/login/warp")
+        self.assertEqual(output.status_code, 404)
