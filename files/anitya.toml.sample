@@ -3,6 +3,9 @@
 # Secret key used to generate the CSRF token in the forms.
 secret_key = "changeme please"
 
+# Preferred HTTP scheme
+preferred_url_scheme = "https"
+
 # The lifetime of the session, in seconds.
 permanent_session_lifetime = 3600
 
