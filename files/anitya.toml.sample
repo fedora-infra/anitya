@@ -49,8 +49,7 @@ github_authorize_url = "https://github.com/login/oauth/authorize"
 # Github URL for API
 github_api_base_url = "https://api.github.com/"
 # Additional arguments for Github authentication
-[github_client_kwargs]
-scope = "user:email"
+github_client_kwargs = { scope = "openid email profile" }
 
 # Fedora OAuth backend variables
 # Fedora OAuth client id
@@ -62,9 +61,7 @@ fedora_client_secret = ""
 # Fedora OAuth authentication endpoint
 fedora_server_metadata_url = "https://id.fedoraproject.org/.well-known/openid-configuration"
 # Additional arguments for Fedora authentication
-[fedora_client_kwargs]
-scope = "email"
-token_endpoint_auth_method = "client_secret_post"
+fedora_client_kwargs = { scope = "openid email profile", token_endpoint_auth_method = "client_secret_post" }
 
 # Google OAuth backend variables
 # Google OAuth client id
@@ -76,8 +73,7 @@ google_client_secret = ""
 # Google OAuth authentication endpoint
 google_server_metadata_url = "https://accounts.google.com/.well-known/openid-configuration"
 # Additional arguments for Google authentication
-[google_client_kwargs]
-scope = "email"
+google_client_kwargs = { scope = "openid email profile" }
 
 # Default regular expression used for custom backend
 default_regex = """\
