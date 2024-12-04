@@ -1,4 +1,5 @@
 """Test module for testing anitya.reverse_proxy."""
+
 import unittest
 
 import mock

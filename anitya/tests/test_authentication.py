@@ -24,7 +24,7 @@ import mock
 import six
 from six.moves.urllib import parse
 
-from anitya import authentication, config
+from anitya import authentication
 from anitya.db import ApiToken, Session, models
 from anitya.tests.base import DatabaseTestCase
 

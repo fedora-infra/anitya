@@ -108,6 +108,7 @@ def shutdown_session(exception=None):
     """Remove the DB session at the end of each request."""
     Session.remove()
 
+
 def inject_variable():
     """Inject into all templates variables that we would like to have all
     the time.
