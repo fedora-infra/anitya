@@ -143,8 +143,7 @@ class AuthTests(DatabaseTestCase):
     def setUp(self):
         """Set up the Flask testing environnment"""
         super().setUp()
-        self.app = self.flask_app.test_client()
-        self.config = config.load()
+        self.client = self.flask_app.test_client()
         self.user = models.User(email="user@fedoraproject.org", username="user")
         self.session.add(self.user)
         self.session.commit()
@@ -153,11 +152,11 @@ class AuthTests(DatabaseTestCase):
         """
         Test login function
         """
-        output = self.app.get("/login/github")
+        output = self.client.get("/login/github")
         self.assertEqual(output.status_code, 302)
         parsed_url = parse.urlparse(output.location)
         self.assertEqual(
-            self.config.get("GITHUB_AUTHORIZE_URL"),
+            self.flask_app.config.get("GITHUB_AUTHORIZE_URL"),
             "https://" + parsed_url.netloc + parsed_url.path,
         )
 
@@ -165,5 +164,5 @@ class AuthTests(DatabaseTestCase):
         """
         Return 404 when trying to login with unknown backend.
         """
-        output = self.app.get("/login/warp")
+        output = self.client.get("/login/warp")
         self.assertEqual(output.status_code, 404)
