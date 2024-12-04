@@ -26,6 +26,7 @@ from anitya.config import config as anitya_config
 from anitya.db import Session
 from anitya.db import initialize as initialize_db
 from anitya.lib import utilities
+from anitya.reverse_proxy import ReverseProxied
 
 
 def create(config=None):
@@ -45,6 +46,7 @@ def create(config=None):
     if config is None:
         config = anitya_config
     app.config.update(config)
+    app.wsgi_app = ReverseProxied(app.wsgi_app, config)
     initialize_db(config)
 
     login_manager = LoginManager()
@@ -105,7 +107,6 @@ def global_user():
 def shutdown_session(exception=None):
     """Remove the DB session at the end of each request."""
     Session.remove()
-
 
 def inject_variable():
     """Inject into all templates variables that we would like to have all
