@@ -50,9 +50,14 @@ def create_auth_blueprint(oauth):
         token = client.authorize_access_token()
         if name == "fedora":
             user_info = client.userinfo(token=token)
-            user_info["email"] = client.get("email", token=token)
+            user_info["email"] = token.get("email")
+            user_info["username"] = user_info["preferred_username"]
         elif name == "github":
-            user_info = token.get("user", token=token)
+            resp = client.get("user", token=token)
+            user_info = resp.json()
+        elif name == "google":
+            user_info = token.get("userinfo")
+            user_info["username"] = user_info["email"]
         else:
             user_info = token.get("userinfo")
             if not user_info:
@@ -63,9 +68,7 @@ def create_auth_blueprint(oauth):
         # Check if the user exists
         user = User.query.filter(User.email == user_info["email"]).first()
         if not user:
-            new_user = User(
-                email=user_info["email"], username=user_info["preferred_username"]
-            )
+            new_user = User(email=user_info["email"], username=user_info["username"])
             Session.add(new_user)
             Session.commit()
             user = new_user
