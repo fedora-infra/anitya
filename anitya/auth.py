@@ -50,11 +50,12 @@ def create_auth_blueprint(oauth):
         token = client.authorize_access_token()
         if name == "fedora":
             user_info = client.userinfo(token=token)
-            user_info["email"] = token.get("email")
             user_info["username"] = user_info["preferred_username"]
+            user_info["email"] = user_info["username"] + "@fedoraproject.org"
         elif name == "github":
             resp = client.get("user", token=token)
             user_info = resp.json()
+            user_info["username"] = user_info["login"]
         elif name == "google":
             user_info = token.get("userinfo")
             user_info["username"] = user_info["email"]
