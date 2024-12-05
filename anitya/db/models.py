@@ -985,7 +985,7 @@ class User(Base):
     # SMTP says 256 is the maximum length of a path:
     # https://tools.ietf.org/html/rfc5321#section-4.5.3
     email = sa.Column(sa.String(256), nullable=False, index=True, unique=True)
-    username = sa.Column(sa.String(256), nullable=False, index=True, unique=True)
+    username = sa.Column(sa.String(256), nullable=False, index=True)
     active = sa.Column(sa.Boolean, default=True)
     admin = sa.Column(sa.Boolean, default=False)
 
@@ -1000,6 +1000,8 @@ class User(Base):
         """
         if not self.admin:
             if six.text_type(self.id) in anitya_config.get("ANITYA_WEB_ADMINS", []):
+                self.admin = True
+            if six.text_type(self.email) in anitya_config.get("ANITYA_WEB_ADMINS", []):
                 self.admin = True
         return self.admin
 

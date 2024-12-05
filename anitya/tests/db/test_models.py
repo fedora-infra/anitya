@@ -1083,17 +1083,6 @@ class UserTests(DatabaseTestCase):
         self.session.add(user)
         self.assertRaises(IntegrityError, self.session.commit)
 
-    def test_username_unique(self):
-        """Assert User usernames have a uniqueness constraint on them."""
-        user = models.User(email="user@fedoraproject.org", username="user")
-
-        self.session.add(user)
-        self.session.commit()
-
-        user = models.User(email="user2@fedoraproject.org", username="user")
-        self.session.add(user)
-        self.assertRaises(IntegrityError, self.session.commit)
-
     def test_default_active(self):
         """Assert User usernames have a uniqueness constraint on them."""
         user = models.User(email="user@fedoraproject.org", username="user")
