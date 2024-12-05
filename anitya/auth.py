@@ -84,6 +84,10 @@ def create_auth_blueprint(oauth):
             Session.add(new_user)
             Session.commit()
             user = new_user
+        elif user.username != user_info["username"]:
+            user.username = user_info["username"]
+            Session.add(user)
+            Session.commit()
         _log.debug("Logging as user %s", user.email)
         flask_login.login_user(user)
 
