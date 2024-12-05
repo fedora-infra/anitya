@@ -1128,6 +1128,21 @@ class UserTests(DatabaseTestCase):
             self.assertTrue(user.is_admin)
             self.assertTrue(user.admin)
 
+    def test_is_admin_configured_email(self):
+        """Assert default value for admin flag."""
+        user = models.User(email="user@fedoraproject.org", username="user", admin=False)
+        self.session.add(user)
+        self.session.commit()
+
+        mock_dict = mock.patch.dict(
+            "anitya.config.config", {"ANITYA_WEB_ADMINS": [six.text_type(user.email)]}
+        )
+
+        with mock_dict:
+            self.assertFalse(user.admin)
+            self.assertTrue(user.is_admin)
+            self.assertTrue(user.admin)
+
     def test_to_dict(self):
         """Assert the correct dictionary is returned."""
         user = models.User(email="user@fedoraproject.org", username="user")
