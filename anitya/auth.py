@@ -4,10 +4,14 @@ This module handles the authentication using authlib.
 It provides login route as well as callback for OAuth2 calls.
 """
 
+import logging
+
 import flask
 import flask_login
 
 from anitya.db import Session, User
+
+_log = logging.getLogger(__name__)
 
 
 def create_auth_blueprint(oauth):
@@ -44,14 +48,24 @@ def create_auth_blueprint(oauth):
         if client is None:
             flask.abort(404)
         token = client.authorize_access_token()
-        user_info = token.get("userinfo")
-        if not user_info:
-            user_info = client.userinfo()
+        if name == "fedora":
+            user_info = client.userinfo(token=token)
+            user_info["email"] = client.get("email", token=token)
+        elif name == "github":
+            user_info = token.get("user", token=token)
+        else:
+            user_info = token.get("userinfo")
+            if not user_info:
+                user_info = client.userinfo()
+
+        _log.debug("Obtained user_info from %s: %s", name, user_info)
 
         # Check if the user exists
         user = User.query.filter(User.email == user_info["email"]).first()
         if not user:
-            new_user = User(email=user_info["email"], username=user_info["email"])
+            new_user = User(
+                email=user_info["email"], username=user_info["preferred_username"]
+            )
             Session.add(new_user)
             Session.commit()
             user = new_user
