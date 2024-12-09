@@ -20,6 +20,7 @@ docs/docblocks/
 anitya.db
 *.sqlite
 *.cfg
+anitya.toml
 
 # Tests
 coverage.xml

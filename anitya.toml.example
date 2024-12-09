@@ -1,0 +1,50 @@
+# This is a TOML-format file. For the spec, see https://github.com/toml-lang/toml#spec
+
+# URL to the database
+db_url = 'postgresql://postgres:anypasswordworkslocally@postgres/anitya'
+
+# List of web administrators. The values should be the value of the "id" column
+# for the user in the "users" table of the database. They need to log in before
+# this record is created. An example value would be
+# "65536ed7-bdd3-4a1e-8252-10d874fd706b"
+# You can also find this infromation in the settings page when logged in to Anitya
+anitya_web_admins = []
+
+preferred_url_scheme = "https"
+
+authlib_enabled_backends = ["Fedora"]
+
+fedora_client_id = "fedora"
+fedora_client_secret = "secret"
+fedora_server_metadata_url = "https://id.stg.fedoraproject.org/.well-known/openid-configuration"
+[fedora_client_kwargs]
+scope = "openid profile email"
+token_endpoint_auth_method = "client_secret_post"
+
+
+blacklisted_users = []
+
+# The logging configuration, in dictConfig format.
+[anitya_log_config]
+    version = 1
+    disable_existing_loggers = false
+
+    [anitya_log_config.formatters]
+        [anitya_log_config.formatters.simple]
+            format = "[%(name)s %(levelname)s] %(message)s"
+
+    [anitya_log_config.handlers]
+        [anitya_log_config.handlers.console]
+            class = "logging.StreamHandler"
+            formatter = "simple"
+            stream = "ext://sys.stdout"
+
+    [anitya_log_config.loggers]
+        [anitya_log_config.loggers.anitya]
+            level = "DEBUG"
+            propagate = false
+            handlers = ["console"]
+
+    [anitya_log_config.root]
+        level = "INFO"
+        handlers = ["console"]

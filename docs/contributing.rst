@@ -15,7 +15,7 @@ will review your code. Please make sure you follow the guidelines below:
 Python Support
 --------------
 
-Anitya supports Python 3.8 or greater so please ensure the code
+Anitya supports Python 3.10 or greater so please ensure the code
 you submit works with these versions. The test suite will run against all supported
 Python versions to make this easier.
 
@@ -206,10 +206,11 @@ Requirements:
 * Docker / Podman
 * Docker Compose / Podman Compose
 
-Next, clone the repository and start containers::
+Next, clone the repository, prepare config and start containers::
 
     $ git clone https://github.com/fedora-infra/anitya
     $ cd anitya
+    $ cp anitya.toml.example anitya.toml
     $ make up
 
 .. list-table:: Container Service Informations:
@@ -235,24 +236,29 @@ Makefile scripts that provide easier container management:
 * ``make restart`` Restarts all the container services that are either stopped or running
 * ``make halt`` Stops and removes the containers
 * ``make bash-web`` Connects to anitya-web container
+* ``make bash-check-service`` Connects to anitya-check-service container
 * ``make init-db`` Creates database
 * ``make dump-restore`` Import production database
 * ``make logs`` Shows all logs of all containers
 * ``make clean`` Removes all images used by Anitya compose
+* ``make tests`` Run tests in Anitya container. You can provide parameters for
+  tox in ``PARAM`` variable. Few examples:
+
+  * ``PARAM="-e format" make tests`` - run only format test environment
+  * ``PARAM="-- anitya/tests/test_app.py" make tests`` - run tests only for ``test_app.py`` file
+  * ``PARAM="-e format -- anitya/tests/test_app.py" make tests`` - combine the two above
 
 Project files are bound to each other with host and container. Whenever you change any project file from the host or the container, the same change will happen on the opposite side as well.
 
 Anitya is accessible on http://localhost:5000
 
-Start the check service with::
+Check service for Anitya is running in separate container.
 
-    $ make bash-consumer or make-bash-web
-    $ check_service.py
+For testing purposes there are two predefined users.
+You can see them on login page.
 
-To apply changes run::
+To apply configuration changes::
     $ make restart
-
-This will restart the container, deploy the changes in code and start the development instance again.
 
 Python virtualenv
 -----------------
@@ -277,23 +283,6 @@ Create the database, by default it will be a sqlite database located at
 ``/var/tmp/anitya-dev.sqlite``::
 
     $ poetry run python createdb.py
-
-Configure social_sqlalchemy for Anitya if needed. This step is optional and depends on your use case: ::
-
-    #Example configuration for social_sqlalchemy in a Anitya
-    #in anitya/config.py
-    from flask import Flask
-    from social_flask_sqlalchemy.models import init_social
-
-    app = Flask(__name__)
-
-    #Configure SQLAlchemy database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your_database.db'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-    #Initialize social_sqlalchemy 
-    init_social(app, app.config['SQLALCHEMY_ENGINE'])
-
 
 You can start the development web server included with Flask with::
 

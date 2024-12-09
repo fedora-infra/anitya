@@ -8,33 +8,47 @@ WORKDIR /app
 
 RUN dnf upgrade --refresh -y
 
-# Python3 and packages
-RUN dnf install -y python3 python3-devel python3-psycopg2 poetry
+# Install helpful development packages (for tests and setup)
+RUN dnf install -y git poetry python3-tox which python3.10 python3.11
 
-# Dependencies for tox
-RUN dnf install -y git python3-tox libpq libpq-devel gcc graphviz
+# System dependencies for Anitya
+RUN dnf install -y gcc graphviz libffi-devel python3-devel python3-psycopg2
 
 # Install npm to manage javascript dependencies
 RUN dnf install -y npm
 
+# Dependencies for Anitya
+RUN dnf install -y \
+    fedora-messaging \
+    python3-alembic \
+    python3-arrow \
+    python3-authlib \
+    python3-beautifulsoup4 \
+    python3-dateutil \
+    python3-defusedxml \
+    python3-flask-login \
+    python3-flask-wtf \
+    python3-jinja2 \
+    python3-ordered-set \
+    python3-toml \
+    python3-semver \
+    python3-sqlalchemy \
+    python3-sqlalchemy_schemadisplay \
+    python3-sseclient \
+    python3-straight-plugin \
+    python3-wtforms
+
 RUN dnf autoremove -y && dnf clean all -y
 
-COPY anitya ./anitya
-COPY ansible ./ansible
-COPY .container ./.container
-COPY mypy.cfg alembic.ini anitya.wsgi createdb.py pyproject.toml tox.ini README.rst poetry.lock .
-
 # Copy over configuration files
-RUN mkdir -p /etc/anitya
-RUN cp /app/ansible/roles/anitya-dev/files/anitya.toml /etc/anitya
 RUN mkdir -p /etc/fedora-messaging
-RUN cp /app/.container/web/config.toml /etc/fedora-messaging
+COPY .container/web/config.toml /etc/fedora-messaging
 
-# Download javascript dependencies
-RUN pushd anitya/static && npm install && popd
+# Install javascript dependencies
+COPY anitya/static /app/static
+RUN pushd static && npm install && popd
 
-# Poetry installation
-RUN poetry build
-RUN pip install dist/*.whl
+# Set the poetry to use system packages
+RUN poetry config virtualenvs.options.system-site-packages true
 
-CMD ["sh","-c", "poetry build && pip install dist/*.whl && eval '$START_COMMAND'"]
+CMD ["sh", "-c", "poetry install && poetry run $START_COMMAND"]
