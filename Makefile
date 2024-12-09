@@ -21,25 +21,29 @@ up:
 	$(call compose-tool) up -d
 # It takes some time before the postgres container is up, we need to wait before calling
 # the next step
-	sleep 10
+	sleep 15
 	$(MAKE) init-db
 	@echo "Empty database initialized. Run dump-restore to fill it by production dump."
 restart:
-	$(MAKE) halt && $(MAKE) up
+	$(MAKE) halt && $(call compose-tool) up -d
 halt:
 	$(call compose-tool) down -t1
 bash-web:
-	$(call container-tool) exec -it anitya-web bash -c "cat /app/.container/web/motd; bash;"
+	$(call container-tool) exec -it anitya-web bash -c "bash"
+bash-check:
+	$(call container-tool) exec -it anitya-check-service bash -c "bash"
 init-db:
-	$(call container-tool) exec -it anitya-web bash -c "python3 createdb.py"
+	$(call container-tool) exec -it anitya-web bash -c "poetry run python3 createdb.py"
 dump-restore: init-db
 	$(call download_dump)
 	$(call container-tool) exec -it postgres bash -c 'createuser anitya && xzcat /dump/anitya.dump.xz | psql anitya'
 	$(call remove_dump)
 logs:
-	$(call container-tool) logs -f anitya-web rabbitmq postgres
+	$(call container-tool) logs -f anitya-web anitya-check-service rabbitmq postgres
 clean: halt
 	$(call container-tool) rmi "localhost/anitya-base:latest" "docker.io/library/postgres:13.4" "docker.io/library/rabbitmq:3.8.16-management-alpine"
+tests:
+	$(call container-tool) exec -it anitya-web bash -c "tox $(PARAM)"
 
 .PHONY: up restart halt bash-web \
-	init-db dump-restore logs clean
+	init-db dump-restore logs clean tests

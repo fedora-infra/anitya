@@ -21,7 +21,7 @@ from sqlalchemy.exc import IntegrityError
 
 import anitya.lib
 import anitya.mail_logging
-from anitya import __version__, admin, api, api_v2, auth, authentication, ui
+from anitya import __version__, admin, api, api_v2, auth, authentication, debug, ui
 from anitya.config import config as anitya_config
 from anitya.db import Session
 from anitya.db import initialize as initialize_db
@@ -72,6 +72,11 @@ def create(config=None):
     # Register all the view blueprints
     app.register_blueprint(ui.ui_blueprint)
     app.register_blueprint(api.api_blueprint)
+
+    # Debug related initialization
+    # WARNING: For debug and development purpose only
+    if app.debug:  # pragma: no cover
+        app.register_blueprint(debug.debug_blueprint)
 
     oauth = OAuth(app)
     for auth_backend in app.config.get("AUTHLIB_ENABLED_BACKENDS", []):
