@@ -123,79 +123,6 @@ A preview of the release notes can be generated with ``poetry towncrier --draft`
 Development Environment
 =======================
 
-There are two options for setting up a development environment. If you're not
-sure which one to choose, pick the Vagrant method.
-
-Vagrant
--------
-
-The `Vagrant`_ development environment is set up using `Ansible`_.
-
-To get started, install Vagrant and Ansible. On Fedora::
-
-    $ sudo dnf install @virtualization vagrant vagrant-libvirt vagrant-sshfs ansible
-
-Make sure that the following services are enabled & started on the host::
-
-    $ sudo systemctl enable --now virtnetworkd
-    $ sudo systemctl enable --now libvirtd
-
-Next, clone the repository and start the Vagrant machine::
-
-    $ git clone https://github.com/fedora-infra/anitya.git
-    $ cd anitya
-    $ vagrant up
-    $ vagrant ssh
-
-When you log in you'll be presented with a message of the day with more details
-about the environment.
-
-To start the Anitya instance in vagrant you can run::
-
-    $ systemctl --user enable --now anitya.service
-
-You may then access Anitya on your host at::
-
-    http://127.0.0.1:5000
-
-or::
-
-    http://localhost:5000
-
-By default, Anitya imports the production database so you've got something
-to start with. If instead you prefer an empty database, add the following
-to the Ansible provisioner inside your `Vagrantfile`::
-
-    ansible.extra_vars = { import_production_database: false }
-
-The application's configuration file is ``/home/vagrant/anitya.toml``.
-You can also look at the `sample configuration <https://github.com/fedora-infra/anitya/blob/master/files/anitya.toml.sample>`_
-
-.. note::
-   Please don't commit any local changes to Vagrantfile. We are managing it
-   upstream.
-
-Vagrant is using `PostgreSQL database <https://www.postgresql.org/>`_.
-To work with it use ``psql`` command::
-
-    $ sudo -u postgres psql
-    postgres=#\connect anitya
-
-After this you can use standard `SQL queries
-<https://www.postgresql.org/docs/10/static/tutorial-sql.html>`_ or
-another ``psql`` commands::
-
-    # Show description of tables
-    \dt
-    # Show table description
-    \d users
-
-For additional ``psql`` commands see ``man psql``.
-
-To run check service in the guest vm simply run::
-
-   $ systemctl --user enable --now check-service.service
-
 Docker / Podman
 ---------------
 
@@ -386,4 +313,3 @@ If you are a maintainer and wish to make a release, follow these steps:
      $ git push origin production
 
 .. _Ansible: https://www.ansible.com/
-.. _Vagrant: https://vagrantup.com/
