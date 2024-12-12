@@ -246,6 +246,8 @@ class Project(Base):
 
     backend = sa.Column(sa.String(200), default="custom")
     ecosystem_name = sa.Column(sa.String(200), nullable=False, index=True)
+    cpe_2_3 = sa.Column(sa.String(200), nullable=True, index=True)
+    purl = sa.Column(sa.String(200), nullable=True, index=True)
     version_url = sa.Column(sa.String(200), nullable=True)
     regex = sa.Column(sa.String(200), nullable=True)
     version_prefix = sa.Column(sa.String(200), nullable=True)
@@ -566,6 +568,16 @@ class Project(Base):
             return query.count()
         else:
             return query.all()
+
+    @classmethod
+    def by_cpe_2_3(cls, session, cpe):
+        """By CPE 2.3 (Common Platform Enumeration)"""
+        return session.query(cls).filter_by(cpe_2_3=cpe).all()
+
+    @classmethod
+    def by_purl(cls, session, purl):
+        """By PURL (Package URL)"""
+        return session.query(cls).filter_by(purl=purl).all()
 
     @classmethod
     def updated(
