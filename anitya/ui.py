@@ -57,6 +57,8 @@ def login():
         next_url = "/"
 
     flask.session["next_url"] = next_url
+    if anitya_config["DEBUG"]:  # pragma: no cover
+        return flask.render_template("login_debug.html")
     return flask.render_template("login.html")
 
 

@@ -12,6 +12,9 @@ permanent_session_lifetime = 3600
 # URL to the database
 db_url = "sqlite:////var/tmp/anitya-dev.sqlite"
 
+# Anitya DEBUG mode
+debug = false
+
 # List of web administrators. The values should be the value of the "id" column
 # for the user in the "users" table of the database. They need to log in before
 # this record is created. An example value would be

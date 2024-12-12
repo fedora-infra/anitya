@@ -37,6 +37,8 @@ DEFAULTS = dict(
     SECRET_KEY="changeme please",
     # URL to the database
     DB_URL="sqlite:////var/tmp/anitya-dev.sqlite",
+    # DEBUG mode
+    DEBUG=False,
     # List of admins based on their openid
     ANITYA_WEB_ADMINS=[],
     ADMIN_EMAIL="admin@fedoraproject.org",

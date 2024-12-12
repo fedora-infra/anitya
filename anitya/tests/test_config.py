@@ -117,6 +117,7 @@ class LoadTests(unittest.TestCase):
             "SECRET_KEY": "very_secret",
             "PERMANENT_SESSION_LIFETIME": timedelta(seconds=3600),
             "DB_URL": "sqlite:////var/tmp/anitya-dev.sqlite",
+            "DEBUG": False,
             "ANITYA_WEB_ADMINS": ["http://pingou.id.fedoraproject.org"],
             "ADMIN_EMAIL": "admin@fedoraproject.org",
             "ANITYA_LOG_CONFIG": {
