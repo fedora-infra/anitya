@@ -1,7 +1,0 @@
----
-- hosts: all
-  become: true
-  become_method: sudo
-  vars:
-  roles:
-    - role: anitya-dev
