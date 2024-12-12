@@ -25,7 +25,7 @@ up:
 	$(MAKE) init-db
 	@echo "Empty database initialized. Run dump-restore to fill it by production dump."
 restart:
-	$(MAKE) halt && $(call compose-tool) up -d
+	$(MAKE) halt && $(MAKE) up
 halt:
 	$(call compose-tool) down -t1
 bash-web:

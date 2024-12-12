@@ -75,7 +75,7 @@ def create(config=None):
 
     # Debug related initialization
     # WARNING: For debug and development purpose only
-    if app.debug:  # pragma: no cover
+    if anitya_config["DEBUG"]:  # pragma: no cover
         app.register_blueprint(debug.debug_blueprint)
 
     oauth = OAuth(app)

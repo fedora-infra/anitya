@@ -1,0 +1,14 @@
+{% extends "master.html" %}
+
+{% block title %}Login · Anitya{% endblock %}
+
+{% block body %}
+<div class="d-flex align-itmes-start gap-3">
+    <a title="user" class="btn btn-outline-primary" role="button" href="{{ url_for('anitya_debug.login', name='user') }}">
+      <span>User</span>
+    </a>
+    <a title="admin" class="btn btn-outline-primary" role="button" href="{{ url_for('anitya_debug.login', name='admin') }}">
+      <span>Admin</span>
+    </a>
+</div>
+{% endblock %}
