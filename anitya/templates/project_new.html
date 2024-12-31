@@ -45,8 +45,14 @@
             <tr id="version_filter_row">
                 {{ render_field_in_row(form.version_filter, tabindex=9) }}
             </tr>
+            <tr id="cpe_2_3_row">
+                {{ render_field_in_row(form.cpe_2_3, tabindex=10) }}
+            </tr>
+            <tr id="purl_row">
+                {{ render_field_in_row(form.purl, tabindex=11) }}
+            </tr>
             <tr id="regex_row">
-              {{ render_field_in_row(form.regex, tabindex=10) }}
+              {{ render_field_in_row(form.regex, tabindex=12) }}
             </tr>
             <tr id="default_regex_row">
               <td><label>Default regex:</label></td>
@@ -57,22 +63,22 @@
               <td id="example_urls"></td>
             </tr>
             <tr id="releases_only_row">
-              {{ render_field_in_row(form.releases_only, tabindex=11) }}
+              {{ render_field_in_row(form.releases_only, tabindex=13) }}
             </tr>
             <tr id="insecure_row">
-              {{ render_field_in_row(form.insecure, tabindex=12) }}
+              {{ render_field_in_row(form.insecure, tabindex=14) }}
             </tr>
             <tr id="check_release_row">
-              {{ render_field_in_row(form.check_release, tabindex=13) }}
+              {{ render_field_in_row(form.check_release, tabindex=15) }}
             </tr>
 
             {%- if context == 'Add' -%}
             <tr>
-              {{ render_field_in_row(form.distro, tabindex=14) }}
+              {{ render_field_in_row(form.distro, tabindex=16) }}
               <td></td>
             </tr>
             <tr>
-              {{ render_field_in_row(form.package_name, tabindex=15) }}
+              {{ render_field_in_row(form.package_name, tabindex=17) }}
               <td></td>
             </tr>
             {%- endif -%}
@@ -295,7 +301,7 @@
     if (str == 'Maven Central'){
       $("label[for='version_url']").text('Maven groupId:artifactId');
       $('#version_url_row').show();
-      $("#version_url").prop('title', "groupId is reversed domain name of project. " + 
+      $("#version_url").prop('title', "groupId is reversed domain name of project. " +
         "artifactId is project name itself. For example this field contains value " +
         "'org.apache.maven:maven-core' for 'maven-core' project hosted on " +
         "'https://maven.apache.org/'.");
@@ -366,6 +372,8 @@
     var _version_prefix = $('#version_prefix').val();
     var _pre_release_filter = $('#pre_release_filter').val();
     var _version_filter = $('#version_filter').val();
+    var _cpe_2_3 = $('#cpe_2_3').val();
+    var _purl = $('purl').val();
     var _regex = $('#regex').val();
     var _releases_only = $('#releases_only').is(':checked');
     var _insecure = $('#insecure').is(':checked');
@@ -380,6 +388,8 @@
         version_prefix: _version_prefix,
         pre_release_filter: _pre_release_filter,
         version_filter: _version_filter,
+        cpe_2_3: _cpe_2_3,
+        purl: _purl,
         regex: _regex,
         releases_only: _releases_only,
         insecure: _insecure,
@@ -441,7 +451,7 @@
 
   $('body').bind('keyup', function(event) {
     if (event.which == 27) { // esc
-      
+
       {% if context == 'Add' %}
       window.location.replace("{{ url_for('anitya_ui.projects') }}");
       {% elif context == 'Edit' %}
