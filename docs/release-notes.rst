@@ -4,6 +4,36 @@ Release Notes
 
 .. towncrier release notes start
 
+2.0.0 (2025-01-10)
+==================
+
+Features
+--------
+
+* Migrate from social_auth to authlib
+  (`#1139 <https://github.com/fedora-infra/anitya/issues/1139>`_)
+
+  WARNING: This removes social_auth tables from Anitya, which can't be recovered back.
+  Thus making this version backwards incompatible.
+
+Development Changes
+-------------------
+
+* Improve development container
+  (`#1859 <https://github.com/fedora-infra/anitya/issues/1859>`_)
+
+* Remove Vagrant dev environemnt
+  (`#1860 <https://github.com/fedora-infra/anitya/issues/1860>`_)
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Lenka Segura
+* Michal Konecny
+
+
 1.10.0 (2024-05-29)
 ===================
 
