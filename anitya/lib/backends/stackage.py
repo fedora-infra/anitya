@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2015 - Copyright Red Hat Inc
- Authors:
-   Jens Petersen <petersen@redhat.com>
+(c) 2015 - Copyright Red Hat Inc
+Authors:
+  Jens Petersen <petersen@redhat.com>
 """
 
 

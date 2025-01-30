@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-""" Forms used in anitya. """
+"""Forms used in anitya."""
 
 from wtforms import BooleanField, SelectField, StringField, TextAreaField, validators
 

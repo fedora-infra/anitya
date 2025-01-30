@@ -19,8 +19,8 @@
 # of Red Hat, Inc.
 #
 """
- Authors:
-   Michal Konecny <mkonecny@redhat.com>
+Authors:
+  Michal Konecny <mkonecny@redhat.com>
 
 """
 

@@ -17,7 +17,7 @@
 # code or documentation are not subject to the GNU General Public
 # License and may only be used or replicated with the express permission
 # of Red Hat, Inc.
-""" test lib/versions/base.py """
+"""test lib/versions/base.py"""
 from __future__ import unicode_literals
 
 import unittest

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2014 - Copyright Red Hat Inc
+(c) 2014 - Copyright Red Hat Inc
 
- Authors:
-   Michael Simacek <msimacek@redhat.com>
+Authors:
+  Michael Simacek <msimacek@redhat.com>
 
 """
 

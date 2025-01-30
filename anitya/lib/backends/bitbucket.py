@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
- (c) 2015-2016 - Copyright Vivek Anand
+(c) 2015-2016 - Copyright Vivek Anand
 
- Authors:
-   Vivek Anand <vivekanand1101@gmail.com>
+Authors:
+  Vivek Anand <vivekanand1101@gmail.com>
 
 """
 
