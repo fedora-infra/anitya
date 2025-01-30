@@ -4,10 +4,10 @@
 # (c) 2016 - Copyright Red Hat Inc
 
 """
- The Anitya ecosystems API.
+The Anitya ecosystems API.
 
- Authors:
-   Nick Coghlan <ncoghlan@redhat.com>
+Authors:
+  Nick Coghlan <ncoghlan@redhat.com>
 
 """
 
