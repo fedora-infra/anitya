@@ -220,11 +220,13 @@ class PackagesResource(MethodView):
 
         :reqheader Authorization: API token to use for authentication
         :reqjson string distribution: The name of the distribution that contains this
-            package.
-        :reqjson string package_name: The name of the package in the distribution repository.
-        :reqjson string project_name: The project name in Anitya.
+            package. (mandatory argument)
+        :reqjson string package_name: The name of the package in the distribution
+            repository. (mandatory argument)
+        :reqjson string project_name: The project name in Anitya. (mandatory argument)
         :reqjson string project_ecosystem: The ecosystem the project is a part of.
-            If it's not part of an ecosystem, use the homepage used in the Anitya project.
+            If it's not part of an ecosystem, use the homepage used in the Anitya
+            project. (mandatory argument)
 
         :statuscode 201: When the package was successfully created.
         :statuscode 400: When required arguments are missing or malformed.
@@ -448,9 +450,9 @@ class ProjectsResource(MethodView):
             }
 
         :query string access_token: Your API access token.
-        :reqjson string name: The project name
-        :reqjson string homepage: The project homepage URL
-        :reqjson string backend: The project backend (github, folder, etc.).
+        :reqjson string name: The project name (mandatory argument)
+        :reqjson string homepage: The project homepage URL (mandatory argument)
+        :reqjson string backend: The project backend (github, folder, etc.). (mandatory argument)
         :reqjson string version_url: The URL to fetch when determining the
                                      project version (defaults to null).
         :reqjson string version_scheme: The project version scheme. If missing, it's set to "RPM".
