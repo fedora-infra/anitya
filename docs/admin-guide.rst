@@ -133,6 +133,6 @@ of your own RabbitMQ server please look at the `official documentation <https://
 
 
 .. _release-monitoring.org: https://release-monitoring.org/
-.. _deployment role: https://pagure.io/fedora-infra/ansible/blob/master/f/roles/openshift-apps/release-monitoring
+.. _deployment role: https://pagure.io/fedora-infra/ansible/blob/main/f/roles/openshift-apps/release-monitoring
 .. _python setup documentation: https://docs.python.org/3/distutils/setupscript.html#installing-scripts
 
