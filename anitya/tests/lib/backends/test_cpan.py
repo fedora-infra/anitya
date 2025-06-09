@@ -46,13 +46,13 @@ class CpanBackendtests(DatabaseTestCase):
     def create_project(self):
         """Create some basic projects to work with."""
         project = models.Project(
-            name="SOAP", homepage="http://search.cpan.org/dist/SOAP/", backend=BACKEND
+            name="SOAP", homepage="https://metacpan.org/dist/SOAP/", backend=BACKEND
         )
         self.session.add(project)
         self.session.commit()
 
         project = models.Project(
-            name="foo", homepage="http://search.cpan.org/dist/foo/", backend=BACKEND
+            name="foo", homepage="https://metacpan.org/dist/foo/", backend=BACKEND
         )
         self.session.add(project)
         self.session.commit()
@@ -76,7 +76,7 @@ class CpanBackendtests(DatabaseTestCase):
         project = models.Project(
             name="test", homepage="http://example.org", backend=BACKEND
         )
-        exp = "https://metacpan.org/release/test/"
+        exp = "https://metacpan.org/dist/test/"
 
         obs = backend.CpanBackend.get_version_url(project)
 
@@ -105,7 +105,7 @@ class CpanBackendtests(DatabaseTestCase):
             items[0],
             (
                 "URI-Fast",
-                "https://metacpan.org/release/URI-Fast/",
+                "https://metacpan.org/dist/URI-Fast/",
                 "CPAN (perl)",
                 "0.38_06",
             ),
@@ -114,7 +114,7 @@ class CpanBackendtests(DatabaseTestCase):
             items[1],
             (
                 "Model-Envoy",
-                "https://metacpan.org/release/Model-Envoy/",
+                "https://metacpan.org/dist/Model-Envoy/",
                 "CPAN (perl)",
                 "0.2.4",
             ),
