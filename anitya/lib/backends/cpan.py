@@ -28,8 +28,8 @@ class CpanBackend(BaseBackend):
 
     name = "CPAN (perl)"
     examples = [
-        "https://metacpan.org/release/Net-Whois-Raw/",
-        "https://metacpan.org/release/SOAP/",
+        "https://metacpan.org/dist/Net-Whois-Raw/",
+        "https://metacpan.org/dist/SOAP/",
     ]
 
     @classmethod
@@ -44,7 +44,7 @@ class CpanBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = f"https://metacpan.org/release/{project.name}/"  # noqa: E231
+        url = f"https://metacpan.org/dist/{project.name}/"  # noqa: E231
 
         return url
 
@@ -94,5 +94,5 @@ class CpanBackend(BaseBackend):
                 name, version = title.text.rsplit("-", 1)
             except ValueError:
                 _log.info("Unable to parse CPAN package %s into a name and version")
-            homepage = f"https://metacpan.org/release/{name}/"  # noqa: E231
+            homepage = f"https://metacpan.org/dist/{name}/"  # noqa: E231
             yield name, homepage, cls.name, version

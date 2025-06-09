@@ -2,300 +2,629 @@ interactions:
 - request:
     body: null
     headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 2.0.0 at release-monitoring.org
     method: GET
-    uri: https://metacpan.org/release/SOAP/
-  response:
-    body: {string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n\
-        <body bgcolor=\"white\">\r\n<center><h1>301 Moved Permanently</h1></center>\r\
-        \n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"}
-    headers:
-      Accept-Ranges: [bytes, bytes, bytes, bytes]
-      Age: ['0', '0']
-      Connection: [keep-alive]
-      Content-Length: ['178']
-      Content-Type: [text/html]
-      Date: ['Thu, 19 Jul 2018 16:48:02 GMT']
-      Location: ['https://metacpan.org/release/SOAP']
-      Server: [nginx]
-      Via: [1.1 varnish, 1.1 varnish]
-      X-Cache: ['MISS, MISS']
-      X-Cache-Hits: ['0, 0']
-      X-Served-By: ['cache-lax8635-LAX, cache-dca17744-DCA']
-      X-Timer: ['S1532018883.528559,VS0,VE125']
-    status: {code: 301, message: Moved Permanently}
-- request:
-    body: null
-    headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
-    method: GET
-    uri: https://metacpan.org/release/SOAP
+    uri: https://metacpan.org/dist/SOAP/
   response:
     body:
-      string: !!binary |
-        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
-        rWwAAA==
+      string: "<!DOCTYPE html>\n<html lang=\"en-US\">\n    <head>\n        <title>SOAP-0.28
+        - Library for SOAP clients and servers in Perl - metacpan.org</title>\n        <link
+        rel=\"preload\" as=\"fetch\" href=\"/account/login_status\" crossorigin=\"anonymous\"
+        />\n        <link href=\"/assets/style-ZO6LAZ3P.css\" rel=\"stylesheet\" type=\"text/css\">\n
+        \       <script src=\"/assets/main-WXBSEDQJ.js\" type=\"module\"></script>\n
+        \       <link rel=\"alternate\" type=\"application/rss+xml\" title=\"Recent
+        CPAN Uploads of SOAP - MetaCPAN\" href=\"/dist/SOAP/releases.rss\" />\n        <link
+        rel=\"canonical\" href=\"https://metacpan.org/dist/SOAP\" />\n        <meta
+        name=\"description\" content=\"Library for SOAP clients and servers in Perl\"
+        />\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1,
+        maximum-scale=5\">\n        <link rel=\"shortcut icon\" href=\"/static/icons/favicon.ico\">\n
+        \       <link rel=\"apple-touch-icon\" sizes=\"152x152\" href=\"/static/icons/apple-touch-icon.png\">\n
+        \       <link rel=\"search\" href=\"/static/opensearch.xml\" type=\"application/opensearchdescription+xml\"
+        title=\"MetaCPAN\">\n        <script async src=\"https://perl-ads.perlhacks.com/perl-ads.js\"></script>\n
+        \       <script async src=\"https://www.googletagmanager.com/gtag/js?id=G-E82Q2V8LVD\"></script>\n<meta
+        property=\"og:site_name\"   content=\"MetaCPAN\" />\n<meta name=\"twitter:site\"
+        \      content=\"@metacpan\" />\n<meta property=\"og:type\"        content=\"article\"
+        />\n<meta name=\"twitter:card\"       content=\"summary\" />\n<meta property=\"og:url\"
+        \        content=\"https://metacpan.org/dist/SOAP\" />\n<meta property=\"og:title\"
+        \      content=\"SOAP-0.28\" />\n<meta property=\"og:description\" content=\"Library
+        for SOAP clients and servers in Perl\" />\n<meta property=\"og:image\"       content=\"https://metacpan.org/static/images/dots.png\"
+        />\n    </head>\n    <body>\n        <nav class=\"navbar navbar-default\"
+        role=\"navigation\">\n            <div class=\"header-logo-large hidden-xs\">\n
+        \             <a href=\"/\" tabindex=\"0\">\n                <svg class=\"logo\"
+        aria-label=\"MetaCPAN\">\n                  <use class=\"logo\" href=\"/static/images/metacpan-logo.svg#logo\"
+        />\n                </svg>\n              </a>\n            </div>\n            <div
+        class=\"header-logo-icon visible-xs\">\n              <a href=\"/\">\n                <svg
+        class=\"logo\" aria-label=\"MetaCPAN\">\n                  <use class=\"logo\"
+        href=\"/static/images/metacpan-logo.svg#dots\" />\n                </svg>\n
+        \             </a>\n            </div>\n            <ul class=\"nav navbar-nav
+        menu-items hidden-xs hidden-sm\">\n              <li><a href=\"/about\">About</a></li>\n
+        \             <li><a href=\"/about/sponsors\">Sponsor</a></li>\n              <li><a
+        href=\"https://grep.metacpan.org/\">grep::cpan</a></li>\n              <li><a
+        href=\"/recent\">Recent</a></li>\n              <li><a href=\"/about/faq\">FAQ</a></li>\n
+        \             <li><a href=\"/tools\">Tools</a></li>\n              <li><a
+        href=\"https://api.metacpan.org/\">API</a></li>\n            </ul>\n            <ul
+        class=\"nav navbar-nav navbar-right\">\n                <button type=\"button\"
+        class=\"searchbar-btn visible-xs visible-sm\">\n                    <i class=\"fa
+        fa-search button-fa-icon\"></i>\n                </button>\n                <form
+        action=\"/search\" class=\"searchbar-form visible-md visible-lg search-form
+        form-horizontal\">\n                   <input type=\"hidden\" name=\"size\"
+        id=\"metacpan_search-size\" value=\"20\">\n                  <div class=\"form-group\">\n
+        \                     <div class=\"search-group\">\n                        <i
+        class=\"fa fa-search\"></i>\n                        <input type=\"text\"
+        name=\"q\" placeholder=\"Search the CPAN\" size=\"41\" autocorrect=\"off\"
+        autocapitalize=\"off\" spellcheck=\"false\" id=\"metacpan_search-input\" class=\"form-control\"
+        value=\"\">\n                      </div>\n                  </div>\n                </form>\n
+        \                   <li class=\"icon-slidepanel visible-xs visible-sm\">\n
+        \                     <button data-toggle=\"slidepanel\" data-target=\".slidepanel\">\n
+        \                       <span class=\"button-fa-icon\">\n                          <i
+        class=\"fa fa-bars slidepanel-open\"></i>\n                          <i class=\"fa
+        fa-times slidepanel-close\"></i>\n                        </span>\n                      </button>\n
+        \                   </li>\n                <li class=\"dropdown login-dropdown
+        show-logged-in\">\n                    <button type=\"button\" class=\"dropdown-toggle\"
+        data-toggle=\"dropdown\" aria-label=\"Account\">\n                      <i
+        class=\"fa fa-user button-fa-icon logged-in-icon\" aria-hidden=\"true\"></i>\n
+        \                     <i class=\"fas fa-chevron-down\"></i>\n                    </button>\n
+        \                   <ul class=\"dropdown-menu\">\n                        <li><a
+        href=\"/account/identities\">Identities</a></li>\n                        <li><a
+        href=\"/account/profile\">Profile</a></li>\n                        <li><a
+        href=\"/account/favorite/list\">Favorites</a></li>\n                        <li>\n
+        \                           <a href=\"#\" type=\"button\" class=\"logout-button\">\n
+        \                             Logout\n                            </a>\n                        </li>\n
+        \                   </ul>\n                </li>\n                <li class=\"dropdown
+        login-dropdown show-logged-out\">\n                    <button type=\"button\"
+        class=\"dropdown-toggle\" data-toggle=\"dropdown\" aria-label=\"Login\">\n
+        \                     <i class=\"fa fa-user button-fa-icon avatar-placeholder\"
+        aria-hidden=\"true\"></i>\n                      <i class=\"fas fa-chevron-down\"></i>\n
+        \                   </button>\n                    <ul class=\"dropdown-menu\">\n
+        \                       <li>\n                            <a href=\"/login/github\">\n
+        \                               <i class=\"fab fa-github fa-fw\"></i>\n                                GitHub\n
+        \                           </a>\n                        </li>\n                        <li>\n
+        \                           <a href=\"/login/twitter\">\n                                <i
+        class=\"fab fa-twitter fa-fw\"></i>\n                                Twitter\n
+        \                           </a>\n                        </li>\n                        <li>\n
+        \                           <a href=\"/login/google\">\n                                <i
+        class=\"fab fa-google fa-fw\"></i>\n                                Google\n
+        \                           </a>\n                        </li>\n                    </ul>\n
+        \               </li>\n                <li class=\"dropdown login-dropdown
+        hide-logged-in hide-logged-out\">\n                    <button>\n                      <i
+        class=\"fa fa-user button-fa-icon\" aria-hidden=\"true\"></i>\n                    </button>\n
+        \               </li>\n            </ul>\n        </nav>\n        <div class=\"page-content
+        \">\n          <div id=\"perl-ad-target\" class=\"top-notify-banner perl-ad-target\">\n
+        \         </div>\n          <nav class=\"sidebar\">\n            <div class=\"slidepanel\">\n
+        \             <ul class=\"nav-list \">\n    <li class=\"nav-header no-margin-top\">\n
+        \     <div class=\"ttip\" data-toggle=\"tooltip\" data-placement=\"bottom\"
+        title=\"The date that this version of SOAP was released.\">\n        <span
+        class=\"relatize\">05 Sep 2000 18:04:25 UTC</span>\n      </div>\n    </li>\n
+        \   <li><a href=\"/dist/SOAP/source\">Browse</a> (<a href=\"/dist/SOAP/source?raw=1\">raw</a>)</li>\n
+        \   <li>\n      <a data-keyboard-shortcut=\"g c\" href=\"/dist/SOAP/changes\">Changes</a>\n
+        \   </li>\n    <li>\n      <a class=\"nopopup\" href=\"/dist/SOAP/contribute\">How
+        to Contribute</a>\n    </li>\n    <li>\n      <a rel=\"noopener nofollow\"
+        data-keyboard-shortcut=\"g i\" href=\"https://rt.cpan.org/Public/Dist/Display.html?Name=SOAP\">Issues</a>\n
+        \     (4)\n    </li>\n    <li>\n      <a rel=\"noopener nofollow\" href=\"https://fast2-matrix.cpantesters.org/?dist=SOAP+0.28\"
+        title=\"Matrix\">Testers</a>\n        <span title=\"(pass / fail / na)\">(<a
+        rel=\"noopener nofollow\" href=\"https://www.cpantesters.org/distro/S/SOAP.html?oncpan=1&amp;distmat=1&amp;version=0.28&amp;grade=2\"
+        style=\"color: #090\">80</a> / <a rel=\"noopener nofollow\" href=\"https://www.cpantesters.org/distro/S/SOAP.html?oncpan=1&amp;distmat=1&amp;version=0.28&amp;grade=3\"
+        style=\"color: #900\">10</a> / <a rel=\"noopener nofollow\" href=\"https://www.cpantesters.org/distro/S/SOAP.html?oncpan=1&amp;distmat=1&amp;version=0.28&amp;grade=4\">0</a>)</span>\n
+        \   </li>\n    <li>\n      <a rel=\"noopener nofollow\" href=\"http://cpants.cpanauthors.org/release/KBROWN/SOAP-0.28\">Kwalitee</a>\n
+        \     <img src=\"https://cpants.cpanauthors.org/release/KBROWN/SOAP-0.28.svg\"
+        alt=\"Kwalitee Score\">\n    </li>\n    <li>\n      <div class=\"ttip\" data-toggle=\"tooltip\"
+        data-placement=\"bottom\" title=\"The # people with an indexing permission
+        on SOAP who have released something to CPAN in the last 2 years (i.e. the
+        # people likely able to release critical fixes in a timely manner)\">\n      Bus
+        factor: 0\n      </div>\n    </li>\n    <li>\n      <a rel=\"noopener nofollow\"
+        href=\"http://cpancover.com/latest/SOAP-0.28/index.html\">% Coverage </a>\n
+        \   </li>\n    <li>\n      License: unknown\n    </li>\n    <li class=\"nav-header\">Activity</li>\n
+        \   <li>\n<div class=\"activity-graph\">\n    <img src=\"/dist/SOAP/activity.svg?res=month\"
+        alt=\"Activity Graph\"/>\n    <div class=\"comment\">24 month</div>\n</div>\n
+        \   </li>\n    <li class=\"nav-header\">Tools</li>\n    <li>\n      <a itemprop=\"downloadUrl\"
+        href=\"https://cpan.metacpan.org/authors/id/K/KB/KBROWN/SOAP-0.28.tar.gz\">\n
+        \     Download (<span itemprop=\"fileSize\">32.77KB</span>)</a>\n    </li>\n
+        \   <li>\n      <a href=\"https://explorer.metacpan.org/?url=%2Frelease%2FKBROWN%2FSOAP-0.28\">\n
+        \       MetaCPAN Explorer\n      </a>\n    </li>\n    <li>\n      <a href=\"/dist/SOAP/permissions\">\n
+        \       Permissions\n      </a>\n    </li>\n    <li>\n      <a href=\"/dist/SOAP/releases.rss\">\n
+        \       Subscribe to distribution\n      </a>\n    </li>\n    <li>\n      <button
+        class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#metacpan_install-instructions-dialog\">\n
+        \       Install Instructions\n      </button>\n    </li>\n    <li>\n      <form
+        action=\"/search\">\n        <input type=\"hidden\" name=\"q\" value=\"dist:SOAP\">\n
+        \       <input type=\"search\" name=\"q\" placeholder=\"Search distribution\"
+        class=\"form-control tool-bar-form\">\n        <input type=\"submit\" style=\"display:
+        none\">\n      </form>\n    </li>\n    <li>\n      <form action=\"https://grep.metacpan.org/search\">\n
+        \       <input type=\"hidden\" name=\"qd\" value=\"SOAP\">\n        <input
+        type=\"hidden\" name=\"source\" value=\"metacpan\">\n        <input type=\"search\"
+        name=\"q\" placeholder=\"grep distribution\" class=\"form-control tool-bar-form\">\n
+        \       <input type=\"submit\" style=\"display: none\">\n     </form>\n    </li>\n
+        \   <li class=\"version-jump\">\n<select class=\"select-navigator form-control
+        tool-bar-form\">\n  <option disabled selected>Jump to version</option>\n<option\n
+        \ disabled\n  value=\"/release/KBROWN/SOAP-0.28\"\n>0.28\n  (KBROWN on 2000-09-05)</option>\n<option\n
+        \ \n  value=\"/release/KBROWN/SOAP-0.26\"\n>0.26\n  (KBROWN on 2000-08-31)</option>\n<option\n
+        \ \n  value=\"/release/KBROWN/SOAP-0.25\"\n>0.25\n  (KBROWN on 2000-08-17)</option>\n<option\n
+        \ \n  value=\"/release/KBROWN/SOAP-0.23\"\n>0.23\n  (KBROWN on 2000-01-10)</option>\n<option\n
+        \ \n  value=\"/release/KBROWN/SOAP-0.22\"\n>0.22\n  (KBROWN on 2000-01-04)</option>\n</select>\n
+        \   </li>\n    <li class=\"version-diff\">\n<select class=\"select-navigator
+        form-control tool-bar-form\">\n  <option disabled selected>Diff with version</option>\n<option\n
+        \ disabled\n  value=\"/release/KBROWN/SOAP-0.28/diff/KBROWN/SOAP-0.28\"\n>0.28\n
+        \ (KBROWN on 2000-09-05)</option>\n<option\n  \n  value=\"/release/KBROWN/SOAP-0.28/diff/KBROWN/SOAP-0.26\"\n>0.26\n
+        \ (KBROWN on 2000-08-31)</option>\n<option\n  \n  value=\"/release/KBROWN/SOAP-0.28/diff/KBROWN/SOAP-0.25\"\n>0.25\n
+        \ (KBROWN on 2000-08-17)</option>\n<option\n  \n  value=\"/release/KBROWN/SOAP-0.28/diff/KBROWN/SOAP-0.23\"\n>0.23\n
+        \ (KBROWN on 2000-01-10)</option>\n<option\n  \n  value=\"/release/KBROWN/SOAP-0.28/diff/KBROWN/SOAP-0.22\"\n>0.22\n
+        \ (KBROWN on 2000-01-04)</option>\n</select>\n    </li>\n\n    <li>\n<ul class=\"dependencies\">\n
+        \ <li class=\"nav-header\">Dependencies</li>\n  <li><i class=\"ttip\" title=\"dynamic_config
+        enabled\">unknown</i></li>\n  <li>\n    <hr>\n  </li>\n  <li>\n    <a href=\"/dist/SOAP/requires\">Reverse
+        dependencies</a>\n  </li>\n  <li>\n    <a href=\"http://deps.cpantesters.org/?module=SOAP\">CPAN
+        Testers List</a>\n  </li>\n  <li>\n    <a href=\"https://cpandeps.grinnz.com/?dist=SOAP\">Dependency
+        graph</a>\n  </li>\n</ul>\n    </li>\n    <li class=\"nav-header\">Permalinks</li>\n
+        \   <li>\n      <a href=\"/release/KBROWN/SOAP-0.28\">This version</a>\n    </li>\n
+        \   <li>\n      <a href=\"/dist/SOAP\">Latest version</a>\n    </li>\n    <li>\n
+        \   </li>\n    <li>\n<div class=\"nav-header\">Authored by: <a href=\"/author/KBROWN\"
+        class=\"cpan-author\">KBROWN</a></div>\n    </li>\n              </ul>\n            </div>\n
+        \         </nav>\n          <div class=\"content-navigation\">\n<div class=\"breadcrumbs\">\n
+        \ <span>\n    <a data-keyboard-shortcut=\"g a\" rel=\"author\" href=\"/author/KBROWN\"
+        class=\"author-name\">Keith Brown</a>\n  </span>\n  <span>&nbsp;/&nbsp;</span>\n
+        \ <div class=\"release dist-release status-latest maturity-released\">\n    <span
+        class=\"dropdown\"><b class=\"caret\"></b></span>\n<select class=\"select-navigator
+        extend\">\n<option\n  selected\n  value=\"/release/KBROWN/SOAP-0.28\"\n>0.28\n
+        \ (KBROWN on 2000-09-05)</option>\n<option\n  \n  value=\"/release/KBROWN/SOAP-0.26\"\n>0.26\n
+        \ (KBROWN on 2000-08-31)</option>\n<option\n  \n  value=\"/release/KBROWN/SOAP-0.25\"\n>0.25\n
+        \ (KBROWN on 2000-08-17)</option>\n<option\n  \n  value=\"/release/KBROWN/SOAP-0.23\"\n>0.23\n
+        \ (KBROWN on 2000-01-10)</option>\n<option\n  \n  value=\"/release/KBROWN/SOAP-0.22\"\n>0.22\n
+        \ (KBROWN on 2000-01-04)</option>\n</select>\n    <span class=\"release-name\">SOAP-0.28</span>\n
+        \ </div>\n<span class=\"river-gauge-gauge\">\n  <svg width=\"24px\"\n       height=\"15px\"\n
+        \      version=\"1.1\"\n       xmlns=\"http://www.w3.org/2000/svg\"\n       xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n\n
+        \   <g>\n      <title>        River stage zero &#10;\n          No dependents\n
+        \     </title>\n\n      <rect x=\"0\"  y=\"0\" width=\"4\" height=\"15\" fill=\"#e4e2e2\"
+        />\n      <rect x=\"5\"  y=\"0\" width=\"4\" height=\"15\" fill=\"#e4e2e2\"
+        />\n      <rect x=\"10\"  y=\"0\" width=\"4\" height=\"15\" fill=\"#e4e2e2\"
+        />\n      <rect x=\"15\"  y=\"0\" width=\"4\" height=\"15\" fill=\"#e4e2e2\"
+        />\n      <rect x=\"20\"  y=\"0\" width=\"4\" height=\"15\" fill=\"#e4e2e2\"
+        />\n    </g>\n  </svg>\n\n</span>\n<div id=\"SOAP-fav\" class=\"show-logged-in\">\n<form
+        action=\"/account/favorite/add\" style=\"display: inline\" method=\"POST\">\n
+        \   <input type=\"hidden\" name=\"remove\" value=\"0\">\n    <input type=\"hidden\"
+        name=\"release\" value=\"SOAP-0.28\">\n    <input type=\"hidden\" name=\"author\"
+        value=\"KBROWN\">\n    <input type=\"hidden\" name=\"distribution\" value=\"SOAP\">\n
+        \   <button type=\"submit\" class=\"favorite\"><span></span> ++</button>\n</form>\n</div>\n<div
+        class=\"show-logged-out\">\n    <button class=\"fav-not-logged-in favorite\"><span></span>
+        ++</button>\n</div>\n</div>\n          </div>\n          <main class=\"content\">\n\n\n<div
+        id=\"metacpan_last-changes\" class=\"well\">\n  <div class=\"changes-content\">\n
+        \   <h2 id=\"whatsnew\">Changes for version 0.28 - 2000-09-05</h2>\n    <div
+        class=\"change-entries\">\n<ul>\n  <li class=\"\"><span class=\"change-entry\">Fixed
+        really lame bug in Struct.pm where I was taking the reference of @_ and holding
+        it after the method returned</span>\n  </li>\n</ul>\n    </div>\n  </div>\n
+        \ <button class=\"changes-toggle btn-link\">[ <span class=\"hide-more\">Show
+        less</span><span class=\"show-more\">Show more</span> ]</button>\n</div>\n\n\n<div
+        class=\"file-group release-modules\">\n  <h2 id=\"modules\">Modules</h2>\n
+        \ <div class=\"release-row\">\n    <div class=\"left\">\n<a href=\"/pod/SOAP\">SOAP</a>
+        \   </div>\n    <div class=\"right\">\nLibrary for SOAP clients and servers
+        in Perl    </div>\n  </div>\n  <div class=\"release-row\">\n    <div class=\"left\">\n<a
+        href=\"/pod/SOAP::Defs\">SOAP::Defs</a>    </div>\n    <div class=\"right\">\nSpec-defined
+        constants    </div>\n  </div>\n  <div class=\"release-row\">\n    <div class=\"left\">\n<a
+        href=\"/pod/SOAP::Envelope\">SOAP::Envelope</a>    </div>\n    <div class=\"right\">\nCreates
+        SOAP streams    </div>\n  </div>\n  <div class=\"release-row\">\n    <div
+        class=\"left\">\n<a href=\"/pod/SOAP::EnvelopeMaker\">SOAP::EnvelopeMaker</a>
+        \   </div>\n    <div class=\"right\">\nCreates SOAP envelopes    </div>\n
+        \ </div>\n  <div class=\"release-row\">\n    <div class=\"left\">\n<a href=\"/pod/SOAP::GenericHashSerializer\">SOAP::GenericHashSerializer</a>
+        \   </div>\n    <div class=\"right\">\nGeneric serializer for Perl hashes
+        \   </div>\n  </div>\n  <div class=\"release-row\">\n    <div class=\"left\">\n<a
+        href=\"/pod/SOAP::GenericInputStream\">SOAP::GenericInputStream</a>    </div>\n
+        \   <div class=\"right\">\nDefault handler for SOAP::Parser output    </div>\n
+        \ </div>\n  <div class=\"release-row\">\n    <div class=\"left\">\n<a href=\"/pod/SOAP::GenericScalarSerializer\">SOAP::GenericScalarSerializer</a>
+        \   </div>\n    <div class=\"right\">\nGeneric serializer for Perl scalar
+        references    </div>\n  </div>\n  <div class=\"release-row\">\n    <div class=\"left\">\n<a
+        href=\"/pod/SOAP::OutputStream\">SOAP::OutputStream</a>    </div>\n    <div
+        class=\"right\">\nWrites SOAP fragments    </div>\n  </div>\n  <div class=\"release-row\">\n
+        \   <div class=\"left\">\n<a href=\"/pod/SOAP::Packager\">SOAP::Packager</a>
+        \   </div>\n    <div class=\"right\">\nSOAP internal helper class    </div>\n
+        \ </div>\n  <div class=\"release-row\">\n    <div class=\"left\">\n<a href=\"/pod/SOAP::Parser\">SOAP::Parser</a>
+        \   </div>\n    <div class=\"right\">\nParses SOAP documents    </div>\n  </div>\n
+        \ <div class=\"release-row\">\n    <div class=\"left\">\n<a href=\"/pod/SOAP::Serializer\">SOAP::Serializer</a>
+        \   </div>\n    <div class=\"right\">\nserialization utilities    </div>\n
+        \ </div>\n  <div class=\"release-row\">\n    <div class=\"left\">\n<a href=\"/pod/SOAP::SimpleTypeWrapper\">SOAP::SimpleTypeWrapper</a>
+        \   </div>\n    <div class=\"right\">\ndeprecated    </div>\n  </div>\n  <div
+        class=\"release-row\">\n    <div class=\"left\">\n<a href=\"/pod/SOAP::Struct\">SOAP::Struct</a>
+        \   </div>\n    <div class=\"right\">\nsupport for ordered hashes    </div>\n
+        \ </div>\n  <div class=\"release-row\">\n    <div class=\"left\">\n<a href=\"/pod/SOAP::StructSerializer\">SOAP::StructSerializer</a>
+        \   </div>\n    <div class=\"right\">\n(internal) serializer for SOAP structs
+        \   </div>\n  </div>\n  <div class=\"release-row\">\n    <div class=\"left\">\n<a
+        href=\"/pod/SOAP::Transport::HTTP::Apache\">SOAP::Transport::HTTP::Apache</a>
+        \   </div>\n    <div class=\"right\">\nSOAP mod_perl handler    </div>\n  </div>\n
+        \ <div class=\"release-row\">\n    <div class=\"left\">\n<a href=\"/pod/SOAP::Transport::HTTP::CGI\">SOAP::Transport::HTTP::CGI</a>
+        \   </div>\n    <div class=\"right\">\nGeneric SOAP CGI handler    </div>\n
+        \ </div>\n  <div class=\"release-row\">\n    <div class=\"left\">\n<a href=\"/pod/SOAP::Transport::HTTP::Client\">SOAP::Transport::HTTP::Client</a>
+        \   </div>\n    <div class=\"right\">\nClient side HTTP support for SOAP/Perl
+        \   </div>\n  </div>\n  <div class=\"release-row\">\n    <div class=\"left\">\n<a
+        href=\"/pod/SOAP::Transport::HTTP::Server\">SOAP::Transport::HTTP::Server</a>
+        \   </div>\n    <div class=\"right\">\nServer side HTTP support for SOAP/Perl
+        \   </div>\n  </div>\n  <div class=\"release-row\">\n    <div class=\"left\">\n<a
+        href=\"/pod/SOAP::TypeMapper\">SOAP::TypeMapper</a>    </div>\n    <div class=\"right\">\nMaps
+        Perl types to their serializer/deserializer classes    </div>\n  </div>\n
+        \ <div class=\"release-row\">\n    <div class=\"left\">\n<a href=\"/pod/SOAP::TypedPrimitive\">SOAP::TypedPrimitive</a>
+        \   </div>\n    <div class=\"right\">\nWrapper for xsd primitives that need
+        explicit SOAP type attributes    </div>\n  </div>\n  <div class=\"release-row\">\n
+        \   <div class=\"left\">\n<a href=\"/pod/SOAP::TypedPrimitiveSerializer\">SOAP::TypedPrimitiveSerializer</a>
+        \   </div>\n    <div class=\"right\">\nserializer for xsd scalars    </div>\n
+        \ </div>\n</div>\n\n\n\n<div class=\"file-group release-other-files\">\n  <h2
+        id=\"other\">Other files</h2>\n  <ul>\n    <li>\n<a href=\"/release/KBROWN/SOAP-0.28/source/Changes\">Changes</a>
+        \   </li>\n    <li>\n<a href=\"/release/KBROWN/SOAP-0.28/source/MANIFEST\">MANIFEST</a>
+        \   </li>\n    <li>\n<a href=\"/release/KBROWN/SOAP-0.28/source/Makefile.PL\">Makefile.PL</a>
+        \   </li>\n    <li>\n<a href=\"/release/KBROWN/SOAP-0.28/source/README\">README</a>
+        \   </li>\n  </ul>\n</div>\n\n\n<div id=\"metacpan_install-instructions-dialog\"
+        class=\"modal fade\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n
+        \     <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\"
+        data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n        <h4
+        class=\"modal-title\">Module Install Instructions</h4>\n      </div>\n      <div
+        class=\"modal-body\">\n        <p>To install SOAP, copy and paste the appropriate
+        command in to your terminal.</p>\n        <p><a href=\"/dist/App-cpanminus/view/bin/cpanm\">cpanm</a></p>\n
+        \       <pre><code>cpanm SOAP</code></pre>\n        <p><a href=\"/pod/CPAN\">CPAN
+        shell</a></p>\n        <pre><code>perl -MCPAN -e shell\ninstall SOAP</code></pre>\n
+        \       <p>For more information on module installation, please visit <a href=\"https://www.cpan.org/modules/INSTALL.html\">the
+        detailed CPAN module installation guide</a>.</p>\n      </div>\n      <div
+        class=\"modal-footer\">\n        <a href=\"#\" data-dismiss=\"modal\" class=\"btn\">Close</a>\n
+        \     </div>\n    </div>\n  </div>\n</div>\n          </main>\n          <div
+        class=\"content-pagination\">\n          </div>\n        </div>\n        <footer
+        class=\"footer\">\n          <div class=\"footer-container\">\n            <div
+        class=\"footer-social\">\n              <div class=\"footer-link footer-logo\">\n
+        \               <a href=\"/\">\n                  <img src=\"/static/images/metacpan-logo.svg\"
+        alt=\"MetaCPAN\" />\n                </a>\n              </div>\n              <a
+        class=\"footer-social-link\" href=\"https://github.com/metacpan\">\n                <i
+        class=\"fab fa-github-square\"></i>\n              </a>\n              <a
+        class=\"footer-social-link\" href=\"https://fosstodon.org/@metacpan\">\n                <i
+        class=\"fab fa-mastodon\"></i>\n              </a>\n            </div>\n            <div
+        class=\"footer-links\">\n              <div class=\"footer-link\">\n                  <a
+        href=\"/about\">About</a>\n              </div>\n              <div class=\"footer-link\">\n
+        \                 <a href=\"/about/sponsors\">Sponsor</a>\n              </div>\n
+        \             <div class=\"footer-link\">\n                  <a href=\"https://grep.metacpan.org\">grep::cpan</a>\n
+        \             </div>\n              <div class=\"footer-link\">\n                  <a
+        href=\"/recent\">Recent</a>\n              </div>\n              <div class=\"footer-link\">\n
+        \                 <a href=\"/about/faq\">FAQ</a>\n              </div>\n              <div
+        class=\"footer-link\">\n                  <a href=\"/tools\">Tools</a>\n              </div>\n
+        \             <div class=\"footer-link\">\n                  <a href=\"https://api.metacpan.org/\">API</a>\n
+        \             </div>\n              <div class=\"footer-link\">\n                  <a
+        href=\"https://www.perl.org/\">Perl.org</a>\n              </div>\n            </div>\n
+        \           <div class=\"footer-sponsors\">\n              <a class=\"footer-sponsor-link\"
+        target=\"_blank\" href=\"https://www.bytemark.co.uk/\" rel=\"noopener\">\n
+        \               <img class=\"footer-sponsor-bytemark\" src=\"/static/images/sponsors/bytemark_logo.svg\"
+        alt=\"Bytemark logo\">\n              </a>\n              <a class=\"footer-sponsor-link\"
+        target=\"_blank\" href=\"https://www.liquidweb.com/\" rel=\"noopener\">\n
+        \               <img class=\"footer-sponsor-liquidweb\" src=\"/static/images/sponsors/liquidweb_logo.png\"
+        alt=\"liquidweb logo\">\n              </a>\n              <a class=\"footer-sponsor-link\"
+        target=\"_blank\" href=\"https://deriv.com/careers/\" rel=\"noopener\">\n
+        \               <img class=\"footer-sponsor-deriv\" src=\"/static/images/sponsors/deriv.svg\"
+        alt=\"Deriv logo\">\n              </a>\n              <a class=\"footer-sponsor-link\"
+        target=\"_blank\" href=\"https://geocode.xyz\" rel=\"noopener\">\n                <img
+        class=\"footer-sponsor-geocode\" src=\"/static/images/sponsors/geocodelogo.svg\"
+        alt=\"Geocode logo\">\n              </a>\n              <a class=\"footer-sponsor-link\"
+        target=\"_blank\" href=\"https://www.fastly.com/\" rel=\"noopener\">\n                <img
+        class=\"footer-sponsor-fastly\" src=\"/static/images/sponsors/fastly_logo.svg\"
+        alt=\"Fastly logo\">\n              </a>\n              <a class=\"footer-sponsor-link\"
+        target=\"_blank\" href=\"https://opencagedata.com\" rel=\"noopener\">\n                <img
+        class=\"footer-sponsor-opencage\" src=\"/static/images/sponsors/open-cage.svg\"
+        alt=\"OpenCage logo\">\n              </a>\n              <!-- Added 2024-07-22
+        -->\n              <a class=\"footer-sponsor-link\" target=\"_blank\" href=\"https://www.elastic.co/\"
+        rel=\"noopener\">\n                <img class=\"footer-sponsor-elastic\" src=\"/static/images/sponsors/elastic.svg\"
+        alt=\"Elastic logo\">\n              </a>\n              <!-- Added 2024-07-22
+        -->\n              <a class=\"footer-sponsor-link\" target=\"_blank\" href=\"https://route4me.com/\"
+        rel=\"noopener\">\n                <img class=\"footer-sponsor-route4me\"
+        src=\"/static/images/sponsors/route4me.png\" alt=\"Route4Me logo\">\n              </a>\n
+        \           </div>\n          </div>\n        </footer>\n        <div class=\"modal
+        fade\" tabindex=\"-1\" role=\"dialog\" id=\"metacpan_keyboard-shortcuts\">\n
+        \         <div class=\"modal-dialog\">\n            <div class=\"modal-content\">\n
+        \             <div class=\"modal-header\">\n                <button type=\"button\"
+        class=\"close\" data-dismiss=\"modal\">&times;</button>\n                <h4
+        class=\"modal-title\">Keyboard Shortcuts</h4>\n              </div>\n              <div
+        class=\"modal-body row\">\n<div class=\"col-md-6\">\n  <table class=\"table
+        keyboard-shortcuts\">\n    <thead>\n      <tr>\n        <th></th>\n        <th>Global</th>\n
+        \     </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td class=\"keys\">\n
+        \         <kbd>s</kbd>\n        </td>\n        <td>Focus search bar</td>\n
+        \     </tr>\n      <tr>\n        <td class=\"keys\">\n          <kbd>?</kbd>\n
+        \       </td>\n        <td>Bring up this help dialog</td>\n      </tr>\n    </tbody>\n
+        \ </table>\n\n  <table class=\"table keyboard-shortcuts\">\n    <thead>\n
+        \     <tr>\n        <th></th>\n        <th>GitHub</th>\n      </tr>\n    </thead>\n
+        \   <tbody>\n      <tr>\n        <td class=\"keys\">\n          <kbd>g</kbd>
+        <kbd>p</kbd>\n        </td>\n        <td>Go to pull requests</td>\n      </tr>\n
+        \     <tr>\n        <td class=\"keys\">\n          <kbd>g</kbd> <kbd>i</kbd>\n
+        \       </td>\n        <td>go to github issues (only if github is preferred
+        repository)</td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n\n<div class=\"col-md-6\">\n
+        \ <table class=\"table keyboard-shortcuts\">\n    <thead>\n      <tr>\n        <th></th>\n
+        \       <th>POD</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n
+        \       <td class=\"keys\">\n          <kbd>g</kbd> <kbd>a</kbd>\n        </td>\n
+        \       <td>Go to author</td>\n      </tr>\n      <tr>\n        <td class=\"keys\">\n
+        \         <kbd>g</kbd> <kbd>c</kbd>\n        </td>\n        <td>Go to changes</td>\n
+        \     </tr>\n      <tr>\n        <td class=\"keys\">\n          <kbd>g</kbd>
+        <kbd>i</kbd>\n        </td>\n        <td>Go to issues</td>\n      </tr>\n
+        \     <tr>\n        <td class=\"keys\">\n          <kbd>g</kbd> <kbd>d</kbd>\n
+        \       </td>\n        <td>Go to dist</td>\n      </tr>\n      <tr>\n        <td
+        class=\"keys\">\n          <kbd>g</kbd> <kbd>r</kbd>\n        </td>\n        <td>Go
+        to repository/SCM</td>\n      </tr>\n      <tr>\n        <td class=\"keys\">\n
+        \         <kbd>g</kbd> <kbd>s</kbd>\n        </td>\n        <td>Go to source</td>\n
+        \     </tr>\n      <tr>\n        <td class=\"keys\">\n          <kbd>g</kbd>
+        <kbd>b</kbd>\n        </td>\n        <td>Go to file browse</td>\n      </tr>\n\n
+        \   </tbody>\n  </table>\n</div>\n\n<div class=\"col-md-12\">\n  <table class=\"table
+        keyboard-shortcuts\">\n    <thead>\n      <tr>\n        <th></th>\n        <th>Search
+        terms</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td><em>module:</em>
+        (e.g. <a href=\"/search?q=module%3APlugin\">module:Plugin</a>)</td>\n      </tr>\n
+        \     <tr>\n        <td><em>distribution:</em> (e.g. <a href=\"/search?q=distribution%3ADancer+auth\">distribution:Dancer
+        auth</a>)</td>\n      </tr>\n      <tr>\n        <td><em>author:</em> (e.g.
+        <a href=\"/search?q=author%3ASONGMU+Redis\">author:SONGMU Redis</a>)</td>\n
+        \     </tr>\n      <tr>\n        <td><em>version:</em> (e.g. <a href=\"/search?q=version%3A1.00\">version:1.00</a>)</td>\n
+        \     </tr>\n    </tbody>\n  </table>\n</div>\n              </div>\n              <div
+        class=\"modal-footer\"></div>\n            </div>\n          </div>\n        </div>\n
+        \   </body>\n</html>\n"
     headers:
-      Accept-Ranges: [bytes]
-      Age: ['1']
-      Cache-Control: [max-age=3600]
-      Connection: [keep-alive]
-      Content-Encoding: [gzip]
-      Content-Length: ['6844']
-      Content-Type: [text/html; charset=utf-8]
-      Date: ['Thu, 19 Jul 2018 16:48:02 GMT']
-      Last-Modified: ['Tue, 05 Sep 2000 18:04:25 GMT']
-      Server: [nginx]
-      Vary: [Accept-Encoding]
-      Via: [1.1 varnish, 1.1 varnish]
-      X-Cache: ['MISS, HIT']
-      X-Cache-Hits: ['0, 1']
-      X-Runtime: ['0.274922']
-      X-Served-By: ['cache-lax8645-LAX, cache-dca17744-DCA']
-      X-Timer: ['S1532018883.698961,VS0,VE1']
-    status: {code: 200, message: OK}
+      Accept-Ranges:
+      - bytes
+      Age:
+      - '2'
+      Connection:
+      - keep-alive
+      Date:
+      - Mon, 09 Jun 2025 12:50:08 GMT
+      Strict-Transport-Security:
+      - max-age=31557600
+      Vary:
+      - Accept-Encoding
+      X-Cache:
+      - MISS, HIT, MISS
+      X-Cache-Hits:
+      - 0, 1, 0
+      X-Served-By:
+      - cache-fra-eddf8230107-FRA, cache-fra-eddf8230156-FRA, cache-lon420110-LON
+      X-Timer:
+      - S1749473409.804262,VS0,VE13
+      cache-control:
+      - max-age=86400
+      content-length:
+      - '28169'
+      content-security-policy:
+      - 'default-src * data: ''unsafe-inline''; frame-ancestors ''self'' *.metacpan.org;
+        script-src ''self'' ''unsafe-eval'' ''unsafe-inline'' *.metacpan.org https://*.googletagmanager.com
+        https://perl-ads.perlhacks.com'
+      content-type:
+      - text/html; charset=utf-8
+      last-modified:
+      - Tue, 05 Sep 2000 18:04:25 GMT
+      via:
+      - 1.1 varnish, 1.1 varnish, 1.1 varnish
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-runtime:
+      - '7.487511'
+      x-xss-protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
 - request:
     body: null
     headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 2.0.0 at release-monitoring.org
     method: GET
-    uri: https://metacpan.org/release/foo/
-  response:
-    body: {string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n\
-        <body bgcolor=\"white\">\r\n<center><h1>301 Moved Permanently</h1></center>\r\
-        \n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"}
-    headers:
-      Accept-Ranges: [bytes, bytes, bytes, bytes]
-      Age: ['0', '0']
-      Connection: [keep-alive]
-      Content-Length: ['178']
-      Content-Type: [text/html]
-      Date: ['Thu, 19 Jul 2018 16:48:02 GMT']
-      Location: ['https://metacpan.org/release/foo']
-      Server: [nginx]
-      Via: [1.1 varnish, 1.1 varnish]
-      X-Cache: ['MISS, MISS']
-      X-Cache-Hits: ['0, 0']
-      X-Served-By: ['cache-lax8632-LAX, cache-dca17744-DCA']
-      X-Timer: ['S1532018883.742271,VS0,VE204']
-    status: {code: 301, message: Moved Permanently}
-- request:
-    body: null
-    headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.12.1 at release-monitoring.org]
-    method: GET
-    uri: https://metacpan.org/release/foo
+    uri: https://metacpan.org/dist/foo/
   response:
     body:
-      string: !!binary |
-        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
+      string: "<!DOCTYPE html>\n<html lang=\"en-US\">\n    <head>\n        <title>Error
+        404 - Not Found - metacpan.org</title>\n        <link rel=\"preload\" as=\"fetch\"
+        href=\"/account/login_status\" crossorigin=\"anonymous\" />\n        <link
+        href=\"/assets/style-ZO6LAZ3P.css\" rel=\"stylesheet\" type=\"text/css\">\n
+        \       <script src=\"/assets/main-WXBSEDQJ.js\" type=\"module\"></script>\n
+        \       <meta name=\"viewport\" content=\"width=device-width, initial-scale=1,
+        maximum-scale=5\">\n        <link rel=\"shortcut icon\" href=\"/static/icons/favicon.ico\">\n
+        \       <link rel=\"apple-touch-icon\" sizes=\"152x152\" href=\"/static/icons/apple-touch-icon.png\">\n
+        \       <link rel=\"search\" href=\"/static/opensearch.xml\" type=\"application/opensearchdescription+xml\"
+        title=\"MetaCPAN\">\n        <script async src=\"https://perl-ads.perlhacks.com/perl-ads.js\"></script>\n
+        \       <script async src=\"https://www.googletagmanager.com/gtag/js?id=G-E82Q2V8LVD\"></script>\n
+        \   </head>\n    <body>\n        <nav class=\"navbar navbar-default\" role=\"navigation\">\n
+        \           <div class=\"header-logo-large hidden-xs\">\n              <a
+        href=\"/\" tabindex=\"0\">\n                <svg class=\"logo\" aria-label=\"MetaCPAN\">\n
+        \                 <use class=\"logo\" href=\"/static/images/metacpan-logo.svg#logo\"
+        />\n                </svg>\n              </a>\n            </div>\n            <div
+        class=\"header-logo-icon visible-xs\">\n              <a href=\"/\">\n                <svg
+        class=\"logo\" aria-label=\"MetaCPAN\">\n                  <use class=\"logo\"
+        href=\"/static/images/metacpan-logo.svg#dots\" />\n                </svg>\n
+        \             </a>\n            </div>\n            <ul class=\"nav navbar-nav
+        menu-items hidden-xs hidden-sm\">\n              <li><a href=\"/about\">About</a></li>\n
+        \             <li><a href=\"/about/sponsors\">Sponsor</a></li>\n              <li><a
+        href=\"https://grep.metacpan.org/\">grep::cpan</a></li>\n              <li><a
+        href=\"/recent\">Recent</a></li>\n              <li><a href=\"/about/faq\">FAQ</a></li>\n
+        \             <li><a href=\"/tools\">Tools</a></li>\n              <li><a
+        href=\"https://api.metacpan.org/\">API</a></li>\n            </ul>\n            <ul
+        class=\"nav navbar-nav navbar-right\">\n                <button type=\"button\"
+        class=\"searchbar-btn visible-xs visible-sm\">\n                    <i class=\"fa
+        fa-search button-fa-icon\"></i>\n                </button>\n                <form
+        action=\"/search\" class=\"searchbar-form visible-md visible-lg search-form
+        form-horizontal\">\n                   <input type=\"hidden\" name=\"size\"
+        id=\"metacpan_search-size\" value=\"20\">\n                  <div class=\"form-group\">\n
+        \                     <div class=\"search-group\">\n                        <i
+        class=\"fa fa-search\"></i>\n                        <input type=\"text\"
+        name=\"q\" placeholder=\"Search the CPAN\" size=\"41\" autocorrect=\"off\"
+        autocapitalize=\"off\" spellcheck=\"false\" id=\"metacpan_search-input\" class=\"form-control\"
+        value=\"\">\n                      </div>\n                  </div>\n                </form>\n
+        \               <li class=\"dropdown login-dropdown show-logged-in\">\n                    <button
+        type=\"button\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" aria-label=\"Account\">\n
+        \                     <i class=\"fa fa-user button-fa-icon logged-in-icon\"
+        aria-hidden=\"true\"></i>\n                      <i class=\"fas fa-chevron-down\"></i>\n
+        \                   </button>\n                    <ul class=\"dropdown-menu\">\n
+        \                       <li><a href=\"/account/identities\">Identities</a></li>\n
+        \                       <li><a href=\"/account/profile\">Profile</a></li>\n
+        \                       <li><a href=\"/account/favorite/list\">Favorites</a></li>\n
+        \                       <li>\n                            <a href=\"#\" type=\"button\"
+        class=\"logout-button\">\n                              Logout\n                            </a>\n
+        \                       </li>\n                    </ul>\n                </li>\n
+        \               <li class=\"dropdown login-dropdown show-logged-out\">\n                    <button
+        type=\"button\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" aria-label=\"Login\">\n
+        \                     <i class=\"fa fa-user button-fa-icon avatar-placeholder\"
+        aria-hidden=\"true\"></i>\n                      <i class=\"fas fa-chevron-down\"></i>\n
+        \                   </button>\n                    <ul class=\"dropdown-menu\">\n
+        \                       <li>\n                            <a href=\"/login/github\">\n
+        \                               <i class=\"fab fa-github fa-fw\"></i>\n                                GitHub\n
+        \                           </a>\n                        </li>\n                        <li>\n
+        \                           <a href=\"/login/twitter\">\n                                <i
+        class=\"fab fa-twitter fa-fw\"></i>\n                                Twitter\n
+        \                           </a>\n                        </li>\n                        <li>\n
+        \                           <a href=\"/login/google\">\n                                <i
+        class=\"fab fa-google fa-fw\"></i>\n                                Google\n
+        \                           </a>\n                        </li>\n                    </ul>\n
+        \               </li>\n                <li class=\"dropdown login-dropdown
+        hide-logged-in hide-logged-out\">\n                    <button>\n                      <i
+        class=\"fa fa-user button-fa-icon\" aria-hidden=\"true\"></i>\n                    </button>\n
+        \               </li>\n            </ul>\n        </nav>\n        <div class=\"page-content
+        \">\n          <div id=\"perl-ad-target\" class=\"top-notify-banner perl-ad-target\">\n
+        \         </div>\n          <nav class=\"sidebar\">\n          </nav>\n          <div
+        class=\"content-navigation\">\n          </div>\n          <main class=\"content
+        error-page\">\n    <h1>Not Found</h1>\n\n    <p>The resource you requested
+        could not be found.</p>\n\n\n        <p>\n            Search the CPAN for
+        <a href=\"/search?q=foo\">foo</a>\n        </p>\n          </main>\n          <div
+        class=\"content-pagination\">\n          </div>\n        </div>\n        <footer
+        class=\"footer\">\n          <div class=\"footer-container\">\n            <div
+        class=\"footer-social\">\n              <div class=\"footer-link footer-logo\">\n
+        \               <a href=\"/\">\n                  <img src=\"/static/images/metacpan-logo.svg\"
+        alt=\"MetaCPAN\" />\n                </a>\n              </div>\n              <a
+        class=\"footer-social-link\" href=\"https://github.com/metacpan\">\n                <i
+        class=\"fab fa-github-square\"></i>\n              </a>\n              <a
+        class=\"footer-social-link\" href=\"https://fosstodon.org/@metacpan\">\n                <i
+        class=\"fab fa-mastodon\"></i>\n              </a>\n            </div>\n            <div
+        class=\"footer-links\">\n              <div class=\"footer-link\">\n                  <a
+        href=\"/about\">About</a>\n              </div>\n              <div class=\"footer-link\">\n
+        \                 <a href=\"/about/sponsors\">Sponsor</a>\n              </div>\n
+        \             <div class=\"footer-link\">\n                  <a href=\"https://grep.metacpan.org\">grep::cpan</a>\n
+        \             </div>\n              <div class=\"footer-link\">\n                  <a
+        href=\"/recent\">Recent</a>\n              </div>\n              <div class=\"footer-link\">\n
+        \                 <a href=\"/about/faq\">FAQ</a>\n              </div>\n              <div
+        class=\"footer-link\">\n                  <a href=\"/tools\">Tools</a>\n              </div>\n
+        \             <div class=\"footer-link\">\n                  <a href=\"https://api.metacpan.org/\">API</a>\n
+        \             </div>\n              <div class=\"footer-link\">\n                  <a
+        href=\"https://www.perl.org/\">Perl.org</a>\n              </div>\n            </div>\n
+        \           <div class=\"footer-sponsors\">\n              <a class=\"footer-sponsor-link\"
+        target=\"_blank\" href=\"https://www.bytemark.co.uk/\" rel=\"noopener\">\n
+        \               <img class=\"footer-sponsor-bytemark\" src=\"/static/images/sponsors/bytemark_logo.svg\"
+        alt=\"Bytemark logo\">\n              </a>\n              <a class=\"footer-sponsor-link\"
+        target=\"_blank\" href=\"https://www.liquidweb.com/\" rel=\"noopener\">\n
+        \               <img class=\"footer-sponsor-liquidweb\" src=\"/static/images/sponsors/liquidweb_logo.png\"
+        alt=\"liquidweb logo\">\n              </a>\n              <a class=\"footer-sponsor-link\"
+        target=\"_blank\" href=\"https://deriv.com/careers/\" rel=\"noopener\">\n
+        \               <img class=\"footer-sponsor-deriv\" src=\"/static/images/sponsors/deriv.svg\"
+        alt=\"Deriv logo\">\n              </a>\n              <a class=\"footer-sponsor-link\"
+        target=\"_blank\" href=\"https://geocode.xyz\" rel=\"noopener\">\n                <img
+        class=\"footer-sponsor-geocode\" src=\"/static/images/sponsors/geocodelogo.svg\"
+        alt=\"Geocode logo\">\n              </a>\n              <a class=\"footer-sponsor-link\"
+        target=\"_blank\" href=\"https://www.fastly.com/\" rel=\"noopener\">\n                <img
+        class=\"footer-sponsor-fastly\" src=\"/static/images/sponsors/fastly_logo.svg\"
+        alt=\"Fastly logo\">\n              </a>\n              <a class=\"footer-sponsor-link\"
+        target=\"_blank\" href=\"https://opencagedata.com\" rel=\"noopener\">\n                <img
+        class=\"footer-sponsor-opencage\" src=\"/static/images/sponsors/open-cage.svg\"
+        alt=\"OpenCage logo\">\n              </a>\n              <!-- Added 2024-07-22
+        -->\n              <a class=\"footer-sponsor-link\" target=\"_blank\" href=\"https://www.elastic.co/\"
+        rel=\"noopener\">\n                <img class=\"footer-sponsor-elastic\" src=\"/static/images/sponsors/elastic.svg\"
+        alt=\"Elastic logo\">\n              </a>\n              <!-- Added 2024-07-22
+        -->\n              <a class=\"footer-sponsor-link\" target=\"_blank\" href=\"https://route4me.com/\"
+        rel=\"noopener\">\n                <img class=\"footer-sponsor-route4me\"
+        src=\"/static/images/sponsors/route4me.png\" alt=\"Route4Me logo\">\n              </a>\n
+        \           </div>\n          </div>\n        </footer>\n        <div class=\"modal
+        fade\" tabindex=\"-1\" role=\"dialog\" id=\"metacpan_keyboard-shortcuts\">\n
+        \         <div class=\"modal-dialog\">\n            <div class=\"modal-content\">\n
+        \             <div class=\"modal-header\">\n                <button type=\"button\"
+        class=\"close\" data-dismiss=\"modal\">&times;</button>\n                <h4
+        class=\"modal-title\">Keyboard Shortcuts</h4>\n              </div>\n              <div
+        class=\"modal-body row\">\n<div class=\"col-md-6\">\n  <table class=\"table
+        keyboard-shortcuts\">\n    <thead>\n      <tr>\n        <th></th>\n        <th>Global</th>\n
+        \     </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td class=\"keys\">\n
+        \         <kbd>s</kbd>\n        </td>\n        <td>Focus search bar</td>\n
+        \     </tr>\n      <tr>\n        <td class=\"keys\">\n          <kbd>?</kbd>\n
+        \       </td>\n        <td>Bring up this help dialog</td>\n      </tr>\n    </tbody>\n
+        \ </table>\n\n  <table class=\"table keyboard-shortcuts\">\n    <thead>\n
+        \     <tr>\n        <th></th>\n        <th>GitHub</th>\n      </tr>\n    </thead>\n
+        \   <tbody>\n      <tr>\n        <td class=\"keys\">\n          <kbd>g</kbd>
+        <kbd>p</kbd>\n        </td>\n        <td>Go to pull requests</td>\n      </tr>\n
+        \     <tr>\n        <td class=\"keys\">\n          <kbd>g</kbd> <kbd>i</kbd>\n
+        \       </td>\n        <td>go to github issues (only if github is preferred
+        repository)</td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n\n<div class=\"col-md-6\">\n
+        \ <table class=\"table keyboard-shortcuts\">\n    <thead>\n      <tr>\n        <th></th>\n
+        \       <th>POD</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n
+        \       <td class=\"keys\">\n          <kbd>g</kbd> <kbd>a</kbd>\n        </td>\n
+        \       <td>Go to author</td>\n      </tr>\n      <tr>\n        <td class=\"keys\">\n
+        \         <kbd>g</kbd> <kbd>c</kbd>\n        </td>\n        <td>Go to changes</td>\n
+        \     </tr>\n      <tr>\n        <td class=\"keys\">\n          <kbd>g</kbd>
+        <kbd>i</kbd>\n        </td>\n        <td>Go to issues</td>\n      </tr>\n
+        \     <tr>\n        <td class=\"keys\">\n          <kbd>g</kbd> <kbd>d</kbd>\n
+        \       </td>\n        <td>Go to dist</td>\n      </tr>\n      <tr>\n        <td
+        class=\"keys\">\n          <kbd>g</kbd> <kbd>r</kbd>\n        </td>\n        <td>Go
+        to repository/SCM</td>\n      </tr>\n      <tr>\n        <td class=\"keys\">\n
+        \         <kbd>g</kbd> <kbd>s</kbd>\n        </td>\n        <td>Go to source</td>\n
+        \     </tr>\n      <tr>\n        <td class=\"keys\">\n          <kbd>g</kbd>
+        <kbd>b</kbd>\n        </td>\n        <td>Go to file browse</td>\n      </tr>\n\n
+        \   </tbody>\n  </table>\n</div>\n\n<div class=\"col-md-12\">\n  <table class=\"table
+        keyboard-shortcuts\">\n    <thead>\n      <tr>\n        <th></th>\n        <th>Search
+        terms</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td><em>module:</em>
+        (e.g. <a href=\"/search?q=module%3APlugin\">module:Plugin</a>)</td>\n      </tr>\n
+        \     <tr>\n        <td><em>distribution:</em> (e.g. <a href=\"/search?q=distribution%3ADancer+auth\">distribution:Dancer
+        auth</a>)</td>\n      </tr>\n      <tr>\n        <td><em>author:</em> (e.g.
+        <a href=\"/search?q=author%3ASONGMU+Redis\">author:SONGMU Redis</a>)</td>\n
+        \     </tr>\n      <tr>\n        <td><em>version:</em> (e.g. <a href=\"/search?q=version%3A1.00\">version:1.00</a>)</td>\n
+        \     </tr>\n    </tbody>\n  </table>\n</div>\n              </div>\n              <div
+        class=\"modal-footer\"></div>\n            </div>\n          </div>\n        </div>\n
+        \   </body>\n</html>\n"
     headers:
-      Accept-Ranges: [bytes, bytes, bytes, bytes]
-      Age: ['0', '0']
-      Cache-Control: [private]
-      Connection: [keep-alive]
-      Content-Encoding: [gzip]
-      Content-Type: [text/html; charset=utf-8]
-      Date: ['Thu, 19 Jul 2018 16:48:03 GMT']
-      Server: [nginx]
-      Vary: [Accept-Encoding]
-      Via: [1.1 varnish, 1.1 varnish]
-      X-Cache: ['MISS, MISS']
-      X-Cache-Hits: ['0, 0']
-      X-Runtime: ['0.053375']
-      X-Served-By: ['cache-lax8648-LAX, cache-dca17744-DCA']
-      X-Timer: ['S1532018883.013912,VS0,VE267']
-    status: {code: 404, message: Not Found}
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '12961'
+      Date:
+      - Mon, 09 Jun 2025 12:50:09 GMT
+      Strict-Transport-Security:
+      - max-age=31557600
+      Vary:
+      - Accept-Encoding
+      X-Cache:
+      - MISS, MISS, MISS
+      X-Cache-Hits:
+      - 0, 0, 0
+      X-Served-By:
+      - cache-fra-etou8220046-FRA, cache-fra-etou8220046-FRA, cache-lon4257-LON
+      X-Timer:
+      - S1749473409.933782,VS0,VE303
+      accept-ranges:
+      - bytes
+      cache-control:
+      - private
+      content-security-policy:
+      - 'default-src * data: ''unsafe-inline''; frame-ancestors ''self'' *.metacpan.org;
+        script-src ''self'' ''unsafe-eval'' ''unsafe-inline'' *.metacpan.org https://*.googletagmanager.com
+        https://perl-ads.perlhacks.com'
+      content-type:
+      - text/html; charset=utf-8
+      via:
+      - 1.1 varnish, 1.1 varnish, 1.1 varnish
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-runtime:
+      - '0.262551'
+      x-xss-protection:
+      - 1; mode=block
+    status:
+      code: 404
+      message: Not Found
 version: 1
