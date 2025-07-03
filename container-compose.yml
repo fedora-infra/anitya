@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Containerfile.dev
       args:
-        FEDORA_VERSION: 40
+        FEDORA_VERSION: 42
     container_name: "anitya-web"
     ports:
       - "127.0.0.1:5000:5000"

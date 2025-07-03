@@ -21,7 +21,7 @@ up:
 	$(call compose-tool) up -d
 # It takes some time before the postgres container is up, we need to wait before calling
 # the next step
-	sleep 15
+	sleep 20
 	$(MAKE) init-db
 	@echo "Empty database initialized. Run dump-restore to fill it by production dump."
 restart:
