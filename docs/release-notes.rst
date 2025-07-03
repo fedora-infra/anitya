@@ -4,6 +4,43 @@ Release Notes
 
 .. towncrier release notes start
 
+2.0.1 (2025-07-03)
+==================
+
+Bug Fixes
+---------
+
+* You are going to be blocked from scraping MetaCPAN.org
+  (`#1900 <https://github.com/fedora-infra/anitya/issues/1900>`_)
+
+* Fix api_v2 returning 500
+  (`#1906 <https://github.com/fedora-infra/anitya/issues/1906>`_)
+
+
+Development Changes
+-------------------
+
+* Update dev environment to latest fedora release
+  (`#1909 <https://github.com/fedora-infra/anitya/issues/1909>`_)
+
+
+Other Changes
+-------------
+
+* Update documentation for APIv2
+  (`PR#1891 <https://github.com/fedora-infra/anitya/pull/1891>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Anton Medvedev
+* Peter Oliver
+* Michal Konecny
+* Alex Mayer
+
 2.0.0 (2025-01-10)
 ==================
 
