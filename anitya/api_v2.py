@@ -145,9 +145,9 @@ class PackagesResource(MethodView):
         :statuscode 400: If one or more of the query arguments is invalid.
         """
         user_args = {
-            "page": fields.Int(validate=_page_validator, missing=1),
+            "page": fields.Int(validate=_page_validator, load_default=1),
             "items_per_page": fields.Int(
-                validate=_items_per_page_validator, missing=25
+                validate=_items_per_page_validator, load_default=25
             ),
             "distribution": fields.Str(),
             "name": fields.Str(),
@@ -376,9 +376,9 @@ class ProjectsResource(MethodView):
         :statuscode 400: If one or more of the query arguments is invalid.
         """
         user_args = {
-            "page": fields.Int(validate=_page_validator, missing=1),
+            "page": fields.Int(validate=_page_validator, load_default=1),
             "items_per_page": fields.Int(
-                validate=_items_per_page_validator, missing=25
+                validate=_items_per_page_validator, load_default=25
             ),
             "ecosystem": fields.Str(),
             "name": fields.Str(),
@@ -480,15 +480,15 @@ class ProjectsResource(MethodView):
             "name": fields.Str(required=True),
             "homepage": fields.Str(required=True),
             "backend": fields.Str(required=True),
-            "version_url": fields.Str(missing=None),
-            "version_scheme": fields.Str(missing="RPM"),
-            "version_pattern": fields.Str(missing=None),
-            "version_prefix": fields.Str(missing=None),
-            "pre_release_filter": fields.Str(missing=None),
-            "version_filter": fields.Str(missing=None),
-            "regex": fields.Str(missing=None),
-            "insecure": fields.Bool(missing=False),
-            "check_release": fields.Bool(missing=False),
+            "version_url": fields.Str(load_default=None),
+            "version_scheme": fields.Str(load_default="RPM"),
+            "version_pattern": fields.Str(load_default=None),
+            "version_prefix": fields.Str(load_default=None),
+            "pre_release_filter": fields.Str(load_default=None),
+            "version_filter": fields.Str(load_default=None),
+            "regex": fields.Str(load_default=None),
+            "insecure": fields.Bool(load_default=False),
+            "check_release": fields.Bool(load_default=False),
         }
         if not request.is_json:
             args = parser.parse(user_args, request, location="form")
@@ -694,10 +694,10 @@ class VersionsResource(MethodView):
             "version_prefix": fields.Str(),
             "pre_release_filter": fields.Str(),
             "version_filter": fields.Str(),
-            "regex": fields.Str(missing=None),
-            "insecure": fields.Bool(missing=False),
-            "releases_only": fields.Bool(missing=False),
-            "dry_run": fields.Bool(missing=True),
+            "regex": fields.Str(load_default=None),
+            "insecure": fields.Bool(load_default=False),
+            "releases_only": fields.Bool(load_default=False),
+            "dry_run": fields.Bool(load_default=True),
         }
         if not request.is_json:
             args = parser.parse(user_args, request, location="form")
