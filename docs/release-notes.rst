@@ -4,6 +4,22 @@ Release Notes
 
 .. towncrier release notes start
 
+2.0.2 (2025-07-30)
+==================
+
+Bug Fixes
+---------
+
+* Fix: Internal server error when adding packages
+  (`#1911 <https://github.com/fedora-infra/anitya/issues/1911>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release.
+
+
 2.0.1 (2025-07-03)
 ==================
 
