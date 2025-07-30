@@ -243,13 +243,12 @@ class PackagesResource(MethodView):
             args = parser.parse(user_args, request, location="form")
         else:
             args = parser.parse(user_args, request, location="json")
-        try:
-            project = models.Project.query.filter(
-                func.lower(models.Project.name) == func.lower(args["project_name"]),
-                func.lower(models.Project.ecosystem_name)
-                == func.lower(args["project_ecosystem"]),
-            ).one()
-        except NoResultFound:
+        project = models.Project.query.filter(
+            func.lower(models.Project.name) == func.lower(args["project_name"]),
+            func.lower(models.Project.ecosystem_name)
+            == func.lower(args["project_ecosystem"]),
+        ).first()
+        if not project:
             return (
                 {
                     "error": f'Project "{args["project_name"]}" in ecosystem '
