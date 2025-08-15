@@ -1211,6 +1211,26 @@ class ProjectsResourcePostTests(DatabaseTestCase):
         )
         self.assertEqual("requests", data["requested_project"]["name"])
 
+    def test_required_version_url_for_backend(self):
+        """
+        Assert that backend with required version url will return 400
+        if version url is missing.
+        """
+        request_data = {
+            "backend": "custom",
+            "homepage": "http://python-requests.org",
+            "name": "requests",
+        }
+
+        output = self.app.post(
+            "/api/v2/projects/", headers=self.auth, data=request_data
+        )
+        self.assertEqual(output.status_code, 400)
+
+        # Error details should report conflicting fields.
+        data = _read_json(output)
+        self.assertIn("Chosen backend requires version_url", data)
+
     def test_valid_request(self):
         """Test valid request"""
         request_data = {

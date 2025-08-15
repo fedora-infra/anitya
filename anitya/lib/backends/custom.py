@@ -31,6 +31,7 @@ class CustomBackend(BaseBackend):
         "user-guide.html#regular-expressions</a>"
     )
     default_regex = REGEX % {"name": "{project name}"}
+    required_version_url = True
 
     @classmethod
     def get_version_url(cls, project):
