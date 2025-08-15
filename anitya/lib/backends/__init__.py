@@ -78,6 +78,9 @@ class BaseBackend(object):
             is used.
         check_interval (`datetime.timedelta`): Interval which is used for periodic
             checking for new versions. This could be overriden by backend plugin.
+        required_version_url (bool): This flag will let us know if the version URL
+            is required field on project backend. Default is False as most of the
+            backends don't require it.
     """
 
     name: str
@@ -86,6 +89,7 @@ class BaseBackend(object):
     more_info: str
     default_version_scheme = GLOBAL_DEFAULT
     check_interval = timedelta(hours=1)
+    required_version_url: bool = False
 
     @classmethod
     def expand_subdirs(cls, url, last_change=None, glob_char="*"):

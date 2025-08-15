@@ -18,7 +18,7 @@ from webargs.flaskparser import FlaskParser
 
 from anitya import authentication
 from anitya.db import Session, models
-from anitya.lib import utilities
+from anitya.lib import plugins, utilities
 from anitya.lib.exceptions import AnityaException, ProjectExists
 
 _log = logging.getLogger(__name__)
@@ -493,6 +493,15 @@ class ProjectsResource(MethodView):
             args = parser.parse(user_args, request, location="form")
         else:
             args = parser.parse(user_args, request, location="json")
+
+        if not args["version_url"]:
+            backend = plugins.get_plugin(args["backend"])
+            if backend.required_version_url:
+                response = (
+                    jsonify("Chosen backend requires version_url"),
+                    400,
+                )
+                return response
 
         try:
             project = utilities.create_project(
