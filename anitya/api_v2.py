@@ -875,3 +875,62 @@ class VersionsResource(MethodView):
                 "stable_versions": [str(v) for v in project.stable_versions],
             }
             return response
+
+class LatestStableVersionAndDateResource(MethodView):
+    """
+    The ``api/v2/latestStableVersionAndDate/`` API endpoint.
+    """
+
+    def get(self):
+        """
+        Lists latest versions and retrieved date for a project.
+
+        **Example request**:
+
+        .. sourcecode:: http
+
+            GET /api/v2/dates/?project_id=1 HTTP/1.1
+            Accept: application/json
+            Accept-Encoding: gzip, deflate
+            Connection: keep-alive
+            Host: localhost:5000
+            User-Agent: HTTPie/0.9.4
+
+        **Example response**:
+
+        .. sourcecode:: http
+
+            HTTP/1.0 200 OK
+            Content-Length: 676
+            Content-Type: application/json
+            Date: Fri, 24 Mar 2017 18:44:32 GMT
+            Server: Werkzeug/0.12.1 Python/2.7.13
+
+           {
+             "date": "2025-08-17 15:31",
+             "latest_version": "18.0.71.2"
+           }
+
+        :query int project_id: The id of the project we want to get versions for.
+        :statuscode 200: If all arguments are valid.
+        :statuscode 400: If one or more of the query arguments is invalid.
+        :statuscode 404: If project with specified id doesn't exist.
+        """
+        user_args = {"project_id": fields.Int()}
+        args = parser.parse(user_args, request, location="query")
+        project_id = args.pop("project_id", -1)
+        project = models.Project.get(Session, project_id=project_id)
+        if not project:
+            response = {"output": "notok", "error": "No such project"}, 404
+            return response
+
+        version = project.latest_stable_version_object
+
+        if version.created_on:
+            response = {
+              "date": version.created_on.strftime('%Y-%m-%d %H:%M'),
+              "latest_version": version.version,
+            }
+        else:
+            response = {"output": "notok", "error": "No date found for specified project"}, 404
+        return response
