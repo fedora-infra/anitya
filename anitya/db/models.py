@@ -440,8 +440,8 @@ class Project(Base):
         sorted_versions = self.get_sorted_version_objects()
         stable = []
         for version in sorted_versions:
-          if not version.prerelease():
-            stable.append(version)
+            if not version.prerelease():
+                stable.append(version)
         if stable:
             return stable[0]
         return None

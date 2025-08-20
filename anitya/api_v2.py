@@ -876,6 +876,7 @@ class VersionsResource(MethodView):
             }
             return response
 
+
 class LatestStableVersionAndDateResource(MethodView):
     """
     The ``api/v2/latestStableVersionAndDate/`` API endpoint.
@@ -928,9 +929,12 @@ class LatestStableVersionAndDateResource(MethodView):
 
         if version.created_on:
             response = {
-              "date": version.created_on.strftime('%Y-%m-%d %H:%M'),
-              "latest_version": version.version,
+                "date": version.created_on.strftime("%Y-%m-%d %H:%M"),
+                "latest_version": version.version,
             }
         else:
-            response = {"output": "notok", "error": "No date found for specified project"}, 404
+            response = {
+                "output": "notok",
+                "error": "No date found for specified project",
+            }, 404
         return response
