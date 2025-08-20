@@ -890,7 +890,7 @@ class LatestStableVersionAndDateResource(MethodView):
 
         .. sourcecode:: http
 
-            GET /api/v2/dates/?project_id=1 HTTP/1.1
+            GET /api/v2/latestStableVersionAndDate/?project_id=1 HTTP/1.1
             Accept: application/json
             Accept-Encoding: gzip, deflate
             Connection: keep-alive
