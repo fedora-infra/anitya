@@ -40,7 +40,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('anitya_ui.static', filename='docs/index.html') }}">docs</a>
+                    <a class="nav-link" href="{{ url_for('anitya_ui.static', filename='docs/index.html') }}">Docs</a>
                 </li>
                 {%- if current == 'projects' -%}
                 <li class="nav-item dropdown active">
@@ -48,7 +48,7 @@
                 <li class="nav-item dropdown">
                 {%- endif -%}
                 <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    projects
+                    Projects
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{url_for('anitya_ui.projects')}}">All</a>
@@ -72,7 +72,7 @@
                 <li class="nav-item">
                 {%- endif -%}
                 <a class="nav-link" href="{{url_for('anitya_ui.distros')}}">
-                    distros
+                    Distros
                 </a>
                 </li>
 
@@ -83,7 +83,7 @@
                 <li class="nav-item">
                 {%- endif -%}
                 <a class="nav-link" href="{{url_for('anitya_ui.new_project')}}">
-                    add project
+                    Add Project
                 </a>
                 </li>
 
@@ -93,7 +93,7 @@
                 <li class="nav-item">
                 {%- endif -%}
                 <a class="nav-link" href="{{url_for('anitya_ui.browse_logs')}}">
-                    logs
+                    Logs
                 </a>
                 </li>
                 {%- if is_admin -%}
@@ -103,7 +103,7 @@
                 <li class="nav-item">
                 {%- endif -%}
                     <a class="nav-link" href="{{url_for('anitya_ui.browse_flags')}}">
-                        flags
+                        Flags
                     </a>
                 </li>
                 {%- if current == 'users' -%}
@@ -112,7 +112,7 @@
                 <li class="nav-item">
                 {%- endif -%}
                     <a class="nav-link" href="{{url_for('anitya_ui.browse_users')}}">
-                    users
+                    Users
                     </a>
                 </li>
                 {%- endif -%}
@@ -122,18 +122,18 @@
                 {%- else -%}
                 <li class="nav-item">
                 {%- endif -%}
-                <a class="nav-link" href="{{url_for('anitya_ui.settings')}}">settings</a>
+                <a class="nav-link" href="{{url_for('anitya_ui.settings')}}">Settings</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="{{url_for('anitya_ui.logout')}}">
                     <span class="glyphicon glyphicon-log-out"></span>
-                    logout
+                    Logout
                 </a>
                 </li>
                 {%- else -%}
                 <li class="nav-item">
                     <a class="nav-link active" href="{{url_for('anitya_ui.login')}}">
-                        login
+                        Login
                     </a>
                 </li>
                 {%- endif -%}
