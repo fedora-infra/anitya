@@ -478,6 +478,7 @@ class Project(Base):
             backend=self.backend,
             version_url=self.version_url,
             version=self.latest_version,
+            release_date=(time.mktime(self.stable_versions[0].created_on.timetuple())),
             versions=self.versions,
             stable_versions=[str(v) for v in self.stable_versions],
             created_on=(
