@@ -63,7 +63,7 @@ profile = "black"
 
 [tool.poetry]
 name = "anitya"
-version = "2.0.2"
+version = "2.0.3"
 description = "A cross-distribution upstream release monitoring project"
 authors = ["Pierre-Yves Chibon <pingou@pingoured.fr>"]
 maintainers = ["Michal Konecny <mkonecny@redhat.com>"]
@@ -75,7 +75,7 @@ license = "GPL-2.0-or-later"
 classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.11"
+  "Programming Language :: Python :: 3.12"
 ]
 exclude = [
   "anitya/tests"
@@ -149,7 +149,7 @@ types-toml = "^0.10.8"
 
 [tool.poetry.group.dev.dependencies]
 tox = "^4.5.1"
-towncrier = "^24.0.0"
+towncrier = "^25.0.0"
 pre-commit = "^4.0.0"
 pylint = "^3.0.0"
 

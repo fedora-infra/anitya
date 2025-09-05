@@ -434,18 +434,6 @@ class Project(Base):
             return sorted_versions[0]
         return None
 
-    @property
-    def latest_stable_version_object(self):
-        """Latest version object"""
-        sorted_versions = self.get_sorted_version_objects()
-        stable = []
-        for version in sorted_versions:
-            if not version.prerelease():
-                stable.append(version)
-        if stable:
-            return stable[0]
-        return None
-
     def get_version_class(self):
         """
         Get the class for the version scheme used by this project.
@@ -490,6 +478,7 @@ class Project(Base):
             backend=self.backend,
             version_url=self.version_url,
             version=self.latest_version,
+            release_date=(time.mktime(self.stable_versions[0].created_on.timetuple())),
             versions=self.versions,
             stable_versions=[str(v) for v in self.stable_versions],
             created_on=(
