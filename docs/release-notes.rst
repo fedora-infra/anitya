@@ -4,6 +4,32 @@ Release Notes
 
 .. towncrier release notes start
 
+2.0.3 (2025-09-05)
+==================
+
+API Changes
+-----------
+
+* Fix: Should not allow projects with no way to check versions
+  (`#1921 <https://github.com/fedora-infra/anitya/issues/1921>`_)
+
+
+Other Changes
+-------------
+
+* Update copyright to 2025
+  (`#1930 <https://github.com/fedora-infra/anitya/issues/1930>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Justin Zobel
+* Michal Konecny
+
+
 2.0.2 (2025-07-30)
 ==================
 
