@@ -24,7 +24,7 @@ class GnuBackend(BaseBackend):
     """
 
     name = "GNU project"
-    examples = ["https://ftp.gnu.org/pub/gnu/gnash/"]
+    examples = ["https://ftpmirror.gnu.org/pub/gnu/gnash/"]
 
     @classmethod
     def get_version_url(cls, project):
@@ -38,7 +38,7 @@ class GnuBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = f"https://ftp.gnu.org/gnu/{project.name}/"  # noqa: E231
+        url = f"https://ftpmirror.gnu.org/gnu/{project.name}/"  # noqa: E231
 
         return url
 
