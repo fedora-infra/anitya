@@ -27,7 +27,7 @@ class GiteaBackend(BaseBackend):
     with gitea api.
     """
 
-    name = "Gitea"
+    name = "Gitea/Forgejo"
     examples = [
         "https://codeberg.org/freedroid/freedroid-src.git",
         "https://codeberg.org/forgejo/forgejo",
