@@ -93,6 +93,9 @@ class CpanBackend(BaseBackend):
             try:
                 name, version = title.text.rsplit("-", 1)
             except ValueError:
-                _log.info("Unable to parse CPAN package %s into a name and version")
+                _log.info(
+                    "Unable to parse CPAN title %s into a package name and version",
+                    title,
+                )
             homepage = f"https://metacpan.org/dist/{name}/"  # noqa: E231
             yield name, homepage, cls.name, version
