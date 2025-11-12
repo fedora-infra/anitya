@@ -24,7 +24,7 @@ Anitya tests for check service.
 """
 
 import unittest
-from datetime import timedelta
+from datetime import timedelta, timezone
 from unittest import mock
 
 import anitya_schema
@@ -47,8 +47,7 @@ class CheckerTests(DatabaseTestCase):
         super().setUp()
         self.checker = Checker()
 
-    @mock.patch("anitya.lib.utilities.check_project_release")
-    def test_update_project_backend_blacklist(self, mock_check_project_release):
+    def test_update_project_backend_blacklist(self):
         """
         Assert that project next_check is set to correct_time when backend
         is blacklisted.
@@ -61,16 +60,46 @@ class CheckerTests(DatabaseTestCase):
         )
         self.session.add(project)
         self.session.commit()
-        reset_time = project.next_check + timedelta(hours=1)
+        reset_time = (project.next_check + timedelta(hours=1)).replace(
+            tzinfo=timezone.utc
+        )
 
         with mock.patch.dict(self.checker.blacklist_dict, {"GitHub": reset_time}):
             self.checker.update_project(project.id)
 
-        self.assertEqual(project.next_check, reset_time)
+        self.assertEqual(project.next_check.replace(tzinfo=timezone.utc), reset_time)
         self.assertEqual(self.checker.ratelimit_counter, 1)
         self.assertEqual(self.checker.success_counter, 0)
         self.assertEqual(self.checker.error_counter, 0)
         self.assertEqual(self.checker.ratelimit_queue["GitHub"][0], project.id)
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_update_project_backend_blacklist_reset_time_reached(
+        self, mock_check_project_release
+    ):
+        """
+        Assert that project is removed from blacklist when the reset time is reached.
+        """
+        now = arrow.utcnow()
+        project = models.Project(
+            name="Foobar",
+            backend="GitHub",
+            homepage="www.fakeproject.com",
+            next_check=now.to("utc").datetime,
+        )
+        self.session.add(project)
+        self.session.commit()
+        reset_time = (project.next_check + timedelta(hours=-1)).replace(
+            tzinfo=timezone.utc
+        )
+
+        with mock.patch.dict(self.checker.blacklist_dict, {"GitHub": reset_time}):
+            self.checker.update_project(project.id)
+
+        self.assertEqual(self.checker.ratelimit_counter, 0)
+        self.assertEqual(self.checker.success_counter, 1)
+        self.assertEqual(self.checker.error_counter, 0)
+        self.assertEqual(self.checker.blacklist_dict, {})
 
     @mock.patch(
         "anitya.lib.utilities.check_project_release",
