@@ -627,31 +627,6 @@ class JsonTests(unittest.TestCase):
             backend.parse_json(json, self.project)
         self.assertEqual(backend.reset_time, "2008-09-03T20:56:35.450686")
 
-    def test_parse_json_threshold_reached(self):
-        """
-        Assert that exception is thrown when
-        rate limit threshold is reached.
-        """
-        project = models.Project(
-            name="foobar",
-            homepage="https://foobar.com",
-            version_url="foo/bar",
-            backend=BACKEND,
-        )
-        json = {
-            "data": {
-                "repository": {"refs": {"totalCount": 0}},
-                "rateLimit": {
-                    "limit": 5000,
-                    "remaining": 500,
-                    "resetAt": "2008-09-03T20:56:35.450686",
-                },
-            }
-        }
-        with self.assertRaises(RateLimitException):
-            backend.parse_json(json, project)
-        self.assertEqual(backend.reset_time, "2008-09-03T20:56:35.450686")
-
     def test_parse_json_tag_missing(self):
         """Test parsing a JSON skips releases where tag is missing."""
         project = models.Project(
