@@ -75,7 +75,9 @@ license = "GPL-2.0-or-later"
 classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12"
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14"
 ]
 exclude = [
   "anitya/tests"
@@ -150,7 +152,6 @@ types-toml = "^0.10.8"
 [tool.poetry.group.dev.dependencies]
 tox = "^4.5.1"
 towncrier = "^25.0.0"
-pre-commit = "^4.0.0"
 pylint = "^4.0.0"
 
 [build-system]
