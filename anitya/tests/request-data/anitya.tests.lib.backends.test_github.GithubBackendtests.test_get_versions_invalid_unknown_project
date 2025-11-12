@@ -74,7 +74,7 @@ interactions:
       X-RateLimit-Remaining:
       - '4990'
       X-RateLimit-Reset:
-      - '1576682771'
+      - '2147483647'
       X-XSS-Protection:
       - 1; mode=block
       content-length:

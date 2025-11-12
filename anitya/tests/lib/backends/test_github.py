@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2018  Red Hat, Inc.
+# Copyright © 2018-2025  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions
@@ -25,6 +25,7 @@ anitya tests for the github backend.
 
 import unittest
 
+import arrow
 import mock
 
 import anitya.lib.backends.github as backend
@@ -416,6 +417,20 @@ class GithubBackendtests(DatabaseTestCase):
 
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
     @mock.patch("anitya.lib.backends.http_session.post")
+    def test_get_versions_ratelimit_reached(self, mock_post):
+        """Test the get_versions function of the github when ratelimit is reached."""
+        mock_resp = mock.MagicMock()
+        mock_resp.ok = True
+        mock_resp.headers = {"X-RateLimit-Remaining": "0", "X-RateLimit-Reset": "0"}
+        mock_post.return_value = mock_resp
+        project = self.projects["valid_without_version_url"]
+        with self.assertRaises(RateLimitException) as test:
+            backend.GithubBackend.get_versions(project)
+
+        self.assertEqual(test.exception.reset_time, arrow.get("1970-01-01T00:00:00Z"))
+
+    @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
+    @mock.patch("anitya.lib.backends.http_session.post")
     def test_get_versions_403(self, mock_post):
         """Test the get_versions function of the github when response status code
         is 403.
@@ -423,13 +438,13 @@ class GithubBackendtests(DatabaseTestCase):
         mock_resp = mock.MagicMock()
         mock_resp.status_code = 403
         mock_resp.ok = False
+        mock_resp.headers = {"X-RateLimit-Remaining": "0", "X-RateLimit-Reset": "0"}
         mock_post.return_value = mock_resp
         project = self.projects["valid_without_version_url"]
-        backend.reset_time = "1970-01-01T00:00:00Z"
-        self.assertRaises(
-            RateLimitException, backend.GithubBackend.get_versions, project
-        )
-        self.assertEqual(backend.reset_time, "1970-01-01T00:00:00Z")
+        with self.assertRaises(RateLimitException) as test:
+            backend.GithubBackend.get_versions(project)
+
+        self.assertEqual(test.exception.reset_time, arrow.get("1970-01-01T00:00:00Z"))
 
     @mock.patch.dict("anitya.config.config", {"GITHUB_ACCESS_TOKEN": "foobar"})
     def test_plexus_utils(self):
@@ -609,23 +624,6 @@ class JsonTests(unittest.TestCase):
             backend.parse_json(json, self.project)
 
         self.assertIn('"FOO": "BAR"', str(excinfo.exception))
-
-    def test_parse_json_threshold_exceeded(self):
-        """Test behavior when rate limit threshold is exceeded."""
-        # Limit reached
-        json = {
-            "data": {
-                "repository": {"refs": {"totalCount": 0}},
-                "rateLimit": {
-                    "limit": 5000,
-                    "remaining": 0,
-                    "resetAt": "2008-09-03T20:56:35.450686",
-                },
-            }
-        }
-        with self.assertRaises(RateLimitException):
-            backend.parse_json(json, self.project)
-        self.assertEqual(backend.reset_time, "2008-09-03T20:56:35.450686")
 
     def test_parse_json_tag_missing(self):
         """Test parsing a JSON skips releases where tag is missing."""

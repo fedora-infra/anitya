@@ -37,7 +37,7 @@ interactions:
       x-github-request-id: ['BF56:23A8:3340315:62F7CF2:5B7FEF90']
       x-ratelimit-limit: ['0']
       x-ratelimit-remaining: ['0']
-      x-ratelimit-reset: ['1535114656']
+      x-ratelimit-reset: ['2147483647']
       x-runtime-rack: ['0.011707']
       x-xss-protection: [1; mode=block]
     status: {code: 401, message: Unauthorized}

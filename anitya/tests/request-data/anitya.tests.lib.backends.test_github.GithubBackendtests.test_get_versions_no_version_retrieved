@@ -44,7 +44,7 @@ interactions:
       x-oauth-scopes: ['repo:status']
       x-ratelimit-limit: ['5000']
       x-ratelimit-remaining: ['5000']
-      x-ratelimit-reset: ['1537438156']
+      x-ratelimit-reset: ['2147483647']
       x-runtime-rack: ['0.107819']
       x-xss-protection: [1; mode=block]
     status: {code: 200, message: OK}
