@@ -533,7 +533,13 @@ class Project(Base):
         """By name and ecosystem"""
         try:
             query = session.query(cls)
-            query = query.filter(cls.name == name, cls.ecosystem_name == ecosystem)
+            if ecosystem.lower() == "pypi":
+                query = query.filter(
+                    sa.func.lower(cls.name) == name.lower(),
+                    cls.ecosystem_name == ecosystem,
+                )
+            else:
+                query = query.filter(cls.name == name, cls.ecosystem_name == ecosystem)
             return query.one()
         except NoResultFound:
             return None
