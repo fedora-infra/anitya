@@ -47,8 +47,11 @@ will be created when ``poetry run tox`` will be run.
 Unit Tests
 ----------
 
-The test suites can be run using `tox <http://tox.readthedocs.io/>`_ by simply running
-``poetry run tox`` from the repository root. These tests include unit tests, a linter to ensure
+The test suites can be run using `tox <http://tox.readthedocs.io/>`_::
+
+    poetry run tox
+
+These tests include unit tests, a linter to ensure
 Python code style is correct, checks for possible security issues, and checks the
 documentation for Sphinx warnings or errors.
 
