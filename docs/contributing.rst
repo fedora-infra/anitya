@@ -51,11 +51,14 @@ The test suites can be run using `tox <http://tox.readthedocs.io/>`_::
 
     poetry run tox
 
-These tests include unit tests, a linter to ensure
-Python code style is correct, checks for possible security issues, and checks the
-documentation for Sphinx warnings or errors.
+These tests include unit tests, checks for possible security issues, a linter for
+Python code style and documentation checks for Sphinx warnings or errors.
 
-All tests must pass. All new code should have 100% test coverage.
+All tests must pass. All new code should have 100% test coverage. The coverage is
+stored in `htmlcov/` directory after running tests. To open it with a browser::
+
+    xdg-open htmlcov/index.html
+
 Any bugfix should be accompanied by one or more unit tests to demonstrate the fix.
 If you are unsure how to write unit tests for your code, we will be happy to help
 you during the code review process.
