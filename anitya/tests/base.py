@@ -228,6 +228,7 @@ def create_ecosystem_projects(session):
 
     for name, backend, homepage in projects:
         project = models.Project(name=name, backend=backend, homepage=homepage)
+        # project.ecosystem_name is set in anitya/db/events.py
         session.add(project)
 
     session.commit()
