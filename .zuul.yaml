@@ -5,7 +5,6 @@
         - fi-tox-mypy
         - fi-tox-lint
         - fi-tox-format
-        - fi-tox-python310
         - fi-tox-python311
         - fi-tox-python312
         - fi-tox-docs:
