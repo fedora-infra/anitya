@@ -7,9 +7,9 @@ formats:
 
 # Build configuration
 build:
-  os: ubuntu-20.04
+  os: ubuntu-lts-latest
   tools:
-    python: "3.10"
+    python: "latest"
   jobs:
     post_create_environment:
       # Install poetry
