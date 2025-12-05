@@ -533,7 +533,10 @@ class Project(Base):
         """By name and ecosystem"""
         try:
             query = session.query(cls)
-            query = query.filter(cls.name == name, cls.ecosystem_name == ecosystem)
+            query = query.filter(
+                sa.func.lower(cls.name) == name.lower(),
+                sa.func.lower(cls.ecosystem_name) == ecosystem.lower(),
+            )
             return query.one()
         except NoResultFound:
             return None
