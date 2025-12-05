@@ -535,7 +535,7 @@ class Project(Base):
             query = session.query(cls)
             query = query.filter(
                 sa.func.lower(cls.name) == name.lower(),
-                cls.ecosystem_name == ecosystem.lower(),
+                sa.func.lower(cls.ecosystem_name) == ecosystem.lower(),
             )
             return query.one()
         except NoResultFound:
