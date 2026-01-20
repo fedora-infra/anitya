@@ -101,6 +101,7 @@ For example, ``https://crates.io/api/v1/crates/itoa/versions`` results in::
             }
     }
 """
+
 import requests
 
 from anitya.lib.backends import BaseBackend

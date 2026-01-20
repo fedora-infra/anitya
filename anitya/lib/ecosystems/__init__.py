@@ -11,7 +11,6 @@ Authors:
 
 """
 
-
 from typing import List
 
 from anitya.lib.versions import GLOBAL_DEFAULT as DEFAULT_VERSION_SCHEME

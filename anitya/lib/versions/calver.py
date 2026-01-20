@@ -24,6 +24,7 @@ See `Calendar versioning`_.
 .. _Calendar versioning:
    https://calver.org/
 """
+
 import functools
 import re
 from typing import Optional, Tuple, TypedDict

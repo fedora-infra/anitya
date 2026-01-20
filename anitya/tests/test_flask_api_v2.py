@@ -22,6 +22,7 @@
 """
 Tests for the Flask MethodView based v2 API
 """
+
 from __future__ import unicode_literals
 
 import json

@@ -22,6 +22,7 @@ Revision ID: feeaa70ead67
 Revises: a52d2fe99d4f
 Create Date: 2017-07-07 14:23:30.605238
 """
+
 import uuid
 
 import sqlalchemy as sa

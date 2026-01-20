@@ -20,6 +20,7 @@
 """
 This adds support for comparing project versions using the RPM version rules.
 """
+
 from __future__ import unicode_literals
 
 import functools

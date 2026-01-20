@@ -14,6 +14,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 """sourcehut"""
+
 from defusedxml import ElementTree
 
 from anitya.lib.backends import BaseBackend

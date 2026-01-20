@@ -18,6 +18,7 @@
 """
 Handles compatibility imports for Anitya.
 """
+
 from __future__ import absolute_import, unicode_literals
 
 # flask_wtf.Form was renamed to flask_wtf.FlaskForm

@@ -17,13 +17,11 @@ def upgrade():
     This was the only available version value before this update.
     In newer version of Anitya you can change the value when editing project.
     """
-    op.execute(
-        """
+    op.execute("""
         UPDATE projects
         SET version_scheme='RPM'
         WHERE version_scheme is null
-    """
-    )
+    """)
 
 
 def downgrade():
