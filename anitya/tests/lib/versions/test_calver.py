@@ -20,6 +20,7 @@
 """
 Tests for the :class:`anitya.lib.versions.CalendarVersion` model.
 """
+
 import unittest
 
 from anitya.lib.versions import calver

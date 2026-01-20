@@ -17,6 +17,7 @@
 """
 A backend for cgit
 """
+
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 
 REGEX = r"<a href='.*'>(?:%(name)s-)?(.*)\.(?:tar|tar\.[bglx]z|tbz2|zip)</a>"

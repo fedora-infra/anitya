@@ -8,6 +8,7 @@ Authors:
   Michal Konecny <mkonecny@redhat.com>
 
 """
+
 import logging
 
 import arrow
@@ -142,7 +143,7 @@ class GithubBackend(BaseBackend):
             )
 
         try:
-            (owner, repo) = url.split("/")
+            owner, repo = url.split("/")
         except ValueError as err:
             raise AnityaPluginException(
                 f"""Project {project.name} was incorrectly set up.

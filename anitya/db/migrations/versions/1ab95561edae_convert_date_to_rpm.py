@@ -14,13 +14,11 @@ down_revision = "6ac0e42df937"
 
 def upgrade():
     """Any project using Date version scheme should now use RPM version scheme."""
-    op.execute(
-        """
+    op.execute("""
         UPDATE projects
         SET version_scheme='RPM'
         WHERE version_scheme='Date'
-    """
-    )
+    """)
 
 
 def downgrade():

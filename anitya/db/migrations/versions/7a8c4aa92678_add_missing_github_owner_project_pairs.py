@@ -14,24 +14,20 @@ down_revision = "540bdcf7edbc"
 
 def upgrade():
     """Populate missing GitHub owner/project pairs from homepage."""
-    op.execute(
-        """
+    op.execute("""
         UPDATE projects
         SET version_url=trim(substr(trim(homepage), 19), '/')
         WHERE backend = 'GitHub'
             AND trim(homepage) LIKE 'http://github.com/%'
             AND (version_url IS NULL OR version_url = '')
-    """
-    )
-    op.execute(
-        """
+    """)
+    op.execute("""
         UPDATE projects
         SET version_url=trim(substr(trim(homepage), 20), '/')
         WHERE backend = 'GitHub'
             AND trim(homepage) LIKE 'https://github.com/%'
             AND (version_url IS NULL OR version_url = '')
-    """
-    )
+    """)
 
 
 def downgrade():

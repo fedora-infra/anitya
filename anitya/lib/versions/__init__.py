@@ -38,6 +38,7 @@ The general approach is as follows:
 
 4. If all else fails, Anitya uses the value of :data:`GLOBAL_DEFAULT`.
 """
+
 from __future__ import unicode_literals
 
 from .base import Version, v_prefix  # noqa: F401

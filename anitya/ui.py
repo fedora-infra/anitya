@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """UI"""
+
 from math import ceil
 
 import flask

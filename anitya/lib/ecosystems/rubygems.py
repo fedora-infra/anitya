@@ -7,6 +7,7 @@ Authors:
   Nick Coghlan <ncoghlan@redhat.com>
 
 """
+
 from . import BaseEcosystem
 
 

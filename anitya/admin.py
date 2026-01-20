@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """Module anitya.admin"""
+
 import logging
 from math import ceil
 

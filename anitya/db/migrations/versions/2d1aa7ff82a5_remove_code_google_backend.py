@@ -16,13 +16,11 @@ def upgrade():
     """
     Change backend of projects with code google backend to custom.
     """
-    op.execute(
-        """
+    op.execute("""
         UPDATE projects
         SET backend='custom'
         WHERE backend='Google code'
-    """
-    )
+    """)
 
 
 def downgrade():

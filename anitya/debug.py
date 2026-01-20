@@ -4,6 +4,7 @@
 This module contains blueprints that are only included
  when application is running in debug mode.
 """
+
 import flask
 import flask_login
 

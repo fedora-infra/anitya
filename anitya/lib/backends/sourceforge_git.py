@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """sourceforge_git"""
+
 from bs4 import BeautifulSoup
 
 from anitya.lib.backends import REQUEST_HEADERS, BaseBackend, http_session

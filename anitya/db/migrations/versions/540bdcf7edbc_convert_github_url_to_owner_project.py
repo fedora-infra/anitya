@@ -14,20 +14,16 @@ down_revision = "27342bce1d0f"
 
 def upgrade():
     """Convert GitHub URL to owner/project to work with the new GitHub backend."""
-    op.execute(
-        """
+    op.execute("""
         UPDATE projects
         SET version_url=trim(substr(version_url, 19), '/')
         WHERE backend = 'GitHub' AND version_url LIKE 'http://github.com/%'
-    """
-    )
-    op.execute(
-        """
+    """)
+    op.execute("""
         UPDATE projects
         SET version_url=trim(substr(version_url, 20), '/')
         WHERE backend = 'GitHub' AND version_url LIKE 'https://github.com/%'
-    """
-    )
+    """)
 
 
 def downgrade():

@@ -20,6 +20,7 @@
 """
 Tests for the :mod:`anitya.lib.backends.crates` module.
 """
+
 from __future__ import unicode_literals
 
 import unittest

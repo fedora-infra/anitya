@@ -22,6 +22,7 @@
 """
 Mail handler for logging.
 """
+
 import inspect
 import logging
 import logging.handlers

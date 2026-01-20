@@ -29,6 +29,7 @@ third-party identity providers. It handles logging the user in and creating
 .. _Flask-Login: https://flask-login.readthedocs.io/en/latest/
 .. _Authlib: https://docs.authlib.org/en/latest/
 """
+
 import logging
 import uuid
 from functools import wraps

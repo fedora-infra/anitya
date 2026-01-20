@@ -17,8 +17,7 @@ def upgrade():
     """Upgrade"""
     # We use a subquery instead of an UPDATE FROM with a table join
     # due to the fact that SQLite doesn't allow joins in update statements
-    op.execute(
-        """
+    op.execute("""
         UPDATE projects
         SET ecosystem_name=(
             SELECT ecosystems.name
@@ -28,8 +27,7 @@ def upgrade():
             WHERE projects.id = subquery_projects.id
         )
         WHERE ecosystem_name is null
-    """
-    )
+    """)
 
 
 def downgrade():

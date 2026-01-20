@@ -24,6 +24,7 @@ This is in its own module to avoid circular imports from forming. Models and
 events need to be imported by ``__init__.py``, but  they also need access to
 the :class:`Base` model and :class:`Session`.
 """
+
 from __future__ import unicode_literals
 
 import collections

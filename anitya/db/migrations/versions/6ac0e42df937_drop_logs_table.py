@@ -22,24 +22,20 @@ def upgrade():
 
     op.add_column("projects", sa.Column("check_successful", sa.Boolean, default=None))
 
-    op.execute(
-        """
+    op.execute("""
         UPDATE projects
         SET check_successful=TRUE
         WHERE (logs='Version retrieved correctly'
         OR logs='No new version found')
         AND check_successful IS NULL
-    """
-    )
+    """)
 
-    op.execute(
-        """
+    op.execute("""
         UPDATE projects
         SET check_successful=FALSE
         WHERE logs IS NOT NULL
         AND check_successful IS NULL
-    """
-    )
+    """)
 
 
 def downgrade():

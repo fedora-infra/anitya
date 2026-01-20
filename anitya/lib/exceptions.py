@@ -22,6 +22,7 @@ Exceptions used by Anitya.
 Authors:
     Pierre-Yves Chibon <pingou@pingoured.fr>
 """
+
 import arrow
 
 

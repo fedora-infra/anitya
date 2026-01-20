@@ -31,13 +31,11 @@ down_revision = "3fae8239eeec"
 
 def upgrade():
     """Make the ecosystem_name non-nullable after setting null instances to the homepage."""
-    op.execute(
-        """
+    op.execute("""
         UPDATE projects
         SET ecosystem_name=homepage
         WHERE ecosystem_name IS NULL
-    """
-    )
+    """)
     op.alter_column(
         "projects",
         "ecosystem_name",
@@ -54,10 +52,8 @@ def downgrade():
         existing_type=sa.VARCHAR(length=200),
         nullable=True,
     )
-    op.execute(
-        """
+    op.execute("""
         UPDATE projects
         SET ecosystem_name=NULL
         WHERE ecosystem_name=homepage
-    """
-    )
+    """)

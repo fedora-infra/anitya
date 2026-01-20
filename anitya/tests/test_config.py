@@ -18,6 +18,7 @@
 # License and may only be used or replicated with the express permission
 # of Red Hat, Inc.
 """Tests for the :mod:`anitya.config` module."""
+
 from __future__ import unicode_literals
 
 import unittest

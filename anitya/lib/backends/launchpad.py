@@ -8,7 +8,6 @@ Authors:
 
 """
 
-
 from anitya.lib.backends import REGEX, BaseBackend, get_versions_by_regex
 
 
