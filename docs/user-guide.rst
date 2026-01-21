@@ -171,7 +171,7 @@ The backends available are:
   Gitea API.
 
   You need to provide **Gitea/Forgejo project url** which needs to point to project root on
-  either Gitea server or Forgejo server.
+  either Gitea server or Forgejo server (e.g., `Codeberg <https://codeberg.org/>`_).
 
 * **GNOME** for projects hosted on
   `download.gnome.org <https://download.gnome.org/sources/>`_
