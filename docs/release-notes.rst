@@ -4,6 +4,50 @@ Release Notes
 
 .. towncrier release notes start
 
+2.1.0 (2026-01-29)
+==================
+
+API Changes
+-----------
+
+* Lookups by ecosystem are now case insensitive
+  (`#1980 <https://github.com/fedora-infra/anitya/issues/1980>`_)
+
+
+Features
+--------
+
+* Implement dark mode via Bootstrap 5.3
+  (`#1937 <https://github.com/fedora-infra/anitya/issues/1937>`_)
+
+
+Bug Fixes
+---------
+
+* Remove ratelimit threshold for GitHub
+  (`PR#1968 <https://github.com/fedora-infra/anitya/pull/1968>`_)
+
+* Check the blacklisted packages on reset_time
+  (`PR#1969 <https://github.com/fedora-infra/anitya/pull/1969>`_)
+
+
+Development Changes
+-------------------
+
+* Add support for python 3.14
+  (`PR#1970 <https://github.com/fedora-infra/anitya/pull/1970>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Avindra Goolcharan
+* Anatoli Babenia
+* Justin Zobel
+* Michal Konecny
+
 2.0.3 (2025-09-05)
 ==================
 
