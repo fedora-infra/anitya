@@ -141,7 +141,7 @@ requests-oauthlib = "^2.0.0"
 
 # Required to test building the docs
 Sphinx = "^9.0.0"
-sphinxcontrib-httpdomain = "^1.8.0"
+sphinxcontrib-httpdomain = "^2.0.0"
 sqlalchemy_schemadisplay = "^2.0"
 
 # Mypy test requirements
