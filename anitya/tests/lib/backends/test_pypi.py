@@ -184,3 +184,33 @@ class PypiBackendtests(DatabaseTestCase):
                 "0.3",
             ),
         )
+
+    def test_get_version_404(self):
+        """Test that a 404 response raises AnityaPluginException in get_version."""
+        project = models.Project(
+            name="non_existent_package",
+            homepage="https://pypi.org/project/non_existent_package/",
+            backend=BACKEND,
+        )
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=404)
+            with self.assertRaisesRegex(
+                AnityaPluginException, "Package not found on PyPI"
+            ):
+                backend.PypiBackend.get_version(project)
+
+    def test_get_versions_404(self):
+        """Test that a 404 response raises AnityaPluginException in get_versions."""
+        project = models.Project(
+            name="non_existent_package",
+            homepage="https://pypi.org/project/non_existent_package/",
+            backend=BACKEND,
+        )
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=404)
+            with self.assertRaisesRegex(
+                AnityaPluginException, "Package not found on PyPI"
+            ):
+                backend.PypiBackend.get_versions(project)
