@@ -45,6 +45,10 @@ class PypiBackend(BaseBackend):
         except Exception as err:  # pragma: no cover
             raise AnityaPluginException(f"Could not contact {url}") from err
 
+        # Handle missing packages explicitly
+        if req.status_code == 404:
+            raise AnityaPluginException(f"Package not found on PyPI: {url}")
+
         # Not modified
         if req.status_code == 304:
             return None
@@ -93,6 +97,10 @@ class PypiBackend(BaseBackend):
             req = cls.call_url(url, last_change=last_change)
         except Exception as err:  # pragma: no cover
             raise AnityaPluginException(f"Could not contact {url}") from err
+
+        # Handle missing packages explicitly
+        if req.status_code == 404:
+            raise AnityaPluginException(f"Package not found on PyPI: {url}")
 
         # Not modified
         if req.status_code == 304:
