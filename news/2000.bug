@@ -1,0 +1,1 @@
+Fixed the BitBucket backend to use the Bitbucket REST API v2.0 instead of HTML scraping, resolving the issue where tags were not found.
