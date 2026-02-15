@@ -8,17 +8,16 @@ Authors:
 
 """
 
-from anitya.lib.backends import BaseBackend, get_versions_by_regex
-from anitya.lib.exceptions import AnityaPluginException
+import requests
 
-REGEX = 'class="name">([^<]*[^tip])</td'
+from anitya.lib.backends import BaseBackend
+from anitya.lib.exceptions import AnityaPluginException
 
 
 class BitBucketBackend(BaseBackend):
     """The custom class for projects hosted on bitbucket.org
 
-    This backend allows to specify a version_url and a regex that will
-    be used to retrieve the version information.
+    This backend retrieves version information using the Bitbucket API.
     """
 
     name = "BitBucket"
@@ -42,14 +41,23 @@ class BitBucketBackend(BaseBackend):
         url = ""
         if project.version_url:
             url = project.version_url.replace("https://bitbucket.org/", "")
-        elif project.homepage.startswith("https://bitbucket.org/"):
+        elif project.homepage and project.homepage.startswith("https://bitbucket.org/"):
             url = project.homepage.replace("https://bitbucket.org/", "")
 
+        # Clean up trailing slashes
         if url.endswith("/"):
             url = url[:-1]
 
+        # Ensure we only keep the 'owner/repo' part by stripping extra paths
+        # in case a user pasted a link like bitbucket.org/owner/repo/downloads
+        if "/downloads" in url:
+            url = url.split("/downloads")[0]
+        if "/src" in url:
+            url = url.split("/src")[0]
+
         if url:
-            url = f"https://bitbucket.org/{url}/downloads?tab=tags"  # noqa: E231
+            # Use the official Bitbucket REST API v2.0 endpoint for tags
+            url = f"https://api.bitbucket.org/2.0/repositories/{url}/refs/tags?sort=-target.date"
 
         return url
 
@@ -74,7 +82,25 @@ class BitBucketBackend(BaseBackend):
                 f"Project {project.name} was incorrectly set up."
             )
 
-        return get_versions_by_regex(url, REGEX, project)
+        try:
+            # Fetch data from the Bitbucket API
+            req = requests.get(url, timeout=15)
+            req.raise_for_status()
+            data = req.json()
+
+            versions = []
+            # Bitbucket API returns a paginated list inside the "values" key
+            if "values" in data:
+                for tag in data["values"]:
+                    if "name" in tag:
+                        versions.append(tag["name"])
+
+            return versions
+
+        except Exception as e:
+            raise AnityaPluginException(
+                f"Could not retrieve versions from Bitbucket API: {e}"
+            )
 
     @classmethod
     def check_feed(cls):  # pragma: no cover
