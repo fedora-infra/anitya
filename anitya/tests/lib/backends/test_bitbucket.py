@@ -118,10 +118,11 @@ class BitBucketBackendtests(DatabaseTestCase):
             homepage="https://bitbucket.org/cherrypy/cherrypy",
             backend=BACKEND,
         )
-        exp = "https://api.bitbucket.org/2.0/repositories/cherrypy/cherrypy/refs/tags?sort=-target.date"
-
+        exp = (
+            "https://api.bitbucket.org/2.0/repositories/"
+            "cherrypy/cherrypy/refs/tags?sort=-target.date"
+        )
         obs = backend.BitBucketBackend.get_version_url(project)
-
         self.assertEqual(obs, exp)
 
     def test_get_version_url_project_version_url(self):
@@ -135,10 +136,11 @@ class BitBucketBackendtests(DatabaseTestCase):
             version_url="https://bitbucket.org/cherrypy/cherrypy",
             backend=BACKEND,
         )
-        exp = "https://api.bitbucket.org/2.0/repositories/cherrypy/cherrypy/refs/tags?sort=-target.date"
-
+        exp = (
+            "https://api.bitbucket.org/2.0/repositories/"
+            "cherrypy/cherrypy/refs/tags?sort=-target.date"
+        )
         obs = backend.BitBucketBackend.get_version_url(project)
-
         self.assertEqual(obs, exp)
 
     def test_get_version_url_slash_homepage(self):
@@ -151,10 +153,11 @@ class BitBucketBackendtests(DatabaseTestCase):
             homepage="https://bitbucket.org/cherrypy/cherrypy/",
             backend=BACKEND,
         )
-        exp = "https://api.bitbucket.org/2.0/repositories/cherrypy/cherrypy/refs/tags?sort=-target.date"
-
+        exp = (
+            "https://api.bitbucket.org/2.0/repositories/"
+            "cherrypy/cherrypy/refs/tags?sort=-target.date"
+        )
         obs = backend.BitBucketBackend.get_version_url(project)
-
         self.assertEqual(obs, exp)
 
     def test_get_version_url_slash_version_url(self):
@@ -168,10 +171,11 @@ class BitBucketBackendtests(DatabaseTestCase):
             version_url="https://bitbucket.org/cherrypy/cherrypy/",
             backend=BACKEND,
         )
-        exp = "https://api.bitbucket.org/2.0/repositories/cherrypy/cherrypy/refs/tags?sort=-target.date"
-
+        exp = (
+            "https://api.bitbucket.org/2.0/repositories/"
+            "cherrypy/cherrypy/refs/tags?sort=-target.date"
+        )
         obs = backend.BitBucketBackend.get_version_url(project)
-
         self.assertEqual(obs, exp)
 
     def test_get_version_wrong_homepage(self):
@@ -183,9 +187,35 @@ class BitBucketBackendtests(DatabaseTestCase):
             name="cherrypy", homepage="https://wrong.org", backend=BACKEND
         )
         exp = ""
-
         obs = backend.BitBucketBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
 
+    def test_get_version_url_with_downloads(self):
+        """Assert url is cleaned when it contains /downloads."""
+        project = models.Project(
+            name="cherrypy",
+            homepage="https://bitbucket.org/cherrypy/cherrypy/downloads",
+            backend=BACKEND,
+        )
+        exp = (
+            "https://api.bitbucket.org/2.0/repositories/"
+            "cherrypy/cherrypy/refs/tags?sort=-target.date"
+        )
+        obs = backend.BitBucketBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_with_src(self):
+        """Assert url is cleaned when it contains /src."""
+        project = models.Project(
+            name="cherrypy",
+            homepage="https://bitbucket.org/cherrypy/cherrypy/src/master",
+            backend=BACKEND,
+        )
+        exp = (
+            "https://api.bitbucket.org/2.0/repositories/"
+            "cherrypy/cherrypy/refs/tags?sort=-target.date"
+        )
+        obs = backend.BitBucketBackend.get_version_url(project)
         self.assertEqual(obs, exp)
 
     @patch("anitya.lib.backends.bitbucket.requests.get")
