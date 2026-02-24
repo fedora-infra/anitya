@@ -667,6 +667,10 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual(output.status_code, 200)
         self.assertEqual(output.data.count(b'<a href="/project/1'), 1)
 
+        output = self.app.get("/projects/search/geany ")
+        self.assertEqual(output.status_code, 200)
+        self.assertEqual(output.data.count(b'<a href="/project/1'), 1)
+
         output = self.app.get("/projects/search/g*")
         self.assertEqual(output.status_code, 200)
         expected = b'<a href="https://www.geany.org/" target="_blank" rel="noopener noreferrer">'

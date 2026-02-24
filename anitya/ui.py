@@ -24,6 +24,7 @@ def get_extended_pattern(pattern):
     adjusting it accordingly.
     """
 
+    pattern = pattern.strip()
     if not pattern.startswith("*"):
         pattern = "*" + pattern
     if not pattern.endswith("*"):
