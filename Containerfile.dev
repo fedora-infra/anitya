@@ -9,7 +9,7 @@ WORKDIR /app
 RUN dnf upgrade --refresh -y
 
 # Install helpful development packages (for tests and setup)
-RUN dnf install -y git poetry python3-tox which python3.10 python3.11
+RUN dnf install -y git poetry python3-tox which python3.10 python3.11 nmap-ncat
 
 # System dependencies for Anitya
 RUN dnf install -y gcc graphviz libffi-devel python3-devel python3-psycopg2
