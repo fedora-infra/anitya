@@ -13,6 +13,7 @@ routes should be placed in ``anitya.api_v2``.
 import logging
 import logging.config
 import logging.handlers
+import os
 
 import flask
 from authlib.integrations.flask_client import OAuth
@@ -75,7 +76,7 @@ def create(config=None):
 
     # Debug related initialization
     # WARNING: For debug and development purpose only
-    if anitya_config["DEBUG"]:  # pragma: no cover
+    if os.environ.get("FLASK_DEBUG"):  # pragma: no cover
         app.register_blueprint(debug.debug_blueprint)
 
     oauth = OAuth(app)
