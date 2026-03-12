@@ -26,7 +26,7 @@ services:
       retries: 30
     depends_on:
       postgres:
-        condition: service_started
+        condition: service_healthy
       rabbitmq:
         condition: service_started
 
@@ -41,7 +41,7 @@ services:
       - START_COMMAND=check_service
     depends_on:
       postgres:
-        condition: service_started
+        condition: service_healthy
       rabbitmq:
         condition: service_started
 

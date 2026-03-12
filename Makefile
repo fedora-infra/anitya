@@ -19,9 +19,12 @@ endef
 
 up:
 	$(call compose-tool) up -d
-# It takes some time before the postgres container is up, we need to wait before calling
-# the next step
-	sleep 20
+# Wait till the anitya-web container is ready
+	@until $(call container-tool) healthcheck run anitya-web >/dev/null 2>&1; do \
+		printf '.'; \
+		sleep 1; \
+	done
+	@echo ""
 	$(MAKE) init-db
 	@echo "Empty database initialized. Run dump-restore to fill it by production dump."
 restart:
@@ -37,11 +40,11 @@ init-db:
 dump-restore: init-db
 	$(call download_dump)
 	$(call container-tool) exec -it postgres bash -c 'createuser anitya && xzcat /dump/anitya.dump.xz | psql anitya'
-	$(call remove_dump)
 logs:
 	$(call container-tool) logs -f anitya-web anitya-check-service rabbitmq postgres
 clean: halt
 	$(call container-tool) rmi "localhost/anitya-base:latest" "docker.io/library/postgres:13.4" "docker.io/library/rabbitmq:3.8.16-management-alpine"
+	$(call remove_dump)
 tests:
 	$(call container-tool) exec -it anitya-web bash -c "tox $(PARAM)"
 
