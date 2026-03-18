@@ -30,7 +30,7 @@ up:
 restart:
 	$(MAKE) halt && $(MAKE) up
 halt:
-	$(call compose-tool) down -t1
+	$(call compose-tool) stop
 bash-web:
 	$(call container-tool) exec -it anitya-web bash -c "bash"
 bash-check:
@@ -45,9 +45,10 @@ dump-restore: init-db
 	$(MAKE) up
 logs:
 	$(call container-tool) logs -f anitya-web anitya-check-service rabbitmq postgres
-clean: halt
-	$(call container-tool) rmi "localhost/anitya-base:latest" "docker.io/library/postgres:16.13" "docker.io/library/rabbitmq:3.8.16-management-alpine"
+clean:
+	$(call compose-tool) down
 	$(call remove_dump)
+	$(call container-tool) rmi "localhost/anitya-base:latest" "docker.io/library/postgres:16.13" "docker.io/library/rabbitmq:3.8.16-management-alpine"
 tests:
 	$(call container-tool) exec -it anitya-web bash -c "tox $(PARAM)"
 
