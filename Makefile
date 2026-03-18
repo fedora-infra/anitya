@@ -10,7 +10,7 @@ define container-tool
 endef
 
 define download_dump
-	wget https://infrastructure.fedoraproject.org/infra/db-dumps/anitya.dump.xz -O ./.container/dump/anitya.dump.xz
+	wget -P ./.container/dump/ -nc https://infrastructure.fedoraproject.org/infra/db-dumps/anitya.dump.xz
 endef
 
 define remove_dump
@@ -39,11 +39,14 @@ init-db:
 	$(call container-tool) exec -it anitya-web bash -c "poetry run python3 createdb.py"
 dump-restore: init-db
 	$(call download_dump)
+# Anitya containers need to be stopped before doing dump restore
+	$(call container-tool) stop anitya-check-service anitya-web
 	$(call container-tool) exec -it postgres bash -c 'createuser anitya && xzcat /dump/anitya.dump.xz | psql anitya'
+	$(MAKE) up
 logs:
 	$(call container-tool) logs -f anitya-web anitya-check-service rabbitmq postgres
 clean: halt
-	$(call container-tool) rmi "localhost/anitya-base:latest" "docker.io/library/postgres:13.4" "docker.io/library/rabbitmq:3.8.16-management-alpine"
+	$(call container-tool) rmi "localhost/anitya-base:latest" "docker.io/library/postgres:16.13" "docker.io/library/rabbitmq:3.8.16-management-alpine"
 	$(call remove_dump)
 tests:
 	$(call container-tool) exec -it anitya-web bash -c "tox $(PARAM)"
