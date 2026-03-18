@@ -61,7 +61,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=anitya
 
   postgres:
-    image: docker.io/library/postgres:13.4
+    image: docker.io/library/postgres:16.13
     container_name: "postgres"
     user: postgres
     volumes:
