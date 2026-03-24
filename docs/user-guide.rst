@@ -493,6 +493,17 @@ under the *Mappings* table on project page.
 
 This opens a new page which allows you to add a new mapping for the distribution of your choice.
 
+Before you start to create a new distribution, there are some things worth considering:
+
+* Don't create a new distribution for a distribution flavour (or at least double check 
+  if it is really required), since it most likely follow the same naming scheme for 
+  packages (i.e. openSUSE Leap or openSUSE Tumbleweed will use the openSUSE naming scheme,
+  making the openSUSE distribution a better choice for both).
+
+* Call it something unique, you don't want the distribution to be
+  confused, since other people might start to use your mapping for
+  a purpose you didn't intend it for.
+
 
 Distribution
 ------------
