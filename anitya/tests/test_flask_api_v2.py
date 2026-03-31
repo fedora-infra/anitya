@@ -26,6 +26,7 @@ Tests for the Flask MethodView based v2 API
 from __future__ import unicode_literals
 
 import json
+import datetime
 from unittest import mock
 
 import anitya_schema
@@ -1376,10 +1377,16 @@ class VersionsResourceGetTests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        version = models.ProjectVersion(project=project, version="1.0.0")
+        created_on = datetime.datetime.now()
+
+        version = models.ProjectVersion(
+            project=project, version="1.0.0", created_on=created_on
+        )
         self.session.add(version)
 
-        version = models.ProjectVersion(project=project, version="0.9.9")
+        version = models.ProjectVersion(
+            project=project, version="0.9.9", created_on=created_on
+        )
         self.session.add(version)
         self.session.commit()
 
@@ -1389,6 +1396,7 @@ class VersionsResourceGetTests(DatabaseTestCase):
 
         exp = {
             "latest_version": "1.0.0",
+            "latest_version_created_on": created_on.isoformat(),
             "versions": ["1.0.0", "0.9.9"],
             "stable_versions": ["1.0.0", "0.9.9"],
         }
@@ -1410,10 +1418,16 @@ class VersionsResourceGetTests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        version = models.ProjectVersion(project=project, version="test-1.0.0")
+        created_on = datetime.datetime.now()
+
+        version = models.ProjectVersion(
+            project=project, version="test-1.0.0", created_on=created_on
+        )
         self.session.add(version)
 
-        version = models.ProjectVersion(project=project, version="test-0.9.9")
+        version = models.ProjectVersion(
+            project=project, version="test-0.9.9", created_on=created_on
+        )
         self.session.add(version)
         self.session.commit()
 
@@ -1423,6 +1437,7 @@ class VersionsResourceGetTests(DatabaseTestCase):
 
         exp = {
             "latest_version": "1.0.0",
+            "latest_version_created_on": created_on.isoformat(),
             "versions": ["1.0.0", "0.9.9"],
             "stable_versions": ["1.0.0", "0.9.9"],
         }
