@@ -564,6 +564,7 @@ class VersionsResource(MethodView):
 
             {
                 "latest_version": "2.12",
+                "latest_version_created_on": "2026-03-31T14:30:00Z",
                 "versions": [
                     "2.12",
                     "2.11",
@@ -603,6 +604,15 @@ class VersionsResource(MethodView):
             "versions": project.versions,
             "stable_versions": [str(v) for v in project.stable_versions],
         }
+
+        latest_version_object = project.latest_version_object
+        if latest_version_object:
+            response.update(
+                {
+                    "latest_version_created_on": latest_version_object.created_on.isoformat()
+                }
+            )
+
         return response
 
     @authentication.require_token
