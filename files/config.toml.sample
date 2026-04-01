@@ -1,6 +1,6 @@
 # A sample configuration for fedora-messaging. This file is in the TOML format.
 # For complete details on all configuration options, see the documentation.
-# https://fedora-messaging.readthedocs.io/en/latest/configuration.html
+# https://fedora-messaging.readthedocs.io/en/latest/user-guide/configuration.html
 
 amqp_url = "amqp://"
 

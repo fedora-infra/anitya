@@ -29,7 +29,7 @@ Via pip ::
   pip install fedora-messaging
 
 For how to start a local broker for `fedora messaging`. See
-`Fedora messaging documentation <https://fedora-messaging.readthedocs.io/en/latest/quick-start.html#local-broker>`_.
+`Fedora messaging documentation <https://fedora-messaging.readthedocs.io/en/latest/user-guide/quick-start.html#using-a-local-broker>`_.
 
 List of fedora messaging topics
 -------------------------------
