@@ -41,7 +41,7 @@ with inline documentation is below.
 Anitya uses second configuration file for Fedora messaging. A sample
 configuration file is bellow. To know more about the configuration of
 fedora messaging please refer to
-`fedora messaging configuration documentation <https://fedora-messaging.readthedocs.io/en/latest/configuration.html>`_.
+`fedora messaging configuration documentation <https://fedora-messaging.readthedocs.io/en/latest/user-guide/configuration.html>`_.
 
 .. include:: ../files/config.toml.sample
    :literal:
