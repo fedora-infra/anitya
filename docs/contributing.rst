@@ -68,8 +68,8 @@ CI (Continuous Integration)
 ---------------------------
 
 Anitya has a CI set up to run on each PR. As a CI of choice Anitya is using
-`Fedora zuul <https://fedoraproject.org/wiki/Zuul-based-ci>`_ and the configuration
-could be found in `.zuul.yaml` in Anitya root directory.
+GitHub Actions and the configuration
+could be found in `.github/workflows/main.yaml` in Anitya root directory.
 
 The CI runs unit tests for all supported python versions, code style test, coverage test,
 flake8 test (linter), documentation test build and bandit (to check for any security issue).
