@@ -8,6 +8,7 @@ queue_rules:
       - check-success=ci-testsuite (313)
       - check-success=ci-docs
       - check-success=ci-diff
+      - check-success=ci-security
 
 pull_request_rules:
   - name: renovate
@@ -25,6 +26,7 @@ pull_request_rules:
       - check-success=ci-testsuite (313)
       - check-success=ci-docs
       - check-success=ci-diff
+      - check-success=ci-security
   - name: default
     actions:
       merge:
@@ -39,3 +41,4 @@ pull_request_rules:
       - check-success=ci-testsuite (313)
       - check-success=ci-docs
       - check-success=ci-diff
+      - check-success=ci-security
