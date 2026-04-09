@@ -1,7 +1,7 @@
 queue_rules:
   - name: default
     conditions:
-      - 'check-success~=^ci-\.+$'
+      - 'check-success~=^ci-.+$'
 
 pull_request_rules:
   - name: renovate
@@ -12,7 +12,7 @@ pull_request_rules:
       - author=renovate[bot]
       - label!=no-mergify
       - "#changes-requested-reviews-by=0"
-      - 'check-success~=^ci-\.+$'
+      - 'check-success~=^ci-.+$'
   - name: default
     actions:
       merge:
@@ -20,4 +20,4 @@ pull_request_rules:
     conditions:
       - label!=no-mergify
       - '#approved-reviews-by>=1'
-      - 'check-success~=^ci-\.+$'
+      - 'check-success~=^ci-.+$'
