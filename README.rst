@@ -1,3 +1,4 @@
+Test
 
 .. image:: https://img.shields.io/pypi/v/anitya.svg
   :target: https://pypi.org/project/anitya/
