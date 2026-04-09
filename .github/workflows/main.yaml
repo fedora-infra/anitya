@@ -62,6 +62,17 @@ jobs:
       - name: Build docs
         run: tox -e docs
 
+  ci-security:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    container: fedorapython/fedora-python-tox:latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Security check
+        run: tox -e bandit
+
   ci-diff:
     strategy:
       fail-fast: false
