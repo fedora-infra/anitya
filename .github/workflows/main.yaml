@@ -1,0 +1,81 @@
+
+name: CI
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  ci-smoketests:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    container: fedorapython/fedora-python-tox:latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install poetry
+        run: >
+          python3 -m pip install poetry
+
+      - name: Check Poetry lock file consistency
+        run: >
+          poetry check --lock
+
+      - name: Run lint and format tests
+        run: tox -e lint,format
+
+  ci-typing:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    container: fedorapython/fedora-python-tox:latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Check for typing issues
+        run: tox -e mypy
+
+  ci-testsuite:
+    strategy:
+      fail-fast: false
+      matrix:
+        pyver: [311, 312, 313, 314]
+    runs-on: ubuntu-latest
+    container: fedorapython/fedora-python-tox:latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install Fedora dependencies
+        run: dnf install -y libpq-devel
+
+      - name: run tests through tox
+        run: "tox -e py${{ matrix.pyver }}"
+
+  ci-docs:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    container: fedorapython/fedora-python-tox:latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install Fedora dependencies
+        run: dnf install -y graphviz python3-sphinxcontrib-httpdomain python3-sqlalchemy_schemadisplay
+
+      - name: Build docs
+        run: tox -e docs
+
+  ci-diff:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    container: fedorapython/fedora-python-tox:latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+        # For some reason this folder is causing the job to fail
+        # because of dubious ownership
+      - name: Add git ownership exception
+        run: git config --global --add safe.directory /__w/anitya/anitya
+
+      - name: Run diff
+        run: tox -e py313,diff-cover
