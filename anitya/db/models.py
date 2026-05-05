@@ -33,12 +33,11 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import validates
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.types import CHAR, TypeDecorator
+from sqlalchemy_helpers import Base
 
 from anitya.config import config as anitya_config
 from anitya.lib.plugins import BACKEND_PLUGINS, ECOSYSTEM_PLUGINS, VERSION_PLUGINS
 from anitya.lib.versions import GLOBAL_DEFAULT as DEFAULT_VERSION_SCHEME
-
-from .meta import Base
 
 _log = logging.getLogger(__name__)
 

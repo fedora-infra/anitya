@@ -3,13 +3,14 @@
 from __future__ import with_statement
 
 import sys
-from logging.config import fileConfig
 from os.path import dirname
 
 from alembic import context
 from sqlalchemy import engine_from_config, pool
+from sqlalchemy_helpers import Base
+from sqlalchemy_helpers.flask_ext import get_url_from_app
 
-from anitya.db import Base
+from anitya.app import create
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -17,9 +18,9 @@ from anitya.db import Base
 # proxy class
 config = context.config  # type: ignore
 
-# Interpret the config file for Python logging.
-# This line sets up loggers basically.
-fileConfig(str(config.config_file_name))
+# Get URL for the app
+url = get_url_from_app(create)
+config.set_main_option("sqlalchemy.url", url)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
@@ -44,7 +45,6 @@ def run_migrations_offline():
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
     context.configure(url=url, target_metadata=target_metadata)
 
     with context.begin_transaction():

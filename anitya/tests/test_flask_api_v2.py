@@ -29,10 +29,11 @@ import json
 import datetime
 from unittest import mock
 
+from sqlalchemy import select
 import anitya_schema
 from fedora_messaging import testing as fml_testing
 
-from anitya.db import Session, models
+from anitya.db import models
 from anitya.lib import exceptions
 
 from .base import DatabaseTestCase, create_project
@@ -49,16 +50,15 @@ class PackagesResourceGetTests(DatabaseTestCase):
     def setUp(self):
         super().setUp()
         self.app = self.flask_app.test_client()
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
 
-        session.add(self.user)
+        self.session.add(self.user)
         self.api_token = models.ApiToken(user=self.user)
         fedora = models.Distro("Fedora")
         debian = models.Distro("Debian")
         jcline_linux = models.Distro("jcline linux")
-        session.add_all([self.api_token, fedora, debian, jcline_linux])
-        session.commit()
+        self.session.add_all([self.api_token, fedora, debian, jcline_linux])
+        self.session.commit()
 
     def test_no_packages(self):
         """Assert querying packages works, even if there are no packages."""
@@ -101,10 +101,10 @@ class PackagesResourceGetTests(DatabaseTestCase):
             distro_name="jcline linux", project=project, package_name="requests"
         )
         version = models.ProjectVersion(project=project, version="1")
-        Session.add_all(
+        self.session.add_all(
             [project, fedora_package, debian_package, jcline_package, version]
         )
-        Session.commit()
+        self.session.commit()
 
         output = self.app.get("/api/v2/packages/")
         self.assertEqual(output.status_code, 200)
@@ -161,8 +161,8 @@ class PackagesResourceGetTests(DatabaseTestCase):
         jcline_package = models.Packages(
             distro_name="jcline linux", project=project, package_name="requests"
         )
-        Session.add_all([project, fedora_package, debian_package, jcline_package])
-        Session.commit()
+        self.session.add_all([project, fedora_package, debian_package, jcline_package])
+        self.session.commit()
 
         output = self.app.get("/api/v2/packages/?name=python-requests")
         self.assertEqual(output.status_code, 200)
@@ -211,8 +211,8 @@ class PackagesResourceGetTests(DatabaseTestCase):
         jcline_package = models.Packages(
             distro_name="jcline linux", project=project, package_name="requests"
         )
-        Session.add_all([project, fedora_package, debian_package, jcline_package])
-        Session.commit()
+        self.session.add_all([project, fedora_package, debian_package, jcline_package])
+        self.session.commit()
 
         output = self.app.get("/api/v2/packages/?name=Python-requests")
         self.assertEqual(output.status_code, 200)
@@ -269,8 +269,8 @@ class PackagesResourceGetTests(DatabaseTestCase):
         debian_package = models.Packages(
             distro_name="Debian", project=project, package_name="python-requests"
         )
-        Session.add_all([project, fedora_package, debian_package])
-        Session.commit()
+        self.session.add_all([project, fedora_package, debian_package])
+        self.session.commit()
         output = self.app.get("/api/v2/packages/?items_per_page=1")
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
@@ -307,8 +307,8 @@ class PackagesResourceGetTests(DatabaseTestCase):
         debian_package = models.Packages(
             distro_name="Debian", project=project, package_name="python-requests"
         )
-        Session.add_all([project, fedora_package, debian_package])
-        Session.commit()
+        self.session.add_all([project, fedora_package, debian_package])
+        self.session.commit()
         output = self.app.get("/api/v2/packages/?items_per_page=1&page=2")
         self.assertEqual(output.status_code, 200)
         data = _read_json(output)
@@ -345,8 +345,8 @@ class PackagesResourceGetTests(DatabaseTestCase):
         debian_package = models.Packages(
             distro_name="Debian", project=project, package_name="python-requests"
         )
-        Session.add_all([project, fedora_package, debian_package])
-        Session.commit()
+        self.session.add_all([project, fedora_package, debian_package])
+        self.session.commit()
         fedora = self.app.get("/api/v2/packages/?distribution=Fedora")
         debian = self.app.get("/api/v2/packages/?distribution=Debian")
         self.assertEqual(fedora.status_code, 200)
@@ -458,17 +458,16 @@ class PackagesResourcePostTests(DatabaseTestCase):
     def setUp(self):
         super().setUp()
         self.app = self.flask_app.test_client()
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
 
-        session.add(self.user)
+        self.session.add(self.user)
         self.api_token = models.ApiToken(user=self.user)
         self.project = models.Project(
             name="requests", homepage="https://pypi.io/project/requests", backend="PyPI"
         )
         self.fedora = models.Distro("Fedora")
-        session.add_all([self.api_token, self.project, self.fedora])
-        session.commit()
+        self.session.add_all([self.api_token, self.project, self.fedora])
+        self.session.commit()
 
         self.auth = {"Authorization": "Token " + self.api_token.token}
 
@@ -565,8 +564,11 @@ class PackagesResourcePostTests(DatabaseTestCase):
         data = _read_json(output)
         self.assertEqual({"distribution": "Fedora", "name": "python-requests"}, data)
 
-        project = models.Project.query.filter_by(
-            name="requests", ecosystem_name="pypi"
+        project = self.session.scalars(
+            select(models.Project).filter(
+                models.Project.name == "requests",
+                models.Project.ecosystem_name == "pypi",
+            )
         ).one()
 
         project = dict(project.__json__())
@@ -598,8 +600,11 @@ class PackagesResourcePostTests(DatabaseTestCase):
         data = _read_json(output)
         self.assertEqual({"distribution": "Fedora", "name": "python-requests"}, data)
 
-        project = models.Project.query.filter_by(
-            name="requests", ecosystem_name="pypi"
+        project = self.session.scalars(
+            select(models.Project).filter(
+                models.Project.name == "requests",
+                models.Project.ecosystem_name == "pypi",
+            )
         ).one()
 
         project = dict(project.__json__())
@@ -616,8 +621,8 @@ class PackagesResourcePostTests(DatabaseTestCase):
 
     def test_same_package_two_distros(self):
         """Assert packages can be created."""
-        Session.add(models.Distro("Debian"))
-        Session.commit()
+        self.session.add(models.Distro("Debian"))
+        self.session.commit()
         request_data = {
             "project_ecosystem": "pypi",
             "project_name": "requests",
@@ -704,13 +709,12 @@ class ProjectsResourceGetTests(DatabaseTestCase):
     def setUp(self):
         super().setUp()
         self.app = self.flask_app.test_client()
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
 
-        session.add(self.user)
+        self.session.add(self.user)
         self.api_token = models.ApiToken(user=self.user)
-        session.add(self.api_token)
-        session.commit()
+        self.session.add(self.api_token)
+        self.session.commit()
 
     def test_no_projects(self):
         """Assert querying projects works, even if there are no projects."""
@@ -796,7 +800,6 @@ class ProjectsResourceGetTests(DatabaseTestCase):
     def test_list_projects_with_same_name(self):
         """Assert two projects with the same name are sorted by the ecosystem."""
         self.maxDiff = None
-        session = Session()
         project1 = models.Project(
             name="zlib",
             homepage="https://hackage.haskell.org/package/zlib",
@@ -810,8 +813,8 @@ class ProjectsResourceGetTests(DatabaseTestCase):
             regex="DEFAULT",
             ecosystem_name="http://www.zlib.net/",
         )
-        session.add_all([project1, project2])
-        session.commit()
+        self.session.add_all([project1, project2])
+        self.session.commit()
 
         output = self.app.get("/api/v2/projects/")
         self.assertEqual(output.status_code, 200)
@@ -1115,13 +1118,12 @@ class ProjectsResourcePostTests(DatabaseTestCase):
     def setUp(self):
         super().setUp()
         self.app = self.flask_app.test_client()
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
 
-        session.add(self.user)
+        self.session.add(self.user)
         self.api_token = models.ApiToken(user=self.user)
-        session.add(self.api_token)
-        session.commit()
+        self.session.add(self.api_token)
+        self.session.commit()
 
         self.auth = {
             "Authorization": "Token " + self.api_token.token,
@@ -1332,13 +1334,12 @@ class VersionsResourceGetTests(DatabaseTestCase):
     def setUp(self):
         super().setUp()
         self.app = self.flask_app.test_client()
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
 
-        session.add(self.user)
+        self.session.add(self.user)
         self.api_token = models.ApiToken(user=self.user)
-        session.add(self.api_token)
-        session.commit()
+        self.session.add(self.api_token)
+        self.session.commit()
 
     def test_no_project(self):
         """Assert querying versions when project doesn't exists returns error."""
@@ -1451,13 +1452,12 @@ class VersionsResourcePostTests(DatabaseTestCase):
     def setUp(self):
         super().setUp()
         self.app = self.flask_app.test_client()
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
 
-        session.add(self.user)
+        self.session.add(self.user)
         self.api_token = models.ApiToken(user=self.user)
-        session.add(self.api_token)
-        session.commit()
+        self.session.add(self.api_token)
+        self.session.commit()
 
         self.auth = {"Authorization": "Token " + self.api_token.token}
 
@@ -1654,7 +1654,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
         mock_check.assert_called_once_with(mock.ANY, mock.ANY, test=True)
         self.assertEqual(output.status_code, 200)
 
-        projects = models.Project.query.all()
+        projects = self.session.scalars(select(models.Project)).all()
 
         self.assertEqual(len(projects), 1)
         project = projects[0]

@@ -9,7 +9,7 @@ import logging
 import flask
 import flask_login
 
-from anitya.db import Session, User
+from anitya.db import db, User
 
 _log = logging.getLogger(__name__)
 
@@ -81,13 +81,13 @@ def create_auth_blueprint(oauth):
         if not user:
             _log.debug("User not found. Creating new user...")
             new_user = User(email=user_info["email"], username=user_info["username"])
-            Session.add(new_user)
-            Session.commit()
+            db.session.add(new_user)
+            db.session.commit()
             user = new_user
         elif user.username != user_info["username"]:
             user.username = user_info["username"]
-            Session.add(user)
-            Session.commit()
+            db.session.add(user)
+            db.session.commit()
         _log.debug("Logging as user %s", user.email)
         flask_login.login_user(user)
 

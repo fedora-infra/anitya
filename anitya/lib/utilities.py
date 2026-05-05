@@ -25,7 +25,7 @@ import arrow
 from fedora_messaging import api
 from fedora_messaging import exceptions as fm_exceptions
 from fedora_messaging import message as fm_message
-from sqlalchemy import exc, orm
+from sqlalchemy import exc, orm, select
 
 from anitya.db import models
 
@@ -424,9 +424,11 @@ def map_project(
 
     # See if the new mapping would clash with an existing mapping
     try:
-        other_pkg = models.Packages.query.filter_by(
-            distro_name=distribution, package_name=package_name
-        ).one()
+        stmt = select(models.Packages).filter(
+            models.Packages.distro_name == distribution,
+            models.Packages.package_name == package_name,
+        )
+        other_pkg = session.scalars(stmt).one()
     except orm.exc.NoResultFound:
         other_pkg = None
     # Only raise exception if the package is already associated

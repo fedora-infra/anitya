@@ -7,11 +7,12 @@ from math import ceil
 
 import flask
 from dateutil import parser
+from sqlalchemy import func, select
 from sqlalchemy.orm.exc import NoResultFound
 
 import anitya
 import anitya.forms
-from anitya.db import Session, models
+from anitya.db import db, models
 from anitya.lib import utilities
 from anitya.ui import login_required, ui_blueprint
 
@@ -32,7 +33,7 @@ def is_admin(user=None):
 @login_required
 def edit_distro(distro_name):
     """Edit distribution"""
-    distro = models.Distro.by_name(Session, distro_name)
+    distro = models.Distro.by_name(db.session, distro_name)
     if not distro:
         flask.abort(404)
 
@@ -53,8 +54,8 @@ def edit_distro(distro_name):
 
             distro.name = name
 
-            Session.add(distro)
-            Session.commit()
+            db.session.add(distro)
+            db.session.commit()
             message = "Distribution edited"
             flask.flash(message)
         return flask.redirect(flask.url_for("anitya_ui.distros"))
@@ -73,7 +74,7 @@ def edit_distro(distro_name):
 def delete_distro(distro_name):
     """Delete a distro"""
 
-    distro = models.Distro.by_name(Session, distro_name)
+    distro = models.Distro.by_name(db.session, distro_name)
     if not distro:
         flask.abort(404)
 
@@ -89,8 +90,8 @@ def delete_distro(distro_name):
             message=dict(agent=flask.g.user.username, distro=distro.name),
         )
 
-        Session.delete(distro)
-        Session.commit()
+        db.session.delete(distro)
+        db.session.commit()
         flask.flash(f"Distro {distro_name} has been removed")
         return flask.redirect(flask.url_for("anitya_ui.distros"))
 
@@ -103,7 +104,7 @@ def delete_distro(distro_name):
 @login_required
 def delete_project(project_id):
     """Delete project"""
-    project = models.Project.get(Session, project_id)
+    project = models.Project.get(db.session, project_id)
     if not project:
         flask.abort(404)
 
@@ -124,10 +125,10 @@ def delete_project(project_id):
             )
 
             for version in project.versions_obj:
-                Session.delete(version)
+                db.session.delete(version)
 
-            Session.delete(project)
-            Session.commit()
+            db.session.delete(project)
+            db.session.commit()
             flask.flash(f"Project {project_name} has been removed")
             return flask.redirect(flask.url_for("anitya_ui.projects"))
         else:
@@ -152,7 +153,7 @@ def set_project_archive_state(project_id, state):
     if state not in ("true", "false"):
         flask.abort(422)
 
-    project = models.Project.get(Session, project_id)
+    project = models.Project.get(db.session, project_id)
     archive = False
     if state == "true":
         archive = True
@@ -167,7 +168,7 @@ def set_project_archive_state(project_id, state):
         if confirm:
             try:
                 utilities.edit_project(
-                    Session,
+                    db.session,
                     project=project,
                     name=project.name,
                     homepage=project.homepage,
@@ -209,15 +210,15 @@ def set_project_archive_state(project_id, state):
 @login_required
 def delete_project_mapping(project_id, distro_name, pkg_name):
     """Delete project mapping"""
-    project = models.Project.get(Session, project_id)
+    project = models.Project.get(db.session, project_id)
     if not project:
         flask.abort(404)
 
-    distro = models.Distro.get(Session, distro_name)
+    distro = models.Distro.get(db.session, distro_name)
     if not distro:
         flask.abort(404)
 
-    package = models.Packages.get(Session, project.id, distro.name, pkg_name)
+    package = models.Packages.get(db.session, project.id, distro.name, pkg_name)
     if not package:
         flask.abort(404)
 
@@ -239,8 +240,8 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
                 ),
             )
 
-            Session.delete(package)
-            Session.commit()
+            db.session.delete(package)
+            db.session.commit()
 
             flask.flash(f"Mapping for {project.name} has been removed")
         return flask.redirect(flask.url_for("anitya_ui.project", project_id=project.id))
@@ -258,7 +259,7 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
 @login_required
 def delete_project_version(project_id, version):
     """Delect project version"""
-    project = models.Project.get(Session, project_id)
+    project = models.Project.get(db.session, project_id)
     if not project:
         flask.abort(404)
 
@@ -290,16 +291,16 @@ def delete_project_version(project_id, version):
             )
 
             # Delete the record of the version for this project
-            Session.delete(version_obj)
+            db.session.delete(version_obj)
             # Adjust the latest_version if needed
             sorted_versions = project.get_sorted_version_objects()
             if len(sorted_versions) > 1 and sorted_versions[0].version == version:
                 project.latest_version = sorted_versions[1].parse()
-                Session.add(project)
+                db.session.add(project)
             elif len(sorted_versions) == 1:
                 project.latest_version = None
-                Session.add(project)
-            Session.commit()
+                db.session.add(project)
+            db.session.commit()
 
             flask.flash(f"Version for {version} has been removed")
         return flask.redirect(flask.url_for("anitya_ui.project", project_id=project.id))
@@ -320,7 +321,7 @@ def delete_project_versions(project_id):
     Delete all versions on the project.
     """
 
-    project = models.Project.get(Session, project_id)
+    project = models.Project.get(db.session, project_id)
     if not project:
         flask.abort(404)
 
@@ -336,7 +337,7 @@ def delete_project_versions(project_id):
 
             # Delete the versions on this project
             for version in project.versions_obj:
-                Session.delete(version)
+                db.session.delete(version)
                 versions.append(str(version))
 
             project.latest_version = None
@@ -351,8 +352,8 @@ def delete_project_versions(project_id):
                 ),
             )
 
-            Session.add(project)
-            Session.commit()
+            db.session.add(project)
+            db.session.commit()
 
             flask.flash("All versions were removed")
         return flask.redirect(flask.url_for("anitya_ui.project", project_id=project.id))
@@ -409,7 +410,7 @@ def browse_flags():
 
     try:
         flags = models.ProjectFlag.search(
-            Session,
+            db.session,
             project_name=project or None,
             state=state or None,
             from_date=from_date,
@@ -419,7 +420,7 @@ def browse_flags():
         )
 
         cnt_flags = models.ProjectFlag.search(
-            Session,
+            db.session,
             project_name=project or None,
             state=state or None,
             from_date=from_date,
@@ -460,7 +461,7 @@ def set_flag_state(flag_id, state):
     if state not in ("open", "closed"):
         flask.abort(422)
 
-    flag = models.ProjectFlag.get(Session, flag_id)
+    flag = models.ProjectFlag.get(db.session, flag_id)
 
     if not flag:
         flask.abort(404)
@@ -470,7 +471,7 @@ def set_flag_state(flag_id, state):
     if form.validate_on_submit():
         try:
             utilities.set_flag_state(
-                Session, flag=flag, state=state, user_id=flask.g.user.username
+                db.session, flag=flag, state=state, user_id=flask.g.user.username
             )
             flask.flash(f"Flag {flag.id} set to {state}")
         except anitya.lib.exceptions.AnityaException as err:
@@ -528,30 +529,32 @@ def browse_users():
     users = []
     cnt_users = 0
     try:
-        users_query = Session.query(models.User)
+        users_query = select(models.User)
 
         if user_id:
-            users_query = users_query.filter_by(id=user_id)
+            users_query = users_query.filter(models.User.id == user_id)
 
         if username:
-            users_query = users_query.filter_by(username=username)
+            users_query = users_query.filter(models.User.username == username)
 
         if email:
-            users_query = users_query.filter_by(email=email)
+            users_query = users_query.filter(models.User.email == email)
 
         if admin is not None:
-            users_query = users_query.filter_by(admin=admin)
+            users_query = users_query.filter(models.User.admin == admin)
 
         if active is not None:
-            users_query = users_query.filter_by(active=active)
+            users_query = users_query.filter(models.User.active == active)
 
         if offset > 0:
             users_query = users_query.offset(offset)
         if limit > 0:
             users_query = users_query.limit(limit)
 
-        users = users_query.all()
-        cnt_users = users_query.count()
+        users = db.session.scalars(users_query).all()
+        cnt_users = db.session.scalar(select(func.count())).select_from(
+            users_query.subquery()
+        )
     except Exception as err:
         _log.exception(err)
         flask.flash(err, "errors")
@@ -594,7 +597,8 @@ def set_user_admin_state(user_id, state):
         flask.abort(422)
 
     try:
-        user = Session.query(models.User).filter(models.User.id == user_id).one()
+        stmt = select(models.User).filter(models.User.id == user_id)
+        user = db.session.scalars(stmt).one_or_none()
     except Exception as err:
         _log.exception(err)
         user = None
@@ -607,8 +611,8 @@ def set_user_admin_state(user_id, state):
     if form.validate_on_submit():
         try:
             user.admin = state
-            Session.add(user)
-            Session.commit()
+            db.session.add(user)
+            db.session.commit()
             if state:
                 flask.flash(f"User {user.username} is now admin")
             else:
@@ -616,7 +620,7 @@ def set_user_admin_state(user_id, state):
         except Exception as err:
             _log.exception(err)
             flask.flash(str(err), "errors")
-            Session.rollback()
+            db.session.rollback()
 
     return flask.redirect(flask.url_for("anitya_ui.browse_users"))
 
@@ -636,7 +640,8 @@ def set_user_active_state(user_id, state):
         flask.abort(422)
 
     try:
-        user = Session.query(models.User).filter(models.User.id == user_id).one()
+        stmt = select(models.User).filter(models.User.id == user_id)
+        user = db.session.scalars(stmt).one_or_none()
     except Exception as err:
         _log.exception(err)
         user = None
@@ -649,8 +654,8 @@ def set_user_active_state(user_id, state):
     if form.validate_on_submit():
         try:
             user.active = state
-            Session.add(user)
-            Session.commit()
+            db.session.add(user)
+            db.session.commit()
             if state:
                 flask.flash(f"User {user.username} is no longer banned")
             else:
@@ -658,7 +663,7 @@ def set_user_active_state(user_id, state):
         except Exception as err:
             _log.exception(err)
             flask.flash(str(err), "errors")
-            Session.rollback()
+            db.session.rollback()
 
     return flask.redirect(flask.url_for("anitya_ui.browse_users"))
 
@@ -668,7 +673,8 @@ def set_user_active_state(user_id, state):
 def delete_user(user_id):
     """Delete user"""
     try:
-        user = Session.query(models.User).filter(models.User.id == user_id).one()
+        stmt = select(models.User).filter(models.User.id == user_id)
+        user = db.session.scalars(stmt).one()
     except NoResultFound:
         flask.abort(404)
 
@@ -678,8 +684,8 @@ def delete_user(user_id):
 
     if form.validate_on_submit():
         if confirm:
-            Session.delete(user)
-            Session.commit()
+            db.session.delete(user)
+            db.session.commit()
             flask.flash(f"User {user_name} has been removed", "success")
             return flask.redirect(flask.url_for("anitya_ui.browse_users"))
 

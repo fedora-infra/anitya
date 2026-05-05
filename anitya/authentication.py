@@ -31,13 +31,14 @@ third-party identity providers. It handles logging the user in and creating
 """
 
 import logging
-import uuid
 from functools import wraps
 
 import flask_login
+from sqlalchemy import select
 from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import StatementError
 
-from anitya.db import ApiToken, User
+from anitya.db import db, ApiToken, User
 
 _log = logging.getLogger(__name__)
 
@@ -55,10 +56,11 @@ def load_user_from_session(user_id):
         User: The user with the given user ID, if it exists. Otherwise, ``None`` is returned.
     """
     try:
-        user = User.query.get(uuid.UUID(user_id))
+        query = select(User).filter(User.id == user_id)
+        user = db.session.execute(query).scalars().one_or_none()
         _log.debug('Successfully loaded user "%s" from cookie session', user_id)
         return user
-    except (TypeError, ValueError) as e:
+    except (TypeError, ValueError, StatementError) as e:
         # Return None if the type was wrong
         _log.debug('Failed to load user "%s" from cookie session: %r', user_id, e)
 
@@ -87,7 +89,8 @@ def load_user_from_request(request):
             return
         if key_type.lower() == "token":
             try:
-                api_token = ApiToken.query.filter_by(token=key_value).one()
+                query = select(ApiToken).filter(ApiToken.token == key_value)
+                api_token = db.session.execute(query).scalars().one()
                 _log.debug(
                     'Successfully authenticated user "%s" via API token',
                     api_token.user.id,

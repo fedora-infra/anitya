@@ -25,7 +25,7 @@ import six
 from six.moves.urllib import parse
 
 from anitya import authentication
-from anitya.db import ApiToken, Session, models
+from anitya.db import ApiToken, models
 from anitya.tests.base import DatabaseTestCase
 
 
@@ -35,13 +35,12 @@ class LoadUserFromRequestTests(DatabaseTestCase):
     def setUp(self):
         super().setUp()
         self.app = self.flask_app.test_client()
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
+        self.session.add(self.user)
 
         self.api_token = ApiToken(user=self.user)
-        session.add(self.api_token)
-        session.commit()
+        self.session.add(self.api_token)
+        self.session.commit()
 
     def test_success(self):
         """Assert that users can authenticate via the 'Authorization' header."""
@@ -75,10 +74,9 @@ class LoadUserFromSessionTests(DatabaseTestCase):
     def setUp(self):
         super().setUp()
 
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
-        session.commit()
+        self.session.add(self.user)
+        self.session.commit()
 
     def test_success(self):
         """Assert users are loaded successfully when a valid ID is provided."""
@@ -102,12 +100,11 @@ class RequireTokenTests(DatabaseTestCase):
     def setUp(self):
         super().setUp()
         self.app = self.flask_app.test_client()
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
+        self.session.add(self.user)
         self.api_token = ApiToken(user=self.user)
-        session.add(self.api_token)
-        session.commit()
+        self.session.add(self.api_token)
+        self.session.commit()
 
     @mock.patch("flask_login.current_user")
     def test_unauthenticated(self, mock_current_user):

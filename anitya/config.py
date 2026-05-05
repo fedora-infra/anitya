@@ -28,6 +28,7 @@ import toml
 
 _log = logging.getLogger(__name__)
 
+ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 #: A dictionary of application configuration defaults.
 DEFAULTS = dict(
@@ -35,8 +36,12 @@ DEFAULTS = dict(
     PERMANENT_SESSION_LIFETIME=timedelta(seconds=3600),
     # Secret key used to generate the csrf token in the forms
     SECRET_KEY="changeme please",
+    # sqlalchemy_helpers config values
+    DB_MODELS_LOCATION="anitya.db.models",
+    DB_ALEMBIC_LOCATION=os.path.join(ROOT_PATH, "db/migrations"),
     # URL to the database
     DB_URL="sqlite:////var/tmp/anitya-dev.sqlite",
+    SQLALCHEMY_DATABASE_URI="sqlite:////var/tmp/anitya-dev.sqlite",
     # List of admins based on their openid
     ANITYA_WEB_ADMINS=[],
     ADMIN_EMAIL="admin@fedoraproject.org",
@@ -155,6 +160,13 @@ def load():
             "SECRET_KEY is not configured, falling back to the default. "
             "This is NOT safe for production deployments!"
         )
+
+    # For backwards compatibility we are preserving DB_URL
+    # but to work with modern SQLAlchemy we need it in
+    # SQLALCHEMY_DATABASE_URI config value
+    if "DB_URL" in config:
+        config["SQLALCHEMY_DATABASE_URI"] = config["DB_URL"]
+
     return config
 
 

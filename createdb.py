@@ -11,7 +11,7 @@ from alembic.config import Config
 
 from anitya.app import create
 from anitya.config import load
-from anitya.db import Base, Session
+from anitya.db import db
 
 parser = ArgumentParser()
 
@@ -34,12 +34,14 @@ anitya_config["SQL_DEBUG"] = args.verbose
 
 if args.db_uri:
     anitya_config["DB_URL"] = args.db_uri
+    anitya_config["SQLALCHEMY_DATABASE_URI"] = args.db_uri
 
 # An app object is required for social_auth tables to be created properly
 anitya_app = create(config=anitya_config)
-engine = Session.get_bind()
 
-Base.metadata.create_all(engine)
+# Create the database itself
+with anitya_app.app_context():
+    db.manager.sync()
 
 # Set the alembic_version based on the current migrations available.
 # This presupposes the models haven't changed outside of a migration.

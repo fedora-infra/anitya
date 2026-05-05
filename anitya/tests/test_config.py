@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 
 import unittest
 from datetime import timedelta
+import os
 
 import mock
 
@@ -74,6 +75,7 @@ Ubuntu = "https://launchpad.net/ubuntu/+source/%s"
 
 empty_config = '# secret_key = "muchsecretverysafe"'
 partial_config = 'secret_key = "muchsecretverysafe"'
+ROOT_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class LoadTests(unittest.TestCase):
@@ -117,7 +119,10 @@ class LoadTests(unittest.TestCase):
         expected_config = {
             "SECRET_KEY": "very_secret",
             "PERMANENT_SESSION_LIFETIME": timedelta(seconds=3600),
+            "DB_MODELS_LOCATION": "anitya.db.models",
+            "DB_ALEMBIC_LOCATION": os.path.join(ROOT_PATH, "db/migrations"),
             "DB_URL": "sqlite:////var/tmp/anitya-dev.sqlite",
+            "SQLALCHEMY_DATABASE_URI": "sqlite:////var/tmp/anitya-dev.sqlite",
             "ANITYA_WEB_ADMINS": ["http://pingou.id.fedoraproject.org"],
             "ADMIN_EMAIL": "admin@fedoraproject.org",
             "ANITYA_LOG_CONFIG": {

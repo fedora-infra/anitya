@@ -27,10 +27,11 @@ import anitya_schema
 import mock
 from fedora_messaging import testing as fml_testing
 from six.moves.urllib import parse
+from sqlalchemy import func, select
 from sqlalchemy.exc import SQLAlchemyError
 
 from anitya import ui
-from anitya.db import Session, models
+from anitya.db import db, models
 from anitya.lib import exceptions
 from anitya.tests.base import (
     AnityaTestCase,
@@ -47,11 +48,12 @@ class ShutdownSessionTests(AnityaTestCase):
 
     def test_session_removed_post_request(self):
         """Assert that the session is cleaned up after a request."""
-        session = Session()
-        self.assertTrue(session is Session())
-        app = self.flask_app.test_client()
-        app.get("/about", follow_redirects=False)
-        self.assertFalse(session is Session())
+        with self.flask_app.app_context():
+            session = db.session
+            self.assertTrue(session is db.session)
+            app = self.flask_app.test_client()
+            app.get("/about", follow_redirects=False)
+            self.assertFalse(session is db.session)
 
 
 class SettingsTests(DatabaseTestCase):
@@ -104,10 +106,9 @@ class SettingsTests(DatabaseTestCase):
 
     def test_delete_token(self):
         """Assert a user can delete an API token."""
-        session = Session()
         token = models.ApiToken(user=self.user, description="Test token")
-        session.add(token)
-        session.commit()
+        self.session.add(token)
+        self.session.commit()
 
         with login_user(self.flask_app, self.user):
             with self.flask_app.test_client() as c:
@@ -128,7 +129,12 @@ class SettingsTests(DatabaseTestCase):
                 self.assertEqual(output.status_code, 200)
                 self.assertFalse(b"Test token" in output.data)
                 self.assertEqual(
-                    0, models.ApiToken.query.filter_by(user=self.user).count()
+                    0,
+                    self.session.scalar(
+                        select(func.count())
+                        .select_from(models.ApiToken)
+                        .filter(models.ApiToken.user == self.user)
+                    ),
                 )
 
     def test_delete_invalid_token(self):
@@ -151,10 +157,9 @@ class SettingsTests(DatabaseTestCase):
 
     def test_delete_token_invalid_csrf(self):
         """Assert trying to delete a token without a CSRF token fails."""
-        session = Session()
         token = models.ApiToken(user=self.user, description="Test token")
-        session.add(token)
-        session.commit()
+        self.session.add(token)
+        self.session.commit()
 
         with login_user(self.flask_app, self.user):
             with self.flask_app.test_client() as c:
@@ -168,7 +173,12 @@ class SettingsTests(DatabaseTestCase):
 
                 self.assertEqual(output.status_code, 400)
                 self.assertEqual(
-                    1, models.ApiToken.query.filter_by(user=self.user).count()
+                    1,
+                    self.session.scalar(
+                        select(func.count())
+                        .select_from(models.ApiToken)
+                        .filter(models.ApiToken.user == self.user)
+                    ),
                 )
 
 
@@ -284,7 +294,7 @@ class NewProjectTests(DatabaseTestCase):
                     in output.data
                 )
                 self.assertTrue(b"<h1>Add project</h1>" in output.data)
-            projects = models.Project.query.count()
+            projects = models.Project.all(self.session, count=True)
             self.assertEqual(projects, 1)
 
     def test_new_project_invalid_homepage(self):
@@ -856,7 +866,9 @@ class EditProjectTests(DatabaseTestCase):
 
     def test_archived_project(self):
         """Assert trying to edit a project that is archived returns HTTP 404."""
-        project = models.Project.query.get(1)
+        project = self.session.scalar(
+            select(models.Project).filter(models.Project.id == 1)
+        )
         project.archived = True
         self.session.add(project)
         self.session.commit()
@@ -876,7 +888,12 @@ class EditProjectTests(DatabaseTestCase):
 
             output = self.app.post("/project/1/edit", data=data)
             self.assertEqual(200, output.status_code)
-            self.assertEqual("geany", models.Project.query.get(1).name)
+            self.assertEqual(
+                "geany",
+                self.session.scalar(
+                    select(models.Project).filter(models.Project.id == 1)
+                ).name,
+            )
 
     def test_edit_project(self):
         """Test the edit_project function."""
@@ -967,7 +984,12 @@ class EditProjectTests(DatabaseTestCase):
                     in output.data
                 )
                 self.assertTrue(b"<h1>Project: geany</h1>" in output.data)
-                self.assertEqual("geany", models.Project.query.get(1).name)
+                self.assertEqual(
+                    "geany",
+                    self.session.scalar(
+                        select(models.Project).filter(models.Project.id == 1)
+                    ).name,
+                )
 
     @mock.patch("anitya.lib.utilities.check_project_release")
     def test_with_check_release(self, patched):
@@ -1035,7 +1057,10 @@ class MapProjectTests(DatabaseTestCase):
                 "/project/1/map", data=data, follow_redirects=False
             )
             self.assertEqual(output.status_code, 200)
-            self.assertEqual(0, models.Packages.query.count())
+            self.assertEqual(
+                0,
+                self.session.scalar(select(func.count()).select_from(models.Packages)),
+            )
 
     def test_map_project(self):
         """Assert projects can be mapped to distributions."""
@@ -1066,7 +1091,12 @@ class MapProjectTests(DatabaseTestCase):
                     b"Mapping added</li>" in output.data
                 )
                 self.assertTrue(b"<h1>Project: geany</h1>" in output.data)
-                self.assertEqual(1, models.Packages.query.count())
+                self.assertEqual(
+                    1,
+                    self.session.scalar(
+                        select(func.count()).select_from(models.Packages)
+                    ),
+                )
 
     def test_map_same_distro(self):
         """
@@ -1107,7 +1137,6 @@ class EditProjectMappingTests(DatabaseTestCase):
         super().setUp()
 
         # Set up a mapping to edit
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
         self.session.add(self.user)
         self.distro1 = models.Distro(name="CentOS")
@@ -1123,10 +1152,10 @@ class EditProjectMappingTests(DatabaseTestCase):
             distro_name=self.distro1.name,
             project=self.project,
         )
-        session.add_all(
+        self.session.add_all(
             [self.user, self.distro1, self.distro2, self.project, self.package]
         )
-        session.commit()
+        self.session.commit()
         self.client = self.flask_app.test_client()
 
     def test_edit_project_mapping_package_name(self):
@@ -1149,7 +1178,7 @@ class EditProjectMappingTests(DatabaseTestCase):
             self.assertEqual(pre_edit_output.status_code, 200)
             self.assertEqual(output.status_code, 200)
 
-            packages = models.Packages.query.all()
+            packages = self.session.scalars(select(models.Packages)).all()
             self.assertEqual(1, len(packages))
             self.assertEqual("Python Project", packages[0].package_name)
 
@@ -1173,14 +1202,13 @@ class EditProjectMappingTests(DatabaseTestCase):
             self.assertEqual(pre_edit_output.status_code, 200)
             self.assertEqual(output.status_code, 200)
 
-            packages = models.Packages.query.all()
+            packages = self.session.scalars(select(models.Packages)).all()
             self.assertEqual(1, len(packages))
             self.assertEqual(self.distro2.name, packages[0].distro_name)
 
     def test_clashing_package_name(self):
         """Assert two projects can't map to the same package name in a distro."""
         # Set up a package to clash with.
-        session = Session()
         best_project = models.Project(
             name="best_project",
             homepage="https://example.com/best_project",
@@ -1192,8 +1220,8 @@ class EditProjectMappingTests(DatabaseTestCase):
             distro_name=self.distro1.name,
             project=best_project,
         )
-        session.add_all([best_project, best_package])
-        session.commit()
+        self.session.add_all([best_project, best_package])
+        self.session.commit()
 
         with login_user(self.flask_app, self.user):
             pre_edit_output = self.client.get("/project/1/map/1")
@@ -1210,13 +1238,25 @@ class EditProjectMappingTests(DatabaseTestCase):
             )
 
             self.assertEqual(output.status_code, 200)
-            self.assertEqual(2, models.Packages.query.count())
             self.assertEqual(
-                1, models.Packages.query.filter_by(package_name="best_project").count()
+                2,
+                self.session.scalar(select(func.count()).select_from(models.Packages)),
             )
             self.assertEqual(
                 1,
-                models.Packages.query.filter_by(package_name="python_project").count(),
+                self.session.scalar(
+                    select(func.count())
+                    .select_from(models.Packages)
+                    .filter(models.Packages.package_name == "best_project")
+                ),
+            )
+            self.assertEqual(
+                1,
+                self.session.scalar(
+                    select(func.count())
+                    .select_from(models.Packages)
+                    .filter(models.Packages.package_name == "python_project")
+                ),
             )
             self.assertTrue(b"Could not edit the mapping" in output.data)
 
@@ -1235,7 +1275,7 @@ class EditProjectMappingTests(DatabaseTestCase):
     def test_anitya_exception(self):
         """Assert handling of exception."""
         with mock.patch.object(
-            self.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
+            db.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
         ):
             with login_user(self.flask_app, self.user):
                 pre_edit_output = self.client.get("/project/1/map/1")
@@ -1265,13 +1305,12 @@ class AddDistroTests(DatabaseTestCase):
         super().setUp()
 
         # Add a regular user and an admin user
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
+        self.session.add(self.user)
 
         self.admin = models.User(email="admin@example.com", username="admin")
-        session.add_all([self.admin])
-        session.commit()
+        self.session.add_all([self.admin])
+        self.session.commit()
 
         self.client = self.flask_app.test_client()
 
@@ -1280,7 +1319,9 @@ class AddDistroTests(DatabaseTestCase):
         with login_user(self.flask_app, self.user):
             output = self.client.post("/distro/add", data={"name": "Fedora"})
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, models.Distro.query.count())
+            self.assertEqual(
+                0, self.session.scalar(select(func.count()).select_from(models.Distro))
+            )
 
     def test_invalid_csrf_token(self):
         """Assert submitting with an invalid CSRF token, no change is made."""
@@ -1289,7 +1330,9 @@ class AddDistroTests(DatabaseTestCase):
                 "/distro/add", data={"csrf_token": "abc", "name": "Fedora"}
             )
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, models.Distro.query.count())
+            self.assertEqual(
+                0, self.session.scalar(select(func.count()).select_from(models.Distro))
+            )
 
     def test_add_distro(self):
         """Assert admins can add distributions."""
@@ -1371,7 +1414,7 @@ class FlagProjecTests(DatabaseTestCase):
     def test_anitya_exception(self):
         """Assert handling of exception."""
         with mock.patch.object(
-            self.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
+            db.session, "flush", mock.Mock(side_effect=[SQLAlchemyError(), None])
         ):
             with login_user(self.flask_app, self.user):
                 pre_edit_output = self.client.get("/project/1/flag")

@@ -509,6 +509,29 @@ class AnityaWebAPItests(DatabaseTestCase):
         output = self.app.get("/api/by_ecosystem/pypi/uppercase_name")
         self.assertEqual(output.status_code, 200)
 
+    def test_api_distro_names(self):
+        """Test the api_distro_names function of the API."""
+        create_distro(self.session)
+        output = self.app.get("/api/distro/names")
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+        exp = {"distro": ["Debian", "Fedora"], "total": 2}
+
+        self.assertEqual(exp, data)
+
+        output = self.app.get("/api/distro/names?pattern=F")
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        exp = {
+            "distro": [
+                "Fedora",
+            ],
+            "total": 1,
+        }
+
+        self.assertEqual(exp, data)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(AnityaWebAPItests)
