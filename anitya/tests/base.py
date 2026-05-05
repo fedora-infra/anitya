@@ -30,12 +30,9 @@ from contextlib import contextmanager
 import flask_login
 import vcr
 from flask import request_started
-from sqlalchemy import create_engine, event
 
 from anitya import app, config
-from anitya.db import Base, Session, models
-
-engine = None
+from anitya.db import db, models
 
 
 @contextmanager
@@ -62,43 +59,6 @@ def login_user(app, user):
 
     with request_started.connected_to(handler, app):
         yield
-
-
-def _configure_db(db_uri="sqlite://"):
-    """Creates and configures a database engine for the tests to use.
-
-    Args:
-        db_uri (str): The URI to use when creating the engine. This defaults
-            to an in-memory SQLite database.
-    """
-    global engine  # pylint: disable=W0603
-    engine = create_engine(db_uri)
-
-    if db_uri.startswith("sqlite://"):
-        # Necessary to get nested transactions working with SQLite. See:
-        # https://docs.sqlalchemy.org/en/latest/dialects/sqlite.html\
-        # #serializable-isolation-savepoints-transactional-ddl
-        @event.listens_for(engine, "connect")
-        def connect_event(dbapi_connection, connection_record):
-            """Stop pysqlite from emitting 'BEGIN'"""
-            # disable pysqlite's emitting of the BEGIN statement entirely.
-            # also stops it from emitting COMMIT before any DDL.
-            dbapi_connection.isolation_level = None
-
-        @event.listens_for(engine, "begin")
-        def begin_event(conn):
-            """Emit our own 'BEGIN' instead of letting pysqlite do it."""
-            conn.exec_driver_sql("BEGIN")
-
-    @event.listens_for(Session, "after_transaction_end")
-    def restart_savepoint(session, transaction):
-        """Allow tests to call rollback on the session."""
-        if (
-            transaction.nested
-            and not transaction._parent.nested  # pylint: disable=W0212
-        ):
-            session.expire_all()
-            session.begin_nested()
 
 
 class AnityaTestCase(unittest.TestCase):
@@ -139,18 +99,26 @@ class DatabaseTestCase(AnityaTestCase):
         # back the transaction and no database assertions can be made.
         self.flask_app.teardown_request_funcs = {None: []}
 
-        if engine is None:
-            # In the future we could provide a postgres URI to test against various
-            # databases!
-            _configure_db()
+        # CRITICAL: Keep the app context active for the entire test
+        # This prevents the scoped session from creating new sessions per request
+        self.app_context = self.flask_app.app_context()
+        self.app_context.push()
 
-        self.connection = engine.connect()
-        Base.metadata.create_all(bind=self.connection)
+        # Initialize the database for tests
+        db.manager.sync()
+
+        self.connection = db.manager.engine.connect()
         self.transaction = self.connection.begin_nested()
 
-        Session.remove()
-        Session.configure(bind=self.connection, autoflush=False)
-        self.session = Session()
+        # Remove any existing session from the scoped session registry
+        db.manager.Session.remove()
+
+        # Reconfigure the session factory to use our test connection
+        db.manager.Session.configure(bind=self.connection, autoflush=False)
+
+        # Get the scoped session - this will create ONE session for this context
+        # Since we keep the app_context active, all requests will share this session
+        self.session = db.manager.Session
 
         # Start a transaction after creating the schema, but before anything is
         # placed into the database. We'll roll back to the start of this
@@ -163,7 +131,12 @@ class DatabaseTestCase(AnityaTestCase):
         self.session.close()
         self.transaction.rollback()
         self.connection.close()
-        Session.remove()
+        db.manager.Session.remove()
+        db.manager.engine.dispose()
+
+        # Pop the app context we pushed in setUp
+        self.app_context.pop()
+
         super().tearDown()
 
 

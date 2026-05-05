@@ -7,8 +7,9 @@ This module contains blueprints that are only included
 
 import flask
 import flask_login
+from sqlalchemy import select
 
-from anitya.db import Session, User
+from anitya.db import db, User
 
 debug_blueprint = flask.Blueprint(
     "anitya_debug", __name__, static_folder="static", template_folder="templates"
@@ -23,15 +24,15 @@ def login(name: str):
     Params:
       name: User to log as in.
     """
-    user = User.query.filter(User.username == name).first()
+    user = db.session.scalar(select(User).filter(User.username == name))
 
     # Create user if it doesn't exist yet
     if not user:
         user = User(
             username=name, email=(name + "@example.com"), admin=(name == "admin")
         )
-        Session.add(user)
-        Session.commit()
+        db.session.add(user)
+        db.session.commit()
 
     flask_login.login_user(user)
     if flask.session["next_url"]:

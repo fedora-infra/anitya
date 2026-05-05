@@ -10,14 +10,14 @@ import logging
 import flask_login
 from flask import abort, jsonify, make_response, request
 from flask.views import MethodView
-from sqlalchemy import func
+from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 from webargs import ValidationError, fields
 from webargs.flaskparser import FlaskParser
 
 from anitya import authentication
-from anitya.db import Session, models
+from anitya.db import db, models, paginate
 from anitya.lib import plugins, utilities
 from anitya.lib.exceptions import AnityaException, ProjectExists
 
@@ -153,14 +153,14 @@ class PackagesResource(MethodView):
             "name": fields.Str(),
         }
         args = parser.parse(user_args, request, location="query")
-        q = models.Packages.query
+        q = select(models.Packages).order_by(models.Packages.package_name)
         distro = args.pop("distribution", "")
         name = args.pop("name", "")
         if distro:
             q = q.filter(func.lower(models.Packages.distro_name) == func.lower(distro))
         if name:
             q = q.filter(func.lower(models.Packages.package_name) == func.lower(name))
-        page = q.paginate(order_by=models.Packages.package_name, **args)
+        page = paginate(q, page=args["page"], items_per_page=args["items_per_page"])
         return {
             "items": [
                 {
@@ -171,11 +171,11 @@ class PackagesResource(MethodView):
                     "version": package.project.latest_version,
                     "stable_version": package.project.latest_stable_version,
                 }
-                for package in page.items
+                for package in page["items"]
             ],
-            "page": page.page,
-            "items_per_page": page.items_per_page,
-            "total_items": page.total_items,
+            "page": page["page"],
+            "items_per_page": page["items_per_page"],
+            "total_items": page["total_items"],
         }
 
     @authentication.require_token
@@ -243,10 +243,12 @@ class PackagesResource(MethodView):
             args = parser.parse(user_args, request, location="form")
         else:
             args = parser.parse(user_args, request, location="json")
-        project = models.Project.query.filter(
-            func.lower(models.Project.name) == func.lower(args["project_name"]),
-            func.lower(models.Project.ecosystem_name)
-            == func.lower(args["project_ecosystem"]),
+        project = db.session.scalars(
+            select(models.Project).filter(
+                func.lower(models.Project.name) == func.lower(args["project_name"]),
+                func.lower(models.Project.ecosystem_name)
+                == func.lower(args["project_ecosystem"]),
+            ),
         ).first()
         if not project:
             return (
@@ -258,8 +260,10 @@ class PackagesResource(MethodView):
             )
 
         try:
-            distro = models.Distro.query.filter(
-                func.lower(models.Distro.name) == func.lower(args["distribution"])
+            distro = db.session.scalars(
+                select(models.Distro).filter(
+                    func.lower(models.Distro.name) == func.lower(args["distribution"])
+                )
             ).one()
         except NoResultFound:
             return (
@@ -274,8 +278,8 @@ class PackagesResource(MethodView):
                 package_name=args["package_name"],
             )
 
-            Session.add(package)
-            Session.commit()
+            db.session.add(package)
+            db.session.commit()
 
             message = dict(
                 agent=flask_login.current_user.email,
@@ -291,7 +295,7 @@ class PackagesResource(MethodView):
             )
             return {"distribution": distro.name, "name": package.package_name}, 201
         except IntegrityError:
-            Session.rollback()
+            db.session.rollback()
             return {"error": "package already exists in distribution"}, 409
 
 
@@ -385,17 +389,21 @@ class ProjectsResource(MethodView):
         args = parser.parse(user_args, request, location="query")
         ecosystem = args.pop("ecosystem", "")
         name = args.pop("name", "")
-        q = models.Project.query
+        q = select(models.Project)
         if ecosystem:
             q = q.filter(
                 func.lower(models.Project.ecosystem_name) == func.lower(ecosystem)
             )
         if name:
             q = q.filter(func.lower(models.Project.name) == func.lower(name))
-        projects_page = q.paginate(
-            order_by=(models.Project.name, models.Project.ecosystem_name), **args
+        projects_page = paginate(
+            q.order_by(models.Project.name, models.Project.ecosystem_name),
+            page=args["page"],
+            items_per_page=args["items_per_page"],
         )
-        return projects_page.as_dict()
+        serialized_projects = [item.__json__() for item in projects_page["items"]]
+        projects_page["items"] = serialized_projects
+        return projects_page
 
     @authentication.require_token
     def post(self):
@@ -505,7 +513,7 @@ class ProjectsResource(MethodView):
 
         try:
             project = utilities.create_project(
-                Session,
+                db.session,
                 user_id=flask_login.current_user.email,
                 name=args["name"],
                 homepage=args["homepage"],
@@ -519,10 +527,10 @@ class ProjectsResource(MethodView):
                 regex=args["regex"],
                 insecure=args["insecure"],
             )
-            Session.commit()
+            db.session.commit()
             if args["check_release"]:
                 try:
-                    utilities.check_project_release(project, Session)
+                    utilities.check_project_release(project, db.session)
                 except AnityaException as err:
                     _log.error(str(err))
             return project.__json__(), 201
@@ -594,7 +602,7 @@ class VersionsResource(MethodView):
         user_args = {"project_id": fields.Int()}
         args = parser.parse(user_args, request, location="query")
         project_id = args.pop("project_id", -1)
-        project = models.Project.get(Session, project_id=project_id)
+        project = models.Project.get(db.session, project_id=project_id)
         if not project:
             response = {"output": "notok", "error": "No such project"}, 404
             return response
@@ -728,7 +736,7 @@ class VersionsResource(MethodView):
         # If we have id, try to get the project
         project_id = args.get("id")
         if project_id:
-            project = models.Project.get(Session, project_id=project_id)
+            project = models.Project.get(db.session, project_id=project_id)
 
             if not project:
                 response = jsonify("No such project"), 404
@@ -738,7 +746,7 @@ class VersionsResource(MethodView):
         if not project:
             homepage = args.get("homepage")
             name = args.get("name")
-            q = models.Project.query
+            q = select(models.Project)
             if homepage:
                 q = q.filter(
                     func.lower(models.Project.homepage) == func.lower(homepage)
@@ -746,7 +754,7 @@ class VersionsResource(MethodView):
             if name:
                 q = q.filter(func.lower(models.Project.name) == func.lower(name))
 
-            query_result = q.all()
+            query_result = db.session.execute(q).scalars().all()
 
             if len(query_result) > 1:
                 response = (
@@ -789,7 +797,7 @@ class VersionsResource(MethodView):
                 dry_run = True
 
             project = utilities.create_project(
-                Session,
+                db.session,
                 user_id=flask_login.current_user.email,
                 name=name,
                 homepage=homepage,
@@ -845,7 +853,7 @@ class VersionsResource(MethodView):
                 releases_only = project.releases_only
             try:
                 utilities.edit_project(
-                    Session,
+                    db.session,
                     user_id=flask_login.current_user.email,
                     project=project,
                     name=name,
@@ -869,7 +877,7 @@ class VersionsResource(MethodView):
         if project:
             try:
                 versions = utilities.check_project_release(
-                    project, Session, test=dry_run
+                    project, db.session, test=dry_run
                 )
             except AnityaException as err:
                 response = (
@@ -884,4 +892,5 @@ class VersionsResource(MethodView):
                 "versions": project.versions,
                 "stable_versions": [str(v) for v in project.stable_versions],
             }
+
             return response

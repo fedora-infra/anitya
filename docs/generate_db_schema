@@ -3,9 +3,11 @@
 Generate an image of the database schema
 """
 from sqlalchemy_schemadisplay import create_schema_graph
+from sqlalchemy_helpers import Base
 
 from anitya.config import config
-from anitya.db import meta
+from anitya.db import db
+from anitya import app
 
 
 def write_graph(filename):
@@ -16,15 +18,18 @@ def write_graph(filename):
     Args:
         filename (str): Output file where image will be written
     """
-    graph = create_schema_graph(
-        engine=meta.initialize(config),
-        metadata=meta.metadata,
-        show_datatypes=False,
-        show_indexes=False,
-        rankdir="LR",
-        concentrate=False,
-    )
-    graph.write_png(filename)
+    flask_app = app.create(config)
+
+    with flask_app.app_context():
+        graph = create_schema_graph(
+            engine=db.manager.engine,
+            metadata=Base.metadata,
+            show_datatypes=False,
+            show_indexes=False,
+            rankdir="LR",
+            concentrate=False,
+        )
+        graph.write_png(filename)
 
 
 if __name__ == "__main__":

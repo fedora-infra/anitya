@@ -24,7 +24,7 @@ import flask
 
 import anitya
 import anitya.lib.plugins
-from anitya.db import Session, models
+from anitya.db import db, models
 from anitya.lib import utilities
 
 api_blueprint = flask.Blueprint("anitya_apiv1", __name__)
@@ -146,13 +146,13 @@ def api_projects():
         return jsonout
 
     if homepage is not None:
-        project_objs = models.Project.by_homepage(Session, homepage)
+        project_objs = models.Project.by_homepage(db.session, homepage)
     elif pattern or distro:
         if pattern and "*" not in pattern:
             pattern += "*"
-        project_objs = models.Project.search(Session, pattern=pattern, distro=distro)
+        project_objs = models.Project.search(db.session, pattern=pattern, distro=distro)
     else:
-        project_objs = models.Project.all(Session)
+        project_objs = models.Project.all(db.session)
 
     projects = [project.__json__() for project in project_objs]
 
@@ -188,7 +188,7 @@ def api_packages_wiki_list():
       * 3proxy None https://www.3proxy.ru/download/
     """
 
-    project_objs = models.Project.all(Session)
+    project_objs = models.Project.all(db.session)
 
     projects = []
     for project in project_objs:
@@ -251,9 +251,9 @@ def api_projects_names():
         pattern += "*"
 
     if pattern:
-        project_objs = models.Project.search(Session, pattern=pattern)
+        project_objs = models.Project.search(db.session, pattern=pattern)
     else:
-        project_objs = models.Project.all(Session)
+        project_objs = models.Project.all(db.session)
 
     projects = [project.name for project in project_objs]
 
@@ -308,9 +308,9 @@ def api_distro_names():
         pattern += "*"
 
     if pattern:
-        distro_objs = models.Distro.search(Session, pattern=pattern)
+        distro_objs = models.Distro.search(db.session, pattern=pattern)
     else:
-        distro_objs = models.Distro.all(Session)
+        distro_objs = models.Distro.all(db.session)
 
     distros = [distro.name for distro in distro_objs]
 
@@ -366,14 +366,16 @@ def api_get_version():
         output = {"output": "notok", "error": errors}
         httpcode = 400
     else:
-        project = models.Project.get(Session, project_id=project_id)
+        project = models.Project.get(db.session, project_id=project_id)
 
         if not project:
             output = {"output": "notok", "error": "No such project"}
             httpcode = 404
         else:
             try:
-                versions = utilities.check_project_release(project, Session, test=test)
+                versions = utilities.check_project_release(
+                    project, db.session, test=test
+                )
                 if versions:
                     output = {"versions": versions}
                 else:
@@ -428,7 +430,7 @@ def api_get_project(project_id):
 
     """
 
-    project = models.Project.get(Session, project_id=project_id)
+    project = models.Project.get(db.session, project_id=project_id)
 
     if not project:
         output = {"output": "notok", "error": "no such project"}
@@ -486,7 +488,7 @@ def api_get_project_distro(distro, package_name):
     """
     package_name = package_name.rstrip("/")
 
-    package = models.Packages.by_package_name_distro(Session, package_name, distro)
+    package = models.Packages.by_package_name_distro(db.session, package_name, distro)
 
     if not package:
         output = {
@@ -496,7 +498,7 @@ def api_get_project_distro(distro, package_name):
         httpcode = 404
 
     else:
-        project = models.Project.get(Session, project_id=package.project.id)
+        project = models.Project.get(db.session, project_id=package.project.id)
 
         output = project.__json__(detailed=True)
         httpcode = 200
@@ -561,7 +563,7 @@ def api_get_project_ecosystem(ecosystem, project_name):
         }
     """
 
-    project = models.Project.by_name_and_ecosystem(Session, project_name, ecosystem)
+    project = models.Project.by_name_and_ecosystem(db.session, project_name, ecosystem)
 
     if not project:
         output = {

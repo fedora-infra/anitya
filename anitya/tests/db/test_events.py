@@ -20,7 +20,9 @@
 # of Red Hat, Inc.
 """Tests for the :mod:`anitya.db.events` module."""
 
-from anitya.db import Session, models
+from sqlalchemy import select
+
+from anitya.db import models
 from anitya.tests.base import DatabaseTestCase
 
 
@@ -33,15 +35,15 @@ class SetEcosystemBackendTests(DatabaseTestCase):
             name="requests", homepage="https://pypi.org/requests", backend="PyPI"
         )
 
-        Session.add(project)
-        Session.commit()
+        self.session.add(project)
+        self.session.commit()
 
-        project = models.Project.query.all()[0]
+        project = self.session.scalars(select(models.Project)).all()[0]
         self.assertEqual("pypi", project.ecosystem_name)
 
         project.backend = "crates.io"
-        Session.add(project)
-        Session.commit()
+        self.session.add(project)
+        self.session.commit()
 
         self.assertEqual("crates.io", project.ecosystem_name)
 
@@ -51,15 +53,15 @@ class SetEcosystemBackendTests(DatabaseTestCase):
             name="requests", homepage="https://pypi.org/requests", backend="PyPI"
         )
 
-        Session.add(project)
-        Session.commit()
+        self.session.add(project)
+        self.session.commit()
 
-        project = models.Project.query.all()[0]
+        project = self.session.scalars(select(models.Project)).all()[0]
         self.assertEqual("pypi", project.ecosystem_name)
 
         project.backend = "PyPI"
-        Session.add(project)
-        Session.commit()
+        self.session.add(project)
+        self.session.commit()
 
         self.assertEqual("pypi", project.ecosystem_name)
 
@@ -69,15 +71,15 @@ class SetEcosystemBackendTests(DatabaseTestCase):
             name="requests", homepage="https://pypi.org/requests", backend="PyPI"
         )
 
-        Session.add(project)
-        Session.commit()
+        self.session.add(project)
+        self.session.commit()
 
-        project = models.Project.query.all()[0]
+        project = self.session.scalars(select(models.Project)).all()[0]
         self.assertEqual("pypi", project.ecosystem_name)
 
         project.backend = "GitHub"
-        Session.add(project)
-        Session.commit()
+        self.session.add(project)
+        self.session.commit()
 
         self.assertEqual("https://pypi.org/requests", project.ecosystem_name)
 
@@ -91,15 +93,15 @@ class SetEcosystemHomepageTests(DatabaseTestCase):
             name="requests", homepage="https://pypi.org/requests", backend="PyPI"
         )
 
-        Session.add(project)
-        Session.commit()
+        self.session.add(project)
+        self.session.commit()
 
-        project = models.Project.query.all()[0]
+        project = self.session.scalars(select(models.Project)).all()[0]
         self.assertEqual("pypi", project.ecosystem_name)
 
         project.homepage = "https://example.com"
-        Session.add(project)
-        Session.commit()
+        self.session.add(project)
+        self.session.commit()
         self.assertEqual("pypi", project.ecosystem_name)
 
     def test_set_homepage(self):
@@ -109,15 +111,15 @@ class SetEcosystemHomepageTests(DatabaseTestCase):
             name="requests", homepage="https://pypi.org/requests", backend="GitHub"
         )
 
-        Session.add(project)
-        Session.commit()
+        self.session.add(project)
+        self.session.commit()
 
-        project = models.Project.query.all()[0]
+        project = self.session.scalars(select(models.Project)).all()[0]
         self.assertEqual("https://pypi.org/requests", project.ecosystem_name)
 
         project.homepage = "https://example.com"
-        Session.add(project)
-        Session.commit()
+        self.session.add(project)
+        self.session.commit()
         self.assertEqual("https://example.com", project.ecosystem_name)
 
     def test_set_homepage_no_change(self):
@@ -127,13 +129,13 @@ class SetEcosystemHomepageTests(DatabaseTestCase):
             name="requests", homepage="https://pypi.org/requests", backend="GitHub"
         )
 
-        Session.add(project)
-        Session.commit()
+        self.session.add(project)
+        self.session.commit()
 
-        project = models.Project.query.all()[0]
+        project = self.session.scalars(select(models.Project)).all()[0]
         self.assertEqual("https://pypi.org/requests", project.ecosystem_name)
 
         project.homepage = "https://pypi.org/requests"
-        Session.add(project)
-        Session.commit()
+        self.session.add(project)
+        self.session.commit()
         self.assertEqual("https://pypi.org/requests", project.ecosystem_name)

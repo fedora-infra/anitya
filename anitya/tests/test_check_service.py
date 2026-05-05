@@ -30,6 +30,7 @@ from unittest import mock
 import anitya_schema
 import arrow
 from fedora_messaging import testing as fml_testing
+from sqlalchemy import select
 
 from anitya.check_service import Checker
 from anitya.db import models
@@ -46,6 +47,7 @@ class CheckerTests(DatabaseTestCase):
         """
         super().setUp()
         self.checker = Checker()
+        self.checker.flask_app = self.flask_app
 
     def test_update_project_backend_blacklist(self):
         """
@@ -63,15 +65,20 @@ class CheckerTests(DatabaseTestCase):
         reset_time = (project.next_check + timedelta(hours=1)).replace(
             tzinfo=timezone.utc
         )
+        project_id = project.id
 
         with mock.patch.dict(self.checker.blacklist_dict, {"GitHub": reset_time}):
-            self.checker.update_project(project.id)
+            self.checker.update_project(project_id)
+
+        project = self.session.scalars(
+            select(models.Project).filter(models.Project.id == project_id)
+        ).one()
 
         self.assertEqual(project.next_check.replace(tzinfo=timezone.utc), reset_time)
         self.assertEqual(self.checker.ratelimit_counter, 1)
         self.assertEqual(self.checker.success_counter, 0)
         self.assertEqual(self.checker.error_counter, 0)
-        self.assertEqual(self.checker.ratelimit_queue["GitHub"][0], project.id)
+        self.assertEqual(self.checker.ratelimit_queue["GitHub"][0], project_id)
 
     @mock.patch("anitya.lib.utilities.check_project_release")
     def test_update_project_backend_blacklist_reset_time_reached(
@@ -197,7 +204,7 @@ class CheckerTests(DatabaseTestCase):
         with fml_testing.mock_sends(anitya_schema.ProjectDeleted):
             self.checker.update_project(project.id)
 
-        projects = self.session.query(models.Project).all()
+        projects = self.session.scalars(select(models.Project)).all()
 
         self.assertEqual(len(projects), 0)
 
@@ -338,7 +345,7 @@ class CheckerTests(DatabaseTestCase):
 
         self.checker.run()
 
-        run_objects = models.Run.query.all()
+        run_objects = self.session.scalars(select(models.Run)).all()
 
         self.assertEqual(len(run_objects), 1)
         self.assertEqual(run_objects[0].total_count, 1)
@@ -376,7 +383,7 @@ class CheckerTests(DatabaseTestCase):
         """
         self.checker.run()
 
-        run_objects = models.Run.query.all()
+        run_objects = self.session.scalars(select(models.Run)).all()
 
         self.assertEqual(len(run_objects), 0)
         mock_check_project_release.assert_not_called()
@@ -406,7 +413,7 @@ class CheckerTests(DatabaseTestCase):
 
         self.checker.run()
 
-        run_objects = models.Run.query.all()
+        run_objects = self.session.scalars(select(models.Run)).all()
 
         self.assertEqual(len(run_objects), 1)
         self.assertEqual(run_objects[0].total_count, 2)
@@ -442,7 +449,7 @@ class CheckerTests(DatabaseTestCase):
 
         self.checker.run()
 
-        run_objects = models.Run.query.all()
+        run_objects = self.session.scalars(select(models.Run)).all()
 
         self.assertEqual(len(run_objects), 1)
         self.assertEqual(run_objects[0].total_count, 2)

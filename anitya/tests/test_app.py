@@ -21,20 +21,13 @@
 import logging
 import unittest
 
-from sqlalchemy.exc import UnboundExecutionError
-
 from anitya import app
 from anitya.config import config as anitya_config
-from anitya.db import Session
+from anitya.db import db
 
 
 class CreateTests(unittest.TestCase):
     """Tests for the :func:`anitya.app.create` function."""
-
-    def setUp(self):
-        # Make sure each test starts with a clean session
-        Session.remove()
-        Session.configure(bind=None)
 
     def test_default_config(self):
         """Assert when no configuration is provided, :data:`anitya.config.config` is used."""
@@ -46,6 +39,7 @@ class CreateTests(unittest.TestCase):
         """Assert a SMTPHandler is added to the anitya logger when ``EMAIL_ERRORS=True``."""
         config = {
             "DB_URL": "sqlite://",
+            "DB_MODELS_LOCATION": "anitya.db.models",
             "EMAIL_ERRORS": True,
             "SMTP_SERVER": "smtp.example.com",
             "ADMIN_EMAIL": "admin@example.com",
@@ -61,9 +55,8 @@ class CreateTests(unittest.TestCase):
 
     def test_db_config(self):
         """Assert creating the application configures the scoped session."""
-        # Assert the scoped session is not bound.
-        self.assertRaises(UnboundExecutionError, Session.get_bind)
-        Session.remove()
-
-        app.create({"DB_URL": "sqlite://"})
-        self.assertEqual("sqlite://", str(Session().get_bind().url))
+        flask_app = app.create(
+            {"DB_URL": "sqlite://", "DB_MODELS_LOCATION": "anitya.db.models"}
+        )
+        with flask_app.app_context():
+            self.assertEqual("sqlite:///:memory:", str(db.session.get_bind().url))

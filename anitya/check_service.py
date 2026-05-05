@@ -32,7 +32,8 @@ import arrow
 import sqlalchemy as sa
 from ordered_set import OrderedSet
 
-from anitya import db
+from anitya import app
+from anitya.db import db, models
 from anitya.config import config
 from anitya.lib import utilities
 from anitya.lib.exceptions import AnityaException, RateLimitException
@@ -80,6 +81,7 @@ class Checker:
         self.blacklist_dict_lock = Lock()
         self.blacklist_dict = {}
         _log.debug("Checker class initialized")
+        self.flask_app = app.create(config)
 
     def update_project(self, project_id: int) -> None:
         """
@@ -88,8 +90,8 @@ class Checker:
         Args:
             project_id: Id of project to check
         """
-        session = db.Session()
-        project = db.Project.query.filter(db.Project.id == project_id).one()
+        stmt = sa.select(models.Project).filter(models.Project.id == project_id)
+        project = db.session.scalars(stmt).one()
         if project.backend in self.blacklist_dict:
             if arrow.utcnow().datetime < self.blacklist_dict[project.backend]:
                 self.blacklist_project(project, self.blacklist_dict[project.backend])
@@ -99,15 +101,15 @@ class Checker:
                     self.blacklist_dict[project.backend],
                 )
                 project.next_check = self.blacklist_dict[project.backend]
-                session.add(project)
-                session.commit()
+                db.session.add(project)
+                db.session.commit()
                 return
             else:
                 with self.blacklist_dict_lock:
                     self.blacklist_dict.pop(project.backend)
         try:
             _log.debug("Checking project %s", project.name)
-            utilities.check_project_release(project, session)
+            utilities.check_project_release(project, db.session)
             _log.debug("Project check complete %s", project.name)
         except RateLimitException as err:
             self.blacklist_project(project, err.reset_time)
@@ -117,22 +119,22 @@ class Checker:
             with self.error_counter_lock:
                 self.error_counter += 1
             if self.is_delete_candidate(project):
-                session.delete(project)
+                db.session.delete(project)
                 utilities.publish_message(
                     project=project.__json__(),
                     topic="project.remove",
                     message=dict(agent="anitya", project=project.name),
                 )
-                session.commit()
-            session.close()
+                db.session.commit()
+            db.session.close()
             return
         finally:
-            session.close()
+            db.session.close()
 
         with self.success_counter_lock:
             self.success_counter += 1
 
-    def is_delete_candidate(self, project: db.Project) -> bool:
+    def is_delete_candidate(self, project: models.Project) -> bool:
         """
         Check if this project is a candidate for deletion. Project is a candidate for
         deletion, if error_counter already reached configured threshold and project
@@ -147,13 +149,16 @@ class Checker:
         """
         if project.error_counter < config.get("CHECK_ERROR_THRESHOLD"):
             return False
-        packages = db.Packages.query.filter(db.Packages.project_id == project.id).all()
+        stmt = sa.select(models.Packages).filter(
+            models.Packages.project_id == project.id
+        )
+        packages = db.session.scalars(stmt).all()
         if packages:
             return bool(not project.versions)
 
         return True
 
-    def blacklist_project(self, project: db.Project, reset_time: arrow.Arrow):
+    def blacklist_project(self, project: models.Project, reset_time: arrow.Arrow):
         """
         Add specified project to `self.ratelimit_queue`, add backend to
         `self.blacklist_dict` and increment `self.ratelimit_counter`.
@@ -186,73 +191,77 @@ class Checker:
         2. Execution - process every project in the queue
         3. Finalize - create `db.Run` entry with counters and time
         """
-        # 1. Preparation phase
-        # We must convert it to datetime for comparison with sqlalchemy TIMESTAMP column
-        session = db.Session()
-        time = arrow.utcnow().datetime
-        self.clear_counters()
-        queue = self.construct_queue(time)
-        total_count = len(queue)
-        projects_left = len(queue)
-        projects_iter = iter(queue)
+        with self.flask_app.app_context():
+            # 1. Preparation phase
+            # We must convert it to datetime for comparison with sqlalchemy TIMESTAMP column
+            time = arrow.utcnow().datetime
+            self.clear_counters()
+            queue = self.construct_queue(time)
+            total_count = len(queue)
+            projects_left = len(queue)
+            projects_iter = iter(queue)
 
-        if not queue:
-            return
+            if not queue:
+                return
 
-        # 2. Execution
-        _log.info("Starting check on %s for total of %s projects", time, total_count)
+            # 2. Execution
+            _log.info(
+                "Starting check on %s for total of %s projects", time, total_count
+            )
 
-        futures = {}
-        pool_size = config.get("CRON_POOL")
-        timeout = config.get("CHECK_TIMEOUT")
-        with ThreadPoolExecutor(pool_size) as pool:
-            # Wait till every project in queue is checked
-            while projects_left:
-                for project in projects_iter:
-                    future = pool.submit(self.update_project, project)
-                    futures[future] = project
-                    if len(futures) > pool_size:
-                        break  # limit job submissions
+            futures = {}
+            pool_size = config.get("CRON_POOL")
+            timeout = config.get("CHECK_TIMEOUT")
+            with ThreadPoolExecutor(pool_size) as pool:
+                # Wait till every project in queue is checked
+                while projects_left:
+                    for project in projects_iter:
+                        future = pool.submit(self.update_project, project)
+                        futures[future] = project
+                        if len(futures) > pool_size:
+                            break  # limit job submissions
 
-                # Wait for jobs that aren't completed yet
-                try:
-                    for future in as_completed(futures, timeout=timeout):
-                        projects_left -= 1  # one project down
+                    # Wait for jobs that aren't completed yet
+                    try:
+                        for future in as_completed(futures, timeout=timeout):
+                            projects_left -= 1  # one project down
 
-                        # log any exception
-                        if future.exception():
-                            try:
-                                future.result()
-                            except Exception as e:
-                                _log.exception(e)
+                            # log any exception
+                            if future.exception():
+                                try:
+                                    future.result()
+                                except Exception as e:
+                                    _log.exception(e)
 
-                        del futures[future]
+                            del futures[future]
 
-                        break  # give a chance to add more jobs
-                except TimeoutError:
-                    projects_left -= 1
-                    _log.info("Thread was killed because the execution took too long.")
-                    with self.error_counter_lock:
-                        self.error_counter += 1
+                            break  # give a chance to add more jobs
+                    except TimeoutError:
+                        projects_left -= 1
+                        _log.info(
+                            "Thread was killed because the execution took too long."
+                        )
+                        with self.error_counter_lock:
+                            self.error_counter += 1
 
-        # 3. Finalize
-        _log.info(
-            "Check done. Checked (%s): error (%s), success (%s), limit (%s)",
-            total_count,
-            self.error_counter,
-            self.success_counter,
-            self.ratelimit_counter,
-        )
+            # 3. Finalize
+            _log.info(
+                "Check done. Checked (%s): error (%s), success (%s), limit (%s)",
+                total_count,
+                self.error_counter,
+                self.success_counter,
+                self.ratelimit_counter,
+            )
 
-        run = db.Run(
-            created_on=time,
-            total_count=total_count,
-            error_count=self.error_counter,
-            ratelimit_count=self.ratelimit_counter,
-            success_count=self.success_counter,
-        )
-        session.add(run)
-        session.commit()
+            run = models.Run(
+                created_on=time,
+                total_count=total_count,
+                error_count=self.error_counter,
+                ratelimit_count=self.ratelimit_counter,
+                success_count=self.success_counter,
+            )
+            db.session.add(run)
+            db.session.commit()
 
     def clear_counters(self):
         """
@@ -295,12 +304,14 @@ class Checker:
             del self.blacklist_dict[backend]
 
         # Get all projects, that are ready for check
-        projects = (
-            db.Project.query.order_by(sa.func.lower(db.Project.name))
-            .filter(db.Project.next_check < time, db.Project.archived.is_(False))
-            .all()
+        stmt = (
+            sa.select(models.Project)
+            .filter(
+                models.Project.next_check < time, models.Project.archived.is_(False)
+            )
+            .order_by(models.Project.name)
         )
-
+        projects = db.session.scalars(stmt).all()
         # Create list of projects that should be checked but belong to blacklisted backend
         blacklisted_projects = []
         for project in projects:

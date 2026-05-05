@@ -24,7 +24,7 @@ Alembic migrations, and a scoped session object configured from :mod:`anitya.con
 # You need to import the events to register them with application
 # If they are not imported, there wouldn't be triggered
 from . import events  # noqa: F401
-from .meta import Base, BaseQuery, Page, Session, initialize  # noqa: F401
+from .meta import db, paginate  # noqa: F401
 from .models import Project  # noqa: F401
 from .models import (  # noqa: F401
     ApiToken,

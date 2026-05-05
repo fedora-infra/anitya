@@ -35,8 +35,11 @@ import logging
 import os
 import sys
 
-from anitya import db
+from sqlalchemy import select
+
+from anitya import app
 from anitya.config import config
+from anitya.db import db, User
 
 _log = logging.getLogger("anitya")
 
@@ -46,7 +49,8 @@ def main():
     Retrieve database entry for user.
     """
     _log.debug("SAR script start")
-    db.initialize(config)
+    app.create(config)
+
     sar_username = os.getenv("SAR_USERNAME")
     sar_email = os.getenv("SAR_EMAIL")
 
@@ -54,11 +58,19 @@ def main():
 
     if sar_email:
         _log.debug("Find users by e-mail %s", sar_email)
-        users = users + db.User.query.filter_by(email=sar_email).all()
+        users = (
+            users
+            + db.session.scalars(select(User).filter(User.email == sar_email)).all()
+        )
 
     if sar_username:
         _log.debug("Find users by username %s", sar_username)
-        users = users + db.User.query.filter_by(username=sar_username).all()
+        users = (
+            users
+            + db.session.scalars(
+                select(User).filter(User.username == sar_username)
+            ).all()
+        )
 
     users_list = []
     for user in users:

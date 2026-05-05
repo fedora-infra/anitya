@@ -23,11 +23,11 @@ import anitya_schema
 import mock
 import six
 from fedora_messaging import testing as fml_testing
+from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.orm.query import Query
 
 from anitya import admin
-from anitya.db import Session, models
+from anitya.db import db, models
 from anitya.tests.base import DatabaseTestCase, login_user
 
 
@@ -38,13 +38,12 @@ class IsAdminTests(DatabaseTestCase):
         super().setUp()
 
         # Add a regular user and an admin user
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
 
-        session.add(self.user)
+        self.session.add(self.user)
         self.admin = models.User(email="admin@example.com", username="admin")
-        session.add(self.admin)
-        session.commit()
+        self.session.add(self.admin)
+        self.session.commit()
 
         mock_config = mock.patch.dict(
             models.anitya_config, {"ANITYA_WEB_ADMINS": [six.text_type(self.admin.id)]}
@@ -68,17 +67,16 @@ class EditDistroTests(DatabaseTestCase):
         super().setUp()
 
         # Add a regular user and an admin user
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
+        self.session.add(self.user)
         self.admin = models.User(email="admin@example.com", username="admin")
 
         # Add distributions to edit
         self.fedora = models.Distro(name="Fedora")
         self.centos = models.Distro(name="CentOS")
 
-        session.add_all([self.admin, self.fedora, self.centos])
-        session.commit()
+        self.session.add_all([self.admin, self.fedora, self.centos])
+        self.session.commit()
 
         mock_config = mock.patch.dict(
             models.anitya_config, {"ANITYA_WEB_ADMINS": [six.text_type(self.admin.id)]}
@@ -133,7 +131,14 @@ class EditDistroTests(DatabaseTestCase):
         with login_user(self.flask_app, self.admin):
             output = self.client.post("/distro/Fedora/edit", data={"name": "Top"})
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, models.Distro.query.filter_by(name="Top").count())
+            self.assertEqual(
+                0,
+                len(
+                    self.session.execute(
+                        select(models.Distro).filter(models.Distro.name == "Top")
+                    ).all()
+                ),
+            )
 
     def test_invalid_csrf_token(self):
         """Assert submitting with an invalid CSRF token results in no change."""
@@ -142,7 +147,14 @@ class EditDistroTests(DatabaseTestCase):
                 "/distro/Fedora/edit", data={"csrf_token": "a", "name": "Top"}
             )
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, models.Distro.query.filter_by(name="Top").count())
+            self.assertEqual(
+                0,
+                len(
+                    self.session.execute(
+                        select(models.Distro).filter(models.Distro.name == "Top")
+                    ).all()
+                ),
+            )
 
 
 class DeleteDistroTests(DatabaseTestCase):
@@ -152,9 +164,8 @@ class DeleteDistroTests(DatabaseTestCase):
         super().setUp()
 
         # Add a regular user and an admin user
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
+        self.session.add(self.user)
 
         self.admin = models.User(email="admin@example.com", username="admin")
 
@@ -162,8 +173,8 @@ class DeleteDistroTests(DatabaseTestCase):
         self.fedora = models.Distro(name="Fedora")
         self.centos = models.Distro(name="CentOS")
 
-        session.add_all([self.admin, self.fedora, self.centos])
-        session.commit()
+        self.session.add_all([self.admin, self.fedora, self.centos])
+        self.session.commit()
 
         mock_config = mock.patch.dict(
             models.anitya_config, {"ANITYA_WEB_ADMINS": [six.text_type(self.admin.id)]}
@@ -218,18 +229,32 @@ class DeleteDistroTests(DatabaseTestCase):
         with login_user(self.flask_app, self.admin):
             output = self.client.post("/distro/Fedora/delete", data={})
             self.assertEqual(200, output.status_code)
-            self.assertEqual(1, models.Distro.query.filter_by(name="Fedora").count())
+            self.assertEqual(
+                1,
+                len(
+                    self.session.execute(
+                        select(models.Distro).filter(models.Distro.name == "Fedora")
+                    ).all()
+                ),
+            )
 
     def test_invalid_csrf_token(self):
         """Assert submitting with an invalid CSRF token results in no change."""
         with login_user(self.flask_app, self.admin):
             output = self.client.post("/distro/Fedora/delete", data={"csrf_token": "a"})
             self.assertEqual(200, output.status_code)
-            self.assertEqual(1, models.Distro.query.filter_by(name="Fedora").count())
+            self.assertEqual(
+                1,
+                len(
+                    self.session.execute(
+                        select(models.Distro).filter(models.Distro.name == "Fedora")
+                    ).all()
+                ),
+            )
 
 
 class DeleteProjectTests(DatabaseTestCase):
-    """Tests for the :func:`anitya.admin.delete_projects` view function."""
+    """Tests for the :func:`anitya.admin.delete_project` view function."""
 
     def setUp(self):
         super().setUp()
@@ -238,16 +263,18 @@ class DeleteProjectTests(DatabaseTestCase):
             homepage="https://example.com/test_project",
             backend="PyPI",
         )
+        self.project_version = models.ProjectVersion(
+            project=self.project, version="1.0.0"
+        )
 
         # Add a regular user and an admin user
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
+        self.session.add(self.user)
 
         self.admin = models.User(email="admin@example.com", username="admin")
 
-        session.add_all([self.admin, self.project])
-        session.commit()
+        self.session.add_all([self.admin, self.project])
+        self.session.commit()
 
         mock_config = mock.patch.dict(
             models.anitya_config, {"ANITYA_WEB_ADMINS": [six.text_type(self.admin.id)]}
@@ -298,7 +325,7 @@ class DeleteProjectTests(DatabaseTestCase):
                 )
 
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, len(models.Project.query.all()))
+            self.assertEqual(0, len(self.session.execute(select(models.Project)).all()))
 
     def test_admin_post_unconfirmed(self):
         """Assert admin users must confirm deleting projects."""
@@ -312,7 +339,7 @@ class DeleteProjectTests(DatabaseTestCase):
             output = self.client.post(f"/project/{self.project.id}/delete", data=data)
 
             self.assertEqual(302, output.status_code)
-            self.assertEqual(1, len(models.Project.query.all()))
+            self.assertEqual(1, len(self.session.execute(select(models.Project)).all()))
 
 
 class SetProjectArchiveState(DatabaseTestCase):
@@ -327,13 +354,12 @@ class SetProjectArchiveState(DatabaseTestCase):
         )
 
         # Add a regular user and an admin user
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
+        self.session.add(self.user)
 
         self.admin = models.User(email="admin@example.com", username="admin")
-        session.add_all([self.admin, self.project])
-        session.commit()
+        self.session.add_all([self.admin, self.project])
+        self.session.commit()
 
         mock_config = mock.patch.dict(
             models.anitya_config, {"ANITYA_WEB_ADMINS": [six.text_type(self.admin.id)]}
@@ -385,7 +411,7 @@ class SetProjectArchiveState(DatabaseTestCase):
                     follow_redirects=True,
                 )
 
-            project = models.Project.query.one()
+            project = self.session.scalars(select(models.Project)).one()
 
             self.assertEqual(200, output.status_code)
             self.assertEqual(project.archived, True)
@@ -409,7 +435,7 @@ class SetProjectArchiveState(DatabaseTestCase):
                     follow_redirects=True,
                 )
 
-            project = models.Project.query.one()
+            project = self.session.scalars(select(models.Project)).one()
 
             self.assertEqual(200, output.status_code)
             self.assertEqual(project.archived, False)
@@ -427,7 +453,7 @@ class SetProjectArchiveState(DatabaseTestCase):
                 f"/project/{self.project.id}/archive/set/true", data=data
             )
 
-            project = models.Project.query.one()
+            project = self.session.scalars(select(models.Project)).one()
 
             self.assertEqual(302, output.status_code)
             self.assertEqual(project.archived, False)
@@ -456,13 +482,12 @@ class DeleteProjectMappingTests(DatabaseTestCase):
         )
 
         # Add a regular user and an admin user
-        session = Session()
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
+        self.session.add(self.user)
 
         self.admin = models.User(email="admin@example.com", username="admin")
 
-        session.add_all(
+        self.session.add_all(
             [
                 self.admin,
                 self.distro,
@@ -471,7 +496,7 @@ class DeleteProjectMappingTests(DatabaseTestCase):
                 self.complicated_package,
             ]
         )
-        session.commit()
+        self.session.commit()
 
         mock_config = mock.patch.dict(
             models.anitya_config, {"ANITYA_WEB_ADMINS": [six.text_type(self.admin.id)]}
@@ -534,7 +559,9 @@ class DeleteProjectMappingTests(DatabaseTestCase):
                 )
 
             self.assertEqual(200, output.status_code)
-            self.assertEqual(1, len(models.Packages.query.all()))
+            self.assertEqual(
+                1, len(self.session.execute(select(models.Packages)).all())
+            )
 
     def test_admin_post_with_slash(self):
         """Assert admin users can delete project mappings."""
@@ -553,7 +580,9 @@ class DeleteProjectMappingTests(DatabaseTestCase):
                 )
 
             self.assertEqual(200, output.status_code)
-            self.assertEqual(1, len(models.Packages.query.all()))
+            self.assertEqual(
+                1, len(self.session.execute(select(models.Packages)).all())
+            )
 
     def test_admin_post_unconfirmed(self):
         """Assert failing to confirm the action results in no change."""
@@ -571,7 +600,9 @@ class DeleteProjectMappingTests(DatabaseTestCase):
             )
 
             self.assertEqual(200, output.status_code)
-            self.assertEqual(2, len(models.Packages.query.all()))
+            self.assertEqual(
+                2, len(self.session.execute(select(models.Packages)).all())
+            )
 
 
 class DeleteProjectVersionTests(DatabaseTestCase):
@@ -579,7 +610,6 @@ class DeleteProjectVersionTests(DatabaseTestCase):
 
     def setUp(self):
         super().setUp()
-        self.session = Session()
 
         # Add a project with a version to delete.
         self.project = models.Project(
@@ -652,7 +682,9 @@ class DeleteProjectVersionTests(DatabaseTestCase):
                     "/project/1/delete/1.0.0", data=data, follow_redirects=True
                 )
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, len(models.ProjectVersion.query.all()))
+            self.assertEqual(
+                0, len(self.session.execute(select(models.ProjectVersion)).all())
+            )
             self.assertEqual(self.project.latest_version, None)
 
     def test_admin_post_latest_version(self):
@@ -674,7 +706,9 @@ class DeleteProjectVersionTests(DatabaseTestCase):
                     "/project/1/delete/1.0.1", data=data, follow_redirects=True
                 )
             self.assertEqual(200, output.status_code)
-            self.assertEqual(1, len(models.ProjectVersion.query.all()))
+            self.assertEqual(
+                1, len(self.session.execute(select(models.ProjectVersion)).all())
+            )
             self.assertEqual(self.project.latest_version, "1.0.0")
 
     def test_admin_post_latest_version_parsed(self):
@@ -699,7 +733,9 @@ class DeleteProjectVersionTests(DatabaseTestCase):
                     "/project/1/delete/v1.0.1", data=data, follow_redirects=True
                 )
             self.assertEqual(200, output.status_code)
-            self.assertEqual(1, len(models.ProjectVersion.query.all()))
+            self.assertEqual(
+                1, len(self.session.execute(select(models.ProjectVersion)).all())
+            )
             self.assertEqual(self.project.latest_version, "1.0.0")
 
     def test_admin_post_latest_version_delete_previous(self):
@@ -721,7 +757,9 @@ class DeleteProjectVersionTests(DatabaseTestCase):
                     "/project/1/delete/1.0.0", data=data, follow_redirects=True
                 )
             self.assertEqual(200, output.status_code)
-            self.assertEqual(1, len(models.ProjectVersion.query.all()))
+            self.assertEqual(
+                1, len(self.session.execute(select(models.ProjectVersion)).all())
+            )
             self.assertEqual(self.project.latest_version, "1.0.1")
 
     def test_admin_post_unconfirmed(self):
@@ -735,7 +773,9 @@ class DeleteProjectVersionTests(DatabaseTestCase):
 
             output = self.client.post("/project/1/delete/1.0.0", data=data)
             self.assertEqual(302, output.status_code)
-            self.assertEqual(1, len(models.ProjectVersion.query.all()))
+            self.assertEqual(
+                1, len(self.session.execute(select(models.ProjectVersion)).all())
+            )
 
 
 class DeleteProjectVersionsTests(DatabaseTestCase):
@@ -743,8 +783,6 @@ class DeleteProjectVersionsTests(DatabaseTestCase):
 
     def setUp(self):
         super().setUp()
-        self.session = Session()
-
         # Add a project with a version to delete.
         self.project = models.Project(
             name="test_project",
@@ -810,7 +848,9 @@ class DeleteProjectVersionsTests(DatabaseTestCase):
                     "/project/1/delete/versions", data=data, follow_redirects=True
                 )
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, len(models.ProjectVersion.query.all()))
+            self.assertEqual(
+                0, len(self.session.execute(select(models.ProjectVersion)).all())
+            )
             self.assertEqual(self.project.latest_version, None)
 
     def test_admin_post_multiple_versions(self):
@@ -823,7 +863,9 @@ class DeleteProjectVersionsTests(DatabaseTestCase):
         self.session.add(version)
         self.session.commit()
 
-        self.assertEqual(2, len(models.ProjectVersion.query.all()))
+        self.assertEqual(
+            2, len(self.session.execute(select(models.ProjectVersion)).all())
+        )
 
         with login_user(self.flask_app, self.admin):
             output = self.client.get("/project/1/delete/versions")
@@ -837,7 +879,9 @@ class DeleteProjectVersionsTests(DatabaseTestCase):
                     "/project/1/delete/versions", data=data, follow_redirects=True
                 )
             self.assertEqual(200, output.status_code)
-            self.assertEqual(0, len(models.ProjectVersion.query.all()))
+            self.assertEqual(
+                0, len(self.session.execute(select(models.ProjectVersion)).all())
+            )
             self.assertEqual(self.project.latest_version, None)
 
     def test_admin_post_unconfirmed(self):
@@ -851,7 +895,9 @@ class DeleteProjectVersionsTests(DatabaseTestCase):
 
             output = self.client.post("/project/1/delete/versions", data=data)
             self.assertEqual(302, output.status_code)
-            self.assertEqual(1, len(models.ProjectVersion.query.all()))
+            self.assertEqual(
+                1, len(self.session.execute(select(models.ProjectVersion)).all())
+            )
 
 
 class BrowseFlagsTests(DatabaseTestCase):
@@ -859,11 +905,10 @@ class BrowseFlagsTests(DatabaseTestCase):
 
     def setUp(self):
         super().setUp()
-        session = Session()
 
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
+        self.session.add(self.user)
 
         self.admin = models.User(email="admin@example.com", username="admin")
         self.project1 = models.Project(
@@ -881,7 +926,7 @@ class BrowseFlagsTests(DatabaseTestCase):
             reason="This project is wrong", user="user", project=self.project2
         )
 
-        session.add_all(
+        self.session.add_all(
             [
                 self.admin,
                 self.project1,
@@ -890,7 +935,7 @@ class BrowseFlagsTests(DatabaseTestCase):
                 self.flag2,
             ]
         )
-        session.commit()
+        self.session.commit()
 
         mock_config = mock.patch.dict(
             models.anitya_config, {"ANITYA_WEB_ADMINS": [six.text_type(self.admin.id)]}
@@ -954,11 +999,10 @@ class SetFlagStateTests(DatabaseTestCase):
 
     def setUp(self):
         super().setUp()
-        session = Session()
 
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
+        self.session.add(self.user)
 
         self.admin = models.User(email="admin@example.com", username="admin")
         self.project1 = models.Project(
@@ -976,7 +1020,7 @@ class SetFlagStateTests(DatabaseTestCase):
             reason="This project is wrong", user="user", project=self.project2
         )
 
-        session.add_all(
+        self.session.add_all(
             [
                 self.admin,
                 self.project1,
@@ -985,7 +1029,7 @@ class SetFlagStateTests(DatabaseTestCase):
                 self.flag2,
             ]
         )
-        session.commit()
+        self.session.commit()
 
         mock_config = mock.patch.dict(
             models.anitya_config, {"ANITYA_WEB_ADMINS": [six.text_type(self.admin.id)]}
@@ -1037,17 +1081,16 @@ class BrowseUsersTests(DatabaseTestCase):
 
     def setUp(self):
         super().setUp()
-        session = Session()
 
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
+        self.session.add(self.user)
 
         self.admin = models.User(
             email="admin@example.com", username="admin", admin=True
         )
-        session.add_all([self.admin])
-        session.commit()
+        self.session.add_all([self.admin])
+        self.session.commit()
 
         self.client = self.flask_app.test_client()
 
@@ -1255,8 +1298,8 @@ class BrowseUsersTests(DatabaseTestCase):
     def test_sql_exception(self):
         """Assert that SQL exception is handled correctly."""
         with mock.patch.object(
-            Query,
-            "filter_by",
+            db.session,
+            "scalars",
             mock.Mock(side_effect=[SQLAlchemyError("SQLError"), None]),
         ):
             with login_user(self.flask_app, self.admin):
@@ -1273,16 +1316,15 @@ class SetUserAdminStateTests(DatabaseTestCase):
 
     def setUp(self):
         super().setUp()
-        session = Session()
 
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
+        self.session.add(self.user)
         self.admin = models.User(
             email="admin@example.com", username="admin", admin=True
         )
-        session.add_all([self.admin])
-        session.commit()
+        self.session.add_all([self.admin])
+        self.session.commit()
 
         self.client = self.flask_app.test_client()
 
@@ -1335,7 +1377,7 @@ class SetUserAdminStateTests(DatabaseTestCase):
     def test_sql_exception(self):
         """Assert that SQL exception is handled correctly."""
         with mock.patch.object(
-            self.session,
+            db.session,
             "add",
             mock.Mock(side_effect=[SQLAlchemyError("SQLError"), None]),
         ):
@@ -1419,23 +1461,22 @@ class SetUserActiveStateTests(DatabaseTestCase):
 
     def setUp(self):
         super().setUp()
-        session = Session()
 
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
+        self.session.add(self.user)
 
         # Add inactive user
         self.inactive_user = models.User(
             email="inactive@fedoraproject.org", username="inactive_user", active=False
         )
-        session.add(self.inactive_user)
+        self.session.add(self.inactive_user)
 
         self.admin = models.User(
             email="admin@example.com", username="admin", admin=True
         )
-        session.add_all([self.admin])
-        session.commit()
+        self.session.add_all([self.admin])
+        self.session.commit()
 
         self.client = self.flask_app.test_client()
 
@@ -1470,7 +1511,7 @@ class SetUserActiveStateTests(DatabaseTestCase):
     def test_sql_exception(self):
         """Assert that SQL exception is handled correctly."""
         with mock.patch.object(
-            self.session,
+            db.session,
             "add",
             mock.Mock(side_effect=[SQLAlchemyError("SQLError"), None]),
         ):
@@ -1553,14 +1594,13 @@ class BrowseLogsTests(DatabaseTestCase):
 
     def setUp(self):
         super().setUp()
-        session = Session()
         # Add a regular user and an admin user
         self.user = models.User(email="user@fedoraproject.org", username="user")
-        session.add(self.user)
+        self.session.add(self.user)
 
         self.admin = models.User(email="admin@example.com", username="admin")
-        session.add_all([self.admin])
-        session.commit()
+        self.session.add_all([self.admin])
+        self.session.commit()
 
         self.client = self.flask_app.test_client()
 
@@ -1606,16 +1646,15 @@ class DeleteUserTests(DatabaseTestCase):
             backend="PyPI",
         )
 
-        session = Session()
         self.user = models.User(
             email="user@fedoraproject.org", username="user", admin=False
         )
-        session.add(self.user)
+        self.session.add(self.user)
         self.admin = models.User(
             email="admin@example.com", username="admin", admin=True
         )
-        session.add_all([self.admin, self.user])
-        session.commit()
+        self.session.add_all([self.admin, self.user])
+        self.session.commit()
 
         mock_config = mock.patch.dict(
             models.anitya_config, {"ANITYA_WEB_ADMINS": [six.text_type(self.admin.id)]}

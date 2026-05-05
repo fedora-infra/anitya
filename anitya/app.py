@@ -24,8 +24,7 @@ import anitya.lib
 import anitya.mail_logging
 from anitya import __version__, admin, api, api_v2, auth, authentication, debug, ui
 from anitya.config import config as anitya_config
-from anitya.db import Session
-from anitya.db import initialize as initialize_db
+from anitya.db import db
 from anitya.lib import utilities
 from anitya.reverse_proxy import ReverseProxied
 
@@ -48,7 +47,9 @@ def create(config=None):
         config = anitya_config
     app.config.update(config)
     app.wsgi_app = ReverseProxied(app.wsgi_app, config)
-    initialize_db(config)
+
+    # Database
+    db.init_app(app)
 
     login_manager = LoginManager()
     login_manager.user_loader(authentication.load_user_from_session)
@@ -112,7 +113,7 @@ def global_user():
 
 def shutdown_session(exception=None):
     """Remove the DB session at the end of each request."""
-    Session.remove()
+    db.manager.Session.remove()
 
 
 def inject_variable():
@@ -123,7 +124,7 @@ def inject_variable():
     if justedit:  # pragma: no cover
         flask.session["justedit"] = None
 
-    cron_status = utilities.get_last_cron(Session)
+    cron_status = utilities.get_last_cron(db.session)
 
     return dict(
         version=__version__,

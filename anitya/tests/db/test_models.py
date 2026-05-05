@@ -378,6 +378,7 @@ class ProjectTests(DatabaseTestCase):
     def test_project_search(self):
         """Test the Project.search function."""
         create_project(self.session)
+        create_distro(self.session)
         create_package(self.session)
 
         projects = models.Project.search(self.session, "*", count=True)
@@ -405,6 +406,7 @@ class ProjectTests(DatabaseTestCase):
         are returned when distro is provided.
         """
         create_project(self.session)
+        create_distro(self.session)
         create_package(self.session)
         # Create mapping for another distro to be sure that only Fedora mappings
         # are taken into account
@@ -448,6 +450,8 @@ class ProjectTests(DatabaseTestCase):
             version_scheme="Invalid",
         )
         self.session.add(project)
+
+        create_distro(self.session)
 
         package = models.Packages(
             project_id=1, distro_name="Fedora", package_name="test"
