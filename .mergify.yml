@@ -1,6 +1,6 @@
 queue_rules:
   - name: default
-    conditions:
+    merge_conditions:
       - check-success=ci-smoketests
       - check-success=ci-typing
       - check-success=ci-testsuite (311)
