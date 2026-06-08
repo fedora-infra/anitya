@@ -328,11 +328,13 @@ class Checker:
         return list(ord_set)
 
 
-def main():
+def main():  # pragma: no cover
     """
     Main function.
     """
-    db.initialize(config)
+    flask_app = app.create(config)
+    with flask_app.app_context():
+        db.manager.sync()
     checker = Checker()
     while True:
         checker.run()

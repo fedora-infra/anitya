@@ -30,11 +30,9 @@ RUN dnf install -y \
     python3-flask-wtf \
     python3-jinja2 \
     python3-ordered-set \
-    python3-toml \
     python3-semver \
     python3-sqlalchemy \
     python3-sqlalchemy_schemadisplay \
-    python3-sseclient \
     python3-straight-plugin \
     python3-wtforms
 
@@ -51,4 +49,4 @@ RUN pushd static && npm install && popd
 # Set the poetry to use system packages
 RUN poetry config virtualenvs.options.system-site-packages true
 
-CMD ["sh", "-c", "poetry install && poetry run $START_COMMAND"]
+CMD ["sh", "-c", "poetry install && poetry run python -m $START_COMMAND"]
