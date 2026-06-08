@@ -23,8 +23,7 @@ import logging
 import logging.config
 import os
 from datetime import timedelta
-
-import toml
+import tomllib as toml
 
 _log = logging.getLogger(__name__)
 
@@ -137,7 +136,7 @@ def load():
                 file_config = toml.loads(fd.read())
                 for key in file_config:
                     config[key.upper()] = file_config[key]
-            except toml.TomlDecodeError as e:
+            except toml.TOMLDecodeError as e:
                 _log.error(
                     "Failed to parse {}: {}".format(  # pylint: disable=C0209,W1202
                         config_path, str(e)
