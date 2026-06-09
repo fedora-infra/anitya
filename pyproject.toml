@@ -87,10 +87,14 @@ exclude = [
   "anitya/tests"
 ]
 include = [
-  "LICENSE", "README.rst",
-  "createdb.py", "alembic.ini",
-  "files/anitya.toml.sample", "files/config.toml.sample",
-  "anitya/static/docs/**/*", "anitya/static/node_modules/**/*"
+  { path = "LICENSE", format = ["sdist", "wheel"] },
+  { path = "README.rst", format = ["sdist", "wheel"] },
+  { path = "createdb.py", format = ["sdist", "wheel"] },
+  { path = "alembic.ini", format = ["sdist", "wheel"] },
+  { path = "files/anitya.toml.sample", format = ["sdist", "wheel"] },
+  { path = "files/config.toml.sample", format = ["sdist", "wheel"] },
+  { path = "anitya/static/docs/**/*", format = ["sdist", "wheel"] },
+  { path = "anitya/static/node_modules/**/*", format = ["sdist", "wheel"] }
 ]
 
 [tool.poetry.scripts]
