@@ -4,6 +4,61 @@ Release Notes
 
 .. towncrier release notes start
 
+2.2.0 (2026-06-10)
+==================
+
+Features
+--------
+
+* add latest_version_created_on to the API call api/v2/versions so that the scraped date of the latest version can be retrieved by using the API.
+  (`PR#2023 <https://github.com/fedora-infra/anitya/pull/2023>`_)
+
+
+Bug Fixes
+---------
+
+* Strip leading and trailing whitespace from project searches
+  (`PR#2014 <https://github.com/fedora-infra/anitya/pull/2014>`_)
+
+* Fix Fedora Messaging Documentation Links
+  (`PR#2024 <https://github.com/fedora-infra/anitya/pull/2024>`_)
+
+* Add missing escapes for the Custom Regex field
+  (`PR#2034 <https://github.com/fedora-infra/anitya/pull/2034>`_)
+
+* Fixed the BitBucket backend to use the Bitbucket REST API v2.0 instead of HTML scraping, resolving the issue where tags were not found.
+  (`#2000 <https://github.com/fedora-infra/anitya/issues/2000>`_)
+
+* PyPI backend returns 404 but it's not reported as error
+  (`#2001 <https://github.com/fedora-infra/anitya/issues/2001>`_)
+
+
+Development Changes
+-------------------
+
+* Introduce the sqlalchemy helper
+  (`PR#2041 <https://github.com/fedora-infra/anitya/pull/2041>`_)
+
+* Move the dev environment to Fedora 44
+  (`PR#2042 <https://github.com/fedora-infra/anitya/pull/2042>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Avindra Goolcharan
+* Anatoli Babenia
+* charvenetis
+* Gene Wood
+* Justin Zobel
+* Lukas Krause
+* Jerry James
+* Michal Konecny
+* Ronald de Graaf
+* Alex Mayer
+
 2.1.0 (2026-01-29)
 ==================
 
