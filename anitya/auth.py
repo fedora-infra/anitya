@@ -8,6 +8,7 @@ import logging
 
 import flask
 import flask_login
+from sqlalchemy import select
 
 from anitya.db import db, User
 
@@ -77,7 +78,9 @@ def create_auth_blueprint(oauth):
 
         # Check if the user exists
         _log.debug("Looking for the user %s in database...", user_info["email"])
-        user = User.query.filter(User.email == user_info["email"]).first()
+        user = db.session.scalar(
+            select(User).filter(User.email == user_info["email"])
+        ).first()
         if not user:
             _log.debug("User not found. Creating new user...")
             new_user = User(email=user_info["email"], username=user_info["username"])
