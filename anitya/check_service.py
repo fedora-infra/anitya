@@ -90,49 +90,52 @@ class Checker:
         Args:
             project_id: Id of project to check
         """
-        stmt = sa.select(models.Project).filter(models.Project.id == project_id)
-        project = db.session.scalars(stmt).one()
-        if project.backend in self.blacklist_dict:
-            if arrow.utcnow().datetime < self.blacklist_dict[project.backend]:
-                self.blacklist_project(project, self.blacklist_dict[project.backend])
-                _log.info(
-                    "%s: Backend is blacklisted. Rescheduling to %s",
-                    project.name,
-                    self.blacklist_dict[project.backend],
-                )
-                project.next_check = self.blacklist_dict[project.backend]
-                db.session.add(project)
-                db.session.commit()
+        with self.flask_app.app_context():
+            stmt = sa.select(models.Project).filter(models.Project.id == project_id)
+            project = db.session.scalars(stmt).one()
+            if project.backend in self.blacklist_dict:
+                if arrow.utcnow().datetime < self.blacklist_dict[project.backend]:
+                    self.blacklist_project(
+                        project, self.blacklist_dict[project.backend]
+                    )
+                    _log.info(
+                        "%s: Backend is blacklisted. Rescheduling to %s",
+                        project.name,
+                        self.blacklist_dict[project.backend],
+                    )
+                    project.next_check = self.blacklist_dict[project.backend]
+                    db.session.add(project)
+                    db.session.commit()
+                    return
+                else:
+                    with self.blacklist_dict_lock:
+                        self.blacklist_dict.pop(project.backend)
+            try:
+                _log.debug("Checking project %s", project.name)
+                utilities.check_project_release(project, db.session)
+                _log.debug("Project check complete %s", project.name)
+            except RateLimitException as err:
+                self.blacklist_project(project, err.reset_time)
                 return
-            else:
-                with self.blacklist_dict_lock:
-                    self.blacklist_dict.pop(project.backend)
-        try:
-            _log.debug("Checking project %s", project.name)
-            utilities.check_project_release(project, db.session)
-            _log.debug("Project check complete %s", project.name)
-        except RateLimitException as err:
-            self.blacklist_project(project, err.reset_time)
-            return
-        except AnityaException as err:
-            _log.info("%s : %s", project.name, str(err))
-            with self.error_counter_lock:
-                self.error_counter += 1
-            if self.is_delete_candidate(project):
-                db.session.delete(project)
-                utilities.publish_message(
-                    project=project.__json__(),
-                    topic="project.remove",
-                    message=dict(agent="anitya", project=project.name),
-                )
-                db.session.commit()
-            db.session.close()
-            return
-        finally:
-            db.session.close()
+            except AnityaException as err:
+                _log.info("%s : %s", project.name, str(err))
+                with self.error_counter_lock:
+                    self.error_counter += 1
+                if self.is_delete_candidate(project):
+                    db.session.delete(project)
+                    utilities.publish_message(
+                        project=project.__json__(),
+                        topic="project.remove",
+                        message=dict(agent="anitya", project=project.name),
+                    )
+                    db.session.commit()
+                db.session.close()
+                return
+            finally:
+                db.session.close()
 
-        with self.success_counter_lock:
-            self.success_counter += 1
+            with self.success_counter_lock:
+                self.success_counter += 1
 
     def is_delete_candidate(self, project: models.Project) -> bool:
         """
