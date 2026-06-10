@@ -552,8 +552,8 @@ def browse_users():
             users_query = users_query.limit(limit)
 
         users = db.session.scalars(users_query).all()
-        cnt_users = db.session.scalar(select(func.count())).select_from(
-            users_query.subquery()
+        cnt_users = db.session.scalar(
+            select(func.count()).select_from(users_query.subquery())
         )
     except Exception as err:
         _log.exception(err)
