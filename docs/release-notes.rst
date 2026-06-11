@@ -4,6 +4,20 @@ Release Notes
 
 .. towncrier release notes start
 
+2.2.1 (2026-06-11)
+==================
+
+Bug Fixes
+---------
+
+* Check service running out of application context ERROR
+  (`#2046 <https://github.com/fedora-infra/anitya/issues/2046>`_)
+
+* User management page throws 'int' object has no attribute 'select_from'
+  (`#2047 <https://github.com/fedora-infra/anitya/issues/2047>`_)
+
+
+
 2.2.0 (2026-06-10)
 ==================
 
