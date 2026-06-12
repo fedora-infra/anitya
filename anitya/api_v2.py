@@ -614,7 +614,7 @@ class VersionsResource(MethodView):
         }
 
         latest_version_object = project.latest_version_object
-        if latest_version_object:
+        if latest_version_object and latest_version_object.created_on:
             response.update(
                 {
                     "latest_version_created_on": latest_version_object.created_on.isoformat()
