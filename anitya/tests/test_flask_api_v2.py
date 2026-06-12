@@ -1404,6 +1404,42 @@ class VersionsResourceGetTests(DatabaseTestCase):
 
         self.assertEqual(data, exp)
 
+    def test_list_versions_no_date(self):
+        """
+        Assert versions are returned when they exist and they don't have
+        created_on filled in (old versions doesn't have that).
+        https://github.com/fedora-infra/anitya/issues/2050
+        """
+        project = models.Project(
+            name="requests",
+            homepage="https://pypi.io/project/requests",
+            backend="PyPI",
+            latest_version="1.0.0",
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        version = models.ProjectVersion(
+            project=project, version="1.0.0", created_on=None
+        )
+        self.session.add(version)
+        self.session.commit()
+        version.created_on = None
+        self.session.add(version)
+        self.session.commit()
+
+        output = self.app.get("/api/v2/versions/?project_id=" + str(project.id))
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+
+        exp = {
+            "latest_version": "1.0.0",
+            "versions": ["1.0.0"],
+            "stable_versions": ["1.0.0"],
+        }
+
+        self.assertEqual(data, exp)
+
     def test_list_versions_prefix(self):
         """
         Assert versions are returned when they exist without prefx.
