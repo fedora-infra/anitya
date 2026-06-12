@@ -4,6 +4,17 @@ Release Notes
 
 .. towncrier release notes start
 
+2.2.2 (2026-06-12)
+==================
+
+Bug Fixes
+---------
+
+* Fix API Internal server error when getting versions
+  (`#2050 <https://github.com/fedora-infra/anitya/issues/2050>`_)
+
+
+
 2.2.1 (2026-06-11)
 ==================
 
