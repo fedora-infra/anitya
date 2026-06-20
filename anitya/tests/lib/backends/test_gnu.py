@@ -98,7 +98,7 @@ class GnuBackendtests(DatabaseTestCase):
         project = models.Project(
             name="test", homepage="http://example.org", backend=BACKEND
         )
-        exp = "https://ftp.gnu.org/gnu/test/"
+        exp = "https://ftpmirror.gnu.org/gnu/test/"
 
         obs = backend.GnuBackend.get_version_url(project)
 
@@ -142,7 +142,7 @@ class GnuBackendtests(DatabaseTestCase):
         """Assert that not modified response is handled correctly"""
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp_url = "https://ftp.gnu.org/gnu/gnash/"
+        exp_url = "https://ftpmirror.gnu.org/gnu/gnash/"
 
         with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
             m_call.return_value = mock.Mock(status_code=304)
