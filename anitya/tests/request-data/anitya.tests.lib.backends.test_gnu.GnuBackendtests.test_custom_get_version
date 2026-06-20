@@ -8,7 +8,7 @@ interactions:
       From: [admin@fedoraproject.org]
       User-Agent: [Anitya 0.11.0 at release-monitoring.org]
     method: GET
-    uri: https://ftp.gnu.org/gnu/gnash/
+    uri: https://ftpmirror.gnu.org/gnu/gnash/
   response:
     body:
       string: !!binary |
@@ -49,7 +49,7 @@ interactions:
       From: [admin@fedoraproject.org]
       User-Agent: [Anitya 0.11.0 at release-monitoring.org]
     method: GET
-    uri: https://ftp.gnu.org/gnu/fake/
+    uri: https://ftpmirror.gnu.org/gnu/fake/
   response:
     body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 
@@ -65,7 +65,7 @@ interactions:
 
         <hr>
 
-        <address>Apache/2.4.7 (Trisquel_GNU/Linux) Server at ftp.gnu.org Port 443</address>
+        <address>Apache/2.4.7 (Trisquel_GNU/Linux) Server at ftpmirror.gnu.org Port 443</address>
 
         </body></html>
 
@@ -88,7 +88,7 @@ interactions:
       From: [admin@fedoraproject.org]
       User-Agent: [Anitya 0.11.0 at release-monitoring.org]
     method: GET
-    uri: https://ftp.gnu.org/gnu/subsurface/
+    uri: https://ftpmirror.gnu.org/gnu/subsurface/
   response:
     body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 
@@ -104,7 +104,7 @@ interactions:
 
         <hr>
 
-        <address>Apache/2.4.7 (Trisquel_GNU/Linux) Server at ftp.gnu.org Port 443</address>
+        <address>Apache/2.4.7 (Trisquel_GNU/Linux) Server at ftpmirror.gnu.org Port 443</address>
 
         </body></html>
 
