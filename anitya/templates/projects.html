@@ -20,7 +20,7 @@
     <ul class="pagination pagination-sm">
       {% if page > 1%}
       <li class="page-item">
-        <a class="page-link" href="{{ page_url }}?page={{page - 1}}">
+        <a class="page-link" href="{{ page_url }}?page={{page - 1}}{% if sort %}&sort={{ sort }}{% endif %}">
           «
         </a>
       {% else %}
@@ -33,7 +33,7 @@
       </li>
       {% if page < total_page %}
       <li class="page-item">
-        <a class="page-link" href="{{ page_url }}?page={{page + 1}}">
+        <a class="page-link" href="{{ page_url }}?page={{page + 1}}{% if sort %}&sort={{ sort }}{% endif %}">
             »
         </a>
       {% else %}
@@ -115,7 +115,7 @@
       </li>
       {% if page < total_page %}
       <li class="page-item">
-        <a class="page-link" href="{{ page_url }}?page={{page + 1}}">
+        <a class="page-link" href="{{ page_url }}?page={{page + 1}}{% if sort %}&sort={{ sort }}{% endif %}">
             »
         </a>
       {% else %}

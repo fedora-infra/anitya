@@ -551,6 +551,49 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual(output.status_code, 200)
         self.assertEqual(output.data.count(b'<a href="/project/'), 3)
 
+    def test_projects_sort_applies_across_pages(self):
+        """The sort order must hold across pagination, not just within a page."""
+        create_distro(self.session)
+        for i in range(60):
+            self.session.add(
+                models.Project(
+                    name=f"project-{i:02d}",
+                    homepage=f"https://example.com/project-{i:02d}",
+                    backend="custom",
+                    ecosystem_name="pypi",
+                )
+            )
+        self.session.commit()
+
+        page1 = self.app.get("/projects/?page=1&sort=name_desc")
+        page2 = self.app.get("/projects/?page=2&sort=name_desc")
+        self.assertEqual(page1.status_code, 200)
+        self.assertEqual(page2.status_code, 200)
+
+        names1 = self._project_names(page1.data)
+        names2 = self._project_names(page2.data)
+
+        self.assertEqual(len(names1), 50)
+        self.assertEqual(len(names2), 10)
+        self.assertEqual(set(names1) & set(names2), set())
+        # In desc order, page 1's last name must come after page 2's first.
+        self.assertGreater(names1[-1], names2[0])
+
+    def test_projects_invalid_sort_falls_back(self):
+        """An unknown sort key should fall back to the default ordering."""
+        create_distro(self.session)
+        create_project(self.session)
+
+        output = self.app.get("/projects/?sort=garbage_asc")
+        self.assertEqual(output.status_code, 200)
+        self.assertEqual(output.data.count(b'<a href="/project/'), 3)
+
+    @staticmethod
+    def _project_names(html):
+        import re
+
+        return re.findall(rb'/project/\d+/">([^<]+)', html)
+
     def test_distros(self):
         """Test the distros function."""
         create_distro(self.session)

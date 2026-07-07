@@ -541,9 +541,9 @@ class Project(Base):
             return None
 
     @classmethod
-    def all(cls, session, page=None, count=False):
+    def all(cls, session, page=None, count=False, sort=None):
         """all"""
-        query = session.query(Project).order_by(sa.func.lower(Project.name))
+        query = _apply_sort(session.query(Project), sort)
 
         query = _paginate_query(query, page)
 
@@ -635,7 +635,7 @@ class Project(Base):
             return query.all()
 
     @classmethod
-    def search(cls, session, pattern, distro=None, page=None, count=False):
+    def search(cls, session, pattern, distro=None, page=None, count=False, sort=None):
         """Search the projects by their name or package name"""
 
         query1 = session.query(cls)
@@ -665,7 +665,8 @@ class Project(Base):
                 sa.func.lower(Packages.distro_name) == sa.func.lower(distro)
             )
 
-        query = query1.distinct().union(query2.distinct()).order_by(cls.name)
+        query = query1.distinct().union(query2.distinct())
+        query = _apply_sort(query, sort)
 
         query = _paginate_query(query, page)
 
@@ -676,9 +677,7 @@ class Project(Base):
 
     @classmethod
     def sort_projects(cls, projects, sort):
-        """
-        Sorts a list of projects objects based on a sort parameter.
-        """
+        """Sorts a list of project objects based on a sort parameter."""
         sort_attr, _, sort_order = sort.partition("_")
 
         attr_map = {"name": "name", "homepage": "homepage", "backend": "backend"}
@@ -691,6 +690,29 @@ class Project(Base):
         )
 
         return projects
+
+
+_SORT_ATTRS = {
+    "name": Project.name,
+    "homepage": Project.homepage,
+    "backend": Project.backend,
+}
+
+
+def _apply_sort(query, sort):
+    # Apply the sort before paginating so the order is global, not per page.
+    if not sort:
+        return query.order_by(sa.func.lower(Project.name))
+
+    sort_attr, _, sort_order = sort.partition("_")
+    column = _SORT_ATTRS.get(sort_attr)
+    if column is None:
+        return query.order_by(sa.func.lower(Project.name))
+
+    direction = sa.func.lower(column)
+    if sort_order == "desc":
+        return query.order_by(direction.desc().nulls_last())
+    return query.order_by(direction.asc().nulls_first())
 
 
 class ProjectVersion(Base):
