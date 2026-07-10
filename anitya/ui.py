@@ -176,11 +176,8 @@ def projects():
     except ValueError:
         page = 1
 
-    projects = models.Project.all(db.session, page=page)
+    projects = models.Project.all(db.session, page=page, sort=sort)
     projects_count = models.Project.all(db.session, count=True)
-
-    if sort:
-        projects = models.Project.sort_projects(projects, sort)
 
     total_page = int(ceil(projects_count / float(50)))
 
@@ -191,6 +188,7 @@ def projects():
         total_page=total_page,
         projects_count=projects_count,
         page=page,
+        sort=sort,
     )
 
 
@@ -379,28 +377,31 @@ def projects_search(pattern=None):
     except ValueError:
         page = 1
 
-    projects = models.Project.search(db.session, pattern=pattern, page=page)
+    projects = models.Project.search(db.session, pattern=pattern, page=page, sort=sort)
 
     if str(exact).lower() not in ["1", "true"]:
         # Extends the search
         for proj in models.Project.search(
-            db.session, pattern=get_extended_pattern(pattern), page=page
+            db.session, pattern=get_extended_pattern(pattern), page=page, sort=sort
         ):
             if proj not in projects:
                 projects.append(proj)
         projects_count = models.Project.search(
             db.session, pattern=get_extended_pattern(pattern), count=True
         )
+        # Two paginated SQL queries are merged here, so SQL-side ordering
+        # no longer holds across the union; sort the combined list instead.
+        projects = models.Project.sort_projects(projects, sort)
     else:
-        projects_count = models.Project.search(db.session, pattern=pattern, count=True)
+        projects_count = models.Project.search(
+            db.session, pattern=pattern, count=True, sort=sort
+        )
 
     if projects_count == 1 and projects[0].name == pattern.replace("*", ""):
         flask.flash("Only one result matching with an exact match, redirecting")
         return flask.redirect(
             flask.url_for("anitya_ui.project", project_id=projects[0].id)
         )
-
-    projects = models.Project.sort_projects(projects, sort)
 
     total_page = int(ceil(projects_count / float(50)))
 

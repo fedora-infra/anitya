@@ -16,10 +16,10 @@
       <li class="page-item">
         {% if distroname %}
         <a class="page-link" href="{{ url_for('anitya_ui.distro_projects_search',
-                    distroname=distroname, pattern=pattern, page=page-1 ) }}">
+                    distroname=distroname, pattern=pattern, page=page-1, sort=sort ) }}">
         {% else %}
         <a class="page-link" href="{{ url_for('anitya_ui.projects_search',
-                  pattern=pattern, page=page-1 ) }}">
+                  pattern=pattern, page=page-1, sort=sort ) }}">
         {% endif %}
             «
         </a>
@@ -35,10 +35,10 @@
       <li class="page-item">
         {% if distroname %}
         <a class="page-link" href="{{ url_for('anitya_ui.distro_projects_search',
-              distroname=distroname, pattern=pattern, page=page+1 ) }}">
+              distroname=distroname, pattern=pattern, page=page+1, sort=sort ) }}">
         {% else %}
         <a class="page-link" href="{{ url_for('anitya_ui.projects_search',
-                  pattern=pattern, page=page+1 ) }}">
+                  pattern=pattern, page=page+1, sort=sort ) }}">
         {% endif %}
           »
         </a>
