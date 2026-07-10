@@ -119,6 +119,12 @@ class Projecttests(DatabaseTestCase):
         self.assertEqual(projects[0].name, "geany")
         self.assertEqual(projects[0].homepage, "https://www.geany.org/")
 
+    def test_sort_projects_list_default(self):
+        """sort_projects on a list with no sort spec falls back to name asc."""
+        create_project(self.session)
+        projects = models.Project.sort_projects(models.Project.all(self.session), None)
+        self.assertEqual([p.name for p in projects], ["geany", "R2spec", "subsurface"])
+
     def test_distro_repr(self):
         """Test the __repr__ function of Project."""
         create_project(self.session)
