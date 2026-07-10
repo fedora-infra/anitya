@@ -1,15 +1,3 @@
-queue_rules:
-  - name: default
-    merge_conditions:
-      - check-success=ci-smoketests
-      - check-success=ci-typing
-      - check-success=ci-testsuite (311)
-      - check-success=ci-testsuite (312)
-      - check-success=ci-testsuite (313)
-      - check-success=ci-docs
-      - check-success=ci-diff
-      - check-success=ci-security
-
 pull_request_rules:
   - name: renovate
     actions:
