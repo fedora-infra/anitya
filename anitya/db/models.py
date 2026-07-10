@@ -543,7 +543,7 @@ class Project(Base):
     @classmethod
     def all(cls, session, page=None, count=False, sort=None):
         """all"""
-        query = _apply_sort(session.query(Project), sort)
+        query = cls.sort_projects(session.query(Project), sort)
 
         query = _paginate_query(query, page)
 
@@ -666,7 +666,7 @@ class Project(Base):
             )
 
         query = query1.distinct().union(query2.distinct())
-        query = _apply_sort(query, sort)
+        query = cls.sort_projects(query, sort)
 
         query = _paginate_query(query, page)
 
@@ -676,43 +676,29 @@ class Project(Base):
             return query.all()
 
     @classmethod
-    def sort_projects(cls, projects, sort):
-        """Sorts a list of project objects based on a sort parameter."""
+    def sort_projects(cls, items, sort):
+        """Sort a query or list of projects by the given sort spec."""
+        if isinstance(items, sa.orm.Query):
+            if not sort:
+                return items.order_by(sa.func.lower(Project.name))
+            sort_attr, _, sort_order = sort.partition("_")
+            attr_map = {"name": "name", "homepage": "homepage", "backend": "backend"}
+            column = getattr(Project, attr_map.get(sort_attr, "name"))
+            direction = sa.func.lower(column)
+            if sort_order == "desc":
+                return items.order_by(direction.desc().nulls_last())
+            return items.order_by(direction.asc().nulls_first())
+
+        if not sort:
+            sort = "name_asc"
         sort_attr, _, sort_order = sort.partition("_")
-
         attr_map = {"name": "name", "homepage": "homepage", "backend": "backend"}
-
         sort_by = attr_map.get(sort_attr, "name")
-
-        projects.sort(
+        items.sort(
             key=lambda project: getattr(project, sort_by, "").lower(),
             reverse=sort_order == "desc",
         )
-
-        return projects
-
-
-_SORT_ATTRS = {
-    "name": Project.name,
-    "homepage": Project.homepage,
-    "backend": Project.backend,
-}
-
-
-def _apply_sort(query, sort):
-    # Apply the sort before paginating so the order is global, not per page.
-    if not sort:
-        return query.order_by(sa.func.lower(Project.name))
-
-    sort_attr, _, sort_order = sort.partition("_")
-    column = _SORT_ATTRS.get(sort_attr)
-    if column is None:
-        return query.order_by(sa.func.lower(Project.name))
-
-    direction = sa.func.lower(column)
-    if sort_order == "desc":
-        return query.order_by(direction.desc().nulls_last())
-    return query.order_by(direction.asc().nulls_first())
+        return items
 
 
 class ProjectVersion(Base):

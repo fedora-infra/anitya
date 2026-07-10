@@ -389,8 +389,6 @@ def projects_search(pattern=None):
         projects_count = models.Project.search(
             db.session, pattern=get_extended_pattern(pattern), count=True
         )
-        # Two paginated SQL queries are merged here, so SQL-side ordering
-        # no longer holds across the union; sort the combined list instead.
         projects = models.Project.sort_projects(projects, sort)
     else:
         projects_count = models.Project.search(
