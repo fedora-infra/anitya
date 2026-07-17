@@ -262,10 +262,10 @@ class Project(Base):
     check_successful = sa.Column(sa.Boolean, default=None, index=True)
 
     last_check = sa.Column(
-        sa.TIMESTAMP(timezone=True), default=lambda: arrow.utcnow().datetime, index=True
+        sa.TIMESTAMP(timezone=True), default=lambda: arrow.now('UTC').datetime, index=True
     )
     next_check = sa.Column(
-        sa.TIMESTAMP(timezone=True), default=lambda: arrow.utcnow().datetime, index=True
+        sa.TIMESTAMP(timezone=True), default=lambda: arrow.now('UTC').datetime, index=True
     )
 
     updated_on = sa.Column(
@@ -273,7 +273,7 @@ class Project(Base):
         server_default=sa.sql.functions.now(),
         onupdate=sa.sql.functions.current_timestamp(),
     )
-    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+    created_on = sa.Column(sa.DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None))
 
     packages = sa.orm.relationship("Packages", cascade="all, delete-orphan")
 
@@ -378,7 +378,7 @@ class Project(Base):
                     version=version if isinstance(version, str) else version["version"],
                     prefix=self.version_prefix,
                     pre_release_filter=self.pre_release_filter,
-                    created_on=datetime.datetime.utcnow(),
+                    created_on=datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None),
                     pattern=self.version_pattern,
                     commit_url=(
                         version["commit_url"]
@@ -721,7 +721,7 @@ class ProjectVersion(Base):
         primary_key=True,
     )
     version = sa.Column(sa.String(50), primary_key=True)
-    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+    created_on = sa.Column(sa.DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None))
     commit_url = sa.Column(sa.String(200), nullable=True)
 
     project = sa.orm.relationship(
@@ -763,7 +763,7 @@ class ProjectFlag(Base):
     reason = sa.Column(sa.Text, nullable=False)
     user = sa.Column(sa.String(200), index=True, nullable=False)
     state = sa.Column(sa.String(50), default="open", nullable=False)
-    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+    created_on = sa.Column(sa.DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None))
     updated_on = sa.Column(
         sa.DateTime,
         server_default=sa.sql.functions.now(),
