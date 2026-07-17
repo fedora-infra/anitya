@@ -94,7 +94,7 @@ class Checker:
             stmt = sa.select(models.Project).filter(models.Project.id == project_id)
             project = db.session.scalars(stmt).one()
             if project.backend in self.blacklist_dict:
-                if arrow.utcnow().datetime < self.blacklist_dict[project.backend]:
+                if arrow.now('UTC').datetime < self.blacklist_dict[project.backend]:
                     self.blacklist_project(
                         project, self.blacklist_dict[project.backend]
                     )
@@ -197,7 +197,7 @@ class Checker:
         with self.flask_app.app_context():
             # 1. Preparation phase
             # We must convert it to datetime for comparison with sqlalchemy TIMESTAMP column
-            time = arrow.utcnow().datetime
+            time = arrow.now('UTC').datetime
             self.clear_counters()
             queue = self.construct_queue(time)
             total_count = len(queue)
