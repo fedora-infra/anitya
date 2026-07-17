@@ -80,7 +80,7 @@ def check_project_release(project, session, test=False):
 
     # don't change actual data during test run
     if not test:
-        project.last_check = arrow.utcnow().datetime
+        project.last_check = arrow.now('UTC').datetime
         project.next_check = project.last_check + backend.check_interval
 
     try:
