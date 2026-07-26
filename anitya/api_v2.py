@@ -19,7 +19,11 @@ from webargs.flaskparser import FlaskParser
 from anitya import authentication
 from anitya.db import db, models, paginate
 from anitya.lib import plugins, utilities
-from anitya.lib.exceptions import AnityaException, ProjectExists
+from anitya.lib.exceptions import (
+    AnityaException,
+    InvalidProjectException,
+    ProjectExists,
+)
 
 _log = logging.getLogger(__name__)
 
@@ -526,6 +530,7 @@ class ProjectsResource(MethodView):
                 version_filter=args["version_filter"],
                 regex=args["regex"],
                 insecure=args["insecure"],
+                validate=True,
             )
             db.session.commit()
             if args["check_release"]:
@@ -534,6 +539,8 @@ class ProjectsResource(MethodView):
                 except AnityaException as err:
                     _log.error(str(err))
             return project.__json__(), 201
+        except InvalidProjectException as err:
+            return jsonify({"error": str(err)}), 400
         except ProjectExists as e:
             response = jsonify(e.to_dict())
             response.status_code = 409

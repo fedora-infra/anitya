@@ -1257,6 +1257,24 @@ class ProjectsResourcePostTests(DatabaseTestCase):
         self.assertEqual("http://python-requests.org", data["homepage"])
         self.assertEqual("requests", data["name"])
 
+    @mock.patch("anitya.lib.utilities._validate_backend")
+    def test_invalid_project_validation(self, mock_validate):
+        """Test that invalid project validation results in 400 bad request."""
+        mock_validate.side_effect = exceptions.InvalidProjectException("Check failed")
+        request_data = {
+            "backend": "PyPI",
+            "homepage": "http://python-requests.org",
+            "name": "invalid-req",
+        }
+
+        output = self.app.post(
+            "/api/v2/projects/", headers=self.auth, data=request_data
+        )
+
+        data = _read_json(output)
+        self.assertEqual(output.status_code, 400)
+        self.assertEqual("Check failed", data["error"])
+
     def test_valid_request_json(self):
         """
         Assert that request with header specifying json will be handled as well.

@@ -320,8 +320,34 @@ class NewProjectTests(DatabaseTestCase):
                     b'<td><label for="regex">Regex</label></td>' in output.data
                 )
 
+    @mock.patch("anitya.lib.utilities._validate_backend")
+    def test_new_project_invalid_validation(self, mock_validate):
+        """Assert a project that fails validation results in an HTTP 400."""
+        mock_validate.side_effect = exceptions.InvalidProjectException(
+            "Check failed: validation"
+        )
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get("/project/new", follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="'
+                )[1].split(b'">')[0]
+                data = {
+                    "name": "fedocal",
+                    "homepage": "https://example.com/fedocal",
+                    "backend": "PyPI",
+                    "version_scheme": "RPM",
+                    "csrf_token": csrf_token,
+                }
+                output = c.post("/project/new", data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 400)
+                self.assertTrue(b"<h1>Add project</h1>" in output.data)
+                self.assertTrue(b"Check failed: validation" in output.data)
+
+    @mock.patch("anitya.lib.utilities._validate_backend")
     @mock.patch("anitya.lib.utilities.check_project_release")
-    def test_new_project_with_check_release(self, patched):
+    def test_new_project_with_check_release(self, patched_check, patched_validate):
         """test_new_project_with_check_release"""
         output = self.app.get("/project/new", follow_redirects=True)
         with login_user(self.flask_app, self.user):
@@ -345,7 +371,7 @@ class NewProjectTests(DatabaseTestCase):
                     b'<li class="list-group-item list-group-item-default">'
                     b"Project created</li>" in output.data
                 )
-                patched.assert_not_called()
+                patched_check.assert_not_called()
 
                 # check_release_on
                 data["name"] += "xxx"
@@ -357,7 +383,7 @@ class NewProjectTests(DatabaseTestCase):
                     b'<li class="list-group-item list-group-item-default">'
                     b"Project created</li>" in output.data
                 )
-                patched.assert_called_once_with(mock.ANY, mock.ANY)
+                patched_check.assert_called_once_with(mock.ANY, mock.ANY)
 
     @mock.patch("anitya.lib.utilities.check_project_release")
     def test_new_project_with_mapping_check_release_error(self, patched):

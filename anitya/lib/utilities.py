@@ -148,7 +148,6 @@ def check_project_release(project, session, test=False):
         project.logs = "No new version found"
 
     if test:
-        session.close()
         return upstream_versions[::-1]
 
     if upstream_versions:
@@ -205,8 +204,25 @@ def create_project(
     insecure=False,
     releases_only=False,
     dry_run=False,
+    validate=False,
 ):
     """Create the project in the database."""
+    if validate:
+        _validate_backend(
+            name=name,
+            homepage=homepage,
+            backend=backend,
+            version_scheme=version_scheme,
+            version_pattern=version_pattern,
+            version_url=version_url,
+            version_prefix=version_prefix,
+            pre_release_filter=pre_release_filter,
+            version_filter=version_filter,
+            regex=regex,
+            insecure=insecure,
+            releases_only=releases_only,
+        )
+
     project = models.Project(
         name=name,
         homepage=homepage,
@@ -242,6 +258,56 @@ def create_project(
         )
         session.commit()
     return project
+
+
+def _validate_backend(
+    name,
+    homepage,
+    backend="custom",
+    version_scheme="RPM",
+    version_pattern=None,
+    version_url=None,
+    version_prefix=None,
+    pre_release_filter=None,
+    version_filter=None,
+    regex=None,
+    insecure=False,
+    releases_only=False,
+):
+    """Check that the backend can retrieve versions using an in-memory project."""
+    backend_plugin = plugins.get_plugin(backend)
+    if not backend_plugin:
+        raise exceptions.AnityaException(f'No backend was found for "{backend}"')
+
+    temp_project = models.Project(
+        name=name,
+        homepage=homepage,
+        backend=backend,
+        version_scheme=version_scheme,
+        version_pattern=version_pattern,
+        version_url=version_url,
+        regex=regex,
+        version_prefix=version_prefix,
+        pre_release_filter=pre_release_filter,
+        version_filter=version_filter,
+        insecure=insecure,
+        releases_only=releases_only,
+    )
+
+    try:
+        backend_plugin.get_versions(temp_project)
+    except exceptions.AnityaException as err:
+        _log.info(
+            "Pre-creation check failed for project '%s' (%s): %s",
+            name,
+            backend,
+            str(err),
+        )
+        raise exceptions.InvalidProjectException(
+            f"The check failed: could not retrieve versions. "
+            f"Error: {err}. Please verify the project configuration "
+            f"(backend, homepage, version URL, etc.) and try again."
+        ) from err
 
 
 def edit_project(
