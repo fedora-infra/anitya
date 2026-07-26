@@ -59,6 +59,20 @@ class ProjectExists(AnityaException):
         return "Unable to create project since it already exists."
 
 
+class InvalidProjectException(AnityaException):
+    """Raised when a project fails the pre-creation version check."""
+
+    def __init__(self, message=None):
+        self.message = message or (
+            "The check failed: no versions could be retrieved for this project. "
+            "Please verify the project configuration (backend, homepage, "
+            "version URL, etc.) and try again."
+        )
+
+    def __str__(self):
+        return self.message
+
+
 class AnityaInvalidMappingException(AnityaException):
     """Specific exception class for invalid mapping."""
 

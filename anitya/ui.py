@@ -542,6 +542,7 @@ def new_project():
                 regex=form.regex.data.strip() if form.regex.data else None,
                 user_id=flask.g.user.username,
                 releases_only=form.releases_only.data,
+                validate=True,
             )
             db.session.commit()
 
@@ -557,6 +558,18 @@ def new_project():
                 db.session.commit()
 
             flask.flash("Project created")
+        except exceptions.InvalidProjectException as err:
+            flask.flash(str(err), "errors")
+            return (
+                flask.render_template(
+                    "project_new.html",
+                    context="Add",
+                    current="Add projects",
+                    form=form,
+                    plugins=backend_plugins,
+                ),
+                400,
+            )
         except exceptions.AnityaException as err:
             flask.flash(str(err))
             return (

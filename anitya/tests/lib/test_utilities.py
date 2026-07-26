@@ -1007,3 +1007,103 @@ class RemoveSuffixTests(unittest.TestCase):
             utilities.remove_suffix(url, "/tags"),
             "https://github.com/libexpat/libexpat",
         )
+
+
+class CreateProjectValidationTests(DatabaseTestCase):
+    """Tests for create_project with validate=True."""
+
+    @mock.patch(
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+        return_value=["1.0.0", "0.9.9"],
+    )
+    def test_create_project_validate_success(self, mock_method):
+        """Test that a valid project is created when validation passes."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="test_project",
+                homepage="https://example.com/test",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+                validate=True,
+            )
+        mock_method.assert_called_once()
+        self.assertEqual(project.name, "test_project")
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(project_objs), 1)
+
+    @mock.patch(
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+        mock.Mock(
+            side_effect=exceptions.AnityaPluginException("Could not contact npmjs")
+        ),
+    )
+    def test_create_project_validate_failure(self):
+        """Test that InvalidProjectException is raised and nothing is saved."""
+        with self.assertRaises(exceptions.InvalidProjectException) as ctx:
+            utilities.create_project(
+                self.session,
+                name="bad_project",
+                homepage="https://example.com/nonexistent",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+                validate=True,
+            )
+        self.assertIn("could not retrieve versions", str(ctx.exception))
+        self.assertIn("Could not contact npmjs", str(ctx.exception))
+
+        # Nothing saved
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(project_objs), 0)
+
+    @mock.patch(
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+        mock.Mock(side_effect=exceptions.RateLimitException("2099-01-01T00:00:00Z")),
+    )
+    def test_create_project_validate_rate_limit(self):
+        """Test that rate limiting during validation raises InvalidProjectException."""
+        with self.assertRaises(exceptions.InvalidProjectException):
+            utilities.create_project(
+                self.session,
+                name="rate_limited_project",
+                homepage="https://example.com/ratelimit",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+                validate=True,
+            )
+
+        # Nothing saved
+        project_objs = models.Project.all(self.session)
+        self.assertEqual(len(project_objs), 0)
+
+    @mock.patch(
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+        return_value=["1.0.0"],
+    )
+    def test_create_project_without_validate(self, mock_method):
+        """Test that validate=False (default) skips the check."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            utilities.create_project(
+                self.session,
+                name="no_validate",
+                homepage="https://example.com/skip",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+            )
+        # get_versions should NOT be called when validate is not set
+        mock_method.assert_not_called()
+
+    def test_create_project_validate_invalid_backend(self):
+        """Test that validation fails for a missing backend."""
+        with self.assertRaises(exceptions.AnityaException) as ctx:
+            utilities.create_project(
+                self.session,
+                name="bad_backend",
+                homepage="https://example.com/bad",
+                backend="nonexistent_backend",
+                user_id="noreply@fedoraproject.org",
+                validate=True,
+            )
+        self.assertIn(
+            'No backend was found for "nonexistent_backend"', str(ctx.exception)
+        )
