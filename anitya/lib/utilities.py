@@ -148,6 +148,7 @@ def check_project_release(project, session, test=False):
         project.logs = "No new version found"
 
     if test:
+        session.close()
         return upstream_versions[::-1]
 
     if upstream_versions:
