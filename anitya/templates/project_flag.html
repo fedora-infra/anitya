@@ -5,34 +5,36 @@
 
 {% block body %}
 
-<div class="page-header">
-  <h1>Flag project</h1>
-</div>
-<form method="POST" action="{{ url_for('anitya_ui.flag_project', project_id=project.id) }}" >
-  <div class="row">
-    <div class="col-md-12">
-      <p> Flag a project for admin review. Use this form to request that the project
-          be deleted or otherwise changed in a way that can't be done by a regular
-          user.</p>
-      <div class="list-group">
-        <div class="list-group-item">
-          <table class="table">
-            <tr>
-              {{ render_field_in_row(form.reason, tabindex=1) }}
-            </tr>
-          </table>
+<div class="row justify-content-center">
+  <div class="col-md-10 col-lg-8 col-xl-6">
+    <div class="page-header mt-3 mb-4 pb-2 border-bottom">
+      <h1>Flag project</h1>
+    </div>
+
+    <p class="text-muted mb-4">
+      Flag a project for admin review. Use this form to request that the project
+      be deleted or otherwise changed in a way that can't be done by a regular
+      user.
+    </p>
+
+    <form method="POST" action="{{ url_for('anitya_ui.flag_project', project_id=project.id) }}">
+      <div class="list-group shadow-sm mb-4">
+        <div class="list-group-item p-3">
+          <label for="reason" class="fw-bold mb-2">{{ form.reason.label.text }}</label>
+          {{ form.reason(class="form-control", rows="5", style="width: 100%; max-width: 100%;") }}
         </div>
       </div>
-    </div>
+      
+      <div class="d-flex justify-content-end gap-2">
+        <button type="submit" class="btn btn-warning" id="submit_btn" tabindex="2">
+          Flag Project
+        </button>
+        <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}" class="btn btn-danger" tabindex="3">
+          Cancel
+        </a>
+      </div>
+      {{ form.csrf_token }}
+    </form>
   </div>
-  <button type="submit" class="btn btn-success mt-2" id="submit_btn" tabindex=2>
-    Submit
-  </button>
-  <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
-    <button type="button" class="btn btn-danger mt-2" tabindex=3>
-      Cancel
-    </button>
-  </a>
-  {{ form.csrf_token }}
-</form>
+</div>
 {% endblock %}

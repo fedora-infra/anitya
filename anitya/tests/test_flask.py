@@ -231,10 +231,7 @@ class NewProjectTests(DatabaseTestCase):
                 with fml_testing.mock_sends(anitya_schema.ProjectCreated):
                     output = c.post("/project/new", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
-                self.assertTrue(
-                    b'<li class="list-group-item list-group-item-default">'
-                    b"Project created</li>" in output.data
-                )
+                self.assertTrue(b"Project created" in output.data)
                 self.assertTrue(b"<h1>Project: repo_manager</h1>" in output.data)
             projects = models.Project.all(self.session, count=True)
             self.assertEqual(projects, 1)
@@ -283,15 +280,11 @@ class NewProjectTests(DatabaseTestCase):
                 # Now try to recreate the same project we did above
                 output = c.post("/project/new", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 409)
-                self.assertFalse(
-                    b'<li class="list-group-item list-group-item-default">'
-                    b"Project created</li>" in output.data
-                )
+                self.assertFalse(b"Project created" in output.data)
                 self.assertFalse(b"<h1>Project: repo_manager</h1>" in output.data)
+                self.assertTrue(b'class="alert alert-info' in output.data)
                 self.assertTrue(
-                    b'<li class="list-group-item list-group-item-default">'
-                    b"Unable to create project since it already exists.</li>"
-                    in output.data
+                    b"Unable to create project since it already exists." in output.data
                 )
                 self.assertTrue(b"<h1>Add project</h1>" in output.data)
             projects = models.Project.all(self.session, count=True)
@@ -367,10 +360,8 @@ class NewProjectTests(DatabaseTestCase):
                 with fml_testing.mock_sends(anitya_schema.ProjectCreated):
                     output = c.post("/project/new", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
-                self.assertTrue(
-                    b'<li class="list-group-item list-group-item-default">'
-                    b"Project created</li>" in output.data
-                )
+                self.assertTrue(b'class="alert alert-info' in output.data)
+                self.assertTrue(b"Project created" in output.data)
                 patched_check.assert_not_called()
 
                 # check_release_on
@@ -379,10 +370,8 @@ class NewProjectTests(DatabaseTestCase):
                 with fml_testing.mock_sends(anitya_schema.ProjectCreated):
                     output = c.post("/project/new", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
-                self.assertTrue(
-                    b'<li class="list-group-item list-group-item-default">'
-                    b"Project created</li>" in output.data
-                )
+                self.assertTrue(b'class="alert alert-info' in output.data)
+                self.assertTrue(b"Project created" in output.data)
                 patched_check.assert_called_once_with(mock.ANY, mock.ANY)
 
     @mock.patch("anitya.lib.utilities.check_project_release")
@@ -416,10 +405,8 @@ class NewProjectTests(DatabaseTestCase):
                     output = c.post("/project/new", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
                 patched.assert_called_once_with(mock.ANY, mock.ANY)
-                self.assertTrue(
-                    b'<li class="list-group-item list-group-item-default">'
-                    b"Check failed</li>" in output.data
-                )
+                self.assertTrue(b'class="alert alert-info' in output.data)
+                self.assertTrue(b"Check failed" in output.data)
 
                 projects = models.Project.all(self.session)
                 self.assertEqual(len(projects), 1)
@@ -454,10 +441,8 @@ class NewProjectTests(DatabaseTestCase):
                 ):
                     output = c.post("/project/new", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
-                self.assertTrue(
-                    b'<li class="list-group-item list-group-item-default">'
-                    b"Project created</li>" in output.data
-                )
+                self.assertTrue(b'class="alert alert-info' in output.data)
+                self.assertTrue(b"Project created" in output.data)
                 self.assertTrue(b"<h1>Project: repo_manager</h1>" in output.data)
             projects = models.Project.all(self.session)
             self.assertEqual(len(projects), 1)
@@ -730,11 +715,8 @@ class FlaskTest(DatabaseTestCase):
 
         output = self.app.get("/distro/Fedora/search/geany*", follow_redirects=True)
         self.assertEqual(output.status_code, 200)
-        expected = (
-            b'<li class="list-group-item list-group-item-default">'
-            b"Only one result matching with an "
-            b"exact match, redirecting</li>"
-        )
+        self.assertTrue(b'class="alert alert-info' in output.data)
+        expected = b"Only one result matching with an " b"exact match, redirecting"
         self.assertTrue(expected in output.data)
 
     def test_projects_search(self):
@@ -769,12 +751,9 @@ class FlaskTest(DatabaseTestCase):
 
         output = self.app.get("/projects/search/geany*", follow_redirects=True)
         self.assertEqual(output.status_code, 200)
+        self.assertTrue(b'class="alert alert-info' in output.data)
 
-        expected = (
-            b'<li class="list-group-item list-group-item-default">'
-            b"Only one result matching with an "
-            b"exact match, redirecting</li>"
-        )
+        expected = b"Only one result matching with an " b"exact match, redirecting"
         self.assertTrue(expected in output.data)
 
     def test_logout_redirect(self):
@@ -888,16 +867,20 @@ class FlaskTest(DatabaseTestCase):
         self.session.commit()
 
         output = self.app.get("/projects/updates/status")
-        expected = (
-            b'<li class="list-group-item list-group-item-warning">'
+        expected1 = (
             b"status is invalid, you should use one of: "
             b"updated, failed, never_updated, archived; using default: "
-            b'`updated`</li><li class="list-group-item list-group-item-default">'
+            b"`updated`"
+        )
+        expected2 = (
             b"Returning all the projects regardless of how/if their version was "
-            b"retrieved correctly</li>"
+            b"retrieved correctly"
         )
         self.assertEqual(output.status_code, 200)
-        self.assertTrue(expected in output.data)
+        self.assertTrue(b'class="alert alert-warning' in output.data)
+        self.assertTrue(b'class="alert alert-info' in output.data)
+        self.assertTrue(expected1 in output.data)
+        self.assertTrue(expected2 in output.data)
 
 
 class EditProjectTests(DatabaseTestCase):
@@ -990,10 +973,8 @@ class EditProjectTests(DatabaseTestCase):
                 with fml_testing.mock_sends(anitya_schema.ProjectEdited):
                     output = c.post("/project/1/edit", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
-                self.assertTrue(
-                    b'<li class="list-group-item list-group-item-default">'
-                    b"Project edited</li>" in output.data
-                )
+                self.assertTrue(b'class="alert alert-info' in output.data)
+                self.assertTrue(b"Project edited" in output.data)
                 self.assertTrue(b"<h1>Project: repo_manager</h1>" in output.data)
 
     def test_edit_project_no_change(self):
@@ -1021,10 +1002,8 @@ class EditProjectTests(DatabaseTestCase):
 
                 output = c.post("/project/1/edit", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
-                self.assertTrue(
-                    b'<li class="list-group-item list-group-item-default">'
-                    b"Project edited - No changes were made</li>" in output.data
-                )
+                self.assertTrue(b'class="alert alert-info' in output.data)
+                self.assertTrue(b"Project edited - No changes were made" in output.data)
 
     def test_edit_to_duplicate_project(self):
         """Assert trying to edit a project to make a duplicate fails."""
@@ -1046,11 +1025,10 @@ class EditProjectTests(DatabaseTestCase):
                 with fml_testing.mock_sends(anitya_schema.ProjectEdited):
                     output = c.post("/project/1/edit", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
+                self.assertTrue(b'class="alert alert-warning' in output.data)
                 self.assertTrue(
-                    b'<li class="list-group-item list-group-item-warning">'
                     b"Could not edit this project. Is there "
-                    b"already a project with these name and homepage?</li>"
-                    in output.data
+                    b"already a project with these name and homepage?" in output.data
                 )
                 self.assertTrue(b"<h1>Project: geany</h1>" in output.data)
                 self.assertEqual(
@@ -1081,10 +1059,8 @@ class EditProjectTests(DatabaseTestCase):
                 with fml_testing.mock_sends(anitya_schema.ProjectEdited):
                     output = c.post("/project/1/edit", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
-                self.assertTrue(
-                    b'<li class="list-group-item list-group-item-default">'
-                    b"Project edited</li>" in output.data
-                )
+                self.assertTrue(b'class="alert alert-info' in output.data)
+                self.assertTrue(b"Project edited" in output.data)
                 patched.assert_called_once_with(mock.ANY, mock.ANY)
 
 
@@ -1155,10 +1131,8 @@ class MapProjectTests(DatabaseTestCase):
                 with fml_testing.mock_sends(anitya_schema.ProjectMapCreated):
                     output = c.post("/project/1/map", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
-                self.assertTrue(
-                    b'<li class="list-group-item list-group-item-default">'
-                    b"Mapping added</li>" in output.data
-                )
+                self.assertTrue(b'class="alert alert-info' in output.data)
+                self.assertTrue(b"Mapping added" in output.data)
                 self.assertTrue(b"<h1>Project: geany</h1>" in output.data)
                 self.assertEqual(
                     1,
@@ -1189,12 +1163,12 @@ class MapProjectTests(DatabaseTestCase):
                 self.assertEqual(output.status_code, 200)
                 output = c.post("/project/1/map", data=data, follow_redirects=True)
                 self.assertEqual(output.status_code, 200)
+                self.assertTrue(b'class="alert alert-danger' in output.data)
                 self.assertTrue(
-                    b'<li class="list-group-item list-group-item-danger">'
                     b"Could not edit the mapping of geany on "
                     b"Fedora, there is already a package geany on Fedora "
                     b'as part of the project <a href="/project/1/">geany'
-                    b"</a>.</li>" in output.data
+                    b"</a>." in output.data
                 )
                 self.assertTrue(b"<h1>Project: geany</h1>" in output.data)
 

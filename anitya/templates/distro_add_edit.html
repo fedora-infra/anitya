@@ -5,55 +5,55 @@
 
 {% block body %}
 
-<div class="page-header">
-  {% if context == 'Add' -%}
-  <h1>Add a new distribution</h1>
-  {%- elif context == 'Edit' -%}
-  <h1>Edit disribution: {{ distro.name }}</h1>
-  {%- endif %}
-</div>
+<div class="row justify-content-center">
+  <div class="col-md-10 col-lg-8 col-xl-6">
+    <div class="page-header mt-3 mb-4 pb-2 border-bottom">
+      {% if context == 'Add' -%}
+      <h1>Add a new distribution</h1>
+      {%- elif context == 'Edit' -%}
+      <h1>Edit distribution: {{ distro.name }}</h1>
+      {%- endif %}
+    </div>
 
-{% if context == 'Add' -%}
-<form id="distro" method="POST" action="{{ url_for('anitya_ui.add_distro') }}" >
-{%- elif context == 'Edit' -%}
-<form method="POST" action="{{ url_for('anitya_ui.edit_distro', distro_name=distro.name) }}" >
-{%- endif %}
-  <div class="row">
-    <div class="col-md-6">
-      <div class="list-group">
+    {% if context == 'Add' -%}
+    <form id="distro" method="POST" action="{{ url_for('anitya_ui.add_distro') }}">
+    {%- elif context == 'Edit' -%}
+    <form method="POST" action="{{ url_for('anitya_ui.edit_distro', distro_name=distro.name) }}">
+    {%- endif %}
+      <div class="list-group shadow-sm mb-4">
         <div class="list-group-item">
-          <table class="table">
+          <table class="table mb-0">
             <tr>
               {{ render_field_in_row(form.name, tabindex=1) }}
-              <td></td>
             </tr>
          </table>
         </div>
       </div>
-    </div>
+
+      <div class="d-flex justify-content-end gap-2">
+        <button type="submit" class="btn btn-success" tabindex="2">
+          {% if context == 'Add' -%}
+          Add distribution
+          {%- elif context == 'Edit' -%}
+          Submit
+          {%- endif %}
+        </button>
+        <a href="{{ url_for('anitya_ui.distros') }}" class="btn btn-danger" tabindex="3">
+          Cancel
+        </a>
+      </div>
+      {{ form.csrf_token }}
+    </form>
   </div>
-  <button type="submit" class="btn btn-success me-2 mt-2" tabindex=2>
-    {% if context == 'Add' -%}
-    Add distribution
-    {%- elif context == 'Edit' -%}
-    Submit
-    {%- endif %}
-  </button>
-  <a href="{{ url_for('anitya_ui.distros') }}">
-    <button type="button" class="btn btn-danger mt-2" tabindex=3>
-      Cancel
-    </button>
-  </a>
-  {{ form.csrf_token }}
-</form>
+</div>
 
 {% if context == 'Add' -%}
 <br/>
-<div class="row">
-  <div class="col-md-6" id="info_field">
-    <div class="list-group">
+<div class="row justify-content-center">
+  <div class="col-md-10 col-lg-8 col-xl-6" id="info_field">
+    <div class="list-group shadow-sm mb-4">
       <span class="list-group-item">
-        <p id="info_field_title"></p>
+        <p id="info_field_title" class="fw-bold"></p>
         <ul id="info_field_list"></ul>
       </span>
     </div>

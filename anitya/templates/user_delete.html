@@ -5,20 +5,24 @@
 
 {% block body %}
 
-<div class="page-header">
-  <h1>Delete user: {{ user.username }}</h1>
-</div>
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="page-header mt-3 mb-4 pb-2 border-bottom">
+      <h1>Delete user: {{ user.username }}</h1>
+    </div>
 
-<form method="POST" action="{{ url_for('anitya_ui.delete_user', user_id=user.id) }}" >
-  <button type="submit" name="confirm" value="Yes" class="btn btn-success">
-    Submit
-  </button>
-  <a href="{{ url_for('anitya_ui.browse_users') }}">
-    <button type="button" class="btn btn-danger">
-      Cancel
-    </button>
-  </a>
-  {{ form.csrf_token }}
-</form>
+    <form method="POST" action="{{ url_for('anitya_ui.delete_user', user_id=user.id) }}">
+      <div class="d-flex justify-content-end gap-2">
+        <button type="submit" name="confirm" value="Yes" class="btn btn-warning">
+          Delete user
+        </button>
+        <a href="{{ url_for('anitya_ui.browse_users') }}" class="btn btn-danger">
+          Cancel
+        </a>
+      </div>
+      {{ form.csrf_token }}
+    </form>
+  </div>
+</div>
 
 {% endblock %}

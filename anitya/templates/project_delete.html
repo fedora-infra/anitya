@@ -4,13 +4,13 @@
 
 {% block body %}
 
-<div class="page-header">
-  <h1>Delete project {{ project.name }}?</h1>
-</div>
+<div class="row justify-content-center">
+  <div class="col-md-10 col-lg-8 col-xl-6">
+    <div class="page-header mt-3 mb-4 pb-2 border-bottom">
+      <h1>Delete project {{ project.name }}?</h1>
+    </div>
 
-<div class="row mt-2">
-  <div class="col-md-5">
-    <div class="list-group">
+    <div class="list-group shadow-sm mb-4">
       <div class="list-group-item list-group-item-secondary">
         <h3>{{ project.name }}</h3>
       </div>
@@ -48,35 +48,27 @@
             </table>
           {% if user and user.is_authenticated %}
           {{ form.csrf_token }}
-            <div class="d-flex justify-content-end">
-              <a href="{{ url_for('anitya_ui.delete_project', project_id=project.id) }}">
-                  <button type="submit" name="confirm" value="Yes" class="btn btn-warning me-2">
-                  Delete project
-                  </button>
-              </a>
-              <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
-                  <button type="submit" class="btn btn-danger">
-                  Cancel
-                  </button>
+            <div class="d-flex justify-content-end gap-2 mt-3">
+              <button type="submit" name="confirm" value="Yes" class="btn btn-warning">
+                Delete project
+              </button>
+              <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}" class="btn btn-danger">
+                Cancel
               </a>
             </div>
           {% endif %}
         </form>
       </div>
     </div>
-  </div>
-</div>
-<div class="container mt-2">
-    {% if project.version %}
-    Latest version: {{ project.version }}
-    {% else %}
-    No version available for this package
-    {% endif %}
-</div>
+    <div class="text-center text-muted mb-4">
+        {% if project.version %}
+        Latest version: {{ project.version }}
+        {% else %}
+        No version available for this package
+        {% endif %}
+    </div>
 
-<div class="row mt-2">
-  <div class="col-md-5">
-    <div class="list-group">
+    <div class="list-group shadow-sm">
       <div class="list-group-item list-group-item-secondary">
         <h3>Status</h3>
       </div>

@@ -829,7 +829,7 @@ def format_examples(examples):
 
 def context_class(category):
     """Return bootstrap context class for a given category."""
-    values = {"message": "default", "error": "danger", "info": "info"}
+    values = {"message": "info", "error": "danger", "info": "info"}
     return values.get(category, "warning")
 
 
