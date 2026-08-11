@@ -192,6 +192,64 @@ class ProjectTests(DatabaseTestCase):
 
         self.assertEqual([str(version) for version in version_objects], ["1.0.0"])
 
+    def test_is_version_filtered(self):
+        """Test is_version_filtered logic."""
+        project = models.Project(
+            name="test",
+            homepage="https://example.com",
+            ecosystem_name="pypi",
+            version_filter="alpha;beta",
+            version_prefix="v",
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        # Unfiltered versions
+        self.assertFalse(project.is_version_filtered("1.0.0"))
+
+        # Filtered directly
+        self.assertTrue(project.is_version_filtered("1.0.0-alpha"))
+        self.assertTrue(project.is_version_filtered("beta-2.0"))
+
+        # Filtered by prefix logic. E.g. filter 'v1.0', version '1.0.0', prefix 'v'
+        project.version_filter = "v1.0"
+        self.assertTrue(project.is_version_filtered("1.0.0"))
+        self.assertFalse(project.is_version_filtered("2.0.0"))
+
+        # Test empty filter segments (covers the `continue` branch)
+        project.version_filter = "alpha;;"
+        self.assertFalse(project.is_version_filtered("1.0.0"))
+        self.assertTrue(project.is_version_filtered("1.0.0-alpha"))
+
+    def test_get_sorted_version_objects_filtered(self):
+        """Test that get_sorted_version_objects applies the version filter."""
+        project = models.Project(
+            name="test",
+            homepage="https://example.com",
+            ecosystem_name="pypi",
+            version_scheme="Semantic",
+            version_filter="alpha;beta",
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        v1 = models.ProjectVersion(project_id=project.id, version="1.0.0")
+        v2 = models.ProjectVersion(project_id=project.id, version="1.0.0-alpha")
+        self.session.add(v1)
+        self.session.add(v2)
+        self.session.commit()
+
+        # Regular user view (filtered)
+        version_objects = project.get_sorted_version_objects()
+        self.assertEqual([str(v) for v in version_objects], ["1.0.0"])
+
+        # Admin view (unfiltered)
+        version_objects_admin = project.get_sorted_version_objects(ignore_filter=True)
+        # Assuming semantic sorting puts 1.0.0-alpha before or after 1.0.0
+        self.assertEqual(len(version_objects_admin), 2)
+        self.assertIn("1.0.0", [str(v) for v in version_objects_admin])
+        self.assertIn("1.0.0-alpha", [str(v) for v in version_objects_admin])
+
     def test_get_last_created_version(self):
         """
         Assert that last retrieved version is returned.

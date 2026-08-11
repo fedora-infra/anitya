@@ -404,8 +404,41 @@ class Project(Base):
         backend = BACKEND_PLUGINS.get_plugin(self.backend)
         return backend.get_version_url(self)
 
-    def get_sorted_version_objects(self):
+    def is_version_filtered(self, version):
+        """
+        Check if a given version string matches the project's version filter.
+
+        This checks both the raw version string and the version string with the prefix
+        applied, if the project has a version_prefix configured.
+
+        Args:
+            version (str): The version string to check.
+
+        Returns:
+            bool: True if the version is filtered, False otherwise.
+        """
+        if not self.version_filter:
+            return False
+
+        filter_list = self.version_filter.split(";")
+        prefixed_version = (
+            f"{self.version_prefix}{version}" if self.version_prefix else version
+        )
+
+        for filter_str in filter_list:
+            filter_str = filter_str.strip()
+            if not filter_str:
+                continue
+            if filter_str in version or filter_str in prefixed_version:
+                return True
+
+        return False
+
+    def get_sorted_version_objects(self, ignore_filter=False):
         """Return list of all version objects stored, sorted from newest to oldest.
+
+        Args:
+           ignore_filter (bool, optional): If True, do not apply version filters. Defaults to False.
 
         Returns:
            :obj:`list` of :obj:`anitya.lib.versions.Base`: List of version objects
@@ -421,6 +454,7 @@ class Project(Base):
                 commit_url=v_obj.commit_url,
             )
             for v_obj in self.versions_obj
+            if ignore_filter or not self.is_version_filtered(v_obj.version)
         ]
         sorted_versions = list(reversed(sorted(versions)))
         return sorted_versions
