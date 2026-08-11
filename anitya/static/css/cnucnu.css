@@ -17,13 +17,7 @@
     color: #fff;
 }
 
-#edit_btn, #flag_btn {
-  margin-top: -6px;
-}
 
-#flag_btn {
-  margin-right: 6px;
-}
 
 #submit_btn {
   margin-right: 6px; /* Gives space between Cancel button */
