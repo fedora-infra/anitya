@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<div class="page-header">
+<div class="page-header mt-4 mb-4 pb-2 border-bottom">
   {% if project.archived %}
     <h1>Project: {{ project.name }} - archived</h1>
     <p>This project is archived. It can't be edited and it's not checked for new versions. To unarchive project, please create a request using flag mechanism.</p>
@@ -17,26 +17,20 @@
   <div class="col col-md">
 
     <div class="d-grid gap-3">
-      <div class="list-group">
+      <div class="list-group shadow-sm mb-4">
         <div class="list-group-item list-group-item-secondary">
-          <div class="row">
-            <div class="col-8">
-              <h3 property="doap:name">{{ project.name }}</h3>
-            </div>
-            <div class="col-2">
+          <div class="d-flex align-items-center justify-content-between">
+            <h3 property="doap:name" class="mb-0">{{ project.name }}</h3>
+            <div class="d-flex gap-2 align-items-center">
               {% if not project.archived %}
               <a href="{{ url_for('anitya_ui.edit_project', project_id=project.id) }}"
-              role=button type="submit" class="btn btn-info float-end"
-              id="edit_btn" tabindex=1>
+              role="button" class="btn btn-info" id="edit_btn" tabindex="1">
                   Edit
               </a>
-            </div>
-            <div class="col-2">
               {% endif %}
               <a href="{{ url_for('anitya_ui.flag_project', project_id=project.id) }}"
               title="Ask for an admin intervention (delete version/project, fix mapping...)."
-              type="submit" class="btn btn-warning float-end" role="button"
-              id="flag_btn" tabindex=2>
+              class="btn btn-warning" role="button" id="flag_btn" tabindex="2">
                   Flag
               </a>
             </div>
@@ -84,16 +78,16 @@
         <div class="list-group-item">
           <h4 class="list-group-item-heading">Homepage</h4>
           <div class="list-group-item-text">
-            <p><a property="doap:homepage" href="{{ project.homepage }}"
+            <p class="mb-0"><a property="doap:homepage" href="{{ project.homepage }}"
                target="_blank" rel="noopener noreferrer">{{ project.homepage }}
-             </a><p>
+             </a></p>
           </div>
         </div><!-- end list-group-item -->
 
         <div class="list-group-item">
           <h4 class="list-group-item-heading"><a href="{{ url_for('anitya_ui.static', filename='docs/user-guide.html') }}#backends">Backend</a></h4>
           <div class="list-group-item-text">
-            <p>{{ project.backend }}</p>
+            <p class="mb-0">{{ project.backend }}</p>
           </div>
         </div><!-- end list-group-item -->
 
@@ -101,7 +95,7 @@
         <div class="list-group-item">
           <h4 class="list-group-item-heading">Ecosystem</h4>
           <div class="list-group-item-text">
-            <p>{{ project.ecosystem_name }}</p>
+            <p class="mb-0">{{ project.ecosystem_name }}</p>
           </div>
         </div><!-- end list-group-item -->
         {% endif %}
@@ -109,14 +103,14 @@
         <div class="list-group-item">
           <h4 class="list-group-item-heading">Version scheme</h4>
           <div class="list-group-item-text">
-            <p>{{ project.get_version_class().name }}</p>
+            <p class="mb-0">{{ project.get_version_class().name }}</p>
           </div>
         </div><!-- end list-group-item -->
 
         <div class="list-group-item">
           <h4 class="list-group-item-heading">Version check url</h4>
           <div class="list-group-item-text">
-            <p><a href="{{ project.get_version_url() }}">
+            <p class="mb-0"><a href="{{ project.get_version_url() }}">
               {{ project.get_version_url() }}
             </a></p>
           </div>
@@ -125,35 +119,29 @@
       {% if is_admin %}
         <div class="list-group-item">
           <h4 class="list-group-item-heading">Whoah..</h4>
-          <div class="list-group-item-text">
-            <a href="{{url_for('anitya_ui.delete_project', project_id=project.id) }}">
-              <button type="submit" class="btn btn-danger btn-sm float-end">
-                Delete
-              </button>
+          <div class="list-group-item-text d-flex justify-content-between align-items-center">
+            <span class="mb-0">Delete this project all-together?</span>
+            <a href="{{url_for('anitya_ui.delete_project', project_id=project.id) }}" class="btn btn-danger btn-sm">
+              Delete
             </a>
-            <p>Delete this project all-together?</p>
           </div>
         </div><!-- end list-group-item -->
         {% if not project.archived %}
         <div class="list-group-item">
-          <div class="list-group-item-text">
-              <a href="{{url_for('anitya_ui.set_project_archive_state', project_id=project.id, state='true' ) }}">
-                  <button type="submit" class="btn btn-warning btn-sm float-end">
-                      Archive
-                  </button>
+          <div class="list-group-item-text d-flex justify-content-between align-items-center">
+              <span class="mb-0">Archive project?</span>
+              <a href="{{url_for('anitya_ui.set_project_archive_state', project_id=project.id, state='true' ) }}" class="btn btn-warning btn-sm">
+                  Archive
               </a>
-              <p>Archive project?</p>
           </div>
         </div><!-- end list-group-item -->
         {% else %}
         <div class="list-group-item">
-          <div class="list-group-item-text">
-              <a href="{{url_for('anitya_ui.set_project_archive_state', project_id=project.id, state='false' ) }}">
-                  <button type="submit" class="btn btn-success btn-sm float-end">
-                      Unarchive
-                  </button>
+          <div class="list-group-item-text d-flex justify-content-between align-items-center">
+              <span class="mb-0">Unarchive project?</span>
+              <a href="{{url_for('anitya_ui.set_project_archive_state', project_id=project.id, state='false' ) }}" class="btn btn-success btn-sm">
+                  Unarchive
               </a>
-              <p>Unarchive project?</p>
           </div>
         </div><!-- end list-group-item -->
         {% endif %}
@@ -161,15 +149,14 @@
       </div><!-- end list-group -->
 
 
-      <div class="list-group">
+      <div class="list-group shadow-sm mb-4">
         <div class="list-group-item list-group-item-secondary">
-          <h3>Mappings</h3>
+          <h3 class="mb-0">Mappings</h3>
         </div>
 
         <div class="list-group-item">
           <div class="list-group-item-text">
-            <dl class="dl-horizontal">
-              <table class="table table-condensed">
+              <table class="table table-condensed mb-0">
                 <tr>
                   <th>Distribution</th>
                   <th>Package name </th>
@@ -195,10 +182,8 @@
                     <a href="{{
                       url_for('anitya_ui.edit_project_mapping',
                               project_id=project.id,
-                              pkg_id=package.id) }}">
-                      <button type="submit" class="btn btn-info btn-sm float-end">
-                        Edit
-                      </button>
+                              pkg_id=package.id) }}" class="btn btn-info btn-sm float-end">
+                      Edit
                     </a>
                   </td>
                   {% if is_admin %}
@@ -207,11 +192,8 @@
                       url_for('anitya_ui.delete_project_mapping',
                               project_id=project.id,
                               distro_name=package.distro_name,
-                              pkg_name=package.package_name) }}">
-                      <button type="submit" class="btn btn-warning btn-sm float-end"
-                          tabindex=7>
-                        Delete
-                      </button>
+                              pkg_name=package.package_name) }}" class="btn btn-warning btn-sm float-end" tabindex="7">
+                      Delete
                     </a>
                   </td>
                   {% endif %}
@@ -219,18 +201,14 @@
                 {% endfor %}
 
               </table>
-            </dl>
           </div><!-- end group-item-text -->
         </div><!-- end group-item -->
         {% if user and user.is_authenticated and not project.archived %}
         <div class="list-group-item">
-          <div class="list-group-item-text">
-            <p><a href="{{ url_for('anitya_ui.map_project', project_id=project.id) }}">
-            <button type="submit" class="btn btn-info btn-sm float-end" tabindex=6>
+          <div class="list-group-item-text d-flex justify-content-end">
+            <a href="{{ url_for('anitya_ui.map_project', project_id=project.id) }}" class="btn btn-info btn-sm" tabindex="6">
               Add new distribution mapping
-            </button>
-          </a></p>
-        <div class="clearfix"></div>
+            </a>
           </div><!-- end group-item-text -->
         </div><!-- end group-item -->
         {% endif %}
@@ -240,12 +218,12 @@
 
   <div class="col col-md">
     <div class="d-grid gap-3">
-      <div class="list-group">
+      <div class="list-group shadow-sm mb-4">
         <div class="list-group-item list-group-item-secondary">
-          <h3>Status</h3>
+          <h3 class="mb-0">Status</h3>
         </div>
         <span class="list-group-item">
-          <table class="table table-condensed">
+          <table class="table table-condensed mb-0">
             <tr>
               <th>Status</th>
               {% if project.check_successful is not none and project.check_successful == false %}
@@ -254,7 +232,7 @@
               <th>Updated</th>
               <th>Description</th>
             </tr>
-            <tr>
+            <tr class="align-middle">
               {% if project.check_successful is none %}
               <td>Not updated</td>
               {% elif not project.check_successful %}
@@ -271,44 +249,48 @@
         </span>
       </div><!-- end list-group -->
 
-      <div class="list-group">
+      <div class="list-group shadow-sm mb-4">
         <div class="list-group-item list-group-item-secondary">
-          <h3>Versions</h3>
+          <h3 class="mb-0">Versions</h3>
         </div>
         <span class="list-group-item">
           {% if project.versions %}
-          <table class="table table-condensed">
+          <table class="table table-condensed mb-0">
             <tr>
               <th>Version</th>
               <th>Retrieved on (UTC)</th>
-              <th>Pre-release</th>
+              <th class="text-center">Pre-release</th>
               {% if is_admin %}
               <th>Raw version</th>
               <th>Delete</th>
               {% endif %}
             </tr>
             {% for version in project.get_sorted_version_objects() %}
-            <tr property="doap:release" typeof="doap:Version">
+            <tr property="doap:release" typeof="doap:Version" class="align-middle">
               <td property="doap:revision">{{ version.parse() }}</td>
               {% if version.created_on %}
               <td>{{ version.created_on.strftime('%Y-%m-%d %H:%M') }}</td>
               {% else %}
               <td>Date information unavailable</td>
               {% endif %}
-              <td>
+              <td class="text-center align-middle">
                   {% if version.prerelease() %}
-                  <input type="checkbox" checked disabled >
+                  <input class="form-check-input mt-0" type="checkbox" checked disabled >
                   {% else %}
-                  <input type="checkbox" disabled >
+                  <input class="form-check-input mt-0" type="checkbox" disabled >
                   {% endif %}
               </td>
               {% if is_admin %}
               <td>{{ version.version }}</td>
-              <td>
+              <td class="align-middle text-center">
                 <a href="{{ url_for('anitya_ui.delete_project_version',
                             project_id=project.id,
                             version=version.version) }}"
-                title="Delete this version">[x]</a>
+                title="Delete this version">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill text-danger" viewBox="0 0 16 16">
+                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                  </svg>
+                </a>
               </td>
               {% endif %}
             {% endfor %}
@@ -316,14 +298,16 @@
           {% else %}
           <p id="version_info">No version available for this package</p>
           {% endif %}
-          {% if is_admin %}
-          <a href="{{url_for('anitya_ui.delete_project_versions', project_id=project.id) }}">
-              <button type="submit" class="btn btn-danger btn-sm float-end">
-                  Delete versions
-              </button>
-          </a>
-          {% endif %}
         </span>
+        {% if is_admin %}
+        <div class="list-group-item">
+          <div class="list-group-item-text d-flex justify-content-end">
+            <a href="{{url_for('anitya_ui.delete_project_versions', project_id=project.id) }}" class="btn btn-danger btn-sm">
+                Delete versions
+            </a>
+          </div>
+        </div>
+        {% endif %}
       </div> <!-- end list-group -->
     </div><!-- end d-grid -->
   </div><!-- end column -->

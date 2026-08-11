@@ -534,9 +534,9 @@ class FlaskTest(DatabaseTestCase):
         self.assertEqual(output.status_code, 200)
 
         expected = b"""
-            <p><a property="doap:homepage" href="https://www.geany.org/"
+            <p class="mb-0"><a property="doap:homepage" href="https://www.geany.org/"
                target="_blank" rel="noopener noreferrer">https://www.geany.org/
-             </a><p>"""
+             </a></p>"""
 
         self.assertTrue(expected in output.data)
 
