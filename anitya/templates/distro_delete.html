@@ -5,20 +5,24 @@
 
 {% block body %}
 
-<div class="page-header">
-  <h1>Delete disribution: {{ distro.name }}</h1>
-</div>
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="page-header mt-3 mb-4 pb-2 border-bottom">
+      <h1>Delete distribution: {{ distro.name }}</h1>
+    </div>
 
-<form method="POST" action="{{ url_for('anitya_ui.delete_distro', distro_name=distro.name) }}" >
-  <button type="submit" class="btn btn-success">
-    Submit
-  </button>
-  <a href="{{ url_for('anitya_ui.distros') }}">
-    <button type="button" class="btn btn-danger">
-      Cancel
-    </button>
-  </a>
-  {{ form.csrf_token }}
-</form>
+    <form method="POST" action="{{ url_for('anitya_ui.delete_distro', distro_name=distro.name) }}">
+      <div class="d-flex justify-content-end gap-2">
+        <button type="submit" class="btn btn-warning">
+          Delete distribution
+        </button>
+        <a href="{{ url_for('anitya_ui.distros') }}" class="btn btn-danger">
+          Cancel
+        </a>
+      </div>
+      {{ form.csrf_token }}
+    </form>
+  </div>
+</div>
 
 {% endblock %}

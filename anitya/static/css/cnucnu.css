@@ -24,7 +24,7 @@
 }
 
 textarea#reason {
-  width: 600px;
+  width: 100%;
   height: 120px;
 }
 
@@ -37,8 +37,11 @@ textarea#reason {
     padding: 6px;
 }
 
-table input[type="text"] {
-    width: 300px;
+table input[type="text"],
+table input[type="url"],
+table select {
+    width: 100%;
+    max-width: 100%;
 }
 
 #default_regex_txt {
@@ -46,7 +49,7 @@ table input[type="text"] {
 }
 
 label {
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .ui-front {
@@ -76,4 +79,27 @@ label {
 
 .arrow-down {
   border-top: 5px solid #000;
+}
+
+/* Remove double borders and bottom margin on tables placed inside list-group cards */
+.list-group-item .table {
+  margin-bottom: 0 !important;
+}
+.list-group-item .table td,
+.list-group-item .table th {
+  vertical-align: middle !important;
+}
+.list-group-item .table tr:last-child td,
+.list-group-item .table tr:last-child th {
+  border-bottom-color: transparent !important;
+}
+
+/* Make standard checkboxes slightly larger and perfectly aligned */
+input[type="checkbox"] {
+  width: 1.1em;
+  height: 1.1em;
+  cursor: pointer;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
 }

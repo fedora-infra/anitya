@@ -58,14 +58,14 @@
             <div class="col-md-4">
               {% if user and user.is_authenticated and not project.archived and (not project.versions or is_admin
                 or justedit) %}
-              <button type="submit" class="btn btn-success btn-sm float-end"
+              <button type="button" class="btn btn-success btn-sm float-end"
                   id="testcheck" tabindex=3>
                 Test check
               </button>
               <img src="{{url_for('anitya_ui.static', filename='img/spinner.gif')}}"
                 id="testcheck-spinner" class="float-end"
                 style="display: none; padding-top: 12px; padding-right: 25px;"/>
-              <button type="submit" class="btn btn-success btn-sm mt-2 float-end"
+              <button type="button" class="btn btn-success btn-sm mt-2 float-end"
                   id="checknow" tabindex=4>
                 Full check
               </button>
@@ -162,14 +162,14 @@
                 <tr>
                   <th>Distribution</th>
                   <th>Package name </th>
-                  <th>Edit</th>
+                  <th class="text-end">Edit</th>
                   {% if is_admin %}
-                  <th>Delete</th>
+                  <th class="text-end">Delete</th>
                   {% endif %}
                 </tr>
 
                 {% for package in project.packages|sort(attribute='distro_name,package_name') %}
-                <tr>
+                <tr class="align-middle" {% if loop.last %}style="border-color: transparent;"{% endif %}>
                   <td>{{ package.distro_name }}</td>
                   <td>
                     {% if package.distro_name in links %}
@@ -180,21 +180,21 @@
                       {{ package.package_name }}
                     {% endif %}
                   </td>
-                  <td>
+                  <td class="text-end">
                     <a href="{{
                       url_for('anitya_ui.edit_project_mapping',
                               project_id=project.id,
-                              pkg_id=package.id) }}" class="btn btn-info btn-sm float-end">
+                              pkg_id=package.id) }}" class="btn btn-info btn-sm">
                       Edit
                     </a>
                   </td>
                   {% if is_admin %}
-                  <td>
+                  <td class="text-end">
                     <a href="{{
                       url_for('anitya_ui.delete_project_mapping',
                               project_id=project.id,
                               distro_name=package.distro_name,
-                              pkg_name=package.package_name) }}" class="btn btn-warning btn-sm float-end" tabindex="7">
+                              pkg_name=package.package_name) }}" class="btn btn-warning btn-sm" tabindex="7">
                       Delete
                     </a>
                   </td>
@@ -234,7 +234,7 @@
               <th>Updated</th>
               <th>Description</th>
             </tr>
-            <tr class="align-middle">
+            <tr class="align-middle" style="border-color: transparent;">
               {% if project.check_successful is none %}
               <td>Not updated</td>
               {% elif not project.check_successful %}
@@ -269,7 +269,7 @@
             </tr>
             {% for version in project.get_sorted_version_objects(ignore_filter=is_admin) %}
             {% set is_hidden = is_admin and project.is_version_filtered(version.version) %}
-            <tr property="doap:release" typeof="doap:Version" class="align-middle{% if is_hidden %} text-muted opacity-75{% endif %}">
+            <tr property="doap:release" typeof="doap:Version" class="align-middle{% if is_hidden %} text-muted opacity-75{% endif %}" {% if loop.last %}style="border-color: transparent;"{% endif %}>
               <td property="doap:revision" class="align-middle">
                 <span class="me-2">{{ version.parse() }}</span>
                 {% if is_hidden %}

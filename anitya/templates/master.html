@@ -15,7 +15,7 @@
     <link href="{{ url_for('anitya_ui.static', filename='css/text.css') }}" rel="stylesheet" />
     <link href="{{ url_for('anitya_ui.static', filename='css/navbar.css') }}" rel="stylesheet" />
     <link href="{{ url_for('anitya_ui.static', filename='css/footer.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('anitya_ui.static', filename='css/cnucnu.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('anitya_ui.static', filename='css/cnucnu.css') }}?v=2" rel="stylesheet" />
     <link href="{{ url_for('anitya_ui.static', filename='node_modules/jquery-ui/dist/themes/base/jquery-ui.min.css') }}" rel="stylesheet" />
 
     {% block header %}{% endblock %}
@@ -181,26 +181,22 @@
         </div> <!-- /container -->
       </nav>
 
-      {%- with messages = get_flashed_messages(with_categories=true) -%}
-        {%- if category, messages -%}
-        <div class="container-fluid mt-2">
-          <div class="row justify-content-center">
-            <div class="col-md-6 col-md-offset-3">
-              <ul id="flashes" class="list-group">
-                    {%- for category, message in messages -%}
-                    {%- autoescape false -%}
-                    <li class="list-group-item list-group-item-{{ category | context_class }}">{{ message }}</li>
-                    {%- endautoescape -%}
-                    {%- endfor -%}
-        {%- endif -%}
-              </ul>
-            </div>
-          </div>
-        </div>
-      {%- endwith -%}
     </header>
 
     <main class="container pt-3 pb-3">
+      {%- with messages = get_flashed_messages(with_categories=true) -%}
+        {%- if messages -%}
+        <div class="flashes-container mb-3">
+          {%- for category, message in messages -%}
+          <div class="alert alert-{{ category | context_class }} alert-dismissible fade show shadow-sm" role="alert">
+            {%- autoescape false -%}{{ message }}{%- endautoescape -%}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+      {%- endwith -%}
+
       {% block body %}{% endblock %}
     </main>
 
