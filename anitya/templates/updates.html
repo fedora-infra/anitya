@@ -4,152 +4,152 @@
 
 {% block body %}
 
-<div class="page-header">
-  <h1>Projects
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+  <div>
+    <h1 class="h2 mb-1 fw-bold">
+      Projects 
       {% if status == 'updated' %}
-      <small>that updated successfully at the last run</small>
+      <span class="text-body-secondary h5 fw-normal">(Updated successfully)</span>
       {% elif status == 'failed' %}
-      <small>that failed to update at the last run</small>
+      <span class="text-body-secondary h5 fw-normal">(Failed to update)</span>
       {% elif status == 'archived' %}
-      <small>that are archived</small>
+      <span class="text-body-secondary h5 fw-normal">(Archived)</span>
       {% elif status == 'never_updated' %}
-      <small>that have never updated</small>
+      <span class="text-body-secondary h5 fw-normal">(Never updated)</span>
       {% endif %}
-  </h1>
-</div>
-
-<div class="row show-grid">
-  <div class="col-sm-4">
-    {% if total_page > 1 %}
-    <ul class="pagination pagination-sm">
-        {% if page > 1%}
-        <li class="page-item">
-            <a class="page-link" href="{{url_for('anitya_ui.projects_updated',
-                      status=status, page=page-1, name=name, log=log ) }}">
-                «
-            </a>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link"> « </a>
-            {% endif %}
-        </li>
-        <li class="page-item disabled">
-            <a class="page-link"> {{ page }} / {{ total_page }} </a>
-        </li>
-        {% if page < total_page %}
-        <li class="page-item">
-            <a class="page-link" href="{{url_for('anitya_ui.projects_updated',
-                      status=status, page=page+1, name=name, log=log ) }}">
-                »
-            </a>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link"> » </a>
-            {% endif %}
-        </li>
-    </ul>
-    {% endif %}
+    </h1>
+    <span class="badge bg-secondary">{{ projects_count }} projects found</span>
   </div>
-
-  <div class="col-sm-8">
-    <form action="{{url_for('anitya_ui.projects_updated', status=status) }}"
-          role="form" class="d-flex gap-2">
-        <input type="text" name="name" placeholder="Project name" class="form-control input-sm"/>
-        {% if status != 'archived' %}
-        <input type="text" name="log" placeholder="Project log" class="form-control input-sm"/>
-        {% endif %}
-        <button type="submit" class="btn btn-outline-success">
-          Search
-        </button>
+  <div>
+    <form action="{{ url_for('anitya_ui.projects_updated', status=status) }}" role="form" class="d-flex gap-2">
+      <input type="text" name="name" placeholder="Project name" class="form-control form-control-sm" value="{{ name or '' }}"/>
+      {% if status != 'archived' %}
+      <input type="text" name="log" placeholder="Project log" class="form-control form-control-sm" value="{{ log or '' }}"/>
+      {% endif %}
+      <button type="submit" class="btn btn-sm btn-outline-success text-nowrap">
+        Search
+      </button>
     </form>
   </div>
 </div>
 
-<div class="row">
-  <p>{{ projects_count }} projects found</p>
-  <div class="list-group">
-    {% if projects %}
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Project name</th>
-                {% if status != 'archived' %}
-                <th scope="col">Log content</th>
-                {% endif %}
-                {% if status == 'failed' %}
-                <th scope="col">Checks failed</th>
-                {% endif %}
-                {% if status == 'updated' or status == 'archived' %}
-                <th scope="col">Last update</th>
-                {% endif %}
-                {% if status == 'never_updated' %}
-                <th scope="col">Created on</th>
-                {% endif %}
-            </tr>
-        </thead>
-    {% for project in projects %}
-        <tr>
-            <td>
-            <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
-            {{project.name}}
-            </a>
-            </td>
-            {% if status != 'archived' %}
-            <td>
-            {{ project.logs }}
-            </td>
-            {% endif %}
-            {% if status == 'failed' %}
-            <td>{{ project.error_counter }}</td>
-            {% endif %}
-            {% if status == 'updated' or status == 'archived' %}
-            <td>{{ project.last_check.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-            {% endif %}
-            {% if status == 'never_updated' %}
-            <td>{{ project.created_on.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-            {% endif %}
-        </tr>
-        {% endfor %}
-    </table>
-  {% else %}
-  <blockquote>
-      No project found in this category.
-  </blockquote>
-  {% endif %}
-  </div>
-</div>
-
-<div class="row show-grid">
-  <div class="col-sm-4">
-    {% if total_page > 1 %}
-    <ul class="pagination pagination-sm">
-      {% if page > 1%}
+{% if total_page > 1 %}
+<div class="d-flex justify-content-end mb-3">
+  <nav aria-label="Updates pagination">
+    <ul class="pagination pagination-sm mb-0">
+      {% if page > 1 %}
       <li class="page-item">
-        <a class="page-link" href="{{url_for('anitya_ui.projects_updated',
-                  status=status, page=page-1, name=name, log=log ) }}">
-            «
-        </a>
+        <a class="page-link" href="{{ url_for('anitya_ui.projects_updated', status=status, page=page-1, name=name, log=log) }}">«</a>
+      </li>
       {% else %}
       <li class="page-item disabled">
-        <a class="page-link"> « </a>
-        {% endif %}
+        <span class="page-link">«</span>
       </li>
+      {% endif %}
       <li class="page-item disabled">
-        <a class="page-link"> {{ page }} / {{ total_page }} </a>
+        <span class="page-link">{{ page }} / {{ total_page }}</span>
       </li>
       {% if page < total_page %}
       <li class="page-item">
-        <a class="page-link" href="{{url_for('anitya_ui.projects_updated',
-                  status=status, page=page+1, name=name, log=log ) }}">
-            »
-        </a>
-        {% else %}
-      <li class="page-item disabled">
-        <a class="page-link"> » </a>
-      {% endif %}
+        <a class="page-link" href="{{ url_for('anitya_ui.projects_updated', status=status, page=page+1, name=name, log=log) }}">»</a>
       </li>
+      {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">»</span>
+      </li>
+      {% endif %}
     </ul>
-    {% endif %}
-  </div>
+  </nav>
 </div>
+{% endif %}
+
+<div class="table-responsive shadow-sm rounded border mb-3">
+  {% if projects %}
+  <table class="table table-striped table-hover align-middle mb-0 w-100">
+    <thead>
+      <tr>
+        <th scope="col" style="width: 25%;">Project name</th>
+        {% if status != 'archived' %}
+        <th scope="col">Log content</th>
+        {% endif %}
+        {% if status == 'failed' %}
+        <th scope="col" class="text-center" style="width: 15%;">Checks failed</th>
+        {% endif %}
+        {% if status == 'updated' or status == 'archived' %}
+        <th scope="col" class="text-center" style="width: 22%;">Last update</th>
+        {% endif %}
+        {% if status == 'never_updated' %}
+        <th scope="col" class="text-center" style="width: 22%;">Created on</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for project in projects %}
+      <tr>
+        <td class="text-break">
+          <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}" class="fw-semibold text-decoration-none">
+            {{ project.name }}
+          </a>
+        </td>
+        {% if status != 'archived' %}
+        <td class="text-break small text-monospace text-body-secondary">
+          {{ project.logs or '' }}
+        </td>
+        {% endif %}
+        {% if status == 'failed' %}
+        <td class="text-center">
+          <span class="badge bg-danger">{{ project.error_counter }}</span>
+        </td>
+        {% endif %}
+        {% if status == 'updated' or status == 'archived' %}
+        <td class="text-center text-nowrap small text-muted">
+          {{ project.last_check.strftime('%Y-%m-%d %H:%M:%S') if project.last_check else 'N/A' }}
+        </td>
+        {% endif %}
+        {% if status == 'never_updated' %}
+        <td class="text-center text-nowrap small text-muted">
+          {{ project.created_on.strftime('%Y-%m-%d %H:%M:%S') if project.created_on else 'N/A' }}
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="p-4 text-center text-body-secondary">
+    No project found in this category.
+  </div>
+  {% endif %}
+</div>
+
+{% if total_page > 1 %}
+<div class="d-flex justify-content-end mb-3">
+  <nav aria-label="Updates pagination bottom">
+    <ul class="pagination pagination-sm mb-0">
+      {% if page > 1 %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_for('anitya_ui.projects_updated', status=status, page=page-1, name=name, log=log) }}">«</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">«</span>
+      </li>
+      {% endif %}
+      <li class="page-item disabled">
+        <span class="page-link">{{ page }} / {{ total_page }}</span>
+      </li>
+      {% if page < total_page %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_for('anitya_ui.projects_updated', status=status, page=page+1, name=name, log=log) }}">»</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">»</span>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+{% endif %}
+
 {% endblock %}

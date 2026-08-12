@@ -1,14 +1,25 @@
 {% extends "master.html" %}
 
-{% block title %}Login · Anitya{% endblock %}
+{% block title %}Debug Login · Anitya{% endblock %}
 
 {% block body %}
-<div class="d-flex align-itmes-start gap-3">
-    <a title="user" class="btn btn-outline-primary" role="button" href="{{ url_for('anitya_debug.login', name='user') }}">
-      <span>User</span>
-    </a>
-    <a title="admin" class="btn btn-outline-primary" role="button" href="{{ url_for('anitya_debug.login', name='admin') }}">
-      <span>Admin</span>
-    </a>
+<div class="row justify-content-center my-5">
+  <div class="col-md-5 col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body p-4 text-center">
+        <h3 class="card-title mb-3 fw-bold">Debug Login</h3>
+        <p class="text-muted small mb-4">Select a test account persona to log in</p>
+
+        <div class="d-grid gap-3">
+          <a title="User" class="btn btn-outline-primary btn-lg py-2" role="button" href="{{ url_for('anitya_debug.login', name='user') }}">
+            <span>Log in as <strong>User</strong></span>
+          </a>
+          <a title="Admin" class="btn btn-outline-success btn-lg py-2" role="button" href="{{ url_for('anitya_debug.login', name='admin') }}">
+            <span>Log in as <strong>Admin</strong></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

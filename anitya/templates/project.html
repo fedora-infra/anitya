@@ -55,23 +55,27 @@
                   {% endif %}
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 d-flex flex-column align-items-end justify-content-center gap-2">
               {% if user and user.is_authenticated and not project.archived and (not project.versions or is_admin
                 or justedit) %}
-              <button type="button" class="btn btn-success btn-sm float-end"
-                  id="testcheck" tabindex=3>
-                Test check
-              </button>
-              <img src="{{url_for('anitya_ui.static', filename='img/spinner.gif')}}"
-                id="testcheck-spinner" class="float-end"
-                style="display: none; padding-top: 12px; padding-right: 25px;"/>
-              <button type="button" class="btn btn-success btn-sm mt-2 float-end"
-                  id="checknow" tabindex=4>
-                Full check
-              </button>
-              <img src="{{url_for('anitya_ui.static', filename='img/spinner.gif')}}"
-                id="checknow-spinner" class="float-end"
-                style="display: none; padding-top: 12px; padding-right: 25px;"/>
+              <div class="d-flex align-items-center justify-content-center" style="min-height: 31px; min-width: 100px;">
+                <button type="button" class="btn btn-success btn-sm text-nowrap"
+                    id="testcheck" tabindex=3>
+                  Test check
+                </button>
+                <img src="{{url_for('anitya_ui.static', filename='img/spinner.gif')}}"
+                  id="testcheck-spinner"
+                  style="display: none;"/>
+              </div>
+              <div class="d-flex align-items-center justify-content-center" style="min-height: 31px; min-width: 100px;">
+                <button type="button" class="btn btn-success btn-sm text-nowrap"
+                    id="checknow" tabindex=4>
+                  Full check
+                </button>
+                <img src="{{url_for('anitya_ui.static', filename='img/spinner.gif')}}"
+                  id="checknow-spinner"
+                  style="display: none;"/>
+              </div>
               {% endif %}
             </div>
           </div>
