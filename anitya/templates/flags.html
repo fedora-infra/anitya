@@ -2,139 +2,124 @@
 
 {% block title %}Flags · Anitya{% endblock %}
 
-{%block header %}
+{% block header %}
 {% if refresh %}
-<meta http-equiv="refresh" content="5" >
+<meta http-equiv="refresh" content="5">
 {% endif %}
 {% endblock %}
 
-
 {% block body %}
 
-<div class="page-header">
-  <h1>Flags</h1>
-  {% if refresh %}
-  <p>This page should refresh automatically every 5 seconds</p>
-  <a href="{{ url_for('anitya_ui.browse_flags', page=page) }}">
-    <button type="submit" class="btn btn-danger" id="checknow">
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h2 mb-0 fw-bold">Flags</h1>
+    {% if refresh %}
+    <small class="text-muted">Auto-refreshing every 5 seconds</small>
+    {% endif %}
+  </div>
+  <div>
+    {% if refresh %}
+    <a href="{{ url_for('anitya_ui.browse_flags', page=page) }}" class="btn btn-outline-danger btn-sm">
       Remove auto-refresh
-    </button>
-  </a>
-  {% else %}
-  <a href="{{ url_for('anitya_ui.browse_flags', page=page, refresh=True) }}">
-    <button type="submit" class="btn btn-success" id="checknow">
+    </a>
+    {% else %}
+    <a href="{{ url_for('anitya_ui.browse_flags', page=page, refresh=True) }}" class="btn btn-outline-success btn-sm">
       Activate auto-refresh
-    </button>
-  </a>
-  {% endif %}
+    </a>
+    {% endif %}
+  </div>
 </div>
 
-<div class="row show-grid mt-2">
-  <div class="col-sm-4">
+<div class="row align-items-center mt-3 mb-3">
+  <div class="col-md-4">
     {% if total_page > 1 %}
-    <ul class="pagination pagination-sm">
-      {% if page > 1%}
+    <ul class="pagination pagination-sm m-0">
+      {% if page > 1 %}
       <li class="page-item">
-        <a class="page-link" href="{{ url_for('anitya_ui.browse_flags',
-                 page=page-1, state=state, project=project,
-                 user=flags_for_user, from_date=from_date) }}">
-           «
-        </a>
+        <a class="page-link" href="{{ url_for('anitya_ui.browse_flags', page=page-1, state=state, project=project, user=flags_for_user, from_date=from_date) }}">«</a>
+      </li>
       {% else %}
-      <li class="page-item disabled">
-        <a class="page-link"> « </a>
+      <li class="page-item disabled"><a class="page-link">«</a></li>
       {% endif %}
-      </li>
-      <li class="page-item disabled">
-        <a class="page-link"> {{ page }} / {{ total_page }} </a>
-      </li>
+
+      <li class="page-item disabled"><a class="page-link">{{ page }} / {{ total_page }}</a></li>
+
       {% if page < total_page %}
       <li class="page-item">
-        <a class="page-link" href="{{ url_for('anitya_ui.browse_flags',
-                  page=page+1, state=state, project=project,
-                  user=flags_for_user, from_date=from_date) }}">
-          »
-        </a>
-      {% else %}
-      <li class="page-item disabled">
-        <a class="page-link"> » </a>
-      {% endif %}
+        <a class="page-link" href="{{ url_for('anitya_ui.browse_flags', page=page+1, state=state, project=project, user=flags_for_user, from_date=from_date) }}">»</a>
       </li>
+      {% else %}
+      <li class="page-item disabled"><a class="page-link">»</a></li>
+      {% endif %}
     </ul>
     {% endif %}
   </div>
 
-  <div class="col-sm-8">
-    <form action="{{url_for('anitya_ui.browse_flags') }}" class="d-flex float-end gap-2 mt-2"
-          role="form" action="GET" id="flags_form">
-        <select name="state" class="form-select">
-            <option value="open" {% if state== 'open' %}selected="selected"{% endif %}>open</option>
-            <option value="closed" {% if state== 'closed' %}selected="selected"{% endif %}>closed</option>
-            <option value="" {% if state== '' %}selected="selected"{% endif %}>all</option>
-        </select>
+  <div class="col-md-8">
+    <form action="{{ url_for('anitya_ui.browse_flags') }}" method="GET" class="d-flex flex-wrap gap-2 justify-content-end m-0" role="form" id="flags_form">
+      <select name="state" class="form-select form-select-sm" style="max-width: 120px;">
+        <option value="" {% if not state %}selected="selected"{% endif %}>All States</option>
+        <option value="open" {% if state == 'open' %}selected="selected"{% endif %}>Open</option>
+        <option value="closed" {% if state == 'closed' %}selected="selected"{% endif %}>Closed</option>
+      </select>
 
-        <input type="text" name="project" placeholder="Project name"
-            class="form-control" value="{{ project }}"/>
+      <input type="text" name="project" placeholder="Project name" class="form-control form-control-sm" style="max-width: 140px;" value="{{ project or '' }}"/>
+      <input type="text" name="user" placeholder="User identifier" class="form-control form-control-sm" style="max-width: 140px;" value="{{ flags_for_user or '' }}"/>
+      <input type="date" name="from_date" id="from_date" class="form-control form-control-sm" style="max-width: 140px;" value="{{ from_date or '' }}"/>
 
-        <input type="text" name="user" placeholder="User identifier"
-            class="form-control" value="{{ flags_for_user }}"/>
-
-        <input type='date' class="form-control" name="from_date"
-                id="from_date"
-                value="{{ from_date }}"/>
-
-        <button type="submit" class="btn btn-outline-success">
-          Filter
-        </button>
-      </div>
+      <button type="submit" class="btn btn-outline-success btn-sm">Filter</button>
     </form>
   </div>
-
 </div>
 
-
-<table class="table table-striped mt-2 w-100" id="flag_list">
-  <tr>
-    <th></th>
-    <th>State</th>
-    <th>Created</th>
-    <th>Project</th>
-    <th>User</th>
-    <th>Reason</th>
-  </tr>
-{% for flag in flags %}
-  <tr>
-    <td>
-      {% if flag.state == 'open' %}
-      <form method="POST" action="{{ url_for('anitya_ui.set_flag_state', flag_id=flag.id, state='closed') }}">
-        <button type="submit" class="btn btn-warning btn-sm pull-right inline"
-              id="flag_btn">
-          Close
-        </button>
-      {% else %}
-      <form method="POST" action="{{ url_for('anitya_ui.set_flag_state', flag_id=flag.id, state='open') }}">
-        <button type="submit" class="btn btn-success btn-sm pull-right inline"
-              id="flag_btn">
-          Open
-        </button>
-      {% endif %}
-      {{ form.csrf_token }}
-      </form>
-
-    </td>
-    <td> {{ flag.state }} </td>
-    <td>
-        {{ flag.created_on.strftime('%Y-%m-%d %H:%M:%S') }}
-    </td>
-    <td>
-      {% if flag.project -%}
-      <a href="{{ url_for('anitya_ui.project', project_id=flag.project.id) }}">{{ flag.project.name }}</a>
-      {%- endif %}
-    </td>
-    <td> {{ flag.user }} </td>
-    <td> {{ flag.reason }} </td>
-  </tr>
-{% endfor %}
-</table>
-
+<div class="table-responsive">
+  <table class="table table-striped table-hover align-middle mt-2 w-100" id="flag_list">
+    <thead>
+      <tr>
+        <th style="width: 10%;">State</th>
+        <th style="width: 18%;">Created</th>
+        <th style="width: 20%;">Project</th>
+        <th style="width: 16%;">User</th>
+        <th>Reason</th>
+        <th class="text-end" style="width: 12%;">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for flag in flags %}
+      <tr>
+        <td>
+          {% if flag.state == 'open' %}
+          <span class="badge bg-warning text-dark">Open</span>
+          {% else %}
+          <span class="badge bg-secondary">Closed</span>
+          {% endif %}
+        </td>
+        <td class="text-nowrap small text-muted">
+          {{ flag.created_on.strftime('%Y-%m-%d %H:%M:%S') }}
+        </td>
+        <td class="text-break">
+          {% if flag.project -%}
+          <a href="{{ url_for('anitya_ui.project', project_id=flag.project.id) }}" class="fw-semibold text-decoration-none">{{ flag.project.name }}</a>
+          {%- endif %}
+        </td>
+        <td class="text-break"><small class="text-monospace">{{ flag.user }}</small></td>
+        <td class="text-break">{{ flag.reason }}</td>
+        <td class="text-end text-nowrap">
+          {% if flag.state == 'open' %}
+          <form method="POST" action="{{ url_for('anitya_ui.set_flag_state', flag_id=flag.id, state='closed') }}" class="d-inline">
+            <button type="submit" class="btn btn-warning btn-sm text-dark">Close</button>
+            {{ form.csrf_token }}
+          </form>
+          {% else %}
+          <form method="POST" action="{{ url_for('anitya_ui.set_flag_state', flag_id=flag.id, state='open') }}" class="d-inline">
+            <button type="submit" class="btn btn-success btn-sm">Re-open</button>
+            {{ form.csrf_token }}
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

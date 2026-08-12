@@ -4,81 +4,70 @@
 
 {% block body %}
 
-<div class="page-header">
-  <h1>Distributions participating</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h2 mb-1 fw-bold">Distributions</h1>
+    <p class="text-body-secondary mb-0">Here is the list of all the distributions that anitya knows about.</p>
+  </div>
+  <div>
+    <a href="{{ url_for('anitya_ui.add_distro') }}" class="btn btn-success btn-sm">
+      Add distribution
+    </a>
+  </div>
 </div>
 
-<div class="row show-grid">
-  <div class="col-sm-6">
-    {% if total_page > 1 %}
-    <ul class="pagination pagination-sm">
-        {% if page > 1%}
-        <li class="page-item">
-            <a class="page-link" href="{{ page_url }}?page={{page - 1}}">
-                «
-            </a>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link"> « </a>
-            {% endif %}
-        </li>
-        <li class="page-item disabled">
-            <a class="page-link"> {{ page }} / {{ total_page }} </a>
-        </li>
-        {% if page < total_page %}
-        <li class="page-item">
-            <a class="page-link" href="{{ page_url }}?page={{page + 1}}">
-                »
-            </a>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link"> » </a>
-            {% endif %}
-        </li>
+{% if total_page > 1 %}
+<div class="d-flex justify-content-end mb-3">
+  <nav aria-label="Distros pagination">
+    <ul class="pagination pagination-sm mb-0">
+      {% if page > 1 %}
+      <li class="page-item">
+        <a class="page-link" href="{{ page_url }}?page={{ page - 1 }}">«</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">«</span>
+      </li>
+      {% endif %}
+      <li class="page-item disabled">
+        <span class="page-link">{{ page }} / {{ total_page }}</span>
+      </li>
+      {% if page < total_page %}
+      <li class="page-item">
+        <a class="page-link" href="{{ page_url }}?page={{ page + 1 }}">»</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">»</span>
+      </li>
+      {% endif %}
     </ul>
+  </nav>
+</div>
+{% endif %}
+
+<div class="list-group shadow-sm mb-4">
+{% for distro in distros %}
+  <div class="list-group-item d-flex justify-content-between align-items-center p-3">
+    <a href="{{ url_for('anitya_ui.distro', distroname=distro.name) }}" class="fw-semibold text-decoration-none h5 mb-0">
+      {{ distro.name }}
+    </a>
+    {% if is_admin %}
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('anitya_ui.edit_distro', distro_name=distro.name) }}" class="btn btn-info btn-sm">
+        Edit
+      </a>
+      <a href="{{ url_for('anitya_ui.delete_distro', distro_name=distro.name) }}" class="btn btn-warning btn-sm">
+        Delete
+      </a>
+    </div>
     {% endif %}
   </div>
-</div>
-
-<div class="row">
-  <p>
-    Here is the list of all the distributions that anitya knows about.
-  </p>
-  <p>
-    <a href="{{ url_for('anitya_ui.add_distro') }}">
-      <button type="submit" class="btn btn-outline-success">
-        Add a new distribution
-      </button>
-    </a>
-  </p>
-  <div class="list-group">
-  {% for distro in distros %}
-    <div class="list-group-item">
-      <a href="{{ url_for('anitya_ui.distro', distroname=distro.name) }}">
-          {{distro.name}}
-      </a>
-      {% if is_admin %}
-      <div class="d-flex float-end">
-        <a href="{{ url_for('anitya_ui.edit_distro', distro_name=distro.name) }}">
-            <button type="submit" class="btn btn-info btn-sm me-2">
-            Edit
-            </button>
-        </a>
-        <a href="{{ url_for('anitya_ui.delete_distro', distro_name=distro.name) }}">
-            <button type="submit" class="btn btn-warning btn-sm">
-                Delete
-            </button>
-        </a>
-      </div>
-      {% endif %}
-    </div>
-  {% else %}
-  <blockquote>
-      Oops, this is embarrassing. It seems that no distributions are participating
-      currently.
-  </blockquote>
-  {% endfor %}
+{% else %}
+  <div class="list-group-item p-4 text-center text-body-secondary">
+    Oops, this is embarrassing. It seems that no distributions are participating currently.
   </div>
+{% endfor %}
 </div>
 
 {% endblock %}

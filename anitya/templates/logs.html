@@ -2,92 +2,105 @@
 
 {% block title %}Logs · Anitya{% endblock %}
 
-{%block header %}
+{% block header %}
 {% if refresh %}
-<meta http-equiv="refresh" content="5" >
+<meta http-equiv="refresh" content="5">
 {% endif %}
 {% endblock %}
 
-
 {% block body %}
 
-<div class="page-header">
-  <h1>Logs</h1>
-  {% if refresh %}
-  <p>This page should refresh automatically every 5 seconds</p>
-  <a href="{{ url_for('anitya_ui.browse_logs') }}?page={{page}}">
-    <button type="submit" class="btn btn-danger" id="checknow">
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h2 mb-0 fw-bold">Logs</h1>
+    {% if refresh %}
+    <small class="text-muted">Auto-refreshing every 5 seconds</small>
+    {% endif %}
+  </div>
+  <div>
+    {% if refresh %}
+    <a href="{{ url_for('anitya_ui.browse_logs') }}?page={{ page }}" class="btn btn-outline-danger btn-sm" id="checknow">
       Remove auto-refresh
-    </button>
-  </a>
-  {% else %}
-  <a href="{{ url_for('anitya_ui.browse_logs') }}?page={{page}}&refresh=True">
-    <button type="submit" class="btn btn-success" id="checknow">
+    </a>
+    {% else %}
+    <a href="{{ url_for('anitya_ui.browse_logs') }}?page={{ page }}&refresh=True" class="btn btn-outline-success btn-sm" id="checknow">
       Activate auto-refresh
-    </button>
-  </a>
-  {% endif %}
+    </a>
+    {% endif %}
+  </div>
 </div>
 
-<div class="row show-grid mt-2">
-  <div class="col-sm-4">
-    {% if total_page > 1 %}
-    <ul class="pagination pagination-sm">
-      {% if page > 1%}
+{% if total_page > 1 %}
+<div class="d-flex justify-content-end mb-3">
+  <nav aria-label="Logs pagination">
+    <ul class="pagination pagination-sm mb-0">
+      {% if page > 1 %}
       <li class="page-item">
-        <a class="page-link" href="{{ page_url }}?page={{page - 1}}">
-            «
-        </a>
-        {% else %}
-      <li class="page-item disabled">
-          <a class="page-link"> « </a>
-          {% endif %}
+        <a class="page-link" href="{{ page_url }}?page={{ page - 1 }}{% if refresh %}&refresh=True{% endif %}">«</a>
       </li>
+      {% else %}
       <li class="page-item disabled">
-        <a class="page-link"> {{ page }} / {{ total_page }} </a>
+        <span class="page-link">«</span>
+      </li>
+      {% endif %}
+      <li class="page-item disabled">
+        <span class="page-link">{{ page }} / {{ total_page }}</span>
       </li>
       {% if page < total_page %}
       <li class="page-item">
-        <a class="page-link" href="{{ page_url }}?page={{page + 1}}">
-            »
-        </a>
+        <a class="page-link" href="{{ page_url }}?page={{ page + 1 }}{% if refresh %}&refresh=True{% endif %}">»</a>
+      </li>
       {% else %}
       <li class="page-item disabled">
-        <a class="page-link"> » </a>
-        {% endif %}
+        <span class="page-link">»</span>
       </li>
+      {% endif %}
     </ul>
-    {% endif %}
-  </div>
-
+  </nav>
 </div>
+{% endif %}
 
-<table class="table table-striped logs-table-seperator">
-    <tr>
-        <th>Name</th>
-        <th>Updated</th>
-        <th>Status</th>
+<div class="table-responsive">
+  <table class="table table-striped table-hover align-middle mt-2 w-100" id="log_list">
+    <thead>
+      <tr>
+        <th style="width: 20%;">Name</th>
+        <th style="width: 22%;">Updated</th>
+        <th class="text-center" style="width: 14%;">Status</th>
         <th>Description</th>
-    </tr>
-{% for project in projects %}
-    <tr>
-        <td>
-            <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
-              {{ project.name }}</a>
+      </tr>
+    </thead>
+    <tbody>
+      {% for project in projects %}
+      <tr>
+        <td class="text-break">
+          <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}" class="fw-semibold text-decoration-none">
+            {{ project.name }}
+          </a>
         </td>
-        <td width="240px">
-            {{ project.last_check.strftime('%Y-%m-%d %H:%M:%S') }} (UTC)
+        <td class="text-nowrap small text-muted">
+          {% if project.last_check %}
+          {{ project.last_check.strftime('%Y-%m-%d %H:%M:%S') }} (UTC)
+          {% else %}
+          N/A
+          {% endif %}
         </td>
-        {% if project.check_successful is none %}
-        <td>Not updated</td>
-        {% elif not project.check_successful %}
-        <td style="color:red;">Fail</td>
-        {% else %}
-        <td style="color:green;">OK</td>
-        {% endif %}
-        <td>{{ project.logs }}</td>
-    </tr>
-{% endfor %}
-</table>
+        <td class="text-center">
+          {% if project.check_successful is none %}
+          <span class="badge bg-secondary">Not updated</span>
+          {% elif project.check_successful %}
+          <span class="badge bg-success">OK</span>
+          {% else %}
+          <span class="badge bg-danger">Fail</span>
+          {% endif %}
+        </td>
+        <td class="text-break">
+          <small class="text-monospace text-body-secondary">{{ project.logs or '' }}</small>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 {% endblock %}

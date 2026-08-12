@@ -467,23 +467,12 @@ class FlaskTest(DatabaseTestCase):
         output = self.app.get("/")
         self.assertEqual(output.status_code, 200)
 
-        print(output.data)
-
-        expected = b"""
-      <h2>Announce</h2>
-      <p>We monitor upstream releases and broadcast them on
-      <a href="https://fedora-messaging.readthedocs.io/en/latest">Fedora messaging</a> bus. </p>"""
-
-        self.assertTrue(expected in output.data)
-
-        expected = b"""
-      <h2>Search</h2>
-      <p>Currently 0 projects are being monitored by Anitya.
-      Your project of interest might be there, or not. To check it
-      <a href="/projects/">browse the list of all projects</a>
-      or simply search for them!</p>"""
-
-        self.assertTrue(expected in output.data)
+        self.assertTrue(b"Announce" in output.data)
+        self.assertTrue(
+            b"https://fedora-messaging.readthedocs.io/en/latest" in output.data
+        )
+        self.assertTrue(b"Search" in output.data)
+        self.assertTrue(b"Browse the list of all projects" in output.data)
 
     def test_index_redirection(self):
         """Test redirection when session contains next_url field."""

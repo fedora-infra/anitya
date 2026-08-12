@@ -2,71 +2,72 @@
 
 {% block title %}Settings · Anitya{% endblock %}
 
-
 {% block body %}
-  <div class="intro">
-      <h3>
-        User ID
-      </h3>
-      <p>
-        Your user ID is {{ user.id }}
-      </p>
-  </div>
 
-  <div class="intro">
-      <h3>
-        API Tokens
-      </h3>
-      <p>
-        API keys are tokens used to authenticate you when using the REST API.
-        These keys are like passwords; make sure to store them safely.
-      </p>
-  </div>
+<div class="mb-4">
+  <h1 class="h2 fw-bold">Settings</h1>
+  <p class="text-body-secondary mb-0">Manage your user profile and API authentication tokens.</p>
+</div>
 
-  {% if user.api_tokens %}
-  <div class="list-group mt-2">
-  {% for api_token in user.api_tokens %}
-    <div class="list-group-item">
-      <div class="row me-2">
-        <form role="form" class="d-flex gap-2" method="POST"
-        action="{{ url_for('.delete_token', token=api_token.token) }}">
-          <div class="col-3">
-            <label for="{{ api_token.token }}" class="col-form-label">
-                {{ api_token.description or '' }}
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <h5 class="card-title fw-semibold text-body mb-2">User Profile</h5>
+    <p class="card-text text-body-secondary mb-0">
+      Your User ID: <code class="user-select-all fw-semibold text-body">{{ user.id }}</code>
+    </p>
+  </div>
+</div>
+
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <h5 class="card-title fw-semibold text-body mb-2">API Tokens</h5>
+    <p class="card-text text-body-secondary mb-3">
+      API keys are tokens used to authenticate requests via the REST API. Keep them secure like passwords.
+    </p>
+
+    {% if user.api_tokens %}
+    <div class="list-group mb-4">
+      {% for api_token in user.api_tokens %}
+      <div class="list-group-item p-3">
+        <form role="form" method="POST" action="{{ url_for('.delete_token', token=api_token.token) }}" class="row g-2 align-items-center">
+          <div class="col-12 col-md-3">
+            <label for="{{ api_token.token }}" class="col-form-label fw-semibold text-body mb-0">
+              {{ api_token.description or 'API Token' }}
             </label>
           </div>
-          <div class="col-7">
-            <input id="{{ api_token.token }}" class="form-control input-sm disabled"
-                type="text" value="{{ api_token.token }}" readonly>
+          <div class="col-12 col-md-6">
+            <input id="{{ api_token.token }}" class="form-control font-monospace" type="text" value="{{ api_token.token }}" readonly>
           </div>
-          <div class="col-2">
-            <button class="btn btn-danger w-100" type="submit"
-                onclick="return confirm('Are you sure to delete this token?');"
-                title="Remove API Token">
-                Remove API Token
+          <div class="col-12 col-md-3 text-md-end">
+            <button class="btn btn-outline-danger btn-sm w-100 w-md-auto" type="submit" onclick="return confirm('Are you sure to delete this token?');" title="Remove API Token">
+              Remove Token
             </button>
           </div>
           {{ form.csrf_token }}
         </form>
       </div>
+      {% endfor %}
     </div>
-  {% endfor %}
-  </div>
-  {% endif %}
+    {% endif %}
 
-  <div class="row mt-2">
-    <form role="form" class="d-flex gap-2" action="{{ url_for('.new_token') }}" method="POST">
-      <div class="col-3">
-        {{ form.description.label(class="col-form-label") }}
-      </div>
-      <div class="col-7">
-        {{ form.description(class="form-control input-sm") }}
-      </div>
-      <div class="col-2">
-        <button class="btn btn-primary w-100" type="submit" title="Create API Token">
-          Create API Token
-        </button>
-      </div>
-      {{ form.csrf_token }}
-    </form>
+    <div class="bg-body-tertiary p-3 rounded-3 border">
+      <h6 class="fw-semibold text-body mb-2">Generate New API Token</h6>
+      <form role="form" action="{{ url_for('.new_token') }}" method="POST" class="row g-2 align-items-center">
+        <div class="col-12 col-md-3">
+          {{ form.description.label(class="col-form-label mb-0") }}
+        </div>
+        <div class="col-12 col-md-6">
+          {{ form.description(class="form-control", placeholder="Token description") }}
+        </div>
+        <div class="col-12 col-md-3 text-md-end">
+          <button class="btn btn-primary btn-sm w-100 w-md-auto" type="submit" title="Create API Token">
+            Create Token
+          </button>
+        </div>
+        {{ form.csrf_token }}
+      </form>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

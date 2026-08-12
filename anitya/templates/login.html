@@ -1,14 +1,25 @@
 {% extends "master.html" %}
 
-{% block title %}Login · Anitya{% endblock %}
+{% block title %}Log in · Anitya{% endblock %}
 
 {% block body %}
-<div class="d-flex align-itmes-start gap-3">
-    {% for backend in available_backends %}
-    <a title="{{ backend }}" class="btn btn-outline-primary" role="button" href="{{ url_for('anitya_auth.login', name=backend.lower()) }}">
-      <img src="{{url_for('anitya_ui.static', filename=backend.lower() + '_logo.png')}}">
-      <span>{{ backend }}</span>
-    </a>
-    {% endfor %}
+<div class="row justify-content-center my-5">
+  <div class="col-md-5 col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body p-4 text-center">
+        <h3 class="card-title mb-4 fw-bold">Log in to Anitya</h3>
+        <p class="text-muted small mb-4">Choose an authentication provider to continue</p>
+
+        <div class="d-grid gap-3">
+          {% for backend in available_backends %}
+          <a title="{{ backend }}" class="btn btn-outline-primary btn-lg d-flex align-items-center justify-content-center gap-2 py-2" role="button" href="{{ url_for('anitya_auth.login', name=backend.lower()) }}">
+            <img src="{{url_for('anitya_ui.static', filename=backend.lower() + '_logo.png')}}" style="height: 24px; width: auto;" alt="{{ backend }}">
+            <span>Sign in with {{ backend }}</span>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

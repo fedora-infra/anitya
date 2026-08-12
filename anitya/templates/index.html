@@ -3,42 +3,90 @@
 {% block title %}Anitya{% endblock %}
 
 {% block body %}
-<div class="row justify-content-center">
-  <div class="col">
-    <div class="intro">
-        <h3>
-          Watch for releases of your favorite projects
-        </h3>
-        <p>We all have our favorite projects and we all like to use their
-        latest versions with their latest features. However, it is hard
-        to keep in touch with all of them and be informed when they
-        release a new version.  Anitya can help!</p>
+<div class="px-4 py-5 text-center">
+  <h1 class="display-6 fw-bold text-body-emphasis mb-3">Watch for releases of your favorite projects</h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="lead mb-4 text-body-secondary">
+      We all have our favorite projects and we all like to use their latest versions with their latest features. However, it is hard to keep in touch with all of them and be informed when they release a new version. Anitya can help!
+    </p>
+    
+    <div class="d-flex justify-content-center mb-4">
+      <span class="badge rounded-pill text-bg-primary fs-6 px-3 py-2 shadow-sm">
+        Currently tracking <strong>{{ total }}</strong> projects
+      </span>
+    </div>
+
+    <form action="{{ url_for('anitya_ui.projects_search') }}" role="form" class="d-flex justify-content-center align-items-center mb-2 mx-auto" style="max-width: 500px;">
+        <input id="searchbox_hero" type="text" name="pattern" placeholder="Project name (e.g. py*)" class="form-control form-control-lg me-2 shadow-sm"/>
+        <button type="submit" class="btn btn-success btn-lg shadow-sm px-4">Search</button>
+    </form>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+      <a href="{{ url_for('anitya_ui.projects') }}" class="btn btn-secondary btn-lg px-4 gap-3 shadow-sm">Browse the list of all projects</a>
+      {%- if user and user.is_authenticated -%}
+      <a href="{{ url_for('anitya_ui.new_project') }}" class="btn btn-primary btn-lg px-4 shadow-sm">Add Project</a>
+      {%- else -%}
+      <a href="{{ url_for('anitya_ui.login') }}" class="btn btn-primary btn-lg px-4 shadow-sm">Login to Contribute</a>
+      {%- endif -%}
     </div>
   </div>
+</div>
 
-  <!-- Three columns of text below the carousel -->
-  <div class="row p-2 justify-content-center">
-    <div class="col-4">
-      <h2>Announce</h2>
-      <p>We monitor upstream releases and broadcast them on
-      <a href="https://fedora-messaging.readthedocs.io/en/latest">Fedora messaging</a> bus. </p>
+<div class="container px-4 py-4" id="features">
+  <div class="row g-4 py-4 row-cols-1 row-cols-md-3 justify-content-center">
+    <div class="col d-flex align-items-start">
+      <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3 p-2 rounded-3 shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-broadcast text-primary" viewBox="0 0 16 16">
+          <path d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707zm2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708zm5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708zm2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+        </svg>
+      </div>
+      <div>
+        <h3 class="fs-5 fw-bold mb-2">Announce</h3>
+        <p class="text-body-secondary">We actively monitor upstream releases and broadcast them instantly on the <a href="https://fedora-messaging.readthedocs.io/en/latest" target="_blank" rel="noopener noreferrer">Fedora messaging</a> bus.</p>
+      </div>
     </div>
-    <div class="col-4">
-      <h2>Search</h2>
-      <p>Currently {{ total }} projects are being monitored by Anitya.
-      Your project of interest might be there, or not. To check it
-      <a href="{{ url_for('anitya_ui.projects') }}">browse the list of all projects</a>
-      or simply search for them!</p>
-      <form action="{{ url_for('anitya_ui.projects_search') }}" role="form" class="d-flex">
-          <input id="searchbox" type="text" name="pattern" placeholder="Project name" class="form-control me-2"/>
-          <button type="submit" class="btn btn-outline-success">Search</button>
-      </form>
-      <p><small>You may use * to search for pattern (ie: py*).</small></p>
+    <div class="col d-flex align-items-start">
+      <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3 p-2 rounded-3 shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-search text-success" viewBox="0 0 16 16">
+          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+      </div>
+      <div>
+        <h3 class="fs-5 fw-bold mb-2">Discover</h3>
+        <p class="text-body-secondary">Easily search through our vast database of tracked open source projects to find versions, logs, and historical releases.</p>
+      </div>
     </div>
-  </div><!-- /.row -->
-
+    <div class="col d-flex align-items-start">
+      <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3 p-2 rounded-3 shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-people-fill text-warning" viewBox="0 0 16 16">
+          <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
+        </svg>
+      </div>
+      <div>
+        <h3 class="fs-5 fw-bold mb-2">Contribute</h3>
+        <p class="text-body-secondary">Help us track more software! Add your favorite projects to the ecosystem and let the community benefit from your updates.</p>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block jscript %}
-
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#searchbox_hero').autocomplete({
+      source: function( request, response ) {
+        $.getJSON(
+          "{{ url_for('anitya_apiv1.api_projects_names') }}", {
+            pattern: request.term + '*'
+          },
+          function( data ) {
+            response( data.projects.slice(0, 10) );
+          }
+        );
+      },
+      minLength: 3,
+      delay: 600,
+    });
+  });
+</script>
 {% endblock %}

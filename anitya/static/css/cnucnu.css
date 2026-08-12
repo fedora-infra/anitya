@@ -7,14 +7,15 @@
 }
 
 .intro {
-    background-color: rgba(0,0,0,0.8);
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    padding: 10px 30px 10px 30px;
-    margin: auto;
-    margin-top: 20px;
-    max-width: 600px;
-    color: #fff;
+    background-color: var(--bs-tertiary-bg);
+    border: 1px solid var(--bs-border-color-translucent);
+    border-radius: 12px;
+    padding: 24px 32px;
+    margin: 20px auto 24px auto;
+    width: 100%;
+    max-width: 680px;
+    text-align: center;
+    color: var(--bs-body-color);
 }
 
 
