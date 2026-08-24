@@ -672,6 +672,8 @@ def set_user_active_state(user_id, state):
 @login_required
 def delete_user(user_id):
     """Delete user"""
+    if not is_admin():
+        flask.abort(401)
     try:
         stmt = select(models.User).filter(models.User.id == user_id)
         user = db.session.scalars(stmt).one()
