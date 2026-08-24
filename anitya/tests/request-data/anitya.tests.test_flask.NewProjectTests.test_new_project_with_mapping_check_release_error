@@ -1,0 +1,106 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 2.2.2 at release-monitoring.org
+    method: GET
+    uri: https://pypi.org/pypi/repo_manager/json
+  response:
+    body:
+      string: '{"info":{"author":"Pierre-Yves Chibon","author_email":"pingou@pingoured.fr","bugtrack_url":null,"classifiers":[],"description":"repo_manager\n============\n\n:Author:
+        Pierre-Yves Chibon <pingou@pingoured.fr>\n\n\nrepo_manager is a small application
+        to manage RPMs repositories.\n\n\nGet this project:\n-----------------\nSource:  https://github.com/pypingou/repo_manager\n\n\nActions:\n--------\n\n*
+        ``Add`` a package to an existing repository.\n* ``Remove`` a package from
+        an existing repository.\n* ``Clean`` a repository.\n  This means remove duplicates
+        while eventually keeping a number of the\n  most recent ones for future downgrade.\n*
+        ``Upgrade`` a package from a repository into another (for example moving\n  from
+        a testing repository into a production one).\n* ``Replace`` a package from
+        a repository into another (ie: replacing a\n  package in a repository with
+        one having the same `nevr`).\n* Get some ``info`` about the repository (number
+        of RPMs, duplicates,\n  applications)\n\n\nLicense:\n--------\n\nThis project
+        is licensed GPLv3+.\n","description_content_type":null,"docs_url":null,"download_url":"UNKNOWN","downloads":{"last_day":-1,"last_month":-1,"last_week":-1},"dynamic":null,"home_page":"https://github.com/pypingou/repo_manager","keywords":null,"license":"GPLv3+","license_expression":null,"license_files":null,"maintainer":null,"maintainer_email":null,"name":"repo_manager","package_url":"https://pypi.org/project/repo_manager/","platform":"UNKNOWN","project_url":"https://pypi.org/project/repo_manager/","project_urls":{"Download":"UNKNOWN","Homepage":"https://github.com/pypingou/repo_manager"},"provides_extra":null,"release_url":"https://pypi.org/project/repo_manager/0.1.0/","requires_dist":null,"requires_python":null,"summary":"A
+        simple application to manage RPM repositories","version":"0.1.0","yanked":false,"yanked_reason":null},"last_serial":1142329,"ownership":{"organization":null,"roles":[{"role":"Owner","user":"pingou"}]},"releases":{"0.1.0":[{"comment_text":"","core-metadata":false,"digests":{"blake2b_256":"d5841f8af1076033bab6a4c101ef5bb5068d93aadb5aa316a6dd9cc44a67c431","md5":"1626a15d15b1de5f070a6319ae063569","sha256":"acc3dceeb550179a67fd363827f4c5feba13ae12be81080a30993cac1b71753f"},"downloads":-1,"filename":"repo_manager-0.1.0.tar.gz","has_sig":false,"md5_digest":"1626a15d15b1de5f070a6319ae063569","packagetype":"sdist","python_version":"source","requires_python":null,"size":3271744,"upload_time":"2014-06-30T16:57:30","upload_time_iso_8601":"2014-06-30T16:57:30.882359Z","url":"https://files.pythonhosted.org/packages/d5/84/1f8af1076033bab6a4c101ef5bb5068d93aadb5aa316a6dd9cc44a67c431/repo_manager-0.1.0.tar.gz","yanked":false,"yanked_reason":null}]},"urls":[{"comment_text":"","core-metadata":false,"digests":{"blake2b_256":"d5841f8af1076033bab6a4c101ef5bb5068d93aadb5aa316a6dd9cc44a67c431","md5":"1626a15d15b1de5f070a6319ae063569","sha256":"acc3dceeb550179a67fd363827f4c5feba13ae12be81080a30993cac1b71753f"},"downloads":-1,"filename":"repo_manager-0.1.0.tar.gz","has_sig":false,"md5_digest":"1626a15d15b1de5f070a6319ae063569","packagetype":"sdist","python_version":"source","requires_python":null,"size":3271744,"upload_time":"2014-06-30T16:57:30","upload_time_iso_8601":"2014-06-30T16:57:30.882359Z","url":"https://files.pythonhosted.org/packages/d5/84/1f8af1076033bab6a4c101ef5bb5068d93aadb5aa316a6dd9cc44a67c431/repo_manager-0.1.0.tar.gz","yanked":false,"yanked_reason":null}],"vulnerabilities":[]}
+
+        '
+    headers:
+      Accept-Ranges:
+      - bytes
+      Connection:
+      - keep-alive
+      Date:
+      - Mon, 24 Aug 2026 13:40:57 GMT
+      Permissions-Policy:
+      - publickey-credentials-create=(self),publickey-credentials-get=(self),accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),execution-while-not-rendered=(),execution-while-out-of-viewport=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),hid=(),identity-credentials-get=(),idle-detection=(),local-fonts=(),magnetometer=(),microphone=(),midi=(),otp-credentials=(),payment=(),picture-in-picture=(),screen-wake-lock=(),serial=(),speaker-selection=(),storage-access=(),usb=(),web-share=(),xr-spatial-tracking=()
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Accept-Encoding
+      X-Cache:
+      - MISS, HIT, HIT
+      X-Cache-Hits:
+      - 0, 792, 1
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Served-By:
+      - cache-iad-khef600078-IAD, cache-iad-khef600078-IAD, cache-iad-khef600078-IAD,
+        cache-vie6324-VIE
+      X-Timer:
+      - S1787578857.062221,VS0,VE8
+      X-XSS-Protection:
+      - 1; mode=block
+      access-control-allow-headers:
+      - Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since
+      access-control-allow-methods:
+      - GET
+      access-control-allow-origin:
+      - '*'
+      access-control-expose-headers:
+      - X-PyPI-Last-Serial
+      access-control-max-age:
+      - '86400'
+      cache-control:
+      - max-age=900, public
+      content-length:
+      - '3464'
+      content-security-policy:
+      - base-uri 'self'; connect-src 'self' https://api.github.com/repos/ https://api.github.com/search/issues
+        https://gitlab.com/api/ https://analytics.python.org *.ethicalads.io https://api.pwnedpasswords.com
+        https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/sre/mathmaps/ https://2p66nmmycsj3.statuspage.io;
+        default-src 'none'; font-src 'self'; form-action 'self' https://checkout.stripe.com
+        https://billing.stripe.com; frame-ancestors 'none'; frame-src 'none'; img-src
+        'self' https://pypi-camo.freetls.fastly.net/ *.ethicalads.io ethicalads.blob.core.windows.net;
+        script-src 'self' https://analytics.python.org *.ethicalads.io 'sha256-U3hKDidudIaxBDEzwGJApJgPEf2mWk6cfMWghrAa6i0='
+        https://cdn.jsdelivr.net/npm/mathjax@3.2.2/ 'sha256-1CldwzdEg2k1wTmf7s5RWVd7NMXI/7nxxjJM2C4DqII=';
+        style-src 'self' *.ethicalads.io 'sha256-2YHqZokjiizkHi1Zt+6ar0XJ0OeEy/egBnlm+MDMtrM='
+        'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-JLEjeN9e5dGsz5475WyRaoA4eQOdNPxDIeUhclnJDCE='
+        'sha256-mQyxHEuwZJqpxCw3SLmc4YOySNKXunyu2Oiz1r3/wAE=' 'sha256-OCf+kv5Asiwp++8PIevKBYSgnNLNUZvxAp4a7wMLuKA='
+        'sha256-h5LOiLhk6wiJrGsG5ItM0KimwzWQH/yAcmoJDJL//bY='
+      content-type:
+      - application/json
+      etag:
+      - '"hLCcCQ06YpgICGxlTCfGBw"'
+      referrer-policy:
+      - origin-when-cross-origin
+      server:
+      - gunicorn
+      x-pypi-last-serial:
+      - '1142329'
+    status:
+      code: 200
+      message: OK
+version: 1

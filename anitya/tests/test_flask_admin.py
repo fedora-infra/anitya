@@ -1697,3 +1697,9 @@ class DeleteUserTests(DatabaseTestCase):
             )
 
             self.assertEqual(200, output.status_code)
+
+    def test_non_admin_post(self):
+        """Assert non-admin users can't set flags."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get(f"/users/{self.user.id}/delete")
+            self.assertEqual(401, output.status_code)
