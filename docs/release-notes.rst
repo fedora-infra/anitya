@@ -4,6 +4,57 @@ Release Notes
 
 .. towncrier release notes start
 
+2.3.0 (2026-08-25)
+==================
+
+Features
+--------
+
+* Add pre-creation project version validation.
+  (`#1940 <https://github.com/fedora-infra/anitya/issues/1940>`_)
+
+* Polish frontend layout, navbar alignment, and container spacing.
+  (`#2068 <https://github.com/fedora-infra/anitya/issues/2068>`_)
+
+
+Bug Fixes
+---------
+
+* Fix authentication issue on delete user API call
+  (`PR#2070 <https://github.com/fedora-infra/anitya/pull/2070>`_)
+
+* Sort by name, homepage, and backend on the projects and search pages now
+  applies to the entire dataset instead of only the current page.
+  (`#1778 <https://github.com/fedora-infra/anitya/issues/1778>`_)
+
+* Use ftpmirror.gnu.org for GNU backend
+  (`#1935 <https://github.com/fedora-infra/anitya/issues/1935>`_)
+
+* Fix transparent navbar on scroll
+  (`#2061 <https://github.com/fedora-infra/anitya/issues/2061>`_)
+
+* Apply version filters to already-stored versions when the filter is updated.
+  (`#2062 <https://github.com/fedora-infra/anitya/issues/2062>`_)
+
+
+Other Changes
+-------------
+
+* Modernize project page UI with Bootstrap 5 flexbox and shadows.
+  (`#2065 <https://github.com/fedora-infra/anitya/issues/2065>`_)
+
+* Improve UI spacing, container alignments, and in-page alert notifications.
+  (`#2066 <https://github.com/fedora-infra/anitya/issues/2066>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Michal Konecny
+* sheikhlimon
+
 2.2.2 (2026-06-12)
 ==================
 
