@@ -8,7 +8,7 @@ interactions:
       From: [admin@fedoraproject.org]
       User-Agent: [Anitya 0.11.0 at release-monitoring.org]
     method: GET
-    uri: https://ftpmirror.gnu.org/gnu/gnash/
+    uri: https://ftpmirror.gnu.org/gnash/
   response:
     body:
       string: !!binary |
@@ -49,7 +49,7 @@ interactions:
       From: [admin@fedoraproject.org]
       User-Agent: [Anitya 0.11.0 at release-monitoring.org]
     method: GET
-    uri: https://ftpmirror.gnu.org/gnu/fake/
+    uri: https://ftpmirror.gnu.org/fake/
   response:
     body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 
@@ -88,7 +88,7 @@ interactions:
       From: [admin@fedoraproject.org]
       User-Agent: [Anitya 0.11.0 at release-monitoring.org]
     method: GET
-    uri: https://ftpmirror.gnu.org/gnu/subsurface/
+    uri: https://ftpmirror.gnu.org/subsurface/
   response:
     body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 
