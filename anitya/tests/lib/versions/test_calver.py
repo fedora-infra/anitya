@@ -610,3 +610,13 @@ class CalendarVersionTests(unittest.TestCase):
         new_version = calver.CalendarVersion(version="20191213", pattern="YYYY0M0D")
         self.assertTrue(old_version < new_version)
         self.assertFalse(new_version < old_version)
+
+    def test_lt_both_invalid(self):
+        """Assert comparing two invalid versions falls back to string comparison."""
+        # Both versions are invalid because pattern expects YY.MM.DD but gets leading zeros
+        version_a = calver.CalendarVersion(version="15.03.05", pattern="YY.MM.DD")
+        version_b = calver.CalendarVersion(version="15.04.19", pattern="YY.MM.DD")
+
+        # String comparison means "15.03.05" < "15.04.19"
+        self.assertTrue(version_a < version_b)
+        self.assertFalse(version_b < version_a)

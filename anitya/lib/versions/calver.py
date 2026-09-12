@@ -323,16 +323,22 @@ class CalendarVersion(Version):
         version_dict_self = None
         if isinstance(self, CalendarVersion):
             version_dict_self = self.maybe_split()
-        if not version_dict_self:
-            # The version can't be split, so we consider it lesser
-            return True
 
         version_dict_other = None
         if isinstance(other, CalendarVersion):
             version_dict_other = other.maybe_split()
+
+        # Handle the cases where one or both can't be validated. Validated versions
+        # always sort higher than unvalidated versions.
+        if not version_dict_self and not version_dict_other:
+            # The version can't be split, so compare them as strings
+            return bool(self.parse() < other.parse())
         if not version_dict_other:
             # The version can't be split, so we consider self greater
             return False
+        if not version_dict_self:
+            # The version can't be split, so we consider it lesser
+            return True
 
         # Compare years
         year_self = version_dict_self["year"]
