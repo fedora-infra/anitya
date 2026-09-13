@@ -142,7 +142,7 @@ class BaseBackendTests(AnityaTestCase):
         """Test call url last change"""
         url = "https://www.example.com/"
         exp_headers = self.headers.copy()
-        time = arrow.utcnow()
+        time = arrow.now("UTC")
         exp_headers["If-modified-since"] = (
             time.format("ddd, DD MMM YYYY HH:mm:ss") + " GMT"
         )

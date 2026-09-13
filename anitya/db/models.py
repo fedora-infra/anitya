@@ -44,6 +44,11 @@ _log = logging.getLogger(__name__)
 DEFAULT_PAGE_LIMIT = 50
 
 
+def _utcnow():
+    """Return the current naive UTC datetime."""
+    return datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
+
+
 def _paginate_query(query, page):
     """Paginate a given query to returned the specified page (if any)."""
     if page:
@@ -262,10 +267,14 @@ class Project(Base):
     check_successful = sa.Column(sa.Boolean, default=None, index=True)
 
     last_check = sa.Column(
-        sa.TIMESTAMP(timezone=True), default=lambda: arrow.utcnow().datetime, index=True
+        sa.TIMESTAMP(timezone=True),
+        default=lambda: arrow.now("UTC").datetime,
+        index=True,
     )
     next_check = sa.Column(
-        sa.TIMESTAMP(timezone=True), default=lambda: arrow.utcnow().datetime, index=True
+        sa.TIMESTAMP(timezone=True),
+        default=lambda: arrow.now("UTC").datetime,
+        index=True,
     )
 
     updated_on = sa.Column(
@@ -273,7 +282,7 @@ class Project(Base):
         server_default=sa.sql.functions.now(),
         onupdate=sa.sql.functions.current_timestamp(),
     )
-    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+    created_on = sa.Column(sa.DateTime, default=_utcnow)
 
     packages = sa.orm.relationship("Packages", cascade="all, delete-orphan")
 
@@ -378,7 +387,7 @@ class Project(Base):
                     version=version if isinstance(version, str) else version["version"],
                     prefix=self.version_prefix,
                     pre_release_filter=self.pre_release_filter,
-                    created_on=datetime.datetime.utcnow(),
+                    created_on=_utcnow(),
                     pattern=self.version_pattern,
                     commit_url=(
                         version["commit_url"]
@@ -755,7 +764,7 @@ class ProjectVersion(Base):
         primary_key=True,
     )
     version = sa.Column(sa.String(50), primary_key=True)
-    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+    created_on = sa.Column(sa.DateTime, default=_utcnow)
     commit_url = sa.Column(sa.String(200), nullable=True)
 
     project = sa.orm.relationship(
@@ -797,7 +806,7 @@ class ProjectFlag(Base):
     reason = sa.Column(sa.Text, nullable=False)
     user = sa.Column(sa.String(200), index=True, nullable=False)
     state = sa.Column(sa.String(50), default="open", nullable=False)
-    created_on = sa.Column(sa.DateTime, default=datetime.datetime.utcnow)
+    created_on = sa.Column(sa.DateTime, default=_utcnow)
     updated_on = sa.Column(
         sa.DateTime,
         server_default=sa.sql.functions.now(),
@@ -902,9 +911,7 @@ class Run(Base):
     error_count = sa.Column(sa.Integer)
     ratelimit_count = sa.Column(sa.Integer)
     success_count = sa.Column(sa.Integer)
-    created_on = sa.Column(
-        sa.DateTime, default=datetime.datetime.utcnow, primary_key=True
-    )
+    created_on = sa.Column(sa.DateTime, default=_utcnow, primary_key=True)
 
     @classmethod
     def last_entry(cls, session):
@@ -1141,7 +1148,7 @@ class ApiToken(Base):
     __tablename__ = "tokens"
 
     token = sa.Column(sa.String(40), default=_api_token_generator, primary_key=True)
-    created = sa.Column(sa.DateTime, default=datetime.datetime.utcnow, nullable=False)
+    created = sa.Column(sa.DateTime, default=_utcnow, nullable=False)
     user_id = sa.Column(GUID, sa.ForeignKey("users.id"), nullable=False)
     user = sa.orm.relationship(
         "User",
