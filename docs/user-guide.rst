@@ -297,7 +297,7 @@ Anitya provides several different versions schemes.
 
 
 Calendar Version Pattern
-===============
+------------------------
 
 The calendar version pattern defines how to parse and sort versions in CalVer format
 with ambiguous dates like ``2024115``.
