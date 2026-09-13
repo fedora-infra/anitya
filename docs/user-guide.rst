@@ -296,12 +296,11 @@ Anitya provides several different versions schemes.
     recent scheme and the rest will be moved to bottom unsorted.
 
 
-Version Pattern
+Calendar Version Pattern
 ===============
 
-The version pattern is used to define how the calendar version should be
-parsed and how they will be sorted. It allows for specifying the format 
-for calendar versioning scheme using following patterns.
+The calendar version pattern defines how to parse and sort versions in CalVer format
+with ambiguous dates like ``2024115``.
 
 Patterns -
 
