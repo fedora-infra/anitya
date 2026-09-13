@@ -325,7 +325,7 @@ class ProjectTests(DatabaseTestCase):
         self.session.add(project)
         self.session.commit()
 
-        time_now = arrow.utcnow()
+        time_now = arrow.now("UTC")
         version = models.ProjectVersion(
             project_id=project.id, created_on=time_now.datetime, version="1.0"
         )
@@ -903,7 +903,9 @@ class ProjectFlagTestCase(DatabaseTestCase):
         """
         create_flagged_project(self.session)
 
-        from_date = datetime.datetime.utcnow().date() - datetime.timedelta(days=1)
+        from_date = datetime.datetime.now(
+            datetime.timezone.utc
+        ).date() - datetime.timedelta(days=1)
         flags = models.ProjectFlag.search(self.session, from_date=from_date)
         self.assertEqual(len(flags), 1)
 

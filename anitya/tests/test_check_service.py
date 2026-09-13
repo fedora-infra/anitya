@@ -58,7 +58,7 @@ class CheckerTests(DatabaseTestCase):
             name="Foobar",
             backend="GitHub",
             homepage="www.fakeproject.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
         )
         self.session.add(project)
         self.session.commit()
@@ -87,7 +87,7 @@ class CheckerTests(DatabaseTestCase):
         """
         Assert that project is removed from blacklist when the reset time is reached.
         """
-        now = arrow.utcnow()
+        now = arrow.now("UTC")
         project = models.Project(
             name="Foobar",
             backend="GitHub",
@@ -121,7 +121,7 @@ class CheckerTests(DatabaseTestCase):
             name="Foobar",
             backend="GitHub",
             homepage="www.fakeproject.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
         )
         self.session.add(project)
         self.session.commit()
@@ -147,7 +147,7 @@ class CheckerTests(DatabaseTestCase):
             name="Foobar",
             backend="GitHub",
             homepage="www.fakeproject.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
         )
         self.session.add(project)
         self.session.commit()
@@ -172,7 +172,7 @@ class CheckerTests(DatabaseTestCase):
             name="Foobar",
             backend="GitHub",
             homepage="www.fakeproject.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
         )
         self.session.add(project)
         self.session.commit()
@@ -195,7 +195,7 @@ class CheckerTests(DatabaseTestCase):
             name="Foobar",
             backend="GitHub",
             homepage="www.fakeproject.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
             error_counter=100,
         )
         self.session.add(project)
@@ -217,7 +217,7 @@ class CheckerTests(DatabaseTestCase):
             name="Foobar",
             backend="GitHub",
             homepage="www.fakeproject.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
         )
         self.session.add(project)
         self.session.commit()
@@ -235,7 +235,7 @@ class CheckerTests(DatabaseTestCase):
             name="Foobar",
             backend="GitHub",
             homepage="www.fakeproject.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
             error_counter=100,
         )
         self.session.add(project)
@@ -266,7 +266,7 @@ class CheckerTests(DatabaseTestCase):
             name="Foobar",
             backend="GitHub",
             homepage="www.fakeproject.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
             error_counter=100,
         )
         self.session.add(project)
@@ -293,7 +293,7 @@ class CheckerTests(DatabaseTestCase):
             name="Foobar",
             backend="GitHub",
             homepage="www.fakeproject.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
             error_counter=100,
         )
         self.session.add(project)
@@ -311,7 +311,7 @@ class CheckerTests(DatabaseTestCase):
             name="Foobar",
             backend="GitHub",
             homepage="www.fakeproject.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
         )
         self.session.add(project)
         self.session.commit()
@@ -333,7 +333,7 @@ class CheckerTests(DatabaseTestCase):
             name="Foobar",
             backend="GitHub",
             homepage="www.fakeproject.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
         )
         self.session.add(project)
         self.session.commit()
@@ -366,7 +366,7 @@ class CheckerTests(DatabaseTestCase):
             name="Foobar",
             backend="GitHub",
             homepage="www.fakeproject.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
         )
         self.session.add(project)
         self.session.commit()
@@ -398,7 +398,7 @@ class CheckerTests(DatabaseTestCase):
             name="Foobar",
             backend="GitHub",
             homepage="www.fakeproject.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
         )
         self.session.add(project)
 
@@ -406,7 +406,7 @@ class CheckerTests(DatabaseTestCase):
             name="Fake",
             backend="GitHub",
             homepage="www.fakeproject1.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
         )
         self.session.add(project)
         self.session.commit()
@@ -427,7 +427,7 @@ class CheckerTests(DatabaseTestCase):
             name="Foobar",
             backend="GitHub",
             homepage="www.fakeproject.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
         )
         self.session.add(project)
 
@@ -435,7 +435,7 @@ class CheckerTests(DatabaseTestCase):
             name="Fake",
             backend="GitHub",
             homepage="www.fakeproject1.com",
-            next_check=arrow.utcnow().datetime,
+            next_check=arrow.now("UTC").datetime,
         )
         self.session.add(project)
         self.session.commit()
@@ -474,7 +474,7 @@ class CheckerTests(DatabaseTestCase):
         Assert that no project is added to queue when no project
         is ready.
         """
-        time = arrow.utcnow().datetime
+        time = arrow.now("UTC").datetime
         project = models.Project(
             name="Foobar",
             backend="GitHub",
@@ -492,7 +492,7 @@ class CheckerTests(DatabaseTestCase):
         """
         Assert that duplicate projects aren't added to queue.
         """
-        time = arrow.utcnow().datetime
+        time = arrow.now("UTC").datetime
         project = models.Project(
             name="Foobar",
             backend="GitHub",
@@ -514,7 +514,7 @@ class CheckerTests(DatabaseTestCase):
         """
         Assert that order of projects is kept in the queue.
         """
-        time = arrow.utcnow().datetime
+        time = arrow.now("UTC").datetime
         project = models.Project(
             name="Foobar",
             backend="GitHub",
@@ -545,7 +545,7 @@ class CheckerTests(DatabaseTestCase):
         """
         Assert that archived project is not added to queue.
         """
-        time = arrow.utcnow().datetime
+        time = arrow.now("UTC").datetime
         project = models.Project(
             name="Foobar",
             backend="GitHub",
@@ -564,7 +564,7 @@ class CheckerTests(DatabaseTestCase):
         """
         Assert that ratelimit queue and dictionary is correctly cleared.
         """
-        time = arrow.utcnow().datetime
+        time = arrow.now("UTC").datetime
         project = models.Project(
             name="Foobar",
             backend="GitHub",
@@ -587,7 +587,7 @@ class CheckerTests(DatabaseTestCase):
         Assert that project is not added to queue if ready to check, but belonging
         to blacklisted backend.
         """
-        time = arrow.utcnow().datetime
+        time = arrow.now("UTC").datetime
         reset_time = time + timedelta(hours=2)
         project = models.Project(
             name="Foobar",

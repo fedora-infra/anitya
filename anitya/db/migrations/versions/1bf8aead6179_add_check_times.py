@@ -21,7 +21,7 @@ def upgrade():
         sa.Column(
             "last_check",
             sa.TIMESTAMP(timezone=True),
-            default=arrow.utcnow().datetime,
+            default=arrow.now("UTC").datetime,
             server_default=sa.sql.functions.current_timestamp(),
         ),
     )
@@ -31,7 +31,7 @@ def upgrade():
         sa.Column(
             "next_check",
             sa.TIMESTAMP(timezone=True),
-            default=arrow.utcnow().datetime,
+            default=arrow.now("UTC").datetime,
             server_default=sa.sql.functions.current_timestamp(),
         ),
     )
