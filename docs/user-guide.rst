@@ -299,26 +299,20 @@ Anitya provides several different versions schemes.
 Calendar Version Pattern
 ------------------------
 
-The calendar version pattern defines how to parse and sort versions in CalVer format
-with ambiguous dates like ``2024115``.
+The version pattern defines how to parse and sort Calendar Versioning
+strings. The pattern helps to disambiguate versions like ``2024115``.
 
 Patterns -
 
 - ``YYYY``: Full year (e.g., 2006, 2016, 2106).
 - ``YY``: Short year (e.g., 6, 16, 106).
-- ``0Y``: Zero-padded year (e.g., 06, 16, 106).
+- ``0Y``: Zero-padded year (relative to the year 2000) (e.g., 06, 16, 106).
 - ``MM``: Short month (e.g., 1, 2, ..., 11, 12).
 - ``0M``: Zero-padded month (e.g., 01, 02, ..., 11, 12).
 - ``WW``: Short week (since the start of the year) (e.g., 1, 2, 33, 52).
 - ``0W``: Zero-padded week (e.g., 01, 02, 33, 52).
 - ``DD``: Short day (e.g., 1, 2, ..., 30, 31).
 - ``0D``: Zero-padded day (e.g., 01, 02, ..., 30, 31).
-
-.. note::
-    Traditional, incremented version numbers are 0-based, whereas date
-    segments are 1-based, and the short and zero-padded years are relative
-    to the year 2000. Usage of weeks is usually mutually exclusive
-    with months/days.
 
 
 Version Prefix
