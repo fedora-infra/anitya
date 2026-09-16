@@ -36,7 +36,7 @@ class SourceforgeBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url_template = "https://sourceforge.net/projects/%(name)s/rss?limit=200"
+        url_template = "https://sourceforge.net/projects/%(name)s/rss"
 
         url = url_template % {
             "name": (project.version_url or project.name).replace("+", r"\+")

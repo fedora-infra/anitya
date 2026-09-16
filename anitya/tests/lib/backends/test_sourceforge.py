@@ -99,7 +99,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
             version_url="test_name",
             backend=BACKEND,
         )
-        exp = "https://sourceforge.net/projects/test_name/rss?limit=200"
+        exp = "https://sourceforge.net/projects/test_name/rss"
 
         obs = backend.SourceforgeBackend.get_version_url(project)
 
@@ -113,7 +113,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
         project = models.Project(
             name="test", homepage="https://example.org", backend=BACKEND
         )
-        exp = "https://sourceforge.net/projects/test/rss?limit=200"
+        exp = "https://sourceforge.net/projects/test/rss"
 
         obs = backend.SourceforgeBackend.get_version_url(project)
 
@@ -130,7 +130,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
             version_url="test+name",
             backend=BACKEND,
         )
-        exp = r"https://sourceforge.net/projects/test\+name/rss?limit=200"
+        exp = r"https://sourceforge.net/projects/test\+name/rss"
 
         obs = backend.SourceforgeBackend.get_version_url(project)
 
@@ -144,7 +144,7 @@ class SourceforgeBackendtests(DatabaseTestCase):
         project = models.Project(
             name="test+", homepage="https://example.org", backend=BACKEND
         )
-        exp = r"https://sourceforge.net/projects/test\+/rss?limit=200"
+        exp = r"https://sourceforge.net/projects/test\+/rss"
 
         obs = backend.SourceforgeBackend.get_version_url(project)
 
