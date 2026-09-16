@@ -8,7 +8,7 @@ interactions:
       From: [admin@fedoraproject.org]
       User-Agent: [Anitya 0.11.0 at release-monitoring.org]
     method: GET
-    uri: https://sourceforge.net/projects/filezilla/rss?limit=200
+    uri: https://sourceforge.net/projects/filezilla/rss
   response:
     body: {string: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<rss xmlns:content=\"\
         http://purl.org/rss/1.0/modules/content/\" xmlns:files=\"https://sourceforge.net/api/files.rdf#\"\
