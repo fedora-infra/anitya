@@ -1,0 +1,1 @@
+Raise exception on HTTP errors when parsing versions by regex, instead of swallowing them.

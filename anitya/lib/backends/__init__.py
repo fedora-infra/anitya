@@ -372,7 +372,7 @@ def get_versions_by_regex(url, regex, project, insecure=False):
     try:
         req = BaseBackend.call_url(url, last_change=last_change, insecure=insecure)
     except Exception as err:
-        _log.debug("%s ERROR: %s", project.name, str(err))
+        _log.error("%s ERROR: %s", project.name, str(err))
         raise AnityaPluginException(
             f'Could not call : "{url}" of "{project.name}", with error: {str(err)}'
         ) from err
@@ -381,6 +381,15 @@ def get_versions_by_regex(url, regex, project, insecure=False):
         # Not modified
         if req.status_code == 304:
             return []
+
+        try:
+            req.raise_for_status()
+        except requests.exceptions.HTTPError as err:
+            _log.error("%s ERROR: %s", project.name, str(err))
+            raise AnityaPluginException(
+                f'Could not call : "{url}" of "{project.name}", with error: {str(err)}'
+            ) from err
+
         req = req.text
 
     return get_versions_by_regex_for_text(req, url, regex, project)
