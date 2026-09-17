@@ -107,6 +107,11 @@ class PythonVersion(base.Version):
         else:
             return super().parse()
 
+    @property
+    def is_valid(self) -> bool:
+        """Return True if the version is valid and parseable."""
+        return self.version_object is not None
+
     def prerelease(self) -> bool:
         """
         Check this is a pre-release version.

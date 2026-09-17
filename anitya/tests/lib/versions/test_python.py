@@ -41,6 +41,11 @@ class PythonVersionTests(unittest.TestCase):
         """
         self.assertEqual("Python (PEP 440)", python.PythonVersion.name)
 
+    def test_is_valid(self):
+        """Test is_valid property."""
+        self.assertTrue(python.PythonVersion(version="1.0.0").is_valid)
+        self.assertFalse(python.PythonVersion(version="invalid-version!@#").is_valid)
+
     def test_non_version_string(self):
         """Assert that version string which is not version will be handled correctly."""
         version = python.PythonVersion(version="unstable")

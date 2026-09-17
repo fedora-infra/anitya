@@ -309,6 +309,11 @@ class CalendarVersion(Version):
         except ValueError:
             return None
 
+    @property
+    def is_valid(self) -> bool:
+        """Return True if the calendar version can be split according to the pattern."""
+        return self.maybe_split() is not None
+
     def __lt__(self, other: Version) -> bool:
         """
         Compare two versions for lower than using the calendar rules with pre-release

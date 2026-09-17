@@ -96,6 +96,15 @@ class Version(object):
         except InvalidVersion:
             return self.version
 
+    @property
+    def is_valid(self) -> bool:
+        """Return True if the version is valid and parseable."""
+        try:
+            self.parse()
+            return True
+        except InvalidVersion:
+            return False
+
     def parse(self):
         """
         Parse the version string to an object representing the version.
