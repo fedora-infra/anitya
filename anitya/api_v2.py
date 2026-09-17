@@ -49,6 +49,20 @@ def _page_validator(arg):
     return arg
 
 
+def _get_version_details(project):
+    """
+    Helper function to get the version details for a project.
+    """
+    return [
+        {
+            "version": str(v_obj.version),
+            "created_on": v_obj.created_on.isoformat() if v_obj.created_on else None,
+            "pre_release": v_obj.prerelease(),
+        }
+        for v_obj in project.get_sorted_version_objects()
+    ]
+
+
 def _items_per_page_validator(arg):
     """
     Validator for a pagination items_per_page number.
@@ -582,24 +596,28 @@ class VersionsResource(MethodView):
                 "latest_version_created_on": "2026-03-31T14:30:00Z",
                 "versions": [
                     "2.12",
-                    "2.11",
-                    "2.10",
-                    "2.9.1",
-                    "2.9",
-                    "2.8",
-                    "2.7"
+                    "2.11"
                 ],
                 "stable_versions": [
                     "2.12",
-                    "2.11",
-                    "2.10",
-                    "2.9.1",
-                    "2.9",
-                    "2.8",
-                    "2.7"
+                    "2.11"
+                ],
+                "version_details": [
+                    {
+                        "version": "2.12",
+                        "created_on": "2026-03-31T14:30:00Z",
+                        "pre_release": false
+                    },
+                    {
+                        "version": "2.11",
+                        "created_on": "2025-01-01T10:00:00Z",
+                        "pre_release": false
+                    }
                 ]
             }
 
+        :deprecated: `versions`, `stable_versions`, and `latest_version_created_on` fields will
+            be removed in a future release. Please use `version_details` instead.
 
         :query int project_id: The id of the project we want to get versions for.
         :statuscode 200: If all arguments are valid.
@@ -619,6 +637,8 @@ class VersionsResource(MethodView):
             "versions": project.versions,
             "stable_versions": [str(v) for v in project.stable_versions],
         }
+
+        response["version_details"] = _get_version_details(project)
 
         latest_version_object = project.latest_version_object
         if latest_version_object and latest_version_object.created_on:
@@ -675,8 +695,23 @@ class VersionsResource(MethodView):
                 "stable_versions": [
                     "0.0.2",
                     "0.0.1"
+                ],
+                "version_details": [
+                    {
+                        "version": "0.0.2",
+                        "created_on": "2020-01-01T12:00:00Z",
+                        "pre_release": false
+                    },
+                    {
+                        "version": "0.0.1",
+                        "created_on": "2019-01-01T12:00:00Z",
+                        "pre_release": false
+                    }
                 ]
             }
+
+        :deprecated: `versions` and `stable_versions` fields will be removed in a
+            future release. Please use `version_details` instead.
 
         :query string access_token: Your API access token.
         :reqjson int id: Id of the project.
@@ -899,5 +934,7 @@ class VersionsResource(MethodView):
                 "versions": project.versions,
                 "stable_versions": [str(v) for v in project.stable_versions],
             }
+
+            response["version_details"] = _get_version_details(project)
 
             return response
