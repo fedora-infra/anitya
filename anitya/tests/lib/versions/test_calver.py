@@ -38,6 +38,17 @@ class CalendarVersionTests(unittest.TestCase):
         """
         self.assertEqual("Calendar", calver.CalendarVersion.name)
 
+    def test_is_valid(self):
+        """Test is_valid property."""
+        self.assertTrue(
+            calver.CalendarVersion(version="20.04.1", pattern="YY.0M.MICRO").is_valid
+        )
+        self.assertFalse(
+            calver.CalendarVersion(
+                version="invalid-version!@#", pattern="YY.0M.MICRO"
+            ).is_valid
+        )
+
     def test_split_missing_pattern(self):
         """Assert that split function raises exception when pattern is missing."""
         version = calver.CalendarVersion(version="2019.04.23")

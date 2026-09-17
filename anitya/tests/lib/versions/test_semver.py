@@ -37,6 +37,11 @@ class SemanticVersionTests(unittest.TestCase):
         """
         self.assertEqual("Semantic", semver.SemanticVersion.name)
 
+    def test_is_valid(self):
+        """Test is_valid property."""
+        self.assertTrue(semver.SemanticVersion(version="1.0.0").is_valid)
+        self.assertFalse(semver.SemanticVersion(version="1.0").is_valid)
+
     def test_prerelease_false(self):
         """Assert prerelease is defined and returns False with non-prerelease versions."""
         version = semver.SemanticVersion(version="1.0.0")

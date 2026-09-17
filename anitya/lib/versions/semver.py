@@ -67,6 +67,15 @@ class SemanticVersion(Version):
 
         return super().prerelease()
 
+    @property
+    def is_valid(self) -> bool:
+        """Return True if the version is valid and parseable."""
+        try:
+            semver.VersionInfo.parse(self.parse())
+            return True
+        except ValueError:
+            return False
+
     def __eq__(self, other):
         """
         Compare two versions for equality using the semantic rules with pre-release
@@ -106,14 +115,8 @@ class SemanticVersion(Version):
         try:
             result = semver.compare(self.parse(), other.parse())
         except ValueError:
-            # Try to parse first version, to be sure which one caused the error
-            try:
-                semver.VersionInfo.parse(self.parse())
-            except ValueError:
-                # version is not correct semantic version always assume true
-                # This will move the non semantic versions to bottom
-                return True
-            return False
+            # If self is invalid, it sorts to the bottom (i.e. is less than valid ones)
+            return not self.is_valid
 
         if result != -1:
             return False

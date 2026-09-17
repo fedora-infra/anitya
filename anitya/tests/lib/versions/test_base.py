@@ -52,6 +52,14 @@ class VersionTests(unittest.TestCase):
         version.parse = mock.Mock(side_effect=exceptions.InvalidVersion("boop"))
         self.assertEqual("v1.0.0", str(version))
 
+    def test_is_valid(self):
+        """Assert is_valid returns boolean correctly."""
+        version = base.Version(version="v1.0.0")
+        self.assertTrue(version.is_valid)
+
+        version.parse = mock.Mock(side_effect=exceptions.InvalidVersion("boop"))
+        self.assertFalse(version.is_valid)
+
     def test_parse_no_v(self):
         """Assert parsing a version sans leading 'v' works."""
         version = base.Version(version="1.0.0")
