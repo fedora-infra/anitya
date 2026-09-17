@@ -1382,7 +1382,13 @@ class VersionsResourceGetTests(DatabaseTestCase):
         data = _read_json(output)
 
         self.assertEqual(
-            data, {"latest_version": None, "versions": [], "stable_versions": []}
+            data,
+            {
+                "latest_version": None,
+                "versions": [],
+                "stable_versions": [],
+                "version_details": [],
+            },
         )
 
     def test_list_versions(self):
@@ -1418,6 +1424,18 @@ class VersionsResourceGetTests(DatabaseTestCase):
             "latest_version_created_on": created_on.isoformat(),
             "versions": ["1.0.0", "0.9.9"],
             "stable_versions": ["1.0.0", "0.9.9"],
+            "version_details": [
+                {
+                    "version": "1.0.0",
+                    "created_on": created_on.isoformat(),
+                    "pre_release": False,
+                },
+                {
+                    "version": "0.9.9",
+                    "created_on": created_on.isoformat(),
+                    "pre_release": False,
+                },
+            ],
         }
 
         self.assertEqual(data, exp)
@@ -1454,6 +1472,9 @@ class VersionsResourceGetTests(DatabaseTestCase):
             "latest_version": "1.0.0",
             "versions": ["1.0.0"],
             "stable_versions": ["1.0.0"],
+            "version_details": [
+                {"version": "1.0.0", "created_on": None, "pre_release": False}
+            ],
         }
 
         self.assertEqual(data, exp)
@@ -1495,6 +1516,18 @@ class VersionsResourceGetTests(DatabaseTestCase):
             "latest_version_created_on": created_on.isoformat(),
             "versions": ["1.0.0", "0.9.9"],
             "stable_versions": ["1.0.0", "0.9.9"],
+            "version_details": [
+                {
+                    "version": "test-1.0.0",
+                    "created_on": created_on.isoformat(),
+                    "pre_release": False,
+                },
+                {
+                    "version": "test-0.9.9",
+                    "created_on": created_on.isoformat(),
+                    "pre_release": False,
+                },
+            ],
         }
 
         self.assertEqual(data, exp)
@@ -1640,6 +1673,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
             "found_versions": ["1.0.0", "0.9.9"],
             "versions": [],
             "stable_versions": [],
+            "version_details": [],
         }
         self.assertEqual(data, exp)
 
@@ -1672,6 +1706,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
             "found_versions": ["1.0.0", "0.9.9"],
             "versions": [],
             "stable_versions": [],
+            "version_details": [],
         }
         self.assertEqual(data, exp)
 
@@ -1702,6 +1737,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
             "found_versions": ["1.0.0", "0.9.9"],
             "versions": [],
             "stable_versions": [],
+            "version_details": [],
         }
         self.assertEqual(data, exp)
 
@@ -1763,6 +1799,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
             "found_versions": ["1.0.0", "0.9.9"],
             "versions": [],
             "stable_versions": [],
+            "version_details": [],
         }
         self.assertEqual(data, exp)
 
@@ -1818,6 +1855,13 @@ class VersionsResourcePostTests(DatabaseTestCase):
             "found_versions": ["1.0.0", "0.9.9"],
             "versions": ["0.1.0"],
             "stable_versions": ["0.1.0"],
+            "version_details": [
+                {
+                    "version": "test-0.1.0",
+                    "created_on": version.created_on.isoformat(),
+                    "pre_release": False,
+                }
+            ],
         }
         self.assertEqual(data, exp)
 
@@ -1850,6 +1894,7 @@ class VersionsResourcePostTests(DatabaseTestCase):
             "found_versions": ["1.0.0", "0.9.9"],
             "versions": [],
             "stable_versions": [],
+            "version_details": [],
         }
         self.assertEqual(data, exp)
 
