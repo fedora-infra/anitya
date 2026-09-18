@@ -1154,6 +1154,15 @@ class BrowseUsersTests(DatabaseTestCase):
             self.assertTrue(b"user@fedoraproject.org" in page_one.data)
             self.assertFalse(b"admin@example.com" in page_one.data)
 
+    def test_pagination_total_pages(self):
+        """Test pagination total pages"""
+        with login_user(self.flask_app, self.admin):
+            page = self.client.get("/users?limit=1&page=1")
+
+            self.assertEqual(200, page.status_code)
+            self.assertTrue(b"1 / 2" in page.data)
+            self.assertTrue(b'class="pagination' in page.data)
+
     def test_pagination_invalid_limit(self):
         """Assert pagination sets limit to default value on invalid input value."""
         with login_user(self.flask_app, self.admin):
@@ -1299,12 +1308,11 @@ class BrowseUsersTests(DatabaseTestCase):
         """Assert that SQL exception is handled correctly."""
         with mock.patch.object(
             db.session,
-            "scalars",
-            mock.Mock(side_effect=[SQLAlchemyError("SQLError"), None]),
+            "scalar",
+            mock.Mock(side_effect=SQLAlchemyError("SQLError")),
         ):
             with login_user(self.flask_app, self.admin):
-                output = self.client.get("/users?user_id=dummy")
-
+                output = self.client.get("/users")
                 self.assertEqual(200, output.status_code)
                 self.assertTrue(b"SQLError" in output.data)
                 self.assertFalse(b"admin@example.com" in output.data)

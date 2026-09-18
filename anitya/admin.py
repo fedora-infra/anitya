@@ -546,15 +546,17 @@ def browse_users():
         if active is not None:
             users_query = users_query.filter(models.User.active == active)
 
+        cnt_users = db.session.scalar(
+           select(func.count()).select_from(users_query.subquery())
+        )
+
         if offset > 0:
             users_query = users_query.offset(offset)
         if limit > 0:
             users_query = users_query.limit(limit)
 
         users = db.session.scalars(users_query).all()
-        cnt_users = db.session.scalar(
-            select(func.count()).select_from(users_query.subquery())
-        )
+
     except Exception as err:
         _log.exception(err)
         flask.flash(err, "errors")
