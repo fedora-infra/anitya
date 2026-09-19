@@ -44,7 +44,7 @@ dump-restore: init-db
 	$(call container-tool) exec -it postgres bash -c 'createuser anitya && xzcat /dump/anitya.dump.xz | psql anitya'
 	$(MAKE) up
 logs:
-	$(call container-tool) logs -f anitya-web anitya-check-service rabbitmq postgres
+	$(call compose-tool) logs -f anitya-web anitya-check-service rabbitmq postgres
 clean:
 	$(call compose-tool) down
 	$(call remove_dump)
