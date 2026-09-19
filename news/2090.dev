@@ -1,0 +1,1 @@
+Fix missing static files in local Docker dev environment by mounting node_modules as a named volume.

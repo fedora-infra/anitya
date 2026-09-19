@@ -11,6 +11,7 @@ services:
       - "127.0.0.1:5000:5000"
     volumes:
       - .:/app:z
+      - anitya_node_modules:/app/anitya/static/node_modules:z
     restart: unless-stopped
     environment:
       - ANITYA_WEB_CONFIG=anitya.toml
@@ -33,6 +34,7 @@ services:
     container_name: "anitya-check-service"
     volumes:
       - .:/app:z
+      - anitya_node_modules:/app/anitya/static/node_modules:z
     restart: unless-stopped
     environment:
       - ANITYA_WEB_CONFIG=anitya.toml
@@ -74,3 +76,6 @@ services:
       - POSTGRES_PASSWORD=anypasswordworkslocally
       - POSTGRES_DB=anitya
 
+
+volumes:
+  anitya_node_modules:
