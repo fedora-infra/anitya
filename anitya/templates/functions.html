@@ -1,8 +1,10 @@
 {% macro render_field_in_row(field, after="", docs="") %}
     <td>
-      {%- if docs -%}<a href="{{ docs }}">{%- endif -%}
-      {{ field.label }}
-      {%- if docs -%}</a>{%- endif -%}
+      {%- if docs -%}
+        {{ field.label('<a href="{{docs}}" target="_blank">' + field.label.text + '</a>') }}
+      {%- else -%}
+        {{ field.label }}
+      {%- endif -%}
     </td>
     <td>
       {{ field(**kwargs)|safe }}
