@@ -18,6 +18,7 @@ define remove_dump
 endef
 
 up:
+	mkdir -p ./.container/dump/
 	$(call compose-tool) up -d
 # Wait till the anitya-web container is ready
 	@until $(call container-tool) healthcheck run anitya-web >/dev/null 2>&1; do \
