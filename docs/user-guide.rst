@@ -205,9 +205,6 @@ The backends available are:
   *https://packagist.org/packages/phpunit/php-code-coverage* this field needs to contain
   *phpunit/php-code-coverage*
 
-* **pagure** for projects hosted on
-  `pagure.io <https://pagure.io/>`_
-
 * **PEAR** for projects hosted on
   `pear.php.net <https://pear.php.net/>`_
 

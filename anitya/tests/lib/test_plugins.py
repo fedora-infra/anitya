@@ -60,7 +60,6 @@ EXPECTED_BACKENDS = [
     "custom",
     "folder",
     "npmjs",
-    "pagure",
 ]
 
 EXPECTED_ECOSYSTEMS = {
