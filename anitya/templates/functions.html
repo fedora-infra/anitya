@@ -1,10 +1,17 @@
 {% macro render_field_in_row(field, after="", docs="") %}
     <td>
       {%- if docs -%}
-        {{ field.label('<a href="{{docs}}" target="_blank">' + field.label.text + '</a>') }}
-      {%- else -%}
-        {{ field.label }}
-      {%- endif -%}
+          <span style="display: inline-flex; align-items: center; white-space: nowrap;">
+            <label for="{{ field.id }}" style="margin-bottom: 0; margin-right: 4px; white-space:
+  nowrap;">{{ field.label.text }}</label>
+            <a href="{{ docs }}" target="_blank" aria-label="Documentation" title="Documentation"
+  class="text-decoration-none">
+              <span class="badge rounded-pill bg-secondary">?</span>
+            </a>
+          </span>
+        {%- else -%}
+          {{ field.label }}
+        {%- endif -%}
     </td>
     <td>
       {{ field(**kwargs)|safe }}
