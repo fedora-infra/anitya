@@ -59,10 +59,10 @@ github_client_kwargs = { scope = "openid email profile" }
 
 # Fedora OAuth backend variables
 # Fedora OAuth client id
-# Have to be requested in a ticket on https://pagure.io/fedora-infrastructure
+# Have to be requested in a ticket on https://forge.fedoraproject.org/infra/tickets
 fedora_client_id = ""
 # Fedora OAuth secret
-# Have to be requested in a ticket on https://pagure.io/fedora-infrastructure
+# Have to be requested in a ticket on https://forge.fedoraproject.org/infra/tickets
 fedora_client_secret = ""
 # Fedora OAuth authentication endpoint
 fedora_server_metadata_url = "https://id.fedoraproject.org/.well-known/openid-configuration"

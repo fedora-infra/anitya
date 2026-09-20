@@ -66,7 +66,7 @@ You can find example `anitya.wsgi <https://github.com/fedora-infra/anitya/blob/m
 in Anitya repository.
 You can use this file with Apache server or deploy it by flask. Fedora uses Apache
 so you can look at their
-`configuration <https://pagure.io/fedora-infra/ansible/blob/main/f/roles/openshift-apps/release-monitoring/templates/httpd.conf>`_.
+`configuration <https://forge.fedoraproject.org/infra/ansible/src/branch/main/roles/openshift-apps/release-monitoring/templates/httpd.conf>`_.
 
 .. _update-service:
 
@@ -133,6 +133,6 @@ of your own RabbitMQ server please look at the `official documentation <https://
 
 
 .. _release-monitoring.org: https://release-monitoring.org/
-.. _deployment role: https://pagure.io/fedora-infra/ansible/blob/main/f/roles/openshift-apps/release-monitoring
+.. _deployment role: https://forge.fedoraproject.org/infra/ansible/src/branch/main/roles/openshift-apps/release-monitoring
 .. _python setup documentation: https://docs.python.org/3/distutils/setupscript.html#installing-scripts
 

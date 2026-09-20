@@ -247,7 +247,7 @@ changes there.
 
 If you need to do any changes in configuration of ``staging`` instance,
 just update the
-`release-monitoring role <https://pagure.io/fedora-infra/ansible/blob/main/f/roles/openshift-apps/release-monitoring>`_
+`release-monitoring role <https://forge.fedoraproject.org/infra/ansible/src/branch/main/roles/openshift-apps/release-monitoring>`_
 in Fedora infra ansible repository.
 
 If the changes are merged, you can run the playbook by following
