@@ -1,4 +1,4 @@
-ARG FEDORA_VERSION
+ARG FEDORA_VERSION=44
 FROM registry.fedoraproject.org/fedora:${FEDORA_VERSION}
 
 WORKDIR /app
