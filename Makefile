@@ -32,12 +32,12 @@ bash-check:
 	$(call container-tool) exec -it anitya-check-service bash -c "bash"
 init-db:
 	$(call container-tool) exec -it anitya-web bash -c "poetry run python3 createdb.py"
-dump-restore: init-db
+dump-restore:
 	$(call download_dump)
 # Anitya containers need to be stopped before doing dump restore
 	$(call container-tool) stop anitya-check-service anitya-web
-	$(call container-tool) exec -it postgres bash -c 'createuser anitya && xzcat /dump/anitya.dump.xz | psql anitya'
-	$(MAKE) up
+	$(call container-tool) exec -it postgres bash -c "dropdb --if-exists anitya; createuser anitya 2>/dev/null || true; xzcat /dump/anitya.dump.xz | psql -U postgres"
+	$(call container-tool) start anitya-web anitya-check-service
 logs:
 	$(call compose-tool) logs -f anitya-web anitya-check-service rabbitmq postgres
 clean:
