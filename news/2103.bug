@@ -1,0 +1,1 @@
+Fix graceful shutdown of dev containers by forwarding SIGTERM to Python.
