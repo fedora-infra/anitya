@@ -36,7 +36,7 @@ services:
     restart: unless-stopped
     environment:
       - ANITYA_WEB_CONFIG=anitya.toml
-      - START_COMMAND=check_service
+      - START_COMMAND=anitya.check_service
     depends_on:
       postgres:
         condition: service_healthy
