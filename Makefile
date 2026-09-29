@@ -52,6 +52,15 @@ clean:
 	$(call container-tool) rmi "localhost/anitya-base:latest" "docker.io/library/postgres:16.13" "docker.io/library/rabbitmq:3.8.16-management-alpine"
 tests:
 	$(call container-tool) exec -it anitya-web bash -c "tox $(PARAM)"
+lint:
+	$(MAKE) tests PARAM="-e lint"
+format:
+	$(MAKE) tests PARAM="-e format"
+mypy:
+	$(MAKE) tests PARAM="-e mypy"
+diff-cover:
+	$(MAKE) tests PARAM="-e diff-cover"
 
 .PHONY: up restart halt bash-web \
-	init-db dump-restore logs clean tests
+	init-db dump-restore logs clean tests \
+	lint format mypy diff-cover

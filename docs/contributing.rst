@@ -180,6 +180,10 @@ Makefile scripts that provide easier container management:
   * ``PARAM="-e format" make tests`` - run only format test environment
   * ``PARAM="-- anitya/tests/test_app.py" make tests`` - run tests only for ``test_app.py`` file
   * ``PARAM="-e format -- anitya/tests/test_app.py" make tests`` - combine the two above
+* ``make lint`` Run flake8 linter in container
+* ``make format`` Check code formatting with Black in container
+* ``make mypy`` Run Mypy type checker in container
+* ``make diff-cover`` Run coverage check on changed lines in container
 
 Project files are bound to each other with host and container. Whenever you change any project file from the host or the container, the same change will happen on the opposite side as well.
 
