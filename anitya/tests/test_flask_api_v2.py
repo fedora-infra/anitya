@@ -1983,3 +1983,89 @@ class VersionsResourcePostTests(DatabaseTestCase):
 
         mock_check.assert_called_once_with(mock.ANY, mock.ANY, test=True)
         self.assertEqual(output.status_code, 500)
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_project_exists_ecosystem_backend_trailing_slash(self, mock_check):
+        """
+        Assert that version check on an existing ecosystem project with trailing slash
+        on homepage does not crash with ProjectExists error.
+        """
+        project = models.Project(
+            name="lark",
+            homepage="https://pypi.org/project/lark",
+            backend="PyPI",
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        mock_check.return_value = ["1.1.9", "1.1.8"]
+        request_data = {
+            "name": "lark",
+            "homepage": "https://pypi.org/project/lark/",
+            "backend": "PyPI",
+            "dry_run": "true",
+        }
+
+        output = self.app.post(
+            "/api/v2/versions/", headers=self.auth, data=request_data
+        )
+
+        data = _read_json(output)
+        self.assertEqual(output.status_code, 200)
+        self.assertEqual(data["found_versions"], ["1.1.9", "1.1.8"])
+        mock_check.assert_called_once_with(mock.ANY, mock.ANY, test=True)
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_project_exists_homepage_trailing_slash(self, mock_check):
+        """
+        Assert that version check matches an existing non-ecosystem project regardless
+        of trailing slash differences on homepage.
+        """
+        project = models.Project(
+            name="custompkg",
+            homepage="https://example.com/custompkg",
+            backend="custom",
+        )
+        self.session.add(project)
+        self.session.commit()
+
+        mock_check.return_value = ["2.0.0"]
+        request_data = {
+            "name": "custompkg",
+            "homepage": "https://example.com/custompkg/",
+            "backend": "custom",
+            "dry_run": "true",
+        }
+
+        output = self.app.post(
+            "/api/v2/versions/", headers=self.auth, data=request_data
+        )
+
+        data = _read_json(output)
+        self.assertEqual(output.status_code, 200)
+        self.assertEqual(data["found_versions"], ["2.0.0"])
+        mock_check.assert_called_once_with(mock.ANY, mock.ANY, test=True)
+
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_no_project_with_version_url(self, mock_check):
+        """
+        Assert that temporary project is created when version_url and dry_run are specified.
+        """
+        mock_check.return_value = ["1.0.0"]
+        request_data = {
+            "backend": "custom",
+            "homepage": "https://example.com/testpkg",
+            "name": "testpkg",
+            "version_url": "https://example.com/testpkg/releases",
+            "dry_run": "true",
+        }
+
+        with fml_testing.mock_sends():
+            output = self.app.post(
+                "/api/v2/versions/", headers=self.auth, data=request_data
+            )
+
+        data = _read_json(output)
+        self.assertEqual(output.status_code, 200)
+        self.assertEqual(data["found_versions"], ["1.0.0"])
+        mock_check.assert_called_once_with(mock.ANY, mock.ANY, test=True)

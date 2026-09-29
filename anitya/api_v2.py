@@ -788,24 +788,44 @@ class VersionsResource(MethodView):
         if not project:
             homepage = args.get("homepage")
             name = args.get("name")
-            q = select(models.Project)
-            if homepage:
-                q = q.filter(
-                    func.lower(models.Project.homepage) == func.lower(homepage)
-                )
-            if name:
-                q = q.filter(func.lower(models.Project.name) == func.lower(name))
+            backend = args.get("backend")
 
-            query_result = db.session.execute(q).scalars().all()
+            if name and backend:
+                ecosystems = [
+                    e
+                    for e in plugins.ECOSYSTEM_PLUGINS.get_plugins()
+                    if e.default_backend
+                    and e.default_backend.lower() == backend.lower()
+                ]
+                if ecosystems:
+                    project = models.Project.by_name_and_ecosystem(
+                        db.session, name.strip(), ecosystems[0].name
+                    )
 
-            if len(query_result) > 1:
-                response = (
-                    jsonify("More than one project found"),
-                    400,
-                )
-                return response
-            elif len(query_result) == 1:
-                project = query_result[0]
+            if not project and (homepage or name):
+                q = select(models.Project)
+                if homepage:
+                    clean_homepage = homepage.strip().lower().rstrip("/")
+                    q = q.filter(
+                        func.lower(models.Project.homepage).in_(
+                            [clean_homepage, clean_homepage + "/"]
+                        )
+                    )
+                if name:
+                    q = q.filter(
+                        func.lower(models.Project.name) == func.lower(name.strip())
+                    )
+
+                query_result = db.session.execute(q).scalars().all()
+
+                if len(query_result) > 1:
+                    response = (
+                        jsonify("More than one project found"),
+                        400,
+                    )
+                    return response
+                elif len(query_result) == 1:
+                    project = query_result[0]
 
         # If we still don't have project create temporary one
         if not project:

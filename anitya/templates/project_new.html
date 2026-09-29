@@ -81,7 +81,7 @@
             </tr>
             {%- endif -%}
           </table>
-          <button type="submit" class="btn btn-outline-success btn-sm float-end"
+          <button type="button" class="btn btn-outline-success btn-sm float-end"
                   id="testcheck" tabindex=16>
               Test check
           </button>
@@ -359,7 +359,7 @@
   }
 
   function checkrelease(){
-    var btn = '#checknow';
+    var btn = '#testcheck';
     $(btn).hide(); $(btn + "-spinner").show();
     var _name = $('#name').val();
     var _homepage = $('#homepage').val();
