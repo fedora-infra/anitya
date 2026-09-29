@@ -1,0 +1,1 @@
+Fix 500 error when checking versions on duplicate projects with trailing slash differences.
