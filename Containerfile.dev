@@ -49,4 +49,4 @@ RUN pushd static && npm install && popd
 # Set the poetry to use system packages
 RUN poetry config virtualenvs.options.system-site-packages true
 
-CMD ["sh", "-c", "poetry install && poetry run python -m $START_COMMAND"]
+CMD ["sh", "-c", "poetry install && exec poetry run python -m $START_COMMAND"]
