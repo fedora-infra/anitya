@@ -2,7 +2,7 @@
 
 _CHECK_PODMAN := $(shell command -v podman 2> /dev/null)
 define compose-tool
-	$(if $(_CHECK_PODMAN), podman-compose, docker-compose) -f container-compose.yml
+	PODMAN_COMPOSE_WARNING_LOGS=false $(if $(_CHECK_PODMAN), podman compose, docker compose) -f container-compose.yml
 endef
 
 define container-tool
@@ -19,13 +19,7 @@ endef
 
 up:
 	mkdir -p ./.container/dump/
-	$(call compose-tool) up -d
-# Wait till the anitya-web container is ready
-	@until $(call container-tool) healthcheck run anitya-web >/dev/null 2>&1; do \
-		printf '.'; \
-		sleep 1; \
-	done
-	@echo ""
+	$(call compose-tool) up -d --wait
 	$(MAKE) init-db
 	@echo "Empty database initialized. Run dump-restore to fill it by production dump."
 restart:
