@@ -1,0 +1,1 @@
+Add `lint`, `format`, `mypy`, and `diff-cover` targets to Makefile.
