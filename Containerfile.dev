@@ -43,8 +43,8 @@ RUN mkdir -p /etc/fedora-messaging
 COPY .container/web/config.toml /etc/fedora-messaging
 
 # Install javascript dependencies
-COPY anitya/static /app/static
-RUN pushd static && npm install && popd
+COPY anitya/static /app/anitya/static
+RUN pushd anitya/static && npm install && popd
 
 # Set the poetry to use system packages
 RUN poetry config virtualenvs.options.system-site-packages true
