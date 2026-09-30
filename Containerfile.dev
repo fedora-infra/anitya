@@ -6,6 +6,7 @@ WORKDIR /app
 # Package installation steps are separated so they
 # can be cached individually on Dockerfile changes
 
+RUN dnf config-manager setopt fedora-cisco-openh264.enabled=0
 RUN dnf upgrade --refresh -y
 
 # Install helpful development packages (for tests and setup)
