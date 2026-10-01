@@ -11,7 +11,7 @@ permissions:
 
 env:
   # ${{ github.repository }} is "owner/name"
-  IMAGE_URL: ghcr.io/${{ github.repository }}:latest
+  IMAGE_URL: ghcr.io/${{ github.repository }}/anytya-base
 
 jobs:
   build-and-push:
