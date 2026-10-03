@@ -255,10 +255,11 @@ def delete_project_mapping(project_id, distro_name, pkg_name):
     )
 
 
-@ui_blueprint.route("/project/<project_id>/delete/<version>", methods=["GET", "POST"])
+@ui_blueprint.route("/project/<project_id>/delete/version", methods=["GET", "POST"])
 @login_required
-def delete_project_version(project_id, version):
+def delete_project_version(project_id):
     """Delect project version"""
+    version = flask.request.values.get("version", "")
     project = models.Project.get(db.session, project_id)
     if not project:
         flask.abort(404)

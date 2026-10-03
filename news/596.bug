@@ -1,0 +1,1 @@
+Fix removing versions that contain a slash or are named ``versions``

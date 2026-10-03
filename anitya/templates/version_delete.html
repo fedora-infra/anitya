@@ -11,9 +11,9 @@
     <div class="list-group shadow-sm mb-3">
       <form method="POST" action="{{
           url_for('anitya_ui.delete_project_version',
-                  project_id=project.id,
-                  version=version) }}" >
+                  project_id=project.id) }}" >
         {{ form.csrf_token }}
+        <input type="hidden" name="version" value="{{ version }}" />
         <div class="list-group-item">
           <h4 class="list-group-item-heading">
             Project

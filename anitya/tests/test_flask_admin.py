@@ -640,46 +640,46 @@ class DeleteProjectVersionTests(DatabaseTestCase):
     def test_non_admin_get(self):
         """Assert non-admin users cannot GET the delete project version view."""
         with login_user(self.flask_app, self.user):
-            output = self.client.get("/project/1/delete/1.0.0")
+            output = self.client.get("/project/1/delete/version?version=1.0.0")
             self.assertEqual(401, output.status_code)
 
     def test_non_admin_post(self):
         """Assert non-admin users cannot POST to the delete project mapping view."""
         with login_user(self.flask_app, self.user):
-            output = self.client.post("/project/1/delete/1.0.0")
+            output = self.client.post("/project/1/delete/version?version=1.0.0")
             self.assertEqual(401, output.status_code)
 
     def test_admin_get(self):
         """Assert admin users can GET the delete project mapping view."""
         with login_user(self.flask_app, self.admin):
-            output = self.client.get("/project/1/delete/1.0.0")
+            output = self.client.get("/project/1/delete/version?version=1.0.0")
             self.assertEqual(200, output.status_code)
 
     def test_missing_project(self):
         """Assert HTTP 404 is returned if the project doesn't exist."""
         with login_user(self.flask_app, self.admin):
-            output = self.client.get("/project/42/delete/1.0.0")
+            output = self.client.get("/project/42/delete/version?version=1.0.0")
             self.assertEqual(404, output.status_code)
 
     def test_missing_version(self):
         """Assert HTTP 404 is returned if the project doesn't exist."""
         with login_user(self.flask_app, self.admin):
-            output = self.client.get("/project/42/delete/9.9.9")
+            output = self.client.get("/project/42/delete/version?version=9.9.9")
             self.assertEqual(404, output.status_code)
 
     def test_admin_post(self):
         """Assert admin users can delete project mappings."""
         self.project.latest_version = "1.0.0"
         with login_user(self.flask_app, self.admin):
-            output = self.client.get("/project/1/delete/1.0.0")
+            output = self.client.get("/project/1/delete/version?version=1.0.0")
             csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
                 1
             ].split(b'">')[0]
-            data = {"confirm": True, "csrf_token": csrf_token}
+            data = {"confirm": True, "csrf_token": csrf_token, "version": "1.0.0"}
 
             with fml_testing.mock_sends(anitya_schema.ProjectVersionDeletedV2):
                 output = self.client.post(
-                    "/project/1/delete/1.0.0", data=data, follow_redirects=True
+                    "/project/1/delete/version", data=data, follow_redirects=True
                 )
             self.assertEqual(200, output.status_code)
             self.assertEqual(
@@ -695,15 +695,15 @@ class DeleteProjectVersionTests(DatabaseTestCase):
         self.project.latest_version = "1.0.1"
 
         with login_user(self.flask_app, self.admin):
-            output = self.client.get("/project/1/delete/1.0.1")
+            output = self.client.get("/project/1/delete/version?version=1.0.1")
             csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
                 1
             ].split(b'">')[0]
-            data = {"confirm": True, "csrf_token": csrf_token}
+            data = {"confirm": True, "csrf_token": csrf_token, "version": "1.0.1"}
 
             with fml_testing.mock_sends(anitya_schema.ProjectVersionDeletedV2):
                 output = self.client.post(
-                    "/project/1/delete/1.0.1", data=data, follow_redirects=True
+                    "/project/1/delete/version", data=data, follow_redirects=True
                 )
             self.assertEqual(200, output.status_code)
             self.assertEqual(
@@ -722,15 +722,15 @@ class DeleteProjectVersionTests(DatabaseTestCase):
         self.project.latest_version = "1.0.1"
 
         with login_user(self.flask_app, self.admin):
-            output = self.client.get("/project/1/delete/v1.0.1")
+            output = self.client.get("/project/1/delete/version?version=v1.0.1")
             csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
                 1
             ].split(b'">')[0]
-            data = {"confirm": True, "csrf_token": csrf_token}
+            data = {"confirm": True, "csrf_token": csrf_token, "version": "v1.0.1"}
 
             with fml_testing.mock_sends(anitya_schema.ProjectVersionDeletedV2):
                 output = self.client.post(
-                    "/project/1/delete/v1.0.1", data=data, follow_redirects=True
+                    "/project/1/delete/version", data=data, follow_redirects=True
                 )
             self.assertEqual(200, output.status_code)
             self.assertEqual(
@@ -746,15 +746,15 @@ class DeleteProjectVersionTests(DatabaseTestCase):
         self.project.latest_version = "1.0.1"
 
         with login_user(self.flask_app, self.admin):
-            output = self.client.get("/project/1/delete/1.0.0")
+            output = self.client.get("/project/1/delete/version?version=1.0.0")
             csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
                 1
             ].split(b'">')[0]
-            data = {"confirm": True, "csrf_token": csrf_token}
+            data = {"confirm": True, "csrf_token": csrf_token, "version": "1.0.0"}
 
             with fml_testing.mock_sends(anitya_schema.ProjectVersionDeletedV2):
                 output = self.client.post(
-                    "/project/1/delete/1.0.0", data=data, follow_redirects=True
+                    "/project/1/delete/version", data=data, follow_redirects=True
                 )
             self.assertEqual(200, output.status_code)
             self.assertEqual(
@@ -765,17 +765,56 @@ class DeleteProjectVersionTests(DatabaseTestCase):
     def test_admin_post_unconfirmed(self):
         """Assert failing to confirm the action results in no change."""
         with login_user(self.flask_app, self.admin):
-            output = self.client.get("/project/1/delete/1.0.0")
+            output = self.client.get("/project/1/delete/version?version=1.0.0")
             csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
                 1
             ].split(b'">')[0]
-            data = {"csrf_token": csrf_token}
+            data = {"csrf_token": csrf_token, "version": "1.0.0"}
 
-            output = self.client.post("/project/1/delete/1.0.0", data=data)
+            output = self.client.post("/project/1/delete/version", data=data)
             self.assertEqual(302, output.status_code)
             self.assertEqual(
                 1, len(self.session.execute(select(models.ProjectVersion)).all())
             )
+
+    def _delete_version(self, version):
+        """Delete the version through the view and return the remaining versions."""
+        project_version = models.ProjectVersion(project=self.project, version=version)
+        self.session.add(project_version)
+        self.session.commit()
+
+        with login_user(self.flask_app, self.admin):
+            output = self.client.get(
+                "/project/1/delete/version", query_string={"version": version}
+            )
+            self.assertEqual(200, output.status_code)
+            csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
+                1
+            ].split(b'">')[0]
+            data = {"confirm": True, "csrf_token": csrf_token, "version": version}
+
+            with fml_testing.mock_sends(anitya_schema.ProjectVersionDeletedV2):
+                output = self.client.post(
+                    "/project/1/delete/version", data=data, follow_redirects=True
+                )
+            self.assertEqual(200, output.status_code)
+
+        return [
+            version_obj.version
+            for version_obj in self.session.scalars(select(models.ProjectVersion)).all()
+        ]
+
+    def test_admin_post_version_with_slash(self):
+        """Assert a version containing a slash can be deleted."""
+        self.assertEqual(["1.0.0"], self._delete_version("1.0/2"))
+
+    def test_admin_post_version_leading_slash(self):
+        """Assert a version starting with a slash deletes that version and no other."""
+        self.assertEqual(["1.0.0"], self._delete_version("/1.0"))
+
+    def test_admin_post_version_named_versions(self):
+        """Assert a version named 'versions' doesn't reach the delete all versions view."""
+        self.assertEqual(["1.0.0"], self._delete_version("versions"))
 
 
 class DeleteProjectVersionsTests(DatabaseTestCase):
