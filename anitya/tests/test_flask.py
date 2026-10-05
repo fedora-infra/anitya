@@ -525,23 +525,28 @@ class FlaskTest(DatabaseTestCase):
         output = self.app.get("/projects/")
         self.assertEqual(output.status_code, 200)
 
-        expected = b"""
-                <a href="https://www.geany.org/" target="_blank" rel="noopener noreferrer">
-                  https://www.geany.org/
-                </a>"""
-        self.assertTrue(expected in output.data)
-
         expected = (
-            b'\n                <a href="https://fedorahosted.org/r2spec/" target="_blank"'
-            b' rel="noopener noreferrer">\n                  '
-            b"https://fedorahosted.org/r2spec/\n                </a>"
+            b'\n          <a href="https://www.geany.org/" target="_blank" '
+            b'rel="noopener noreferrer">\n'
+            b"            https://www.geany.org/\n"
+            b"          </a>"
         )
         self.assertTrue(expected in output.data)
 
-        expected = b"""
-                <a href="https://subsurface-divelog.org/" target="_blank" rel="noopener noreferrer">
-                  https://subsurface-divelog.org/
-                </a>"""
+        expected = (
+            b'\n          <a href="https://fedorahosted.org/r2spec/" target="_blank" '
+            b'rel="noopener noreferrer">\n'
+            b"            https://fedorahosted.org/r2spec/\n"
+            b"          </a>"
+        )
+        self.assertTrue(expected in output.data)
+
+        expected = (
+            b'\n          <a href="https://subsurface-divelog.org/" target="_blank" '
+            b'rel="noopener noreferrer">\n'
+            b"            https://subsurface-divelog.org/\n"
+            b"          </a>"
+        )
         self.assertTrue(expected in output.data)
 
         self.assertEqual(output.data.count(b'<a href="/project/'), 3)
@@ -617,12 +622,8 @@ class FlaskTest(DatabaseTestCase):
         output = self.app.get("/distro/Fedora/")
         self.assertEqual(output.status_code, 200)
 
-        expected = b"""
-  <blockquote>
-      Oops, this is embarrassing. It seems that no projects are being
-      monitored currently.
-  </blockquote>"""
-        self.assertTrue(expected in output.data)
+        self.assertIn(b"No projects found", output.data)
+        self.assertIn(b"no projects are currently monitored", output.data.lower())
         self.assertTrue(
             b'form action="/distro/Fedora/search/" role="form"' in output.data
         )
@@ -630,7 +631,7 @@ class FlaskTest(DatabaseTestCase):
 
         output = self.app.get("/distro/Fedora/?page=ab")
         self.assertEqual(output.status_code, 200)
-        self.assertTrue(expected in output.data)
+        self.assertIn(b"No projects found", output.data)
         self.assertTrue(
             b'form action="/distro/Fedora/search/" role="form"' in output.data
         )
@@ -644,13 +645,8 @@ class FlaskTest(DatabaseTestCase):
         output = self.app.get("/distro/Fedora/search/gua")
         self.assertEqual(output.status_code, 200)
 
-        expected = b"""
-    <blockquote>
-      Oops, this is embarrassing. It seems that no projects are being
-      monitored currently.
-      <p><a href="/project/new?name=gua">Click Here</a> to add this project instead. </p>
-    </blockquote>"""
-        self.assertIn(expected, output.data)
+        self.assertIn(b"No projects found", output.data)
+        self.assertIn(b'<a href="/project/new?name=gua"', output.data)
         self.assertIn(b'form action="/distro/Fedora/search/"', output.data)
         self.assertIn(b"<h1>Search projects in Fedora</h1>", output.data)
 
@@ -716,6 +712,9 @@ class FlaskTest(DatabaseTestCase):
         output = self.app.get("/projects/search/g")
         self.assertEqual(output.status_code, 200)
         self.assertEqual(output.data.count(b'<a href="/project/1'), 1)
+        self.assertIn(b'aria-label="Sort Ascending"', output.data)
+        self.assertIn(b'aria-label="Sort Descending"', output.data)
+        self.assertIn(b"pattern=g", output.data)
 
         output = self.app.get("/projects/search/geany ")
         self.assertEqual(output.status_code, 200)
@@ -744,6 +743,29 @@ class FlaskTest(DatabaseTestCase):
 
         expected = b"Only one result matching with an " b"exact match, redirecting"
         self.assertTrue(expected in output.data)
+
+    def test_projects_search_special_characters_urlencode(self):
+        """Assert that search patterns with special characters are urlencoded in sort links."""
+        create_project(self.session)
+        gtk_project = models.Project(
+            name="gtk+",
+            homepage="https://www.gtk.org/",
+            backend="custom",
+        )
+        gtk_extra = models.Project(
+            name="gtk+-extra",
+            homepage="https://www.gtk.org/extra",
+            backend="custom",
+        )
+        self.session.add(gtk_project)
+        self.session.add(gtk_extra)
+        self.session.commit()
+
+        output = self.app.get("/projects/search/?pattern=gtk%2B")
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"pattern=gtk%2B", output.data)
+        self.assertIn(b'aria-label="Sort Ascending"', output.data)
+        self.assertIn(b'aria-label="Sort Descending"', output.data)
 
     def test_logout_redirect(self):
         """Assert the logout logouts user"""

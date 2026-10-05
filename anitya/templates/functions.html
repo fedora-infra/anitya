@@ -24,3 +24,42 @@
 {%- endif -%}
 
 {% endmacro %}
+
+{% macro sort_arrow(field, current_sort="", page=1, page_url="", pattern="") %}
+  {% set url_prefix = page_url if page_url else "" %}
+  {% set pattern_param = "&pattern=" ~ (pattern|urlencode) if pattern and pattern != "*" else "" %}
+  {% set asc_sort = field ~ "_asc" %}
+  {% set desc_sort = field ~ "_desc" %}
+  <a href="{{ url_prefix }}?page={{ page }}&sort={{ asc_sort }}{{ pattern_param }}" class="text-decoration-none {% if current_sort == asc_sort %}text-primary fw-bold{% else %}text-muted{% endif %}" title="Sort Ascending" aria-label="Sort Ascending">▲</a>
+  <a href="{{ url_prefix }}?page={{ page }}&sort={{ desc_sort }}{{ pattern_param }}" class="text-decoration-none {% if current_sort == desc_sort %}text-primary fw-bold{% else %}text-muted{% endif %}" title="Sort Descending" aria-label="Sort Descending">▼</a>
+{% endmacro %}
+
+{% macro pagination(page, total_page, page_url="", pattern="", sort="", aria_label="Pagination") %}
+{% if total_page > 1 %}
+{% set url_prefix = page_url if page_url else "" %}
+{% set pattern_param = "&pattern=" ~ (pattern|urlencode) if pattern and pattern != "*" else "" %}
+{% set sort_param = "&sort=" ~ sort if sort else "" %}
+<div class="d-flex justify-content-end mb-3">
+  <nav aria-label="{{ aria_label }}">
+    <ul class="pagination pagination-sm mb-0">
+      {% if page > 1 %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_prefix }}?page={{ page - 1 }}{{ pattern_param }}{{ sort_param }}">«</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled"><span class="page-link">«</span></li>
+      {% endif %}
+      <li class="page-item disabled"><span class="page-link">{{ page }} / {{ total_page }}</span></li>
+      {% if page < total_page %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_prefix }}?page={{ page + 1 }}{{ pattern_param }}{{ sort_param }}">»</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled"><span class="page-link">»</span></li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+{% endif %}
+{% endmacro %}
+
