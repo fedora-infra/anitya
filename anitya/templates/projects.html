@@ -1,4 +1,5 @@
 {% extends "master.html" %}
+{% from "functions.html" import sort_arrow, pagination %}
 
 {% block title %}Projects Monitored · Anitya{% endblock %}
 
@@ -29,35 +30,7 @@
   </div>
 </div>
 
-{% if total_page > 1 %}
-<div class="d-flex justify-content-end mb-3">
-  <nav aria-label="Projects pagination">
-    <ul class="pagination pagination-sm mb-0">
-      {% if page > 1 %}
-      <li class="page-item">
-        <a class="page-link" href="{{ page_url }}?page={{ page - 1 }}{% if sort %}&sort={{ sort }}{% endif %}">«</a>
-      </li>
-      {% else %}
-      <li class="page-item disabled">
-        <span class="page-link">«</span>
-      </li>
-      {% endif %}
-      <li class="page-item disabled">
-        <span class="page-link">{{ page }} / {{ total_page }}</span>
-      </li>
-      {% if page < total_page %}
-      <li class="page-item">
-        <a class="page-link" href="{{ page_url }}?page={{ page + 1 }}{% if sort %}&sort={{ sort }}{% endif %}">»</a>
-      </li>
-      {% else %}
-      <li class="page-item disabled">
-        <span class="page-link">»</span>
-      </li>
-      {% endif %}
-    </ul>
-  </nav>
-</div>
-{% endif %}
+{{ pagination(page, total_page, page_url=page_url, sort=sort, aria_label="Projects pagination") }}
 
 <div class="table-responsive shadow-sm rounded border mb-3">
   {% if projects %}
@@ -65,19 +38,13 @@
     <thead>
       <tr>
         <th scope="col" style="width: 30%;">
-          Name 
-          <a href="?page={{ page }}&sort=name_asc" class="text-decoration-none {% if sort == 'name_asc' %}text-primary fw-bold{% else %}text-muted{% endif %}" title="Sort Ascending">▲</a> 
-          <a href="?page={{ page }}&sort=name_desc" class="text-decoration-none {% if sort == 'name_desc' %}text-primary fw-bold{% else %}text-muted{% endif %}" title="Sort Descending">▼</a>
+          Name {{ sort_arrow('name', sort, page, page_url=page_url) }}
         </th>
         <th scope="col">
-          Homepage 
-          <a href="?page={{ page }}&sort=homepage_asc" class="text-decoration-none {% if sort == 'homepage_asc' %}text-primary fw-bold{% else %}text-muted{% endif %}" title="Sort Ascending">▲</a> 
-          <a href="?page={{ page }}&sort=homepage_desc" class="text-decoration-none {% if sort == 'homepage_desc' %}text-primary fw-bold{% else %}text-muted{% endif %}" title="Sort Descending">▼</a>
+          Homepage {{ sort_arrow('homepage', sort, page, page_url=page_url) }}
         </th>
         <th scope="col" style="width: 20%;">
-          Backend 
-          <a href="?page={{ page }}&sort=backend_asc" class="text-decoration-none {% if sort == 'backend_asc' %}text-primary fw-bold{% else %}text-muted{% endif %}" title="Sort Ascending">▲</a> 
-          <a href="?page={{ page }}&sort=backend_desc" class="text-decoration-none {% if sort == 'backend_desc' %}text-primary fw-bold{% else %}text-muted{% endif %}" title="Sort Descending">▼</a>
+          Backend {{ sort_arrow('backend', sort, page, page_url=page_url) }}
         </th>
       </tr>
     </thead>
@@ -88,9 +55,9 @@
           <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">{{ project.name }}</a>
         </td>
         <td class="text-break">
-                <a href="{{ project.homepage }}" target="_blank" rel="noopener noreferrer">
-                  {{ project.homepage }}
-                </a>
+          <a href="{{ project.homepage }}" target="_blank" rel="noopener noreferrer">
+            {{ project.homepage }}
+          </a>
         </td>
         <td>
           <span class="badge bg-body-tertiary text-body border">{{ project.backend }}</span>
@@ -100,41 +67,19 @@
     </tbody>
   </table>
   {% else %}
-  <blockquote>
-      Oops, this is embarrassing. It seems that no projects are being
-      monitored currently.
-  </blockquote>
+  <div class="p-4 text-center text-body-secondary">
+    <h2 class="h5 fw-bold mb-2">No projects found</h2>
+    <p class="mb-0">
+      {% if distroname %}
+        It seems that no projects are currently monitored for <strong>{{ distroname }}</strong>
+      {% else %}
+        It seems that no projects are being monitored currently
+      {% endif %}
+    </p>
+  </div>
   {% endif %}
 </div>
 
-{% if total_page > 1 %}
-<div class="d-flex justify-content-end mb-3">
-  <nav aria-label="Projects pagination bottom">
-    <ul class="pagination pagination-sm mb-0">
-      {% if page > 1 %}
-      <li class="page-item">
-        <a class="page-link" href="{{ page_url }}?page={{ page - 1 }}{% if sort %}&sort={{ sort }}{% endif %}">«</a>
-      </li>
-      {% else %}
-      <li class="page-item disabled">
-        <span class="page-link">«</span>
-      </li>
-      {% endif %}
-      <li class="page-item disabled">
-        <span class="page-link">{{ page }} / {{ total_page }}</span>
-      </li>
-      {% if page < total_page %}
-      <li class="page-item">
-        <a class="page-link" href="{{ page_url }}?page={{ page + 1 }}{% if sort %}&sort={{ sort }}{% endif %}">»</a>
-      </li>
-      {% else %}
-      <li class="page-item disabled">
-        <span class="page-link">»</span>
-      </li>
-      {% endif %}
-    </ul>
-  </nav>
-</div>
-{% endif %}
+{{ pagination(page, total_page, page_url=page_url, sort=sort, aria_label="Projects pagination bottom") }}
 
 {% endblock %}

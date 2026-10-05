@@ -1,127 +1,95 @@
 {% extends "master.html" %}
+{% from "functions.html" import sort_arrow, pagination %}
 
 {% block title %}Search Projects · Anitya{% endblock %}
 
 {% block body %}
 
-<div class="page-header">
-<h1>Search projects{% if distroname %} in {{ distroname }}{% endif %}</h1>
-</div>
+{% if distroname %}
+{% set page_url = url_for('anitya_ui.distro_projects_search', distroname=distroname) %}
+{% else %}
+{% set page_url = url_for('anitya_ui.projects_search') %}
+{% endif %}
 
-<div class="row">
-  <div class="col-sm-6">
-    {% if total_page > 1 %}
-    <ul class="pagination pagination-sm">
-      {% if page > 1%}
-      <li class="page-item">
-        {% if distroname %}
-        <a class="page-link" href="{{ url_for('anitya_ui.distro_projects_search',
-                    distroname=distroname, pattern=pattern, page=page-1, sort=sort ) }}">
-        {% else %}
-        <a class="page-link" href="{{ url_for('anitya_ui.projects_search',
-                  pattern=pattern, page=page-1, sort=sort ) }}">
-        {% endif %}
-            «
-        </a>
-      {% else %}
-      <li class="page-item disabled">
-        <a class="page-link"> « </a>
-        {% endif %}
-      </li>
-      <li class="page-item disabled">
-          <a class="page-link"> {{ page }} / {{ total_page }} </a>
-      </li>
-      {% if page < total_page %}
-      <li class="page-item">
-        {% if distroname %}
-        <a class="page-link" href="{{ url_for('anitya_ui.distro_projects_search',
-              distroname=distroname, pattern=pattern, page=page+1, sort=sort ) }}">
-        {% else %}
-        <a class="page-link" href="{{ url_for('anitya_ui.projects_search',
-                  pattern=pattern, page=page+1, sort=sort ) }}">
-        {% endif %}
-          »
-        </a>
-      {% else %}
-      <li class="page-item disabled">
-        <a class="page-link"> » </a>
-        {% endif %}
-      </li>
-    </ul>
-    {% endif %}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+  <div>
+    <h1>Search projects{% if distroname %} in {{ distroname }}{% endif %}</h1>
+    <span class="badge bg-secondary">{{ projects_count }} projects found</span>
   </div>
-
-  <div class="col-sm-6">
-    {% if distroname %}
-    <form action="{{ url_for('anitya_ui.distro_projects_search', distroname=distroname) }}"
-        role="form" class="d-flex gap-2">
-      <input type="text" name="pattern" placeholder="Project name"
-          class="form-control input-sm" value="{{ pattern }}"/>
-      <button type="submit" class="btn btn-sm btn-outline-success w-100">
-          Search {{ distroname }}
-      </button>
+  {% if distroname %}
+  <div>
+    <form action="{{ page_url }}" role="form" class="d-flex gap-2">
+      <input type="text" name="pattern" placeholder="Project name" class="form-control form-control-sm" value="{{ pattern if pattern and pattern != '*' else '' }}"/>
+      <button type="submit" class="btn btn-sm btn-outline-success text-nowrap">Search {{ distroname }}</button>
     </form>
-    {% endif %}
   </div>
+  {% endif %}
 </div>
 
-<div class="row">
-  <div class="col">
-    <p>{{ projects_count }} projects found</p>
-    <div class="list-group">
-    {% if projects %}
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Name
-              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='name_asc') }}"><span class="sort-arrow arrow-up"></span></a>
-              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='name_desc') }}"><span class="sort-arrow arrow-down"></span></a>
-            </th>
-            <th scope="col">Homepage
-              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='homepage_asc') }}"><span class="sort-arrow arrow-up"></span></a>
-              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='homepage_desc') }}"><span class="sort-arrow arrow-down"></span></a>
-            </th>
-            <th scope="col">Backend
-              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='backend_asc') }}"><span class="sort-arrow arrow-up"></span></a>
-              <a href="{{ url_for('anitya_ui.projects_search', pattern=pattern, page=page, sort='backend_desc') }}"><span class="sort-arrow arrow-down"></span></a>
-            </th>
-            <th scope="col">Latest version</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for project in projects %}
-          <tr>
-            <td>
-              <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">
-                  {{project.name}}
-              </a>
-            </td>
-            <td>
-              <a href="{{ project.homepage }}" target="_blank" rel="noopener noreferrer">
-                  {{ project.homepage }}
-              </a>
-            </td>
-            <td>
-              {{project.backend}}
-            </td>
-            <td>
-              {% if project.latest_version %}
-                {{ project.latest_version }}
-              {% endif %}
-            </td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    {% else %}
-    <blockquote>
-      Oops, this is embarrassing. It seems that no projects are being
-      monitored currently.
-      <p><a href="{{ url_for('anitya_ui.new_project', name=pattern) }}">Click Here</a> to add this project instead. </p>
-    </blockquote>
-    {% endif %}
-  </div>
+{% if projects %}
+{{ pagination(page, total_page, page_url=page_url, pattern=pattern, sort=sort, aria_label="Search pagination") }}
+
+<div class="table-responsive shadow-sm rounded border mb-3">
+  <table class="table table-striped table-hover align-middle mb-0 w-100">
+    <thead>
+      <tr>
+        <th scope="col" style="width: 30%;">
+          Name {{ sort_arrow('name', sort, page, page_url=page_url, pattern=pattern) }}
+        </th>
+        <th scope="col">
+          Homepage {{ sort_arrow('homepage', sort, page, page_url=page_url, pattern=pattern) }}
+        </th>
+        <th scope="col" style="width: 20%;">
+          Backend {{ sort_arrow('backend', sort, page, page_url=page_url, pattern=pattern) }}
+        </th>
+        <th scope="col" style="width: 15%;">Latest version</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for project in projects %}
+      <tr>
+        <td class="text-break">
+          <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}">{{ project.name }}</a>
+        </td>
+        <td class="text-break">
+          <a href="{{ project.homepage }}" target="_blank" rel="noopener noreferrer">
+            {{ project.homepage }}
+          </a>
+        </td>
+        <td>
+          <span class="badge bg-body-tertiary text-body border">{{ project.backend }}</span>
+        </td>
+        <td>
+          {% if project.latest_version %}
+            {{ project.latest_version }}
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
+
+{{ pagination(page, total_page, page_url=page_url, pattern=pattern, sort=sort, aria_label="Search pagination bottom") }}
+
+{% else %}
+<div class="card shadow-sm border bg-body-tertiary my-5 p-4 text-center mx-auto" style="max-width: 540px;">
+  <h2 class="h5 fw-bold mb-2">No projects found</h2>
+  <p class="text-body-secondary mb-3">
+    {% if pattern and pattern != '*' %}
+      No monitored projects found matching <code>{{ pattern }}</code>{% if distroname %} in <strong>{{ distroname }}</strong>{% endif %}
+    {% else %}
+      No projects found matching your search
+    {% endif %}
+  </p>
+  {% if pattern and pattern != '*' %}
+  <div>
+    <a href="{{ url_for('anitya_ui.new_project', name=pattern) }}" class="btn btn-primary btn-sm">
+      Add "{{ pattern }}" to Anitya
+    </a>
+  </div>
+  {% endif %}
+</div>
+{% endif %}
 
 {% endblock %}
