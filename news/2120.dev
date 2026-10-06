@@ -1,1 +1,1 @@
-Set pull_policy: build and shared build anchor in container-compose.yml and remove volumes on make clean.
+Improve container dev environment with build pull_policy, clean fixes, and .dockerignore.
