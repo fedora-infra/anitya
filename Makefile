@@ -43,7 +43,7 @@ logs:
 clean:
 	$(call compose-tool) down -v
 	$(call remove_dump)
-	$(call container-tool) rmi "localhost/anitya-base:latest" "docker.io/library/postgres:16.13" "docker.io/library/rabbitmq:3.8.16-management-alpine"
+	$(call container-tool) rmi "anitya-base:latest" "localhost/anitya-base:latest" "docker.io/library/postgres:16.13" "docker.io/library/rabbitmq:3.8.16-management-alpine" 2>/dev/null || true
 tests:
 	$(call container-tool) exec -it anitya-web bash -c "tox $(PARAM)"
 lint:
