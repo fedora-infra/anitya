@@ -23,6 +23,7 @@ services:
       interval: 3s
       timeout: 3s
       retries: 30
+      start_period: 15s
     depends_on:
       postgres:
         condition: service_healthy
@@ -47,6 +48,8 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_started
+      anitya-web:
+        condition: service_healthy
 
   rabbitmq:
     image: docker.io/library/rabbitmq:3.8.16-management-alpine
