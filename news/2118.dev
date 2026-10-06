@@ -1,0 +1,1 @@
+Remove bind flag from anitya_node_modules volume in container-compose.yml.
