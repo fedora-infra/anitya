@@ -1,0 +1,1 @@
+Set pull_policy: build and shared build anchor in container-compose.yml and remove volumes on make clean.

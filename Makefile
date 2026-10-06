@@ -41,7 +41,7 @@ dump-restore:
 logs:
 	$(call compose-tool) logs -f anitya-web anitya-check-service rabbitmq postgres
 clean:
-	$(call compose-tool) down
+	$(call compose-tool) down -v
 	$(call remove_dump)
 	$(call container-tool) rmi "localhost/anitya-base:latest" "docker.io/library/postgres:16.13" "docker.io/library/rabbitmq:3.8.16-management-alpine"
 tests:
