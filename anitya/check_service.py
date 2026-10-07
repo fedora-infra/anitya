@@ -22,6 +22,8 @@ This is a service that is checking for new releases in projects added to Anitya.
 """
 
 import logging
+import os
+import signal
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from threading import Lock
@@ -331,10 +333,24 @@ class Checker:
         return list(ord_set)
 
 
+def handle_sigterm(signum, frame):
+    """
+    Signal handler for graceful shutdown on SIGTERM and SIGINT.
+
+    Uses os._exit(0) to immediately terminate all worker threads rather than
+    blocking on in-flight network requests during container shutdown.
+    """
+    _log.info("Received termination signal (%s), shutting down.", signum)
+    os._exit(0)
+
+
 def main():  # pragma: no cover
     """
     Main function.
     """
+    signal.signal(signal.SIGTERM, handle_sigterm)
+    signal.signal(signal.SIGINT, handle_sigterm)
+
     flask_app = app.create(config)
     with flask_app.app_context():
         db.manager.sync()

@@ -1,0 +1,1 @@
+Handle SIGTERM and SIGINT in check_service for graceful shutdown.
