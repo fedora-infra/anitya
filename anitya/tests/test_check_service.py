@@ -23,6 +23,7 @@
 Anitya tests for check service.
 """
 
+import signal
 import unittest
 from datetime import timedelta, timezone
 from unittest import mock
@@ -607,6 +608,32 @@ class CheckerTests(DatabaseTestCase):
             self.checker.blacklist_dict.get("GitHub", reset_time),
             reset_time,
         )
+
+    @mock.patch("anitya.check_service.os._exit")
+    def test_handle_sigterm(self, mock_exit):
+        """
+        Assert that handle_sigterm exits with status code 0.
+        """
+        from anitya.check_service import handle_sigterm
+
+        handle_sigterm(signal.SIGTERM, None)
+        mock_exit.assert_called_once_with(0)
+
+    @mock.patch("anitya.check_service.Checker")
+    @mock.patch("anitya.check_service.app.create")
+    @mock.patch("anitya.check_service.signal.signal")
+    def test_main_registers_signals(self, mock_signal, mock_create, mock_checker):
+        """
+        Assert that main registers SIGTERM and SIGINT signal handlers.
+        """
+        from anitya.check_service import handle_sigterm, main
+
+        mock_checker.side_effect = SystemExit(0)
+        with self.assertRaises(SystemExit):
+            main()
+
+        mock_signal.assert_any_call(signal.SIGTERM, handle_sigterm)
+        mock_signal.assert_any_call(signal.SIGINT, handle_sigterm)
 
 
 if __name__ == "__main__":
