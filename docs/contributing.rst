@@ -174,16 +174,16 @@ Makefile scripts that provide easier container management:
 * ``make dump-restore`` Import production database
 * ``make logs`` Shows all logs of all containers
 * ``make clean`` Removes all images used by Anitya compose
-* ``make tests`` Run tests in Anitya container. You can provide parameters for
-  tox in ``PARAM`` variable. Few examples:
+* ``make tests`` Run pytest test suite in the Anitya container. You can pass options and test paths to pytest via the ``PARAM`` variable:
 
-  * ``PARAM="-e format" make tests`` - run only format test environment
-  * ``PARAM="-- anitya/tests/test_app.py" make tests`` - run tests only for ``test_app.py`` file
-  * ``PARAM="-e format -- anitya/tests/test_app.py" make tests`` - combine the two above
+  * ``PARAM="anitya/tests/test_app.py" make tests`` - run a specific test file
+  * ``PARAM="-k test_login" make tests`` - run tests matching a name pattern
+  * ``PARAM="-v" make tests`` - run tests with verbose output
 * ``make lint`` Run flake8 linter in container
 * ``make format`` Check code formatting with Black in container
 * ``make mypy`` Run Mypy type checker in container
 * ``make diff-cover`` Run coverage check on changed lines in container
+* ``make tox`` Run tox matrix tests in container (e.g. ``PARAM="-e py311" make tox``)
 
 Project files are bound to each other with host and container. Whenever you change any project file from the host or the container, the same change will happen on the opposite side as well.
 

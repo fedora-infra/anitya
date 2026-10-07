@@ -44,17 +44,20 @@ clean:
 	$(call compose-tool) down -v
 	$(call remove_dump)
 	$(call container-tool) rmi "anitya-base:latest" "localhost/anitya-base:latest" "docker.io/library/postgres:16.13" "docker.io/library/rabbitmq:3.8.16-management-alpine" 2>/dev/null || true
+	rm -rf .coverage coverage.xml htmlcov .pytest_cache
 tests:
-	$(call container-tool) exec -it anitya-web bash -c "tox $(PARAM)"
+	$(call container-tool) exec -it anitya-web bash -c "ANITYA_WEB_CONFIG= poetry run pytest $(PARAM)"
 lint:
-	$(MAKE) tests PARAM="-e lint"
+	$(call container-tool) exec -it anitya-web bash -c "poetry run flake8 anitya/ $(PARAM)"
 format:
-	$(MAKE) tests PARAM="-e format"
+	$(call container-tool) exec -it anitya-web bash -c "poetry run black --check --diff $${PARAM:-anitya/}"
 mypy:
-	$(MAKE) tests PARAM="-e mypy"
+	$(call container-tool) exec -it anitya-web bash -c "poetry run mypy --config-file mypy.cfg anitya $(PARAM)"
 diff-cover:
-	$(MAKE) tests PARAM="-e diff-cover"
+	$(call container-tool) exec -it anitya-web bash -c "poetry run diff-cover coverage.xml --compare-branch=origin/master --exclude debug.py --fail-under=100 $(PARAM)"
+tox:
+	$(call container-tool) exec -it anitya-web bash -c "tox $(PARAM)"
 
 .PHONY: up restart halt bash-web \
 	init-db dump-restore logs clean tests \
-	lint format mypy diff-cover
+	lint format mypy diff-cover tox
