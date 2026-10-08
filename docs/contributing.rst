@@ -167,6 +167,7 @@ Makefile scripts that provide easier container management:
 
 * ``make up`` Starts all the container services
 * ``make restart`` Restarts all the container services that are either stopped or running
+* ``make build`` Rebuilds the container images utilizing the cache
 * ``make halt`` Stops and removes the containers
 * ``make bash-web`` Connects to anitya-web container
 * ``make bash-check-service`` Connects to anitya-check-service container
@@ -185,7 +186,15 @@ Makefile scripts that provide easier container management:
 * ``make diff-cover`` Run coverage check on changed lines in container
 * ``make tox`` Run tox matrix tests in container (e.g. ``PARAM="-e py311" make tox``)
 
-Project files are bound to each other with host and container. Whenever you change any project file from the host or the container, the same change will happen on the opposite side as well.
+Updating Dependencies and Configuration
+---------------------------------------
+
+Because the development environment mounts your code as live volumes, most changes are reflected instantly. However, if you change dependencies or system packages, follow this workflow:
+
+* **Python/JS Dependencies**: If you update ``pyproject.toml`` or ``package.json``, simply run ``make restart``. The container will automatically install the new dependencies into your volumes upon startup.
+* **System Packages**: If you modify ``Containerfile.dev`` (e.g., adding a new ``dnf`` package), you must run ``make build`` to rebuild the image cache, followed by ``make restart`` to apply the new image to your running containers.
+
+The project repository is bind-mounted directly into the container (``/app``), so source code changes made on either the host or container are reflected immediately in real time.
 
 Anitya is accessible on http://localhost:5000
 

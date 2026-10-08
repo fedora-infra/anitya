@@ -24,6 +24,8 @@ up:
 	@echo "Empty database initialized. Run dump-restore to fill it by production dump."
 restart:
 	$(MAKE) halt && $(MAKE) up
+build:
+	$(call compose-tool) build
 halt:
 	$(call compose-tool) stop
 bash-web:
@@ -58,6 +60,6 @@ diff-cover:
 tox:
 	$(call container-tool) exec -it anitya-web bash -c "tox $(PARAM)"
 
-.PHONY: up restart halt bash-web \
+.PHONY: up restart build halt bash-web \
 	init-db dump-restore logs clean tests \
 	lint format mypy diff-cover tox

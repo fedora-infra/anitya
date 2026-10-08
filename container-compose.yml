@@ -4,7 +4,7 @@ services:
     build: &anitya-build
       context: .
       dockerfile: Containerfile.dev
-    pull_policy: build
+    pull_policy: never
     container_name: "anitya-web"
     ports:
       - "127.0.0.1:5000:5000"
@@ -33,7 +33,7 @@ services:
   anitya-check-service:
     image: anitya-base
     build: *anitya-build
-    pull_policy: build
+    pull_policy: never
     container_name: "anitya-check-service"
     volumes:
       - .:/app:z
