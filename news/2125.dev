@@ -1,0 +1,1 @@
+Set pull_policy: never in container-compose.yml, add make build target, and sync node_modules volume at runtime.
