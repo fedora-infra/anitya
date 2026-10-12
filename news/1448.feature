@@ -1,1 +1,0 @@
-Add version_details to api/v2/versions to expose dates and prerelease flags

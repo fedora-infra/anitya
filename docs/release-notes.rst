@@ -4,6 +4,100 @@ Release Notes
 
 .. towncrier release notes start
 
+2.4.0 (2026-10-12)
+==================
+
+Features
+--------
+
+* Add version_details to api/v2/versions to expose dates and prerelease flags
+  (`#1448 <https://github.com/fedora-infra/anitya/issues/1448>`_)
+
+* Highlight unparseable versions in the project versions table.
+  (`#2081 <https://github.com/fedora-infra/anitya/issues/2081>`_)
+
+
+Bug Fixes
+---------
+
+* Fix CalendarVersion sorting bug for unparseable versions.
+  (`PR#2077 <https://github.com/fedora-infra/anitya/pull/2077>`_)
+
+* Fix removing versions that contain a slash or are named ``versions``
+  (`#596 <https://github.com/fedora-infra/anitya/issues/596>`_)
+
+* Fixed pagination count on the user management screen
+  (`#928 <https://github.com/fedora-infra/anitya/issues/928>`_)
+
+* Fix GNU backend URL on ftpmirror.gnu.org
+  (`#2073 <https://github.com/fedora-infra/anitya/issues/2073>`_)
+
+* Raise exception on HTTP errors when parsing versions by regex, instead of swallowing them.
+  (`#2084 <https://github.com/fedora-infra/anitya/issues/2084>`_)
+
+* Fix 500 error when checking versions on duplicate projects with trailing slash differences.
+  (`#2098 <https://github.com/fedora-infra/anitya/issues/2098>`_)
+
+* Fix layout alignment on search page and deduplicate pagination markup.
+  (`#2106 <https://github.com/fedora-infra/anitya/issues/2106>`_)
+
+* Handle SIGTERM and SIGINT in check_service for graceful shutdown.
+  (`#2121 <https://github.com/fedora-infra/anitya/issues/2121>`_)
+
+
+Development Changes
+-------------------
+
+* Replace deprecated datetime.datetime.utcnow() and arrow.utcnow()
+  (`#2057 <https://github.com/fedora-infra/anitya/issues/2057>`_)
+
+* Fix endless healthcheck loop in make up when using Docker.
+  (`#2088 <https://github.com/fedora-infra/anitya/issues/2088>`_)
+
+* Fix missing static files in local Docker dev environment by mounting node_modules as a named volume.
+  (`#2090 <https://github.com/fedora-infra/anitya/issues/2090>`_)
+
+* Fix permission error in make dump-restore
+  (`#2093 <https://github.com/fedora-infra/anitya/issues/2093>`_)
+
+* Add `lint`, `format`, `mypy`, and `diff-cover` targets to Makefile.
+  (`#2100 <https://github.com/fedora-infra/anitya/issues/2100>`_)
+
+* Fix module name for anitya-check-service in container-compose.yml.
+  (`#2101 <https://github.com/fedora-infra/anitya/issues/2101>`_)
+
+* Make dump-restore recipe idempotent and prevent database conflicts on restore.
+  (`#2102 <https://github.com/fedora-infra/anitya/issues/2102>`_)
+
+* Fix graceful shutdown of dev containers by forwarding SIGTERM to Python.
+  (`#2103 <https://github.com/fedora-infra/anitya/issues/2103>`_)
+
+* Prevent host virtualenv collisions in container dev environment by mounting anitya_venv volume.
+  (`#2108 <https://github.com/fedora-infra/anitya/issues/2108>`_)
+
+* Remove bind flag from anitya_node_modules volume in container-compose.yml.
+  (`#2118 <https://github.com/fedora-infra/anitya/issues/2118>`_)
+
+* Improve container dev environment with build pull_policy, clean fixes, and .dockerignore.
+  (`#2120 <https://github.com/fedora-infra/anitya/issues/2120>`_)
+
+* Optimize Makefile test targets for faster dev feedback and remove obsolete python3.10.
+  (`#2122 <https://github.com/fedora-infra/anitya/issues/2122>`_)
+
+* Set pull_policy: never in container-compose.yml, add make build target, and sync node_modules volume at runtime.
+  (`#2125 <https://github.com/fedora-infra/anitya/issues/2125>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Anatoli Babenia
+* sundaram123krishnan
+* Sheikh Limon
+* Varshitha Kolupuri
+
 2.3.0 (2026-08-25)
 ==================
 
