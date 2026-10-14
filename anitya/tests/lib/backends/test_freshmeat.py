@@ -118,6 +118,29 @@ class FreshmeatBackendtests(DatabaseTestCase):
             AnityaPluginException, backend.FreshmeatBackend.get_versions, project
         )
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the freshmeat backend."""
+        self.assertTrue(
+            backend.FreshmeatBackend.is_url_valid(
+                "https://freecode.com/projects/atmail"
+            )
+        )
+        self.assertFalse(backend.FreshmeatBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the freshmeat backend."""
+        output = backend.FreshmeatBackend.parse_url(
+            "https://freecode.com/projects/atmail/"
+        )
+        exp = {
+            "name": "atmail",
+            "homepage": "https://freecode.com/projects/atmail/",
+            "backend": "Freshmeat",
+            "version_url": "https://freecode.com/projects/atmail/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(FreshmeatBackendtests)

@@ -228,6 +228,37 @@ class CgitBackendtests(DatabaseTestCase):
             AnityaPluginException, backend.CgitBackend.get_versions, project
         )
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Cgit backend."""
+        self.assertTrue(backend.CgitBackend.is_url_valid("https://git.something.com"))
+        self.assertFalse(backend.CgitBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the Cgit backend."""
+        output = backend.CgitBackend.parse_url(
+            "https://git.savannah.gnu.org/cgit/gnuzilla.git"
+        )
+        exp = {
+            "name": "gnuzilla",
+            "homepage": "https://git.savannah.gnu.org/cgit/gnuzilla.git",
+            "backend": "Cgit",
+            "version_url": "https://git.savannah.gnu.org/cgit/gnuzilla.git",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
+        output = backend.CgitBackend.parse_url(
+            "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/"
+        )
+        exp = {
+            "name": "linux",
+            "homepage": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/",
+            "backend": "Cgit",
+            "version_url": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(CgitBackendtests)

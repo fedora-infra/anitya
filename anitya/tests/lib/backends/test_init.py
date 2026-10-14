@@ -274,5 +274,30 @@ class FilterVersionsTests(unittest.TestCase):
         self.assertEqual(filtered_versions, versions)
 
 
+class IsURLValidTests(unittest.TestCase):
+    """
+    Unit tests for anitya.lib.backends.BaseBackend.is_url_valid
+    """
+
+    def test_is_url_valid(self):
+        """
+        Assert that it returns False for BaseBackend.
+        """
+        self.assertFalse(backends.BaseBackend.is_url_valid(""))
+
+
+class ParseURL(unittest.TestCase):
+    """
+    Unit tests for anitya.lib.backends.BaseBackend.parse_url
+    """
+
+    def test_parse_url(self):
+        """
+        Assert that it raises not implemented error.
+        """
+        with self.assertRaises(NotImplementedError):
+            backends.BaseBackend.parse_url("")
+
+
 if __name__ == "__main__":
     unittest.main()

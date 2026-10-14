@@ -100,6 +100,29 @@ class HackageBackendtests(DatabaseTestCase):
             AnityaPluginException, backend.HackageBackend.get_version, project
         )
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Hackage backend."""
+        self.assertTrue(
+            backend.HackageBackend.is_url_valid(
+                "https://hackage.haskell.org/package/Hs2lib/"
+            )
+        )
+        self.assertFalse(backend.HackageBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the Hackage backend."""
+        output = backend.HackageBackend.parse_url(
+            "https://hackage.haskell.org/package/Hs2lib/"
+        )
+        exp = {
+            "name": "Hs2lib",
+            "homepage": "https://hackage.haskell.org/package/Hs2lib/",
+            "backend": "Hackage",
+            "version_url": "https://hackage.haskell.org/package/Hs2lib/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(HackageBackendtests)

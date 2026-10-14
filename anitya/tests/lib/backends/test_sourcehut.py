@@ -245,6 +245,27 @@ class SourceHutBackendTests(DatabaseTestCase):
             AnityaPluginException, backend.SourceHutBackend.get_versions, project
         )
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the SourceHut backend."""
+        self.assertTrue(
+            backend.SourceHutBackend.is_url_valid("https://git.sr.ht/~sircmpwn/scdoc/")
+        )
+        self.assertFalse(backend.SourceHutBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the SourceHut backend."""
+        output = backend.SourceHutBackend.parse_url(
+            "https://git.sr.ht/~sircmpwn/scdoc/"
+        )
+        exp = {
+            "name": "scdoc",
+            "homepage": "https://git.sr.ht/~sircmpwn/scdoc/",
+            "backend": "SourceHut",
+            "version_url": "sircmpwn/scdoc",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(SourceHutBackendTests)

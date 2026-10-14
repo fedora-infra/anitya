@@ -209,6 +209,29 @@ class PackagistBackendtests(DatabaseTestCase):
             m_call.assert_called_with(exp_url, last_change=None)
             self.assertEqual(versions, [])
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Packagist backend."""
+        self.assertTrue(
+            backend.PackagistBackend.is_url_valid(
+                "https://packagist.org/packages/phpunit/php-code-coverage"
+            )
+        )
+        self.assertFalse(backend.PackagistBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the Packagist backend."""
+        output = backend.PackagistBackend.parse_url(
+            "https://packagist.org/packages/phpunit/php-code-coverage/"
+        )
+        exp = {
+            "name": "php-code-coverage",
+            "homepage": "https://packagist.org/packages/phpunit/php-code-coverage/",
+            "backend": "Packagist",
+            "version_url": "phpunit",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(PackagistBackendtests)

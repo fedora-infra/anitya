@@ -113,6 +113,25 @@ class PeclBackendtests(DatabaseTestCase):
             AnityaPluginException, backend.PeclBackend.get_version, project
         )
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Pecl backend."""
+        self.assertTrue(
+            backend.PeclBackend.is_url_valid("https://pecl.php.net/package/inotify/")
+        )
+        self.assertFalse(backend.PeclBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the Pecl backend."""
+        output = backend.PeclBackend.parse_url("https://pecl.php.net/package/inotify/")
+        exp = {
+            "name": "inotify",
+            "homepage": "https://pecl.php.net/package/inotify/",
+            "backend": "PECL",
+            "version_url": "https://pecl.php.net/package/inotify/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
     def test_pecl_check_feed(self):
         """Test the check_feed method of the pecl backend."""
         generator = backend.PeclBackend.check_feed()

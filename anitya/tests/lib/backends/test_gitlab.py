@@ -262,6 +262,39 @@ class GitlabBackendtests(DatabaseTestCase):
             m_call.assert_called_with(exp_url, last_change=None)
             self.assertEqual(versions, [])
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the GitLab backend."""
+        self.assertTrue(
+            backend.GitlabBackend.is_url_valid(
+                "https://gitlab.gnome.org/GNOME/gnome-video-arcade"
+            )
+        )
+        self.assertFalse(backend.GitlabBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the GitLab backend."""
+        output = backend.GitlabBackend.parse_url(
+            "https://gitlab.gnome.org/GNOME/gnome-video-arcade/"
+        )
+        exp = {
+            "name": "gnome-video-arcade",
+            "homepage": "https://gitlab.gnome.org/GNOME/gnome-video-arcade/",
+            "backend": "GitLab",
+            "version_url": "https://gitlab.gnome.org/GNOME/gnome-video-arcade/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
+        output = backend.GitlabBackend.parse_url("https://gitlab.com/xonotic/xonotic")
+        exp = {
+            "name": "xonotic",
+            "homepage": "https://gitlab.com/xonotic/xonotic",
+            "backend": "GitLab",
+            "version_url": "https://gitlab.com/xonotic/xonotic",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(GitlabBackendtests)

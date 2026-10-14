@@ -106,6 +106,25 @@ class LaunchpadBackendtests(DatabaseTestCase):
             AnityaPluginException, backend.LaunchpadBackend.get_version, project
         )
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Hackage backend."""
+        self.assertTrue(
+            backend.LaunchpadBackend.is_url_valid("https://launchpad.net/terminator/")
+        )
+        self.assertFalse(backend.LaunchpadBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the Hackage backend."""
+        output = backend.LaunchpadBackend.parse_url("https://launchpad.net/terminator/")
+        exp = {
+            "name": "terminator",
+            "homepage": "https://launchpad.net/terminator/",
+            "backend": "Launchpad",
+            "version_url": "https://launchpad.net/terminator/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(LaunchpadBackendtests)

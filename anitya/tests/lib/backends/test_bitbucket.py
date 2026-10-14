@@ -252,6 +252,41 @@ class BitBucketBackendtests(DatabaseTestCase):
         obs = backend.BitBucketBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the BitBucket backend."""
+        self.assertTrue(
+            backend.BitBucketBackend.is_url_valid(
+                "https://bitbucket.org/zzzeek/sqlalchemy"
+            )
+        )
+        self.assertFalse(backend.BitBucketBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the BitBucket backend."""
+        output = backend.BitBucketBackend.parse_url(
+            "https://bitbucket.org/zzzeek/sqlalchemy/"
+        )
+        exp = {
+            "name": "sqlalchemy",
+            "homepage": "https://bitbucket.org/zzzeek/sqlalchemy/",
+            "backend": "BitBucket",
+            "version_url": "zzzeek/sqlalchemy",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
+        output = backend.BitBucketBackend.parse_url(
+            "https://bitbucket.org/downloads/zzzeek/sqlalchemy/"
+        )
+        exp["homepage"] = "https://bitbucket.org/downloads/zzzeek/sqlalchemy/"
+        self.assertEqual(output, exp)
+
+        output = backend.BitBucketBackend.parse_url(
+            "https://bitbucket.org/src/zzzeek/sqlalchemy/"
+        )
+        exp["homepage"] = "https://bitbucket.org/src/zzzeek/sqlalchemy/"
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(BitBucketBackendtests)

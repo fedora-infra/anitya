@@ -131,6 +131,23 @@ class PagureBackendtests(DatabaseTestCase):
             m_call.assert_called_with(exp_url, last_change=None)
             self.assertEqual(versions, [])
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Pagure backend."""
+        self.assertTrue(backend.PagureBackend.is_url_valid("https://pagure.io/pagure"))
+        self.assertFalse(backend.PagureBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the Pagure backend."""
+        output = backend.PagureBackend.parse_url("https://pagure.io/pagure/")
+        exp = {
+            "name": "pagure",
+            "homepage": "https://pagure.io/pagure/",
+            "backend": "pagure",
+            "version_url": "https://pagure.io/pagure/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(PagureBackendtests)

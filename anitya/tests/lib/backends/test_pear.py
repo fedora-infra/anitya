@@ -151,6 +151,25 @@ class PearBackendtests(DatabaseTestCase):
         )
         # etc...
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Pear backend."""
+        self.assertTrue(
+            backend.PearBackend.is_url_valid("https://pear.php.net/package/Auth/")
+        )
+        self.assertFalse(backend.PearBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the Pear backend."""
+        output = backend.PearBackend.parse_url("https://pear.php.net/package/Auth/")
+        exp = {
+            "name": "Auth",
+            "homepage": "https://pear.php.net/package/Auth/",
+            "backend": "PEAR",
+            "version_url": "https://pear.php.net/package/Auth/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(PearBackendtests)

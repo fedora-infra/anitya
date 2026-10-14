@@ -166,6 +166,25 @@ class PypiBackendtests(DatabaseTestCase):
             m_call.assert_called_with(exp_url, last_change=None)
             self.assertEqual(versions, [])
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the PyPi backend."""
+        self.assertTrue(
+            backend.PypiBackend.is_url_valid("https://pypi.org/project/fedmsg/")
+        )
+        self.assertFalse(backend.PypiBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the PyPi backend."""
+        output = backend.PypiBackend.parse_url("https://pypi.org/project/fedmsg/")
+        exp = {
+            "name": "fedmsg",
+            "homepage": "https://pypi.org/project/fedmsg/",
+            "backend": "PyPI",
+            "version_url": "https://pypi.org/project/fedmsg/",
+            "version_scheme": "Python (PEP 440)",
+        }
+        self.assertEqual(output, exp)
+
     def test_pypi_check_feed(self):
         """Test the check_feed method of the pypi backend."""
         generator = backend.PypiBackend.check_feed()

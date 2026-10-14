@@ -20,7 +20,6 @@ class PypiBackend(BaseBackend):
 
     name = "PyPI"
     examples = [
-        "https://pypi.python.org/pypi/arrow",
         "https://pypi.org/project/fedmsg/",
     ]
 
@@ -132,6 +131,43 @@ class PypiBackend(BaseBackend):
             project.version_filter,
         )
         return filtered_versions
+
+    @classmethod
+    def is_url_valid(cls, url: str) -> bool:
+        """
+        Used to recognize if the URL is valid for the backend.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            True if the URL is valid or false.
+        """
+        return url.startswith("https://pypi.org")
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        homepage = url
+        version_url = url
+        name = url.rstrip("/").split("/")[-1]
+        version_scheme = "Python (PEP 440)"
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):

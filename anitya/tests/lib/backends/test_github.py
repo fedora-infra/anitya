@@ -521,6 +521,29 @@ class GithubBackendtests(DatabaseTestCase):
         obs = backend.GithubBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the GitHub backend."""
+        self.assertTrue(
+            backend.GithubBackend.is_url_valid(
+                "https://github.com/fedora-infra/fedocal"
+            )
+        )
+        self.assertFalse(backend.GithubBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the GitHub backend."""
+        output = backend.GithubBackend.parse_url(
+            "https://github.com/fedora-infra/fedocal/"
+        )
+        exp = {
+            "name": "fedocal",
+            "homepage": "https://github.com/fedora-infra/fedocal/",
+            "backend": "GitHub",
+            "version_url": "fedora-infra/fedocal",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 class JsonTests(unittest.TestCase):
     """
