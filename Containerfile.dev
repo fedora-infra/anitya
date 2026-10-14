@@ -43,7 +43,8 @@ RUN dnf autoremove -y && dnf clean all -y
 RUN mkdir -p /etc/fedora-messaging
 COPY .container/web/config.toml /etc/fedora-messaging
 
-# Set the poetry to use system packages
-RUN poetry config virtualenvs.options.system-site-packages true
+# Set the poetry to use system packages and in-project virtualenvs
+RUN poetry config virtualenvs.options.system-site-packages true && \
+    poetry config virtualenvs.in-project true
 
-CMD ["sh", "-c", "if [ ! -f anitya/static/node_modules/.installed ] || [ anitya/static/package.json -nt anitya/static/node_modules/.installed ]; then npm --prefix anitya/static install --no-audit --no-fund && touch anitya/static/node_modules/.installed; fi && poetry install && exec poetry run python -m $START_COMMAND"]
+CMD ["sh", "-c", "poetry install && if [ ! -f anitya/static/node_modules/.installed ] || [ anitya/static/package.json -nt anitya/static/node_modules/.installed ]; then npm --prefix anitya/static install --no-audit --no-fund && touch anitya/static/node_modules/.installed; fi && exec poetry run python -m $START_COMMAND"]
