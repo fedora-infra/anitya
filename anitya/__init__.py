@@ -5,4 +5,7 @@
 from importlib import metadata
 
 __api_version__ = "1.2"
-__version__ = metadata.version(__package__)
+try:
+    __version__ = metadata.version(__package__)
+except metadata.PackageNotFoundError:  # pragma: no cover
+    __version__ = "unknown"

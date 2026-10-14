@@ -60,3 +60,19 @@ class CreateTests(unittest.TestCase):
         )
         with flask_app.app_context():
             self.assertEqual("sqlite:///:memory:", str(db.session.get_bind().url))
+
+    def test_version_fallback(self):
+        """Assert __version__ falls back to 'unknown' when metadata is not found."""
+        import importlib
+        from importlib import metadata
+        from unittest.mock import patch
+
+        import anitya
+
+        with patch(
+            "importlib.metadata.version", side_effect=metadata.PackageNotFoundError
+        ):
+            importlib.reload(anitya)
+            self.assertEqual(anitya.__version__, "unknown")
+
+        importlib.reload(anitya)

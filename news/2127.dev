@@ -1,0 +1,1 @@
+Fix dev container startup race in make up and add PackageNotFoundError fallback for __version__.
