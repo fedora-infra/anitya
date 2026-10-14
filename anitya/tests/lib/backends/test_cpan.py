@@ -96,6 +96,13 @@ class CpanBackendtests(DatabaseTestCase):
             AnityaPluginException, backend.CpanBackend.get_version, project
         )
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the cpan backend."""
+        self.assertTrue(
+            backend.CpanBackend.is_url_valid("https://metacpan.org/dist/Net-Whois-Raw/")
+        )
+        self.assertFalse(backend.CpanBackend.is_url_valid("https://example.com"))
+
     def test_cpan_check_feed(self):
         """Test the check_feed method of the cpan backend."""
         generator = backend.CpanBackend.check_feed()

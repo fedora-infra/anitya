@@ -182,6 +182,89 @@ class SettingsTests(DatabaseTestCase):
                 )
 
 
+class NewProjectFromURLTests(DatabaseTestCase):
+    """Tests for the ``/project/new/url`` endpoint"""
+
+    def setUp(self):
+        """Set up the Flask testing environnment"""
+        super().setUp()
+        create_distro(self.session)
+        self.app = self.flask_app.test_client()
+        self.user = models.User(email="user@fedoraproject.org", username="user")
+        self.session.add(self.user)
+        self.session.commit()
+
+    def test_protected_view(self):
+        """Assert this view is protected and login is required."""
+        output = self.app.get("/project/new/url", follow_redirects=False)
+        self.assertEqual(output.status_code, 302)
+        self.assertEqual("/login/", parse.urlparse(output.location).path)
+
+    def test_authenticated_access(self):
+        """Assert authenticated users have access to the view."""
+        with login_user(self.flask_app, self.user):
+            output = self.app.get("/project/new/url", follow_redirects=False)
+            self.assertEqual(output.status_code, 200)
+
+    def test_new_project_from_url(self):
+        """Assert an authenticated user can create a new project"""
+        with login_user(self.flask_app, self.user), self.flask_app.test_client() as c:
+            output = c.get("/project/new/url", follow_redirects=False)
+            self.assertEqual(output.status_code, 200)
+
+            self.assertTrue(b"<h1>Add project</h1>" in output.data)
+            self.assertTrue(
+                b'<td><label for="url">Project URL</label></td>' in output.data
+            )
+
+            csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
+                1
+            ].split(b'">')[0]
+            data = {
+                "csrf_token": csrf_token,
+                "url": "https://pypi.org/pypi/repo_manager",
+            }
+            output = c.post("/project/new/url", data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(b"Add project" in output.data)
+            self.assertTrue(
+                b'name="name" required tabindex="1" type="text" value="repo_manager">'
+                in output.data
+            )
+
+    def test_new_project_from_url_no_csrf(self):
+        """Assert a missing CSRF token results in an HTTP 400"""
+        with login_user(self.flask_app, self.user), self.flask_app.test_client() as c:
+            output = c.get("/project/new/url", follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            data = {
+                "url": "https://pypi.python.org/pypi/repo_manager",
+            }
+            output = c.post("/project/new/url", data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 400)
+            self.assertTrue(b"<h1>Add project</h1>" in output.data)
+            self.assertTrue(
+                b'<td><label for="url">Project URL</label></td>' in output.data
+            )
+
+    def test_new_project_from_url_backend_not_identified(self):
+        """Assert a project with an invalid backend will use custom one."""
+        with login_user(self.flask_app, self.user), self.flask_app.test_client() as c:
+            output = c.get("/project/new/url", follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
+                1
+            ].split(b'">')[0]
+            data = {
+                "url": "https://example.com/something",
+                "csrf_token": csrf_token,
+            }
+            output = c.post("/project/new/url", data=data, follow_redirects=True)
+            self.assertEqual(output.status_code, 200)
+            self.assertTrue(b"<h1>Add project</h1>" in output.data)
+            self.assertTrue(b'<option selected value="custom">' in output.data)
+
+
 class NewProjectTests(DatabaseTestCase):
     """Tests for the ``/project/new`` endpoint"""
 

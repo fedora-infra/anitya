@@ -189,6 +189,13 @@ class CratesBackendTests(DatabaseTestCase):
         with self.assertRaises(AnityaPluginException):
             crates.CratesBackend.get_version(project)
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the crates backend."""
+        self.assertTrue(
+            crates.CratesBackend.is_url_valid("https://crates.io/crates/clap/")
+        )
+        self.assertFalse(crates.CratesBackend.is_url_valid("https://example.com"))
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

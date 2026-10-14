@@ -135,6 +135,13 @@ class RubygemsBackendtests(DatabaseTestCase):
         )
         # etc...
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Rubygems backend."""
+        self.assertTrue(
+            backend.RubygemsBackend.is_url_valid("https://rubygems.org/gems/aa/")
+        )
+        self.assertFalse(backend.RubygemsBackend.is_url_valid("https://example.com"))
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(RubygemsBackendtests)

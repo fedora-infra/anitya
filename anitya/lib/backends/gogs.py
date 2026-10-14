@@ -88,6 +88,19 @@ class GogsBackend(BaseBackend):
         return get_versions_by_regex(url, REGEX, project, url.startswith("http://"))
 
     @classmethod
+    def is_url_valid(cls, url: str) -> bool:
+        """
+        Used to recognize if the URL is valid for the backend.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            True if the URL is valid or false.
+        """
+        return url.startswith("https://notabug.org")
+
+    @classmethod
     def check_feed(cls):  # pragma: no cover
         """Method called to retrieve the latest uploads to a given backend,
         via, for example, RSS or an API.

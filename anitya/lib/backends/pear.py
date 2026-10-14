@@ -110,6 +110,19 @@ class PearBackend(BaseBackend):
         return filtered_versions
 
     @classmethod
+    def is_url_valid(cls, url: str) -> bool:
+        """
+        Used to recognize if the URL is valid for the backend.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            True if the URL is valid or false.
+        """
+        return url.startswith("https://pear.php.net")
+
+    @classmethod
     def check_feed(cls):
         """Return a generator over the latest 10 uploads to PEAR
 

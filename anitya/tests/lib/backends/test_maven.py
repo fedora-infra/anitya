@@ -191,6 +191,15 @@ class MavenBackendTest(DatabaseTestCase):
         obs = MavenBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Maven backend."""
+        self.assertTrue(
+            MavenBackend.is_url_valid(
+                "https://repo1.maven.org/maven2/plexus/plexus-compiler/"
+            )
+        )
+        self.assertFalse(MavenBackend.is_url_valid("https://example.com"))
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(MavenBackendTest)

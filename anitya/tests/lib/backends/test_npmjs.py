@@ -322,6 +322,13 @@ class NpmjsBackendtests(DatabaseTestCase):
         )
         # etc...
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the NPMjs backend."""
+        self.assertTrue(
+            backend.NpmjsBackend.is_url_valid("https://www.npmjs.org/package/request")
+        )
+        self.assertFalse(backend.NpmjsBackend.is_url_valid("https://example.com"))
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(NpmjsBackendtests)

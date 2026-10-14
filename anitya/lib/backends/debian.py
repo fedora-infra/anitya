@@ -28,8 +28,8 @@ class DebianBackend(BaseBackend):
 
     name = "Debian project"
     examples = [
-        "http://ftp.debian.org/debian/pool/main/q/qpdf/",
-        "http://ftp.debian.org/debian/pool/main/g/guake/",
+        "https://ftp.debian.org/debian/pool/main/q/qpdf/",
+        "https://ftp.debian.org/debian/pool/main/g/guake/",
     ]
 
     @classmethod
@@ -71,6 +71,19 @@ class DebianBackend(BaseBackend):
         regex = DEBIAN_REGEX % {"name": project.name}
 
         return get_versions_by_regex(url, regex, project)
+
+    @classmethod
+    def is_url_valid(cls, url: str) -> bool:
+        """
+        Used to recognize if the URL is valid for the backend.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            True if the URL is valid or false.
+        """
+        return url.startswith("https://ftp.debian.org")
 
     @classmethod
     def check_feed(cls):  # pragma: no cover

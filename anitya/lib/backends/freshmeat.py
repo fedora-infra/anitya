@@ -22,8 +22,8 @@ class FreshmeatBackend(BaseBackend):
 
     name = "Freshmeat"
     examples = [
-        "http://freecode.com/projects/atmail",
-        "http://freecode.com/projects/awstats",
+        "https://freecode.com/projects/atmail",
+        "https://freecode.com/projects/awstats",
     ]
 
     @classmethod
@@ -62,6 +62,19 @@ class FreshmeatBackend(BaseBackend):
         url = cls.get_version_url(project)
 
         return get_versions_by_regex(url, REGEX, project)
+
+    @classmethod
+    def is_url_valid(cls, url: str) -> bool:
+        """
+        Used to recognize if the URL is valid for the backend.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            True if the URL is valid or false.
+        """
+        return url.startswith("https://freecode.com")
 
     @classmethod
     def check_feed(cls):

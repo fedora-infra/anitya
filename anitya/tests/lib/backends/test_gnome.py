@@ -612,6 +612,15 @@ class GnomeBackendtests(DatabaseTestCase):
         obs = backend.GnomeBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Gnome backend."""
+        self.assertTrue(
+            backend.GnomeBackend.is_url_valid(
+                "https://download.gnome.org/sources/control-center/"
+            )
+        )
+        self.assertFalse(backend.GnomeBackend.is_url_valid("https://example.com"))
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(GnomeBackendtests)

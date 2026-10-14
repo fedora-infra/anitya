@@ -134,6 +134,15 @@ class CranBackendTests(DatabaseTestCase):
             m_call.assert_called_with(exp_url, last_change=None)
             self.assertEqual(versions, [])
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the CRAN backend."""
+        self.assertTrue(
+            backend.CranBackend.is_url_valid(
+                "https://cran.r-project.org/web/packages/tidyverse/"
+            )
+        )
+        self.assertFalse(backend.CranBackend.is_url_valid("https://example.com"))
+
     def test_check_feed(self):
         """Test the check_feed method of the CRAN backend."""
         generator = backend.CranBackend.check_feed()
