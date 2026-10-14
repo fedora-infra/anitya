@@ -99,6 +99,43 @@ class SourceHutBackend(BaseBackend):
         return cls.filter_versions(versions, project.version_filter)
 
     @classmethod
+    def is_url_valid(cls, url: str) -> bool:
+        """
+        Used to recognize if the URL is valid for the backend.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            True if the URL is valid or false.
+        """
+        return url.startswith("https://git.sr.ht/~")
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        homepage = url
+        version_url = url.rstrip("/").replace("https://git.sr.ht/~", "")
+        name = url.rstrip("/").split("/")[-1]
+        version_scheme = "RPM"
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
+
+    @classmethod
     def check_feed(cls):  # pragma: no cover
         """Method called to retrieve the latest uploads to a given backend,
         via, for example, RSS or an API.

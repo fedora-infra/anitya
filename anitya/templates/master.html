@@ -106,7 +106,7 @@
 
                     {%- if user and user.is_authenticated -%}
                     <li class="nav-item">
-                        <a class="nav-link text-nowrap {% if current == 'Add projects' %}active{% endif %}" href="{{url_for('anitya_ui.new_project')}}">Add Project</a>
+                        <a class="nav-link text-nowrap {% if current == 'Add projects' %}active{% endif %}" href="{{url_for('anitya_ui.new_project_from_url')}}">Add Project</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-nowrap {% if current == 'logs' %}active{% endif %}" href="{{url_for('anitya_ui.browse_logs')}}">Logs</a>

@@ -177,6 +177,15 @@ class DebianBackendtests(DatabaseTestCase):
         )
         self.assertEqual(sorted(["0.45", "0.46"]), sorted(versions))
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the debian backend."""
+        self.assertTrue(
+            backend.DebianBackend.is_url_valid(
+                "https://ftp.debian.org/debian/pool/main/q/qpdf/"
+            )
+        )
+        self.assertFalse(backend.DebianBackend.is_url_valid("https://example.com"))
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(DebianBackendtests)

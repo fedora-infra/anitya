@@ -193,6 +193,29 @@ class SourceforgeBackendtests(DatabaseTestCase):
             AnityaPluginException, backend.SourceforgeBackend.get_versions, project
         )
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Rubygems backend."""
+        self.assertTrue(
+            backend.SourceforgeBackend.is_url_valid(
+                "https://sourceforge.net/projects/filezilla/"
+            )
+        )
+        self.assertFalse(backend.SourceforgeBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the Rubygems backend."""
+        output = backend.SourceforgeBackend.parse_url(
+            "https://sourceforge.net/projects/filezilla/"
+        )
+        exp = {
+            "name": "filezilla",
+            "homepage": "https://sourceforge.net/projects/filezilla/",
+            "backend": "Sourceforge",
+            "version_url": "filezilla",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(SourceforgeBackendtests)

@@ -102,6 +102,15 @@ class HackageBackendtests(DatabaseTestCase):
             AnityaPluginException, backend.StackageBackend.get_version, project
         )
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Stackage backend."""
+        self.assertTrue(
+            backend.StackageBackend.is_url_valid(
+                "https://www.stackage.org/package/conduit/"
+            )
+        )
+        self.assertFalse(backend.StackageBackend.is_url_valid("https://example.com"))
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(HackageBackendtests)

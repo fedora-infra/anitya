@@ -62,6 +62,19 @@ class HackageBackend(BaseBackend):
         return get_versions_by_regex(url, regex, project)
 
     @classmethod
+    def is_url_valid(cls, url: str) -> bool:
+        """
+        Used to recognize if the URL is valid for the backend.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            True if the URL is valid or false.
+        """
+        return url.startswith("https://hackage.haskell.org")
+
+    @classmethod
     def check_feed(cls):
         # See https://hackage.haskell.org/api#recentPackages
         # It should be possible to query this, but I can't figure out how to

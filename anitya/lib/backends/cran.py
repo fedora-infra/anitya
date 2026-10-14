@@ -160,6 +160,19 @@ class CranBackend(BaseBackend):
         return filtered_versions
 
     @classmethod
+    def is_url_valid(cls, url: str) -> bool:
+        """
+        Used to recognize if the URL is valid for the backend.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            True if the URL is valid or false.
+        """
+        return url.startswith("https://cran.r-project.org")
+
+    @classmethod
     def check_feed(cls):
         """
         Query the MetaCRAN JSON API for the latest 50 uploads to CRAN.

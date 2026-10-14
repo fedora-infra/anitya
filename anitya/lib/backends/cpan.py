@@ -70,6 +70,19 @@ class CpanBackend(BaseBackend):
         return get_versions_by_regex(url, regex, project)
 
     @classmethod
+    def is_url_valid(cls, url: str) -> bool:
+        """
+        Used to recognize if the URL is valid for the backend.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            True if the URL is valid or false.
+        """
+        return url.startswith("https://metacpan.org")
+
+    @classmethod
     def check_feed(cls):
         """Return a generator over the latest uploads to CPAN
 

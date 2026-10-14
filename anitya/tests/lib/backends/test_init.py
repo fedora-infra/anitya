@@ -285,5 +285,51 @@ class FilterVersionsTests(unittest.TestCase):
         self.assertEqual(filtered_versions, versions)
 
 
+class IsURLValidTests(unittest.TestCase):
+    """
+    Unit tests for anitya.lib.backends.BaseBackend.is_url_valid
+    """
+
+    def test_is_url_valid(self):
+        """
+        Assert that it returns False for BaseBackend.
+        """
+        self.assertFalse(backends.BaseBackend.is_url_valid(""))
+
+
+class ParseURL(unittest.TestCase):
+    """
+    Unit tests for anitya.lib.backends.BaseBackend.parse_url
+    """
+
+    def test_parse_url(self):
+        """Test the parse_url function of the backend."""
+        output = backends.BaseBackend.parse_url(
+            "https://metacpan.org/dist/Net-Whois-Raw/"
+        )
+        exp = {
+            "name": "Net-Whois-Raw",
+            "homepage": "https://metacpan.org/dist/Net-Whois-Raw/",
+            "backend": "Base",
+            "version_url": "https://metacpan.org/dist/Net-Whois-Raw/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
+    def test_parse_url_cpan(self):
+        """Test the parse_url function of the backend."""
+        from anitya.lib.backends.cpan import CpanBackend
+
+        output = CpanBackend.parse_url("https://metacpan.org/dist/Net-Whois-Raw/")
+        exp = {
+            "name": "Net-Whois-Raw",
+            "homepage": "https://metacpan.org/dist/Net-Whois-Raw/",
+            "backend": "CPAN (perl)",
+            "version_url": "https://metacpan.org/dist/Net-Whois-Raw/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
+
 if __name__ == "__main__":
     unittest.main()

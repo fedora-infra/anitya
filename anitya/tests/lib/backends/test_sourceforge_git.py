@@ -329,6 +329,43 @@ class SourceforgeGitBackendtests(DatabaseTestCase):
 
         self.assertEqual(obs, exp)
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the SourceforgeGit backend."""
+        self.assertTrue(
+            backend.SourceforgeGitBackend.is_url_valid(
+                "https://sourceforge.net/p/ubuntuzilla/ubuntuzilla/ref/master/tags/"
+            )
+        )
+        self.assertFalse(
+            backend.SourceforgeGitBackend.is_url_valid("https://example.com")
+        )
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the SourceforgeGit backend."""
+        output = backend.SourceforgeGitBackend.parse_url(
+            "https://sourceforge.net/p/ubuntuzilla/ubuntuzilla/ref/master/tags/"
+        )
+        exp = {
+            "name": "ubuntuzilla",
+            "homepage": "https://sourceforge.net/p/ubuntuzilla/ubuntuzilla/ref/master/tags/",
+            "backend": "Sourceforge (git)",
+            "version_url": "https://sourceforge.net/p/ubuntuzilla/ubuntuzilla/ref/master/tags/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
+        output = backend.SourceforgeGitBackend.parse_url(
+            "https://sourceforge.net/p/eclipse-cs/git/ref/master/tags/"
+        )
+        exp = {
+            "name": "eclipse-cs",
+            "homepage": "https://sourceforge.net/p/eclipse-cs/git/ref/master/tags/",
+            "backend": "Sourceforge (git)",
+            "version_url": "eclipse-cs",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(SourceforgeGitBackendtests)

@@ -72,16 +72,17 @@ Creating New Project
 ====================
 
 You can `create new projects`_ in the web interface if you are logged in.
-When you create a new project, you must select a :term:`backend` to fetch
-the version with. If the project is released in several places, please use
-the backend for the language :term:`ecosystem`. For example, if a project is
-hosted on `GitHub`_ and publishes releases to `PyPI`_, use the PyPI backend.
+You will need to provide a URL of the project and based on the URL Anitya
+will try to deduce which backend this is and pre-fills some fields for you
+with default values.
 
 .. note::
-    Occasionally projects stop publishing releases to their ecosystem's package
-    index, but continue to tag releases. In those cases, it's fine to use the
-    backend for the source hosting service (GitHub, BitBucket, etc.) the project
-    is using.
+    If nothing is matched by Anitya, it will use custom backend.
+
+After that you will be redirected to page, where you can check if every field is
+filled correctly, test it out and add a distribution mapping
+to project. When you are happy with the project, just click Submit to create it in
+Anitya.
 
 Bellow you will find the fields currently available on project with description.
 
@@ -589,7 +590,7 @@ available on GitHub. The development team hangs out in ``#fedora-apps`` on the
 .. _distros: https://release-monitoring.org/distros
 .. _settings: https://release-monitoring.org/settings
 .. _Add a new distribution: https://release-monitoring.org/distro/add
-.. _create new projects: https://release-monitoring.org/project/new
+.. _create new projects: https://release-monitoring.org/project/new/url
 .. _GitHub: https://github.com/
 .. _PyPI: https://pypi.python.org/
 .. _re: https://docs.python.org/3/library/re.html

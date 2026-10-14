@@ -262,6 +262,15 @@ class GitlabBackendtests(DatabaseTestCase):
             m_call.assert_called_with(exp_url, last_change=None)
             self.assertEqual(versions, [])
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the GitLab backend."""
+        self.assertTrue(
+            backend.GitlabBackend.is_url_valid(
+                "https://gitlab.gnome.org/GNOME/gnome-video-arcade"
+            )
+        )
+        self.assertFalse(backend.GitlabBackend.is_url_valid("https://example.com"))
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(GitlabBackendtests)

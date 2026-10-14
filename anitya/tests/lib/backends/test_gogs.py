@@ -204,6 +204,13 @@ class GogsBackendtests(DatabaseTestCase):
             AnityaPluginException, backend.GogsBackend.get_versions, project
         )
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Gogs backend."""
+        self.assertTrue(
+            backend.GogsBackend.is_url_valid("https://notabug.org/libreboot/lbmk/")
+        )
+        self.assertFalse(backend.GogsBackend.is_url_valid("https://example.com"))
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(GogsBackendtests)
