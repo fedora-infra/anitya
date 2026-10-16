@@ -220,6 +220,17 @@ class GetVersionsByRegexTextTests(unittest.TestCase):
         # Demonstrate that the regex does result in an iterable
         self.assertEqual(3, len(re.findall(regex, "0.0.1")[0]))
 
+    def test_get_versions_by_regex_for_text_invalid_regex(self):
+        """Assert an invalid regex is reported as a plugin exception"""
+        mock_project = mock.Mock(version_prefix="", version_filter=None)
+        mock_project.name = "project"
+        with self.assertRaisesRegex(
+            AnityaPluginException, "project: invalid regular expression"
+        ):
+            backends.get_versions_by_regex_for_text(
+                "release: 1.0.0", "url", r"(\d+", mock_project
+            )
+
     def test_get_versions_by_regex_for_text_no_versions(self):
         """Assert an exception is raised if no matches are found"""
         text = "This text doesn't have a release!"
