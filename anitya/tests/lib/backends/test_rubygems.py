@@ -135,6 +135,25 @@ class RubygemsBackendtests(DatabaseTestCase):
         )
         # etc...
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Rubygems backend."""
+        self.assertTrue(
+            backend.RubygemsBackend.is_url_valid("https://rubygems.org/gems/aa/")
+        )
+        self.assertFalse(backend.RubygemsBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the Rubygems backend."""
+        output = backend.RubygemsBackend.parse_url("https://rubygems.org/gems/aa/")
+        exp = {
+            "name": "aa",
+            "homepage": "https://rubygems.org/gems/aa/",
+            "backend": "Rubygems",
+            "version_url": "https://rubygems.org/gems/aa/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(RubygemsBackendtests)

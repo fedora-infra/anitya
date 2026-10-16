@@ -153,6 +153,29 @@ class Drupal7Backendtests(DatabaseTestCase):
         obs = backend.Drupal7Backend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the drupal7 backend."""
+        self.assertTrue(
+            backend.Drupal7Backend.is_url_valid(
+                "https://www.drupal.org/project/pathauto"
+            )
+        )
+        self.assertFalse(backend.Drupal7Backend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the drupal7 backend."""
+        output = backend.Drupal7Backend.parse_url(
+            "https://www.drupal.org/project/pathauto/"
+        )
+        exp = {
+            "name": "Drupal7: pathauto",
+            "homepage": "https://www.drupal.org/project/pathauto/",
+            "backend": "Drupal7",
+            "version_url": "https://www.drupal.org/project/pathauto/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(Drupal7Backendtests)

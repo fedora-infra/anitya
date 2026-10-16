@@ -151,6 +151,25 @@ class GnuBackendtests(DatabaseTestCase):
             m_call.assert_called_with(exp_url, last_change=None)
             self.assertEqual(versions, [])
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the GNU backend."""
+        self.assertTrue(
+            backend.GnuBackend.is_url_valid("https://ftpmirror.gnu.org/gnash/")
+        )
+        self.assertFalse(backend.GnuBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the GNU backend."""
+        output = backend.GnuBackend.parse_url("https://ftpmirror.gnu.org/gnash/")
+        exp = {
+            "name": "gnash",
+            "homepage": "https://ftpmirror.gnu.org/gnash/",
+            "backend": "GNU project",
+            "version_url": "https://ftpmirror.gnu.org/gnash/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(GnuBackendtests)

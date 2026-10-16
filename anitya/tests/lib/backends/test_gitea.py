@@ -249,6 +249,39 @@ class GiteaBackendtests(DatabaseTestCase):
             AnityaPluginException, backend.GiteaBackend.get_versions, project
         )
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the freshmeat backend."""
+        self.assertTrue(
+            backend.GiteaBackend.is_url_valid(
+                "https://codeberg.org/freedroid/freedroid-src.git"
+            )
+        )
+        self.assertFalse(backend.GiteaBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the freshmeat backend."""
+        output = backend.GiteaBackend.parse_url(
+            "https://codeberg.org/freedroid/freedroid-src.git/"
+        )
+        exp = {
+            "name": "freedroid-src",
+            "homepage": "https://codeberg.org/freedroid/freedroid-src.git/",
+            "backend": "Gitea",
+            "version_url": "https://codeberg.org/freedroid/freedroid-src.git/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
+        output = backend.GiteaBackend.parse_url("https://codeberg.org/forgejo/forgejo")
+        exp = {
+            "name": "forgejo",
+            "homepage": "https://codeberg.org/forgejo/forgejo",
+            "backend": "Gitea",
+            "version_url": "https://codeberg.org/forgejo/forgejo",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(GiteaBackendtests)

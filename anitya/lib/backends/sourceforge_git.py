@@ -128,6 +128,46 @@ class SourceforgeGitBackend(BaseBackend):
         return release_tags
 
     @classmethod
+    def is_url_valid(cls, url: str) -> bool:
+        """
+        Used to recognize if the URL is valid for the backend.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            True if the URL is valid or false.
+        """
+        return url.startswith("https://sourceforge.net/p")
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        homepage = url
+        parsed_url = url.replace("/ref/master/tags/", "")
+        parsed_url = parsed_url.replace("https://sourceforge.net/p/", "")
+        parsed_url = parsed_url.replace("/git", "")
+        name = parsed_url.rstrip("/").split("/")[-1]
+        version_url = url if "/git/" not in url else name
+        version_scheme = "RPM"
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
+
+    @classmethod
     def check_feed(cls):  # pragma: no cover
         """Method called to retrieve the latest uploads to a given backend,
         via, for example, RSS or an API.

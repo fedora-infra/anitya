@@ -200,6 +200,36 @@ class BaseBackend(object):
         pass
 
     @classmethod
+    def is_url_valid(cls, url: str) -> bool:
+        """
+        Used to recognize if the URL is valid for the backend.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            True if the URL is valid or false.
+        """
+        return False
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+
+        Raises:
+            NotImplementedError: If backend does not
+                support batch updates.
+        """
+        raise NotImplementedError()
+
+    @classmethod
     def check_feed(cls):
         """Method called to retrieve the latest uploads to a given backend,
         via, for example, RSS or an API.

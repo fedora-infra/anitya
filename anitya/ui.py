@@ -474,6 +474,53 @@ def distro_projects_search(distroname, pattern=None):
     )
 
 
+@ui_blueprint.route("/project/new/url", methods=["GET", "POST"])
+@login_required
+def new_project_from_url():
+    """
+    View for creating project from URL.
+
+    This function accepts GET and POST requests. POST requests can result in
+    a HTTP 409 if the request conflicts with an existing project, or a HTTP 302
+    redirect to the pre-filled page for new project.
+    """
+    form = anitya.forms.ProjectURLForm()
+
+    if flask.request.method == "GET":
+        form.url.data = flask.request.args.get("url", "")
+        return flask.render_template(
+            "project_new_url.html",
+            context="Add",
+            form=form,
+        )
+    elif form.validate_on_submit():
+        backend_plugins = anitya_plugins.load_plugins(db.session)
+        url = form.url.data.strip()
+        data = {}
+        for backend in backend_plugins:
+            if backend.is_url_valid(url):
+                data = backend.parse_url(url)
+                return flask.redirect(flask.url_for("anitya_ui.new_project", **data))
+        if not data:
+            data = {
+                "name": "",
+                "backend": "custom",
+                "homepage": url,
+                "version_scheme": "RPM",
+                "version_url": url,
+            }
+            return flask.redirect(flask.url_for("anitya_ui.new_project", **data))
+
+    return (
+        flask.render_template(
+            "project_new_url.html",
+            context="Add",
+            form=form,
+        ),
+        400,
+    )
+
+
 @ui_blueprint.route("/project/new", methods=["GET", "POST"])
 @login_required
 def new_project():
@@ -502,6 +549,7 @@ def new_project():
         form.name.data = flask.request.args.get("name", "")
         form.homepage.data = flask.request.args.get("homepage", "")
         form.backend.data = flask.request.args.get("backend", "")
+        form.version_url.data = flask.request.args.get("version_url", "")
         form.version_scheme.data = flask.request.args.get("version_scheme", "")
         form.distro.data = flask.request.args.get("distro", "")
         form.package_name.data = flask.request.args.get("package_name", "")

@@ -114,6 +114,25 @@ class CratesBackendTests(DatabaseTestCase):
             m_call.assert_called_with(exp_url, last_change=None)
             self.assertEqual(versions, [])
 
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the crates backend."""
+        self.assertTrue(
+            crates.CratesBackend.is_url_valid("https://crates.io/crates/clap/")
+        )
+        self.assertFalse(crates.CratesBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the is_url_valid function of the crates backend."""
+        output = crates.CratesBackend.parse_url("https://crates.io/crates/clap/")
+        exp = {
+            "name": "clap",
+            "homepage": "https://crates.io/crates/clap/",
+            "backend": "crates.io",
+            "version_url": "https://crates.io/crates/clap/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

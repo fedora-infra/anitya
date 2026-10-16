@@ -101,3 +101,9 @@ class DistroForm(FlaskForm):
     """DistroForm"""
 
     name = StringField("Distribution name", [validators.DataRequired()])
+
+
+class ProjectURLForm(FlaskForm):
+    """New project from url form"""
+
+    url = StringField("Project URL", [validators.DataRequired()])

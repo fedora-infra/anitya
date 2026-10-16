@@ -103,6 +103,52 @@ class BitBucketBackend(BaseBackend):
             )
 
     @classmethod
+    def is_url_valid(cls, url: str) -> bool:
+        """
+        Used to recognize if the URL is valid for the backend.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            True if the URL is valid or false.
+        """
+        return url.startswith("https://bitbucket.org")
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        homepage = url
+        parsed_url = url.replace("https://bitbucket.org/", "").rstrip("/")
+        # Ensure we only keep the 'owner/repo' part by stripping extra paths
+        # in case a user pasted a link like bitbucket.org/owner/repo/downloads
+        if "downloads" in url:
+            parsed_url = parsed_url.split("downloads/")[1]
+        if "src" in url:
+            parsed_url = parsed_url.split("src/")[1]
+
+        version_url = parsed_url
+        print(parsed_url)
+        name = parsed_url.split("/")[-1]
+        version_scheme = "RPM"
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
+
+    @classmethod
     def check_feed(cls):  # pragma: no cover
         """Method called to retrieve the latest uploads to a given backend,
         via, for example, RSS or an API.
