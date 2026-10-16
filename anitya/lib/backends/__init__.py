@@ -23,8 +23,6 @@ import logging
 import re
 import socket
 
-# sre_constants contains re exceptions
-import sre_constants  # pylint: disable=W4901
 import urllib.request as urllib
 from datetime import timedelta
 from typing import List
@@ -403,7 +401,7 @@ def get_versions_by_regex_for_text(text, url, regex, project):
 
     try:
         upstream_versions = list(set(re.findall(regex, text)))
-    except sre_constants.error as err:  # pragma: no cover
+    except re.error as err:
         raise AnityaPluginException(
             f"{project.name}: invalid regular expression"
         ) from err

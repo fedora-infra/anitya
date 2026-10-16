@@ -1,0 +1,1 @@
+Fix import of anitya.lib.backends on Python 3.15 (sre_constants was removed)
