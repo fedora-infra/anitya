@@ -21,6 +21,7 @@ class BitBucketBackend(BaseBackend):
     """
 
     name = "BitBucket"
+    is_repo = True
     examples = [
         "https://bitbucket.org/zzzeek/sqlalchemy",
         "https://bitbucket.org/cherrypy/cherrypy",

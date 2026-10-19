@@ -29,6 +29,8 @@ class GiteaBackend(BaseBackend):
     """
 
     name = "Gitea"
+    is_repo = True
+    multi_host = True
     examples = [
         "https://codeberg.org/freedroid/freedroid-src.git",
         "https://codeberg.org/forgejo/forgejo",

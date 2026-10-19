@@ -32,6 +32,7 @@ class GithubBackend(BaseBackend):
     """
 
     name = "GitHub"
+    is_repo = True
     examples = [
         "https://github.com/fedora-infra/fedocal",
         "https://github.com/fedora-infra/pkgdb2",

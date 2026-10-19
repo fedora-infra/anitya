@@ -18,6 +18,7 @@ class SourceforgeGitBackend(BaseBackend):
     """
 
     name = "Sourceforge (git)"
+    is_repo = True
     examples = [
         "https://sourceforge.net/p/ubuntuzilla/ubuntuzilla/ref/master/tags/",
         "https://sourceforge.net/p/flightgear/flightgear/ref/next/tags/",

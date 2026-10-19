@@ -9,6 +9,8 @@ Authors:
 
 """
 
+from sqlalchemy import func
+
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 
@@ -46,6 +48,23 @@ class PackagistBackend(BaseBackend):
             url = url_template % {"name": project.name, "user": project.version_url}
 
         return url
+
+    @classmethod
+    def check_duplicate(cls, session, project):
+        """Check for duplicate Packagist projects by vendor (version_url) and name."""
+        if not project.name or not project.version_url:
+            return None
+        from anitya.db import models
+
+        return (
+            cls._base_query(session, project)
+            .filter(
+                func.lower(models.Project.name) == project.name.strip().lower(),
+                func.lower(models.Project.version_url)
+                == project.version_url.strip().lower(),
+            )
+            .first()
+        )
 
     @classmethod
     def get_versions(cls, project):

@@ -18,6 +18,8 @@
 A backend for cgit
 """
 
+from sqlalchemy import func, or_
+
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 
 REGEX = r"<a href='.*'>(?:%(name)s-)?(.*)\.(?:tar|tar\.[bglx]z|tbz2|zip)</a>"
@@ -52,6 +54,26 @@ class CgitBackend(BaseBackend):
         base_url = project.version_url or project.homepage
         base_url = base_url.rstrip("/")
         return url_template % base_url
+
+    @classmethod
+    def check_duplicate(cls, session, project):
+        """Check for duplicate Cgit projects by version_url or homepage."""
+        target_url = project.version_url or project.homepage
+        if not target_url:
+            return None
+        from anitya.db import models
+
+        clean_url = target_url.strip().rstrip("/")
+        return (
+            cls._base_query(session, project)
+            .filter(
+                or_(
+                    func.rtrim(models.Project.version_url, "/") == clean_url,
+                    func.rtrim(models.Project.homepage, "/") == clean_url,
+                ),
+            )
+            .first()
+        )
 
     @classmethod
     def get_versions(cls, project):

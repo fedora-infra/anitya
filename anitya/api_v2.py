@@ -932,6 +932,10 @@ class VersionsResource(MethodView):
                     releases_only=releases_only,
                     dry_run=dry_run,
                 )
+            except ProjectExists as e:
+                response = jsonify(e.to_dict())
+                response.status_code = 409
+                return response
             except AnityaException as err:
                 response = jsonify(str(err)), 500
                 return response

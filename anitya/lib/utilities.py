@@ -189,6 +189,28 @@ def check_project_release(project, session, test=False):
     session.commit()
 
 
+def find_duplicate_project(session, project):
+    """
+    Check if a project with the same backend monitoring the same upstream source
+    already exists in the database.
+
+    Args:
+        session (sqlalchemy.orm.Session): Database session.
+        project (anitya.db.models.Project): The candidate project to check.
+
+    Returns:
+        anitya.db.models.Project or None: Existing duplicate project if found, else None.
+    """
+    if not project.backend:
+        return None
+
+    backend = plugins.get_plugin(project.backend)
+    if backend and hasattr(backend, "check_duplicate"):
+        return backend.check_duplicate(session, project)
+
+    return None
+
+
 def create_project(
     session,
     name,
@@ -238,6 +260,10 @@ def create_project(
         insecure=insecure,
         releases_only=releases_only,
     )
+
+    duplicate = find_duplicate_project(session, project)
+    if duplicate:
+        raise exceptions.ProjectExists(duplicate)
 
     session.add(project)
 
@@ -396,6 +422,11 @@ def edit_project(
         old = project.archived
         project.archived = archived
         changes["archived"] = {"old": old, "new": project.archived}
+
+    duplicate = find_duplicate_project(session, project)
+    if duplicate:
+        session.expire(project)
+        raise exceptions.ProjectExists(duplicate)
 
     try:
         if not dry_run:

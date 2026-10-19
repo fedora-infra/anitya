@@ -29,6 +29,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from anitya.db import models
 from anitya.lib import exceptions, plugins, utilities
+from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaException, ProjectExists
 from anitya.tests.base import (
     DatabaseTestCase,
@@ -96,6 +97,436 @@ class CreateProjectTests(DatabaseTestCase):
         self.assertEqual(len(project_objs), 1)
         self.assertEqual(project_objs[0].name, "geany")
         self.assertEqual(project_objs[0].homepage, "https://www.geany.org/")
+
+    def test_create_project_duplicate_github_version_url(self):
+        """Assert duplicate GitHub repository by version_url is rejected."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            utilities.create_project(
+                self.session,
+                name="fedocal",
+                homepage="https://fedora-infra.github.io/fedocal",
+                backend="GitHub",
+                version_url="fedora-infra/fedocal",
+                user_id="user@example.com",
+            )
+
+        with fml_testing.mock_sends():
+            self.assertRaises(
+                ProjectExists,
+                utilities.create_project,
+                self.session,
+                name="fedora-calendar",
+                homepage="https://github.com/fedora-infra/fedocal",
+                backend="GitHub",
+                version_url="fedora-infra/fedocal",
+                user_id="user@example.com",
+            )
+
+    def test_create_project_duplicate_github_homepage(self):
+        """Assert duplicate GitHub repository via homepage is rejected."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            utilities.create_project(
+                self.session,
+                name="pkgdb2",
+                homepage="https://admin.fedoraproject.org/pkgdb",
+                backend="GitHub",
+                version_url="fedora-infra/pkgdb2",
+                user_id="user@example.com",
+            )
+
+        with fml_testing.mock_sends():
+            self.assertRaises(
+                ProjectExists,
+                utilities.create_project,
+                self.session,
+                name="fedora-pkgdb",
+                homepage="https://github.com/fedora-infra/pkgdb2.git/",
+                backend="GitHub",
+                user_id="user@example.com",
+            )
+
+    def test_create_project_duplicate_gitlab_subgroup(self):
+        """Assert duplicate GitLab repository with subgroup is rejected."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            utilities.create_project(
+                self.session,
+                name="glib",
+                homepage="https://developer.gnome.org/glib",
+                backend="GitLab",
+                version_url="https://gitlab.gnome.org/GNOME/glib",
+                user_id="user@example.com",
+            )
+
+        with fml_testing.mock_sends():
+            self.assertRaises(
+                ProjectExists,
+                utilities.create_project,
+                self.session,
+                name="gnome-glib",
+                homepage="https://gitlab.gnome.org/GNOME/glib/-/tags",
+                backend="GitLab",
+                user_id="user@example.com",
+            )
+
+    def test_create_project_gitlab_different_instances_allowed(self):
+        """Assert same subgroup and repo on different GitLab instances are allowed."""
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectCreated, anitya_schema.ProjectCreated
+        ):
+            utilities.create_project(
+                self.session,
+                name="glib-gnome",
+                homepage="https://developer.gnome.org/glib",
+                backend="GitLab",
+                version_url="https://gitlab.gnome.org/GNOME/glib",
+                user_id="user@example.com",
+            )
+            utilities.create_project(
+                self.session,
+                name="glib-gitlab-com",
+                homepage="https://gitlab.com/GNOME/glib",
+                backend="GitLab",
+                version_url="https://gitlab.com/GNOME/glib",
+                user_id="user@example.com",
+            )
+        self.assertEqual(len(models.Project.all(self.session)), 2)
+
+    def test_create_project_packagist_vendor_and_duplicates(self):
+        """
+        Assert Packagist allows different packages from same vendor but rejects duplicate.
+        """
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectCreated, anitya_schema.ProjectCreated
+        ):
+            utilities.create_project(
+                self.session,
+                name="console",
+                homepage="https://symfony.com",
+                backend="Packagist",
+                version_url="symfony",
+                user_id="user@example.com",
+            )
+            utilities.create_project(
+                self.session,
+                name="http-kernel",
+                homepage="https://symfony.com",
+                backend="Packagist",
+                version_url="symfony",
+                user_id="user@example.com",
+            )
+        self.assertEqual(len(models.Project.all(self.session)), 2)
+
+        with fml_testing.mock_sends():
+            self.assertRaises(
+                ProjectExists,
+                utilities.create_project,
+                self.session,
+                name="Console",
+                homepage="https://symfony.com/console",
+                backend="Packagist",
+                version_url="symfony",
+                user_id="user@example.com",
+            )
+
+    def test_create_project_repo_named_releases(self):
+        """Assert repositories named 'releases' or 'tags' do not collide with others from owner."""
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectCreated, anitya_schema.ProjectCreated
+        ):
+            utilities.create_project(
+                self.session,
+                name="cockpit-releases",
+                homepage="https://cockpit-project.org",
+                backend="GitHub",
+                version_url="cockpit-project/releases",
+                user_id="user@example.com",
+            )
+            utilities.create_project(
+                self.session,
+                name="cockpit-bots",
+                homepage="https://cockpit-project.org",
+                backend="GitHub",
+                version_url="cockpit-project/bots",
+                user_id="user@example.com",
+            )
+        self.assertEqual(len(models.Project.all(self.session)), 2)
+
+    def test_create_project_duplicate_custom_trailing_slash(self):
+        """Assert duplicate custom backend with trailing slash is rejected."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            utilities.create_project(
+                self.session,
+                name="geany",
+                homepage="https://www.geany.org",
+                backend="custom",
+                version_url="https://download.geany.org/releases",
+                user_id="user@example.com",
+            )
+
+        with fml_testing.mock_sends():
+            self.assertRaises(
+                ProjectExists,
+                utilities.create_project,
+                self.session,
+                name="geany-editor",
+                homepage="https://geany.org",
+                backend="custom",
+                version_url="https://download.geany.org/releases/",
+                user_id="user@example.com",
+            )
+
+    def test_create_project_duplicate_pypi(self):
+        """Assert duplicate PyPI project with case variance and different homepage is rejected."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            utilities.create_project(
+                self.session,
+                name="urllib3",
+                homepage="https://urllib3.readthedocs.io/",
+                backend="PyPI",
+                user_id="user@example.com",
+            )
+
+        with fml_testing.mock_sends():
+            self.assertRaises(
+                ProjectExists,
+                utilities.create_project,
+                self.session,
+                name="Urllib3",
+                homepage="https://pypi.org/project/urllib3/",
+                backend="PyPI",
+                user_id="user@example.com",
+            )
+
+    def test_create_project_different_backend_not_duplicate(self):
+        """Assert same package name or repo on different backends is allowed."""
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectCreated, anitya_schema.ProjectCreated
+        ):
+            utilities.create_project(
+                self.session,
+                name="requests",
+                homepage="https://requests.readthedocs.io",
+                backend="GitHub",
+                version_url="psf/requests",
+                user_id="user@example.com",
+            )
+            utilities.create_project(
+                self.session,
+                name="requests",
+                homepage="https://pypi.org/project/requests",
+                backend="PyPI",
+                user_id="user@example.com",
+            )
+        self.assertEqual(len(models.Project.all(self.session)), 2)
+
+    def test_find_duplicate_project_no_backend(self):
+        """Assert find_duplicate_project returns None if project has no backend."""
+        project = mock.MagicMock(backend=None)
+        self.assertIsNone(utilities.find_duplicate_project(self.session, project))
+
+    def test_find_duplicate_project_unknown_backend(self):
+        """Assert find_duplicate_project returns None if backend plugin is not found."""
+        project = mock.MagicMock(backend="nonexistent")
+        self.assertIsNone(utilities.find_duplicate_project(self.session, project))
+
+    def test_create_project_duplicate_cgit(self):
+        """Assert duplicate Cgit repository is rejected."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            utilities.create_project(
+                self.session,
+                name="cgit-repo",
+                homepage="https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git",
+                backend="Cgit",
+                version_url="https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git",
+                user_id="user@example.com",
+            )
+        with fml_testing.mock_sends():
+            self.assertRaises(
+                ProjectExists,
+                utilities.create_project,
+                self.session,
+                name="cgit-repo-dup",
+                homepage="https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/",
+                backend="Cgit",
+                version_url="https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/",
+                user_id="user@example.com",
+            )
+
+    def test_create_project_duplicate_sourceforge(self):
+        """Assert duplicate SourceForge project is rejected."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            utilities.create_project(
+                self.session,
+                name="pidgin",
+                homepage="https://pidgin.im",
+                backend="Sourceforge",
+                version_url="pidgin",
+                user_id="user@example.com",
+            )
+        with fml_testing.mock_sends():
+            self.assertRaises(
+                ProjectExists,
+                utilities.create_project,
+                self.session,
+                name="pidgin-dup",
+                homepage="https://sourceforge.net/projects/pidgin/",
+                backend="Sourceforge",
+                version_url="pidgin",
+                user_id="user@example.com",
+            )
+
+    def test_create_project_duplicate_maven_central(self):
+        """Assert duplicate Maven Central coordinate is rejected."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            utilities.create_project(
+                self.session,
+                name="commons-lang3",
+                homepage="https://commons.apache.org/proper/commons-lang/",
+                backend="Maven Central",
+                version_url="org.apache.commons:commons-lang3",
+                user_id="user@example.com",
+            )
+        with fml_testing.mock_sends():
+            self.assertRaises(
+                ProjectExists,
+                utilities.create_project,
+                self.session,
+                name="apache-commons-lang3",
+                homepage="https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/",
+                backend="Maven Central",
+                version_url="org.apache.commons:commons-lang3",
+                user_id="user@example.com",
+            )
+
+    def test_extract_repo_identifier_relative_version_url(self):
+        """Assert relative version_url in multi-host backend inherits domain from homepage."""
+        proj = models.Project(
+            name="test",
+            homepage="https://gitlab.example.org/group/project",
+            version_url="group/project",
+            backend="GitLab",
+        )
+        self.assertEqual(
+            BaseBackend._extract_repo_identifier(proj, multi_host=True),
+            "gitlab.example.org/group/project",
+        )
+
+    def test_extract_repo_identifier_empty(self):
+        """Assert _extract_repo_identifier returns None when url is empty."""
+        proj = models.Project(
+            name="test",
+            homepage="",
+            version_url="",
+            backend="GitHub",
+        )
+        self.assertIsNone(BaseBackend._extract_repo_identifier(proj))
+
+    def test_check_duplicate_base_empty_name(self):
+        """Assert BaseBackend.check_duplicate returns None when project name is empty."""
+        proj = models.Project(name="", backend="PyPI")
+        self.assertIsNone(BaseBackend.check_duplicate(self.session, proj))
+
+    def test_check_repo_duplicate_empty_url(self):
+        """Assert BaseBackend._check_repo_duplicate returns None when url is empty."""
+        proj = models.Project(
+            name="test", backend="GitHub", homepage="", version_url=""
+        )
+        self.assertIsNone(BaseBackend._check_repo_duplicate(self.session, proj))
+
+    def test_cgit_check_duplicate_empty_and_self(self):
+        """Test Cgit duplicate check edge cases."""
+        cgit_backend = plugins.get_plugin("Cgit")
+        proj = models.Project(name="test", backend="Cgit", version_url="", homepage="")
+        self.assertIsNone(cgit_backend.check_duplicate(self.session, proj))
+
+        proj_existing = models.Project(
+            name="test-cgit",
+            backend="Cgit",
+            version_url="https://git.example.org/repo.git",
+            homepage="https://example.org",
+        )
+        self.session.add(proj_existing)
+        self.session.commit()
+        self.assertIsNone(cgit_backend.check_duplicate(self.session, proj_existing))
+
+    def test_folder_check_duplicate(self):
+        """Test Folder duplicate check with empty version_url, matching duplicate, and self."""
+        folder_backend = plugins.get_plugin("folder")
+        proj = models.Project(name="test", backend="folder", version_url="")
+        self.assertIsNone(folder_backend.check_duplicate(self.session, proj))
+
+        proj_existing = models.Project(
+            name="test-folder",
+            backend="folder",
+            version_url="https://ftp.gnu.org/pub/gnu/gnash/",
+            homepage="https://ftp.gnu.org/pub/gnu/gnash/",
+        )
+        self.session.add(proj_existing)
+        self.session.commit()
+
+        proj_dup = models.Project(
+            name="test-folder-dup",
+            backend="folder",
+            version_url="https://ftp.gnu.org/pub/gnu/gnash",
+            homepage="https://example.org",
+        )
+        self.assertEqual(
+            folder_backend.check_duplicate(self.session, proj_dup),
+            proj_existing,
+        )
+        self.assertIsNone(folder_backend.check_duplicate(self.session, proj_existing))
+
+    def test_maven_check_duplicate_empty_and_self(self):
+        """Test Maven duplicate check edge cases."""
+        maven_backend = plugins.get_plugin("Maven Central")
+        proj = models.Project(name="", backend="Maven Central", version_url="")
+        self.assertIsNone(maven_backend.check_duplicate(self.session, proj))
+
+        proj_existing = models.Project(
+            name="test-maven",
+            backend="Maven Central",
+            version_url="org.test:test",
+            homepage="https://example.org",
+        )
+        self.session.add(proj_existing)
+        self.session.commit()
+        self.assertIsNone(maven_backend.check_duplicate(self.session, proj_existing))
+
+    def test_packagist_check_duplicate_empty_and_self(self):
+        """Test Packagist duplicate check edge cases."""
+        packagist_backend = plugins.get_plugin("Packagist")
+        proj = models.Project(name="", backend="Packagist", version_url="")
+        self.assertIsNone(packagist_backend.check_duplicate(self.session, proj))
+        proj_no_vurl = models.Project(name="foo", backend="Packagist", version_url="")
+        self.assertIsNone(packagist_backend.check_duplicate(self.session, proj_no_vurl))
+
+        proj_existing = models.Project(
+            name="bar",
+            backend="Packagist",
+            version_url="vendor",
+            homepage="https://example.org",
+        )
+        self.session.add(proj_existing)
+        self.session.commit()
+        self.assertIsNone(
+            packagist_backend.check_duplicate(self.session, proj_existing)
+        )
+
+    def test_sourceforge_check_duplicate_empty_and_self(self):
+        """Test SourceForge duplicate check edge cases."""
+        sf_backend = plugins.get_plugin("Sourceforge")
+        proj = models.Project(name="", backend="Sourceforge", version_url="")
+        self.assertIsNone(sf_backend.check_duplicate(self.session, proj))
+
+        proj_existing = models.Project(
+            name="sf-test",
+            backend="Sourceforge",
+            version_url="sf-test",
+            homepage="https://sourceforge.net/projects/sf-test",
+        )
+        self.session.add(proj_existing)
+        self.session.commit()
+        self.assertIsNone(sf_backend.check_duplicate(self.session, proj_existing))
 
     def test_create_project_dry_run(self):
         """Test the create_project dry_run parameter."""
@@ -319,6 +750,58 @@ class EditProjectTests(DatabaseTestCase):
         self.assertEqual(project_objs[0].version_filter, None)
         self.assertFalse(project_objs[0].releases_only)
         self.assertFalse(project_objs[0].archived)
+
+    def test_edit_project_duplicate_rejected(self):
+        """Assert editing project to match an existing project's target raises ProjectExists."""
+        create_project(self.session)
+        project_objs = models.Project.all(self.session)
+
+        with fml_testing.mock_sends():
+            self.assertRaises(
+                ProjectExists,
+                utilities.edit_project,
+                self.session,
+                project=project_objs[1],
+                name="subsurface-renamed",
+                homepage="https://subsurface-divelog.org/",
+                backend="custom",
+                version_scheme="RPM",
+                version_pattern=None,
+                version_url="https://www.geany.org/Download/Releases/",
+                version_prefix=None,
+                pre_release_filter=None,
+                version_filter=None,
+                regex="DEFAULT",
+                insecure=False,
+                user_id="noreply@fedoraproject.org",
+                releases_only=False,
+            )
+
+    def test_edit_project_self_update_allowed(self):
+        """Assert editing project attributes without colliding with another project succeeds."""
+        create_project(self.session)
+        project_objs = models.Project.all(self.session)
+
+        with fml_testing.mock_sends(anitya_schema.ProjectEdited):
+            utilities.edit_project(
+                self.session,
+                project=project_objs[0],
+                name="geany-updated",
+                homepage="https://www.geany.org/updated",
+                backend="custom",
+                version_scheme="RPM",
+                version_pattern=None,
+                version_url="https://www.geany.org/Download/Releases",
+                version_prefix=None,
+                pre_release_filter=None,
+                version_filter=None,
+                regex="DEFAULT",
+                insecure=False,
+                user_id="noreply@fedoraproject.org",
+                releases_only=False,
+            )
+
+        self.assertEqual(project_objs[0].name, "geany-updated")
 
 
 class CheckProjectReleaseTests(DatabaseTestCase):
