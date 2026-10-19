@@ -1,0 +1,1 @@
+Switch crates.io backend to use Cargo's sparse index.

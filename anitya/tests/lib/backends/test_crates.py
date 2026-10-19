@@ -29,7 +29,7 @@ import mock
 
 from anitya.db import models
 from anitya.lib.backends import crates
-from anitya.lib.exceptions import AnityaPluginException
+from anitya.lib.exceptions import AnityaPluginException, RateLimitException
 from anitya.tests.base import DatabaseTestCase
 
 
@@ -58,7 +58,7 @@ class CratesBackendTests(DatabaseTestCase):
     def test_get_version(self):
         """Test the get_version function of the crates backend."""
         project = models.Project.by_id(self.session, 1)
-        self.assertEqual("0.2.1", crates.CratesBackend.get_version(project))
+        self.assertEqual("1.0.18", crates.CratesBackend.get_version(project))
 
     def test_get_version_missing(self):
         """Assert an exception is raised if a project doesn't exist and get_version is called"""
@@ -68,44 +68,53 @@ class CratesBackendTests(DatabaseTestCase):
         )
 
     def test_get_version_url(self):
-        """Assert that correct url is returned."""
-        project = models.Project(
-            name="test", homepage="http://example.org", backend="crates.io"
-        )
-        exp = "https://crates.io/api/v1/crates/test/versions"
-
-        obs = crates.CratesBackend.get_version_url(project)
-
-        self.assertEqual(obs, exp)
+        """Assert that correct sparse index url is returned."""
+        cases = [
+            ("a", "https://index.crates.io/1/a"),
+            ("ab", "https://index.crates.io/2/ab"),
+            ("syn", "https://index.crates.io/3/s/syn"),
+            ("test", "https://index.crates.io/te/st/test"),
+            ("zgvariant", "https://index.crates.io/zg/va/zgvariant"),
+            ("MyCrate", "https://index.crates.io/my/cr/mycrate"),
+        ]
+        for name, exp in cases:
+            project = models.Project(
+                name=name, homepage="http://example.org", backend="crates.io"
+            )
+            obs = crates.CratesBackend.get_version_url(project)
+            self.assertEqual(obs, exp)
 
     def test_get_versions(self):
         """Test the get_versions function of the crates backend."""
-        expected_versions = ["0.2.1", "0.2.0", "0.1.1", "0.1.0"]
         project = models.Project.by_id(self.session, 1)
-        self.assertEqual(expected_versions, crates.CratesBackend.get_versions(project))
+        versions = crates.CratesBackend.get_versions(project)
+        self.assertEqual("1.0.18", versions[0])
+        self.assertEqual("0.1.0", versions[-1])
+        self.assertIn("0.2.1", versions)
 
     def test_get_ordered_versions(self):
         """Test the get_ordered_versions function of the crates backend."""
-        expected_versions = ["0.2.1", "0.2.0", "0.1.1", "0.1.0"]
         project = models.Project.by_id(self.session, 1)
-        self.assertEqual(
-            expected_versions, crates.CratesBackend.get_ordered_versions(project)
-        )
+        versions = crates.CratesBackend.get_ordered_versions(project)
+        self.assertEqual("1.0.18", versions[0])
+        self.assertEqual("0.1.0", versions[-1])
+        self.assertIn("0.2.1", versions)
 
     @mock.patch("anitya.lib.backends.crates.CratesBackend.call_url")
     def test__get_versions_no_json(self, mock_call_url):
         """Assert we handle getting non-JSON responses gracefully"""
-        mock_call_url.return_value.json.side_effect = ValueError
+        mock_call_url.return_value.status_code = 200
+        mock_call_url.return_value.text = "not a json string\n"
         project = models.Project.by_id(self.session, 1)
-        with self.assertRaises(AnityaPluginException) as context_manager:
+        with self.assertRaises(AnityaPluginException) as cm:
             crates.CratesBackend._get_versions(project)  # pylint: disable=W0212
-            self.assertIn("Failed to decode JSON", str(context_manager.exception))
+        self.assertIn("Failed to decode JSON", str(cm.exception))
 
     def test_get_versions_not_modified(self):
         """Assert that not modified response is handled correctly"""
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp_url = "https://crates.io/api/v1/crates/itoa/versions"
+        exp_url = "https://index.crates.io/it/oa/itoa"
 
         with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
             m_call.return_value = mock.Mock(status_code=304)
@@ -113,6 +122,72 @@ class CratesBackendTests(DatabaseTestCase):
 
             m_call.assert_called_with(exp_url, last_change=None)
             self.assertEqual(versions, [])
+
+    @mock.patch("anitya.lib.backends.crates.CratesBackend.call_url")
+    def test__get_versions_rate_limited(self, mock_call_url):
+        """Assert 429 response raises RateLimitException."""
+        mock_call_url.return_value.status_code = 429
+        mock_call_url.return_value.headers = {"Retry-After": "60"}
+        project = models.Project.by_id(self.session, 1)
+        with self.assertRaises(RateLimitException):
+            crates.CratesBackend._get_versions(project)
+
+    @mock.patch("anitya.lib.backends.crates.CratesBackend.call_url")
+    def test__get_versions_rate_limited_default(self, mock_call_url):
+        """Assert 429 response without Retry-After defaults to 1 hour."""
+        mock_call_url.return_value.status_code = 429
+        mock_call_url.return_value.headers = {}
+        project = models.Project.by_id(self.session, 1)
+        with self.assertRaises(RateLimitException):
+            crates.CratesBackend._get_versions(project)
+
+    @mock.patch("anitya.lib.backends.crates.CratesBackend.call_url")
+    def test__get_versions_rate_limited_http_date(self, mock_call_url):
+        """Assert 429 response with HTTP-date Retry-After is parsed."""
+        mock_call_url.return_value.status_code = 429
+        mock_call_url.return_value.headers = {
+            "Retry-After": "Wed, 21 Oct 2026 07:28:00 GMT"
+        }
+        project = models.Project.by_id(self.session, 1)
+        with self.assertRaises(RateLimitException):
+            crates.CratesBackend._get_versions(project)
+
+    @mock.patch("anitya.lib.backends.crates.CratesBackend.call_url")
+    def test__get_versions_rate_limited_invalid_date(self, mock_call_url):
+        """Assert 429 response with invalid Retry-After date falls back to 1 hour."""
+        mock_call_url.return_value.status_code = 429
+        mock_call_url.return_value.headers = {"Retry-After": "not-a-valid-date"}
+        project = models.Project.by_id(self.session, 1)
+        with self.assertRaises(RateLimitException):
+            crates.CratesBackend._get_versions(project)
+
+    @mock.patch("anitya.lib.backends.crates.CratesBackend.call_url")
+    def test_get_versions_yanked_filtered(self, mock_call_url):
+        """Assert yanked versions are excluded."""
+        mock_call_url.return_value.status_code = 200
+        mock_call_url.return_value.text = (
+            '{"name":"foo","vers":"1.0.0","yanked":false}\n'
+            '{"name":"foo","vers":"1.0.1","yanked":true}\n'
+            '{"name":"foo","vers":"1.1.0","yanked":false}\n'
+        )
+        project = models.Project(
+            name="foo", homepage="https://crates.io/crates/foo", backend="crates.io"
+        )
+        self.assertEqual(["1.1.0", "1.0.0"], crates.CratesBackend.get_versions(project))
+        self.assertEqual("1.1.0", crates.CratesBackend.get_version(project))
+
+    @mock.patch("anitya.lib.backends.crates.CratesBackend.call_url")
+    def test_get_version_all_yanked(self, mock_call_url):
+        """Assert AnityaPluginException when no active versions found."""
+        mock_call_url.return_value.status_code = 200
+        mock_call_url.return_value.text = (
+            '{"name":"foo","vers":"1.0.0","yanked":true}\n'
+        )
+        project = models.Project(
+            name="foo", homepage="https://crates.io/crates/foo", backend="crates.io"
+        )
+        with self.assertRaises(AnityaPluginException):
+            crates.CratesBackend.get_version(project)
 
 
 if __name__ == "__main__":
