@@ -26,6 +26,7 @@ import anitya
 import anitya.lib.plugins
 from anitya.db import db, models
 from anitya.lib import utilities
+import sqlalchemy as sa
 
 api_blueprint = flask.Blueprint("anitya_apiv1", __name__)
 
@@ -246,16 +247,28 @@ def api_projects_names():
     """
 
     pattern = flask.request.args.get("pattern", None)
+    limit = flask.request.args.get("limit", default=None, type=int)
+    if limit is not None:
+        if limit <= 0:
+            flask.abort(400, description="limit must be a positive integer")
 
-    if pattern and "*" not in pattern:
-        pattern += "*"
+    query = db.session.query(models.Project.name)
 
     if pattern:
-        project_objs = models.Project.search(db.session, pattern=pattern)
-    else:
-        project_objs = models.Project.all(db.session)
+        if "*" not in pattern:
+            pattern += "*"
 
-    projects = [project.name for project in project_objs]
+        pattern = pattern.replace("_", r"\_").replace("*", "%")
+        query = query.filter(models.Project.name.ilike(pattern))
+
+    query = query.order_by(
+        sa.func.length(models.Project.name), sa.func.lower(models.Project.name)
+    )
+
+    if limit:
+        query = query.limit(limit)
+
+    projects = [name for (name,) in query.all()]
 
     output = {"total": len(projects), "projects": projects}
 

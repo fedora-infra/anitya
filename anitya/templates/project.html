@@ -247,7 +247,13 @@
               {% else %}
               <td style="color:green;">OK</td>
               {% endif %}
-              <td>{{ project.last_check.strftime('%Y-%m-%d %H:%M:%S') }} (UTC)</td>
+              <td>
+                {% if project.last_check %}
+                {{ project.last_check.strftime('%Y-%m-%d %H:%M:%S') }} (UTC)
+                {% else %}
+                Never
+                {% endif %}
+              </td>
               <td>{{ project.logs }}</td>
             </tr>
           </table>

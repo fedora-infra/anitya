@@ -678,6 +678,27 @@ class Project(Base):
             return query.all()
 
     @classmethod
+    def suggest_name(cls, session, pattern):
+        """Return the closest project name for a search typo, if any."""
+        if not pattern or "*" in pattern or "%" in pattern or "_" in pattern:
+            return None
+
+        query = session.query(cls)
+
+        if session.bind.dialect.name == "postgresql":
+            query = query.filter(sa.func.similarity(cls.name, pattern) >= 0.3)
+            query = query.order_by(
+                cls.name.op("<->")(pattern),
+                sa.func.lower(cls.name),
+            )
+        else:
+            # SQLite fallback: avoid suggesting unrelated names
+            return None
+
+        result = query.first()
+        return result
+
+    @classmethod
     def search(cls, session, pattern, distro=None, page=None, count=False, sort=None):
         """Search the projects by their name or package name"""
 

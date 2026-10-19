@@ -25,6 +25,8 @@ anitya tests for the Project object.
 
 import unittest
 
+import mock
+
 from anitya.db import models
 from anitya.tests.base import DatabaseTestCase, create_project
 
@@ -118,6 +120,42 @@ class Projecttests(DatabaseTestCase):
         projects = models.Project.search(self.session, "gea*")
         self.assertEqual(projects[0].name, "geany")
         self.assertEqual(projects[0].homepage, "https://www.geany.org/")
+
+    def test_project_suggest_name(self):
+        """Test suggesting a project name for a typo."""
+        create_project(self.session)
+
+        if self.session.bind.dialect.name == "postgresql":
+            suggestion = models.Project.suggest_name(self.session, "geanyy")
+            self.assertIsNotNone(suggestion)
+            self.assertEqual(suggestion.name, "geany")
+
+            suggestion = models.Project.suggest_name(self.session, "zzzzzzzz")
+            self.assertIsNone(suggestion)
+        else:
+            suggestion = models.Project.suggest_name(self.session, "geanyy")
+            self.assertIsNone(suggestion)
+        suggestion = models.Project.suggest_name(self.session, "")
+        self.assertIsNone(suggestion)
+
+    def test_project_suggest_name_postgresql(self):
+        """Test the PostgreSQL project name suggestion query."""
+        query = mock.Mock()
+        query.filter.return_value = query
+        query.order_by.return_value = query
+        expected = object()
+        query.first.return_value = expected
+
+        session = mock.Mock()
+        session.bind.dialect.name = "postgresql"
+        session.query.return_value = query
+
+        result = models.Project.suggest_name(session, "geanyy")
+
+        self.assertIs(result, expected)
+        query.filter.assert_called_once()
+        query.order_by.assert_called_once()
+        query.first.assert_called_once_with()
 
     def test_sort_projects_list_default(self):
         """sort_projects on a list with no sort spec falls back to name asc."""

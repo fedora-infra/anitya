@@ -77,15 +77,16 @@
       source: function( request, response ) {
         $.getJSON(
           "{{ url_for('anitya_apiv1.api_projects_names') }}", {
-            pattern: request.term + '*'
+            pattern: request.term + '*',
+            limit: 10
           },
           function( data ) {
-            response( data.projects.slice(0, 10) );
+            response(data.projects);
           }
         );
       },
       minLength: 3,
-      delay: 600,
+      delay: 250,
     });
   });
 </script>

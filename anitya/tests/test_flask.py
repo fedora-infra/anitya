@@ -744,6 +744,25 @@ class FlaskTest(DatabaseTestCase):
         expected = b"Only one result matching with an " b"exact match, redirecting"
         self.assertTrue(expected in output.data)
 
+        if self.session.bind.dialect.name == "postgresql":
+            output = self.app.get("/projects/search/geanyy")
+            self.assertEqual(output.status_code, 200)
+            self.assertIn(b"Did you mean:", output.data)
+            self.assertIn(b"geany", output.data)
+
+    @mock.patch("anitya.db.models.Project.suggest_name")
+    def test_projects_search_suggestion(self, suggest_name):
+        """Assert typo suggestions are rendered when a candidate is found."""
+        create_project(self.session)
+        suggest_name.return_value = self.session.get(models.Project, 1)
+
+        output = self.app.get("/projects/search/geanyy")
+
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"Did you mean:", output.data)
+        suggest_name.assert_called_once()
+        self.assertEqual(suggest_name.call_args.args[1], "geanyy")
+
     def test_projects_search_special_characters_urlencode(self):
         """Assert that search patterns with special characters are urlencoded in sort links."""
         create_project(self.session)
