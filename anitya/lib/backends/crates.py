@@ -20,92 +20,23 @@
 """
 A backend for the Rust community’s crate host, `crates.io <https://crates.io/>`_.
 
-Crates.io provides an API to determine a package's version, so this backend
-makes use of that API rather than using regular expressions like some other
-backends. The API is very simple. An HTTP GET request to
-``https://crates.io/api/v1/crates/{name}/versions`` returns a JSON response
-using the schema::
+This backend makes use of Cargo’s official sparse registry index
+(`index.crates.io <https://index.crates.io/>`_) per RFC 2789 and the crates.io
+Data Access Policy. The sparse index is hosted on a CDN without API rate limits.
+Files contain newline-delimited JSON (NDJSON) metadata for all versions of a crate.
 
-  {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "crates.io versions",
-    "description": "https://crates.io/api/v1/crates/$name/versions",
-    "type": "array",
-    "definitions": {
-      "version": {
-        "type": "object",
-        "properties": {
-          "crate":      { "type": "string" },
-          "created_at": { "type": "string", "format": "date-time" },
-          "dl_path":    { "type": "string" },
-          "downloads":  { "type": "integer" },
-          "features": {
-            "type": "object",
-            # FIXME: 0+ elements
-            # str: list(str)
-          },
-          "id":         { "type": "integer" },
-          "links": {
-            "type": "object",
-            "properties": {
-              "authors":           { "type": "string" },
-              "dependencies":      { "type": "string" },
-              "version_downloads": { "type": "string" }
-            }
-            "required": ["authors", "dependencies", "version_downloads"]
-          },
-          "num":        { "type": "string" },
-          "updated_at": { "type": "string", "format": "date-time" },
-          "yanked":     { "type": "boolean" },
-        },
-        "required": [
-          "crate",
-          "created_at",
-          "dl_path",
-          "downloads",
-          "features",
-          "id",
-          "links",
-          "num",
-          "updated_at",
-          "yanked"
-        ]
-      }
-    },
-    "items": {
-      "anyOf": [
-        { "$ref": "#/definitions/version" }
-      ]
-    }
-  }
+For example, ``https://index.crates.io/it/oa/itoa`` returns lines like::
 
-For example, ``https://crates.io/api/v1/crates/itoa/versions`` results in::
-
-    {
-        "versions": [
-            {
-                "crate": "itoa",
-                "created_at": "2017-01-26T05:02:29Z",
-                "dl_path": "/api/v1/crates/itoa/0.2.1/download",
-                "downloads": 150,
-                "features": {},
-                "id": 43354,
-                "links": {
-                    "authors": "/api/v1/crates/itoa/0.2.1/authors",
-                    "dependencies": "/api/v1/crates/itoa/0.2.1/dependencies",
-                    "version_downloads": "/api/v1/crates/itoa/0.2.1/downloads"
-                },
-                "num": "0.2.1",
-                "updated_at": "2017-01-26T05:02:29Z",
-                "yanked": false
-            }
-    }
+    {"name":"itoa","vers":"0.2.1","deps":[],"cksum":"...","features":{},"yanked":false}
 """
 
+import json
+
+import arrow
 import requests
 
 from anitya.lib.backends import BaseBackend
-from anitya.lib.exceptions import AnityaPluginException
+from anitya.lib.exceptions import AnityaPluginException, RateLimitException
 
 
 class CratesBackend(BaseBackend):
@@ -124,25 +55,10 @@ class CratesBackend(BaseBackend):
                 versions for.
 
         Returns:
-            list: A list of version dictionaries. Each dictionary is in the format::
-                {
-                    "crate": "itoa",
-                    "created_at": "2017-01-26T05:02:29Z",
-                    "dl_path": "/api/v1/crates/itoa/0.2.1/download",
-                    "downloads": 150,
-                    "features": {},
-                    "id": 43354,
-                    "links": {
-                        "authors": "/api/v1/crates/itoa/0.2.1/authors",
-                        "dependencies": "/api/v1/crates/itoa/0.2.1/dependencies",
-                        "version_downloads": "/api/v1/crates/itoa/0.2.1/downloads"
-                    },
-                    "num": "0.2.1",
-                    "updated_at": "2017-01-26T05:02:29Z",
-                    "yanked": false
-                }
+            list: A list of version dictionaries ordered from newest to oldest.
 
         Raises:
+            RateLimitException: If crates.io returns a 429 response.
             AnityaPluginException: If the URL was unreachable or the response
                 was in an unexpected format.
         """
@@ -150,17 +66,34 @@ class CratesBackend(BaseBackend):
         last_change = project.get_time_last_created_version()
         try:
             req = cls.call_url(url, last_change=last_change)
+            if req.status_code == 429:
+                retry_after = req.headers.get("Retry-After")
+                if retry_after:
+                    if retry_after.isdigit():
+                        reset_time = arrow.now("UTC").shift(seconds=int(retry_after))
+                    else:
+                        try:
+                            reset_time = arrow.get(retry_after)
+                        except Exception:
+                            reset_time = arrow.now("UTC").shift(hours=1)
+                else:
+                    reset_time = arrow.now("UTC").shift(hours=1)
+                raise RateLimitException(reset_time.isoformat())
             req.raise_for_status()
             # Not modified
             if req.status_code == 304:
                 return []
-            data = req.json()
+            versions = [
+                json.loads(line) for line in req.text.splitlines() if line.strip()
+            ]
+        except RateLimitException:
+            raise
         except requests.RequestException as e:
             raise AnityaPluginException(f"Could not contact {url}: {e!r}") from e
-        except ValueError as e:
+        except (ValueError, json.JSONDecodeError) as e:
             raise AnityaPluginException(f"Failed to decode JSON: {e!r}") from e
 
-        return data["versions"]
+        return list(reversed(versions))
 
     @classmethod
     def get_version(cls, project):
@@ -178,7 +111,10 @@ class CratesBackend(BaseBackend):
             AnityaPluginException: If the URL was unreachable or the response
                 was in an unexpected format.
         """
-        return cls._get_versions(project)[0]["num"]
+        versions = cls.get_versions(project)
+        if not versions:
+            raise AnityaPluginException(f"{project.name}: no versions found.")
+        return versions[0]
 
     @classmethod
     def get_version_url(cls, project):
@@ -192,9 +128,17 @@ class CratesBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = f"https://crates.io/api/v1/crates/{project.name}/versions"  # noqa: E231
+        name = project.name.strip().lower()
+        if len(name) == 1:
+            prefix = "1"
+        elif len(name) == 2:
+            prefix = "2"
+        elif len(name) == 3:
+            prefix = f"3/{name[0]}"
+        else:
+            prefix = f"{name[:2]}/{name[2:4]}"
 
-        return url
+        return f"https://index.crates.io/{prefix}/{name}"
 
     @classmethod
     def get_versions(cls, project):
@@ -213,7 +157,11 @@ class CratesBackend(BaseBackend):
                 was in an unexpected format.
         """
         filtered_versions = cls.filter_versions(
-            [v["num"] for v in cls._get_versions(project) if not v["yanked"]],
+            [
+                v["vers"]
+                for v in cls._get_versions(project)
+                if not v.get("yanked", False)
+            ],
             project.version_filter,
         )
         return filtered_versions

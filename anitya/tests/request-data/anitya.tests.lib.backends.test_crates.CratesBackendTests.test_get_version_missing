@@ -2,24 +2,55 @@ interactions:
 - request:
     body: null
     headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      Cookie: [cargo_session=--3Mz45cH3itfVkmY41+nVjWRm9+0=]
-      From: [admin@fedoraproject.org]
-      User-Agent: [Anitya 0.10.1 at release-monitoring.org]
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      From:
+      - admin@fedoraproject.org
+      If-modified-since:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      User-Agent:
+      - Anitya 2.4.0 at release-monitoring.org
     method: GET
-    uri: https://crates.io/api/v1/crates/pleasedontmakethisprojectitllbreakmytests/versions
+    uri: https://index.crates.io/pl/ea/pleasedontmakethisprojectitllbreakmytests
   response:
-    body: {string: !!python/unicode '{"errors":[{"detail":"Not Found"}]}'}
+    body:
+      string: '<?xml version="1.0" encoding="UTF-8"?>
+
+        <Error><Code>NoSuchKey</Code><Message>The specified key does not exist.</Message><Key>pl/ea/pleasedontmakethisprojectitllbreakmytests</Key><RequestId>RT5189GBDENWMWJ1</RequestId><HostId>9cTvleeeyNSw3f9QMIqh9fWrT9YaZOR0ytkmlNpwC+r/wzOPaLRCfmz1tV1OP3Eh2RQo26A7s8IG0dn0cMiB35iWtICv0kFa</HostId></Error>'
     headers:
-      connection: [keep-alive]
-      content-length: ['35']
-      content-type: [application/json; charset=utf-8]
-      date: ['Thu, 26 Jan 2017 22:04:30 GMT']
-      server: [nginx]
-      set-cookie: [cargo_session=--3Mz45cH3itfVkmY41+nVjWRm9+0=; HttpOnly; Secure;
-          Path=/]
-      via: [1.1 vegur]
-    status: {code: 404, message: Not Found}
+      Accept-Ranges:
+      - bytes
+      Age:
+      - '0'
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '338'
+      Content-Type:
+      - application/xml
+      Date:
+      - Mon, 19 Oct 2026 04:41:29 GMT
+      Server:
+      - AmazonS3
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Served-By:
+      - cache-ccu830038-CCU
+      X-Timer:
+      - S1792384889.749474,VS0,VE947
+      x-amz-id-2:
+      - 9cTvleeeyNSw3f9QMIqh9fWrT9YaZOR0ytkmlNpwC+r/wzOPaLRCfmz1tV1OP3Eh2RQo26A7s8IG0dn0cMiB35iWtICv0kFa
+      x-amz-request-id:
+      - RT5189GBDENWMWJ1
+    status:
+      code: 404
+      message: Not Found
 version: 1
