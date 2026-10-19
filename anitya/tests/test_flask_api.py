@@ -238,6 +238,15 @@ class AnityaWebAPItests(DatabaseTestCase):
         exp = {"projects": ["geany"], "total": 1}
         self.assertEqual(data, exp)
 
+        output = self.app.get("/api/projects/names/?limit=2")
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+        self.assertEqual(len(data["projects"]), 2)
+        self.assertEqual(data["total"], 2)
+
+        output = self.app.get("/api/projects/names/?limit=-1")
+        self.assertEqual(output.status_code, 400)
+
     def test_api_projects_versions(self):
         """
         Assert that the correct version prefix is removed.

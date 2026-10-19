@@ -82,6 +82,15 @@
       No projects found matching your search
     {% endif %}
   </p>
+
+  {% if suggestion %}
+  <p class="mb-3">
+    Did you mean:
+    <a href="{{ url_for('anitya_ui.projects_search', pattern=suggestion.name, exact=1) }}">{{ suggestion.name }}</a>
+    ?
+  </p>
+  {% endif %}
+  
   {% if pattern and pattern != '*' %}
   <div>
     <a href="{{ url_for('anitya_ui.new_project', name=pattern) }}" class="btn btn-primary btn-sm">

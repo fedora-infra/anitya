@@ -6,6 +6,7 @@ import os
 
 import flask
 from flask_login import current_user, login_required, logout_user
+import sqlalchemy as sa
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -395,7 +396,27 @@ def projects_search(pattern=None):
             db.session, pattern=pattern, count=True, sort=sort
         )
 
-    if projects_count == 1 and projects[0].name == pattern.replace("*", ""):
+    suggestion = None
+    clean = pattern.replace("*", "").strip().lower()
+    has_exact = (
+        db.session.scalar(
+            select(models.Project.id)
+            .where(sa.func.lower(models.Project.name) == clean)
+            .limit(1)
+        )
+        is not None
+    )
+
+    if not has_exact:
+        candidate = models.Project.suggest_name(db.session, clean)
+        if candidate and candidate.name.lower() != clean:
+            suggestion = candidate
+
+    if (
+        projects_count == 1
+        and projects
+        and projects[0].name == pattern.replace("*", "")
+    ):
         flask.flash("Only one result matching with an exact match, redirecting")
         return flask.redirect(
             flask.url_for("anitya_ui.project", project_id=projects[0].id)
@@ -407,6 +428,7 @@ def projects_search(pattern=None):
         "search.html",
         current="projects",
         pattern=pattern,
+        suggestion=suggestion,
         projects=projects,
         total_page=total_page,
         projects_count=projects_count,
@@ -423,7 +445,6 @@ def distro_projects_search(distroname, pattern=None):
     pattern = flask.request.args.get("pattern", pattern) or "*"
     page = flask.request.args.get("page", 1)
     exact = flask.request.args.get("exact", 0)
-
     try:
         page = int(page)
     except ValueError:
@@ -454,7 +475,11 @@ def distro_projects_search(distroname, pattern=None):
             db.session, pattern=pattern, distro=distroname, count=True
         )
 
-    if projects_count == 1 and projects[0].name == pattern.replace("*", ""):
+    if (
+        projects_count == 1
+        and projects
+        and projects[0].name == pattern.replace("*", "")
+    ):
         flask.flash("Only one result matching with an exact match, redirecting")
         return flask.redirect(
             flask.url_for("anitya_ui.project", project_id=projects[0].id)
