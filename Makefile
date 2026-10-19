@@ -33,12 +33,12 @@ bash-web:
 bash-check:
 	$(call container-tool) exec -it anitya-check-service bash -c "bash"
 init-db:
-	$(call container-tool) exec -it anitya-web bash -c "poetry run python3 createdb.py"
+	$(call container-tool) exec anitya-web bash -c "poetry run python3 createdb.py"
 dump-restore:
 	$(call download_dump)
 # Anitya containers need to be stopped before doing dump restore
 	$(call container-tool) stop anitya-check-service anitya-web
-	$(call container-tool) exec -it postgres bash -c "dropdb --if-exists anitya; createuser anitya 2>/dev/null || true; xzcat /dump/anitya.dump.xz | psql -U postgres"
+	$(call container-tool) exec postgres bash -c "dropdb --if-exists anitya; createuser anitya 2>/dev/null || true; xzcat /dump/anitya.dump.xz | psql -U postgres"
 	$(call container-tool) start anitya-web anitya-check-service
 logs:
 	$(call compose-tool) logs -f anitya-web anitya-check-service rabbitmq postgres
@@ -48,17 +48,17 @@ clean:
 	$(call container-tool) rmi "anitya-base:latest" "localhost/anitya-base:latest" "docker.io/library/postgres:16.13" "docker.io/library/rabbitmq:3.8.16-management-alpine" 2>/dev/null || true
 	rm -rf .coverage coverage.xml htmlcov .pytest_cache
 tests:
-	$(call container-tool) exec -it anitya-web bash -c "ANITYA_WEB_CONFIG= poetry run pytest $(PARAM)"
+	$(call container-tool) exec anitya-web bash -c "env -u ANITYA_WEB_CONFIG poetry run pytest $(PARAM)"
 lint:
-	$(call container-tool) exec -it anitya-web bash -c "poetry run flake8 anitya/ $(PARAM)"
+	$(call container-tool) exec anitya-web bash -c "poetry run flake8 anitya/ $(PARAM)"
 format:
-	$(call container-tool) exec -it anitya-web bash -c "poetry run black --check --diff $${PARAM:-anitya/}"
+	$(call container-tool) exec anitya-web bash -c "poetry run black --check --diff $${PARAM:-anitya/}"
 mypy:
-	$(call container-tool) exec -it anitya-web bash -c "poetry run mypy --config-file mypy.cfg anitya $(PARAM)"
+	$(call container-tool) exec anitya-web bash -c "poetry run mypy --config-file mypy.cfg anitya $(PARAM)"
 diff-cover:
-	$(call container-tool) exec -it anitya-web bash -c "poetry run diff-cover coverage.xml --compare-branch=origin/master --exclude debug.py --fail-under=100 $(PARAM)"
+	$(call container-tool) exec anitya-web bash -c "poetry run diff-cover coverage.xml --compare-branch=origin/master --exclude debug.py --fail-under=100 $(PARAM)"
 tox:
-	$(call container-tool) exec -it anitya-web bash -c "tox $(PARAM)"
+	$(call container-tool) exec anitya-web bash -c "tox $(PARAM)"
 
 .PHONY: up restart build halt bash-web \
 	init-db dump-restore logs clean tests \
