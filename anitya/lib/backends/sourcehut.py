@@ -28,6 +28,7 @@ class SourceHutBackend(BaseBackend):
     """
 
     name = "SourceHut"
+    is_repo = True
     examples = ["https://git.sr.ht/~sircmpwn/scdoc", "https://git.sr.ht/~sircmpwn/hare"]
 
     @classmethod

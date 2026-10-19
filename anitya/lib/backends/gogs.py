@@ -29,6 +29,8 @@ class GogsBackend(BaseBackend):
     """
 
     name = "Gogs"
+    is_repo = True
+    multi_host = True
     examples = [
         "https://notabug.org/libreboot/lbmk",
         "https://notabug.org/osboot/osbmk",

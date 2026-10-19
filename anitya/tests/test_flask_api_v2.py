@@ -1215,6 +1215,45 @@ class ProjectsResourcePostTests(DatabaseTestCase):
         )
         self.assertEqual("requests", data["requested_project"]["name"])
 
+    @mock.patch(
+        "anitya.lib.backends.github.GithubBackend.get_versions", return_value=["1.0.0"]
+    )
+    def test_duplicate_project_backend_target(self, mock_get_versions):
+        """
+        Assert that attempting to create a project with the same backend target
+        returns 409 Conflict via API.
+        """
+        project_one = {
+            "backend": "GitHub",
+            "homepage": "https://example.com/fedocal",
+            "name": "fedocal",
+            "version_url": "fedora-infra/fedocal",
+        }
+        project_two = {
+            "backend": "GitHub",
+            "homepage": "https://github.com/fedora-infra/fedocal",
+            "name": "fedora-calendar",
+            "version_url": "fedora-infra/fedocal",
+        }
+
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            output = self.app.post(
+                "/api/v2/projects/", headers=self.auth, data=project_one
+            )
+        self.assertEqual(output.status_code, 201)
+
+        with fml_testing.mock_sends():
+            output = self.app.post(
+                "/api/v2/projects/", headers=self.auth, data=project_two
+            )
+        self.assertEqual(output.status_code, 409)
+        data = _read_json(output)
+        self.assertIn("requested_project", data)
+        self.assertEqual("GitHub", data["requested_project"]["backend"])
+        self.assertEqual(
+            "fedora-infra/fedocal", data["requested_project"]["version_url"]
+        )
+
     def test_required_version_url_for_backend(self):
         """
         Assert that backend with required version url will return 400
@@ -2069,3 +2108,47 @@ class VersionsResourcePostTests(DatabaseTestCase):
         self.assertEqual(output.status_code, 200)
         self.assertEqual(data["found_versions"], ["1.0.0"])
         mock_check.assert_called_once_with(mock.ANY, mock.ANY, test=True)
+
+    @mock.patch(
+        "anitya.lib.backends.github.GithubBackend.get_versions", return_value=["1.0.0"]
+    )
+    def test_edit_duplicate_project_backend_target(self, mock_get_versions):
+        """
+        Assert that attempting to edit a project to match another project's backend
+        target returns 409 Conflict via API.
+        """
+        project_one = models.Project(
+            name="fedocal",
+            homepage="https://example.com/fedocal",
+            backend="GitHub",
+            version_url="fedora-infra/fedocal",
+        )
+        project_two = models.Project(
+            name="fedora-calendar",
+            homepage="https://example.com/fedora-calendar",
+            backend="GitHub",
+            version_url="fedora-infra/calendar",
+        )
+        self.session.add(project_one)
+        self.session.add(project_two)
+        self.session.commit()
+
+        request_data = {
+            "id": project_two.id,
+            "version_url": "https://github.com/fedora-infra/fedocal",
+            "dry_run": "false",
+        }
+
+        with fml_testing.mock_sends():
+            output = self.app.post(
+                "/api/v2/versions/", headers=self.auth, data=request_data
+            )
+
+        self.assertEqual(output.status_code, 409)
+        data = _read_json(output)
+        self.assertIn("requested_project", data)
+        self.assertEqual("GitHub", data["requested_project"]["backend"])
+        self.assertEqual(
+            "fedora-infra/fedocal",
+            data["requested_project"]["version_url"],
+        )

@@ -39,6 +39,8 @@ class GitlabBackend(BaseBackend):
     """
 
     name = "GitLab"
+    is_repo = True
+    multi_host = True
     examples = [
         "https://gitlab.gnome.org/GNOME/gnome-video-arcade",
         "https://gitlab.com/xonotic/xonotic",

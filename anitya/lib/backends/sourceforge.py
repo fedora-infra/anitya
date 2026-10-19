@@ -19,6 +19,7 @@ class SourceforgeBackend(BaseBackend):
     """
 
     name = "Sourceforge"
+    check_name_or_url = True
     examples = [
         "https://sourceforge.net/projects/filezilla/",
         "https://sourceforge.net/projects/file-folder-ren/",

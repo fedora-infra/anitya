@@ -9,7 +9,6 @@ Authors:
 """
 
 import re
-
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 
@@ -23,6 +22,7 @@ class MavenBackend(BaseBackend):
     """Backend for projects hosted on Maven Central"""
 
     name = "Maven Central"
+    check_name_or_url = True
     examples = [
         "https://repo1.maven.org/maven2/plexus/plexus-compiler/",
         "https://repo1.maven.org/maven2/com/google/inject/guice/",

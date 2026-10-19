@@ -34,6 +34,7 @@ import arrow
 from importlib import metadata
 import requests
 import six
+from sqlalchemy import func, or_
 
 from anitya.config import config as anitya_config
 from anitya.lib.exceptions import AnityaPluginException
@@ -89,6 +90,9 @@ class BaseBackend(object):
     default_version_scheme = GLOBAL_DEFAULT
     check_interval = timedelta(hours=1)
     required_version_url: bool = False
+    is_repo: bool = False
+    multi_host: bool = False
+    check_name_or_url: bool = False
 
     @classmethod
     def expand_subdirs(cls, url, last_change=None, glob_char="*"):
@@ -360,6 +364,139 @@ class BaseBackend(object):
                 resp = http_session.get(url, headers=headers, timeout=60, verify=True)
 
             return resp
+
+    @classmethod
+    def _base_query(cls, session, project):
+        """Build base query filtered by backend and excluding the current project."""
+        from anitya.db import models
+
+        query = session.query(models.Project).filter(models.Project.backend == cls.name)
+        if project.id:
+            query = query.filter(models.Project.id != project.id)
+        return query
+
+    @classmethod
+    def check_duplicate(cls, session, project):
+        """
+        Check if a project with the same backend and identifying fields
+        already exists in the database.
+
+        If `is_repo` is True, checks by normalized repository identifier.
+        If `required_version_url` is True, checks by version_url.
+        Otherwise matches by case-insensitive project name (default for package/ecosystem backends).
+
+        Args:
+            session (sqlalchemy.orm.Session): Database session.
+            project (anitya.db.models.Project): Candidate project.
+
+        Returns:
+            anitya.db.models.Project or None: Existing duplicate project if found.
+        """
+        if cls.is_repo:
+            return cls._check_repo_duplicate(
+                session, project, multi_host=cls.multi_host
+            )
+
+        if cls.check_name_or_url:
+            target = (project.version_url or project.name or "").strip().lower()
+            if not target:
+                return None
+            from anitya.db import models
+
+            return (
+                cls._base_query(session, project)
+                .filter(
+                    or_(
+                        func.lower(models.Project.name) == target,
+                        func.lower(models.Project.version_url) == target,
+                    )
+                )
+                .first()
+            )
+
+        if cls.required_version_url:
+            if not project.version_url:
+                return None
+            from anitya.db import models
+
+            clean_vurl = project.version_url.strip().rstrip("/")
+            return (
+                cls._base_query(session, project)
+                .filter(func.rtrim(models.Project.version_url, "/") == clean_vurl)
+                .first()
+            )
+
+        if not project.name:
+            return None
+        from anitya.db import models
+
+        return (
+            cls._base_query(session, project)
+            .filter(func.lower(models.Project.name) == project.name.strip().lower())
+            .first()
+        )
+
+    @classmethod
+    def _extract_repo_identifier(cls, project, multi_host=False):
+        """
+        Extract the normalized repository identifier (e.g. owner/repo or host/owner/repo)
+        from a project.
+        """
+        url = project.version_url or ""
+        if not url and project.homepage:
+            url = project.homepage
+
+        url = url.strip()
+        if not url:
+            return None
+
+        # Strip query parameters and anchors
+        url = re.sub(r"[?#].*$", "", url)
+
+        # If multi-host and url does not have scheme/host, try to extract host from homepage
+        if multi_host and not re.match(r"^https?://", url) and project.homepage:
+            host_match = re.match(r"^(https?://[^/]+)", project.homepage.strip())
+            if host_match:
+                stripped = url.lstrip("/")
+                url = f"{host_match.group(1)}/{stripped}"
+
+        if multi_host:
+            url = re.sub(r"^https?://", "", url)
+        else:
+            url = re.sub(r"^https?://[^/]+(?:/|$)", "", url)
+
+        url = url.strip("/")
+        # Remove GitLab/GitHub subpaths like /-/tags, /-/releases
+        url = re.sub(r"/-(?:/tags|/releases)?$", "", url)
+        # Remove trailing /tags, /releases, /downloads only when preceded by owner/repo
+        url = re.sub(r"^(.+/[^/]+)/(?:tags|releases|downloads)$", r"\1", url)
+        # Remove .git suffix
+        url = re.sub(r"\.git$", "", url)
+        return url.strip("/") or None
+
+    @classmethod
+    def _check_repo_duplicate(cls, session, project, multi_host=False):
+        """
+        Check for duplicate repository projects by normalized repository identifier.
+        """
+        repo_id = cls._extract_repo_identifier(project, multi_host=multi_host)
+        if not repo_id:
+            return None
+        from anitya.db import models
+
+        query = cls._base_query(session, project)
+        escaped_repo = repo_id.replace("%", r"\%")
+        candidates = query.filter(
+            or_(
+                models.Project.version_url.ilike(f"%{escaped_repo}%", escape="\\"),
+                models.Project.homepage.ilike(f"%{escaped_repo}%", escape="\\"),
+            )
+        ).all()
+        for cand in candidates:
+            cand_repo_id = cls._extract_repo_identifier(cand, multi_host=multi_host)
+            if cand_repo_id and cand_repo_id.lower() == repo_id.lower():
+                return cand
+        return None
 
 
 def get_versions_by_regex(url, regex, project, insecure=False):
