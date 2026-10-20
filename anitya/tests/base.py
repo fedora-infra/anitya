@@ -31,8 +31,13 @@ import flask_login
 import vcr
 from flask import request_started
 
-from anitya import app, config
+from anitya import app
 from anitya.db import db, models
+from anitya.tests.conftest import (
+    TEST_DB_PATH,
+    configure_sqlite_engine,
+    get_test_config,
+)
 
 
 @contextmanager
@@ -69,8 +74,7 @@ class AnityaTestCase(unittest.TestCase):
 
         This simply starts recording a VCR on start-up and stops on tearDown.
         """
-        self.config = config.config.copy()
-        self.config["TESTING"] = True
+        self.config = get_test_config()
         self.flask_app = app.create(self.config)
 
         cwd = os.path.dirname(os.path.realpath(__file__))
@@ -104,27 +108,28 @@ class DatabaseTestCase(AnityaTestCase):
         self.app_context = self.flask_app.app_context()
         self.app_context.push()
 
-        # Initialize the database for tests
-        db.manager.sync()
+        configure_sqlite_engine(db.manager.engine)
+
+        # Fallback for running tests outside pytest
+        if TEST_DB_PATH and not os.path.exists(TEST_DB_PATH):
+            db.manager.sync()
 
         self.connection = db.manager.engine.connect()
-        self.transaction = self.connection.begin_nested()
+        self.transaction = self.connection.begin()
 
         # Remove any existing session from the scoped session registry
         db.manager.Session.remove()
 
-        # Reconfigure the session factory to use our test connection
-        db.manager.Session.configure(bind=self.connection, autoflush=False)
+        # Reconfigure the session factory to use our test connection with savepoints
+        db.manager.Session.configure(
+            bind=self.connection,
+            autoflush=False,
+            join_transaction_mode="create_savepoint",
+        )
 
         # Get the scoped session - this will create ONE session for this context
         # Since we keep the app_context active, all requests will share this session
         self.session = db.manager.Session
-
-        # Start a transaction after creating the schema, but before anything is
-        # placed into the database. We'll roll back to the start of this
-        # transaction at the end of every test, and code under test will start
-        # nested transactions
-        self.session.begin_nested()
 
     def tearDown(self):
         """Roll back all the changes from the test and clean up the session."""
@@ -132,7 +137,6 @@ class DatabaseTestCase(AnityaTestCase):
         self.transaction.rollback()
         self.connection.close()
         db.manager.Session.remove()
-        db.manager.engine.dispose()
 
         # Pop the app context we pushed in setUp
         self.app_context.pop()
