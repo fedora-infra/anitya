@@ -547,7 +547,7 @@ class ProjectsResource(MethodView):
                 validate=True,
             )
             db.session.commit()
-            if args["check_release"]:
+            if args["check_release"] and not getattr(project, "rate_limited", None):
                 try:
                     utilities.check_project_release(project, db.session)
                 except AnityaException as err:

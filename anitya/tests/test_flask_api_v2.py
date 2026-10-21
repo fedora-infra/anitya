@@ -1314,6 +1314,30 @@ class ProjectsResourcePostTests(DatabaseTestCase):
         self.assertEqual(output.status_code, 400)
         self.assertEqual("Check failed", data["error"])
 
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    @mock.patch(
+        "anitya.lib.backends.pypi.PypiBackend.get_versions",
+        mock.Mock(side_effect=exceptions.RateLimitException("2099-01-01T00:00:00Z")),
+    )
+    def test_rate_limited_project_validation(self, mock_check_release):
+        """Test that rate limited validation succeeds with 201 created and skips check_release."""
+        request_data = {
+            "backend": "PyPI",
+            "homepage": "http://python-requests.org",
+            "name": "rate-limited-req",
+            "check_release": True,
+        }
+
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            output = self.app.post(
+                "/api/v2/projects/", headers=self.auth, data=request_data
+            )
+
+        data = _read_json(output)
+        self.assertEqual(output.status_code, 201)
+        self.assertEqual("rate-limited-req", data["name"])
+        mock_check_release.assert_not_called()
+
     def test_valid_request_json(self):
         """
         Assert that request with header specifying json will be handled as well.

@@ -1544,9 +1544,9 @@ class CreateProjectValidationTests(DatabaseTestCase):
         mock.Mock(side_effect=exceptions.RateLimitException("2099-01-01T00:00:00Z")),
     )
     def test_create_project_validate_rate_limit(self):
-        """Test that rate limiting during validation raises InvalidProjectException."""
-        with self.assertRaises(exceptions.InvalidProjectException):
-            utilities.create_project(
+        """Test that rate limiting during validation does not block project creation."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
                 self.session,
                 name="rate_limited_project",
                 homepage="https://example.com/ratelimit",
@@ -1555,9 +1555,12 @@ class CreateProjectValidationTests(DatabaseTestCase):
                 validate=True,
             )
 
-        # Nothing saved
+        self.assertEqual(project.name, "rate_limited_project")
         project_objs = models.Project.all(self.session)
-        self.assertEqual(len(project_objs), 0)
+        self.assertEqual(len(project_objs), 1)
+        self.assertFalse(project.check_successful)
+        self.assertIn("Rate limit was reached", project.logs)
+        self.assertEqual(project.next_check, arrow.get("2099-01-01T00:00:00Z").naive)
 
     @mock.patch(
         "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
