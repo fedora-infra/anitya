@@ -584,10 +584,18 @@ def new_project():
             )
 
         if form.check_release.data is True:
-            try:
-                utilities.check_project_release(project, db.session)
-            except exceptions.AnityaException:
-                flask.flash("Check failed")
+            if getattr(project, "rate_limited", None):
+                flask.flash(
+                    f"Initial release check was delayed: {project.rate_limited}",
+                    "warning",
+                )
+            else:
+                try:
+                    utilities.check_project_release(project, db.session)
+                except exceptions.RateLimitException as err:
+                    flask.flash(f"Initial release check was delayed: {err}", "warning")
+                except exceptions.AnityaException:
+                    flask.flash("Check failed")
 
         return flask.redirect(flask.url_for("anitya_ui.project", project_id=project.id))
 

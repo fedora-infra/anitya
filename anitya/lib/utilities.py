@@ -230,8 +230,9 @@ def create_project(
     validate=False,
 ):
     """Create the project in the database."""
+    rate_limit = None
     if validate:
-        _validate_backend(
+        rate_limit = _validate_backend(
             name=name,
             homepage=homepage,
             backend=backend,
@@ -260,6 +261,12 @@ def create_project(
         insecure=insecure,
         releases_only=releases_only,
     )
+
+    if isinstance(rate_limit, exceptions.RateLimitException):
+        project.logs = str(rate_limit)
+        project.next_check = rate_limit.reset_time.to("utc").datetime
+        project.check_successful = False
+        project.rate_limited = rate_limit
 
     duplicate = find_duplicate_project(session, project)
     if duplicate:
@@ -323,6 +330,14 @@ def _validate_backend(
 
     try:
         backend_plugin.get_versions(temp_project)
+    except exceptions.RateLimitException as err:
+        _log.warning(
+            "Pre-creation check hit rate limit for project '%s' (%s): %s; skipping validation",
+            name,
+            backend,
+            str(err),
+        )
+        return err
     except exceptions.AnityaException as err:
         _log.info(
             "Pre-creation check failed for project '%s' (%s): %s",
@@ -335,6 +350,8 @@ def _validate_backend(
             f"Error: {err}. Please verify the project configuration "
             f"(backend, homepage, version URL, etc.) and try again."
         ) from err
+
+    return None
 
 
 def edit_project(

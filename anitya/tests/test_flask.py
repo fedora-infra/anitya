@@ -338,6 +338,61 @@ class NewProjectTests(DatabaseTestCase):
                 self.assertTrue(b"<h1>Add project</h1>" in output.data)
                 self.assertTrue(b"Check failed: validation" in output.data)
 
+    @mock.patch(
+        "anitya.lib.backends.pypi.PypiBackend.get_versions",
+        mock.Mock(side_effect=exceptions.RateLimitException("2099-01-01T00:00:00Z")),
+    )
+    def test_new_project_rate_limited_validation(self):
+        """Assert a project that hits rate limiting during validation is created."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get("/project/new", follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="'
+                )[1].split(b'">')[0]
+                data = {
+                    "name": "fedocal_rate_limited",
+                    "homepage": "https://example.com/fedocal",
+                    "backend": "PyPI",
+                    "version_scheme": "RPM",
+                    "check_release": "on",
+                    "csrf_token": csrf_token,
+                }
+                with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+                    output = c.post("/project/new", data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(b"Project created" in output.data)
+                self.assertTrue(b"Initial release check was delayed" in output.data)
+
+    @mock.patch("anitya.lib.utilities._validate_backend")
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_new_project_check_release_rate_limit(
+        self, patched_check, patched_validate
+    ):
+        """test_new_project_check_release_rate_limit"""
+        patched_validate.return_value = None
+        patched_check.side_effect = exceptions.RateLimitException(
+            "2099-01-01T00:00:00Z"
+        )
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get("/project/new", follow_redirects=True)
+                data = {
+                    "name": "rate_limit_check_release",
+                    "homepage": "https://example.com/test",
+                    "backend": "PyPI",
+                    "version_scheme": "RPM",
+                    "check_release": "on",
+                    "csrf_token": output.data.split(
+                        b'name="csrf_token" type="hidden" value="'
+                    )[1].split(b'">')[0],
+                }
+                with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+                    output = c.post("/project/new", data=data, follow_redirects=True)
+                self.assertEqual(output.status_code, 200)
+                self.assertTrue(b"Initial release check was delayed" in output.data)
+
     @mock.patch("anitya.lib.utilities._validate_backend")
     @mock.patch("anitya.lib.utilities.check_project_release")
     def test_new_project_with_check_release(self, patched_check, patched_validate):
