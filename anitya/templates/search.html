@@ -86,8 +86,7 @@
   {% if suggestion %}
   <p class="mb-3">
     Did you mean:
-    <a href="{{ url_for('anitya_ui.projects_search', pattern=suggestion.name, exact=1) }}">{{ suggestion.name }}</a>
-    ?
+    <a href="{{ url_for('anitya_ui.projects_search', pattern=suggestion.name, exact=1) }}" class="fw-bold">{{ suggestion.name }}</a>?
   </p>
   {% endif %}
   
