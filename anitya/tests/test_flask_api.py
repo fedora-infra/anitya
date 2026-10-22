@@ -247,6 +247,29 @@ class AnityaWebAPItests(DatabaseTestCase):
         output = self.app.get("/api/projects/names/?limit=-1")
         self.assertEqual(output.status_code, 400)
 
+    def test_api_projects_names_deduplication(self):
+        """Assert that projects sharing the same name are deduplicated in autocomplete."""
+        p1 = models.Project(
+            name="polyglot",
+            homepage="https://pypi.org/project/polyglot/",
+            backend="PyPI",
+            ecosystem_name="pypi",
+        )
+        p2 = models.Project(
+            name="polyglot",
+            homepage="https://rubygems.org/gems/polyglot",
+            backend="Rubygems",
+            ecosystem_name="rubygems",
+        )
+        self.session.add_all([p1, p2])
+        self.session.commit()
+
+        output = self.app.get("/api/projects/names/?pattern=polyg")
+        self.assertEqual(output.status_code, 200)
+        data = _read_json(output)
+        self.assertEqual(data["projects"], ["polyglot"])
+        self.assertEqual(data["total"], 1)
+
     def test_api_projects_versions(self):
         """
         Assert that the correct version prefix is removed.
