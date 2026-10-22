@@ -261,8 +261,8 @@ def api_projects_names():
         pattern = pattern.replace("_", r"\_").replace("*", "%")
         query = query.filter(models.Project.name.ilike(pattern))
 
-    query = query.order_by(
-        sa.func.length(models.Project.name), sa.func.lower(models.Project.name)
+    query = query.group_by(models.Project.name).order_by(
+        sa.func.lower(models.Project.name)
     )
 
     if limit:
