@@ -53,8 +53,11 @@ Use `poetry` when working directly on your host in a Python 3.11+ virtual enviro
 
 ### News Fragments (Towncrier)
 Every user-facing change, bugfix, API adjustment, or developer change requires a news fragment in `news/`:
-- Format: `news/<number>.<type>` (e.g., `1234.bug`, `2345.feature`, `3456.dev`). Use the issue number or the PR number without any prefix.
-- Valid types: `.feature`, `.bug`, `.api`, `.dev`, `.other`, `.author`.
+- **Naming convention:**
+  - When referencing an issue: `<issue_number>.<type>` (e.g., `1954.feature`, `2138.bug`).
+  - When referencing a pull request directly (no corresponding issue): `PR<pr_number>.<type>` (e.g., `PR2130.bug`, `PR2141.bug`). The `PR` prefix is required by `news/_template.rst` to render `PR#<number>` and link to `/pull/<number>` instead of `/issues/<number>`.
+  - When referencing a commit hash directly: `C<commit_hash>.<type>`.
+- **Valid types:** `.feature`, `.bug`, `.api`, `.dev`, `.other`, `.author`.
 - Preview draft notes: `poetry run towncrier --draft`.
 
 ## System Architecture
