@@ -1,3 +1,21 @@
+:root,
+[data-bs-theme="light"] {
+  --anitya-link-visited-color: #6f42c1;
+}
+
+[data-bs-theme="dark"] {
+  --anitya-link-visited-color: #b185db;
+}
+
+/* Style visited content links while preserving UI controls */
+a:not(.btn, .dropdown-item, .nav-link, .navbar-brand, .page-link, .badge):visited {
+  color: var(--anitya-link-visited-color);
+}
+
+a:not(.btn, .dropdown-item, .nav-link, .navbar-brand, .page-link, .badge):visited:hover {
+  color: var(--bs-link-hover-color);
+}
+
 .pagination{
     margin: 0;
 }
