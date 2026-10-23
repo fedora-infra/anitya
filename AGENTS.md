@@ -68,10 +68,13 @@ Anitya monitors upstream software releases across distributions and broadcasts n
 - `anitya/lib/versions/`: Version parsing and comparison algorithms (RPM, SemVer, PEP 440, CalVer).
 - `anitya/db/models.py`: Database persistence models (`Project`, `Package`, `Version`, `Distro`, `Ecosystem`).
 - `anitya/api_v2.py` & `anitya/ui.py`: REST API v2 and Flask web frontend.
+- `anitya/templates/`: Jinja2 HTML templates extending `master.html`.
+- `anitya/static/css/`: Frontend stylesheets (`main.css` for application-level overrides and tables, `navbar.css`, `footer.css`, `avatars.css`, `text.css`).
 
 ### Design Principles & Boundaries
 - **Plugin Extensibility:** Upstream-specific behavior (URL parsing, custom API formats, version extraction) belongs inside the respective backend subclass, never in centralized procedural switches or utility functions.
 - **Lean Route Handlers:** Keep `api_v2.py` and `ui.py` focused on HTTP routing, request parsing, and response formatting; delegate business logic, validation, and queries to models or backend plugins.
+- **Frontend & Theming:** Custom site styles belong in `anitya/static/css/main.css` or scoped stylesheets, never inline. Anitya supports both light and dark modes via Bootstrap 5.3's `data-bs-theme`; all custom colors must meet WCAG AA contrast standards in both themes.
 - **Asynchronous Decoupling:** Upstream checks and network scraping run in the background via `check_service`, keeping web and API responses fast and non-blocking.
 
 ## Legacy Code Guardrail
