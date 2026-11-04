@@ -221,6 +221,28 @@ class ProjectTests(DatabaseTestCase):
         self.assertFalse(project.is_version_filtered("1.0.0"))
         self.assertTrue(project.is_version_filtered("1.0.0-alpha"))
 
+        # Test self-matching prefix edge case
+        # (e.g. libcdio with prefix 'release' and filter 'start;release')
+        project.version_prefix = "release"
+        project.version_filter = "start;release"
+        self.assertFalse(project.is_version_filtered("2.1.1"))
+        self.assertFalse(project.is_version_filtered("2.4.0"))
+        # But filter matching the version itself still works
+        self.assertTrue(project.is_version_filtered("2.1.1-release"))
+
+        # Test multiple semicolon-separated prefixes
+        project.version_prefix = "v;release-"
+        project.version_filter = "release"
+        self.assertFalse(project.is_version_filtered("2.1.1"))
+        project.version_filter = "release-2."
+        self.assertTrue(project.is_version_filtered("2.1.1"))
+        self.assertFalse(project.is_version_filtered("1.0.0"))
+
+        # Test guard against synthetic double-prefixing
+        project.version_prefix = "v"
+        project.version_filter = "vv"
+        self.assertFalse(project.is_version_filtered("v1.0.0"))
+
     def test_get_sorted_version_objects_filtered(self):
         """Test that get_sorted_version_objects applies the version filter."""
         project = models.Project(

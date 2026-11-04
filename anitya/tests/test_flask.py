@@ -655,6 +655,41 @@ class FlaskTest(DatabaseTestCase):
         output = self.app.get("/project/10/")
         self.assertEqual(output.status_code, 404)
 
+    def test_project_filtered_versions_admin(self):
+        """Test that filtered versions are visible to admins but hidden from public."""
+        project = models.Project(
+            name="filtered_ui_test",
+            homepage="https://example.com/filtered-ui",
+            backend="custom",
+            version_filter="1.0",
+        )
+        self.session.add(project)
+        self.session.flush()
+
+        v = models.ProjectVersion(project_id=project.id, version="1.0.0")
+        self.session.add(v)
+        self.session.commit()
+
+        # Regular user view -> shows "No version available for this package"
+        output = self.app.get(f"/project/{project.id}/")
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"No version available for this package", output.data)
+
+        # Admin user view -> shows table with Filtered badge
+        admin_user = models.User(
+            email="admin_test@fedoraproject.org",
+            username="admin_test",
+            admin=True,
+        )
+        self.session.add(admin_user)
+        self.session.commit()
+
+        with login_user(self.flask_app, admin_user):
+            admin_output = self.app.get(f"/project/{project.id}/")
+            self.assertEqual(admin_output.status_code, 200)
+            self.assertIn(b"Filtered", admin_output.data)
+            self.assertIn(b"1.0.0", admin_output.data)
+
     def test_projects(self):
         """Test the projects function."""
         create_distro(self.session)

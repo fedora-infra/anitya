@@ -430,16 +430,26 @@ class Project(Base):
             return False
 
         filter_list = self.version_filter.split(";")
-        prefixed_version = (
-            f"{self.version_prefix}{version}" if self.version_prefix else version
-        )
 
         for filter_str in filter_list:
             filter_str = filter_str.strip()
             if not filter_str:
                 continue
-            if filter_str in version or filter_str in prefixed_version:
+            if filter_str in version:
                 return True
+            if self.version_prefix:
+                for prefix in self.version_prefix.split(";"):
+                    prefix = prefix.strip()
+                    # Only check prefixed version if filter_str is not merely
+                    # a substring of the prefix itself, and the version does
+                    # not already start with the prefix.
+                    if (
+                        prefix
+                        and filter_str not in prefix
+                        and not version.startswith(prefix)
+                    ):
+                        if filter_str in f"{prefix}{version}":
+                            return True
 
         return False
 
