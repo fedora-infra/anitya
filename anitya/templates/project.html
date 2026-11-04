@@ -266,7 +266,8 @@
           <h3 class="mb-0">Versions</h3>
         </div>
         <span class="list-group-item">
-          {% if project.versions %}
+          {% set versions_list = project.get_sorted_version_objects(ignore_filter=is_admin) %}
+          {% if versions_list %}
           <table class="table table-condensed mb-0">
             <tr>
               <th>Version</th>
@@ -277,7 +278,7 @@
               <th>Delete</th>
               {% endif %}
             </tr>
-            {% for version in project.get_sorted_version_objects(ignore_filter=is_admin) %}
+            {% for version in versions_list %}
             {% set is_hidden = is_admin and project.is_version_filtered(version.version) %}
             {% set is_invalid = not version.is_valid %}
             <tr property="doap:release" typeof="doap:Version" class="align-middle{% if is_hidden %} text-muted opacity-75{% elif is_invalid %} text-danger{% endif %}" {% if loop.last %}style="border-color: transparent;"{% endif %}>

@@ -915,6 +915,67 @@ class CheckProjectReleaseTests(DatabaseTestCase):
 
     @mock.patch(
         "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+        return_value=["1.0.0", "0.9.9"],
+    )
+    def test_check_project_release_filtered_existing_version(self, mock_method):
+        """Test that existing versions matching version_filter do not cause duplicate inserts."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="filtered_project",
+                homepage="https://example.com/filtered",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+                version_scheme="RPM",
+                version_filter="0.9",
+            )
+        v_filtered = models.ProjectVersion(project_id=project.id, version="0.9.9")
+        self.session.add(v_filtered)
+        self.session.commit()
+
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectVersionUpdated, anitya_schema.ProjectVersionUpdatedV2
+        ):
+            utilities.check_project_release(project, self.session)
+
+        all_versions = project.get_sorted_version_objects(ignore_filter=True)
+        self.assertEqual(len(all_versions), 2)
+        filtered_versions = project.get_sorted_version_objects(ignore_filter=False)
+        self.assertEqual(len(filtered_versions), 1)
+        self.assertEqual(filtered_versions[0].version, "1.0.0")
+
+    @mock.patch(
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+        return_value=["1.0.0", "0.9.9"],
+    )
+    def test_check_project_release_all_versions_filtered(self, mock_method):
+        """Test check_project_release when all stored and upstream versions match filter."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="all_filtered_project",
+                homepage="https://example.com/all_filtered",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+                version_scheme="RPM",
+                version_filter="1.0;0.9",
+            )
+        v1 = models.ProjectVersion(project_id=project.id, version="1.0.0")
+        v2 = models.ProjectVersion(project_id=project.id, version="0.9.9")
+        self.session.add_all([v1, v2])
+        self.session.commit()
+
+        # Check should run cleanly without UnboundLocalError or duplicate insert error
+        utilities.check_project_release(project, self.session)
+
+        all_versions = project.get_sorted_version_objects(ignore_filter=True)
+        self.assertEqual(len(all_versions), 2)
+        filtered_versions = project.get_sorted_version_objects(ignore_filter=False)
+        self.assertEqual(len(filtered_versions), 0)
+        self.assertIsNone(project.latest_version)
+
+    @mock.patch(
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
         return_value=["v1.0.0", "v0.9.9", "v0.9.8"],
     )
     def test_check_project_release_prefix_remove(self, mock_method):

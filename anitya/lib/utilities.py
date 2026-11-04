@@ -76,7 +76,7 @@ def check_project_release(project, session, test=False):
         )
 
     versions_prefix = []
-    max_version = ""
+    max_version = None
 
     # don't change actual data during test run
     if not test:
@@ -115,7 +115,9 @@ def check_project_release(project, session, test=False):
     project.check_successful = True
     project.error_counter = 0
 
-    p_versions = project.get_sorted_version_objects()
+    # Check against all stored versions regardless of filters to avoid
+    # treating existing filtered releases as new and attempting duplicate inserts.
+    p_versions = project.get_sorted_version_objects(ignore_filter=True)
     old_version = project.latest_version or ""
     version_column_len = models.ProjectVersion.version.property.columns[0].type.length
     upstream_versions = []
@@ -139,9 +141,7 @@ def check_project_release(project, session, test=False):
                 )
 
     sorted_versions = project.get_sorted_version_objects()
-    if sorted_versions:
-        max_version_obj = sorted_versions[0]
-        max_version = max_version_obj.parse()
+    max_version = sorted_versions[0].parse() if sorted_versions else None
     if project.latest_version != max_version:
         project.latest_version = max_version
     if not upstream_versions:
