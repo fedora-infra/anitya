@@ -332,7 +332,9 @@ def distro(distroname):
     )
 
 
-@ui_blueprint.route("/distro/add", methods=["GET", "POST"])
+# Without strict_slashes=False, "/distro/add/" falls through to
+# "/distro/<distroname>/" and renders a distro named "add".
+@ui_blueprint.route("/distro/add", methods=["GET", "POST"], strict_slashes=False)
 @login_required
 def add_distro():
     """add distro"""
@@ -549,7 +551,9 @@ def new_project_from_url():
     )
 
 
-@ui_blueprint.route("/project/new", methods=["GET", "POST"])
+# Without strict_slashes=False, "/project/new/" falls through to
+# "/project/<project_name>/" and searches for a project named "new".
+@ui_blueprint.route("/project/new", methods=["GET", "POST"], strict_slashes=False)
 @login_required
 def new_project():
     """
