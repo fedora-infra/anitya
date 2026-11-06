@@ -1191,7 +1191,7 @@ class FlaskTest(DatabaseTestCase):
 
 
 class SimilarProjectsTests(DatabaseTestCase):
-    """Tests for the ``/project/similar`` endpoint."""
+    """Tests for the ``/projects/similar`` endpoint."""
 
     def setUp(self):
         super().setUp()
@@ -1200,14 +1200,14 @@ class SimilarProjectsTests(DatabaseTestCase):
 
     def test_no_parameters(self):
         """Assert nothing is rendered without a name or homepage."""
-        output = self.app.get("/project/similar")
+        output = self.app.get("/projects/similar")
 
         self.assertEqual(output.status_code, 200)
         self.assertEqual(output.data.strip(), b"")
 
     def test_similar_name(self):
         """Assert projects whose name starts with the given name are listed."""
-        output = self.app.get("/project/similar?name=gea")
+        output = self.app.get("/projects/similar?name=gea")
 
         self.assertEqual(output.status_code, 200)
         self.assertIn(b"Projects with a similar name", output.data)
@@ -1218,7 +1218,7 @@ class SimilarProjectsTests(DatabaseTestCase):
     def test_same_homepage(self):
         """Assert projects with exactly the given homepage are listed."""
         output = self.app.get(
-            "/project/similar", query_string={"homepage": "https://www.geany.org/"}
+            "/projects/similar", query_string={"homepage": "https://www.geany.org/"}
         )
 
         self.assertEqual(output.status_code, 200)
@@ -1237,7 +1237,7 @@ class SimilarProjectsTests(DatabaseTestCase):
         )
         self.session.commit()
 
-        output = self.app.get("/project/similar", query_string={"name": "<b>"})
+        output = self.app.get("/projects/similar", query_string={"name": "<b>"})
 
         self.assertIn(b"&lt;b&gt;bold&lt;/b&gt;", output.data)
         self.assertNotIn(b"<b>bold</b>", output.data)
@@ -1245,7 +1245,7 @@ class SimilarProjectsTests(DatabaseTestCase):
     def test_edited_project_excluded(self):
         """Assert the project being edited isn't listed as its own duplicate."""
         output = self.app.get(
-            "/project/similar",
+            "/projects/similar",
             query_string={
                 "name": "geany",
                 "homepage": "https://www.geany.org/",
