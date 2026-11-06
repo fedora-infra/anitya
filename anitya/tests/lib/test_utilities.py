@@ -1259,6 +1259,48 @@ class DryRunCheckProjectTests(DatabaseTestCase):
 
         self.assertEqual(models.Project.all(self.session, count=True), 0)
 
+    @mock.patch("anitya.lib.utilities.check_project_release", return_value=["2.0"])
+    def test_existing_project(self, mock_check):
+        """Assert an existing project is updated in dry-run mode."""
+        create_project(self.session)
+        project = models.Project.get(self.session, 1)
+
+        fields = dict(self.fields)
+        fields["name"] = project.name
+        fields["homepage"] = "https://example.com/new_homepage"
+
+        with fml_testing.mock_sends():
+            checked, versions = utilities.dry_run_check_project(
+                self.session, user_id="user", fields=fields, project=project
+            )
+
+        self.assertEqual(checked.id, project.id)
+        self.assertEqual(checked.homepage, "https://example.com/new_homepage")
+        self.assertEqual(versions, ["2.0"])
+
+    @mock.patch(
+        "anitya.lib.utilities.check_project_release",
+        side_effect=exceptions.AnityaPluginException("upstream is down"),
+    )
+    def test_failed_check_discards_existing_project_changes(self, mock_check):
+        """Assert a failed check rolls back modifications to an existing project."""
+        create_project(self.session)
+        project = models.Project.get(self.session, 1)
+        orig_homepage = project.homepage
+
+        fields = dict(self.fields)
+        fields["name"] = project.name
+        fields["homepage"] = "https://example.com/new_homepage"
+
+        with self.assertRaises(exceptions.AnityaPluginException):
+            utilities.dry_run_check_project(
+                self.session, user_id="user", fields=fields, project=project
+            )
+
+        self.session.expire_all()
+        reloaded = models.Project.get(self.session, 1)
+        self.assertEqual(reloaded.homepage, orig_homepage)
+
 
 class MapProjectTests(DatabaseTestCase):
     """Tests for the :func:`anitya.lib.utilities.map_project` function."""

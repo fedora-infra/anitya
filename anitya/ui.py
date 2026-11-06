@@ -103,7 +103,7 @@ def _project_fields(form: anitya.forms.ProjectForm) -> dict[str, Any]:
     """
 
     def clean(value: str | None) -> str | None:
-        return value.strip() if value else None
+        return value.strip() or None if value else None
 
     return {
         "name": form.name.data.strip(),
