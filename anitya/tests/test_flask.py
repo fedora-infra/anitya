@@ -289,6 +289,14 @@ class NewProjectTests(DatabaseTestCase):
             output = self.app.get("/project/new", follow_redirects=False)
             self.assertEqual(output.status_code, 200)
 
+    def test_trailing_slash(self):
+        """Assert a trailing slash shows the form, not a search for "new"."""
+        with login_user(self.flask_app, self.user):
+            output = self.app.get("/project/new/", follow_redirects=False)
+
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"<h1>Add project</h1>", output.data)
+
     def test_new_project(self):
         """Assert an authenticated user can create a new project"""
         with login_user(self.flask_app, self.user):
@@ -1579,6 +1587,14 @@ class AddDistroTests(DatabaseTestCase):
             self.assertEqual(
                 0, self.session.scalar(select(func.count()).select_from(models.Distro))
             )
+
+    def test_trailing_slash(self):
+        """Assert a trailing slash shows the form, not a distro named "add"."""
+        with login_user(self.flask_app, self.user):
+            output = self.client.get("/distro/add/", follow_redirects=False)
+
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"<h1>Add a new distribution</h1>", output.data)
 
     def test_add_distro(self):
         """Assert admins can add distributions."""
