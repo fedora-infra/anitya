@@ -122,7 +122,7 @@
   <div class="row justify-content-center mt-4">
     <div class="col-md-10 col-lg-8 col-xl-6" id="similar-projects"
          hx-get="{{ similar_url }}"
-         hx-trigger="change from:#name, keyup changed delay:400ms from:#name, change from:#homepage, keyup changed delay:400ms from:#homepage"
+         hx-trigger="change from:#name, input changed delay:400ms from:#name, change from:#homepage, input changed delay:400ms from:#homepage"
          hx-include="#name, #homepage"
          aria-live="polite">
     </div>

@@ -782,7 +782,7 @@ def edit_project(project_id):
     )
 
 
-@ui_blueprint.route("/project/similar")
+@ui_blueprint.route("/projects/similar")
 def similar_projects():
     """
     Render the existing projects that share a name or homepage with a project
