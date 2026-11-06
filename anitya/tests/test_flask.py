@@ -452,6 +452,36 @@ class NewProjectTests(DatabaseTestCase):
         self.assertEqual(mock_validate.call_args.kwargs["version_pattern"], "YYYY.MM")
         self.assertTrue(mock_validate.call_args.kwargs["insecure"])
 
+    @mock.patch("anitya.lib.utilities._validate_backend", return_value=None)
+    def test_new_project_cleans_whitespace_to_none(self, mock_validate):
+        """Assert whitespace-only optional fields normalize to None."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get("/project/new", follow_redirects=True)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="'
+                )[1].split(b'">')[0]
+                data = {
+                    "name": "whitespace_project",
+                    "homepage": "https://example.com/whitespace",
+                    "backend": "custom",
+                    "version_scheme": "RPM",
+                    "version_url": "   ",
+                    "regex": "   ",
+                    "version_prefix": "   ",
+                    "csrf_token": csrf_token,
+                }
+                with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+                    output = c.post("/project/new", data=data)
+
+        self.assertEqual(output.status_code, 302)
+        project = self.session.scalar(
+            select(models.Project).filter_by(name="whitespace_project")
+        )
+        self.assertIsNone(project.version_url)
+        self.assertIsNone(project.regex)
+        self.assertIsNone(project.version_prefix)
+
     @mock.patch(
         "anitya.lib.backends.pypi.PypiBackend.get_versions",
         mock.Mock(side_effect=exceptions.RateLimitException("2099-01-01T00:00:00Z")),
