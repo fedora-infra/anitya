@@ -1041,6 +1041,11 @@ class ProjectFlagTestCase(DatabaseTestCase):
 class GuidTests(unittest.TestCase):
     """Tests for the :class:`anitya.db.models.GUID` class."""
 
+    def test_cache_ok(self):
+        """Assert that cache_ok is True for query caching."""
+        guid = models.GUID()
+        self.assertTrue(guid.cache_ok)
+
     def test_load_dialect_impl_postgres(self):
         """Assert with PostgreSQL, a UUID type is used."""
         guid = models.GUID()

@@ -960,6 +960,7 @@ class GUID(TypeDecorator):
     """
 
     impl = CHAR
+    cache_ok = True
 
     def load_dialect_impl(self, dialect):
         """
