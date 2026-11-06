@@ -14,9 +14,13 @@
 </div>
 
 {% if context == 'Add' -%}
-<form method="POST" action="{{ url_for('anitya_ui.new_project') }}" >
+<form id="project-form" method="POST" action="{{ url_for('anitya_ui.new_project') }}" >
+{%- set check_url = url_for('anitya_ui.check_project_settings') -%}
+{%- set similar_url = url_for('anitya_ui.similar_projects') -%}
 {%- elif context == 'Edit' -%}
-<form method="POST" action="{{ url_for('anitya_ui.edit_project', project_id=project.id) }}" >
+<form id="project-form" method="POST" action="{{ url_for('anitya_ui.edit_project', project_id=project.id) }}" >
+{%- set check_url = url_for('anitya_ui.check_project_settings', project_id=project.id) -%}
+{%- set similar_url = url_for('anitya_ui.similar_projects', project_id=project.id) -%}
 {%- endif %}
   <div class="row justify-content-center">
     <div class="col-md-10 col-lg-8 col-xl-6">
@@ -46,6 +50,7 @@
             </tr>
             <tr id="pre_release_filter_row">
                 {{ render_field_in_row(form.pre_release_filter, tabindex=8) }}
+            </tr>
             <tr id="version_filter_row">
                 {{ render_field_in_row(form.version_filter, tabindex=9) }}
             </tr>
@@ -82,12 +87,18 @@
             {%- endif -%}
           </table>
           <button type="button" class="btn btn-outline-success btn-sm float-end"
-                  id="testcheck" tabindex=16>
+                  id="testcheck" tabindex=16
+                  hx-post="{{ check_url }}"
+                  hx-include="#project-form"
+                  hx-target="#release-check-results"
+                  hx-indicator="#testcheck-spinner"
+                  hx-disabled-elt="this">
               Test check
           </button>
           <img src="{{url_for('anitya_ui.static', filename='img/spinner.gif')}}"
-               id="testcheck-spinner" class="pull-right"
-               style="display: none; padding-top: 12px; padding-right: 25px;"/>
+               id="testcheck-spinner" class="htmx-indicator float-end" alt="Checking…"
+               style="padding-top: 12px; padding-right: 25px;"/>
+          <div id="release-check-results" class="clearfix pt-3" aria-live="polite"></div>
         </div>
       </div>
       <div class="d-flex justify-content-end gap-2">
@@ -109,13 +120,11 @@
 </form>
 
   <div class="row justify-content-center mt-4">
-    <div class="col-md-10 col-lg-8 col-xl-6" id="info_field">
-      <div class="list-group shadow-sm">
-        <span class="list-group-item">
-          <p id="info_field_title"></p>
-          <ul id="info_field_list"></ul>
-        </span>
-      </div>
+    <div class="col-md-10 col-lg-8 col-xl-6" id="similar-projects"
+         hx-get="{{ similar_url }}"
+         hx-trigger="change from:#name, keyup changed delay:400ms from:#name, change from:#homepage, keyup changed delay:400ms from:#homepage"
+         hx-include="#name, #homepage"
+         aria-live="polite">
     </div>
   </div>
 {% endblock %}
@@ -323,96 +332,12 @@
       temp = temp.replace('{project name}', $('#name').val());
     }
     if (default_version_plugin[str] && !$(`#version_scheme`).val()) {
-      $('#version_scheme').val("default_version_plugin[str]");
+      $('#version_scheme').val(default_version_plugin[str]);
     }
     $('#regex_example_txt').html('<div id="default_regex_txt">' + temp + '</div>');
   };
 
-  function show_similar_projects(_url, type) {
-    $.ajax({
-        url: _url,
-        type: 'GET',
-        dataType: 'json',
-        success: function(res) {
-          $('#info_field_list').html('');
-          if (res.total > 0){
-            $('#info_field_title').html('Project with the same ' + type);
-            for (i = 0; i < res.projects.length; i++){
-              $('#info_field_list').append(
-                '<li>'+ res.projects[i].name + '</li>');
-            }
-            $('#info_field').show();
-          } else {
-            $('#info_field').hide();
-          }
-        },
-        error: function(res) {
-          console.log(res);
-          $('#info_field_list').html('');
-          $('#info_field').show();
-          $('#info_field_title').html(
-            'An error occured while retrieving the list of similar project '
-            + 'please re-try or report the problem to an admin'
-          );
-        },
-      });
-  }
-
-  function checkrelease(){
-    var btn = '#testcheck';
-    $(btn).hide(); $(btn + "-spinner").show();
-    var _name = $('#name').val();
-    var _homepage = $('#homepage').val();
-    var _backend = $('#backend').val();
-    var _version_scheme = $('#version_scheme').val();
-    var _version_pattern = $('#version_pattern').val();
-    var _version_url = $('#version_url').val();
-    var _version_prefix = $('#version_prefix').val();
-    var _pre_release_filter = $('#pre_release_filter').val();
-    var _version_filter = $('#version_filter').val();
-    var _regex = $('#regex').val();
-    var _releases_only = $('#releases_only').is(':checked');
-    var _insecure = $('#insecure').is(':checked');
-    var _url = "{{ url_for('apiv2.versions')}}";
-    data = {
-        name: _name,
-        homepage: _homepage,
-        backend: _backend,
-        version_scheme: _version_scheme,
-        version_pattern: _version_pattern,
-        version_url: _version_url,
-        version_prefix: _version_prefix,
-        pre_release_filter: _pre_release_filter,
-        version_filter: _version_filter,
-        regex: _regex,
-        releases_only: _releases_only,
-        insecure: _insecure,
-        dry_run: true,
-    };
-    $.ajax({
-        url: _url ,
-        type: 'POST',
-        data: data,
-        dataType: 'json',
-        success: function(res) {
-          alert(
-              'New versions: \n' + res.found_versions.join(', ') + '\n' +
-              'All versions: \n' + res.versions.join(', ') + '\n' +
-              'Latest version: ' + res.latest_version
-          );
-          $(btn).show(); $(btn + "-spinner").hide();
-        },
-        error: function(res) {
-          $(btn).show(); $(btn + "-spinner").hide();
-          alert(
-              'Unable to retrieve the latest version from upstream!\n'
-              + 'ERROR: ' + JSON.stringify(res.responseJSON) );
-        }
-    });
-  };
-
   $(document).ready(function() {
-    $('#info_field').hide();
     show_hide();
     show_hide_pattern();
     $('#backend').change(function() {
@@ -421,25 +346,9 @@
     $('#version_scheme').change(function() {
       show_hide_pattern();
     });
-
-    $('#name').focusout(function(){
-        var _name = $('#name').val().trim();
-        show_hide();
-        if (_name) {
-          var _url = "{{ url_for('anitya_apiv1.api_projects') }}?pattern=" + _name;
-          show_similar_projects(_url, 'name');
-        } else {
-          $('#info_field').hide();
-        }
-    });
-    $('#homepage').focusout(function(){
-      var _homepage = $('#homepage').val().trim();
-      if (_homepage) {
-        var _url = "{{ url_for('anitya_apiv1.api_projects') }}?homepage=" + _homepage;
-        show_similar_projects(_url, 'homepage');
-      } else {
-        $('#info_field').hide();
-      }
+    // The default regex example embeds the project name.
+    $('#name').focusout(function() {
+      show_hide();
     });
   });
 
@@ -472,10 +381,5 @@
     });
   });
   {% endif %}
-
-  $('#testcheck').click(function(){
-      checkrelease();
-      return false;
-  });
 </script>
 {% endblock %}

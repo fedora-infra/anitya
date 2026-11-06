@@ -20,6 +20,7 @@
 """A collection of utilities for the Anitya library."""
 
 import logging
+from typing import Any
 
 import arrow
 from fedora_messaging import api
@@ -474,6 +475,50 @@ def edit_project(
         )
 
     return changes
+
+
+def dry_run_check_project(
+    session: orm.Session,
+    user_id: str,
+    fields: dict[str, Any],
+    project: models.Project | None = None,
+) -> tuple[models.Project, list]:
+    """
+    Check upstream for new versions using unsaved project settings.
+
+    The settings are applied to ``project`` or, when no project is given, to a
+    temporary one. Nothing is persisted and no message is published.
+
+    Args:
+        session: Database session.
+        user_id: Identifier of the user requesting the check.
+        fields: Project settings accepted by both :func:`create_project` and
+            :func:`edit_project` (name, homepage, backend, version_scheme,
+            version_pattern, version_url, version_prefix, pre_release_filter,
+            version_filter, regex, insecure and releases_only).
+        project: Existing project to apply the settings to, if any.
+
+    Returns:
+        The checked project and the new versions found upstream.
+
+    Raises:
+        exceptions.ProjectExists: If the settings collide with another project.
+        exceptions.AnityaException: If the settings are invalid or the check fails.
+    """
+    if project is None:
+        project = create_project(session, user_id=user_id, dry_run=True, **fields)
+    else:
+        edit_project(session, project=project, user_id=user_id, dry_run=True, **fields)
+
+    try:
+        versions = check_project_release(project, session, test=True)
+    except exceptions.AnityaException:
+        # A test check only discards the flushed dry-run changes when it
+        # succeeds, so a failed check must not leave them in the session.
+        session.rollback()
+        raise
+
+    return project, versions
 
 
 def map_project(
