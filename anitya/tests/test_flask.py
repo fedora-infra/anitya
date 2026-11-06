@@ -421,6 +421,67 @@ class NewProjectTests(DatabaseTestCase):
                 self.assertTrue(b"<h1>Add project</h1>" in output.data)
                 self.assertTrue(b"Check failed: validation" in output.data)
 
+    @mock.patch("anitya.lib.utilities._validate_backend", return_value=None)
+    def test_new_project_keeps_version_pattern_and_insecure(self, mock_validate):
+        """Assert the version pattern and insecure flag are saved on creation."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get("/project/new", follow_redirects=True)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="'
+                )[1].split(b'">')[0]
+                data = {
+                    "name": "calendar_project",
+                    "homepage": "https://example.com/calendar_project",
+                    "backend": "custom",
+                    "version_url": "https://example.com/calendar_project/releases",
+                    "version_scheme": "Calendar",
+                    "version_pattern": "YYYY.MM",
+                    "insecure": "y",
+                    "csrf_token": csrf_token,
+                }
+                with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+                    output = c.post("/project/new", data=data)
+
+        self.assertEqual(output.status_code, 302)
+        project = self.session.scalar(
+            select(models.Project).filter_by(name="calendar_project")
+        )
+        self.assertEqual(project.version_pattern, "YYYY.MM")
+        self.assertTrue(project.insecure)
+        self.assertEqual(mock_validate.call_args.kwargs["version_pattern"], "YYYY.MM")
+        self.assertTrue(mock_validate.call_args.kwargs["insecure"])
+
+    @mock.patch("anitya.lib.utilities._validate_backend", return_value=None)
+    def test_new_project_cleans_whitespace_to_none(self, mock_validate):
+        """Assert whitespace-only optional fields normalize to None."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get("/project/new", follow_redirects=True)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="'
+                )[1].split(b'">')[0]
+                data = {
+                    "name": "whitespace_project",
+                    "homepage": "https://example.com/whitespace",
+                    "backend": "custom",
+                    "version_scheme": "RPM",
+                    "version_url": "   ",
+                    "regex": "   ",
+                    "version_prefix": "   ",
+                    "csrf_token": csrf_token,
+                }
+                with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+                    output = c.post("/project/new", data=data)
+
+        self.assertEqual(output.status_code, 302)
+        project = self.session.scalar(
+            select(models.Project).filter_by(name="whitespace_project")
+        )
+        self.assertIsNone(project.version_url)
+        self.assertIsNone(project.regex)
+        self.assertIsNone(project.version_prefix)
+
     @mock.patch(
         "anitya.lib.backends.pypi.PypiBackend.get_versions",
         mock.Mock(side_effect=exceptions.RateLimitException("2099-01-01T00:00:00Z")),
@@ -1084,6 +1145,276 @@ class FlaskTest(DatabaseTestCase):
         self.assertTrue(b'class="alert alert-info' in output.data)
         self.assertTrue(expected1 in output.data)
         self.assertTrue(expected2 in output.data)
+
+    def _create_updated_projects(self, count):
+        for index in range(count):
+            self.session.add(
+                models.Project(
+                    name=f"project-{index}",
+                    homepage=f"https://example.com/project-{index}",
+                    backend="custom",
+                    check_successful=True,
+                )
+            )
+        self.session.commit()
+
+    def test_projects_updated_full_page(self):
+        """Assert a regular request gets the full page around the table."""
+        self._create_updated_projects(1)
+
+        output = self.app.get("/projects/updates/")
+
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"<!DOCTYPE html>", output.data)
+        self.assertIn(b'id="updates-table-container"', output.data)
+        self.assertIn(b"project-0", output.data)
+        self.assertIn("HX-Request", output.headers["Vary"])
+
+    def test_projects_updated_htmx_fragment(self):
+        """Assert an HTMX request only gets the table fragment."""
+        self._create_updated_projects(51)
+
+        output = self.app.get("/projects/updates/", headers={"HX-Request": "true"})
+
+        self.assertEqual(output.status_code, 200)
+        self.assertNotIn(b"<!DOCTYPE html>", output.data)
+        self.assertNotIn(b'id="updates-table-container"', output.data)
+        self.assertIn(b"1 / 2", output.data)
+        self.assertIn(b'hx-get="/projects/updates/updated?page=2"', output.data)
+        self.assertIn("HX-Request", output.headers["Vary"])
+
+    def test_projects_updated_htmx_keeps_filters(self):
+        """Assert pagination links in the fragment keep the search filters."""
+        self._create_updated_projects(51)
+
+        output = self.app.get(
+            "/projects/updates/updated?page=2&name=project*",
+            headers={"HX-Request": "true"},
+        )
+
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"2 / 2", output.data)
+        self.assertIn(
+            b'hx-get="/projects/updates/updated?page=1&amp;name=project*"', output.data
+        )
+
+    def test_projects_updated_htmx_history_restore(self):
+        """Assert an HTMX history restore gets the full page, not a fragment."""
+        self._create_updated_projects(1)
+
+        output = self.app.get(
+            "/projects/updates/",
+            headers={"HX-Request": "true", "HX-History-Restore-Request": "true"},
+        )
+
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"<!DOCTYPE html>", output.data)
+        self.assertIn(b'id="updates-table-container"', output.data)
+
+
+class SimilarProjectsTests(DatabaseTestCase):
+    """Tests for the ``/projects/similar`` endpoint."""
+
+    def setUp(self):
+        super().setUp()
+        create_project(self.session)
+        self.app = self.flask_app.test_client()
+
+    def test_no_parameters(self):
+        """Assert nothing is rendered without a name or homepage."""
+        output = self.app.get("/projects/similar")
+
+        self.assertEqual(output.status_code, 200)
+        self.assertEqual(output.data.strip(), b"")
+
+    def test_similar_name(self):
+        """Assert projects whose name starts with the given name are listed."""
+        output = self.app.get("/projects/similar?name=gea")
+
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"Projects with a similar name", output.data)
+        self.assertIn(b'<a href="/project/1/"', output.data)
+        self.assertNotIn(b"Projects with the same homepage", output.data)
+        self.assertNotIn(b"subsurface", output.data)
+
+    def test_same_homepage(self):
+        """Assert projects with exactly the given homepage are listed."""
+        output = self.app.get(
+            "/projects/similar", query_string={"homepage": "https://www.geany.org/"}
+        )
+
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"Projects with the same homepage", output.data)
+        self.assertIn(b"geany", output.data)
+        self.assertNotIn(b"Projects with a similar name", output.data)
+
+    def test_name_is_escaped(self):
+        """Assert project names are HTML-escaped in the fragment."""
+        self.session.add(
+            models.Project(
+                name="<b>bold</b>",
+                homepage="https://example.com/bold",
+                backend="custom",
+            )
+        )
+        self.session.commit()
+
+        output = self.app.get("/projects/similar", query_string={"name": "<b>"})
+
+        self.assertIn(b"&lt;b&gt;bold&lt;/b&gt;", output.data)
+        self.assertNotIn(b"<b>bold</b>", output.data)
+
+    def test_edited_project_excluded(self):
+        """Assert the project being edited isn't listed as its own duplicate."""
+        output = self.app.get(
+            "/projects/similar",
+            query_string={
+                "name": "geany",
+                "homepage": "https://www.geany.org/",
+                "project_id": 1,
+            },
+        )
+
+        self.assertEqual(output.status_code, 200)
+        self.assertEqual(output.data.strip(), b"")
+
+
+class CheckProjectSettingsTests(DatabaseTestCase):
+    """Tests for the ``/project/check`` and ``/project/<id>/check`` endpoints."""
+
+    def setUp(self):
+        super().setUp()
+        create_distro(self.session)
+        create_project(self.session)
+        self.user = models.User(email="user@fedoraproject.org", username="user")
+        self.session.add(self.user)
+        self.session.commit()
+
+    def _form_data(self, client, form_url, **overrides):
+        output = client.get(form_url)
+        csrf_token = output.data.split(b'name="csrf_token" type="hidden" value="')[
+            1
+        ].split(b'">')[0]
+        data = {
+            "csrf_token": csrf_token,
+            "name": "repo_manager",
+            "homepage": "https://pypi.python.org/pypi/repo_manager",
+            "backend": "PyPI",
+            "version_scheme": "RPM",
+        }
+        data.update(overrides)
+        return data
+
+    def test_protected_view(self):
+        """Assert login is required."""
+        output = self.flask_app.test_client().post("/project/check")
+
+        self.assertEqual(output.status_code, 302)
+        self.assertEqual("/login/", parse.urlparse(output.location).path)
+
+    def test_invalid_form(self):
+        """Assert form errors are rendered with their field labels."""
+        with login_user(self.flask_app, self.user):
+            output = self.flask_app.test_client().post(
+                "/project/check", data={"name": "repo_manager"}
+            )
+
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"Fix the form before testing the check", output.data)
+        self.assertIn(b"Homepage: This field is required.", output.data)
+        self.assertIn(b"CSRF Token", output.data)
+
+    @mock.patch("anitya.lib.utilities.check_project_release", return_value=["1.0.0"])
+    def test_new_project(self, mock_check):
+        """Assert a check of a new project renders the versions found."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as client:
+                data = self._form_data(client, "/project/new")
+                output = client.post("/project/check", data=data)
+
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"alert-success", output.data)
+        self.assertIn(b"1.0.0", output.data)
+        project = mock_check.call_args.args[0]
+        self.assertEqual(project.name, "repo_manager")
+        self.assertEqual(mock_check.call_args.kwargs, {"test": True})
+
+    def test_new_project_already_exists(self):
+        """Assert a collision with an existing project is rendered as an error."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as client:
+                data = self._form_data(
+                    client,
+                    "/project/new",
+                    name="geany",
+                    homepage="https://www.geany.org/",
+                    backend="custom",
+                )
+                output = client.post("/project/check", data=data)
+
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"alert-danger", output.data)
+        self.assertIn(b"Unable to create project since it already exists.", output.data)
+
+    @mock.patch("anitya.lib.utilities.check_project_release", return_value=["2.0"])
+    def test_existing_project(self, mock_check):
+        """Assert a check of an edited project runs against that project."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as client:
+                data = self._form_data(
+                    client,
+                    "/project/1/edit",
+                    name="geany",
+                    homepage="https://www.geany.org/",
+                    backend="custom",
+                )
+                output = client.post("/project/1/check", data=data)
+
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"alert-success", output.data)
+        self.assertIn(b"2.0", output.data)
+        self.assertEqual(mock_check.call_args.args[0].id, 1)
+
+    @mock.patch(
+        "anitya.lib.utilities.check_project_release",
+        side_effect=exceptions.AnityaPluginException("upstream is down"),
+    )
+    def test_check_failure_discards_changes(self, mock_check):
+        """Assert a failed check is rendered and the edited values aren't kept."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as client:
+                data = self._form_data(
+                    client,
+                    "/project/1/edit",
+                    name="geany-renamed",
+                    homepage="https://www.geany.org/",
+                    backend="custom",
+                )
+                output = client.post("/project/1/check", data=data)
+
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"alert-danger", output.data)
+        self.assertIn(b"upstream is down", output.data)
+        project = self.session.get(models.Project, 1)
+        self.assertEqual(project.name, "geany")
+
+    def test_missing_project(self):
+        """Assert checking a project that doesn't exist returns HTTP 404."""
+        with login_user(self.flask_app, self.user):
+            output = self.flask_app.test_client().post("/project/42/check")
+
+        self.assertEqual(output.status_code, 404)
+
+    def test_archived_project(self):
+        """Assert checking an archived project returns HTTP 404."""
+        project = self.session.get(models.Project, 1)
+        project.archived = True
+        self.session.commit()
+
+        with login_user(self.flask_app, self.user):
+            output = self.flask_app.test_client().post("/project/1/check")
+
+        self.assertEqual(output.status_code, 404)
 
 
 class EditProjectTests(DatabaseTestCase):

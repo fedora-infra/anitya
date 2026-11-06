@@ -1,0 +1,20 @@
+{% macro project_list(title, projects) %}
+<p class="mb-1 fw-semibold">{{ title }}</p>
+<ul class="mb-2">
+  {% for project in projects %}
+  <li>
+    <a href="{{ url_for('anitya_ui.project', project_id=project.id) }}" target="_blank" rel="noopener">{{ project.name }}</a>
+    <span class="text-body-secondary small text-break">{{ project.homepage }}</span>
+  </li>
+  {% endfor %}
+</ul>
+{% endmacro %}
+
+{% if by_name or by_homepage %}
+<div class="list-group shadow-sm">
+  <div class="list-group-item">
+    {% if by_name %}{{ project_list("Projects with a similar name", by_name) }}{% endif %}
+    {% if by_homepage %}{{ project_list("Projects with the same homepage", by_homepage) }}{% endif %}
+  </div>
+</div>
+{% endif %}

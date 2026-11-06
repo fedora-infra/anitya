@@ -13,9 +13,11 @@ This repository is part of the Fedora Project and subject to the [Fedora AI-Assi
 ## Git Conventions
 
 ### Commit Messages & Sign-off
+These conventions are guidelines, not strict rules; the contributor's judgment and reviewers' preferences take precedence.
+
 - **Subject line:** Capitalized imperative sentence or Conventional Commit under 80 characters (up to 100 is acceptable). Example: `Handle connection timeouts in PyPI backend`.
-- **Body:** Leave a blank line after the subject. Explain the problem context, why the change is necessary, and technical implementation details. Do not add conversational fluff or AI narration.
-- **DCO Sign-off (Mandatory):** Every commit MUST be signed off using `git commit -s` to append:
+- **Body (optional):** A clear subject is often enough. Add a short body, after a blank line, when the reason for the change isn't obvious from the subject and diff; longer explanations can go in the pull request description instead. Do not add conversational fluff or AI narration.
+- **Sign-off (optional):** Commits may be signed off using `git commit -s`, which appends:
   ```gitcommit
   Signed-off-by: Full Name <email@example.com>
   ```
