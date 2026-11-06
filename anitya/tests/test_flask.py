@@ -421,6 +421,37 @@ class NewProjectTests(DatabaseTestCase):
                 self.assertTrue(b"<h1>Add project</h1>" in output.data)
                 self.assertTrue(b"Check failed: validation" in output.data)
 
+    @mock.patch("anitya.lib.utilities._validate_backend", return_value=None)
+    def test_new_project_keeps_version_pattern_and_insecure(self, mock_validate):
+        """Assert the version pattern and insecure flag are saved on creation."""
+        with login_user(self.flask_app, self.user):
+            with self.flask_app.test_client() as c:
+                output = c.get("/project/new", follow_redirects=True)
+                csrf_token = output.data.split(
+                    b'name="csrf_token" type="hidden" value="'
+                )[1].split(b'">')[0]
+                data = {
+                    "name": "calendar_project",
+                    "homepage": "https://example.com/calendar_project",
+                    "backend": "custom",
+                    "version_url": "https://example.com/calendar_project/releases",
+                    "version_scheme": "Calendar",
+                    "version_pattern": "YYYY.MM",
+                    "insecure": "y",
+                    "csrf_token": csrf_token,
+                }
+                with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+                    output = c.post("/project/new", data=data)
+
+        self.assertEqual(output.status_code, 302)
+        project = self.session.scalar(
+            select(models.Project).filter_by(name="calendar_project")
+        )
+        self.assertEqual(project.version_pattern, "YYYY.MM")
+        self.assertTrue(project.insecure)
+        self.assertEqual(mock_validate.call_args.kwargs["version_pattern"], "YYYY.MM")
+        self.assertTrue(mock_validate.call_args.kwargs["insecure"])
+
     @mock.patch(
         "anitya.lib.backends.pypi.PypiBackend.get_versions",
         mock.Mock(side_effect=exceptions.RateLimitException("2099-01-01T00:00:00Z")),
