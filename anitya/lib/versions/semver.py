@@ -57,7 +57,7 @@ class SemanticVersion(Version):
            https://semver.org/
         """
         try:
-            version_info = semver.VersionInfo.parse(self.parse())
+            version_info = semver.Version.parse(self.parse())
         except ValueError:
             # version is not correct semantic version, so it's not a pre-release
             return False
@@ -71,7 +71,7 @@ class SemanticVersion(Version):
     def is_valid(self) -> bool:
         """Return True if the version is valid and parseable."""
         try:
-            semver.VersionInfo.parse(self.parse())
+            semver.Version.parse(self.parse())
             return True
         except ValueError:
             return False
@@ -88,7 +88,7 @@ class SemanticVersion(Version):
             (bool) Comparision result.
         """
         try:
-            result = semver.compare(self.parse(), other.parse())
+            result = semver.Version.parse(self.parse()).compare(other.parse())
         except ValueError:
             # version is not correct semantic version, compare as strings
             if self.parse() != other.parse():
@@ -113,7 +113,7 @@ class SemanticVersion(Version):
             (bool) Comparision result.
         """
         try:
-            result = semver.compare(self.parse(), other.parse())
+            result = semver.Version.parse(self.parse()).compare(other.parse())
         except ValueError:
             # If self is invalid, it sorts to the bottom (i.e. is less than valid ones)
             return not self.is_valid
