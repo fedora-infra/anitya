@@ -282,6 +282,29 @@ class GiteaBackendtests(DatabaseTestCase):
         }
         self.assertEqual(output, exp)
 
+    def test_parse_url_preserves_repository_name(self):
+        """Test that parse_url removes only a literal .git suffix and slashes."""
+        cases = {
+            "widget": "widget",
+            "widget.git": "widget",
+            "widget.git/": "widget",
+            "git": "git",
+            "git.git": "git",
+            "waiting": "waiting",
+        }
+        for slug, exp_name in cases.items():
+            with self.subTest(slug=slug):
+                url = "https://codeberg.org/example/" + slug
+                output = backend.GiteaBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": url,
+                    "backend": "Gitea",
+                    "version_url": url,
+                    "version_scheme": "RPM",
+                }
+                self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(GiteaBackendtests)
