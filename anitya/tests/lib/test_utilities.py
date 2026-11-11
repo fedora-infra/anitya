@@ -1216,6 +1216,90 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         self.assertEqual(versions[1].version, "0.9.9")
 
 
+class DryRunCheckProjectTests(DatabaseTestCase):
+    """Tests for the :func:`anitya.lib.utilities.dry_run_check_project` function."""
+
+    fields = {
+        "name": "repo_manager",
+        "homepage": "https://example.com/repo_manager",
+        "backend": "custom",
+        "version_scheme": "RPM",
+        "version_pattern": None,
+        "version_url": "https://example.com/repo_manager/releases",
+        "version_prefix": None,
+        "pre_release_filter": None,
+        "version_filter": None,
+        "regex": None,
+        "insecure": False,
+        "releases_only": False,
+    }
+
+    @mock.patch("anitya.lib.utilities.check_project_release", return_value=["1.0"])
+    def test_temporary_project(self, mock_check):
+        """Assert a temporary project is checked in test mode without a message."""
+        with fml_testing.mock_sends():
+            project, versions = utilities.dry_run_check_project(
+                self.session, fields=self.fields
+            )
+
+        self.assertEqual(project.name, "repo_manager")
+        self.assertEqual(versions, ["1.0"])
+        mock_check.assert_called_once_with(project, self.session, test=True)
+
+    @mock.patch(
+        "anitya.lib.utilities.check_project_release",
+        side_effect=exceptions.AnityaPluginException("upstream is down"),
+    )
+    def test_failed_check_discards_temporary_project(self, mock_check):
+        """Assert a failed check doesn't leave the temporary project behind."""
+        with self.assertRaises(exceptions.AnityaPluginException):
+            utilities.dry_run_check_project(self.session, fields=self.fields)
+
+        self.assertEqual(models.Project.all(self.session, count=True), 0)
+
+    @mock.patch("anitya.lib.utilities.check_project_release", return_value=["2.0"])
+    def test_existing_project(self, mock_check):
+        """Assert an existing project is updated in dry-run mode."""
+        create_project(self.session)
+        project = models.Project.get(self.session, 1)
+
+        fields = dict(self.fields)
+        fields["name"] = project.name
+        fields["homepage"] = "https://example.com/new_homepage"
+
+        with fml_testing.mock_sends():
+            checked, versions = utilities.dry_run_check_project(
+                self.session, fields=fields, project=project
+            )
+
+        self.assertEqual(checked.id, project.id)
+        self.assertEqual(checked.homepage, "https://example.com/new_homepage")
+        self.assertEqual(versions, ["2.0"])
+
+    @mock.patch(
+        "anitya.lib.utilities.check_project_release",
+        side_effect=exceptions.AnityaPluginException("upstream is down"),
+    )
+    def test_failed_check_discards_existing_project_changes(self, mock_check):
+        """Assert a failed check rolls back modifications to an existing project."""
+        create_project(self.session)
+        project = models.Project.get(self.session, 1)
+        orig_homepage = project.homepage
+
+        fields = dict(self.fields)
+        fields["name"] = project.name
+        fields["homepage"] = "https://example.com/new_homepage"
+
+        with self.assertRaises(exceptions.AnityaPluginException):
+            utilities.dry_run_check_project(
+                self.session, fields=fields, project=project
+            )
+
+        self.session.expire_all()
+        reloaded = models.Project.get(self.session, 1)
+        self.assertEqual(reloaded.homepage, orig_homepage)
+
+
 class MapProjectTests(DatabaseTestCase):
     """Tests for the :func:`anitya.lib.utilities.map_project` function."""
 

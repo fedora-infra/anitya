@@ -3,6 +3,7 @@
 
 from math import ceil
 import os
+from typing import Any
 
 import flask
 from flask_login import current_user, login_required, logout_user
@@ -11,6 +12,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 
 import anitya
+import anitya.forms
 from anitya.config import config as anitya_config
 from anitya.db import db, models, paginate
 from anitya.lib import exceptions
@@ -33,6 +35,90 @@ def get_extended_pattern(pattern):
     if not pattern.endswith("*"):
         pattern += "*"
     return pattern
+
+
+def _project_form(
+    project: models.Project | None = None,
+) -> tuple[anitya.forms.ProjectForm, list]:
+    """
+    Build the project form with its backend, version scheme and distro choices.
+
+    Args:
+        project: Project being edited. Distro choices are only offered when
+            adding a new project.
+
+    Returns:
+        The form and the loaded backend plugins.
+    """
+    backend_plugins = anitya_plugins.load_plugins(db.session)
+    version_plugins = anitya_plugins.load_plugins(db.session, family="versions")
+    choices: dict[str, Any] = {
+        "backends": [plugin.name for plugin in backend_plugins],
+        "version_schemes": [plugin.name for plugin in version_plugins],
+    }
+    if project is None:
+        choices["distros"] = [distro.name for distro in models.Distro.all(db.session)]
+    form = anitya.forms.ProjectForm(obj=project, **choices)
+    return form, backend_plugins
+
+
+def _render_page_or_fragment(
+    page_template: str, fragment_template: str, /, **context: Any
+) -> flask.Response:
+    """
+    Render only ``fragment`` for HTMX requests and the full ``page`` otherwise.
+
+    HTMX asks for the full page with ``HX-History-Restore-Request`` when the
+    browser history cache misses, so that request gets the full page too.
+
+    Args:
+        page_template: Template rendered for regular requests.
+        fragment_template: Template rendered for HTMX requests.
+        context: Variables passed to the template.
+
+    Returns:
+        The response, marked as varying on ``HX-Request`` so caches never
+        serve a fragment in place of the full page.
+    """
+    headers = flask.request.headers
+    is_fragment = (
+        "HX-Request" in headers and "HX-History-Restore-Request" not in headers
+    )
+    template = fragment_template if is_fragment else page_template
+    response = flask.make_response(flask.render_template(template, **context))
+    response.vary.add("HX-Request")
+    return response
+
+
+def _project_fields(form: anitya.forms.ProjectForm) -> dict[str, Any]:
+    """
+    Extract the project settings from a validated project form.
+
+    Args:
+        form: The validated project form.
+
+    Returns:
+        Keyword arguments for :func:`anitya.lib.utilities.edit_project` and
+        :func:`anitya.lib.utilities.create_project`.
+    """
+
+    def clean(value: str | None) -> str | None:
+        return value.strip() or None if value else None
+
+    return {
+        "name": form.name.data.strip(),
+        "homepage": form.homepage.data.strip(),
+        "backend": form.backend.data.strip(),
+        "version_scheme": clean(form.version_scheme.data),
+        "version_pattern": clean(form.version_pattern.data),
+        "version_url": clean(form.version_url.data),
+        "version_prefix": clean(form.version_prefix.data),
+        "pre_release_filter": clean(form.pre_release_filter.data),
+        "version_filter": clean(form.version_filter.data),
+        "regex": clean(form.regex.data),
+        "insecure": form.insecure.data,
+        "releases_only": form.releases_only.data,
+    }
 
 
 @ui_blueprint.route("/")
@@ -229,8 +315,9 @@ def projects_updated(status="updated"):
 
     total_page = int(ceil(projects_count / float(50)))
 
-    return flask.render_template(
+    return _render_page_or_fragment(
         "updates.html",
+        "partials/_updates_table.html",
         current="projects",
         projects=projects,
         total_page=total_page,
@@ -563,19 +650,7 @@ def new_project():
     a HTTP 400 for invalid forms, a HTTP 409 if the request conflicts with an
     existing project, or a HTTP 302 redirect to the new project.
     """
-    backend_plugins = anitya_plugins.load_plugins(db.session)
-    plg_names = [plugin.name for plugin in backend_plugins]
-    version_plugins = anitya_plugins.load_plugins(db.session, family="versions")
-    version_plg_names = [plugin.name for plugin in version_plugins]
-    # Get all available distros name
-    distros = models.Distro.all(db.session)
-    distro_names = []
-    for distro in distros:
-        distro_names.append(distro.name)
-
-    form = anitya.forms.ProjectForm(
-        backends=plg_names, version_schemes=version_plg_names, distros=distro_names
-    )
+    form, backend_plugins = _project_form()
 
     if flask.request.method == "GET":
         form.name.data = flask.request.args.get("name", "")
@@ -597,32 +672,9 @@ def new_project():
         try:
             project = utilities.create_project(
                 db.session,
-                name=form.name.data.strip(),
-                homepage=form.homepage.data.strip(),
-                backend=form.backend.data.strip(),
-                version_scheme=form.version_scheme.data.strip(),
-                version_url=(
-                    form.version_url.data.strip() if form.version_url.data else None
-                ),
-                version_prefix=(
-                    form.version_prefix.data.strip()
-                    if form.version_prefix.data
-                    else None
-                ),
-                pre_release_filter=(
-                    form.pre_release_filter.data.strip()
-                    if form.pre_release_filter.data
-                    else None
-                ),
-                version_filter=(
-                    form.version_filter.data.strip()
-                    if form.version_filter.data
-                    else None
-                ),
-                regex=form.regex.data.strip() if form.regex.data else None,
                 user_id=flask.g.user.username,
-                releases_only=form.releases_only.data,
                 validate=True,
+                **_project_fields(form),
             )
             db.session.commit()
 
@@ -703,56 +755,16 @@ def edit_project(project_id):
     if project.archived:
         flask.abort(404)
 
-    backend_plugins = anitya_plugins.load_plugins(db.session)
-    plg_names = [plugin.name for plugin in backend_plugins]
-    version_plugins = anitya_plugins.load_plugins(db.session, family="versions")
-    version_plg_names = [plugin.name for plugin in version_plugins]
-
-    form = anitya.forms.ProjectForm(
-        backends=plg_names, version_schemes=version_plg_names, obj=project
-    )
+    form, backend_plugins = _project_form(project)
 
     if form.validate_on_submit():
         try:
             changes = utilities.edit_project(
                 db.session,
                 project=project,
-                name=form.name.data.strip(),
-                homepage=form.homepage.data.strip(),
-                backend=form.backend.data.strip(),
-                version_scheme=(
-                    form.version_scheme.data.strip()
-                    if form.version_scheme.data
-                    else None
-                ),
-                version_pattern=(
-                    form.version_pattern.data.strip()
-                    if form.version_pattern.data
-                    else None
-                ),
-                version_url=(
-                    form.version_url.data.strip() if form.version_url.data else None
-                ),
-                version_prefix=(
-                    form.version_prefix.data.strip()
-                    if form.version_prefix.data
-                    else None
-                ),
-                pre_release_filter=(
-                    form.pre_release_filter.data.strip()
-                    if form.pre_release_filter.data
-                    else None
-                ),
-                version_filter=(
-                    form.version_filter.data.strip()
-                    if form.version_filter.data
-                    else None
-                ),
-                regex=form.regex.data.strip() if form.regex.data else None,
-                insecure=form.insecure.data,
                 user_id=flask.g.user.username,
                 check_release=form.check_release.data,
-                releases_only=form.releases_only.data,
+                **_project_fields(form),
             )
             if changes:
                 flask.flash("Project edited")
@@ -771,6 +783,75 @@ def edit_project(project_id):
         form=form,
         project=project,
         plugins=backend_plugins,
+    )
+
+
+@ui_blueprint.route("/projects/similar")
+def similar_projects():
+    """
+    Render the existing projects that share a name or homepage with a project
+    being added or edited.
+
+    The data is already public through ``/api/projects``, so no login is required.
+
+    :query name: Project name; projects whose name starts with it are listed.
+    :query homepage: Project homepage; projects with exactly this homepage are listed.
+    :query project_id: Project being edited, excluded from the results.
+    """
+    name = flask.request.args.get("name", "").strip()
+    homepage = flask.request.args.get("homepage", "").strip()
+    exclude_id = flask.request.args.get("project_id", type=int)
+
+    by_name = (
+        models.Project.search(db.session, pattern=f"{name}*", page=1) if name else []
+    )
+    by_homepage = models.Project.by_homepage(db.session, homepage) if homepage else []
+
+    return flask.render_template(
+        "partials/_similar_projects.html",
+        by_name=[p for p in by_name if p.id != exclude_id],
+        by_homepage=[p for p in by_homepage if p.id != exclude_id],
+    )
+
+
+@ui_blueprint.route("/project/check", methods=["POST"])
+@ui_blueprint.route("/project/<int:project_id>/check", methods=["POST"])
+@login_required
+def check_project_settings(project_id: int | None = None):
+    """
+    Render a dry-run release check of the unsaved project form.
+
+    Nothing is saved. Every outcome is rendered with HTTP 200 because HTMX
+    only swaps successful responses into the page.
+
+    :statuscode 404: When the edited project doesn't exist or is archived.
+    """
+    project = None
+    if project_id is not None:
+        project = models.Project.get(db.session, project_id)
+        if not project or project.archived:
+            flask.abort(404)
+
+    form, _ = _project_form(project)
+    if not form.validate_on_submit():
+        return flask.render_template("partials/_release_check_result.html", form=form)
+
+    try:
+        checked, found_versions = utilities.dry_run_check_project(
+            db.session,
+            fields=_project_fields(form),
+            project=project,
+        )
+    except exceptions.AnityaException as err:
+        return flask.render_template(
+            "partials/_release_check_result.html", error=str(err)
+        )
+
+    return flask.render_template(
+        "partials/_release_check_result.html",
+        found_versions=found_versions,
+        versions=checked.versions,
+        latest_version=checked.latest_version,
     )
 
 
