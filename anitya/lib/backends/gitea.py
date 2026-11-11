@@ -126,7 +126,7 @@ class GiteaBackend(BaseBackend):
         """
         homepage = url
         version_url = url
-        name = url.rstrip("/").rstrip(".git").split("/")[-1]
+        name = utilities.remove_suffix(url.rstrip("/"), ".git").split("/")[-1]
         version_scheme = "RPM"
         backend = cls.name
         return {
