@@ -1239,7 +1239,7 @@ class DryRunCheckProjectTests(DatabaseTestCase):
         """Assert a temporary project is checked in test mode without a message."""
         with fml_testing.mock_sends():
             project, versions = utilities.dry_run_check_project(
-                self.session, user_id="user", fields=self.fields
+                self.session, fields=self.fields
             )
 
         self.assertEqual(project.name, "repo_manager")
@@ -1253,9 +1253,7 @@ class DryRunCheckProjectTests(DatabaseTestCase):
     def test_failed_check_discards_temporary_project(self, mock_check):
         """Assert a failed check doesn't leave the temporary project behind."""
         with self.assertRaises(exceptions.AnityaPluginException):
-            utilities.dry_run_check_project(
-                self.session, user_id="user", fields=self.fields
-            )
+            utilities.dry_run_check_project(self.session, fields=self.fields)
 
         self.assertEqual(models.Project.all(self.session, count=True), 0)
 
@@ -1271,7 +1269,7 @@ class DryRunCheckProjectTests(DatabaseTestCase):
 
         with fml_testing.mock_sends():
             checked, versions = utilities.dry_run_check_project(
-                self.session, user_id="user", fields=fields, project=project
+                self.session, fields=fields, project=project
             )
 
         self.assertEqual(checked.id, project.id)
@@ -1294,7 +1292,7 @@ class DryRunCheckProjectTests(DatabaseTestCase):
 
         with self.assertRaises(exceptions.AnityaPluginException):
             utilities.dry_run_check_project(
-                self.session, user_id="user", fields=fields, project=project
+                self.session, fields=fields, project=project
             )
 
         self.session.expire_all()

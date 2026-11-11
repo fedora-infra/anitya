@@ -479,7 +479,6 @@ def edit_project(
 
 def dry_run_check_project(
     session: orm.Session,
-    user_id: str,
     fields: dict[str, Any],
     project: models.Project | None = None,
 ) -> tuple[models.Project, list]:
@@ -491,7 +490,6 @@ def dry_run_check_project(
 
     Args:
         session: Database session.
-        user_id: Identifier of the user requesting the check.
         fields: Project settings accepted by both :func:`create_project` and
             :func:`edit_project` (name, homepage, backend, version_scheme,
             version_pattern, version_url, version_prefix, pre_release_filter,
@@ -506,9 +504,9 @@ def dry_run_check_project(
         exceptions.AnityaException: If the settings are invalid or the check fails.
     """
     if project is None:
-        project = create_project(session, user_id=user_id, dry_run=True, **fields)
+        project = create_project(session, user_id=None, dry_run=True, **fields)
     else:
-        edit_project(session, project=project, user_id=user_id, dry_run=True, **fields)
+        edit_project(session, project=project, user_id=None, dry_run=True, **fields)
 
     try:
         versions = check_project_release(project, session, test=True)

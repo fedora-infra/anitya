@@ -839,7 +839,6 @@ def check_project_settings(project_id: int | None = None):
     try:
         checked, found_versions = utilities.dry_run_check_project(
             db.session,
-            user_id=flask.g.user.username,
             fields=_project_fields(form),
             project=project,
         )
