@@ -284,7 +284,9 @@ class Project(Base):
     )
     created_on = sa.Column(sa.DateTime, default=_utcnow)
 
-    packages = sa.orm.relationship("Packages", cascade="all, delete-orphan", overlaps="project")
+    packages = sa.orm.relationship(
+        "Packages", cascade="all, delete-orphan", overlaps="project"
+    )
 
     __table_args__ = (
         sa.UniqueConstraint("name", "homepage"),
