@@ -260,6 +260,32 @@ class CgitBackendtests(DatabaseTestCase):
         }
         self.assertEqual(output, exp)
 
+    def test_parse_url_preserves_repository_name(self):
+        """Test that parse_url removes only a literal .git suffix and slashes."""
+        cases = {
+            "cgit": "cgit",
+            "cgit.git": "cgit",
+            "cgit.git/": "cgit",
+            "git": "git",
+            "git.git": "git",
+            "widget": "widget",
+            "widget.git": "widget",
+            "widget.git/": "widget",
+            "waiting": "waiting",
+        }
+        for slug, exp_name in cases.items():
+            with self.subTest(slug=slug):
+                url = "https://git.zx2c4.com/" + slug
+                output = backend.CgitBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": url,
+                    "backend": "Cgit",
+                    "version_url": url,
+                    "version_scheme": "RPM",
+                }
+                self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(CgitBackendtests)

@@ -20,6 +20,7 @@ A backend for cgit
 
 from sqlalchemy import func, or_
 
+from anitya.lib import utilities
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 
 REGEX = r"<a href='.*'>(?:%(name)s-)?(.*)\.(?:tar|tar\.[bglx]z|tbz2|zip)</a>"
@@ -119,7 +120,7 @@ class CgitBackend(BaseBackend):
         """
         homepage = url
         version_url = url
-        name = url.rstrip("/").rstrip(".git").split("/")[-1]
+        name = utilities.remove_suffix(url.rstrip("/"), ".git").split("/")[-1]
         version_scheme = "RPM"
         backend = cls.name
         return {
