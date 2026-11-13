@@ -22,8 +22,8 @@ class NpmjsBackend(BaseBackend):
 
     name = "npmjs"
     examples = [
-        "https://www.npmjs.org/package/request",
-        "https://www.npmjs.org/package/colors",
+        "https://www.npmjs.com/package/request",
+        "https://www.npmjs.com/package/colors",
     ]
 
     @classmethod
