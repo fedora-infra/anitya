@@ -196,6 +196,27 @@ class CratesBackendTests(DatabaseTestCase):
         )
         self.assertFalse(crates.CratesBackend.is_url_valid("https://example.com"))
 
+    def test_parse_url(self):
+        """Test the parse_url function of the crates backend."""
+        cases = [
+            ("https://crates.io/crates/clap", "clap"),
+            ("https://crates.io/crates/clap/", "clap"),
+            ("https://crates.io/crates/clap/versions", "clap"),
+            ("https://crates.io/crates/clap/dependencies", "clap"),
+            ("https://crates.io/crates/serde?sort=recent", "serde"),
+        ]
+        for url, exp_name in cases:
+            with self.subTest(url=url):
+                output = crates.CratesBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": f"https://crates.io/crates/{exp_name}",
+                    "backend": "crates.io",
+                    "version_url": f"https://crates.io/crates/{exp_name}",
+                    "version_scheme": "Semantic",
+                }
+                self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

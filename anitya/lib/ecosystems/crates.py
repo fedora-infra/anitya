@@ -28,4 +28,5 @@ class CratesEcosystem(BaseEcosystem):
 
     name = "crates.io"
     default_backend = "crates.io"
+    default_version_scheme = "Semantic"
     aliases = ["Cargo"]

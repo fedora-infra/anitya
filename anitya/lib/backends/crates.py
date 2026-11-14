@@ -43,6 +43,7 @@ class CratesBackend(BaseBackend):
     """The crates class for projects hosted on crates.io."""
 
     name = "crates.io"
+    default_version_scheme = "Semantic"
     examples = ["https://crates.io/crates/clap", "https://crates.io/crates/serde"]
 
     @classmethod
@@ -197,6 +198,32 @@ class CratesBackend(BaseBackend):
             True if the URL is valid or false.
         """
         return url.startswith("https://crates.io")
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        clean_url = url.split("?")[0].rstrip("/")
+        parts = clean_url.replace("https://crates.io/crates/", "").split("/")
+        name = parts[0]
+        homepage = f"https://crates.io/crates/{name}"
+        version_url = homepage
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):  # pragma: no cover
