@@ -68,7 +68,7 @@ class Drupal6Backendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_get_version(self):
-        """Test the get_version function of the debian backend."""
+        """Test the get_version function of the drupal6 backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "2.4"
@@ -134,7 +134,7 @@ class Drupal6Backendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_versions(self):
-        """Test the get_versions function of the debian backend."""
+        """Test the get_versions function of the drupal6 backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = ["2.x-dev", "2.0-alpha1", "2.0", "2.1", "2.2", "2.3", "2.4"]
