@@ -15,7 +15,7 @@ REGEX = r"<version>6\.x-([^<]+)</version>"
 
 
 class Drupal6Backend(BaseBackend):
-    """The custom class for projects hosted on ftp.debian.org.
+    """The custom class for projects hosted on drupal.org.
 
     This backend allows to specify a version_url and a regex that will
     be used to retrieve the version information.
