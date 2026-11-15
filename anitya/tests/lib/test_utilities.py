@@ -706,9 +706,9 @@ class EditProjectTests(DatabaseTestCase):
         """Test that errors from check_project_release are not masked as duplicate project errors."""
         create_project(self.session)
         project_objs = models.Project.all(self.session)
-        mock_check.side_effect = exc.SQLAlchemyError("database connection lost")
+        mock_check.side_effect = SQLAlchemyError("database connection lost")
 
-        with self.assertRaises(exc.SQLAlchemyError):
+        with self.assertRaises(SQLAlchemyError):
             utilities.edit_project(
                 self.session,
                 project=project_objs[0],
