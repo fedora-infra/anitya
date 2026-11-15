@@ -119,11 +119,12 @@ def check_project_release(project, session, test=False):
     # Check against all stored versions regardless of filters to avoid
     # treating existing filtered releases as new and attempting duplicate inserts.
     p_versions = project.get_sorted_version_objects(ignore_filter=True)
+    existing_versions = {v.version for v in project.versions_obj}
     old_version = project.latest_version or ""
     version_column_len = models.ProjectVersion.version.property.columns[0].type.length
     upstream_versions = []
     for version in versions:
-        if version not in p_versions:
+        if version not in p_versions and version.version not in existing_versions:
             if not version.version:
                 # Skip empty version
                 continue
@@ -135,6 +136,7 @@ def check_project_release(project, session, test=False):
                         commit_url=version.commit_url,
                     )
                 )
+                existing_versions.add(version.version)
                 upstream_versions.append(version.parse())
             else:
                 _log.info(
@@ -461,8 +463,6 @@ def edit_project(
                 )
                 session.add(project)
                 session.commit()
-            if check_release is True:
-                check_project_release(project, session)
         else:
             session.add(project)
             session.flush()
@@ -473,6 +473,9 @@ def edit_project(
             "Could not edit this project. Is there already a project "
             "with these name and homepage?"
         )
+
+    if not dry_run and check_release is True:
+        check_project_release(project, session)
 
     return changes
 
