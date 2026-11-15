@@ -83,7 +83,7 @@ class DebianBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://ftp.debian.org")
+        return url.startswith(("https://ftp.debian.org", "http://ftp.debian.org"))
 
     @classmethod
     def check_feed(cls):  # pragma: no cover
