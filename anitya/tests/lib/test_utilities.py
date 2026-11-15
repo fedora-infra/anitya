@@ -699,6 +699,35 @@ class EditProjectTests(DatabaseTestCase):
 
         mock_check.assert_called_with(project_objs[0], mock.ANY)
 
+    @mock.patch("anitya.lib.utilities.check_project_release")
+    def test_edit_project_check_release_error_not_masked_as_duplicate(
+        self, mock_check
+    ):
+        """Test that errors from check_project_release are not masked as duplicate project errors."""
+        create_project(self.session)
+        project_objs = models.Project.all(self.session)
+        mock_check.side_effect = exc.SQLAlchemyError("database connection lost")
+
+        with self.assertRaises(exc.SQLAlchemyError):
+            utilities.edit_project(
+                self.session,
+                project=project_objs[0],
+                name="geany",
+                homepage="https://www.geany.org/",
+                backend=project_objs[0].backend,
+                version_scheme="RPM",
+                version_pattern=None,
+                version_url=project_objs[0].version_url,
+                version_prefix=None,
+                pre_release_filter=None,
+                version_filter=None,
+                regex=project_objs[0].regex,
+                insecure=False,
+                user_id="noreply@fedoraproject.org",
+                releases_only=False,
+                check_release=True,
+            )
+
     def test_edit_dry_run(self):
         """Test the edit_project function dry_run parameter."""
         create_distro(self.session)
@@ -1023,6 +1052,30 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         self.assertEqual(len(versions), 2)
         self.assertEqual(versions[0].version, "v1.0.0")
         self.assertEqual(project.latest_version, "1.0.0")
+
+    @mock.patch(
+        "anitya.lib.backends.npmjs.NpmjsBackend.get_versions",
+        return_value=["1.0.0", "1.0.0", "0.9.0"],
+    )
+    def test_check_project_release_batch_duplicate_versions(self, mock_method):
+        """Test check_project_release when upstream returns duplicate version strings."""
+        with fml_testing.mock_sends(anitya_schema.ProjectCreated):
+            project = utilities.create_project(
+                self.session,
+                name="dup_version_project",
+                homepage="https://example.com/dup_versions",
+                backend="npmjs",
+                user_id="noreply@fedoraproject.org",
+                version_scheme="RPM",
+            )
+        with fml_testing.mock_sends(
+            anitya_schema.ProjectVersionUpdated, anitya_schema.ProjectVersionUpdatedV2
+        ):
+            utilities.check_project_release(project, self.session)
+
+        versions = project.get_sorted_version_objects(ignore_filter=True)
+        self.assertEqual(len(versions), 2)
+        self.assertEqual([v.version for v in versions], ["1.0.0", "0.9.0"])
 
     @mock.patch(
         "anitya.lib.backends.github.GithubBackend.get_versions",
