@@ -700,10 +700,8 @@ class EditProjectTests(DatabaseTestCase):
         mock_check.assert_called_with(project_objs[0], mock.ANY)
 
     @mock.patch("anitya.lib.utilities.check_project_release")
-    def test_edit_project_check_release_error_not_masked_as_duplicate(
-        self, mock_check
-    ):
-        """Test that errors from check_project_release are not masked as duplicate project errors."""
+    def test_edit_project_check_release_error_not_masked_as_duplicate(self, mock_check):
+        """Test check_project_release errors are not masked as duplicates."""
         create_project(self.session)
         project_objs = models.Project.all(self.session)
         mock_check.side_effect = SQLAlchemyError("database connection lost")
@@ -1058,7 +1056,7 @@ class CheckProjectReleaseTests(DatabaseTestCase):
         return_value=["1.0.0", "1.0.0", "0.9.0"],
     )
     def test_check_project_release_batch_duplicate_versions(self, mock_method):
-        """Test check_project_release when upstream returns duplicate version strings."""
+        """Test check_project_release when upstream has duplicate versions."""
         with fml_testing.mock_sends(anitya_schema.ProjectCreated):
             project = utilities.create_project(
                 self.session,
