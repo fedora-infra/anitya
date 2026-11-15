@@ -184,6 +184,11 @@ class DebianBackendtests(DatabaseTestCase):
                 "https://ftp.debian.org/debian/pool/main/q/qpdf/"
             )
         )
+        self.assertTrue(
+            backend.DebianBackend.is_url_valid(
+                "http://ftp.debian.org/debian/pool/main/q/qpdf/"
+            )
+        )
         self.assertFalse(backend.DebianBackend.is_url_valid("https://example.com"))
 
 
