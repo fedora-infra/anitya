@@ -47,6 +47,19 @@ class GitlabBackend(BaseBackend):
     ]
 
     @classmethod
+    def _clean_url(cls, url: str) -> str:
+        """Strip query params, fragments, trailing slashes, .git, and subpaths."""
+        clean = url.split("?")[0].split("#")[0].rstrip("/")
+        if clean.endswith(".git"):
+            clean = clean[:-4].rstrip("/")
+        if "/-/" in clean:
+            clean = clean.split("/-/")[0].rstrip("/")
+        for subpath in ("/tree/", "/tags", "/releases", "/commits/"):
+            if subpath in clean:
+                clean = clean.split(subpath)[0].rstrip("/")
+        return clean
+
+    @classmethod
     def get_version_url(cls, project):
         """Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
@@ -58,24 +71,29 @@ class GitlabBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        tokens = []
-        url = ""
+        raw_url = ""
         url_template = (
             "%(hostname)s/api/v4/projects/%(owner)s%%2F%(repo)s/repository/tags"
         )
         if project.version_url:
-            tokens = project.version_url.split("/")
+            raw_url = project.version_url
         elif project.homepage:
-            tokens = project.homepage.split("/")
+            raw_url = project.homepage
+
+        if not raw_url:
+            return ""
+
+        clean_url = cls._clean_url(raw_url)
+        tokens = clean_url.split("/")
 
         if len(tokens) >= 5:
-            url = url_template % {
+            return url_template % {
                 "hostname": tokens[0] + "//" + tokens[2],
                 "owner": tokens[3],
                 "repo": "%2F".join(tokens[4:]),  # any subgroups & repo
             }
 
-        return url
+        return ""
 
     @classmethod
     def get_versions(cls, project):
@@ -137,6 +155,31 @@ class GitlabBackend(BaseBackend):
             True if the URL is valid or false.
         """
         return url.startswith("https://gitlab.")
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        clean_url = cls._clean_url(url)
+        name = clean_url.split("/")[-1]
+        homepage = clean_url
+        version_url = clean_url
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):  # pragma: no cover

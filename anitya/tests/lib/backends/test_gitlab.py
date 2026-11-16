@@ -271,6 +271,72 @@ class GitlabBackendtests(DatabaseTestCase):
         )
         self.assertFalse(backend.GitlabBackend.is_url_valid("https://example.com"))
 
+    def test_get_version_url_sanitization(self):
+        """Test that get_version_url sanitizes trailing slashes, .git and subpaths."""
+        cases = [
+            "https://gitlab.com/test/repo/",
+            "https://gitlab.com/test/repo.git",
+            "https://gitlab.com/test/repo/-/tags",
+            "https://gitlab.com/test/repo/-/releases",
+            "https://gitlab.com/test/repo/-/tree/main",
+            "https://gitlab.com/test/repo/-/tags?sort=updated_desc",
+            "https://gitlab.com/test/repo/tags",
+            "https://gitlab.com/test/repo/releases",
+            "https://gitlab.com/test/repo/tree/main",
+            "https://gitlab.com/test/repo/commits/main",
+        ]
+        exp = "https://gitlab.com/api/v4/projects/test%2Frepo/repository/tags"
+        for url in cases:
+            project = models.Project(
+                name="repo",
+                homepage="http://example.org",
+                version_url=url,
+                backend=BACKEND,
+            )
+            self.assertEqual(backend.GitlabBackend.get_version_url(project), exp)
+
+        # Also test homepage fallback when version_url is not set
+        project_homepage = models.Project(
+            name="repo",
+            homepage="https://gitlab.com/test/repo.git/",
+            backend=BACKEND,
+        )
+        self.assertEqual(backend.GitlabBackend.get_version_url(project_homepage), exp)
+
+    def test_parse_url(self):
+        """Test the parse_url function of the GitLab backend."""
+        exp = {
+            "name": "xonotic",
+            "homepage": "https://gitlab.com/xonotic/xonotic",
+            "backend": "GitLab",
+            "version_url": "https://gitlab.com/xonotic/xonotic",
+            "version_scheme": "RPM",
+        }
+        for url in [
+            "https://gitlab.com/xonotic/xonotic",
+            "https://gitlab.com/xonotic/xonotic/",
+            "https://gitlab.com/xonotic/xonotic.git",
+            "https://gitlab.com/xonotic/xonotic/-/tags",
+            "https://gitlab.com/xonotic/xonotic/-/releases",
+            "https://gitlab.com/xonotic/xonotic/-/tree/master",
+            "https://gitlab.com/xonotic/xonotic/-/tags?sort=updated_desc",
+            "https://gitlab.com/xonotic/xonotic/tags",
+            "https://gitlab.com/xonotic/xonotic/tree/master",
+        ]:
+            self.assertEqual(backend.GitlabBackend.parse_url(url), exp)
+
+        subgroup_url = "https://gitlab.gnome.org/GNOME/subgroup/gnome-video-arcade.git"
+        exp_subgroup = {
+            "name": "gnome-video-arcade",
+            "homepage": "https://gitlab.gnome.org/GNOME/subgroup/gnome-video-arcade",
+            "backend": "GitLab",
+            "version_url": (
+                "https://gitlab.gnome.org/GNOME/subgroup/gnome-video-arcade"
+            ),
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(backend.GitlabBackend.parse_url(subgroup_url), exp_subgroup)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(GitlabBackendtests)
