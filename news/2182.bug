@@ -1,0 +1,1 @@
+Fix Drupal6 and Drupal7 get_version_url to not re-introduce the prefix when project name contains hyphens.
