@@ -47,8 +47,8 @@ class Drupal7Backend(BaseBackend):
         name = project.name
         if name.lower().strip().startswith("drupal7:"):
             name = name[len("drupal7:") :].strip()
-        if "-" in project.name:
-            name = project.name.replace("-", "_")
+        if "-" in name:
+            name = name.replace("-", "_")
 
         return f"https://updates.drupal.org/release-history/{name}/7.x"  # noqa: E231
 

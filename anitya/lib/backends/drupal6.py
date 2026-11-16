@@ -47,8 +47,8 @@ class Drupal6Backend(BaseBackend):
         name = project.name
         if name.lower().strip().startswith("drupal6:"):
             name = name[len("drupal6:") :].strip()
-        if "-" in project.name:
-            name = project.name.replace("-", "_")
+        if "-" in name:
+            name = name.replace("-", "_")
 
         url = f"https://updates.drupal.org/release-history/{name}/6.x"  # noqa: E231
 
