@@ -15,12 +15,10 @@ from anitya.lib.exceptions import AnityaPluginException
 
 
 class RubygemsBackend(BaseBackend):
-    """The custom class for projects hosted on rubygems.org.
-
-    This backend allows to specify a version_url and a regex that will
-    be used to retrieve the version information."""
+    """The backend class for projects hosted on rubygems.org."""
 
     name = "Rubygems"
+    default_version_scheme = "Semantic"
     examples = ["https://rubygems.org/gems/aa", "https://rubygems.org/gems/bio"]
 
     @classmethod
@@ -96,6 +94,31 @@ class RubygemsBackend(BaseBackend):
         return url.startswith("https://rubygems.org")
 
     @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        clean_url = url.split("?")[0].split("#")[0].rstrip("/")
+        name = clean_url.replace("https://rubygems.org/gems/", "").split("/")[0]
+        homepage = f"https://rubygems.org/gems/{name}"
+        version_url = homepage
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
+
+    @classmethod
     def check_feed(cls):
         """Return a generator over the latest 50 uploads to rubygems.org
 
@@ -112,7 +135,7 @@ class RubygemsBackend(BaseBackend):
         try:
             data = response.json()
         except Exception as exc:  # pragma: no cover
-            raise AnityaPluginException(f"No XML returned by {url}") from exc
+            raise AnityaPluginException(f"No JSON returned by {url}") from exc
 
         for item in data:
             name, version = item["name"], item["version"]
