@@ -20,7 +20,7 @@
 #
 
 """
-anitya tests for the custom backend.
+anitya tests for the rubygems backend.
 """
 
 import unittest
@@ -141,6 +141,27 @@ class RubygemsBackendtests(DatabaseTestCase):
             backend.RubygemsBackend.is_url_valid("https://rubygems.org/gems/aa/")
         )
         self.assertFalse(backend.RubygemsBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the parse_url function of the rubygems backend."""
+        cases = [
+            ("https://rubygems.org/gems/rails", "rails"),
+            ("https://rubygems.org/gems/rails/", "rails"),
+            ("https://rubygems.org/gems/rails/versions", "rails"),
+            ("https://rubygems.org/gems/rails/versions/7.1.3", "rails"),
+            ("https://rubygems.org/gems/rails?param=val#readme", "rails"),
+        ]
+        for url, exp_name in cases:
+            with self.subTest(url=url):
+                output = backend.RubygemsBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": f"https://rubygems.org/gems/{exp_name}",
+                    "backend": "Rubygems",
+                    "version_url": f"https://rubygems.org/gems/{exp_name}",
+                    "version_scheme": "Semantic",
+                }
+                self.assertEqual(output, exp)
 
 
 if __name__ == "__main__":

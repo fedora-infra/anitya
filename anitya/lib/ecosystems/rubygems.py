@@ -16,3 +16,4 @@ class RubygemsEcosystem(BaseEcosystem):
 
     name = "rubygems"
     default_backend = "Rubygems"
+    default_version_scheme = "Semantic"
