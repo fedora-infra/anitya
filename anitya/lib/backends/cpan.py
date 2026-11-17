@@ -103,12 +103,15 @@ class CpanBackend(BaseBackend):
 
         for item in root.iter(tag="{http://purl.org/rss/1.0/}item"):
             title = item.find("{http://purl.org/rss/1.0/}title")
+            if title is None or not title.text:
+                continue
             try:
                 name, version = title.text.rsplit("-", 1)
             except ValueError:
                 _log.info(
                     "Unable to parse CPAN title %s into a package name and version",
-                    title,
+                    title.text,
                 )
+                continue
             homepage = f"https://metacpan.org/dist/{name}/"  # noqa: E231
             yield name, homepage, cls.name, version

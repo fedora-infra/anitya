@@ -24,6 +24,7 @@ anitya tests for the custom backend.
 """
 
 import unittest
+from unittest import mock
 
 import anitya.lib.backends.cpan as backend
 from anitya.db import models
@@ -127,6 +128,35 @@ class CpanBackendtests(DatabaseTestCase):
             ),
         )
         # etc...
+
+    @mock.patch("anitya.lib.backends.cpan.CpanBackend.call_url")
+    def test_cpan_check_feed_invalid_title(self, mock_call):
+        """Test check_feed handles unparseable titles gracefully without crashing."""
+        xml = (
+            '<?xml version="1.0" encoding="utf-8"?>'
+            '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
+            ' xmlns="http://purl.org/rss/1.0/">'
+            "<channel><title>CPAN</title></channel>"
+            "<item><title>InvalidTitleWithoutHyphen</title></item>"
+            "<item><title>Foo-Bar-1.2.3</title></item>"
+            "<item><title></title></item>"
+            "</rdf:RDF>"
+        )
+        mock_resp = mock.Mock()
+        mock_resp.text = xml
+        mock_call.return_value = mock_resp
+
+        items = list(backend.CpanBackend.check_feed())
+        self.assertEqual(len(items), 1)
+        self.assertEqual(
+            items[0],
+            (
+                "Foo-Bar",
+                "https://metacpan.org/dist/Foo-Bar/",
+                "CPAN (perl)",
+                "1.2.3",
+            ),
+        )
 
 
 if __name__ == "__main__":
