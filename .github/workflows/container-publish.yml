@@ -11,7 +11,7 @@ permissions:
 
 env:
   # ${{ github.repository }} is "owner/name"
-  IMAGE_URL: ghcr.io/${{ github.repository }}/anytya-base
+  IMAGE_URL: ghcr.io/${{ github.repository }}/anitya-base
 
 jobs:
   build-and-push:
@@ -26,6 +26,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push container image
         run: |
-          docker build . -f Containerfile.dev --tag ${{ env.IMAGE_URL }}
-          docker push ${{ env.IMAGE_URL }}
+          docker build . -f Containerfile.dev \
+            --tag ${{ env.IMAGE_URL }}:latest \
+            --label "org.opencontainers.image.source=https://github.com/${{ github.repository }}" \
+            --label "org.opencontainers.image.description=Base container image for Anitya development"
+          docker push ${{ env.IMAGE_URL }}:latest
 
