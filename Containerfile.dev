@@ -1,6 +1,9 @@
 ARG FEDORA_VERSION=44
 FROM registry.fedoraproject.org/fedora:${FEDORA_VERSION}
 
+LABEL org.opencontainers.image.source="https://github.com/fedora-infra/anitya"
+LABEL org.opencontainers.image.description="Base container image for Anitya development"
+
 WORKDIR /app
 
 # Package installation steps are separated so they
