@@ -69,25 +69,3 @@
   </div>
 </div>
 {% endblock %}
-
-{% block jscript %}
-<script type="text/javascript">
-  $(document).ready(function() {
-    $('#searchbox_hero').autocomplete({
-      source: function( request, response ) {
-        $.getJSON(
-          "{{ url_for('anitya_apiv1.api_projects_names') }}", {
-            pattern: request.term + '*',
-            limit: 10
-          },
-          function( data ) {
-            response(data.projects);
-          }
-        );
-      },
-      minLength: 3,
-      delay: 250,
-    });
-  });
-</script>
-{% endblock %}

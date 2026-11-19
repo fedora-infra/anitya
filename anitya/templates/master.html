@@ -201,21 +201,37 @@
     <script type="text/javascript">
       $(document).ready(function() {
         $('body').tooltip({ selector: '[data-toggle="tooltip"]' });
-        $('#searchbox').autocomplete({
-          source: function( request, response ) {
-            $.getJSON(
-              "{{ url_for('anitya_apiv1.api_projects_names') }}", {
-                pattern: request.term + '*',
-                limit: 10 
+
+        function initAutocomplete(selector) {
+          $(selector).each(function() {
+            var $el = $(this);
+            if ($el.data('ui-autocomplete')) return;
+            $el.autocomplete({
+              source: function(request, response) {
+                $.getJSON(
+                  "{{ url_for('anitya_apiv1.api_projects_names') }}", {
+                    pattern: request.term + '*',
+                    limit: 10
+                  },
+                  function(data) {
+                    response(data.projects);
+                  }
+                );
               },
-              function( data ) {
-                response(data.projects);
+              minLength: 3,
+              delay: 250,
+              select: function(event, ui) {
+                if (ui.item && ui.item.value) {
+                  event.preventDefault();
+                  $(this).val(ui.item.value);
+                  $(this).closest('form').submit();
+                }
               }
-            );
-          },
-          minLength: 3,
-          delay: 250,
-        });
+            });
+          });
+        }
+
+        initAutocomplete('input[name="pattern"]');
       });
     </script>
     {% block jscript %}{% endblock %}
