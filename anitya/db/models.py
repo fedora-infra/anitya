@@ -721,7 +721,7 @@ class Project(Base):
             if "*" in pattern:
                 pattern = pattern.replace("*", "%")
             if "%" in pattern:
-                query1 = query1.filter(Project.name.ilike(pattern))
+                query1 = query1.filter(Project.name.ilike(pattern, escape="\\"))
             else:
                 query1 = query1.filter(Project.name == pattern)
 
@@ -729,7 +729,9 @@ class Project(Base):
 
         if pattern:
             if "%" in pattern:
-                query2 = query2.filter(Packages.package_name.ilike(pattern))
+                query2 = query2.filter(
+                    Packages.package_name.ilike(pattern, escape="\\")
+                )
             else:
                 query2 = query2.filter(Packages.package_name == pattern)
 
@@ -742,7 +744,7 @@ class Project(Base):
             )
 
         query = query1.distinct().union(query2.distinct())
-        query = cls.sort_projects(query, sort)
+        query = cls.sort_projects(query, sort, pattern=pattern)
 
         query = _paginate_query(query, page)
 
@@ -752,18 +754,39 @@ class Project(Base):
             return query.all()
 
     @classmethod
-    def sort_projects(cls, items, sort):
+    def sort_projects(cls, items, sort=None, pattern=None):
         """Sort a query or list of projects by the given sort spec."""
+        clean = (
+            pattern.replace(r"\_", "_")
+            .replace("*", "")
+            .replace("%", "")
+            .strip()
+            .lower()
+            if pattern
+            else None
+        )
         if isinstance(items, sa.orm.Query):
+            order_by_clauses = []
+            if clean:
+                order_by_clauses.append(
+                    sa.case(
+                        (sa.func.lower(Project.name) == clean, 0),
+                        (Project.name.ilike(clean + "%"), 1),
+                        else_=2,
+                    )
+                )
             if not sort:
-                return items.order_by(sa.func.lower(Project.name))
+                order_by_clauses.append(sa.func.lower(Project.name).asc())
+                return items.order_by(*order_by_clauses)
             sort_attr, _, sort_order = sort.partition("_")
             attr_map = {"name": "name", "homepage": "homepage", "backend": "backend"}
             column = getattr(Project, attr_map.get(sort_attr, "name"))
             direction = sa.func.lower(column)
             if sort_order == "desc":
-                return items.order_by(direction.desc().nulls_last())
-            return items.order_by(direction.asc().nulls_first())
+                order_by_clauses.append(direction.desc().nulls_last())
+            else:
+                order_by_clauses.append(direction.asc().nulls_first())
+            return items.order_by(*order_by_clauses)
 
         if not sort:
             sort = "name_asc"
@@ -774,6 +797,17 @@ class Project(Base):
             key=lambda project: getattr(project, sort_by, "").lower(),
             reverse=sort_order == "desc",
         )
+        if clean:
+
+            def rank_key(p):
+                name = getattr(p, "name", "").lower()
+                if name == clean:
+                    return 0
+                if name.startswith(clean):
+                    return 1
+                return 2
+
+            items.sort(key=rank_key)
         return items
 
 

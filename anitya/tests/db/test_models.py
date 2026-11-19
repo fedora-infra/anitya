@@ -480,6 +480,62 @@ class ProjectTests(DatabaseTestCase):
         projects = models.Project.search(self.session, "")
         self.assertEqual(len(projects), 3)
 
+    def test_project_sort_projects_pattern_relevance(self):
+        """Assert sort_projects prioritizes exact and prefix matches on queries and lists."""
+        p_sub = models.Project(
+            name="reaction",
+            homepage="https://example.com/reaction",
+            backend="custom",
+        )
+        p_pre = models.Project(
+            name="action",
+            homepage="https://example.com/action",
+            backend="custom",
+        )
+        p_ex = models.Project(
+            name="act",
+            homepage="https://example.com/act",
+            backend="custom",
+        )
+        self.session.add_all([p_sub, p_pre, p_ex])
+        self.session.commit()
+
+        # Test Query sorting
+        q = self.session.query(models.Project).filter(
+            models.Project.name.in_(["reaction", "action", "act"])
+        )
+        sorted_q = models.Project.sort_projects(
+            q, sort="name_desc", pattern="act*"
+        ).all()
+        self.assertEqual([p.name for p in sorted_q], ["act", "action", "reaction"])
+
+        # Test list sorting
+        project_list = [p_sub, p_pre, p_ex]
+        sorted_list = models.Project.sort_projects(
+            project_list, sort="name_desc", pattern="act*"
+        )
+        self.assertEqual([p.name for p in sorted_list], ["act", "action", "reaction"])
+
+    def test_project_search_underscore_exact_relevance(self):
+        """Assert projects with underscores receive exact and prefix match weighting."""
+        p_exact = models.Project(
+            name="foo_bar",
+            homepage="https://example.com/foo_bar",
+            backend="custom",
+        )
+        p_prefix = models.Project(
+            name="foo_bar_baz",
+            homepage="https://example.com/foo_bar_baz",
+            backend="custom",
+        )
+        self.session.add_all([p_exact, p_prefix])
+        self.session.commit()
+
+        results = models.Project.search(
+            self.session, pattern="foo_bar*", sort="name_desc"
+        )
+        self.assertEqual([p.name for p in results], ["foo_bar", "foo_bar_baz"])
+
     def test_project_search_by_distro(self):
         """
         Assert that only projects with mappings to specific distro
