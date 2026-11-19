@@ -19,6 +19,7 @@ class PagureBackend(BaseBackend):
     """The pagure class for project hosted on pagure.io."""
 
     name = "pagure"
+    default_version_scheme = "RPM"
     examples = ["https://pagure.io/pagure", "https://pagure.io/flask-multistatic"]
 
     @classmethod
@@ -94,6 +95,17 @@ class PagureBackend(BaseBackend):
         return filtered_versions
 
     @classmethod
+    def _clean_url(cls, url: str) -> str:
+        """Strip query params, fragments, trailing slashes, .git, and subpaths."""
+        clean = url.split("?")[0].split("#")[0].rstrip("/")
+        if clean.endswith(".git"):
+            clean = clean[:-4].rstrip("/")
+        for subpath in ("/tree/", "/tags", "/releases", "/commits/", "/blob/"):
+            if subpath in clean:
+                clean = clean.split(subpath)[0].rstrip("/")
+        return clean
+
+    @classmethod
     def is_url_valid(cls, url: str) -> bool:
         """
         Used to recognize if the URL is valid for the backend.
@@ -104,7 +116,33 @@ class PagureBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://pagure.io")
+        return "pagure.io" in url
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        clean_url = cls._clean_url(url)
+        path = clean_url.split("pagure.io/")[-1].strip("/")
+        name = path.split("/")[-1]
+        homepage = f"https://pagure.io/{path}"
+        version_url = homepage
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):  # pragma: no cover

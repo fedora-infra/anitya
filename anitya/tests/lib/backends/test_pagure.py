@@ -134,7 +134,75 @@ class PagureBackendtests(DatabaseTestCase):
     def test_is_url_valid(self):
         """Test the is_url_valid function of the Pagure backend."""
         self.assertTrue(backend.PagureBackend.is_url_valid("https://pagure.io/pagure"))
+        self.assertTrue(backend.PagureBackend.is_url_valid("http://pagure.io/pagure"))
+        self.assertTrue(
+            backend.PagureBackend.is_url_valid("https://www.pagure.io/pagure")
+        )
         self.assertFalse(backend.PagureBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the parse_url function of the Pagure backend."""
+        cases = [
+            ("https://pagure.io/pagure", "pagure", "https://pagure.io/pagure"),
+            ("https://pagure.io/pagure/", "pagure", "https://pagure.io/pagure"),
+            (
+                "https://pagure.io/pagure?tab=tree",
+                "pagure",
+                "https://pagure.io/pagure",
+            ),
+            (
+                "https://pagure.io/pagure#readme",
+                "pagure",
+                "https://pagure.io/pagure",
+            ),
+            ("https://pagure.io/pagure.git", "pagure", "https://pagure.io/pagure"),
+            (
+                "https://pagure.io/pagure/tree/master",
+                "pagure",
+                "https://pagure.io/pagure",
+            ),
+            (
+                "https://pagure.io/pagure/tags",
+                "pagure",
+                "https://pagure.io/pagure",
+            ),
+            (
+                "https://pagure.io/pagure/releases",
+                "pagure",
+                "https://pagure.io/pagure",
+            ),
+            (
+                "https://pagure.io/pagure/commits/master",
+                "pagure",
+                "https://pagure.io/pagure",
+            ),
+            (
+                "https://pagure.io/pagure/blob/master/f/README.rst",
+                "pagure",
+                "https://pagure.io/pagure",
+            ),
+            (
+                "https://pagure.io/fedora-infra/anitya",
+                "anitya",
+                "https://pagure.io/fedora-infra/anitya",
+            ),
+            (
+                "https://pagure.io/fork/pingou/pagure",
+                "pagure",
+                "https://pagure.io/fork/pingou/pagure",
+            ),
+        ]
+        for url, exp_name, exp_url in cases:
+            with self.subTest(url=url):
+                output = backend.PagureBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": exp_url,
+                    "backend": "pagure",
+                    "version_url": exp_url,
+                    "version_scheme": "RPM",
+                }
+                self.assertEqual(output, exp)
 
 
 if __name__ == "__main__":
