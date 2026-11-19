@@ -57,7 +57,12 @@ class PeclBackend(BaseBackend):
             when the version cannot be retrieved correctly
 
         """
-        return cls.get_versions(project)[0]
+        versions = cls.get_versions(project)
+        if not versions:
+            raise AnityaPluginException(
+                f"Could not retrieve latest version for {project.name}"
+            )
+        return versions[0]
 
     @classmethod
     def get_version_url(cls, project):

@@ -24,6 +24,7 @@ anitya tests for the custom backend.
 """
 
 import unittest
+from unittest import mock
 
 import anitya.lib.backends.pecl as backend
 from anitya.db import models
@@ -72,6 +73,13 @@ class PeclBackendtests(DatabaseTestCase):
         self.assertRaises(
             AnityaPluginException, backend.PeclBackend.get_version, project
         )
+
+        pid = 1
+        project = models.Project.get(self.session, pid)
+        with mock.patch.object(backend.PeclBackend, "get_versions", return_value=[]):
+            self.assertRaises(
+                AnityaPluginException, backend.PeclBackend.get_version, project
+            )
 
     def test_get_version_url(self):
         """
