@@ -24,6 +24,7 @@ anitya tests for the custom backend.
 """
 
 import unittest
+from unittest import mock
 
 import anitya.lib.backends.pear as backend
 from anitya.db import models
@@ -72,6 +73,13 @@ class PearBackendtests(DatabaseTestCase):
         self.assertRaises(
             AnityaPluginException, backend.PearBackend.get_version, project
         )
+
+        pid = 1
+        project = models.Project.get(self.session, pid)
+        with mock.patch.object(backend.PearBackend, "get_versions", return_value=[]):
+            self.assertRaises(
+                AnityaPluginException, backend.PearBackend.get_version, project
+            )
 
     def test_get_version_url(self):
         """
