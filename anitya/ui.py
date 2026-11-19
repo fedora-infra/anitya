@@ -25,15 +25,13 @@ ui_blueprint = flask.Blueprint(
 
 
 def get_extended_pattern(pattern):
-    """For a given pattern `p` return it so that it looks like `*p*`
-    adjusting it accordingly.
+    """For a given pattern `p` return `p*` for prefix matching
+    unless wildcards are already present in the pattern.
     """
 
     pattern = pattern.strip()
-    if not pattern.startswith("*"):
-        pattern = "*" + pattern
-    if not pattern.endswith("*"):
-        pattern += "*"
+    if "*" not in pattern:
+        pattern = pattern + "*"
     return pattern
 
 
@@ -467,26 +465,21 @@ def projects_search(pattern=None):
     except ValueError:
         page = 1
 
-    projects = models.Project.search(db.session, pattern=pattern, page=page, sort=sort)
-
     if str(exact).lower() not in ["1", "true"]:
-        # Extends the search
-        for proj in models.Project.search(
-            db.session, pattern=get_extended_pattern(pattern), page=page, sort=sort
-        ):
-            if proj not in projects:
-                projects.append(proj)
-        projects_count = models.Project.search(
-            db.session, pattern=get_extended_pattern(pattern), count=True
-        )
-        projects = models.Project.sort_projects(projects, sort)
+        search_pattern = get_extended_pattern(pattern)
     else:
-        projects_count = models.Project.search(
-            db.session, pattern=pattern, count=True, sort=sort
-        )
+        search_pattern = pattern
+
+    projects = models.Project.search(
+        db.session, pattern=search_pattern, page=page, sort=sort
+    )
+    projects_count = models.Project.search(
+        db.session, pattern=search_pattern, count=True
+    )
 
     suggestion = None
     clean = pattern.replace("*", "").strip().lower()
+
     has_exact = (
         db.session.scalar(
             select(models.Project.id)
@@ -539,30 +532,17 @@ def distro_projects_search(distroname, pattern=None):
     except ValueError:
         page = 1
 
-    projects = models.Project.search(
-        db.session, pattern=pattern, distro=distroname, page=page
-    )
-
     if str(exact).lower() not in ["1", "true"]:
-        # Extends the search
-        for proj in models.Project.search(
-            db.session,
-            pattern=get_extended_pattern(pattern),
-            distro=distroname,
-            page=page,
-        ):
-            if proj not in projects:
-                projects.append(proj)
-        projects_count = models.Project.search(
-            db.session,
-            pattern=get_extended_pattern(pattern),
-            distro=distroname,
-            count=True,
-        )
+        search_pattern = get_extended_pattern(pattern)
     else:
-        projects_count = models.Project.search(
-            db.session, pattern=pattern, distro=distroname, count=True
-        )
+        search_pattern = pattern
+
+    projects = models.Project.search(
+        db.session, pattern=search_pattern, distro=distroname, page=page
+    )
+    projects_count = models.Project.search(
+        db.session, pattern=search_pattern, distro=distroname, count=True
+    )
 
     if (
         projects_count == 1

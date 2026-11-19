@@ -943,8 +943,132 @@ class FlaskTest(DatabaseTestCase):
         output = self.app.get("/distro/Fedora/search/geany*", follow_redirects=True)
         self.assertEqual(output.status_code, 200)
         self.assertTrue(b'class="alert alert-info' in output.data)
-        expected = b"Only one result matching with an " b"exact match, redirecting"
-        self.assertTrue(expected in output.data)
+
+    def test_distro_projects_search_exact_match_priority(self):
+        """Assert exact matches are prioritized first in distro search results."""
+        create_distro(self.session)
+        p_exact = models.Project(
+            name="act",
+            homepage="https://example.com/act",
+            backend="custom",
+        )
+        p_prefix = models.Project(
+            name="action",
+            homepage="https://example.com/action",
+            backend="custom",
+        )
+        self.session.add_all([p_exact, p_prefix])
+        self.session.flush()
+
+        pkg1 = models.Packages(
+            package_name="act",
+            distro_name="Fedora",
+            project_id=p_exact.id,
+        )
+        pkg2 = models.Packages(
+            package_name="action",
+            distro_name="Fedora",
+            project_id=p_prefix.id,
+        )
+        self.session.add_all([pkg1, pkg2])
+        self.session.commit()
+
+        output = self.app.get("/distro/Fedora/search/act")
+        self.assertEqual(output.status_code, 200)
+        act_pos = output.data.find(b">act</a>")
+        action_pos = output.data.find(b">action</a>")
+        self.assertNotEqual(act_pos, -1)
+        self.assertNotEqual(action_pos, -1)
+        self.assertLess(act_pos, action_pos)
+
+    def test_get_extended_pattern(self):
+        """Assert that get_extended_pattern performs prefix extension by default."""
+        from anitya.ui import get_extended_pattern
+
+        self.assertEqual(get_extended_pattern("act"), "act*")
+        self.assertEqual(get_extended_pattern(" act "), "act*")
+        self.assertEqual(get_extended_pattern("*act*"), "*act*")
+        self.assertEqual(get_extended_pattern("*act"), "*act")
+        self.assertEqual(get_extended_pattern("act*"), "act*")
+
+    def test_projects_search_prefix_vs_substring(self):
+        """Assert default search uses prefix matching unless wildcard is explicit."""
+        p_prefix = models.Project(
+            name="action",
+            homepage="https://example.com/action",
+            backend="custom",
+        )
+        p_substring = models.Project(
+            name="reaction",
+            homepage="https://example.com/reaction",
+            backend="custom",
+        )
+        self.session.add_all([p_prefix, p_substring])
+        self.session.commit()
+
+        # Prefix search 'act' should match 'action' but not 'reaction'
+        output = self.app.get("/projects/search/?pattern=act")
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"action", output.data)
+        self.assertNotIn(b"reaction", output.data)
+
+        # Explicit substring search '*act*' should match both
+        output = self.app.get("/projects/search/?pattern=*act*")
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b"action", output.data)
+        self.assertIn(b"reaction", output.data)
+
+    def test_projects_search_exact_match_priority(self):
+        """Assert exact name matches are prioritized first in search results."""
+        p_exact = models.Project(
+            name="act",
+            homepage="https://example.com/act",
+            backend="custom",
+        )
+        p_prefix = models.Project(
+            name="action",
+            homepage="https://example.com/action",
+            backend="custom",
+        )
+        self.session.add_all([p_exact, p_prefix])
+        self.session.commit()
+
+        output = self.app.get("/projects/search/?pattern=act&sort=name_desc")
+        self.assertEqual(output.status_code, 200)
+        # Even with name_desc sort, exact match should appear before non-exact
+        act_pos = output.data.find(b">act</a>")
+        action_pos = output.data.find(b">action</a>")
+        self.assertNotEqual(act_pos, -1)
+        self.assertNotEqual(action_pos, -1)
+        self.assertLess(act_pos, action_pos)
+
+    def test_search_autocomplete_markup(self):
+        """Assert that master and index templates configure autocomplete on search inputs."""
+        output = self.app.get("/")
+        self.assertEqual(output.status_code, 200)
+        self.assertIn(b'id="searchbox"', output.data)
+        self.assertIn(b'id="searchbox_hero"', output.data)
+        self.assertIn(b"initAutocomplete('input[name=\"pattern\"]')", output.data)
+        self.assertIn(b"closest('form').submit()", output.data)
+
+    def test_projects_search_exact_param(self):
+        """Assert exact=1 searches for the exact pattern without prefix extension."""
+        p1 = models.Project(
+            name="act",
+            homepage="https://example.com/act",
+            backend="custom",
+        )
+        p2 = models.Project(
+            name="action",
+            homepage="https://example.com/action",
+            backend="custom",
+        )
+        self.session.add_all([p1, p2])
+        self.session.commit()
+
+        output = self.app.get("/projects/search/?pattern=act&exact=1")
+        self.assertEqual(output.status_code, 302)
+        self.assertIn(f"/project/{p1.id}", output.location)
 
     def test_projects_search(self):
         """Test the projects_search function."""
