@@ -258,8 +258,8 @@ class NpmjsBackendtests(DatabaseTestCase):
             "0.3.0",
             "0.5.0",
             "0.5.1",
-            "0.6.0",
             "0.6.0-1",
+            "0.6.0",
             "0.6.1",
             "0.6.2",
             "1.0.0",
@@ -325,9 +325,56 @@ class NpmjsBackendtests(DatabaseTestCase):
     def test_is_url_valid(self):
         """Test the is_url_valid function of the NPMjs backend."""
         self.assertTrue(
+            backend.NpmjsBackend.is_url_valid("https://www.npmjs.com/package/request")
+        )
+        self.assertTrue(
             backend.NpmjsBackend.is_url_valid("https://www.npmjs.org/package/request")
         )
         self.assertFalse(backend.NpmjsBackend.is_url_valid("https://example.com"))
+
+    def test_get_version_url_scoped(self):
+        """Test that get_version_url percent-encodes scoped package names."""
+        project = models.Project(
+            name="@angular/core",
+            homepage="https://www.npmjs.com/package/@angular/core",
+            backend=BACKEND,
+        )
+        exp = "https://registry.npmjs.org/@angular%2Fcore"
+        obs = backend.NpmjsBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
+
+    def test_parse_url(self):
+        """Test the parse_url function of the npmjs backend."""
+        cases = [
+            ("https://www.npmjs.com/package/express", "express"),
+            ("https://www.npmjs.com/package/express/", "express"),
+            (
+                "https://www.npmjs.com/package/express?activeTab=versions",
+                "express",
+            ),
+            ("https://www.npmjs.org/package/request", "request"),
+        ]
+        for url, exp_name in cases:
+            with self.subTest(url=url):
+                output = backend.NpmjsBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": f"https://www.npmjs.com/package/{exp_name}",
+                    "backend": "npmjs",
+                    "version_url": f"https://www.npmjs.com/package/{exp_name}",
+                    "version_scheme": "Semantic",
+                }
+                self.assertEqual(output, exp)
+
+        scoped_url = "https://www.npmjs.com/package/@angular/core"
+        exp_scoped = {
+            "name": "@angular/core",
+            "homepage": "https://www.npmjs.com/package/@angular/core",
+            "backend": "npmjs",
+            "version_url": "https://www.npmjs.com/package/@angular/core",
+            "version_scheme": "Semantic",
+        }
+        self.assertEqual(backend.NpmjsBackend.parse_url(scoped_url), exp_scoped)
 
 
 if __name__ == "__main__":

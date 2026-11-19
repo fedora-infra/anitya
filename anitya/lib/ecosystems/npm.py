@@ -16,3 +16,4 @@ class NpmEcosystem(BaseEcosystem):
 
     name = "npm"
     default_backend = "npmjs"
+    default_version_scheme = "Semantic"
