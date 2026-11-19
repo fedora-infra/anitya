@@ -297,6 +297,33 @@ Anitya provides several different versions schemes.
     recent scheme and the rest will be moved to bottom unsorted.
 
 
+Unparseable Versions
+--------------------
+
+When Anitya checks a project, it validates each retrieved version string
+against the configured **Version Scheme**.
+
+If an upstream version cannot be validated by that scheme, Anitya marks it with
+an **Unparseable** badge in the versions table and places it below valid
+versions. When versions fail validation, version sorting cannot reliably determine
+the latest release.
+
+Common reasons and how to resolve them:
+
+* **Prefixes in tags:** Anitya automatically strips a leading ``v`` (e.g., ``v1.2``),
+  but any other prefix (e.g., ``foo-1.2``) must be added to :ref:`version-prefix`.
+* **Incompatible scheme:** Strict schemes like **Semantic** (which requires
+  ``MAJOR.MINOR.PATCH``) or **Calendar** reject versions that do not follow their exact
+  format. For non-standard, 4-part, or arbitrary version strings, switch the scheme to
+  **RPM**.
+* **Non-release tags captured:** Extraneous tags (such as CI markers or documentation
+  builds) can be excluded using the **Version filter** or by enabling **Check releases
+  instead of tags**.
+* **Historical scheme changes:** If a project switched versioning formats over time,
+  older versions may appear as unparseable under the new scheme. As long as current
+  versions parse and sort at the top, this can be safely ignored.
+
+
 Calendar Version Pattern
 ------------------------
 
@@ -315,6 +342,8 @@ Patterns -
 - ``DD``: Short day (e.g., 1, 2, ..., 30, 31).
 - ``0D``: Zero-padded day (e.g., 01, 02, ..., 30, 31).
 
+
+.. _version-prefix:
 
 Version Prefix
 --------------
