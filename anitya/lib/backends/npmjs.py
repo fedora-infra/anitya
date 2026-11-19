@@ -9,18 +9,17 @@ Authors:
 
 """
 
+from urllib.parse import quote
+
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 
 
 class NpmjsBackend(BaseBackend):
-    """The custom class for projects hosted on npmjs.org.
-
-    This backend allows to specify a version_url and a regex that will
-    be used to retrieve the version information.
-    """
+    """The backend class for projects hosted on npmjs.com."""
 
     name = "npmjs"
+    default_version_scheme = "Semantic"
     examples = [
         "https://www.npmjs.com/package/request",
         "https://www.npmjs.com/package/colors",
@@ -74,11 +73,8 @@ class NpmjsBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url_template = "https://registry.npmjs.org/%(name)s"
-
-        url = url_template % {"name": project.name}
-
-        return url
+        encoded_name = quote(project.name, safe="@")
+        return f"https://registry.npmjs.org/{encoded_name}"
 
     @classmethod
     def get_versions(cls, project):
@@ -132,11 +128,41 @@ class NpmjsBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return "npmjs.org" in url
+        return "npmjs.com" in url or "npmjs.org" in url
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        clean_url = url.split("?")[0].split("#")[0].rstrip("/")
+        path = clean_url.split("/package/")[-1]
+        parts = path.split("/")
+        if parts[0].startswith("@") and len(parts) >= 2:
+            name = f"{parts[0]}/{parts[1]}"
+        else:
+            name = parts[0]
+        homepage = f"https://www.npmjs.com/package/{name}"
+        version_url = homepage
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):
-        """Return a generator over the latest 40 uploads to npmjs.org
+        """Return a generator over the latest 40 uploads to npmjs.com
 
         by querying an weird JSON endpoint.
         """
