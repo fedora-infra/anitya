@@ -20,6 +20,7 @@
 
 import logging
 import unittest
+from urllib.parse import quote
 
 from anitya import app
 from anitya.config import config as anitya_config
@@ -59,7 +60,9 @@ class CreateTests(unittest.TestCase):
             {"DB_URL": "sqlite://", "DB_MODELS_LOCATION": "anitya.db.models"}
         )
         with flask_app.app_context():
-            self.assertEqual("sqlite:///:memory:", str(db.session.get_bind().url))
+            self.assertEqual(
+                "sqlite://" + quote("/:memory:"), str(db.session.get_bind().url)
+            )
 
     def test_version_fallback(self):
         """Assert __version__ falls back to 'unknown' when metadata is not found."""
