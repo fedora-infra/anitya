@@ -28,7 +28,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from threading import Lock
 from time import sleep
-from typing import List
 
 import arrow
 import sqlalchemy as sa
@@ -236,7 +235,11 @@ class Checker:
                                 try:
                                     future.result()
                                 except Exception as e:
-                                    _log.exception(e)
+                                    _log.exception(
+                                        "Exception while checking project: %s",
+                                        e,
+                                        exc_info=True,
+                                    )
 
                             del futures[future]
 
@@ -279,7 +282,7 @@ class Checker:
         with self.success_counter_lock:
             self.success_counter = 0
 
-    def construct_queue(self, time: datetime) -> List[int]:
+    def construct_queue(self, time: datetime) -> list[int]:
         """
         Construct queue of projects for current run. This queue will be created from
         every project that is ready to check and those that were blacklisted because
@@ -312,7 +315,8 @@ class Checker:
         stmt = (
             sa.select(models.Project)
             .filter(
-                models.Project.next_check < time, models.Project.archived.is_(False)
+                models.Project.next_check.__lt__(time),
+                models.Project.archived.is_(False),
             )
             .order_by(models.Project.name)
         )

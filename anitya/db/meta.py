@@ -21,8 +21,12 @@ This module sets up the basic database objects that all our other modules will
 rely on. This includes the declarative base class and global scoped session.
 """
 
+from collections.abc import Sequence
+
 from sqlalchemy import func, select
 from sqlalchemy_helpers.flask_ext import DatabaseExtension
+
+from anitya.db import models
 
 # Integrate sqlalchemy_helpers
 db = DatabaseExtension()
@@ -52,7 +56,9 @@ def paginate(query, page=1, items_per_page=25) -> dict:
 
     total_items = db.session.scalar(select(func.count()).select_from(query.subquery()))
     paginated_query = query.limit(items_per_page).offset(items_per_page * (page - 1))
-    items = db.session.execute(paginated_query).scalars().all()
+    items: Sequence[models.Project] = (
+        db.session.execute(paginated_query).scalars().all()
+    )
     return {
         "items": items,
         "page": page,

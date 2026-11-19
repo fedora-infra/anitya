@@ -77,6 +77,13 @@ class AnityaTestCase(unittest.TestCase):
         self.config = get_test_config()
         self.flask_app = app.create(self.config)
 
+        def cleanup_database():
+            with self.flask_app.app_context():
+                db.manager.Session.remove()
+                db.manager.engine.dispose()
+
+        self.addCleanup(cleanup_database)
+
         cwd = os.path.dirname(os.path.realpath(__file__))
         my_vcr = vcr.VCR(
             cassette_library_dir=os.path.join(cwd, "request-data/"),
