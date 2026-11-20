@@ -20,13 +20,10 @@ _log = logging.getLogger(__name__)
 
 
 class CpanBackend(BaseBackend):
-    """The custom class for projects hosted on CPAN.
-
-    This backend allows to specify a version_url and a regex that will
-    be used to retrieve the version information.
-    """
+    """The backend class for projects hosted on CPAN."""
 
     name = "CPAN (perl)"
+    default_version_scheme = "RPM"
     examples = [
         "https://metacpan.org/dist/Net-Whois-Raw/",
         "https://metacpan.org/dist/SOAP/",
@@ -80,7 +77,38 @@ class CpanBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://metacpan.org")
+        return "metacpan.org" in url
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        clean_url = url.split("?")[0].split("#")[0].rstrip("/")
+        for prefix in ("/dist/", "/pod/", "/release/"):
+            if prefix in clean_url:
+                name = clean_url.split(prefix)[-1].split("/")[0]
+                break
+        else:
+            name = clean_url.split("/")[-1]
+
+        homepage = f"https://metacpan.org/dist/{name}/"
+        version_url = homepage
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):

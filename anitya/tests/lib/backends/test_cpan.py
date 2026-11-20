@@ -35,7 +35,7 @@ BACKEND = "CPAN (perl)"
 
 
 class CpanBackendtests(DatabaseTestCase):
-    """custom backend tests."""
+    """CPAN backend tests."""
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
@@ -102,7 +102,42 @@ class CpanBackendtests(DatabaseTestCase):
         self.assertTrue(
             backend.CpanBackend.is_url_valid("https://metacpan.org/dist/Net-Whois-Raw/")
         )
+        self.assertTrue(
+            backend.CpanBackend.is_url_valid("http://metacpan.org/dist/Net-Whois-Raw/")
+        )
+        self.assertTrue(
+            backend.CpanBackend.is_url_valid("https://metacpan.org/pod/Net-Whois-Raw")
+        )
         self.assertFalse(backend.CpanBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the parse_url function of the CPAN backend."""
+        cases = [
+            ("https://metacpan.org/dist/Net-Whois-Raw/", "Net-Whois-Raw"),
+            ("https://metacpan.org/dist/Net-Whois-Raw", "Net-Whois-Raw"),
+            ("https://metacpan.org/pod/Net-Whois-Raw", "Net-Whois-Raw"),
+            ("https://metacpan.org/release/Net-Whois-Raw", "Net-Whois-Raw"),
+            (
+                "https://metacpan.org/dist/SOAP/?tab=releases",
+                "SOAP",
+            ),
+            (
+                "https://metacpan.org/dist/SOAP/#pod",
+                "SOAP",
+            ),
+            ("https://metacpan.org/package/Net-Whois-Raw", "Net-Whois-Raw"),
+        ]
+        for url, exp_name in cases:
+            with self.subTest(url=url):
+                output = backend.CpanBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": f"https://metacpan.org/dist/{exp_name}/",
+                    "backend": "CPAN (perl)",
+                    "version_url": f"https://metacpan.org/dist/{exp_name}/",
+                    "version_scheme": "RPM",
+                }
+                self.assertEqual(output, exp)
 
     def test_cpan_check_feed(self):
         """Test the check_feed method of the cpan backend."""
