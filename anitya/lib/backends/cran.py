@@ -46,9 +46,10 @@ from anitya.lib.exceptions import AnityaPluginException
 
 
 class CranBackend(BaseBackend):
-    """The custom class for projects hosted on CRAN."""
+    """The backend class for projects hosted on CRAN."""
 
     name = "CRAN (R)"
+    default_version_scheme = "RPM"
     examples = [
         "https://cran.r-project.org/web/packages/tidyverse/",
         "https://cran.r-project.org/web/packages/devtools/",
@@ -170,7 +171,41 @@ class CranBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://cran.r-project.org")
+        return "cran.r-project.org" in url
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        clean_url = url.split("?")[0].split("#")[0].rstrip("/")
+        if clean_url.endswith("/index.html"):
+            clean_url = clean_url[:-11]
+
+        if "package=" in clean_url:
+            name = clean_url.split("package=")[-1].split("/")[0]
+        elif "/web/packages/" in clean_url:
+            name = clean_url.split("/web/packages/")[-1].split("/")[0]
+        else:
+            name = clean_url.split("/")[-1]
+
+        homepage = f"https://cran.r-project.org/web/packages/{name}/"
+        version_url = homepage
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):
