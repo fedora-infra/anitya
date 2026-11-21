@@ -287,6 +287,28 @@ class BitBucketBackendtests(DatabaseTestCase):
         exp["homepage"] = "https://bitbucket.org/zzzeek/sqlalchemy/src/"
         self.assertEqual(output, exp)
 
+    @patch("anitya.lib.backends.bitbucket.requests.get")
+    def test_get_versions_with_version_filter(self, mock_get):
+        """Test that get_versions applies project.version_filter."""
+        mock_response = Mock()
+        mock_response.json.return_value = {
+            "values": [
+                {"name": "1.0.0"},
+                {"name": "1.1.0-alpha"},
+                {"name": "1.1.0"},
+            ]
+        }
+        mock_response.raise_for_status.return_value = None
+        mock_get.return_value = mock_response
+
+        pid = 1
+        project = models.Project.get(self.session, pid)
+        project.version_filter = "alpha"
+
+        exp = ["1.0.0", "1.1.0"]
+        obs = backend.BitBucketBackend.get_versions(project)
+        self.assertEqual(obs, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(BitBucketBackendtests)

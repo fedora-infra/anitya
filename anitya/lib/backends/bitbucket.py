@@ -96,7 +96,7 @@ class BitBucketBackend(BaseBackend):
                     if "name" in tag:
                         versions.append(tag["name"])
 
-            return versions
+            return cls.filter_versions(versions, project.version_filter)
 
         except Exception as e:
             raise AnityaPluginException(
