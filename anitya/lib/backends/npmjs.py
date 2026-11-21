@@ -21,6 +21,7 @@ class NpmjsBackend(BaseBackend):
     """
 
     name = "npmjs"
+    default_version_scheme = "Semantic Versioning (SemVer)"
     examples = [
         "https://www.npmjs.com/package/request",
         "https://www.npmjs.com/package/colors",
@@ -60,7 +61,10 @@ class NpmjsBackend(BaseBackend):
         if "dist-tags" in data and "latest" in data["dist-tags"]:
             return data["dist-tags"]["latest"]
         else:
-            return cls.get_ordered_versions(project)[-1]
+            versions = cls.get_ordered_versions(project)
+            if not versions:
+                return None
+            return versions[-1]
 
     @classmethod
     def get_version_url(cls, project):
@@ -132,7 +136,35 @@ class NpmjsBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return "npmjs.org" in url
+        return "npmjs.com" in url or "npmjs.org" in url
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        homepage = url
+        clean_url = url.split("?")[0].split("#")[0].rstrip("/")
+        if "/package/" in clean_url:
+            name = clean_url.split("/package/", 1)[1]
+        else:
+            name = clean_url.split("/")[-1]
+        version_url = f"https://www.npmjs.com/package/{name}"
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):
@@ -166,7 +198,7 @@ class NpmjsBackend(BaseBackend):
             doc = item["doc"]
             name = doc["name"]
             homepage = doc.get(
-                "homepage", f"https://npmjs.org/package/{name}"  # noqa: E231
+                "homepage", f"https://www.npmjs.com/package/{name}"  # noqa: E231
             )  # noqa: E231
             for version in doc.get("versions", []):
                 yield name, homepage, cls.name, version

@@ -117,6 +117,21 @@ class NpmjsBackendtests(DatabaseTestCase):
             m_call.assert_called_with(exp_url, last_change=None)
             self.assertEqual(versions, None)
 
+    def test_get_version_no_versions(self):
+        """Assert that None is returned when no versions are found."""
+        pid = 1
+        project = models.Project.get(self.session, pid)
+
+        with mock.patch(
+            "anitya.lib.backends.BaseBackend.call_url"
+        ) as m_call, mock.patch(
+            "anitya.lib.backends.npmjs.NpmjsBackend.get_ordered_versions"
+        ) as m_ord:
+            m_call.return_value = mock.Mock(status_code=200, json=lambda: {})
+            m_ord.return_value = []
+            versions = backend.NpmjsBackend.get_version(project)
+            self.assertIsNone(versions)
+
     def test_get_versions(self):
         """Test the get_versions function of the npmjs backend."""
         pid = 1
@@ -315,7 +330,7 @@ class NpmjsBackendtests(DatabaseTestCase):
             items[2],
             (
                 "angular-stackblitz",
-                "https://npmjs.org/package/angular-stackblitz",
+                "https://www.npmjs.com/package/angular-stackblitz",
                 "npmjs",
                 "0.0.0",
             ),
@@ -325,9 +340,57 @@ class NpmjsBackendtests(DatabaseTestCase):
     def test_is_url_valid(self):
         """Test the is_url_valid function of the NPMjs backend."""
         self.assertTrue(
+            backend.NpmjsBackend.is_url_valid("https://www.npmjs.com/package/request")
+        )
+        self.assertTrue(
+            backend.NpmjsBackend.is_url_valid("https://npmjs.com/package/colors")
+        )
+        self.assertTrue(
+            backend.NpmjsBackend.is_url_valid("http://www.npmjs.com/package/express")
+        )
+        self.assertTrue(
             backend.NpmjsBackend.is_url_valid("https://www.npmjs.org/package/request")
         )
+        self.assertTrue(
+            backend.NpmjsBackend.is_url_valid("http://www.npmjs.org/package/request")
+        )
         self.assertFalse(backend.NpmjsBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the parse_url function of the NPMjs backend."""
+        output = backend.NpmjsBackend.parse_url("https://www.npmjs.com/package/express")
+        exp = {
+            "name": "express",
+            "homepage": "https://www.npmjs.com/package/express",
+            "backend": "npmjs",
+            "version_url": "https://www.npmjs.com/package/express",
+            "version_scheme": "Semantic Versioning (SemVer)",
+        }
+        self.assertEqual(output, exp)
+
+        output_scoped = backend.NpmjsBackend.parse_url(
+            "https://www.npmjs.com/package/@angular/core"
+        )
+        exp_scoped = {
+            "name": "@angular/core",
+            "homepage": "https://www.npmjs.com/package/@angular/core",
+            "backend": "npmjs",
+            "version_url": "https://www.npmjs.com/package/@angular/core",
+            "version_scheme": "Semantic Versioning (SemVer)",
+        }
+        self.assertEqual(output_scoped, exp_scoped)
+
+        output_clean = backend.NpmjsBackend.parse_url(
+            "https://www.npmjs.com/package/lodash/?activeTab=readme"
+        )
+        exp_clean = {
+            "name": "lodash",
+            "homepage": "https://www.npmjs.com/package/lodash/?activeTab=readme",
+            "backend": "npmjs",
+            "version_url": "https://www.npmjs.com/package/lodash",
+            "version_scheme": "Semantic Versioning (SemVer)",
+        }
+        self.assertEqual(output_clean, exp_clean)
 
 
 if __name__ == "__main__":

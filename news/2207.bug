@@ -1,0 +1,1 @@
+Fix URL validation and implement parse_url for NpmjsBackend.
