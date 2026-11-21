@@ -1,0 +1,1 @@
+Fix BitBucketBackend.get_versions ignoring project.version_filter.
