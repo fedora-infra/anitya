@@ -18,7 +18,7 @@
 anitya tests for the CRAN backend.
 """
 
-import mock
+from unittest import mock
 
 import anitya.lib.backends.cran as backend
 from anitya.db import models
@@ -141,7 +141,56 @@ class CranBackendTests(DatabaseTestCase):
                 "https://cran.r-project.org/web/packages/tidyverse/"
             )
         )
+        self.assertTrue(
+            backend.CranBackend.is_url_valid(
+                "http://cran.r-project.org/web/packages/tidyverse/"
+            )
+        )
+        self.assertTrue(
+            backend.CranBackend.is_url_valid(
+                "https://cran.r-project.org/package=tidyverse"
+            )
+        )
         self.assertFalse(backend.CranBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the parse_url function of the CRAN backend."""
+        cases = [
+            (
+                "https://cran.r-project.org/web/packages/tidyverse/",
+                "tidyverse",
+            ),
+            ("https://cran.r-project.org/web/packages/tidyverse", "tidyverse"),
+            ("https://cran.r-project.org/package=tidyverse", "tidyverse"),
+            (
+                "https://cran.r-project.org/web/packages/tidyverse/index.html",
+                "tidyverse",
+            ),
+            (
+                "https://cran.r-project.org/web/packages/devtools/?utm_source=cran",
+                "devtools",
+            ),
+            (
+                "https://cran.r-project.org/web/packages/devtools/#readme",
+                "devtools",
+            ),
+            ("https://cran.r-project.org/other/devtools", "devtools"),
+        ]
+        for url, exp_name in cases:
+            with self.subTest(url=url):
+                output = backend.CranBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": (
+                        f"https://cran.r-project.org/web/packages/{exp_name}/"
+                    ),
+                    "backend": "CRAN (R)",
+                    "version_url": (
+                        f"https://cran.r-project.org/web/packages/{exp_name}/"
+                    ),
+                    "version_scheme": "RPM",
+                }
+                self.assertEqual(output, exp)
 
     def test_check_feed(self):
         """Test the check_feed method of the CRAN backend."""
