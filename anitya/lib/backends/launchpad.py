@@ -12,13 +12,10 @@ from anitya.lib.backends import REGEX, BaseBackend, get_versions_by_regex
 
 
 class LaunchpadBackend(BaseBackend):
-    """The custom class for projects hosted on launchpad.net.
-
-    This backend allows to specify a version_url and a regex that will
-    be used to retrieve the version information.
-    """
+    """The backend class for projects hosted on launchpad.net."""
 
     name = "Launchpad"
+    default_version_scheme = "RPM"
     examples = ["https://launchpad.net/terminator/", "https://launchpad.net/exaile"]
 
     @classmethod
@@ -69,7 +66,42 @@ class LaunchpadBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://launchpad.net")
+        return "launchpad.net" in url
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        clean_url = url.split("?")[0].split("#")[0].rstrip("/")
+        path = clean_url.split("launchpad.net/")[-1].strip("/")
+        for subpath in (
+            "/+download",
+            "/+milestones",
+            "/+announcements",
+            "/+series",
+        ):
+            if subpath in path:
+                path = path.split(subpath)[0].rstrip("/")
+
+        name = path.split("/")[0]
+        homepage = f"https://launchpad.net/{name}/"
+        version_url = homepage
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):  # pragma: no cover
