@@ -20,7 +20,7 @@
 #
 
 """
-anitya tests for the custom backend.
+anitya tests for the Hackage backend.
 """
 
 import unittest
@@ -107,7 +107,51 @@ class HackageBackendtests(DatabaseTestCase):
                 "https://hackage.haskell.org/package/Hs2lib/"
             )
         )
+        self.assertTrue(
+            backend.HackageBackend.is_url_valid(
+                "http://hackage.haskell.org/package/Hs2lib/"
+            )
+        )
+        self.assertTrue(
+            backend.HackageBackend.is_url_valid(
+                "https://hackage.haskell.org/package/Biobase"
+            )
+        )
         self.assertFalse(backend.HackageBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the parse_url function of the Hackage backend."""
+        cases = [
+            ("https://hackage.haskell.org/package/Hs2lib", "Hs2lib"),
+            ("https://hackage.haskell.org/package/Hs2lib/", "Hs2lib"),
+            ("http://hackage.haskell.org/package/Hs2lib", "Hs2lib"),
+            (
+                "https://hackage.haskell.org/package/text-short-0.1.6",
+                "text-short",
+            ),
+            (
+                "https://hackage.haskell.org/package/Hs2lib/docs/",
+                "Hs2lib",
+            ),
+            ("https://hackage.haskell.org/package/Hs2lib/src/", "Hs2lib"),
+            (
+                "https://hackage.haskell.org/package/Hs2lib?tab=overview",
+                "Hs2lib",
+            ),
+            ("https://hackage.haskell.org/package/Hs2lib#readme", "Hs2lib"),
+            ("https://hackage.haskell.org/other/Hs2lib", "Hs2lib"),
+        ]
+        for url, exp_name in cases:
+            with self.subTest(url=url):
+                output = backend.HackageBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": f"https://hackage.haskell.org/package/{exp_name}",
+                    "backend": "Hackage",
+                    "version_url": f"https://hackage.haskell.org/package/{exp_name}",
+                    "version_scheme": "RPM",
+                }
+                self.assertEqual(output, exp)
 
 
 if __name__ == "__main__":
