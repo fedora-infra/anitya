@@ -20,7 +20,7 @@
 #
 
 """
-anitya tests for the custom backend.
+anitya tests for the Launchpad backend.
 """
 
 import unittest
@@ -107,11 +107,45 @@ class LaunchpadBackendtests(DatabaseTestCase):
         )
 
     def test_is_url_valid(self):
-        """Test the is_url_valid function of the Hackage backend."""
+        """Test the is_url_valid function of the Launchpad backend."""
         self.assertTrue(
             backend.LaunchpadBackend.is_url_valid("https://launchpad.net/terminator/")
         )
+        self.assertTrue(
+            backend.LaunchpadBackend.is_url_valid("http://launchpad.net/terminator/")
+        )
+        self.assertTrue(
+            backend.LaunchpadBackend.is_url_valid("https://launchpad.net/exaile")
+        )
         self.assertFalse(backend.LaunchpadBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the parse_url function of the Launchpad backend."""
+        cases = [
+            ("https://launchpad.net/terminator/", "terminator"),
+            ("https://launchpad.net/terminator", "terminator"),
+            ("http://launchpad.net/terminator/", "terminator"),
+            ("https://launchpad.net/terminator/+download", "terminator"),
+            ("https://launchpad.net/terminator/+milestones", "terminator"),
+            ("https://launchpad.net/terminator/+announcements", "terminator"),
+            ("https://launchpad.net/terminator/+series", "terminator"),
+            (
+                "https://launchpad.net/terminator?tab=overview",
+                "terminator",
+            ),
+            ("https://launchpad.net/terminator#readme", "terminator"),
+        ]
+        for url, exp_name in cases:
+            with self.subTest(url=url):
+                output = backend.LaunchpadBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": f"https://launchpad.net/{exp_name}/",
+                    "backend": "Launchpad",
+                    "version_url": f"https://launchpad.net/{exp_name}/",
+                    "version_scheme": "RPM",
+                }
+                self.assertEqual(output, exp)
 
 
 if __name__ == "__main__":
