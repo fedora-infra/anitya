@@ -162,7 +162,12 @@ class BaseBackend(object):
                 when the versions cannot be retrieved correctly
 
         """
-        return cls.get_ordered_versions(project)[-1]
+        ordered_versions = cls.get_ordered_versions(project)
+        if not ordered_versions:
+            raise AnityaPluginException(
+                f"Could not retrieve latest version for {project.name}"
+            )
+        return ordered_versions[-1]
 
     @classmethod
     def get_version_url(cls, project):  # pragma: no cover

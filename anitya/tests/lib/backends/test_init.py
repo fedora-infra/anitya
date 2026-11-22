@@ -331,5 +331,34 @@ class ParseURL(unittest.TestCase):
         self.assertEqual(output, exp)
 
 
+class GetVersionTests(unittest.TestCase):
+    """
+    Unit tests for anitya.lib.backends.BaseBackend.get_version
+    """
+
+    def test_get_version(self):
+        """Test get_version returns latest version."""
+        mock_project = mock.Mock(name="test_proj")
+        with mock.patch.object(
+            backends.BaseBackend,
+            "get_ordered_versions",
+            return_value=["1.0.0", "1.1.0"],
+        ):
+            self.assertEqual(backends.BaseBackend.get_version(mock_project), "1.1.0")
+
+    def test_get_version_empty(self):
+        """Test get_version raises AnityaPluginException when no versions found."""
+        mock_project = mock.Mock()
+        mock_project.name = "test_proj"
+        with mock.patch.object(
+            backends.BaseBackend, "get_ordered_versions", return_value=[]
+        ):
+            with self.assertRaises(AnityaPluginException) as ctx:
+                backends.BaseBackend.get_version(mock_project)
+            self.assertIn(
+                "Could not retrieve latest version for test_proj", str(ctx.exception)
+            )
+
+
 if __name__ == "__main__":
     unittest.main()
