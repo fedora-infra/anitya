@@ -204,6 +204,67 @@ class PypiBackendtests(DatabaseTestCase):
             ),
         )
 
+    @mock.patch("anitya.lib.backends.pypi.PypiBackend.call_url")
+    def test_pypi_check_feed_single_item(self, mock_call):
+        """Test check_feed handles single-item feed without TypeError."""
+        xml = (
+            '<?xml version="1.0" encoding="UTF-8"?>'
+            '<rss version="2.0">'
+            "<channel><title>PyPI</title>"
+            "<item><title>mypkg 1.0.0</title></item>"
+            "</channel></rss>"
+        )
+        mock_resp = mock.Mock()
+        mock_resp.text = xml
+        mock_call.return_value = mock_resp
+
+        items = list(backend.PypiBackend.check_feed())
+        self.assertEqual(len(items), 1)
+        self.assertEqual(
+            items[0],
+            ("mypkg", "https://pypi.org/project/mypkg/", "PyPI", "1.0.0"),
+        )
+
+    @mock.patch("anitya.lib.backends.pypi.PypiBackend.call_url")
+    def test_pypi_check_feed_invalid_title(self, mock_call):
+        """Test check_feed handles unparseable titles gracefully without crashing."""
+        xml = (
+            '<?xml version="1.0" encoding="UTF-8"?>'
+            '<rss version="2.0">'
+            "<channel><title>PyPI</title>"
+            "<item><title>InvalidTitleWithoutVersion</title></item>"
+            "<item><title>validpkg 2.0.0</title></item>"
+            "<item><title></title></item>"
+            "<item><description>Item without title tag</description></item>"
+            "</channel></rss>"
+        )
+        mock_resp = mock.Mock()
+        mock_resp.text = xml
+        mock_call.return_value = mock_resp
+
+        items = list(backend.PypiBackend.check_feed())
+        self.assertEqual(len(items), 1)
+        self.assertEqual(
+            items[0],
+            ("validpkg", "https://pypi.org/project/validpkg/", "PyPI", "2.0.0"),
+        )
+
+    @mock.patch("anitya.lib.backends.pypi.PypiBackend.call_url")
+    def test_pypi_check_feed_empty_channel(self, mock_call):
+        """Test check_feed handles empty feed without KeyError."""
+        xml = (
+            '<?xml version="1.0" encoding="UTF-8"?>'
+            '<rss version="2.0">'
+            "<channel><title>PyPI</title>"
+            "</channel></rss>"
+        )
+        mock_resp = mock.Mock()
+        mock_resp.text = xml
+        mock_call.return_value = mock_resp
+
+        items = list(backend.PypiBackend.check_feed())
+        self.assertEqual(len(items), 0)
+
     def test_get_version_404(self):
         """Test that a 404 response raises AnityaPluginException in get_version."""
         project = models.Project(
