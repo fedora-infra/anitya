@@ -20,7 +20,7 @@
 #
 
 """
-anitya tests for the custom backend.
+anitya tests for the PECL backend.
 """
 
 import unittest
@@ -61,7 +61,7 @@ class PeclBackendtests(DatabaseTestCase):
         self.session.commit()
 
     def test_get_version(self):
-        """Test the get_version function of the custom backend."""
+        """Test the get_version function of the PECL backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = "0.1.6"
@@ -108,7 +108,7 @@ class PeclBackendtests(DatabaseTestCase):
         self.assertEqual(obs, exp)
 
     def test_get_versions(self):
-        """Test the get_versions function of the custom backend."""
+        """Test the get_versions function of the PECL backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
         exp = ["0.1.2", "0.1.3", "0.1.4", "0.1.5", "0.1.6"]
@@ -126,7 +126,45 @@ class PeclBackendtests(DatabaseTestCase):
         self.assertTrue(
             backend.PeclBackend.is_url_valid("https://pecl.php.net/package/inotify/")
         )
+        self.assertTrue(
+            backend.PeclBackend.is_url_valid("http://pecl.php.net/package/inotify/")
+        )
+        self.assertTrue(
+            backend.PeclBackend.is_url_valid("https://pecl.php.net/package/gnupg")
+        )
         self.assertFalse(backend.PeclBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the parse_url function of the Pecl backend."""
+        cases = [
+            ("https://pecl.php.net/package/inotify", "inotify"),
+            ("https://pecl.php.net/package/inotify/", "inotify"),
+            ("http://pecl.php.net/package/inotify", "inotify"),
+            ("https://pecl.php.net/package/inotify/3.0.0", "inotify"),
+            ("https://pecl.php.net/package/inotify-3.0.0", "inotify"),
+            ("https://pecl.php.net/package/inotify/download", "inotify"),
+            ("https://pecl.php.net/package-info.php?package=inotify", "inotify"),
+            (
+                "https://pecl.php.net/package-info.php?package=inotify&view=releases",
+                "inotify",
+            ),
+            (
+                "https://pecl.php.net/package/inotify?view=releases#changelog",
+                "inotify",
+            ),
+            ("https://pecl.php.net/other/inotify", "inotify"),
+        ]
+        for url, exp_name in cases:
+            with self.subTest(url=url):
+                output = backend.PeclBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": f"https://pecl.php.net/package/{exp_name}",
+                    "backend": "PECL",
+                    "version_url": f"https://pecl.php.net/package/{exp_name}",
+                    "version_scheme": "RPM",
+                }
+                self.assertEqual(output, exp)
 
     def test_pecl_check_feed(self):
         """Test the check_feed method of the pecl backend."""
