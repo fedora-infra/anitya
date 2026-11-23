@@ -10,9 +10,13 @@ Authors:
 
 """
 
+import logging
+
 from anitya.lib import xml2dict
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
+
+_log = logging.getLogger(__name__)
 
 
 class PypiBackend(BaseBackend):
@@ -189,9 +193,20 @@ class PypiBackend(BaseBackend):
         except Exception as err:  # pragma: no cover
             raise AnityaPluginException(f"No XML returned by {url}") from err
 
-        items = data["rss"]["channel"]["item"]
+        items = data.get("rss", {}).get("channel", {}).get("item", [])
+        if isinstance(items, dict):
+            items = [items]
         for entry in items:
+            if "title" not in entry or "value" not in entry["title"]:
+                continue
             title = entry["title"]["value"]
-            name, version = title.rsplit(None, 1)
+            try:
+                name, version = title.rsplit(None, 1)
+            except ValueError:
+                _log.info(
+                    "Unable to parse PyPI title %s into a package name and version",
+                    title,
+                )
+                continue
             homepage = f"https://pypi.org/project/{name}/"  # noqa: E231
             yield name, homepage, cls.name, version
