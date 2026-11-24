@@ -159,6 +159,70 @@ class PearBackendtests(DatabaseTestCase):
         )
         # etc...
 
+    @mock.patch("anitya.lib.backends.pear.PearBackend.call_url")
+    def test_pear_check_feed_single_item(self, mock_call):
+        """Test check_feed handles single-item feed without TypeError."""
+        xml = (
+            '<?xml version="1.0" encoding="utf-8"?>'
+            '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
+            ' xmlns="http://purl.org/rss/1.0/">'
+            "<channel><title>PEAR</title></channel>"
+            "<item><title>Auth 1.2.3</title></item>"
+            "</rdf:RDF>"
+        )
+        mock_resp = mock.Mock()
+        mock_resp.text = xml
+        mock_call.return_value = mock_resp
+
+        items = list(backend.PearBackend.check_feed())
+        self.assertEqual(len(items), 1)
+        self.assertEqual(
+            items[0],
+            ("Auth", "https://pear.php.net/package/Auth", "PEAR", "1.2.3"),
+        )
+
+    @mock.patch("anitya.lib.backends.pear.PearBackend.call_url")
+    def test_pear_check_feed_invalid_title(self, mock_call):
+        """Test check_feed handles unparseable titles gracefully without crashing."""
+        xml = (
+            '<?xml version="1.0" encoding="utf-8"?>'
+            '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
+            ' xmlns="http://purl.org/rss/1.0/">'
+            "<channel><title>PEAR</title></channel>"
+            "<item><title>InvalidTitleWithoutVersion</title></item>"
+            "<item><title>PHP_UML 1.6.2</title></item>"
+            "<item><title></title></item>"
+            "<item><description>Item without title tag</description></item>"
+            "</rdf:RDF>"
+        )
+        mock_resp = mock.Mock()
+        mock_resp.text = xml
+        mock_call.return_value = mock_resp
+
+        items = list(backend.PearBackend.check_feed())
+        self.assertEqual(len(items), 1)
+        self.assertEqual(
+            items[0],
+            ("PHP_UML", "https://pear.php.net/package/PHP_UML", "PEAR", "1.6.2"),
+        )
+
+    @mock.patch("anitya.lib.backends.pear.PearBackend.call_url")
+    def test_pear_check_feed_empty(self, mock_call):
+        """Test check_feed handles empty feed without KeyError."""
+        xml = (
+            '<?xml version="1.0" encoding="utf-8"?>'
+            '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
+            ' xmlns="http://purl.org/rss/1.0/">'
+            "<channel><title>PEAR</title></channel>"
+            "</rdf:RDF>"
+        )
+        mock_resp = mock.Mock()
+        mock_resp.text = xml
+        mock_call.return_value = mock_resp
+
+        items = list(backend.PearBackend.check_feed())
+        self.assertEqual(len(items), 0)
+
     def test_is_url_valid(self):
         """Test the is_url_valid function of the Pear backend."""
         self.assertTrue(
