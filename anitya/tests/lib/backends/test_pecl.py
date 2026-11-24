@@ -180,6 +180,70 @@ class PeclBackendtests(DatabaseTestCase):
         )
         # etc...
 
+    @mock.patch("anitya.lib.backends.pecl.PeclBackend.call_url")
+    def test_pecl_check_feed_single_item(self, mock_call):
+        """Test check_feed handles single-item feed without TypeError."""
+        xml = (
+            '<?xml version="1.0" encoding="utf-8"?>'
+            '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
+            ' xmlns="http://purl.org/rss/1.0/">'
+            "<channel><title>PECL</title></channel>"
+            "<item><title>inotify 3.0.0</title></item>"
+            "</rdf:RDF>"
+        )
+        mock_resp = mock.Mock()
+        mock_resp.text = xml
+        mock_call.return_value = mock_resp
+
+        items = list(backend.PeclBackend.check_feed())
+        self.assertEqual(len(items), 1)
+        self.assertEqual(
+            items[0],
+            ("inotify", "https://pecl.php.net/package/inotify", "PECL", "3.0.0"),
+        )
+
+    @mock.patch("anitya.lib.backends.pecl.PeclBackend.call_url")
+    def test_pecl_check_feed_invalid_title(self, mock_call):
+        """Test check_feed handles unparseable titles gracefully without crashing."""
+        xml = (
+            '<?xml version="1.0" encoding="utf-8"?>'
+            '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
+            ' xmlns="http://purl.org/rss/1.0/">'
+            "<channel><title>PECL</title></channel>"
+            "<item><title>InvalidTitleWithoutVersion</title></item>"
+            "<item><title>gnupg 1.5.0</title></item>"
+            "<item><title></title></item>"
+            "<item><description>Item without title tag</description></item>"
+            "</rdf:RDF>"
+        )
+        mock_resp = mock.Mock()
+        mock_resp.text = xml
+        mock_call.return_value = mock_resp
+
+        items = list(backend.PeclBackend.check_feed())
+        self.assertEqual(len(items), 1)
+        self.assertEqual(
+            items[0],
+            ("gnupg", "https://pecl.php.net/package/gnupg", "PECL", "1.5.0"),
+        )
+
+    @mock.patch("anitya.lib.backends.pecl.PeclBackend.call_url")
+    def test_pecl_check_feed_empty(self, mock_call):
+        """Test check_feed handles empty feed without KeyError."""
+        xml = (
+            '<?xml version="1.0" encoding="utf-8"?>'
+            '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
+            ' xmlns="http://purl.org/rss/1.0/">'
+            "<channel><title>PECL</title></channel>"
+            "</rdf:RDF>"
+        )
+        mock_resp = mock.Mock()
+        mock_resp.text = xml
+        mock_call.return_value = mock_resp
+
+        items = list(backend.PeclBackend.check_feed())
+        self.assertEqual(len(items), 0)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(PeclBackendtests)

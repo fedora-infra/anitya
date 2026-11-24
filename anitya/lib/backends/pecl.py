@@ -9,11 +9,14 @@ Authors:
 
 """
 
+import logging
 import re
 
 from anitya.lib import xml2dict
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
+
+_log = logging.getLogger(__name__)
 
 
 def _get_versions(url):
@@ -184,9 +187,20 @@ class PeclBackend(BaseBackend):
         except Exception as exc:  # pragma: no cover
             raise AnityaPluginException(f"No XML returned by {url}") from exc
 
-        items = data["RDF"]["item"]
+        items = data.get("RDF", {}).get("item", [])
+        if isinstance(items, dict):
+            items = [items]
         for entry in items:
+            if "title" not in entry or "value" not in entry["title"]:
+                continue
             title = entry["title"]["value"]
-            name, version = title.rsplit(None, 1)
+            try:
+                name, version = title.rsplit(None, 1)
+            except ValueError:
+                _log.info(
+                    "Unable to parse PECL title %s into a package name and version",
+                    title,
+                )
+                continue
             homepage = f"https://pecl.php.net/package/{name}"  # noqa: E231
             yield name, homepage, cls.name, version
