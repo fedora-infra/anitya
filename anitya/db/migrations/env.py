@@ -19,7 +19,10 @@ from anitya.app import create
 config = context.config  # type: ignore
 
 # Get URL for the app
-url = get_url_from_app(create)
+url = config.get_main_option("sqlalchemy.url")
+
+if not url:
+    url = get_url_from_app(create)
 config.set_main_option("sqlalchemy.url", url)
 
 # add your model's MetaData object here
