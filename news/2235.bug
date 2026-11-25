@@ -1,0 +1,1 @@
+Fix error handling in get_versions and implement robust URL parsing for SourceHut backend
