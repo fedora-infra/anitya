@@ -6,16 +6,16 @@ Authors:
   Jens Petersen <petersen@redhat.com>
 """
 
+import re
+
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 
 
 class StackageBackend(BaseBackend):
-    """The custom class for Haskell projects hosted on Stackage.org.
-    This backend allows to specify a version_url and a regex that will
-    be used to retrieve the version information.
-    """
+    """The backend class for Haskell projects hosted on Stackage.org."""
 
     name = "Stackage"
+    default_version_scheme = "RPM"
     examples = [
         "https://www.stackage.org/package/conduit",
         "https://www.stackage.org/package/cabal-install",
@@ -70,7 +70,43 @@ class StackageBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://www.stackage.org")
+        return "stackage.org" in url
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        clean_url = url.split("?")[0].split("#")[0].rstrip("/")
+        if "/package/" in clean_url:
+            path = clean_url.split("/package/")[-1].strip("/")
+            raw_name = path.split("/")[0]
+        else:
+            raw_name = clean_url.split("/")[-1]
+
+        match = re.match(r"^(.+)-(\d[\d.]*)$", raw_name)
+        if match:
+            name = match.group(1)
+        else:
+            name = raw_name
+
+        homepage = f"https://www.stackage.org/package/{name}"
+        version_url = homepage
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):  # pragma: no cover

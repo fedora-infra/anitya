@@ -20,7 +20,7 @@
 #
 
 """
-anitya tests for the custom backend.
+anitya tests for the Stackage backend.
 """
 
 import unittest
@@ -33,8 +33,8 @@ from anitya.tests.base import DatabaseTestCase, create_distro
 BACKEND = "Stackage"
 
 
-class HackageBackendtests(DatabaseTestCase):
-    """Hackage backend tests."""
+class StackageBackendtests(DatabaseTestCase):
+    """Stackage backend tests."""
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
@@ -54,8 +54,8 @@ class HackageBackendtests(DatabaseTestCase):
         self.session.commit()
 
         project = models.Project(
-            name="foobar",
-            homepage="https://www.stackage.org/package/foobar",
+            name="nonexistent-package-xyz-12345",
+            homepage="https://www.stackage.org/package/nonexistent-package-xyz-12345",
             backend=BACKEND,
         )
         self.session.add(project)
@@ -65,7 +65,7 @@ class HackageBackendtests(DatabaseTestCase):
         """Test the get_version function of the Stackage backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = "1.20.9.1"
+        exp = "1.20.10"
         obs = backend.StackageBackend.get_version(project)
         self.assertEqual(obs, exp)
 
@@ -92,7 +92,7 @@ class HackageBackendtests(DatabaseTestCase):
         """Test the get_versions function of the Stackage backend."""
         pid = 1
         project = models.Project.get(self.session, pid)
-        exp = ["1.20.9.1"]
+        exp = ["1.20.10"]
         obs = backend.StackageBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
@@ -109,9 +109,55 @@ class HackageBackendtests(DatabaseTestCase):
                 "https://www.stackage.org/package/conduit/"
             )
         )
+        self.assertTrue(
+            backend.StackageBackend.is_url_valid(
+                "http://www.stackage.org/package/conduit/"
+            )
+        )
+        self.assertTrue(
+            backend.StackageBackend.is_url_valid("https://stackage.org/package/conduit")
+        )
+        self.assertTrue(
+            backend.StackageBackend.is_url_valid(
+                "https://www.stackage.org/package/cabal-install"
+            )
+        )
         self.assertFalse(backend.StackageBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the parse_url function of the Stackage backend."""
+        cases = [
+            ("https://www.stackage.org/package/conduit", "conduit"),
+            ("https://www.stackage.org/package/conduit/", "conduit"),
+            ("http://www.stackage.org/package/conduit", "conduit"),
+            ("https://stackage.org/package/conduit", "conduit"),
+            ("https://www.stackage.org/package/conduit/docs", "conduit"),
+            ("https://www.stackage.org/package/conduit-1.3.5", "conduit"),
+            (
+                "https://www.stackage.org/package/conduit?snapshots=nightly",
+                "conduit",
+            ),
+            ("https://www.stackage.org/package/conduit#readme", "conduit"),
+            ("https://www.stackage.org/lts-22.14/package/conduit", "conduit"),
+            (
+                "https://www.stackage.org/nightly/package/cabal-install",
+                "cabal-install",
+            ),
+            ("https://www.stackage.org/other/conduit", "conduit"),
+        ]
+        for url, exp_name in cases:
+            with self.subTest(url=url):
+                output = backend.StackageBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": f"https://www.stackage.org/package/{exp_name}",
+                    "backend": "Stackage",
+                    "version_url": f"https://www.stackage.org/package/{exp_name}",
+                    "version_scheme": "RPM",
+                }
+                self.assertEqual(output, exp)
 
 
 if __name__ == "__main__":
-    SUITE = unittest.TestLoader().loadTestsFromTestCase(HackageBackendtests)
+    SUITE = unittest.TestLoader().loadTestsFromTestCase(StackageBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)
