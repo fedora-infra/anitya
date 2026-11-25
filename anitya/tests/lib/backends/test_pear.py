@@ -20,7 +20,7 @@
 #
 
 """
-anitya tests for the custom backend.
+anitya tests for the PEAR backend.
 """
 
 import unittest
@@ -228,7 +228,45 @@ class PearBackendtests(DatabaseTestCase):
         self.assertTrue(
             backend.PearBackend.is_url_valid("https://pear.php.net/package/Auth/")
         )
+        self.assertTrue(
+            backend.PearBackend.is_url_valid("http://pear.php.net/package/Auth/")
+        )
+        self.assertTrue(
+            backend.PearBackend.is_url_valid("https://pear.php.net/package/PHP_UML")
+        )
         self.assertFalse(backend.PearBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the parse_url function of the Pear backend."""
+        cases = [
+            ("https://pear.php.net/package/Auth", "Auth"),
+            ("https://pear.php.net/package/Auth/", "Auth"),
+            ("http://pear.php.net/package/Auth", "Auth"),
+            ("https://pear.php.net/package/Auth/1.2.3", "Auth"),
+            ("https://pear.php.net/package/Auth-1.2.3", "Auth"),
+            ("https://pear.php.net/package/Auth/download", "Auth"),
+            ("https://pear.php.net/package-info.php?package=Auth", "Auth"),
+            (
+                "https://pear.php.net/package-info.php?package=Auth&view=releases",
+                "Auth",
+            ),
+            (
+                "https://pear.php.net/package/Auth?view=releases#changelog",
+                "Auth",
+            ),
+            ("https://pear.php.net/other/Auth", "Auth"),
+        ]
+        for url, exp_name in cases:
+            with self.subTest(url=url):
+                output = backend.PearBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": f"https://pear.php.net/package/{exp_name}",
+                    "backend": "PEAR",
+                    "version_url": f"https://pear.php.net/package/{exp_name}",
+                    "version_scheme": "RPM",
+                }
+                self.assertEqual(output, exp)
 
 
 if __name__ == "__main__":
