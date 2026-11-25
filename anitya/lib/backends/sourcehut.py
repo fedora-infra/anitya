@@ -28,6 +28,7 @@ class SourceHutBackend(BaseBackend):
     """
 
     name = "SourceHut"
+    default_version_scheme = "RPM"
     is_repo = True
     examples = ["https://git.sr.ht/~sircmpwn/scdoc", "https://git.sr.ht/~sircmpwn/hare"]
 
@@ -47,7 +48,11 @@ class SourceHutBackend(BaseBackend):
         if project.version_url:
             url = project.version_url
         elif project.homepage:
-            url = project.homepage.replace("https://git.sr.ht/~", "")
+            url = project.homepage
+            for prefix in ("https://git.sr.ht/~", "http://git.sr.ht/~"):
+                if url.startswith(prefix):
+                    url = url[len(prefix) :]
+                    break
 
         if url.endswith("/"):
             url = url[:-1]
@@ -89,7 +94,17 @@ class SourceHutBackend(BaseBackend):
                 f'"{res.status_code}": "{res.reason}"'
             )
 
-        versions = [i.find("title").text for i in xml.find("channel").findall("item")]
+        channel = xml.find("channel")
+        if channel is None:
+            raise AnityaPluginException(
+                f"{project.name}: No channel found in RSS feed. '{url}'"
+            )
+
+        versions = []
+        for item in channel.findall("item"):
+            title = item.find("title")
+            if title is not None and title.text and title.text.strip():
+                versions.append(title.text.strip())
 
         if len(versions) == 0:
             raise AnityaPluginException(
@@ -109,7 +124,7 @@ class SourceHutBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://git.sr.ht/~")
+        return url.startswith(("https://git.sr.ht/~", "http://git.sr.ht/~"))
 
     @classmethod
     def parse_url(cls, url: str) -> dict:
@@ -122,10 +137,16 @@ class SourceHutBackend(BaseBackend):
         Returns:
             Dictionary containing project related data.
         """
-        homepage = url
-        version_url = url.rstrip("/").replace("https://git.sr.ht/~", "")
-        name = url.rstrip("/").split("/")[-1]
-        version_scheme = "RPM"
+        clean_url = url.split("?")[0].split("#")[0].rstrip("/")
+        path = clean_url.split("~")[-1].strip("/")
+        parts = [p for p in path.split("/") if p]
+        owner = parts[0]
+        repo = parts[1]
+        version_url = f"{owner}/{repo}"
+        name = repo
+
+        homepage = f"https://git.sr.ht/~{version_url}"
+        version_scheme = cls.default_version_scheme
         backend = cls.name
         return {
             "name": name,

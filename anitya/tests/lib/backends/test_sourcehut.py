@@ -245,26 +245,85 @@ class SourceHutBackendTests(DatabaseTestCase):
             AnityaPluginException, backend.SourceHutBackend.get_versions, project
         )
 
+    def test_get_version_url_http_homepage(self):
+        """Assert that correct url is returned when http homepage is specified."""
+        project = models.Project(
+            homepage="http://git.sr.ht/~sircmpwn/scdoc/",
+            name="scdoc",
+            backend=BACKEND,
+        )
+        exp = "https://git.sr.ht/~sircmpwn/scdoc/refs/rss.xml"
+        obs = backend.SourceHutBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
+
+    def test_get_versions_no_channel(self):
+        """Assert that exception is raised when feed has no channel element."""
+        project = self.projects["valid_with_version_url"]
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=200, text="<rss></rss>")
+            with self.assertRaises(AnityaPluginException) as ctx:
+                backend.SourceHutBackend.get_versions(project)
+            self.assertIn("No channel found in RSS feed", str(ctx.exception))
+
+    def test_get_versions_missing_or_empty_title(self):
+        """Assert that items with missing or empty titles are safely ignored."""
+        project = self.projects["valid_with_version_url"]
+        xml_content = (
+            "<rss><channel>"
+            "<item></item>"
+            "<item><title></title></item>"
+            "<item><title>   </title></item>"
+            "<item><title>2.0.0</title></item>"
+            "</channel></rss>"
+        )
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(status_code=200, text=xml_content)
+            versions = backend.SourceHutBackend.get_versions(project)
+            self.assertEqual(versions, ["2.0.0"])
+
     def test_is_url_valid(self):
         """Test the is_url_valid function of the SourceHut backend."""
         self.assertTrue(
             backend.SourceHutBackend.is_url_valid("https://git.sr.ht/~sircmpwn/scdoc/")
         )
+        self.assertTrue(
+            backend.SourceHutBackend.is_url_valid("http://git.sr.ht/~sircmpwn/scdoc/")
+        )
         self.assertFalse(backend.SourceHutBackend.is_url_valid("https://example.com"))
 
     def test_parse_url(self):
-        """Test the is_url_valid function of the SourceHut backend."""
-        output = backend.SourceHutBackend.parse_url(
-            "https://git.sr.ht/~sircmpwn/scdoc/"
-        )
-        exp = {
-            "name": "scdoc",
-            "homepage": "https://git.sr.ht/~sircmpwn/scdoc/",
-            "backend": "SourceHut",
-            "version_url": "sircmpwn/scdoc",
-            "version_scheme": "RPM",
-        }
-        self.assertEqual(output, exp)
+        """Test the parse_url function of the SourceHut backend."""
+        cases = [
+            ("https://git.sr.ht/~sircmpwn/scdoc", "sircmpwn/scdoc", "scdoc"),
+            ("https://git.sr.ht/~sircmpwn/scdoc/", "sircmpwn/scdoc", "scdoc"),
+            ("http://git.sr.ht/~sircmpwn/scdoc", "sircmpwn/scdoc", "scdoc"),
+            (
+                "https://git.sr.ht/~sircmpwn/scdoc/tree/master",
+                "sircmpwn/scdoc",
+                "scdoc",
+            ),
+            (
+                "https://git.sr.ht/~sircmpwn/scdoc/refs/rss.xml",
+                "sircmpwn/scdoc",
+                "scdoc",
+            ),
+            (
+                "https://git.sr.ht/~sircmpwn/scdoc?foo=bar#readme",
+                "sircmpwn/scdoc",
+                "scdoc",
+            ),
+        ]
+        for url, exp_version_url, exp_name in cases:
+            with self.subTest(url=url):
+                output = backend.SourceHutBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": f"https://git.sr.ht/~{exp_version_url}",
+                    "backend": "SourceHut",
+                    "version_url": exp_version_url,
+                    "version_scheme": "RPM",
+                }
+                self.assertEqual(output, exp)
 
 
 if __name__ == "__main__":
