@@ -20,7 +20,7 @@
 #
 
 """
-anitya tests for the custom backend.
+anitya tests for the GNOME backend.
 """
 
 import unittest
@@ -34,7 +34,7 @@ BACKEND = "GNOME"
 
 
 class GnomeBackendtests(DatabaseTestCase):
-    """custom backend tests."""
+    """GNOME backend tests."""
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
@@ -619,7 +619,67 @@ class GnomeBackendtests(DatabaseTestCase):
                 "https://download.gnome.org/sources/control-center/"
             )
         )
+        self.assertTrue(
+            backend.GnomeBackend.is_url_valid(
+                "http://download.gnome.org/sources/control-center/"
+            )
+        )
+        self.assertTrue(
+            backend.GnomeBackend.is_url_valid(
+                "https://download.gnome.org/sources/control-center"
+            )
+        )
         self.assertFalse(backend.GnomeBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the parse_url function of the Gnome backend."""
+        expected = {
+            "name": "control-center",
+            "homepage": "https://download.gnome.org/sources/control-center/",
+            "backend": "GNOME",
+            "version_url": "https://download.gnome.org/sources/control-center/",
+            "version_scheme": "RPM",
+        }
+
+        urls = [
+            "https://download.gnome.org/sources/control-center/",
+            "https://download.gnome.org/sources/control-center",
+            "http://download.gnome.org/sources/control-center/",
+            "https://download.gnome.org/sources/control-center/44/",
+            (
+                "https://download.gnome.org/sources/control-center/44/"
+                "control-center-44.0.tar.xz"
+            ),
+            "https://download.gnome.org/sources/control-center/cache.json",
+            "https://download.gnome.org/sources/control-center-44.0.tar.xz",
+            "https://download.gnome.org/sources/control-center/?sort=date#files",
+            "sources/control-center",
+        ]
+        for url in urls:
+            self.assertEqual(backend.GnomeBackend.parse_url(url), expected)
+
+        # Other project name
+        res = backend.GnomeBackend.parse_url(
+            "https://download.gnome.org/sources/evolution-caldav/"
+        )
+        self.assertEqual(res["name"], "evolution-caldav")
+        self.assertEqual(
+            res["homepage"],
+            "https://download.gnome.org/sources/evolution-caldav/",
+        )
+
+        # Invalid URLs
+        invalid_urls = [
+            "https://download.gnome.org/sources/",
+            "https://download.gnome.org/sources",
+            "https://download.gnome.org/",
+            "https://download.gnome.org/teams/",
+            "https://download.gnome.org/sources/.tar.xz",
+            "https://example.com/other",
+        ]
+        for url in invalid_urls:
+            with self.assertRaises(AnityaPluginException):
+                backend.GnomeBackend.parse_url(url)
 
 
 if __name__ == "__main__":
