@@ -10,8 +10,11 @@ Authors:
 """
 
 import logging
+import re
+from urllib.parse import urlparse
 
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
+from anitya.lib.exceptions import AnityaPluginException
 
 REGEX = 'href="([0-9][0-9.]*)/"'
 
@@ -49,13 +52,10 @@ def use_gnome_regex(project):
 
 
 class GnomeBackend(BaseBackend):
-    """The custom class for project hosted by the GNOME project.
-
-    This backend allows to specify a version_url and a regex that will
-    be used to retrieve the version information.
-    """
+    """Backend for projects hosted by the GNOME project on download.gnome.org."""
 
     name = "GNOME"
+    default_version_scheme = "RPM"
     examples = [
         "https://download.gnome.org/sources/control-center/",
         "https://download.gnome.org/sources/evolution-caldav/",
@@ -114,7 +114,56 @@ class GnomeBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://download.gnome.org")
+        return "download.gnome.org" in url
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+
+        Raises:
+            AnityaPluginException: If URL cannot be parsed.
+        """
+        parsed = urlparse(url)
+        path = parsed.path
+        if "/sources/" in path:
+            path = path.split("/sources/", 1)[1]
+        elif path.startswith("sources/"):
+            path = path.split("sources/", 1)[1]
+        else:
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
+        parts = [p for p in path.split("/") if p]
+        if not parts:
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
+        name = parts[0]
+        for ext in (".tar.xz", ".tar.gz", ".tar.bz2", ".tar", ".tgz", ".zip"):
+            if name.endswith(ext):
+                name = name[: -len(ext)]
+                name = re.sub(r"-\d.*$", "", name)
+                break
+
+        if not name:
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
+        homepage = f"https://download.gnome.org/sources/{name}/"
+        version_url = homepage
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):  # pragma: no cover
