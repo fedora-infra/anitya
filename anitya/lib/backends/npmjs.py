@@ -59,7 +59,10 @@ class NpmjsBackend(BaseBackend):
         if "dist-tags" in data and "latest" in data["dist-tags"]:
             return data["dist-tags"]["latest"]
         else:
-            return cls.get_ordered_versions(project)[-1]
+            versions = cls.get_ordered_versions(project)
+            if not versions:
+                return None
+            return versions[-1]
 
     @classmethod
     def get_version_url(cls, project):

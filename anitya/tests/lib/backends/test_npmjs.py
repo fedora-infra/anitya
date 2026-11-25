@@ -117,6 +117,36 @@ class NpmjsBackendtests(DatabaseTestCase):
             m_call.assert_called_with(exp_url, last_change=None)
             self.assertEqual(versions, None)
 
+    def test_get_version_no_versions(self):
+        """Assert that None is returned when no versions are found."""
+        pid = 1
+        project = models.Project.get(self.session, pid)
+
+        with mock.patch(
+            "anitya.lib.backends.BaseBackend.call_url"
+        ) as m_call, mock.patch(
+            "anitya.lib.backends.npmjs.NpmjsBackend.get_ordered_versions"
+        ) as m_ord:
+            m_call.return_value = mock.Mock(status_code=200, json=lambda: {})
+            m_ord.return_value = []
+            versions = backend.NpmjsBackend.get_version(project)
+            self.assertIsNone(versions)
+
+    def test_get_version_no_dist_tags(self):
+        """Assert that latest ordered version is returned when dist-tags is missing."""
+        pid = 1
+        project = models.Project.get(self.session, pid)
+
+        with mock.patch(
+            "anitya.lib.backends.BaseBackend.call_url"
+        ) as m_call, mock.patch(
+            "anitya.lib.backends.npmjs.NpmjsBackend.get_ordered_versions"
+        ) as m_ord:
+            m_call.return_value = mock.Mock(status_code=200, json=lambda: {})
+            m_ord.return_value = ["1.0.0", "2.0.0"]
+            versions = backend.NpmjsBackend.get_version(project)
+            self.assertEqual(versions, "2.0.0")
+
     def test_get_versions(self):
         """Test the get_versions function of the npmjs backend."""
         pid = 1
@@ -328,7 +358,16 @@ class NpmjsBackendtests(DatabaseTestCase):
             backend.NpmjsBackend.is_url_valid("https://www.npmjs.com/package/request")
         )
         self.assertTrue(
+            backend.NpmjsBackend.is_url_valid("https://npmjs.com/package/colors")
+        )
+        self.assertTrue(
+            backend.NpmjsBackend.is_url_valid("http://www.npmjs.com/package/express")
+        )
+        self.assertTrue(
             backend.NpmjsBackend.is_url_valid("https://www.npmjs.org/package/request")
+        )
+        self.assertTrue(
+            backend.NpmjsBackend.is_url_valid("http://www.npmjs.org/package/request")
         )
         self.assertFalse(backend.NpmjsBackend.is_url_valid("https://example.com"))
 
@@ -351,6 +390,10 @@ class NpmjsBackendtests(DatabaseTestCase):
             (
                 "https://www.npmjs.com/package/express?activeTab=versions",
                 "express",
+            ),
+            (
+                "https://www.npmjs.com/package/lodash/?activeTab=readme",
+                "lodash",
             ),
             ("https://www.npmjs.org/package/request", "request"),
         ]
