@@ -20,7 +20,7 @@
 #
 
 """
-anitya tests for the custom backend.
+anitya tests for the GNU backend.
 """
 
 import unittest
@@ -151,12 +151,66 @@ class GnuBackendtests(DatabaseTestCase):
             m_call.assert_called_with(exp_url, last_change=None)
             self.assertEqual(versions, [])
 
+    def test_get_versions_server_error(self):
+        """Assert that exception is raised when server returns non-200/304 status code"""
+        pid = 1
+        project = models.Project.get(self.session, pid)
+
+        with mock.patch("anitya.lib.backends.BaseBackend.call_url") as m_call:
+            m_call.return_value = mock.Mock(
+                status_code=500, reason="Internal Server Error"
+            )
+            with self.assertRaises(AnityaPluginException) as ctx:
+                backend.GnuBackend.get_versions(project)
+            self.assertIn("Server responded with status", str(ctx.exception))
+
     def test_is_url_valid(self):
         """Test the is_url_valid function of the GNU backend."""
         self.assertTrue(
             backend.GnuBackend.is_url_valid("https://ftpmirror.gnu.org/gnash/")
         )
+        self.assertTrue(
+            backend.GnuBackend.is_url_valid("http://ftpmirror.gnu.org/gnash/")
+        )
+        self.assertTrue(
+            backend.GnuBackend.is_url_valid("https://ftp.gnu.org/gnu/gnash/")
+        )
+        self.assertTrue(
+            backend.GnuBackend.is_url_valid("http://ftp.gnu.org/gnu/gnash/")
+        )
+        self.assertTrue(
+            backend.GnuBackend.is_url_valid("https://www.gnu.org/software/gnash/")
+        )
+        self.assertTrue(
+            backend.GnuBackend.is_url_valid("http://www.gnu.org/software/gnash/")
+        )
         self.assertFalse(backend.GnuBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the parse_url function of the GNU backend."""
+        cases = [
+            ("https://ftpmirror.gnu.org/gnash/", "gnash"),
+            ("https://ftpmirror.gnu.org/gnash", "gnash"),
+            ("http://ftpmirror.gnu.org/gnash/", "gnash"),
+            ("https://ftp.gnu.org/gnu/gnash/", "gnash"),
+            ("http://ftp.gnu.org/pub/gnu/gnash/", "gnash"),
+            ("https://ftp.gnu.org/gnu/gnash/gnash-0.8.10.tar.gz", "gnash"),
+            ("https://ftp.gnu.org/gnu/gnash/gnash-0.8.10.tar.xz.sig", "gnash"),
+            ("https://www.gnu.org/software/gnash/", "gnash"),
+            ("http://www.gnu.org/software/gnash/manual/", "gnash"),
+            ("https://ftpmirror.gnu.org/gnash?tab=files#readme", "gnash"),
+        ]
+        for url, exp_name in cases:
+            with self.subTest(url=url):
+                output = backend.GnuBackend.parse_url(url)
+                exp = {
+                    "name": exp_name,
+                    "homepage": f"https://ftpmirror.gnu.org/{exp_name}/",
+                    "backend": "GNU project",
+                    "version_url": f"https://ftpmirror.gnu.org/{exp_name}/",
+                    "version_scheme": "RPM",
+                }
+                self.assertEqual(output, exp)
 
 
 if __name__ == "__main__":
