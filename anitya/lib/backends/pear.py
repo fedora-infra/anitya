@@ -11,6 +11,7 @@ Authors:
 """
 
 import logging
+import re
 
 from anitya.lib import xml2dict
 from anitya.lib.backends import BaseBackend
@@ -36,13 +37,10 @@ def _get_versions(url):
 
 
 class PearBackend(BaseBackend):
-    """The custom class for projects hosted on pear.php.net.
-
-    This backend allows to specify a version_url and a regex that will
-    be used to retrieve the version information.
-    """
+    """The backend class for projects hosted on pear.php.net."""
 
     name = "PEAR"
+    default_version_scheme = "RPM"
     examples = [
         "https://pear.php.net/package/Auth/",
         "https://pear.php.net/package/PHP_UML",
@@ -129,7 +127,45 @@ class PearBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://pear.php.net")
+        return "pear.php.net" in url
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        clean_url = url.split("?")[0].split("#")[0].rstrip("/")
+        if "package-info.php" in url and "package=" in url:
+            raw_name = url.split("package=")[-1].split("&")[0].split("#")[0]
+        elif "/package/" in clean_url:
+            path = clean_url.split("/package/")[-1].strip("/")
+            raw_name = path.split("/")[0]
+        else:
+            raw_name = clean_url.split("/")[-1]
+
+        match = re.match(r"^(.+)-(\d[\d.]*)$", raw_name)
+        if match:
+            name = match.group(1)
+        else:
+            name = raw_name
+
+        homepage = f"https://pear.php.net/package/{name}"
+        version_url = homepage
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):
