@@ -8,6 +8,8 @@ Authors:
 
 """
 
+import re
+
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 
 # Debian packagers upload the original source tarball in the format
@@ -27,6 +29,7 @@ class DebianBackend(BaseBackend):
     """
 
     name = "Debian project"
+    default_version_scheme = "RPM"
     examples = [
         "https://ftp.debian.org/debian/pool/main/q/qpdf/",
         "https://ftp.debian.org/debian/pool/main/g/guake/",
@@ -84,6 +87,52 @@ class DebianBackend(BaseBackend):
             True if the URL is valid or false.
         """
         return url.startswith(("https://ftp.debian.org", "http://ftp.debian.org"))
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+        """
+        clean_url = url.split("?")[0].split("#")[0].rstrip("/")
+        archive_re = (
+            r"/[^/]+(?:\.orig)?\."
+            r"(?:tar\.[bglx]z|tar\.gz|tar\.bz2|tar\.xz|tar|t[bglx]z|tbz2|zip|dsc|"
+            r"diff\.gz|debian\.tar\.[gx]z)$"
+        )
+        clean_url = re.sub(archive_re, "", clean_url)
+        clean_url = clean_url.rstrip("/")
+
+        section = "main"
+        if "/pool/" in clean_url:
+            path = clean_url.split("/pool/")[-1].strip("/")
+            parts = [p for p in path.split("/") if p]
+            section = parts[0]
+            name = parts[-1]
+        else:
+            name = clean_url.split("/")[-1]
+
+        if name.startswith("lib"):
+            short = name[:4]
+        else:
+            short = name[0]
+
+        homepage = f"http://ftp.debian.org/debian/pool/{section}/{short}/{name}/"
+        version_url = homepage
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):  # pragma: no cover
