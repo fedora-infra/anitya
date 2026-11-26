@@ -136,6 +136,34 @@ class CgitBackendtests(DatabaseTestCase):
 
         self.assertEqual(obs, exp)
 
+    def test_get_version_url_project_refs_tags(self):
+        """Assert that url ending with refs/tags does not double the path."""
+        project = models.Project(
+            version_url="https://git.savannah.gnu.org/cgit/gnuzilla.git/refs/tags"
+        )
+        exp = "https://git.savannah.gnu.org/cgit/gnuzilla.git/refs/tags"
+        obs = backend.CgitBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
+
+        # With subpath like tree/master
+        project.version_url = (
+            "https://git.savannah.gnu.org/cgit/gnuzilla.git/tree/master"
+        )
+        obs = backend.CgitBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
+
+        # With query and fragment
+        project.version_url = (
+            "https://git.savannah.gnu.org/cgit/gnuzilla.git?h=master#n1"
+        )
+        obs = backend.CgitBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
+
+        # Empty
+        project.version_url = ""
+        project.homepage = ""
+        self.assertEqual(backend.CgitBackend.get_version_url(project), "")
+
     def test_get_versions_project_homepage_only(self):
         """
         Assert that correct versions are returned
@@ -230,15 +258,24 @@ class CgitBackendtests(DatabaseTestCase):
 
     def test_is_url_valid(self):
         """Test the is_url_valid function of the Cgit backend."""
-        self.assertTrue(backend.CgitBackend.is_url_valid("https://git.something.com"))
-        self.assertFalse(backend.CgitBackend.is_url_valid("https://git.sr.ht/~"))
-        self.assertFalse(backend.CgitBackend.is_url_valid("https://example.com"))
+        valid_urls = [
+            "https://git.savannah.gnu.org/cgit/gnuzilla.git",
+            "http://git.savannah.gnu.org/cgit/gnuzilla.git",
+            "git.savannah.gnu.org/cgit/gnuzilla.git",
+        ]
+        for url in valid_urls:
+            self.assertTrue(backend.CgitBackend.is_url_valid(url))
+
+        invalid_urls = [
+            "https://git.sr.ht/~user/repo",
+            "http://git.sr.ht/~user/repo",
+            "https://example.com/foo/bar",
+        ]
+        for url in invalid_urls:
+            self.assertFalse(backend.CgitBackend.is_url_valid(url))
 
     def test_parse_url(self):
-        """Test the is_url_valid function of the Cgit backend."""
-        output = backend.CgitBackend.parse_url(
-            "https://git.savannah.gnu.org/cgit/gnuzilla.git"
-        )
+        """Test the parse_url function of the Cgit backend."""
         exp = {
             "name": "gnuzilla",
             "homepage": "https://git.savannah.gnu.org/cgit/gnuzilla.git",
@@ -246,19 +283,56 @@ class CgitBackendtests(DatabaseTestCase):
             "version_url": "https://git.savannah.gnu.org/cgit/gnuzilla.git",
             "version_scheme": "RPM",
         }
-        self.assertEqual(output, exp)
+        subpath_urls = [
+            "https://git.savannah.gnu.org/cgit/gnuzilla.git",
+            "https://git.savannah.gnu.org/cgit/gnuzilla.git/refs/tags",
+            "https://git.savannah.gnu.org/cgit/gnuzilla.git/tree/master",
+            "https://git.savannah.gnu.org/cgit/gnuzilla.git/log/",
+            "https://git.savannah.gnu.org/cgit/gnuzilla.git/commit/",
+            "https://git.savannah.gnu.org/cgit/gnuzilla.git?h=master#n1",
+        ]
+        for url in subpath_urls:
+            self.assertEqual(backend.CgitBackend.parse_url(url), exp)
+
+        # Test URL without scheme or with http
+        res_http = backend.CgitBackend.parse_url(
+            "http://git.savannah.gnu.org/cgit/gnuzilla.git"
+        )
+        self.assertEqual(res_http["name"], "gnuzilla")
+        self.assertEqual(
+            res_http["homepage"], "http://git.savannah.gnu.org/cgit/gnuzilla.git"
+        )
+
+        res_no_scheme = backend.CgitBackend.parse_url(
+            "git.savannah.gnu.org/cgit/gnuzilla.git"
+        )
+        self.assertEqual(res_no_scheme["name"], "gnuzilla")
+        self.assertEqual(
+            res_no_scheme["homepage"], "git.savannah.gnu.org/cgit/gnuzilla.git"
+        )
 
         output = backend.CgitBackend.parse_url(
             "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/"
         )
-        exp = {
+        exp_linux = {
             "name": "linux",
             "homepage": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/",
             "backend": "Cgit",
             "version_url": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/",
             "version_scheme": "RPM",
         }
-        self.assertEqual(output, exp)
+        self.assertEqual(output, exp_linux)
+
+        invalid_urls = [
+            "https://git.zx2c4.com/",
+            "git.zx2c4.com",
+            "https://git.something.com/.git",
+            "https://git.sr.ht/~user/repo",
+            "https://example.com/foo/bar",
+        ]
+        for url in invalid_urls:
+            with self.assertRaises(AnityaPluginException):
+                backend.CgitBackend.parse_url(url)
 
     def test_parse_url_preserves_repository_name(self):
         """Test that parse_url removes only a literal .git suffix and slashes."""

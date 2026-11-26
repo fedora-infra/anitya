@@ -18,10 +18,13 @@
 A backend for cgit
 """
 
+from urllib.parse import urlparse
+
 from sqlalchemy import func, or_
 
 from anitya.lib import utilities
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
+from anitya.lib.exceptions import AnityaPluginException
 
 REGEX = r"<a href='.*'>(?:%(name)s-)?(.*)\.(?:tar|tar\.[bglx]z|tbz2|zip)</a>"
 
@@ -34,6 +37,7 @@ class CgitBackend(BaseBackend):
     """
 
     name = "Cgit"
+    default_version_scheme = "RPM"
     examples = [
         "https://git.savannah.gnu.org/cgit/gnuzilla.git",
         "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/",
@@ -51,10 +55,24 @@ class CgitBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url_template = "%s/refs/tags"
-        base_url = project.version_url or project.homepage
-        base_url = base_url.rstrip("/")
-        return url_template % base_url
+        raw_url = project.version_url or project.homepage or ""
+        clean_url = raw_url.split("?")[0].split("#")[0].rstrip("/")
+        for subpath in (
+            "/refs/tags",
+            "/refs",
+            "/tree",
+            "/log",
+            "/commit",
+            "/summary",
+            "/tag",
+        ):
+            if subpath in clean_url:
+                clean_url = clean_url.split(subpath)[0].rstrip("/")
+
+        if not clean_url:
+            return ""
+
+        return f"{clean_url}/refs/tags"
 
     @classmethod
     def check_duplicate(cls, session, project):
@@ -105,7 +123,11 @@ class CgitBackend(BaseBackend):
             True if the URL is valid or false.
         """
         # We need to exclude the SourceHut backend urls
-        return url.startswith("https://git.") and "https://git.sr.ht/~" not in url
+        if "git.sr.ht/~" in url:
+            return False
+        return url.startswith(("https://git.", "http://git.")) or (
+            not url.startswith(("http://", "https://")) and url.startswith("git.")
+        )
 
     @classmethod
     def parse_url(cls, url: str) -> dict:
@@ -117,11 +139,45 @@ class CgitBackend(BaseBackend):
 
         Returns:
             Dictionary containing project related data.
+
+        Raises:
+            AnityaPluginException: If URL cannot be parsed into a valid project.
         """
-        homepage = url
-        version_url = url
-        name = utilities.remove_suffix(url.rstrip("/"), ".git").split("/")[-1]
-        version_scheme = "RPM"
+        orig_url = url
+        if not cls.is_url_valid(orig_url):
+            raise AnityaPluginException(
+                f"Could not extract project name from {orig_url}"
+            )
+
+        clean_url = url.split("?")[0].split("#")[0].rstrip("/")
+        for subpath in (
+            "/refs/tags",
+            "/refs",
+            "/tree",
+            "/log",
+            "/commit",
+            "/summary",
+            "/tag",
+        ):
+            if subpath in clean_url:
+                clean_url = clean_url.split(subpath)[0].rstrip("/")
+
+        parsed = urlparse(clean_url if "://" in clean_url else f"https://{clean_url}")
+        path_parts = [p for p in parsed.path.strip("/").split("/") if p]
+        if not path_parts:
+            raise AnityaPluginException(
+                f"Could not extract project name from {orig_url}"
+            )
+
+        name = utilities.remove_suffix(clean_url, ".git").split("/")[-1]
+        if not name:
+            raise AnityaPluginException(
+                f"Could not extract project name from {orig_url}"
+            )
+
+        homepage = clean_url if clean_url != url.rstrip("/") else url
+        version_url = clean_url if clean_url != url.rstrip("/") else url
+        version_scheme = cls.default_version_scheme
         backend = cls.name
         return {
             "name": name,
