@@ -211,26 +211,55 @@ class PackagistBackendtests(DatabaseTestCase):
 
     def test_is_url_valid(self):
         """Test the is_url_valid function of the Packagist backend."""
-        self.assertTrue(
-            backend.PackagistBackend.is_url_valid(
-                "https://packagist.org/packages/phpunit/php-code-coverage"
-            )
-        )
-        self.assertFalse(backend.PackagistBackend.is_url_valid("https://example.com"))
+        valid_urls = [
+            "https://packagist.org/packages/phpunit/php-code-coverage",
+            "http://packagist.org/packages/phpunit/php-code-coverage",
+            "packagist.org/packages/phpunit/php-code-coverage",
+            "https://www.packagist.org/packages/phpunit/php-code-coverage",
+        ]
+        for url in valid_urls:
+            self.assertTrue(backend.PackagistBackend.is_url_valid(url))
+
+        invalid_urls = [
+            "https://example.com",
+            "https://github.com/foo/bar",
+        ]
+        for url in invalid_urls:
+            self.assertFalse(backend.PackagistBackend.is_url_valid(url))
 
     def test_parse_url(self):
-        """Test the is_url_valid function of the Packagist backend."""
-        output = backend.PackagistBackend.parse_url(
-            "https://packagist.org/packages/phpunit/php-code-coverage/"
-        )
+        """Test the parse_url function of the Packagist backend."""
         exp = {
             "name": "php-code-coverage",
-            "homepage": "https://packagist.org/packages/phpunit/php-code-coverage/",
+            "homepage": "https://packagist.org/packages/phpunit/php-code-coverage",
             "backend": "Packagist",
             "version_url": "phpunit",
             "version_scheme": "RPM",
         }
-        self.assertEqual(output, exp)
+        urls = [
+            "https://packagist.org/packages/phpunit/php-code-coverage",
+            "https://packagist.org/packages/phpunit/php-code-coverage/",
+            "http://packagist.org/packages/phpunit/php-code-coverage",
+            "packagist.org/packages/phpunit/php-code-coverage",
+            "https://packagist.org/packages/phpunit/php-code-coverage.json",
+            "https://packagist.org/packages/phpunit/php-code-coverage.git",
+            "https://packagist.org/packages/phpunit/php-code-coverage/stats",
+            "https://packagist.org/packages/phpunit/php-code-coverage/dependents",
+            "https://packagist.org/packages/phpunit/php-code-coverage?tab=readme#versions",
+        ]
+        for url in urls:
+            self.assertEqual(backend.PackagistBackend.parse_url(url), exp)
+
+        invalid_urls = [
+            "https://packagist.org/",
+            "https://packagist.org/packages/",
+            "https://packagist.org/packages/phpunit",
+            "packagist.org",
+            "https://example.com/foo/bar",
+        ]
+        for url in invalid_urls:
+            with self.assertRaises(AnityaPluginException):
+                backend.PackagistBackend.parse_url(url)
 
 
 if __name__ == "__main__":
