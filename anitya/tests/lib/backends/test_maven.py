@@ -34,7 +34,7 @@ BACKEND = "Maven Central"
 
 
 class MavenBackendTest(DatabaseTestCase):
-    """custom backend tests."""
+    """Maven Central backend tests."""
 
     def setUp(self):
         """Set up the environnment, ran before every tests."""
@@ -198,7 +198,112 @@ class MavenBackendTest(DatabaseTestCase):
                 "https://repo1.maven.org/maven2/plexus/plexus-compiler/"
             )
         )
+        self.assertTrue(
+            MavenBackend.is_url_valid(
+                "https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/"
+            )
+        )
+        self.assertTrue(
+            MavenBackend.is_url_valid(
+                "https://search.maven.org/artifact/org.apache.commons/commons-lang3"
+            )
+        )
+        self.assertTrue(
+            MavenBackend.is_url_valid(
+                "https://central.sonatype.com/artifact/org.apache.commons/commons-lang3"
+            )
+        )
         self.assertFalse(MavenBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the parse_url function of the Maven backend."""
+        expected = {
+            "name": "commons-lang3",
+            "homepage": (
+                "https://repo1.maven.org/maven2/org/apache/commons/" "commons-lang3/"
+            ),
+            "backend": "Maven Central",
+            "version_url": "org.apache.commons:commons-lang3",
+            "version_scheme": "RPM",
+        }
+
+        urls = [
+            "https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/",
+            "https://repo1.maven.org/maven2/org/apache/commons/commons-lang3",
+            "http://repo1.maven.org/maven2/org/apache/commons/commons-lang3/",
+            (
+                "https://repo.maven.apache.org/maven2/org/apache/commons/"
+                "commons-lang3/"
+            ),
+            (
+                "https://repo1.maven.org/maven2/org/apache/commons/"
+                "commons-lang3/3.12.0/"
+            ),
+            (
+                "https://repo1.maven.org/maven2/org/apache/commons/"
+                "commons-lang3/3.12.0/commons-lang3-3.12.0.jar"
+            ),
+            (
+                "https://repo1.maven.org/maven2/org/apache/commons/"
+                "commons-lang3/maven-metadata.xml"
+            ),
+            "https://search.maven.org/artifact/org.apache.commons/commons-lang3",
+            (
+                "https://search.maven.org/artifact/org.apache.commons/"
+                "commons-lang3/3.12.0/jar"
+            ),
+            (
+                "https://central.sonatype.com/artifact/org.apache.commons/"
+                "commons-lang3"
+            ),
+            (
+                "https://central.sonatype.com/artifact/org.apache.commons/"
+                "commons-lang3/3.12.0"
+            ),
+            (
+                "https://search.maven.org/search?q=g:org.apache.commons"
+                "%20AND%20a:commons-lang3"
+            ),
+            (
+                "https://repo1.maven.org/maven2/org/apache/commons/"
+                "commons-lang3/?ref=search#files"
+            ),
+        ]
+        for url in urls:
+            self.assertEqual(MavenBackend.parse_url(url), expected)
+
+        # Other coordinates
+        res = MavenBackend.parse_url(
+            "https://repo1.maven.org/maven2/com/google/inject/guice/"
+        )
+        self.assertEqual(res["name"], "guice")
+        self.assertEqual(res["version_url"], "com.google.inject:guice")
+        self.assertEqual(
+            res["homepage"],
+            "https://repo1.maven.org/maven2/com/google/inject/guice/",
+        )
+
+        res = MavenBackend.parse_url(
+            "https://repo1.maven.org/maven2/plexus/plexus-compiler/"
+        )
+        self.assertEqual(res["name"], "plexus-compiler")
+        self.assertEqual(res["version_url"], "plexus:plexus-compiler")
+        self.assertEqual(
+            res["homepage"],
+            "https://repo1.maven.org/maven2/plexus/plexus-compiler/",
+        )
+
+        # Invalid URLs
+        invalid_urls = [
+            "https://repo1.maven.org/",
+            "https://repo1.maven.org/maven2/",
+            "https://repo1.maven.org/maven2/plexus/",
+            "https://search.maven.org/artifact/onlygroup",
+            "https://example.com",
+        ]
+        for url in invalid_urls:
+            with self.assertRaises(AnityaPluginException):
+                MavenBackend.parse_url(url)
 
 
 if __name__ == "__main__":

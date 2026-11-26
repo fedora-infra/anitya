@@ -9,12 +9,16 @@ Authors:
 """
 
 import re
+from urllib.parse import unquote, urlparse
+
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 
 VERSION_REGEX = re.compile(r"\<a[^>]+\>(\d[^</]*)")
-MAVEN_HOMEPAGE_RE = re.compile(r"https?://repo\d+\.maven.org/")
-# Maven artifact coordinates in format artifactId:groupId
+MAVEN_HOMEPAGE_RE = re.compile(
+    r"https?://(repo\d+\.maven\.org|repo\.maven\.apache\.org)/"
+)
+# Maven artifact coordinates in format groupId:artifactId
 COORDINATES_RE = re.compile(r"([^:]+):([^:]+)")
 
 
@@ -22,6 +26,7 @@ class MavenBackend(BaseBackend):
     """Backend for projects hosted on Maven Central"""
 
     name = "Maven Central"
+    default_version_scheme = "RPM"
     check_name_or_url = True
     examples = [
         "https://repo1.maven.org/maven2/plexus/plexus-compiler/",
@@ -74,7 +79,7 @@ class MavenBackend(BaseBackend):
         url = cls.get_version_url(project)
         if not url:
             raise AnityaPluginException(
-                "Aritfact needs to be in format groupId:artifactId"
+                "Artifact needs to be in format groupId:artifactId"
             )
 
         return get_versions_by_regex(url, VERSION_REGEX, project)
@@ -90,7 +95,86 @@ class MavenBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return bool(MAVEN_HOMEPAGE_RE.match(url))
+        valid_domains = (
+            "repo1.maven.org",
+            "repo.maven.apache.org",
+            "search.maven.org",
+            "central.sonatype.com",
+            "repo.maven.org",
+        )
+        return any(domain in url for domain in valid_domains)
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+
+        Raises:
+            AnityaPluginException: If URL cannot be parsed into valid Maven coordinates.
+        """
+        parsed = urlparse(url)
+        path = parsed.path.strip("/")
+
+        group_id = None
+        artifact_id = None
+
+        if "artifact/" in path:
+            sub = path.split("artifact/", 1)[1]
+            parts = [p for p in sub.split("/") if p]
+            if len(parts) >= 2:
+                group_id = parts[0]
+                artifact_id = parts[1]
+        elif "maven2/" in path:
+            sub = path.split("maven2/", 1)[1]
+            parts = [p for p in sub.split("/") if p]
+            file_exts = (
+                ".xml",
+                ".jar",
+                ".pom",
+                ".war",
+                ".sha1",
+                ".md5",
+                ".asc",
+            )
+            if parts and any(parts[-1].endswith(ext) for ext in file_exts):
+                parts = parts[:-1]
+            if parts and re.match(r"^\d", parts[-1]):
+                parts = parts[:-1]
+            if len(parts) >= 2:
+                group_id = ".".join(parts[:-1])
+                artifact_id = parts[-1]
+        elif parsed.query:
+            query = unquote(parsed.query)
+            g_match = re.search(r"g:[\"'\s]*([\w.\-]+)", query)
+            a_match = re.search(r"a:[\"'\s]*([\w.\-]+)", query)
+            if g_match and a_match:
+                group_id = g_match.group(1).strip("\"'")
+                artifact_id = a_match.group(1).strip("\"'")
+
+        if not group_id or not artifact_id:
+            raise AnityaPluginException(
+                f"Could not extract Maven coordinates from {url}"
+            )
+
+        name = artifact_id
+        version_url = f"{group_id}:{artifact_id}"
+        group_path = group_id.replace(".", "/")
+        homepage = f"https://repo1.maven.org/maven2/{group_path}/{artifact_id}/"
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):  # pragma: no cover
