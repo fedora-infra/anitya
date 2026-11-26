@@ -8,8 +8,11 @@ Authors:
 
 """
 
+from urllib.parse import urlparse
+
 import requests
 
+from anitya.lib import utilities
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 
@@ -21,6 +24,7 @@ class BitBucketBackend(BaseBackend):
     """
 
     name = "BitBucket"
+    default_version_scheme = "RPM"
     is_repo = True
     examples = [
         "https://bitbucket.org/zzzeek/sqlalchemy",
@@ -39,26 +43,54 @@ class BitBucketBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
+        prefixes = (
+            "https://bitbucket.org/",
+            "http://bitbucket.org/",
+            "https://www.bitbucket.org/",
+            "http://www.bitbucket.org/",
+        )
         url = ""
         if project.version_url:
-            url = project.version_url.replace("https://bitbucket.org/", "")
-        elif project.homepage and project.homepage.startswith("https://bitbucket.org/"):
-            url = project.homepage.replace("https://bitbucket.org/", "")
+            url = project.version_url
+            for prefix in prefixes:
+                if url.startswith(prefix):
+                    url = url[len(prefix) :]
+                    break
+            if "://" in url:
+                return ""
+        elif project.homepage:
+            url = project.homepage
+            for prefix in prefixes:
+                if url.startswith(prefix):
+                    url = url[len(prefix) :]
+                    break
+            else:
+                return ""
+        else:
+            return ""
 
-        # Clean up trailing slashes
-        if url.endswith("/"):
-            url = url[:-1]
+        url = url.strip("/")
+        for subpath in (
+            "/downloads",
+            "/src",
+            "/commits",
+            "/branches",
+            "/pull-requests",
+            "/issues",
+            "/wiki",
+        ):
+            if subpath in url:
+                url = url.split(subpath)[0].rstrip("/")
 
-        # Ensure we only keep the 'owner/repo' part by stripping extra paths
-        # in case a user pasted a link like bitbucket.org/owner/repo/downloads
-        if "/downloads" in url:
-            url = url.split("/downloads")[0]
-        if "/src" in url:
-            url = url.split("/src")[0]
+        if url:
+            url = utilities.remove_suffix(url, ".git")
 
         if url:
             # Use the official Bitbucket REST API v2.0 endpoint for tags
-            url = f"https://api.bitbucket.org/2.0/repositories/{url}/refs/tags?sort=-target.date"
+            url = (
+                "https://api.bitbucket.org/2.0/repositories/"
+                f"{url}/refs/tags?sort=-target.date"
+            )
 
         return url
 
@@ -114,7 +146,7 @@ class BitBucketBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://bitbucket.org")
+        return "bitbucket.org" in url
 
     @classmethod
     def parse_url(cls, url: str) -> dict:
@@ -126,18 +158,49 @@ class BitBucketBackend(BaseBackend):
 
         Returns:
             Dictionary containing project related data.
-        """
-        homepage = url
-        parsed_url = url.replace("https://bitbucket.org/", "").rstrip("/")
-        parts = parsed_url.split("/")
-        # Ensure we only keep the 'owner/repo' part by stripping extra paths
-        # in case a user pasted a link like bitbucket.org/owner/repo/downloads
-        if parts[-1] in ("downloads", "src"):
-            parts = parts[:-1]
 
-        version_url = "/".join(parts)
-        name = parts[-1]
-        version_scheme = "RPM"
+        Raises:
+            AnityaPluginException: If URL cannot be parsed into a valid project.
+        """
+        orig_url = url
+        if not cls.is_url_valid(orig_url):
+            raise AnityaPluginException(
+                f"Could not extract project name from {orig_url}"
+            )
+
+        if not url.startswith(("http://", "https://")):
+            url = f"https://{url}"
+        parsed = urlparse(url)
+        path = parsed.path.strip("/")
+
+        for subpath in (
+            "/downloads",
+            "/src",
+            "/commits",
+            "/branches",
+            "/pull-requests",
+            "/issues",
+            "/wiki",
+            "/activity",
+            "/jira",
+            "/addon",
+        ):
+            if subpath in path:
+                path = path.split(subpath)[0].rstrip("/")
+
+        path = utilities.remove_suffix(path.rstrip("/"), ".git")
+        parts = [p for p in path.split("/") if p]
+        if len(parts) < 2:
+            raise AnityaPluginException(
+                f"Could not extract project name from {orig_url}"
+            )
+
+        owner = parts[0]
+        repo = parts[1]
+        name = repo
+        homepage = f"https://bitbucket.org/{owner}/{repo}"
+        version_url = f"{owner}/{repo}"
+        version_scheme = cls.default_version_scheme
         backend = cls.name
         return {
             "name": name,

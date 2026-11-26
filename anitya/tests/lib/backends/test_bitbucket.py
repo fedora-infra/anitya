@@ -252,40 +252,106 @@ class BitBucketBackendtests(DatabaseTestCase):
         obs = backend.BitBucketBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
+    def test_get_version_url(self):
+        """Test the get_version_url method of the BitBucket backend."""
+        # 1. Project with version_url as owner/repo
+        project = models.Project(
+            name="sqlalchemy",
+            version_url="zzzeek/sqlalchemy",
+            backend=BACKEND,
+        )
+        exp = (
+            "https://api.bitbucket.org/2.0/repositories/"
+            "zzzeek/sqlalchemy/refs/tags?sort=-target.date"
+        )
+        self.assertEqual(backend.BitBucketBackend.get_version_url(project), exp)
+
+        # 2. Project with https version_url
+        project.version_url = "https://bitbucket.org/zzzeek/sqlalchemy"
+        self.assertEqual(backend.BitBucketBackend.get_version_url(project), exp)
+
+        # 3. Project with http version_url
+        project.version_url = "http://bitbucket.org/zzzeek/sqlalchemy"
+        self.assertEqual(backend.BitBucketBackend.get_version_url(project), exp)
+
+        # 4. Project with https homepage and no version_url
+        project.version_url = ""
+        project.homepage = "https://bitbucket.org/cherrypy/cherrypy"
+        exp_cherry = (
+            "https://api.bitbucket.org/2.0/repositories/"
+            "cherrypy/cherrypy/refs/tags?sort=-target.date"
+        )
+        self.assertEqual(backend.BitBucketBackend.get_version_url(project), exp_cherry)
+
+        # 5. Project with http homepage and no version_url
+        project.homepage = "http://bitbucket.org/cherrypy/cherrypy"
+        self.assertEqual(backend.BitBucketBackend.get_version_url(project), exp_cherry)
+
+        # 6. Project with subpath and .git in homepage
+        project.homepage = "https://bitbucket.org/cherrypy/cherrypy/src/master.git"
+        self.assertEqual(backend.BitBucketBackend.get_version_url(project), exp_cherry)
+
+        # 7. Project with no version_url and no homepage
+        project.homepage = ""
+        self.assertEqual(backend.BitBucketBackend.get_version_url(project), "")
+
+        # 8. Project with invalid non-bitbucket version_url
+        project.version_url = "https://wrong.org/foo/bar"
+        self.assertEqual(backend.BitBucketBackend.get_version_url(project), "")
+
     def test_is_url_valid(self):
         """Test the is_url_valid function of the BitBucket backend."""
-        self.assertTrue(
-            backend.BitBucketBackend.is_url_valid(
-                "https://bitbucket.org/zzzeek/sqlalchemy"
-            )
-        )
-        self.assertFalse(backend.BitBucketBackend.is_url_valid("https://example.com"))
+        valid_urls = [
+            "https://bitbucket.org/zzzeek/sqlalchemy",
+            "http://bitbucket.org/zzzeek/sqlalchemy",
+            "bitbucket.org/zzzeek/sqlalchemy",
+            "https://www.bitbucket.org/zzzeek/sqlalchemy",
+        ]
+        for url in valid_urls:
+            self.assertTrue(backend.BitBucketBackend.is_url_valid(url))
+
+        invalid_urls = [
+            "https://example.com",
+            "https://github.com/foo/bar",
+        ]
+        for url in invalid_urls:
+            self.assertFalse(backend.BitBucketBackend.is_url_valid(url))
 
     def test_parse_url(self):
-        """Test the is_url_valid function of the BitBucket backend."""
-        output = backend.BitBucketBackend.parse_url(
-            "https://bitbucket.org/zzzeek/sqlalchemy/"
-        )
+        """Test the parse_url function of the BitBucket backend."""
         exp = {
             "name": "sqlalchemy",
-            "homepage": "https://bitbucket.org/zzzeek/sqlalchemy/",
+            "homepage": "https://bitbucket.org/zzzeek/sqlalchemy",
             "backend": "BitBucket",
             "version_url": "zzzeek/sqlalchemy",
             "version_scheme": "RPM",
         }
-        self.assertEqual(output, exp)
+        urls = [
+            "https://bitbucket.org/zzzeek/sqlalchemy",
+            "https://bitbucket.org/zzzeek/sqlalchemy/",
+            "http://bitbucket.org/zzzeek/sqlalchemy",
+            "bitbucket.org/zzzeek/sqlalchemy",
+            "https://bitbucket.org/zzzeek/sqlalchemy.git",
+            "https://bitbucket.org/zzzeek/sqlalchemy/downloads/",
+            "https://bitbucket.org/zzzeek/sqlalchemy/src/",
+            "https://bitbucket.org/zzzeek/sqlalchemy/src/master",
+            "https://bitbucket.org/zzzeek/sqlalchemy/commits/master",
+            "https://bitbucket.org/zzzeek/sqlalchemy/branches/",
+            "https://bitbucket.org/zzzeek/sqlalchemy/issues?tab=open#top",
+            "https://bitbucket.org/zzzeek/sqlalchemy/pull-requests/1",
+        ]
+        for url in urls:
+            self.assertEqual(backend.BitBucketBackend.parse_url(url), exp)
 
-        output = backend.BitBucketBackend.parse_url(
-            "https://bitbucket.org/zzzeek/sqlalchemy/downloads/"
-        )
-        exp["homepage"] = "https://bitbucket.org/zzzeek/sqlalchemy/downloads/"
-        self.assertEqual(output, exp)
-
-        output = backend.BitBucketBackend.parse_url(
-            "https://bitbucket.org/zzzeek/sqlalchemy/src/"
-        )
-        exp["homepage"] = "https://bitbucket.org/zzzeek/sqlalchemy/src/"
-        self.assertEqual(output, exp)
+        invalid_urls = [
+            "https://bitbucket.org/",
+            "https://bitbucket.org/zzzeek",
+            "bitbucket.org",
+            "https://example.com/foo/bar",
+        ]
+        for url in invalid_urls:
+            with self.assertRaises(AnityaPluginException):
+                backend.BitBucketBackend.parse_url(url)
 
     @patch("anitya.lib.backends.bitbucket.requests.get")
     def test_get_versions_with_version_filter(self, mock_get):
