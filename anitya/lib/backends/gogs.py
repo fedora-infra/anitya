@@ -13,8 +13,11 @@
 # with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
-"""gogs"""
+"""Backend for projects hosted on Gogs instances."""
 
+from urllib.parse import urlparse
+
+from anitya.lib import utilities
 from anitya.lib.backends import BaseBackend, get_versions_by_regex
 from anitya.lib.exceptions import AnityaPluginException
 
@@ -22,13 +25,10 @@ REGEX = '<i class="tag icon"></i> (.*)</a>'
 
 
 class GogsBackend(BaseBackend):
-    """The custom class for projects hosted on gogs
-
-    This backend allows to specify a version_url that will
-    be used to retrieve the version information.
-    """
+    """Backend for projects hosted on Gogs instances (e.g. notabug.org)."""
 
     name = "Gogs"
+    default_version_scheme = "RPM"
     is_repo = True
     multi_host = True
     examples = [
@@ -98,7 +98,68 @@ class GogsBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://notabug.org")
+        return "notabug.org" in url
+
+    @classmethod
+    def parse_url(cls, url: str) -> dict:
+        """
+        Parse url to obtain project related data.
+
+        Attributes:
+            url (str): URL to check
+
+        Returns:
+            Dictionary containing project related data.
+
+        Raises:
+            AnityaPluginException: If URL cannot be parsed into a valid project.
+        """
+        orig_url = url
+        if not url.startswith(("http://", "https://")):
+            url = f"https://{url}"
+        parsed = urlparse(url)
+        path = parsed.path.strip("/")
+        host = parsed.netloc or "notabug.org"
+
+        for subpath in (
+            "/releases",
+            "/src",
+            "/commits",
+            "/branches",
+            "/issues",
+            "/pulls",
+            "/archive",
+            "/raw",
+            "/wiki",
+            "/activity",
+            "/forks",
+            "/stars",
+            "/watchers",
+        ):
+            if subpath in path:
+                path = path.split(subpath)[0].rstrip("/")
+
+        path = utilities.remove_suffix(path.rstrip("/"), ".git")
+        parts = [p for p in path.split("/") if p]
+        if len(parts) < 2:
+            raise AnityaPluginException(
+                f"Could not extract project name from {orig_url}"
+            )
+
+        owner = parts[0]
+        repo = parts[1]
+        name = repo
+        homepage = f"https://{host}/{owner}/{repo}"
+        version_url = homepage
+        version_scheme = cls.default_version_scheme
+        backend = cls.name
+        return {
+            "name": name,
+            "homepage": homepage,
+            "backend": backend,
+            "version_url": version_url,
+            "version_scheme": version_scheme,
+        }
 
     @classmethod
     def check_feed(cls):  # pragma: no cover
