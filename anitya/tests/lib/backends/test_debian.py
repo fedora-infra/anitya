@@ -191,6 +191,66 @@ class DebianBackendtests(DatabaseTestCase):
         )
         self.assertFalse(backend.DebianBackend.is_url_valid("https://example.com"))
 
+    def test_parse_url(self):
+        """Test the parse_url function of the Debian backend."""
+        cases = [
+            ("https://ftp.debian.org/debian/pool/main/q/qpdf/", "qpdf", "main", "q"),
+            ("http://ftp.debian.org/debian/pool/main/q/qpdf/", "qpdf", "main", "q"),
+            ("https://ftp.debian.org/debian/pool/main/q/qpdf", "qpdf", "main", "q"),
+            (
+                "https://ftp.debian.org/debian/pool/main/libg/libgnupg-interface-perl/",
+                "libgnupg-interface-perl",
+                "main",
+                "libg",
+            ),
+            (
+                "https://ftp.debian.org/debian/pool/main/q/qpdf/qpdf_11.5.0-1.dsc",
+                "qpdf",
+                "main",
+                "q",
+            ),
+            (
+                "https://ftp.debian.org/debian/pool/main/q/qpdf/qpdf_11.5.0.orig.tar.gz",
+                "qpdf",
+                "main",
+                "q",
+            ),
+            (
+                "https://ftp.debian.org/debian/pool/main/q/qpdf/qpdf_11.5.0-1.debian.tar.xz",
+                "qpdf",
+                "main",
+                "q",
+            ),
+            (
+                "https://ftp.debian.org/debian/pool/contrib/f/flashplugin-nonfree/",
+                "flashplugin-nonfree",
+                "contrib",
+                "f",
+            ),
+            (
+                "https://ftp.debian.org/debian/pool/main/q/qpdf?download#files",
+                "qpdf",
+                "main",
+                "q",
+            ),
+            ("https://ftp.debian.org/other/qpdf", "qpdf", "main", "q"),
+        ]
+        for url, exp_name, exp_section, exp_short in cases:
+            with self.subTest(url=url):
+                output = backend.DebianBackend.parse_url(url)
+                exp_homepage = (
+                    f"http://ftp.debian.org/debian/pool/{exp_section}/"
+                    f"{exp_short}/{exp_name}/"
+                )
+                exp = {
+                    "name": exp_name,
+                    "homepage": exp_homepage,
+                    "backend": "Debian project",
+                    "version_url": exp_homepage,
+                    "version_scheme": "RPM",
+                }
+                self.assertEqual(output, exp)
+
 
 if __name__ == "__main__":
     SUITE = unittest.TestLoader().loadTestsFromTestCase(DebianBackendtests)
