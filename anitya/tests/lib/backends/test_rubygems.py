@@ -135,6 +135,51 @@ class RubygemsBackendtests(DatabaseTestCase):
         )
         # etc...
 
+    @mock.patch("anitya.lib.backends.rubygems.RubygemsBackend.call_url")
+    def test_rubygems_check_feed_http_error(self, mock_call):
+        """Test check_feed raises AnityaPluginException on non-200 status code."""
+        mock_resp = mock.Mock()
+        mock_resp.status_code = 429
+        mock_resp.reason = "Too Many Requests"
+        mock_call.return_value = mock_resp
+
+        with self.assertRaises(AnityaPluginException) as ctx:
+            list(backend.RubygemsBackend.check_feed())
+        self.assertIn("Failed to download", str(ctx.exception))
+        self.assertIn("429", str(ctx.exception))
+
+    @mock.patch("anitya.lib.backends.rubygems.RubygemsBackend.call_url")
+    def test_rubygems_check_feed_non_list_response(self, mock_call):
+        """Test check_feed handles non-list JSON responses gracefully without crashing."""
+        mock_resp = mock.Mock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = {"error": "Too Many Requests"}
+        mock_call.return_value = mock_resp
+
+        items = list(backend.RubygemsBackend.check_feed())
+        self.assertEqual(items, [])
+
+    @mock.patch("anitya.lib.backends.rubygems.RubygemsBackend.call_url")
+    def test_rubygems_check_feed_malformed_items(self, mock_call):
+        """Test check_feed skips malformed or missing items gracefully."""
+        mock_resp = mock.Mock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = [
+            "not_a_dict",
+            {"name": "missing_version"},
+            {"version": "1.0.0"},
+            {"name": "", "version": "1.0.0"},
+            {"name": "valid-gem", "version": "2.0.0"},
+        ]
+        mock_call.return_value = mock_resp
+
+        items = list(backend.RubygemsBackend.check_feed())
+        self.assertEqual(len(items), 1)
+        self.assertEqual(
+            items[0],
+            ("valid-gem", "https://rubygems.org/gems/valid-gem", "Rubygems", "2.0.0"),
+        )
+
     def test_is_url_valid(self):
         """Test the is_url_valid function of the Rubygems backend."""
         self.assertTrue(
