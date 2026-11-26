@@ -193,20 +193,43 @@ class SourceforgeBackendtests(DatabaseTestCase):
             AnityaPluginException, backend.SourceforgeBackend.get_versions, project
         )
 
-    def test_is_url_valid(self):
-        """Test the is_url_valid function of the Rubygems backend."""
-        self.assertTrue(
-            backend.SourceforgeBackend.is_url_valid(
-                "https://sourceforge.net/projects/filezilla/"
-            )
+    def test_get_version_url_full_url(self):
+        """Assert that correct url is returned when version_url is a full URL."""
+        project = models.Project(
+            name="filezilla",
+            homepage="https://example.org",
+            version_url="https://sourceforge.net/projects/filezilla/",
+            backend=BACKEND,
         )
-        self.assertFalse(backend.SourceforgeBackend.is_url_valid("https://example.com"))
+        exp = "https://sourceforge.net/projects/filezilla/rss"
+        obs = backend.SourceforgeBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
+
+        # With http and subpath
+        project.version_url = "http://sourceforge.net/projects/filezilla/files"
+        obs = backend.SourceforgeBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
+
+    def test_is_url_valid(self):
+        """Test the is_url_valid function of the Sourceforge backend."""
+        valid_urls = [
+            "https://sourceforge.net/projects/filezilla/",
+            "http://sourceforge.net/projects/filezilla",
+            "sourceforge.net/projects/filezilla",
+            "https://www.sourceforge.net/projects/filezilla",
+        ]
+        for url in valid_urls:
+            self.assertTrue(backend.SourceforgeBackend.is_url_valid(url))
+
+        invalid_urls = [
+            "https://example.com",
+            "https://github.com/foo/bar",
+        ]
+        for url in invalid_urls:
+            self.assertFalse(backend.SourceforgeBackend.is_url_valid(url))
 
     def test_parse_url(self):
-        """Test the is_url_valid function of the Rubygems backend."""
-        output = backend.SourceforgeBackend.parse_url(
-            "https://sourceforge.net/projects/filezilla/"
-        )
+        """Test the parse_url function of the Sourceforge backend."""
         exp = {
             "name": "filezilla",
             "homepage": "https://sourceforge.net/projects/filezilla/",
@@ -214,7 +237,28 @@ class SourceforgeBackendtests(DatabaseTestCase):
             "version_url": "filezilla",
             "version_scheme": "RPM",
         }
-        self.assertEqual(output, exp)
+        urls = [
+            "https://sourceforge.net/projects/filezilla",
+            "https://sourceforge.net/projects/filezilla/",
+            "http://sourceforge.net/projects/filezilla",
+            "sourceforge.net/projects/filezilla",
+            "https://sourceforge.net/projects/filezilla/files/",
+            "https://sourceforge.net/projects/filezilla/reviews/",
+            "https://sourceforge.net/projects/filezilla/support/",
+            "https://sourceforge.net/projects/filezilla?source=navbar#reviews",
+        ]
+        for url in urls:
+            self.assertEqual(backend.SourceforgeBackend.parse_url(url), exp)
+
+        invalid_urls = [
+            "https://sourceforge.net/",
+            "https://sourceforge.net/projects/",
+            "sourceforge.net",
+            "https://example.com/foo/bar",
+        ]
+        for url in invalid_urls:
+            with self.assertRaises(AnityaPluginException):
+                backend.SourceforgeBackend.parse_url(url)
 
 
 if __name__ == "__main__":

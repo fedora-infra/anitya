@@ -8,7 +8,10 @@ Authors:
 
 """
 
+from urllib.parse import urlparse
+
 from anitya.lib.backends import REGEX, BaseBackend, get_versions_by_regex
+from anitya.lib.exceptions import AnityaPluginException
 
 
 class SourceforgeBackend(BaseBackend):
@@ -19,6 +22,7 @@ class SourceforgeBackend(BaseBackend):
     """
 
     name = "Sourceforge"
+    default_version_scheme = "RPM"
     check_name_or_url = True
     examples = [
         "https://sourceforge.net/projects/filezilla/",
@@ -38,10 +42,22 @@ class SourceforgeBackend(BaseBackend):
             str: url used for version checking
         """
         url_template = "https://sourceforge.net/projects/%(name)s/rss"
+        raw_name = project.version_url or project.name or ""
+        for prefix in (
+            "https://sourceforge.net/projects/",
+            "http://sourceforge.net/projects/",
+            "https://www.sourceforge.net/projects/",
+            "http://www.sourceforge.net/projects/",
+        ):
+            if raw_name.startswith(prefix):
+                raw_name = raw_name[len(prefix) :]
+                break
 
-        url = url_template % {
-            "name": (project.version_url or project.name).replace("+", r"\+")
-        }
+        name = raw_name.strip("/")
+        if "/" in name:
+            name = name.split("/")[0]
+
+        url = url_template % {"name": name.replace("+", r"\+")}
 
         return url
 
@@ -76,7 +92,7 @@ class SourceforgeBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://sourceforge.net/projects")
+        return "sourceforge.net/projects" in url
 
     @classmethod
     def parse_url(cls, url: str) -> dict:
@@ -88,11 +104,45 @@ class SourceforgeBackend(BaseBackend):
 
         Returns:
             Dictionary containing project related data.
+
+        Raises:
+            AnityaPluginException: If URL cannot be parsed into a valid project.
         """
-        homepage = url
-        version_url = url.rstrip("/").split("/")[-1]
-        name = url.rstrip("/").split("/")[-1]
-        version_scheme = "RPM"
+        orig_url = url
+        if not cls.is_url_valid(orig_url):
+            raise AnityaPluginException(
+                f"Could not extract project name from {orig_url}"
+            )
+
+        if not url.startswith(("http://", "https://")):
+            url = f"https://{url}"
+        parsed = urlparse(url)
+        path = parsed.path.strip("/")
+
+        if path.startswith("projects"):
+            path = path[len("projects") :].strip("/")
+
+        for subpath in (
+            "/files",
+            "/reviews",
+            "/support",
+            "/directory",
+            "/develop",
+            "/news",
+        ):
+            if subpath in path:
+                path = path.split(subpath)[0].rstrip("/")
+
+        parts = [p for p in path.split("/") if p]
+        if not parts:
+            raise AnityaPluginException(
+                f"Could not extract project name from {orig_url}"
+            )
+
+        name = parts[0]
+        homepage = f"https://sourceforge.net/projects/{name}/"
+        version_url = name
+        version_scheme = cls.default_version_scheme
         backend = cls.name
         return {
             "name": name,

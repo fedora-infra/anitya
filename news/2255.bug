@@ -1,0 +1,1 @@
+Fix URL validation to accept http URLs, handle full URLs in get_version_url, and implement robust parse_url for SourceForge backend.
