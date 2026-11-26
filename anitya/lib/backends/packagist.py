@@ -9,8 +9,11 @@ Authors:
 
 """
 
+from urllib.parse import urlparse
+
 from sqlalchemy import func
 
+from anitya.lib import utilities
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 
@@ -23,6 +26,7 @@ class PackagistBackend(BaseBackend):
     """
 
     name = "Packagist"
+    default_version_scheme = "RPM"
     examples = [
         "https://packagist.org/packages/phpunit/php-code-coverage",
         "https://packagist.org/packages/phpunit/php-timer",
@@ -44,8 +48,10 @@ class PackagistBackend(BaseBackend):
         url = ""
         url_template = "https://packagist.org/packages/%(user)s/%(name)s.json"
 
-        if project.version_url:
-            url = url_template % {"name": project.name, "user": project.version_url}
+        if project.version_url and project.name:
+            user = project.version_url.strip("/")
+            name = project.name.strip("/")
+            url = url_template % {"name": name, "user": user}
 
         return url
 
@@ -125,7 +131,7 @@ class PackagistBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://packagist.org")
+        return "packagist.org" in url
 
     @classmethod
     def parse_url(cls, url: str) -> dict:
@@ -137,11 +143,48 @@ class PackagistBackend(BaseBackend):
 
         Returns:
             Dictionary containing project related data.
+
+        Raises:
+            AnityaPluginException: If URL cannot be parsed into a valid project.
         """
-        homepage = url
-        version_url = url.replace("https://packagist.org/packages/", "").split("/")[0]
-        name = url.rstrip("/").split("/")[-1]
-        version_scheme = "RPM"
+        orig_url = url
+        if not cls.is_url_valid(orig_url):
+            raise AnityaPluginException(
+                f"Could not extract project name from {orig_url}"
+            )
+
+        if not url.startswith(("http://", "https://")):
+            url = f"https://{url}"
+        parsed = urlparse(url)
+        path = parsed.path.strip("/")
+
+        if "packages/" in path:
+            path = path.split("packages/")[-1]
+
+        for subpath in (
+            "/stats",
+            "/dependents",
+            "/suggesters",
+            "/security-advisories",
+            "/abandonments",
+        ):
+            if subpath in path:
+                path = path.split(subpath)[0].rstrip("/")
+
+        path = utilities.remove_suffix(path.rstrip("/"), ".json")
+        path = utilities.remove_suffix(path, ".git")
+
+        parts = [p for p in path.split("/") if p]
+        if len(parts) < 2:
+            raise AnityaPluginException(
+                f"Could not extract project name from {orig_url}"
+            )
+
+        vendor = parts[0]
+        name = parts[1]
+        homepage = f"https://packagist.org/packages/{vendor}/{name}"
+        version_url = vendor
+        version_scheme = cls.default_version_scheme
         backend = cls.name
         return {
             "name": name,

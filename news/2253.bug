@@ -1,0 +1,1 @@
+Fix URL validation to accept http URLs and implement robust parse_url for Packagist backend.
