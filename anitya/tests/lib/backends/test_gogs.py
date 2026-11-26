@@ -209,7 +209,56 @@ class GogsBackendtests(DatabaseTestCase):
         self.assertTrue(
             backend.GogsBackend.is_url_valid("https://notabug.org/libreboot/lbmk/")
         )
+        self.assertTrue(
+            backend.GogsBackend.is_url_valid("http://notabug.org/libreboot/lbmk/")
+        )
+        self.assertTrue(
+            backend.GogsBackend.is_url_valid("https://notabug.org/libreboot/lbmk")
+        )
         self.assertFalse(backend.GogsBackend.is_url_valid("https://example.com"))
+
+    def test_parse_url(self):
+        """Test the parse_url function of the Gogs backend."""
+        expected = {
+            "name": "lbmk",
+            "homepage": "https://notabug.org/libreboot/lbmk",
+            "backend": "Gogs",
+            "version_url": "https://notabug.org/libreboot/lbmk",
+            "version_scheme": "RPM",
+        }
+
+        urls = [
+            "https://notabug.org/libreboot/lbmk",
+            "https://notabug.org/libreboot/lbmk/",
+            "http://notabug.org/libreboot/lbmk",
+            "notabug.org/libreboot/lbmk",
+            "https://notabug.org/libreboot/lbmk.git",
+            "https://notabug.org/libreboot/lbmk/releases",
+            "https://notabug.org/libreboot/lbmk/src/master",
+            "https://notabug.org/libreboot/lbmk/commits/master",
+            "https://notabug.org/libreboot/lbmk/issues?q=open#top",
+        ]
+        for url in urls:
+            self.assertEqual(backend.GogsBackend.parse_url(url), expected)
+
+        # Multi-host support
+        res = backend.GogsBackend.parse_url(
+            "https://gogs.example.org/owner/myrepo/releases"
+        )
+        self.assertEqual(res["name"], "myrepo")
+        self.assertEqual(res["homepage"], "https://gogs.example.org/owner/myrepo")
+        self.assertEqual(res["version_url"], "https://gogs.example.org/owner/myrepo")
+
+        # Invalid URLs
+        invalid_urls = [
+            "https://notabug.org/",
+            "https://notabug.org/libreboot",
+            "notabug.org",
+            "https://notabug.org/explore",
+        ]
+        for url in invalid_urls:
+            with self.assertRaises(AnityaPluginException):
+                backend.GogsBackend.parse_url(url)
 
 
 if __name__ == "__main__":
