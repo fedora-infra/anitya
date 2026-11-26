@@ -9,10 +9,13 @@ Authors:
 
 """
 
+import logging
 from urllib.parse import quote
 
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
+
+_log = logging.getLogger(__name__)
 
 
 class NpmjsBackend(BaseBackend):
@@ -184,18 +187,38 @@ class NpmjsBackend(BaseBackend):
         except Exception as err:  # pragma: no cover
             raise AnityaPluginException(f"Could not contact {url}") from err
 
+        if response.status_code != 200:
+            raise AnityaPluginException(
+                f"Failed to download from {url}: {response.status_code} "
+                f"{response.reason}"
+            )
+
         try:
             data = response.json()
         except Exception as err:  # pragma: no cover
             raise AnityaPluginException(f"No JSON returned by {url}") from err
 
-        for item in data["results"]:
-            if item.get("deleted"):
+        if not isinstance(data, dict):
+            _log.warning("Unexpected response format from %s: expected dict", url)
+            return
+
+        results = data.get("results")
+        if not isinstance(results, list):
+            _log.warning(
+                "Unexpected response format from %s: missing results list", url
+            )
+            return
+
+        for item in results:
+            if not isinstance(item, dict) or item.get("deleted"):
                 continue
-            doc = item["doc"]
-            name = doc["name"]
-            homepage = doc.get(
-                "homepage", f"https://npmjs.org/package/{name}"  # noqa: E231
-            )  # noqa: E231
-            for version in doc.get("versions", []):
+            doc = item.get("doc")
+            if not isinstance(doc, dict):
+                continue
+            name = doc.get("name")
+            if not name:
+                continue
+            homepage = doc.get("homepage") or f"https://npmjs.org/package/{name}"
+            versions = doc.get("versions") or []
+            for version in versions:
                 yield name, homepage, cls.name, version

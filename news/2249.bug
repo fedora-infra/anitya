@@ -1,0 +1,1 @@
+Fix unhandled KeyError and TypeError in NpmjsBackend.check_feed.
