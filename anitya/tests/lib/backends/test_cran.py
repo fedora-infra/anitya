@@ -211,3 +211,70 @@ class CranBackendTests(DatabaseTestCase):
             ("FedData", "https://github.com/ropensci/FedData", "CRAN (R)", "2.5.2"),
         )
         # etc...
+
+    @mock.patch("anitya.lib.backends.cran.CranBackend.call_url")
+    def test_check_feed_non_list_response(self, mock_call):
+        """Test check_feed handles non-list JSON responses gracefully without crashing."""
+        mock_resp = mock.Mock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = {
+            "error": "not_found",
+            "reason": "Database does not exist.",
+        }
+        mock_call.return_value = mock_resp
+
+        items = list(backend.CranBackend.check_feed())
+        self.assertEqual(items, [])
+
+    @mock.patch("anitya.lib.backends.cran.CranBackend.call_url")
+    def test_check_feed_malformed_items(self, mock_call):
+        """Test check_feed skips malformed or missing items gracefully."""
+        mock_resp = mock.Mock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = [
+            "not_a_dict",
+            {"name": "pkg1"},
+            {"package": {"Version": "1.0.0"}},
+            {"name": "pkg2", "package": "not_a_dict"},
+            {"name": "pkg3", "package": {"Version": ""}},
+            {
+                "name": "pkg4",
+                "package": {
+                    "Version": "1.2.0",
+                    "URL": "https://example.com/pkg4",
+                },
+            },
+        ]
+        mock_call.return_value = mock_resp
+
+        items = list(backend.CranBackend.check_feed())
+        self.assertEqual(len(items), 1)
+        self.assertEqual(
+            items[0],
+            ("pkg4", "https://example.com/pkg4", "CRAN (R)", "1.2.0"),
+        )
+
+    @mock.patch("anitya.lib.backends.cran.CranBackend.call_url")
+    def test_check_feed_null_url(self, mock_call):
+        """Test check_feed falls back to canonical URL when package URL is None."""
+        mock_resp = mock.Mock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = [
+            {
+                "name": "pkg_null_url",
+                "package": {"Version": "3.1.0", "URL": None},
+            }
+        ]
+        mock_call.return_value = mock_resp
+
+        items = list(backend.CranBackend.check_feed())
+        self.assertEqual(len(items), 1)
+        self.assertEqual(
+            items[0],
+            (
+                "pkg_null_url",
+                "https://cran.r-project.org/web/packages/pkg_null_url",
+                "CRAN (R)",
+                "3.1.0",
+            ),
+        )

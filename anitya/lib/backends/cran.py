@@ -38,11 +38,14 @@ JSON API instead:
 """
 
 import json
+import logging
 
 import requests
 
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
+
+_log = logging.getLogger(__name__)
 
 
 class CranBackend(BaseBackend):
@@ -243,11 +246,21 @@ class CranBackend(BaseBackend):
         except json.JSONDecodeError as err:  # pragma: no cover
             raise AnityaPluginException(f"No JSON returned by {url}") from err
 
+        if not isinstance(data, list):
+            _log.warning("Unexpected response format from %s: expected list", url)
+            return
+
         for item in data:
-            name = item["name"]
-            package = item["package"]
-            homepage = package.get(
-                "URL", "https://cran.r-project.org/web/packages/" + name
+            if not isinstance(item, dict):
+                continue
+            name = item.get("name")
+            package = item.get("package")
+            if not name or not isinstance(package, dict):
+                continue
+            version = package.get("Version")
+            if not version:
+                continue
+            homepage = (
+                package.get("URL") or f"https://cran.r-project.org/web/packages/{name}"
             )
-            version = package["Version"]
             yield name, homepage, cls.name, version

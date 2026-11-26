@@ -10,8 +10,12 @@ Authors:
 
 """
 
+import logging
+
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
+
+_log = logging.getLogger(__name__)
 
 
 class RubygemsBackend(BaseBackend):
@@ -132,12 +136,27 @@ class RubygemsBackend(BaseBackend):
         except Exception as exc:  # pragma: no cover
             raise AnityaPluginException(f"Could not contact {url}") from exc
 
+        if response.status_code != 200:
+            raise AnityaPluginException(
+                f"Failed to download from {url}: {response.status_code} "
+                f"{response.reason}"
+            )
+
         try:
             data = response.json()
         except Exception as exc:  # pragma: no cover
             raise AnityaPluginException(f"No JSON returned by {url}") from exc
 
+        if not isinstance(data, list):
+            _log.warning("Unexpected response format from %s: expected list", url)
+            return
+
         for item in data:
-            name, version = item["name"], item["version"]
+            if not isinstance(item, dict):
+                continue
+            name = item.get("name")
+            version = item.get("version")
+            if not name or not version:
+                continue
             homepage = f"https://rubygems.org/gems/{name}"  # noqa: E231
             yield name, homepage, cls.name, version
