@@ -352,6 +352,115 @@ class NpmjsBackendtests(DatabaseTestCase):
         )
         # etc...
 
+    @mock.patch("anitya.lib.backends.npmjs.NpmjsBackend.call_url")
+    def test_npmjs_check_feed_http_error(self, mock_call):
+        """Test check_feed raises AnityaPluginException on non-200 status code."""
+        mock_resp = mock.Mock()
+        mock_resp.status_code = 500
+        mock_resp.reason = "Internal Server Error"
+        mock_call.return_value = mock_resp
+
+        with self.assertRaises(AnityaPluginException) as ctx:
+            list(backend.NpmjsBackend.check_feed())
+        self.assertIn("Failed to download", str(ctx.exception))
+        self.assertIn("500", str(ctx.exception))
+
+    @mock.patch("anitya.lib.backends.npmjs.NpmjsBackend.call_url")
+    def test_npmjs_check_feed_invalid_response_format(self, mock_call):
+        """Test check_feed handles non-dict JSON or missing results without crashing."""
+        mock_resp = mock.Mock()
+        mock_resp.status_code = 200
+        mock_call.return_value = mock_resp
+
+        # Non-dict JSON response
+        mock_resp.json.return_value = ["not_a_dict"]
+        items = list(backend.NpmjsBackend.check_feed())
+        self.assertEqual(items, [])
+
+        # Dict without results key
+        mock_resp.json.return_value = {"error": "internal_server_error"}
+        items = list(backend.NpmjsBackend.check_feed())
+        self.assertEqual(items, [])
+
+        # Dict where results is not a list
+        mock_resp.json.return_value = {"results": "not_a_list"}
+        items = list(backend.NpmjsBackend.check_feed())
+        self.assertEqual(items, [])
+
+    @mock.patch("anitya.lib.backends.npmjs.NpmjsBackend.call_url")
+    def test_npmjs_check_feed_malformed_items(self, mock_call):
+        """Test check_feed skips malformed, deleted, or doc-less items gracefully."""
+        mock_resp = mock.Mock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = {
+            "results": [
+                "not_a_dict",
+                {"id": "pkg-deleted", "deleted": True},
+                {"id": "pkg-no-doc"},
+                {"id": "pkg-doc-not-dict", "doc": "string"},
+                {"id": "pkg-no-name", "doc": {"versions": {"1.0.0": {}}}},
+                {
+                    "id": "pkg-empty-name",
+                    "doc": {"name": "", "versions": {"1.0.0": {}}},
+                },
+                {
+                    "id": "valid-pkg",
+                    "doc": {
+                        "name": "valid-pkg",
+                        "homepage": "https://example.com/valid",
+                        "versions": {"1.0.0": {}, "1.0.1": {}},
+                    },
+                },
+            ]
+        }
+        mock_call.return_value = mock_resp
+
+        items = sorted(backend.NpmjsBackend.check_feed())
+        self.assertEqual(len(items), 2)
+        self.assertEqual(
+            items[0],
+            ("valid-pkg", "https://example.com/valid", "npmjs", "1.0.0"),
+        )
+        self.assertEqual(
+            items[1],
+            ("valid-pkg", "https://example.com/valid", "npmjs", "1.0.1"),
+        )
+
+    @mock.patch("anitya.lib.backends.npmjs.NpmjsBackend.call_url")
+    def test_npmjs_check_feed_null_homepage_and_null_versions(self, mock_call):
+        """Test check_feed handles null homepage and null versions gracefully."""
+        mock_resp = mock.Mock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = {
+            "results": [
+                {
+                    "id": "pkg-null-versions",
+                    "doc": {"name": "pkg-null-versions", "versions": None},
+                },
+                {
+                    "id": "pkg-null-homepage",
+                    "doc": {
+                        "name": "pkg-null-homepage",
+                        "homepage": None,
+                        "versions": ["2.0.0"],
+                    },
+                },
+            ]
+        }
+        mock_call.return_value = mock_resp
+
+        items = list(backend.NpmjsBackend.check_feed())
+        self.assertEqual(len(items), 1)
+        self.assertEqual(
+            items[0],
+            (
+                "pkg-null-homepage",
+                "https://npmjs.org/package/pkg-null-homepage",
+                "npmjs",
+                "2.0.0",
+            ),
+        )
+
     def test_is_url_valid(self):
         """Test the is_url_valid function of the NPMjs backend."""
         self.assertTrue(
