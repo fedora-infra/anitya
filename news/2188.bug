@@ -1,1 +1,0 @@
-Fix missing continue on ValueError in CpanBackend.check_feed to avoid crash or duplicate releases.

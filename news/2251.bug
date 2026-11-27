@@ -1,1 +1,0 @@
-Fix URL validation to accept http URLs, fix get_version_url on http and non-bitbucket URLs, and implement robust parse_url for BitBucket backend.

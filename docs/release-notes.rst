@@ -4,6 +4,253 @@ Release Notes
 
 .. towncrier release notes start
 
+2.5.0 (2026-11-27)
+==================
+
+Features
+--------
+
+* Allow adding new projects just from URL
+  (`#1742 <https://github.com/fedora-infra/anitya/issues/1742>`_)
+
+* Detect duplicate projects on creation and edit.
+  (`#1752 <https://github.com/fedora-infra/anitya/issues/1752>`_)
+
+* Style visited links to visually distinguish opened project pages.
+  (`#1954 <https://github.com/fedora-infra/anitya/issues/1954>`_)
+
+* Default project search to prefix matching and prioritize exact matches.
+  (`#1958 <https://github.com/fedora-infra/anitya/issues/1958>`_)
+
+* Use HTMX for project form checks and updates pagination.
+  (`#2142 <https://github.com/fedora-infra/anitya/issues/2142>`_)
+
+* Implement parse_url and default Semantic version scheme for crates.io backend
+  (`#2174 <https://github.com/fedora-infra/anitya/issues/2174>`_)
+
+* Implement parse_url and sanitize repository URLs for GitLab backend.
+  (`#2184 <https://github.com/fedora-infra/anitya/issues/2184>`_)
+
+* Implement parse_url and default Semantic version scheme for Rubygems backend.
+  (`#2186 <https://github.com/fedora-infra/anitya/issues/2186>`_)
+
+* Support npmjs.com URLs in NpmjsBackend.is_url_valid, implement parse_url for
+  regular and scoped packages, percent-encode scoped package names in
+  get_version_url, and set default Semantic version scheme for NpmjsBackend
+  and NpmEcosystem.
+  (`#2196 <https://github.com/fedora-infra/anitya/issues/2196>`_)
+
+* Implement parse_url and _clean_url for PagureBackend to support adding
+  Pagure projects by URL, accept both http and https URLs in is_url_valid,
+  and explicitly set default_version_scheme to RPM.
+  (`#2201 <https://github.com/fedora-infra/anitya/issues/2201>`_)
+
+* Implement parse_url for CranBackend to support adding CRAN projects by URL,
+  accept both http and https URLs in is_url_valid, explicitly declare
+  default_version_scheme to RPM, and fix backend docstring.
+  (`#2205 <https://github.com/fedora-infra/anitya/issues/2205>`_)
+
+* Implement parse_url for LaunchpadBackend to support adding Launchpad
+  projects by URL, accept both http and https URLs in is_url_valid,
+  explicitly declare default_version_scheme to RPM, and fix backend docstrings.
+  (`#2211 <https://github.com/fedora-infra/anitya/issues/2211>`_)
+
+* Implement parse_url for HackageBackend to support adding Hackage projects by URL,
+  accept both http and https URLs in is_url_valid, strip version suffixes, explicitly
+  declare default_version_scheme to RPM, and fix backend docstrings.
+  (`#2215 <https://github.com/fedora-infra/anitya/issues/2215>`_)
+
+* Implement parse_url for PeclBackend to support adding PECL projects by URL,
+  accept both http and https URLs in is_url_valid, strip version suffixes, explicitly
+  declare default_version_scheme to RPM, and fix backend docstrings.
+  (`#2218 <https://github.com/fedora-infra/anitya/issues/2218>`_)
+
+* Implement parse_url for PearBackend to support adding PEAR projects by URL,
+  accept both http and https URLs in is_url_valid, strip version suffixes, explicitly
+  declare default_version_scheme to RPM, and fix backend docstrings.
+  (`#2229 <https://github.com/fedora-infra/anitya/issues/2229>`_, `#2231 <https://github.com/fedora-infra/anitya/issues/2231>`_)
+
+* Implement parse_url for StackageBackend to support adding Stackage
+  projects by URL, accept http and non-www URLs in is_url_valid,
+  explicitly declare default_version_scheme to RPM, and fix backend docstrings.
+  (`#2233 <https://github.com/fedora-infra/anitya/issues/2233>`_)
+
+* Implement parse_url, accept http/ftp URLs and improve error handling for GNU backend
+  (`#2237 <https://github.com/fedora-infra/anitya/issues/2237>`_)
+
+* Implement parse_url for GnomeBackend to support adding GNOME
+  projects by URL, accept http URLs in is_url_valid,
+  explicitly declare default_version_scheme to RPM, and fix backend docstrings.
+  (`#2239 <https://github.com/fedora-infra/anitya/issues/2239>`_)
+
+* Implement parse_url for Debian backend
+  (`#2241 <https://github.com/fedora-infra/anitya/issues/2241>`_)
+
+* Implement parse_url for GogsBackend to support adding Gogs
+  projects by URL, accept http URLs in is_url_valid,
+  explicitly declare default_version_scheme to RPM, and fix backend docstrings.
+  (`#2243 <https://github.com/fedora-infra/anitya/issues/2243>`_)
+
+* Implement parse_url for MavenBackend to support adding Maven Central
+  projects by URL, expand URL validation in is_url_valid,
+  explicitly declare default_version_scheme to RPM, and fix backend docstrings.
+  (`#2245 <https://github.com/fedora-infra/anitya/issues/2245>`_)
+
+
+Bug Fixes
+---------
+
+* Fix import of anitya.lib.backends on Python 3.15 (sre_constants was removed)
+  (`PR#2130 <https://github.com/fedora-infra/anitya/pull/2130>`_)
+
+* Deduplicate project names and improve autocomplete search responsiveness.
+  (`PR#2140 <https://github.com/fedora-infra/anitya/pull/2140>`_)
+
+* Emphasize typo suggestions in the search empty state.
+  (`PR#2141 <https://github.com/fedora-infra/anitya/pull/2141>`_)
+
+* Fix trailing-slash route shadowing on project and distro creation forms.
+  (`PR#2161 <https://github.com/fedora-infra/anitya/pull/2161>`_)
+
+* Add typo tolerant project name suggestions and optimize autocomplete.
+  (`#2124 <https://github.com/fedora-infra/anitya/issues/2124>`_)
+
+* Switch crates.io backend to use Cargo's sparse index.
+  (`#2131 <https://github.com/fedora-infra/anitya/issues/2131>`_)
+
+* Allow project creation when backend rate limits are hit during pre-creation validation.
+  (`#2138 <https://github.com/fedora-infra/anitya/issues/2138>`_)
+
+* Preserve version pattern and insecure settings on project creation.
+  (`#2142 <https://github.com/fedora-infra/anitya/issues/2142>`_)
+
+* Fix release check crashes and false prefix matches on filtered projects.
+  (`#2155 <https://github.com/fedora-infra/anitya/issues/2155>`_)
+
+* Fix SQLAlchemy relationship overlap warning for Project.packages vs Packages.project.
+  (`#2164 <https://github.com/fedora-infra/anitya/issues/2164>`_)
+
+* Gitea URL import truncates valid repository names
+  (`#2166 <https://github.com/fedora-infra/anitya/issues/2166>`_)
+
+* Fix Cgit parse_url truncating repository names
+  (`#2170 <https://github.com/fedora-infra/anitya/issues/2170>`_)
+
+* Fix release check errors during project edit being misattributed to duplicate project name and homepage.
+  (`#2176 <https://github.com/fedora-infra/anitya/issues/2176>`_)
+
+* Fix Drupal6 and Drupal7 backend docstrings to correctly refer to drupal.org instead of ftp.debian.org.
+  (`#2177 <https://github.com/fedora-infra/anitya/issues/2177>`_)
+
+* Update DebianBackend to accept both http and https URLs in is_url_valid.
+  (`#2180 <https://github.com/fedora-infra/anitya/issues/2180>`_)
+
+* Fix Drupal6 and Drupal7 get_version_url to not re-introduce the prefix when project name contains hyphens.
+  (`#2182 <https://github.com/fedora-infra/anitya/issues/2182>`_)
+
+* Fix missing continue on ValueError in CpanBackend.check_feed to avoid crash or duplicate releases.
+  (`#2188 <https://github.com/fedora-infra/anitya/issues/2188>`_)
+
+* Fix unhandled IndexError in PeclBackend and PearBackend get_version when no versions found.
+  (`#2199 <https://github.com/fedora-infra/anitya/issues/2199>`_)
+
+* Fix URL validation and implement parse_url for NpmjsBackend.
+  (`#2207 <https://github.com/fedora-infra/anitya/issues/2207>`_)
+
+* Fix BitBucketBackend.get_versions ignoring project.version_filter.
+  (`#2209 <https://github.com/fedora-infra/anitya/issues/2209>`_)
+
+* Fix unhandled IndexError in BaseBackend.get_version when no versions found.
+  (`#2213 <https://github.com/fedora-infra/anitya/issues/2213>`_)
+
+* Fix unhandled TypeError, ValueError, and KeyError in PypiBackend.check_feed.
+  (`#2220 <https://github.com/fedora-infra/anitya/issues/2220>`_)
+
+* Fix alembic upgrade
+  (`#2222 <https://github.com/fedora-infra/anitya/issues/2222>`_)
+
+* Fix unhandled TypeError, ValueError, and KeyError in PeclBackend.check_feed and PearBackend.check_feed.
+  (`#2224 <https://github.com/fedora-infra/anitya/issues/2224>`_)
+
+* Fix unhandled TypeError, ValueError, and KeyError in PearBackend and PeclBackend check_feed.
+  (`#2227 <https://github.com/fedora-infra/anitya/issues/2227>`_)
+
+* Fix error handling in get_versions and implement robust URL parsing for SourceHut backend
+  (`#2235 <https://github.com/fedora-infra/anitya/issues/2235>`_)
+
+* Fix unhandled TypeError and KeyError in RubygemsBackend and CranBackend check_feed.
+  (`#2247 <https://github.com/fedora-infra/anitya/issues/2247>`_)
+
+* Fix unhandled KeyError and TypeError in NpmjsBackend.check_feed.
+  (`#2249 <https://github.com/fedora-infra/anitya/issues/2249>`_)
+
+* Fix URL validation to accept http URLs, fix get_version_url on http and non-bitbucket URLs, and implement robust parse_url for BitBucket backend.
+  (`#2251 <https://github.com/fedora-infra/anitya/issues/2251>`_)
+
+* Fix URL validation to accept http URLs and implement robust parse_url for Packagist backend.
+  (`#2253 <https://github.com/fedora-infra/anitya/issues/2253>`_)
+
+* Fix URL validation to accept http URLs, handle full URLs in get_version_url, and implement robust parse_url for SourceForge backend.
+  (`#2255 <https://github.com/fedora-infra/anitya/issues/2255>`_)
+
+* Fix URL validation, get_version_url, and implement robust parse_url for Cgit backend.
+  (`#2257 <https://github.com/fedora-infra/anitya/issues/2257>`_)
+
+* Fix URL validation, get_version_url, and implement robust parse_url for Packagist backend.
+  (`#2258 <https://github.com/fedora-infra/anitya/issues/2258>`_)
+
+* Fix URL validation, get_version_url, and implement robust parse_url for Gitea backend.
+  (`#2260 <https://github.com/fedora-infra/anitya/issues/2260>`_)
+
+* Fix ValueError crash, URL validation, and implement robust parse_url for Sourceforge (git) backend.
+  (`#2262 <https://github.com/fedora-infra/anitya/issues/2262>`_)
+
+
+Development Changes
+-------------------
+
+* Isolate dev container virtualenv to /opt/venv.
+  (`PR#2132 <https://github.com/fedora-infra/anitya/pull/2132>`_)
+
+* Speed up test database setup with transaction rollbacks.
+  (`PR#2136 <https://github.com/fedora-infra/anitya/pull/2136>`_)
+
+* Add AGENTS.md documenting development guidelines, tooling, and conventions.
+  (`PR#2137 <https://github.com/fedora-infra/anitya/pull/2137>`_)
+
+* Fix container image name typo and add OCI source label to link published container to repository.
+  (`#2126 <https://github.com/fedora-infra/anitya/issues/2126>`_)
+
+* Fix dev container startup race in make up and add PackageNotFoundError fallback for __version__.
+  (`#2127 <https://github.com/fedora-infra/anitya/issues/2127>`_)
+
+* Set cache_ok = True on GUID TypeDecorator to enable SQLAlchemy query caching.
+  (`#2157 <https://github.com/fedora-infra/anitya/issues/2157>`_)
+
+* Replace deprecated semver.compare and semver.VersionInfo with semver.Version.
+  (`#2162 <https://github.com/fedora-infra/anitya/issues/2162>`_)
+
+
+Other Changes
+-------------
+
+* Document unparseable versions and troubleshooting in user guide.
+  (`#2194 <https://github.com/fedora-infra/anitya/issues/2194>`_)
+
+
+Contributors
+------------
+Many thanks to the contributors of bug reports, pull requests, and pull request
+reviews for this release:
+
+* Michal Konecny
+* Sheikh Limon
+* cristianchiriac
+* Muskan Kumari
+* DavdaJames
+* Shivani Patel
+* Tanmai1808
+
 2.4.0 (2026-10-12)
 ==================
 

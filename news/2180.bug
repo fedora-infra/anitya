@@ -1,1 +1,0 @@
-Update DebianBackend to accept both http and https URLs in is_url_valid.

@@ -1,1 +1,0 @@
-Fix ValueError crash, URL validation, and implement robust parse_url for Sourceforge (git) backend.

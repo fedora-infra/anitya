@@ -1,1 +1,0 @@
-Fix unhandled IndexError in BaseBackend.get_version when no versions found.

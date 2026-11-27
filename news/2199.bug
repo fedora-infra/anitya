@@ -1,1 +1,0 @@
-Fix unhandled IndexError in PeclBackend and PearBackend get_version when no versions found.

@@ -1,1 +1,0 @@
-Set cache_ok = True on GUID TypeDecorator to enable SQLAlchemy query caching.

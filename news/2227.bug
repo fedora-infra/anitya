@@ -1,1 +1,0 @@
-Fix unhandled TypeError, ValueError, and KeyError in PearBackend and PeclBackend check_feed.
