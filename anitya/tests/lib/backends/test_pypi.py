@@ -171,10 +171,26 @@ class PypiBackendtests(DatabaseTestCase):
         self.assertTrue(
             backend.PypiBackend.is_url_valid("https://pypi.org/project/fedmsg/")
         )
+        self.assertTrue(
+            backend.PypiBackend.is_url_valid("http://pypi.org/project/fedmsg/")
+        )
+        self.assertTrue(
+            backend.PypiBackend.is_url_valid("https://www.pypi.org/project/fedmsg/")
+        )
+        self.assertTrue(
+            backend.PypiBackend.is_url_valid("http://www.pypi.org/project/fedmsg/")
+        )
+        self.assertTrue(
+            backend.PypiBackend.is_url_valid("https://pypi.python.org/pypi/fedmsg/")
+        )
+        self.assertTrue(
+            backend.PypiBackend.is_url_valid("http://pypi.python.org/pypi/fedmsg/")
+        )
         self.assertFalse(backend.PypiBackend.is_url_valid("https://example.com"))
+        self.assertFalse(backend.PypiBackend.is_url_valid("https://notpypi.org"))
 
     def test_parse_url(self):
-        """Test the is_url_valid function of the PyPi backend."""
+        """Test the parse_url function of the PyPi backend."""
         output = backend.PypiBackend.parse_url("https://pypi.org/project/fedmsg/")
         exp = {
             "name": "fedmsg",
@@ -184,6 +200,108 @@ class PypiBackendtests(DatabaseTestCase):
             "version_scheme": "Python (PEP 440)",
         }
         self.assertEqual(output, exp)
+
+    def test_parse_url_variations(self):
+        """Test parse_url with various valid PyPI URL formats."""
+        test_cases = [
+            (
+                "https://pypi.org/project/requests",
+                {
+                    "name": "requests",
+                    "homepage": "https://pypi.org/project/requests/",
+                    "backend": "PyPI",
+                    "version_url": "https://pypi.org/project/requests/",
+                    "version_scheme": "Python (PEP 440)",
+                },
+            ),
+            (
+                "http://pypi.org/project/requests/",
+                {
+                    "name": "requests",
+                    "homepage": "https://pypi.org/project/requests/",
+                    "backend": "PyPI",
+                    "version_url": "https://pypi.org/project/requests/",
+                    "version_scheme": "Python (PEP 440)",
+                },
+            ),
+            (
+                "https://pypi.org/project/requests/2.28.1/",
+                {
+                    "name": "requests",
+                    "homepage": "https://pypi.org/project/requests/",
+                    "backend": "PyPI",
+                    "version_url": "https://pypi.org/project/requests/",
+                    "version_scheme": "Python (PEP 440)",
+                },
+            ),
+            (
+                "https://pypi.org/project/requests/#files",
+                {
+                    "name": "requests",
+                    "homepage": "https://pypi.org/project/requests/",
+                    "backend": "PyPI",
+                    "version_url": "https://pypi.org/project/requests/",
+                    "version_scheme": "Python (PEP 440)",
+                },
+            ),
+            (
+                "https://pypi.org/project/requests/?utm_source=feed",
+                {
+                    "name": "requests",
+                    "homepage": "https://pypi.org/project/requests/",
+                    "backend": "PyPI",
+                    "version_url": "https://pypi.org/project/requests/",
+                    "version_scheme": "Python (PEP 440)",
+                },
+            ),
+            (
+                "https://pypi.python.org/pypi/requests/",
+                {
+                    "name": "requests",
+                    "homepage": "https://pypi.org/project/requests/",
+                    "backend": "PyPI",
+                    "version_url": "https://pypi.org/project/requests/",
+                    "version_scheme": "Python (PEP 440)",
+                },
+            ),
+            (
+                "https://pypi.python.org/pypi/requests/2.28.1",
+                {
+                    "name": "requests",
+                    "homepage": "https://pypi.org/project/requests/",
+                    "backend": "PyPI",
+                    "version_url": "https://pypi.org/project/requests/",
+                    "version_scheme": "Python (PEP 440)",
+                },
+            ),
+            (
+                "https://pypi.org/requests",
+                {
+                    "name": "requests",
+                    "homepage": "https://pypi.org/project/requests/",
+                    "backend": "PyPI",
+                    "version_url": "https://pypi.org/project/requests/",
+                    "version_scheme": "Python (PEP 440)",
+                },
+            ),
+        ]
+        for url, expected in test_cases:
+            with self.subTest(url=url):
+                self.assertEqual(backend.PypiBackend.parse_url(url), expected)
+
+    def test_parse_url_invalid(self):
+        """Test parse_url with invalid or incomplete PyPI URLs."""
+        invalid_urls = [
+            "https://example.com/project/requests",
+            "https://pypi.org/",
+            "https://pypi.org/project/",
+            "https://pypi.org/project",
+            "https://pypi.org/pypi/",
+        ]
+        for url in invalid_urls:
+            with self.subTest(url=url):
+                with self.assertRaises(AnityaPluginException):
+                    backend.PypiBackend.parse_url(url)
 
     def test_pypi_check_feed(self):
         """Test the check_feed method of the pypi backend."""

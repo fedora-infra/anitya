@@ -11,6 +11,7 @@ Authors:
 """
 
 import logging
+from urllib.parse import urlparse
 
 from anitya.lib import xml2dict
 from anitya.lib.backends import BaseBackend
@@ -23,6 +24,7 @@ class PypiBackend(BaseBackend):
     """The PyPI class for project hosted on PyPI."""
 
     name = "PyPI"
+    default_version_scheme = "Python (PEP 440)"
     examples = [
         "https://pypi.org/project/fedmsg/",
     ]
@@ -147,7 +149,16 @@ class PypiBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://pypi.org")
+        return url.startswith(
+            (
+                "https://pypi.org",
+                "http://pypi.org",
+                "https://www.pypi.org",
+                "http://www.pypi.org",
+                "https://pypi.python.org",
+                "http://pypi.python.org",
+            )
+        )
 
     @classmethod
     def parse_url(cls, url: str) -> dict:
@@ -159,11 +170,35 @@ class PypiBackend(BaseBackend):
 
         Returns:
             Dictionary containing project related data.
+
+        Raises:
+            AnityaPluginException: If URL cannot be parsed into a valid project.
         """
-        homepage = url
-        version_url = url
-        name = url.rstrip("/").split("/")[-1]
-        version_scheme = "Python (PEP 440)"
+        if not cls.is_url_valid(url):
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
+        parsed = urlparse(url)
+        path = parsed.path.strip("/")
+        parts = [p for p in path.split("/") if p]
+
+        name = None
+        if "project" in parts:
+            idx = parts.index("project")
+            if len(parts) > idx + 1:
+                name = parts[idx + 1]
+        elif "pypi" in parts:
+            idx = parts.index("pypi")
+            if len(parts) > idx + 1:
+                name = parts[idx + 1]
+        elif len(parts) == 1:
+            name = parts[0]
+
+        if not name or name in ("project", "pypi"):
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
+        homepage = f"https://pypi.org/project/{name}/"
+        version_url = homepage
+        version_scheme = cls.default_version_scheme
         backend = cls.name
         return {
             "name": name,
