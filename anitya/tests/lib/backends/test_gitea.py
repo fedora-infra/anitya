@@ -154,6 +154,38 @@ class GiteaBackendtests(DatabaseTestCase):
 
         self.assertEqual(obs, "")
 
+    def test_get_version_url_project_subpaths(self):
+        """Assert that get_version_url handles subpaths and query strings correctly."""
+        project = models.Project(
+            version_url="https://codeberg.org/forgejo/forgejo/releases",
+            releases_only=True,
+        )
+        exp = "https://codeberg.org/api/v1/repos/forgejo/forgejo/releases"
+        self.assertEqual(backend.GiteaBackend.get_version_url(project), exp)
+
+        project = models.Project(
+            version_url="https://codeberg.org/forgejo/forgejo/tags"
+        )
+        exp = "https://codeberg.org/api/v1/repos/forgejo/forgejo/tags"
+        self.assertEqual(backend.GiteaBackend.get_version_url(project), exp)
+
+        # Schemeless version_url
+        project = models.Project(version_url="codeberg.org/forgejo/forgejo/tags")
+        self.assertEqual(backend.GiteaBackend.get_version_url(project), exp)
+
+        project = models.Project(
+            version_url="https://codeberg.org/forgejo/forgejo/src/branch/main"
+        )
+        self.assertEqual(backend.GiteaBackend.get_version_url(project), exp)
+
+        project = models.Project(
+            version_url="https://codeberg.org/forgejo/forgejo?tab=activity#readme"
+        )
+        self.assertEqual(backend.GiteaBackend.get_version_url(project), exp)
+
+        project = models.Project(version_url="", homepage="")
+        self.assertEqual(backend.GiteaBackend.get_version_url(project), "")
+
     def test_get_versions_project_homepage_only(self):
         """
         Assert that correct versions are returned
@@ -250,16 +282,24 @@ class GiteaBackendtests(DatabaseTestCase):
         )
 
     def test_is_url_valid(self):
-        """Test the is_url_valid function of the freshmeat backend."""
-        self.assertTrue(
-            backend.GiteaBackend.is_url_valid(
-                "https://codeberg.org/freedroid/freedroid-src.git"
-            )
-        )
-        self.assertFalse(backend.GiteaBackend.is_url_valid("https://example.com"))
+        """Test the is_url_valid function of the Gitea backend."""
+        valid_urls = [
+            "https://codeberg.org/freedroid/freedroid-src.git",
+            "http://codeberg.org/freedroid/freedroid-src.git",
+            "codeberg.org/freedroid/freedroid-src.git",
+        ]
+        for url in valid_urls:
+            self.assertTrue(backend.GiteaBackend.is_url_valid(url))
+
+        invalid_urls = [
+            "https://example.com",
+            "http://example.com/foo/bar",
+        ]
+        for url in invalid_urls:
+            self.assertFalse(backend.GiteaBackend.is_url_valid(url))
 
     def test_parse_url(self):
-        """Test the is_url_valid function of the freshmeat backend."""
+        """Test the parse_url function of the Gitea backend."""
         output = backend.GiteaBackend.parse_url(
             "https://codeberg.org/freedroid/freedroid-src.git/"
         )
@@ -281,6 +321,37 @@ class GiteaBackendtests(DatabaseTestCase):
             "version_scheme": "RPM",
         }
         self.assertEqual(output, exp)
+
+        # Test subpaths and query strings
+        subpath_urls = [
+            "https://codeberg.org/forgejo/forgejo/releases",
+            "https://codeberg.org/forgejo/forgejo/tags",
+            "https://codeberg.org/forgejo/forgejo/src/branch/main",
+            "https://codeberg.org/forgejo/forgejo/commits/branch/main",
+            "https://codeberg.org/forgejo/forgejo?tab=activity#readme",
+        ]
+        for url in subpath_urls:
+            self.assertEqual(backend.GiteaBackend.parse_url(url), exp)
+
+        # Test http and schemeless
+        res_http = backend.GiteaBackend.parse_url("http://codeberg.org/forgejo/forgejo")
+        self.assertEqual(res_http["name"], "forgejo")
+        self.assertEqual(res_http["homepage"], "http://codeberg.org/forgejo/forgejo")
+
+        res_no_scheme = backend.GiteaBackend.parse_url("codeberg.org/forgejo/forgejo")
+        self.assertEqual(res_no_scheme["name"], "forgejo")
+        self.assertEqual(res_no_scheme["homepage"], "codeberg.org/forgejo/forgejo")
+
+        # Test invalid URLs
+        invalid_urls = [
+            "https://codeberg.org/",
+            "https://codeberg.org/forgejo",
+            "codeberg.org",
+            "https://example.com/foo/bar",
+        ]
+        for url in invalid_urls:
+            with self.assertRaises(AnityaPluginException):
+                backend.GiteaBackend.parse_url(url)
 
     def test_parse_url_preserves_repository_name(self):
         """Test that parse_url removes only a literal .git suffix and slashes."""

@@ -1,0 +1,1 @@
+Fix URL validation, get_version_url, and implement robust parse_url for Gitea backend.

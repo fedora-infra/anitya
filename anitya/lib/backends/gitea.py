@@ -15,6 +15,8 @@
 #
 """gitea"""
 
+from urllib.parse import urlparse
+
 from anitya.lib import utilities
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
@@ -29,6 +31,7 @@ class GiteaBackend(BaseBackend):
     """
 
     name = "Gitea"
+    default_version_scheme = "RPM"
     is_repo = True
     multi_host = True
     examples = [
@@ -56,17 +59,49 @@ class GiteaBackend(BaseBackend):
         elif project.homepage:
             repo_url = project.homepage
 
-        tokens = utilities.remove_suffix(repo_url.rstrip("/"), ".git").split("/")
-        url = ""
-        if len(tokens) == 5:
-            url = url_template % {
-                "host": tokens[0] + "//" + tokens[2],
-                "owner": tokens[3],
-                "repo": tokens[4],
-                "releases_or_tags": "releases" if project.releases_only else "tags",
-            }
+        if not repo_url:
+            return ""
 
-        return url
+        clean = repo_url.split("?")[0].split("#")[0].rstrip("/")
+        if not clean.startswith(("http://", "https://")):
+            clean = f"https://{clean}"
+        parsed = urlparse(clean)
+        host = f"{parsed.scheme}://{parsed.netloc}"
+        path = parsed.path.strip("/")
+
+        for subpath in (
+            "/releases",
+            "/tags",
+            "/src",
+            "/commits",
+            "/branches",
+            "/issues",
+            "/pulls",
+            "/archive",
+            "/raw",
+            "/wiki",
+            "/activity",
+            "/forks",
+            "/stars",
+            "/watchers",
+        ):
+            if subpath in f"/{path}":
+                path = f"/{path}".split(subpath)[0].strip("/")
+
+        path = utilities.remove_suffix(path.rstrip("/"), ".git")
+        parts = [p for p in path.split("/") if p]
+        if len(parts) < 2:
+            return ""
+
+        owner = parts[0]
+        repo = parts[1]
+
+        return url_template % {
+            "host": host,
+            "owner": owner,
+            "repo": repo,
+            "releases_or_tags": "releases" if project.releases_only else "tags",
+        }
 
     @classmethod
     def get_versions(cls, project):
@@ -111,7 +146,10 @@ class GiteaBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://codeberg.org")
+        return url.startswith(("https://codeberg.org", "http://codeberg.org")) or (
+            not url.startswith(("http://", "https://"))
+            and url.startswith("codeberg.org")
+        )
 
     @classmethod
     def parse_url(cls, url: str) -> dict:
@@ -123,11 +161,61 @@ class GiteaBackend(BaseBackend):
 
         Returns:
             Dictionary containing project related data.
+
+        Raises:
+            AnityaPluginException: If URL cannot be parsed into a valid project.
         """
-        homepage = url
-        version_url = url
-        name = utilities.remove_suffix(url.rstrip("/"), ".git").split("/")[-1]
-        version_scheme = "RPM"
+        orig_url = url
+        if not cls.is_url_valid(orig_url):
+            raise AnityaPluginException(
+                f"Could not extract project name from {orig_url}"
+            )
+
+        parsed_orig = urlparse(orig_url if "://" in orig_url else f"https://{orig_url}")
+        path = parsed_orig.path.strip("/")
+        host = parsed_orig.netloc or "codeberg.org"
+
+        has_subpath = False
+        for subpath in (
+            "/releases",
+            "/tags",
+            "/src",
+            "/commits",
+            "/branches",
+            "/issues",
+            "/pulls",
+            "/archive",
+            "/raw",
+            "/wiki",
+            "/activity",
+            "/forks",
+            "/stars",
+            "/watchers",
+        ):
+            if subpath in f"/{path}":
+                path = f"/{path}".split(subpath)[0].strip("/")
+                has_subpath = True
+
+        path_no_git = utilities.remove_suffix(path, ".git").strip("/")
+        parts = [p for p in path_no_git.split("/") if p]
+        if len(parts) < 2:
+            raise AnityaPluginException(
+                f"Could not extract project name from {orig_url}"
+            )
+
+        owner = parts[0]
+        repo = parts[1]
+        name = repo
+
+        if has_subpath or parsed_orig.query or parsed_orig.fragment:
+            clean_url = f"https://{host}/{owner}/{repo}"
+            homepage = clean_url
+            version_url = clean_url
+        else:
+            homepage = orig_url
+            version_url = orig_url
+
+        version_scheme = cls.default_version_scheme
         backend = cls.name
         return {
             "name": name,
