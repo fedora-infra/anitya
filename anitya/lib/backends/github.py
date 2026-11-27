@@ -10,6 +10,7 @@ Authors:
 """
 
 import logging
+from urllib.parse import urlparse
 
 import arrow
 
@@ -33,6 +34,7 @@ class GithubBackend(BaseBackend):
 
     name = "GitHub"
     is_repo = True
+    default_version_scheme = "RPM"
     examples = [
         "https://github.com/fedora-infra/fedocal",
         "https://github.com/fedora-infra/pkgdb2",
@@ -53,18 +55,28 @@ class GithubBackend(BaseBackend):
         url = ""
         if project.version_url:
             url = project.version_url
-        elif project.homepage.startswith("https://github.com/"):
+        elif project.homepage and project.homepage.startswith("https://github.com/"):
             url = project.homepage.replace("https://github.com/", "")
 
-        if url.endswith("/"):
-            url = url[:-1]
+        if url:
+            parsed = urlparse(url)
+            path = parsed.path.strip("/")
+            parts = [p for p in path.split("/") if p]
+            if len(parts) >= 2:
+                owner = parts[0]
+                repo = utilities.remove_suffix(parts[1], ".git")
+                url = f"{owner}/{repo}"
+            elif len(parts) == 1:
+                url = parts[0]
+            else:
+                url = ""
 
         if url:
             url_template = "https://github.com/%(repo)s/%(release_or_tag)s"
             release_or_tag = "releases" if project.releases_only else "tags"
             return url_template % {"repo": url, "release_or_tag": release_or_tag}
 
-        return url
+        return ""
 
     @classmethod
     def _retrieve_versions(cls, owner, repo, project):
@@ -175,7 +187,14 @@ class GithubBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://github.com")
+        return url.startswith(
+            (
+                "https://github.com",
+                "http://github.com",
+                "https://www.github.com",
+                "http://www.github.com",
+            )
+        )
 
     @classmethod
     def parse_url(cls, url: str) -> dict:
@@ -187,11 +206,34 @@ class GithubBackend(BaseBackend):
 
         Returns:
             Dictionary containing project related data.
+
+        Raises:
+            AnityaPluginException: If URL cannot be parsed into a valid project.
         """
-        homepage = url
-        version_url = url.rstrip("/").replace("https://github.com/", "")
-        name = url.rstrip("/").split("/")[-1]
-        version_scheme = "RPM"
+        if not cls.is_url_valid(url):
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
+        parsed = urlparse(url)
+        path = parsed.path.strip("/")
+        parts = [p for p in path.split("/") if p]
+        if len(parts) < 2:
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
+        owner = parts[0]
+        repo = utilities.remove_suffix(parts[1], ".git")
+        name = repo
+        version_url = f"{owner}/{repo}"
+
+        has_subpath = len(parts) > 2
+        is_git = parts[1].endswith(".git")
+        has_query_or_frag = bool(parsed.query or parsed.fragment)
+        is_http = parsed.scheme == "http"
+        if has_subpath or is_git or has_query_or_frag or is_http:
+            homepage = f"https://github.com/{owner}/{repo}"
+        else:
+            homepage = url
+
+        version_scheme = cls.default_version_scheme
         backend = cls.name
         return {
             "name": name,

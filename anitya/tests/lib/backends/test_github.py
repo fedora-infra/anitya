@@ -528,10 +528,26 @@ class GithubBackendtests(DatabaseTestCase):
                 "https://github.com/fedora-infra/fedocal"
             )
         )
+        self.assertTrue(
+            backend.GithubBackend.is_url_valid("http://github.com/fedora-infra/fedocal")
+        )
+        self.assertTrue(
+            backend.GithubBackend.is_url_valid(
+                "https://www.github.com/fedora-infra/fedocal"
+            )
+        )
+        self.assertTrue(
+            backend.GithubBackend.is_url_valid(
+                "http://www.github.com/fedora-infra/fedocal"
+            )
+        )
+        self.assertFalse(
+            backend.GithubBackend.is_url_valid("https://gitlab.com/fedora/fedocal")
+        )
         self.assertFalse(backend.GithubBackend.is_url_valid("https://example.com"))
 
     def test_parse_url(self):
-        """Test the is_url_valid function of the GitHub backend."""
+        """Test the parse_url function of the GitHub backend."""
         output = backend.GithubBackend.parse_url(
             "https://github.com/fedora-infra/fedocal/"
         )
@@ -543,6 +559,115 @@ class GithubBackendtests(DatabaseTestCase):
             "version_scheme": "RPM",
         }
         self.assertEqual(output, exp)
+
+    def test_parse_url_variations(self):
+        """Test parse_url with various valid GitHub URL formats."""
+        test_cases = [
+            (
+                "http://github.com/owner/repo",
+                {
+                    "name": "repo",
+                    "homepage": "https://github.com/owner/repo",
+                    "backend": "GitHub",
+                    "version_url": "owner/repo",
+                    "version_scheme": "RPM",
+                },
+            ),
+            (
+                "https://github.com/owner/repo.git",
+                {
+                    "name": "repo",
+                    "homepage": "https://github.com/owner/repo",
+                    "backend": "GitHub",
+                    "version_url": "owner/repo",
+                    "version_scheme": "RPM",
+                },
+            ),
+            (
+                "https://github.com/owner/repo/releases",
+                {
+                    "name": "repo",
+                    "homepage": "https://github.com/owner/repo",
+                    "backend": "GitHub",
+                    "version_url": "owner/repo",
+                    "version_scheme": "RPM",
+                },
+            ),
+            (
+                "https://github.com/owner/repo/tree/main",
+                {
+                    "name": "repo",
+                    "homepage": "https://github.com/owner/repo",
+                    "backend": "GitHub",
+                    "version_url": "owner/repo",
+                    "version_scheme": "RPM",
+                },
+            ),
+            (
+                "https://github.com/owner/repo?tab=readme#readme",
+                {
+                    "name": "repo",
+                    "homepage": "https://github.com/owner/repo",
+                    "backend": "GitHub",
+                    "version_url": "owner/repo",
+                    "version_scheme": "RPM",
+                },
+            ),
+        ]
+        for url, expected in test_cases:
+            with self.subTest(url=url):
+                self.assertEqual(backend.GithubBackend.parse_url(url), expected)
+
+    def test_parse_url_invalid(self):
+        """Test parse_url with invalid or incomplete GitHub URLs."""
+        invalid_urls = [
+            "https://gitlab.com/owner/repo",
+            "https://github.com/",
+            "https://github.com/owner",
+            "https://github.com/owner/",
+        ]
+        for url in invalid_urls:
+            with self.subTest(url=url):
+                with self.assertRaises(AnityaPluginException):
+                    backend.GithubBackend.parse_url(url)
+
+    def test_get_version_url_variations(self):
+        """Test get_version_url with various version_url formats."""
+        project = models.Project(
+            name="test-project",
+            homepage="https://github.com/owner/repo",
+            version_url="https://github.com/owner/repo",
+            backend=BACKEND,
+        )
+        self.assertEqual(
+            backend.GithubBackend.get_version_url(project),
+            "https://github.com/owner/repo/tags",
+        )
+
+        project.version_url = "https://github.com/owner/repo.git"
+        self.assertEqual(
+            backend.GithubBackend.get_version_url(project),
+            "https://github.com/owner/repo/tags",
+        )
+
+        project.version_url = "owner/repo/releases"
+        self.assertEqual(
+            backend.GithubBackend.get_version_url(project),
+            "https://github.com/owner/repo/tags",
+        )
+
+        project.releases_only = True
+        self.assertEqual(
+            backend.GithubBackend.get_version_url(project),
+            "https://github.com/owner/repo/releases",
+        )
+
+        project.version_url = "https://github.com/"
+        self.assertEqual(backend.GithubBackend.get_version_url(project), "")
+
+        project.version_url = None
+        project.homepage = ""
+        self.assertEqual(backend.GithubBackend.get_version_url(project), "")
 
 
 class JsonTests(unittest.TestCase):
