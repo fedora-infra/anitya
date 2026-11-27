@@ -289,7 +289,20 @@ class SourceHutBackendTests(DatabaseTestCase):
         self.assertTrue(
             backend.SourceHutBackend.is_url_valid("http://git.sr.ht/~sircmpwn/scdoc/")
         )
+        self.assertTrue(
+            backend.SourceHutBackend.is_url_valid(
+                "https://www.git.sr.ht/~sircmpwn/scdoc/"
+            )
+        )
+        self.assertTrue(
+            backend.SourceHutBackend.is_url_valid(
+                "http://www.git.sr.ht/~sircmpwn/scdoc/"
+            )
+        )
         self.assertFalse(backend.SourceHutBackend.is_url_valid("https://example.com"))
+        self.assertFalse(
+            backend.SourceHutBackend.is_url_valid("https://github.com/~sircmpwn/scdoc")
+        )
 
     def test_parse_url(self):
         """Test the parse_url function of the SourceHut backend."""
@@ -297,6 +310,16 @@ class SourceHutBackendTests(DatabaseTestCase):
             ("https://git.sr.ht/~sircmpwn/scdoc", "sircmpwn/scdoc", "scdoc"),
             ("https://git.sr.ht/~sircmpwn/scdoc/", "sircmpwn/scdoc", "scdoc"),
             ("http://git.sr.ht/~sircmpwn/scdoc", "sircmpwn/scdoc", "scdoc"),
+            (
+                "https://www.git.sr.ht/~sircmpwn/scdoc",
+                "sircmpwn/scdoc",
+                "scdoc",
+            ),
+            (
+                "https://git.sr.ht/~sircmpwn/scdoc.git",
+                "sircmpwn/scdoc",
+                "scdoc",
+            ),
             (
                 "https://git.sr.ht/~sircmpwn/scdoc/tree/master",
                 "sircmpwn/scdoc",
@@ -324,6 +347,66 @@ class SourceHutBackendTests(DatabaseTestCase):
                     "version_scheme": "RPM",
                 }
                 self.assertEqual(output, exp)
+
+    def test_parse_url_invalid(self):
+        """Test parse_url with invalid or incomplete SourceHut URLs."""
+        invalid_urls = [
+            "https://git.sr.ht/~",
+            "https://git.sr.ht/~sircmpwn",
+            "https://git.sr.ht/~sircmpwn/",
+            "https://example.com/foo/bar",
+        ]
+        for url in invalid_urls:
+            with self.subTest(url=url):
+                with self.assertRaises(AnityaPluginException):
+                    backend.SourceHutBackend.parse_url(url)
+
+    def test_get_version_url_variations(self):
+        """Test get_version_url with various version_url formats."""
+        project = models.Project(
+            name="scdoc",
+            homepage="https://git.sr.ht/~sircmpwn/scdoc",
+            version_url="https://git.sr.ht/~sircmpwn/scdoc",
+            backend=BACKEND,
+        )
+        self.assertEqual(
+            backend.SourceHutBackend.get_version_url(project),
+            "https://git.sr.ht/~sircmpwn/scdoc/refs/rss.xml",
+        )
+
+        project.version_url = "http://git.sr.ht/~sircmpwn/scdoc"
+        self.assertEqual(
+            backend.SourceHutBackend.get_version_url(project),
+            "https://git.sr.ht/~sircmpwn/scdoc/refs/rss.xml",
+        )
+
+        project.version_url = "~sircmpwn/scdoc"
+        self.assertEqual(
+            backend.SourceHutBackend.get_version_url(project),
+            "https://git.sr.ht/~sircmpwn/scdoc/refs/rss.xml",
+        )
+
+        project.version_url = "sircmpwn/scdoc.git"
+        self.assertEqual(
+            backend.SourceHutBackend.get_version_url(project),
+            "https://git.sr.ht/~sircmpwn/scdoc/refs/rss.xml",
+        )
+
+        project.version_url = "https://git.sr.ht/~sircmpwn/scdoc/tree/master"
+        self.assertEqual(
+            backend.SourceHutBackend.get_version_url(project),
+            "https://git.sr.ht/~sircmpwn/scdoc/refs/rss.xml",
+        )
+
+        project.version_url = "https://example.com/foo/bar"
+        self.assertEqual(backend.SourceHutBackend.get_version_url(project), "")
+
+        project.version_url = "https://git.sr.ht/~"
+        self.assertEqual(backend.SourceHutBackend.get_version_url(project), "")
+
+        project.version_url = None
+        project.homepage = ""
+        self.assertEqual(backend.SourceHutBackend.get_version_url(project), "")
 
 
 if __name__ == "__main__":

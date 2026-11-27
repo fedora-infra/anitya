@@ -1,0 +1,1 @@
+Fix IndexError crash, URL validation, and get_version_url for SourceHut backend.

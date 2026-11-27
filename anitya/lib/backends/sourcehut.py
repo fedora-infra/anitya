@@ -17,6 +17,7 @@
 
 from defusedxml import ElementTree
 
+from anitya.lib import utilities
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 
@@ -33,6 +34,36 @@ class SourceHutBackend(BaseBackend):
     examples = ["https://git.sr.ht/~sircmpwn/scdoc", "https://git.sr.ht/~sircmpwn/hare"]
 
     @classmethod
+    def _clean_repo(cls, raw: str) -> str:
+        """Extract owner/repo from a raw repository path or URL."""
+        if not raw:
+            return ""
+        clean = raw.split("?")[0].split("#")[0].strip("/")
+        for prefix in (
+            "https://git.sr.ht/~",
+            "http://git.sr.ht/~",
+            "https://www.git.sr.ht/~",
+            "http://www.git.sr.ht/~",
+            "git.sr.ht/~",
+            "www.git.sr.ht/~",
+            "~",
+        ):
+            if clean.startswith(prefix):
+                clean = clean[len(prefix) :].strip("/")
+                break
+        else:
+            if "://" in clean:
+                return ""
+
+        parts = [p for p in clean.split("/") if p]
+        if len(parts) >= 2:
+            owner = parts[0]
+            repo = utilities.remove_suffix(parts[1], ".git")
+            if owner and repo:
+                return f"{owner}/{repo}"
+        return ""
+
+    @classmethod
     def get_version_url(cls, project):
         """Method called to retrieve the url used to check for new version
         of the project provided, project that relies on the backend of this plugin.
@@ -44,24 +75,14 @@ class SourceHutBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = ""
-        if project.version_url:
-            url = project.version_url
-        elif project.homepage:
-            url = project.homepage
-            for prefix in ("https://git.sr.ht/~", "http://git.sr.ht/~"):
-                if url.startswith(prefix):
-                    url = url[len(prefix) :]
-                    break
+        raw = project.version_url or project.homepage or ""
+        repo = cls._clean_repo(raw)
 
-        if url.endswith("/"):
-            url = url[:-1]
-
-        if url:
+        if repo:
             url_template = "https://git.sr.ht/~%(repo)s/refs/rss.xml"
-            url = url_template % {"repo": url}
+            return url_template % {"repo": repo}
 
-        return url
+        return ""
 
     @classmethod
     def get_versions(cls, project):
@@ -124,7 +145,14 @@ class SourceHutBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith(("https://git.sr.ht/~", "http://git.sr.ht/~"))
+        return url.startswith(
+            (
+                "https://git.sr.ht/~",
+                "http://git.sr.ht/~",
+                "https://www.git.sr.ht/~",
+                "http://www.git.sr.ht/~",
+            )
+        )
 
     @classmethod
     def parse_url(cls, url: str) -> dict:
@@ -136,15 +164,20 @@ class SourceHutBackend(BaseBackend):
 
         Returns:
             Dictionary containing project related data.
-        """
-        clean_url = url.split("?")[0].split("#")[0].rstrip("/")
-        path = clean_url.split("~")[-1].strip("/")
-        parts = [p for p in path.split("/") if p]
-        owner = parts[0]
-        repo = parts[1]
-        version_url = f"{owner}/{repo}"
-        name = repo
 
+        Raises:
+            AnityaPluginException: If URL cannot be parsed into a valid project.
+        """
+        if not cls.is_url_valid(url):
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
+        repo_path = cls._clean_repo(url)
+        if not repo_path:
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
+        owner, repo = repo_path.split("/")
+        version_url = repo_path
+        name = repo
         homepage = f"https://git.sr.ht/~{version_url}"
         version_scheme = cls.default_version_scheme
         backend = cls.name
