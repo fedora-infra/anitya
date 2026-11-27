@@ -124,6 +124,32 @@ class PackagistBackendtests(DatabaseTestCase):
 
         self.assertEqual(obs, exp)
 
+    def test_get_version_url_from_homepage(self):
+        """Assert that vendor is extracted from homepage when version_url is missing."""
+        project = models.Project(
+            name="php-code-coverage",
+            homepage="https://packagist.org/packages/phpunit/php-code-coverage",
+            backend=BACKEND,
+        )
+        exp = "https://packagist.org/packages/phpunit/php-code-coverage.json"
+
+        obs = backend.PackagistBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_with_full_url(self):
+        """Assert that vendor is extracted when version_url is a full URL."""
+        project = models.Project(
+            name="php-code-coverage",
+            version_url="https://packagist.org/packages/phpunit/php-code-coverage",
+            backend=BACKEND,
+        )
+        exp = "https://packagist.org/packages/phpunit/php-code-coverage.json"
+
+        obs = backend.PackagistBackend.get_version_url(project)
+
+        self.assertEqual(obs, exp)
+
     def test_packagist_get_versions(self):
         """Test the get_versions function of the packagist backend."""
         pid = 1
@@ -246,6 +272,7 @@ class PackagistBackendtests(DatabaseTestCase):
             "https://packagist.org/packages/phpunit/php-code-coverage/stats",
             "https://packagist.org/packages/phpunit/php-code-coverage/dependents",
             "https://packagist.org/packages/phpunit/php-code-coverage?tab=readme#versions",
+            "https://packagist.org/phpunit/php-code-coverage",
         ]
         for url in urls:
             self.assertEqual(backend.PackagistBackend.parse_url(url), exp)
@@ -260,6 +287,40 @@ class PackagistBackendtests(DatabaseTestCase):
         for url in invalid_urls:
             with self.assertRaises(AnityaPluginException):
                 backend.PackagistBackend.parse_url(url)
+
+    def test_check_duplicate(self):
+        """Test the check_duplicate method of Packagist backend."""
+        dup = models.Project(
+            name="php-code-coverage",
+            version_url="phpunit",
+            backend=BACKEND,
+        )
+        found = backend.PackagistBackend.check_duplicate(self.session, dup)
+        self.assertIsNotNone(found)
+        self.assertEqual(found.name, "php-code-coverage")
+
+        # Missing name or version_url
+        self.assertIsNone(
+            backend.PackagistBackend.check_duplicate(
+                self.session, models.Project(name="", backend=BACKEND)
+            )
+        )
+        self.assertIsNone(
+            backend.PackagistBackend.check_duplicate(
+                self.session,
+                models.Project(name="foo", version_url=None, backend=BACKEND),
+            )
+        )
+
+        # Non-matching
+        non_dup = models.Project(
+            name="non-existent",
+            version_url="phpunit",
+            backend=BACKEND,
+        )
+        self.assertIsNone(
+            backend.PackagistBackend.check_duplicate(self.session, non_dup)
+        )
 
 
 if __name__ == "__main__":

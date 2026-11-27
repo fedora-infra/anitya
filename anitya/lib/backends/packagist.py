@@ -45,15 +45,28 @@ class PackagistBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = ""
-        url_template = "https://packagist.org/packages/%(user)s/%(name)s.json"
+        vendor = None
+        if project.version_url:
+            cleaned = (
+                project.version_url.replace("https://packagist.org/packages/", "")
+                .replace("http://packagist.org/packages/", "")
+                .strip("/")
+            )
+            vendor = cleaned.split("/")[0] if cleaned else None
+        elif project.homepage and "packagist.org/packages/" in project.homepage:
+            cleaned = (
+                project.homepage.replace("https://packagist.org/packages/", "")
+                .replace("http://packagist.org/packages/", "")
+                .strip("/")
+            )
+            vendor = cleaned.split("/")[0] if cleaned else None
 
-        if project.version_url and project.name:
-            user = project.version_url.strip("/")
+        if vendor and project.name:
             name = project.name.strip("/")
-            url = url_template % {"name": name, "user": user}
+            url_template = "https://packagist.org/packages/%(user)s/%(name)s.json"
+            return url_template % {"name": name, "user": vendor}
 
-        return url
+        return ""
 
     @classmethod
     def check_duplicate(cls, session, project):
