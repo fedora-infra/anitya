@@ -18,6 +18,7 @@ class SourceforgeGitBackend(BaseBackend):
     """
 
     name = "Sourceforge (git)"
+    default_version_scheme = "RPM"
     is_repo = True
     examples = [
         "https://sourceforge.net/p/ubuntuzilla/ubuntuzilla/ref/master/tags/",
@@ -45,7 +46,7 @@ class SourceforgeGitBackend(BaseBackend):
             version_url = project.version_url.replace("+", r"\+")
             url = (
                 version_url
-                if version_url.startswith(cls.prefix)
+                if version_url.startswith((cls.prefix, "http://sourceforge.net/p/"))
                 else f"{cls.prefix}{version_url}/git{cls.suffix}"
             )
 
@@ -64,19 +65,39 @@ class SourceforgeGitBackend(BaseBackend):
         :return type: two strings
         """
 
-        namespace = repo = url = ""
+        namespace = repo = ""
+        raw_url = ""
 
-        if project.version_url and project.version_url.startswith(cls.prefix):
-            url = project.version_url[len(cls.prefix) :]
+        if project.version_url:
+            raw_url = project.version_url
+        elif project.homepage:
+            raw_url = project.homepage
 
-        elif project.homepage.startswith(cls.prefix):
-            url = project.homepage[len(cls.prefix) :]
+        url_path = ""
+        for pfx in (
+            cls.prefix,
+            "http://sourceforge.net/p/",
+            "sourceforge.net/p/",
+        ):
+            if raw_url.startswith(pfx):
+                url_path = raw_url[len(pfx) :]
+                break
 
-        if url:
-            namespace, repo = url.split("/")[0:2]
+        if url_path:
+            clean = url_path.split("?")[0].split("#")[0].strip("/")
+            for subpath in ("/ci/", "/ref/"):
+                if subpath in clean:
+                    clean = clean.split(subpath)[0].strip("/")
+            parts = [p for p in clean.split("/") if p]
+            if len(parts) >= 2:
+                namespace = parts[0]
+                repo = parts[1]
+            elif len(parts) == 1:
+                namespace = parts[0]
+                repo = "git"
 
-        else:
-            namespace = project.name if not namespace else namespace
+        if not namespace:
+            namespace = project.name if project.name else ""
 
         namespace = namespace.replace("+", r"\+")
         repo = "git" if repo in ["", "ci"] else repo
@@ -139,7 +160,15 @@ class SourceforgeGitBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://sourceforge.net/p")
+        return url.startswith(
+            (
+                "https://sourceforge.net/p/",
+                "http://sourceforge.net/p/",
+            )
+        ) or (
+            not url.startswith(("http://", "https://"))
+            and url.startswith("sourceforge.net/p/")
+        )
 
     @classmethod
     def parse_url(cls, url: str) -> dict:
@@ -151,18 +180,59 @@ class SourceforgeGitBackend(BaseBackend):
 
         Returns:
             Dictionary containing project related data.
+
+        Raises:
+            AnityaPluginException: If URL cannot be parsed into a valid project.
         """
-        homepage = url
-        parsed_url = url.replace("/ref/master/tags/", "")
-        parsed_url = parsed_url.replace("https://sourceforge.net/p/", "")
-        parsed_url = parsed_url.replace("/git", "")
-        name = parsed_url.rstrip("/").split("/")[-1]
-        version_url = url if "/git/" not in url else name
-        version_scheme = "RPM"
+        orig_url = url
+        if not cls.is_url_valid(orig_url):
+            raise AnityaPluginException(
+                f"Could not extract project name from {orig_url}"
+            )
+
+        clean = orig_url.split("?")[0].split("#")[0].rstrip("/")
+        path_clean = clean
+        if "/ref/" in path_clean:
+            path_clean = path_clean.split("/ref/")[0]
+        if "/ci/" in path_clean:
+            path_clean = path_clean.split("/ci/")[0]
+        for subpath in ("/tree", "/log", "/commit", "/tags"):
+            if subpath in path_clean:
+                path_clean = path_clean.split(subpath)[0]
+
+        for pfx in (
+            "https://sourceforge.net/p/",
+            "http://sourceforge.net/p/",
+            "sourceforge.net/p/",
+            "https://sourceforge.net/p",
+            "http://sourceforge.net/p",
+            "sourceforge.net/p",
+        ):
+            if path_clean.startswith(pfx):
+                path_clean = path_clean[len(pfx) :]
+                break
+
+        parts = [x for x in path_clean.strip("/").split("/") if x]
+        if not parts:
+            raise AnityaPluginException(
+                f"Could not extract project name from {orig_url}"
+            )
+
+        if parts[-1] == "git" and len(parts) > 1:
+            name = parts[0]
+        else:
+            name = parts[-1]
+
+        version_url = (
+            orig_url
+            if "/git/" not in orig_url and (len(parts) == 1 or parts[1] != "git")
+            else name
+        )
+        version_scheme = cls.default_version_scheme
         backend = cls.name
         return {
             "name": name,
-            "homepage": homepage,
+            "homepage": orig_url,
             "backend": backend,
             "version_url": version_url,
             "version_scheme": version_scheme,

@@ -329,19 +329,41 @@ class SourceforgeGitBackendtests(DatabaseTestCase):
 
         self.assertEqual(obs, exp)
 
+    def test_get_namespace_repo_single_path_homepage(self):
+        """Assert that single-segment path does not crash with ValueError."""
+        project = models.Project(
+            name="flightgear",
+            homepage="https://sourceforge.net/p/flightgear",
+            backend=BACKEND,
+        )
+        obs = backend.SourceforgeGitBackend.get_namespace_repo(project)
+        self.assertEqual(obs, ("flightgear", "git"))
+
+        # With http
+        project.homepage = "http://sourceforge.net/p/flightgear/flightgear/"
+        obs = backend.SourceforgeGitBackend.get_namespace_repo(project)
+        self.assertEqual(obs, ("flightgear", "flightgear"))
+
     def test_is_url_valid(self):
         """Test the is_url_valid function of the SourceforgeGit backend."""
-        self.assertTrue(
-            backend.SourceforgeGitBackend.is_url_valid(
-                "https://sourceforge.net/p/ubuntuzilla/ubuntuzilla/ref/master/tags/"
-            )
-        )
-        self.assertFalse(
-            backend.SourceforgeGitBackend.is_url_valid("https://example.com")
-        )
+        valid_urls = [
+            "https://sourceforge.net/p/ubuntuzilla/ubuntuzilla/ref/master/tags/",
+            "http://sourceforge.net/p/ubuntuzilla/ubuntuzilla/ref/master/tags/",
+            "sourceforge.net/p/ubuntuzilla/ubuntuzilla/ref/master/tags/",
+        ]
+        for url in valid_urls:
+            self.assertTrue(backend.SourceforgeGitBackend.is_url_valid(url))
+
+        invalid_urls = [
+            "https://sourceforge.net/projects/ubuntuzilla/",
+            "https://example.com",
+            "http://example.com/p/foo",
+        ]
+        for url in invalid_urls:
+            self.assertFalse(backend.SourceforgeGitBackend.is_url_valid(url))
 
     def test_parse_url(self):
-        """Test the is_url_valid function of the SourceforgeGit backend."""
+        """Test the parse_url function of the SourceforgeGit backend."""
         output = backend.SourceforgeGitBackend.parse_url(
             "https://sourceforge.net/p/ubuntuzilla/ubuntuzilla/ref/master/tags/"
         )
@@ -365,6 +387,52 @@ class SourceforgeGitBackendtests(DatabaseTestCase):
             "version_scheme": "RPM",
         }
         self.assertEqual(output, exp)
+
+        # Test branch ref other than master (such as ref/next/tags)
+        output_next = backend.SourceforgeGitBackend.parse_url(
+            "https://sourceforge.net/p/flightgear/flightgear/ref/next/tags/"
+        )
+        exp_next = {
+            "name": "flightgear",
+            "homepage": "https://sourceforge.net/p/flightgear/flightgear/ref/next/tags/",
+            "backend": "Sourceforge (git)",
+            "version_url": "https://sourceforge.net/p/flightgear/flightgear/ref/next/tags/",
+            "version_scheme": "RPM",
+        }
+        self.assertEqual(output_next, exp_next)
+
+        # Test tree subpath
+        output_tree = backend.SourceforgeGitBackend.parse_url(
+            "https://sourceforge.net/p/flightgear/flightgear/ci/master/tree/"
+        )
+        self.assertEqual(output_tree["name"], "flightgear")
+
+        # Test log subpath
+        output_log = backend.SourceforgeGitBackend.parse_url(
+            "https://sourceforge.net/p/flightgear/flightgear/log/"
+        )
+        self.assertEqual(output_log["name"], "flightgear")
+
+        # Test http and schemeless
+        res_http = backend.SourceforgeGitBackend.parse_url(
+            "http://sourceforge.net/p/ubuntuzilla/ubuntuzilla/ref/master/tags/"
+        )
+        self.assertEqual(res_http["name"], "ubuntuzilla")
+
+        res_no_scheme = backend.SourceforgeGitBackend.parse_url(
+            "sourceforge.net/p/ubuntuzilla/ubuntuzilla/ref/master/tags/"
+        )
+        self.assertEqual(res_no_scheme["name"], "ubuntuzilla")
+
+        # Test invalid URLs
+        invalid_urls = [
+            "https://sourceforge.net/p/",
+            "https://sourceforge.net/projects/flightgear",
+            "https://example.com/foo/bar",
+        ]
+        for url in invalid_urls:
+            with self.assertRaises(AnityaPluginException):
+                backend.SourceforgeGitBackend.parse_url(url)
 
 
 if __name__ == "__main__":
