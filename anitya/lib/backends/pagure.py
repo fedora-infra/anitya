@@ -11,6 +11,8 @@ Authors:
 
 from __future__ import print_function
 
+from urllib.parse import urlparse
+
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
 
@@ -52,9 +54,24 @@ class PagureBackend(BaseBackend):
         Returns:
             str: url used for version checking
         """
-        url = f"https://pagure.io/api/0/{project.name}/git/tags"  # noqa: E231
+        raw_url = ""
+        if project.version_url:
+            raw_url = project.version_url
+        elif project.homepage:
+            raw_url = project.homepage
 
-        return url
+        if raw_url and cls.is_url_valid(raw_url):
+            clean = cls._clean_url(raw_url)
+            parsed = urlparse(clean)
+            path = parsed.path.strip("/")
+            if path.startswith("api/0/"):
+                path = path[len("api/0/") :]
+            if path.endswith("/git"):
+                path = path[: -len("/git")]
+            if path:
+                return f"https://pagure.io/api/0/{path}/git/tags"
+
+        return f"https://pagure.io/api/0/{project.name}/git/tags"
 
     @classmethod
     def get_versions(cls, project):
@@ -116,7 +133,14 @@ class PagureBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return "pagure.io" in url
+        return url.startswith(
+            (
+                "https://pagure.io",
+                "http://pagure.io",
+                "https://www.pagure.io",
+                "http://www.pagure.io",
+            )
+        )
 
     @classmethod
     def parse_url(cls, url: str) -> dict:
@@ -128,10 +152,22 @@ class PagureBackend(BaseBackend):
 
         Returns:
             Dictionary containing project related data.
+
+        Raises:
+            AnityaPluginException: If URL cannot be parsed into a valid project.
         """
+        if not cls.is_url_valid(url):
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
         clean_url = cls._clean_url(url)
-        path = clean_url.split("pagure.io/")[-1].strip("/")
-        name = path.split("/")[-1]
+        parsed = urlparse(clean_url)
+        path = parsed.path.strip("/")
+        parts = [p for p in path.split("/") if p]
+
+        if not parts:
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
+        name = parts[-1]
         homepage = f"https://pagure.io/{path}"
         version_url = homepage
         version_scheme = cls.default_version_scheme
