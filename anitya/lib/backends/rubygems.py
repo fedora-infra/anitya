@@ -11,6 +11,7 @@ Authors:
 """
 
 import logging
+from urllib.parse import urlparse
 
 from anitya.lib.backends import BaseBackend
 from anitya.lib.exceptions import AnityaPluginException
@@ -95,7 +96,14 @@ class RubygemsBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://rubygems.org")
+        return url.startswith(
+            (
+                "https://rubygems.org",
+                "http://rubygems.org",
+                "https://www.rubygems.org",
+                "http://www.rubygems.org",
+            )
+        )
 
     @classmethod
     def parse_url(cls, url: str) -> dict:
@@ -107,9 +115,28 @@ class RubygemsBackend(BaseBackend):
 
         Returns:
             Dictionary containing project related data.
+
+        Raises:
+            AnityaPluginException: If URL cannot be parsed into a valid project.
         """
-        clean_url = url.split("?")[0].split("#")[0].rstrip("/")
-        name = clean_url.replace("https://rubygems.org/gems/", "").split("/")[0]
+        if not cls.is_url_valid(url):
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
+        parsed = urlparse(url)
+        path = parsed.path.strip("/")
+        parts = [p for p in path.split("/") if p]
+
+        name = None
+        if "gems" in parts:
+            idx = parts.index("gems")
+            if len(parts) > idx + 1:
+                name = parts[idx + 1]
+        elif len(parts) == 1:
+            name = parts[0]
+
+        if not name or name == "gems":
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
         homepage = f"https://rubygems.org/gems/{name}"
         version_url = homepage
         version_scheme = cls.default_version_scheme
