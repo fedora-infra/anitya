@@ -86,6 +86,48 @@ class PagureBackendtests(DatabaseTestCase):
 
         self.assertEqual(obs, exp)
 
+    def test_get_version_url_namespaced(self):
+        """Assert that namespace is preserved in version_url."""
+        project = models.Project(
+            name="anitya",
+            homepage="https://pagure.io/fedora-infra/anitya",
+            backend=BACKEND,
+        )
+        exp = "https://pagure.io/api/0/fedora-infra/anitya/git/tags"
+        obs = backend.PagureBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_fork(self):
+        """Assert that fork path is preserved in version_url."""
+        project = models.Project(
+            name="pagure",
+            homepage="https://pagure.io/fork/pingou/pagure",
+            backend=BACKEND,
+        )
+        exp = "https://pagure.io/api/0/fork/pingou/pagure/git/tags"
+        obs = backend.PagureBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
+
+    def test_get_version_url_from_version_url(self):
+        """Assert that version_url is used when available."""
+        project = models.Project(
+            name="pagure",
+            version_url="https://pagure.io/pagure",
+            backend=BACKEND,
+        )
+        exp = "https://pagure.io/api/0/pagure/git/tags"
+        obs = backend.PagureBackend.get_version_url(project)
+        self.assertEqual(obs, exp)
+
+        # Full API URL
+        project_api = models.Project(
+            name="pagure",
+            version_url="https://pagure.io/api/0/pagure/git/tags",
+            backend=BACKEND,
+        )
+        obs_api = backend.PagureBackend.get_version_url(project_api)
+        self.assertEqual(obs_api, exp)
+
     def test_pagure_get_versions(self):
         """Test the get_versions function of the pagure backend."""
         pid = 1
@@ -138,7 +180,13 @@ class PagureBackendtests(DatabaseTestCase):
         self.assertTrue(
             backend.PagureBackend.is_url_valid("https://www.pagure.io/pagure")
         )
+        self.assertTrue(
+            backend.PagureBackend.is_url_valid("http://www.pagure.io/pagure")
+        )
         self.assertFalse(backend.PagureBackend.is_url_valid("https://example.com"))
+        self.assertFalse(
+            backend.PagureBackend.is_url_valid("https://evil-pagure.io/repo")
+        )
 
     def test_parse_url(self):
         """Test the parse_url function of the Pagure backend."""
@@ -191,6 +239,9 @@ class PagureBackendtests(DatabaseTestCase):
                 "pagure",
                 "https://pagure.io/fork/pingou/pagure",
             ),
+            ("http://pagure.io/pagure", "pagure", "https://pagure.io/pagure"),
+            ("https://www.pagure.io/pagure", "pagure", "https://pagure.io/pagure"),
+            ("http://www.pagure.io/pagure", "pagure", "https://pagure.io/pagure"),
         ]
         for url, exp_name, exp_url in cases:
             with self.subTest(url=url):
@@ -203,6 +254,19 @@ class PagureBackendtests(DatabaseTestCase):
                     "version_scheme": "RPM",
                 }
                 self.assertEqual(output, exp)
+
+    def test_parse_url_invalid(self):
+        """Test that parse_url raises AnityaPluginException on invalid URLs."""
+        invalid_urls = [
+            "https://pagure.io",
+            "https://pagure.io/",
+            "https://example.com/foo/bar",
+            "https://evil-pagure.io/repo",
+        ]
+        for url in invalid_urls:
+            with self.subTest(url=url):
+                with self.assertRaises(AnityaPluginException):
+                    backend.PagureBackend.parse_url(url)
 
 
 if __name__ == "__main__":
