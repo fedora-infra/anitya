@@ -185,7 +185,19 @@ class RubygemsBackendtests(DatabaseTestCase):
         self.assertTrue(
             backend.RubygemsBackend.is_url_valid("https://rubygems.org/gems/aa/")
         )
+        self.assertTrue(
+            backend.RubygemsBackend.is_url_valid("http://rubygems.org/gems/aa/")
+        )
+        self.assertTrue(
+            backend.RubygemsBackend.is_url_valid("https://www.rubygems.org/gems/aa/")
+        )
+        self.assertTrue(
+            backend.RubygemsBackend.is_url_valid("http://www.rubygems.org/gems/aa/")
+        )
         self.assertFalse(backend.RubygemsBackend.is_url_valid("https://example.com"))
+        self.assertFalse(
+            backend.RubygemsBackend.is_url_valid("https://notrubygems.org")
+        )
 
     def test_parse_url(self):
         """Test the parse_url function of the rubygems backend."""
@@ -195,6 +207,10 @@ class RubygemsBackendtests(DatabaseTestCase):
             ("https://rubygems.org/gems/rails/versions", "rails"),
             ("https://rubygems.org/gems/rails/versions/7.1.3", "rails"),
             ("https://rubygems.org/gems/rails?param=val#readme", "rails"),
+            ("http://rubygems.org/gems/rails", "rails"),
+            ("https://www.rubygems.org/gems/rails", "rails"),
+            ("http://www.rubygems.org/gems/rails", "rails"),
+            ("https://rubygems.org/rails", "rails"),
         ]
         for url, exp_name in cases:
             with self.subTest(url=url):
@@ -207,6 +223,21 @@ class RubygemsBackendtests(DatabaseTestCase):
                     "version_scheme": "Semantic",
                 }
                 self.assertEqual(output, exp)
+
+    def test_parse_url_invalid(self):
+        """Test that parse_url raises AnityaPluginException on invalid URLs."""
+        invalid_urls = [
+            "https://rubygems.org",
+            "https://rubygems.org/",
+            "https://rubygems.org/gems",
+            "https://rubygems.org/gems/",
+            "https://example.com/gems/rails",
+            "http://otherdomain.org/gems/rails",
+        ]
+        for url in invalid_urls:
+            with self.subTest(url=url):
+                with self.assertRaises(AnityaPluginException):
+                    backend.RubygemsBackend.parse_url(url)
 
 
 if __name__ == "__main__":
