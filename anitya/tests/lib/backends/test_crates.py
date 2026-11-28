@@ -194,7 +194,17 @@ class CratesBackendTests(DatabaseTestCase):
         self.assertTrue(
             crates.CratesBackend.is_url_valid("https://crates.io/crates/clap/")
         )
+        self.assertTrue(
+            crates.CratesBackend.is_url_valid("http://crates.io/crates/clap/")
+        )
+        self.assertTrue(
+            crates.CratesBackend.is_url_valid("https://www.crates.io/crates/clap/")
+        )
+        self.assertTrue(
+            crates.CratesBackend.is_url_valid("http://www.crates.io/crates/clap/")
+        )
         self.assertFalse(crates.CratesBackend.is_url_valid("https://example.com"))
+        self.assertFalse(crates.CratesBackend.is_url_valid("https://notcrates.io"))
 
     def test_parse_url(self):
         """Test the parse_url function of the crates backend."""
@@ -204,6 +214,11 @@ class CratesBackendTests(DatabaseTestCase):
             ("https://crates.io/crates/clap/versions", "clap"),
             ("https://crates.io/crates/clap/dependencies", "clap"),
             ("https://crates.io/crates/serde?sort=recent", "serde"),
+            ("http://crates.io/crates/tokio", "tokio"),
+            ("https://www.crates.io/crates/tokio", "tokio"),
+            ("http://www.crates.io/crates/tokio", "tokio"),
+            ("https://crates.io/crates/tokio#readme", "tokio"),
+            ("https://crates.io/clap", "clap"),
         ]
         for url, exp_name in cases:
             with self.subTest(url=url):
@@ -216,6 +231,21 @@ class CratesBackendTests(DatabaseTestCase):
                     "version_scheme": "Semantic",
                 }
                 self.assertEqual(output, exp)
+
+    def test_parse_url_invalid(self):
+        """Test that parse_url raises AnityaPluginException on invalid URLs."""
+        invalid_urls = [
+            "https://crates.io",
+            "https://crates.io/",
+            "https://crates.io/crates",
+            "https://crates.io/crates/",
+            "https://example.com/crates/clap",
+            "http://otherdomain.org/crates/clap",
+        ]
+        for url in invalid_urls:
+            with self.subTest(url=url):
+                with self.assertRaises(AnityaPluginException):
+                    crates.CratesBackend.parse_url(url)
 
 
 if __name__ == "__main__":

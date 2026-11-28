@@ -31,6 +31,7 @@ For example, ``https://index.crates.io/it/oa/itoa`` returns lines like::
 """
 
 import json
+from urllib.parse import urlparse
 
 import arrow
 import requests
@@ -197,7 +198,14 @@ class CratesBackend(BaseBackend):
         Returns:
             True if the URL is valid or false.
         """
-        return url.startswith("https://crates.io")
+        return url.startswith(
+            (
+                "https://crates.io",
+                "http://crates.io",
+                "https://www.crates.io",
+                "http://www.crates.io",
+            )
+        )
 
     @classmethod
     def parse_url(cls, url: str) -> dict:
@@ -209,10 +217,28 @@ class CratesBackend(BaseBackend):
 
         Returns:
             Dictionary containing project related data.
+
+        Raises:
+            AnityaPluginException: If URL cannot be parsed into a valid project.
         """
-        clean_url = url.split("?")[0].rstrip("/")
-        parts = clean_url.replace("https://crates.io/crates/", "").split("/")
-        name = parts[0]
+        if not cls.is_url_valid(url):
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
+        parsed = urlparse(url)
+        path = parsed.path.strip("/")
+        parts = [p for p in path.split("/") if p]
+
+        name = None
+        if "crates" in parts:
+            idx = parts.index("crates")
+            if len(parts) > idx + 1:
+                name = parts[idx + 1]
+        elif len(parts) == 1:
+            name = parts[0]
+
+        if not name or name == "crates":
+            raise AnityaPluginException(f"Could not extract project name from {url}")
+
         homepage = f"https://crates.io/crates/{name}"
         version_url = homepage
         version_scheme = cls.default_version_scheme
